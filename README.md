@@ -6,6 +6,6 @@ These are my personal dotfiles...
   2. git push
 
 # Clonning the repo
-  1. git clone git@github.com:jillasante/dotfiles.git .dotfiles
-  After first clone, just do:
+  1. git clone git@github.com:jillasante/dotfiles.git path/to/dotfiles
   2. git pull
+  3. ./make.sh
