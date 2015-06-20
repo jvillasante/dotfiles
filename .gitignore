@@ -1,0 +1,7 @@
+.oh-my-zsh
+.emacs.d
+.vim/bundle/
+.vim/.cache/
+.vim_old/
+.vimrc_old/
+*~
