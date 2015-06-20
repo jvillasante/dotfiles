@@ -4,7 +4,8 @@
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
 
-dir=~/Hacking/workspace/dotfiles           # dotfiles directory
+dir=~/Hacking/workspace/dotfiles                   # dotfiles directory
+dir_bak=~/Hacking/workspace/dotfiles/dotfiles_old  # existing dotfiles backup
 
 install_zsh () {
     # Test to see if zshell is installed.  If it is:
@@ -49,13 +50,13 @@ install_spacemacs
 # install_neobundle
 
 # spacemacs private contribs
-echo "Removing existing version of $dir/.emacs.d/private/mycontribs"
+echo "Removing existing version of $dir/.emacs.d/private/mycontribs."
 rm -rf $dir/.emacs.d/private/mycontribs
 echo "Creating symlink to $dir/.spc_private/mycontribs on ~/.emacs.d/private."
 ln -s $dir/.spc_private/mycontribs ~/.emacs.d/private
 
 # spacemacs private snippets
-echo "Removing existing version of $dir/.emacs.d/private/snippets"
+echo "Removing existing version of $dir/.emacs.d/private/snippets."
 rm -rf $dir/.emacs.d/private/snippets
 echo "Creating symlink to $dir/.spc_private/snippets on ~/.emacs.d/private."
 ln -s $dir/.spc_private/snippets ~/.emacs.d/private
@@ -65,8 +66,8 @@ files=".bashrc .editorconfig .gitconfig .profile .spacemacs .tmux.conf .zshrc .o
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
-    echo "Removing existing $file from home directory"
-    rm -rf ~/$file
+    echo "Backing upexisting $file from home directory."
+    mv -f ~/$file $dir_bak
 
     echo "Creating symlink to $file in home directory."
     ln -s $dir/$file ~/
