@@ -48,9 +48,6 @@ install_zsh
 install_spacemacs
 # install_neobundle
 
-# list of files/folders to symlink in homedir
-files=".bashrc .editorconfig .gitconfig .profile .spacemacs .tmux.conf .zshrc .oh-my-zsh .vimrc .vimrc.before .vim .emacs.d .percol.d"
-
 # spacemacs private contribs
 echo "Removing existing version of $dir/.emacs.d/private/mycontribs"
 rm -rf $dir/.emacs.d/private/mycontribs
@@ -62,6 +59,9 @@ echo "Removing existing version of $dir/.emacs.d/private/snippets"
 rm -rf $dir/.emacs.d/private/snippets
 echo "Creating symlink to $dir/.spc_private/snippets on ~/.emacs.d/private."
 ln -s $dir/.spc_private/snippets ~/.emacs.d/private
+
+# list of files/folders to symlink in homedir
+files=".bashrc .editorconfig .gitconfig .profile .spacemacs .tmux.conf .zshrc .oh-my-zsh .vimrc .vimrc.before .vim .emacs.d .percol.d"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
