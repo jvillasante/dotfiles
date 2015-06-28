@@ -199,3 +199,7 @@ export BHT_APIKEY="0079712bb23ceda4dd8913a944602d0a"
 [[ -s "/home/jvillasante/.gvm/scripts/gvm" ]] && source "/home/jvillasante/.gvm/scripts/gvm"
 export GOPATH=$HOME/Hacking/workspace/go
 export PATH="$GOPATH/bin:$PATH"
+
+# android
+export PATH="$HOME/Android/Sdk/tools:$PATH"
+export PATH="$HOME/Android/Sdk/platform-tools:$PATH"

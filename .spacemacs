@@ -12,6 +12,9 @@
     ;; of a list then all discovered layers will be installed.
     dotspacemacs-configuration-layers '(better-defaults
                                         (auto-completion :variables
+                                                         auto-completion-return-key-behavior 'complete
+                                                         auto-completion-tab-key-behavior 'cycle
+                                                         auto-completion-complete-with-key-sequence nil
                                                          auto-completion-enable-help-tooltip t
                                                          auto-completion-enable-sort-by-usage t)
                                         (colors :variables
@@ -41,7 +44,8 @@
                                                shell-default-shell 'multi-term
                                                shell-default-position 'bottom
                                                shell-default-height 30)
-                                        org
+                                        (org :variables
+                                             org-enable-github-support t)
                                         syntax-checking
                                         auctex
                                         ycmd
@@ -51,7 +55,6 @@
                                         slime
                                         vim-empty-lines
                                         xkcd
-                                        perspectives
                                         eyebrowse
                                         mycontribs)
     ;; A list of packages and/or extensions that will not be install and loaded.
@@ -88,11 +91,11 @@ before layers configuration."
     ;; List of themes, the first of the list is loaded when spacemacs starts.
     ;; Press <SPC> T n to cycle to the next theme in the list (works great
     ;; with 2 themes variants, one dark and one light)
-    dotspacemacs-themes '(solarized-dark
-                           solarized-light
-                           monokai
-                           leuven
-                           zenburn)
+    dotspacemacs-themes '(zenburn
+                          solarized-dark
+                          solarized-light
+                          monokai
+                          leuven)
     ;; If non nil the cursor color matches the state color.
     dotspacemacs-colorize-cursor-according-to-state t
     ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -239,8 +242,12 @@ before layers configuration."
   (setq whitespace-action '(auto-cleanup))
   (setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab))
 
-  (setq yas-snippet-dirs '("~/.emacs.d/private/snippets/go-mode"
-                            yas-installed-snippets-dir))
+  ;; company
+  (global-company-mode)
+
+  ;; yassnippet
+  (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"
+                           yas-installed-snippets-dir))
 
   ;; use evil-matchit everywhere
   (global-evil-matchit-mode 1)
@@ -258,11 +265,8 @@ before layers configuration."
   ;; if no region is selected
   (global-set-key (kbd "M-=") 'count-words)
 
-  ;; company
-  (global-company-mode)
-
   ;; ycmd
-  (set-variable 'ycmd-server-command '("python" "/home/jvillasante/bin/ycmd/ycmd/__main__.py"))
+  (set-variable 'ycmd-server-command '("python" "~/bin/ycmd/ycmd/__main__.py"))
   (add-hook 'after-init-hook #'global-ycmd-mode)
 
   ;; don't use default persistent search highlight
@@ -366,28 +370,30 @@ before layers configuration."
     "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
     (interactive)
     (helm :sources `(((name . "Mail and News")
-                      (candidates . (("Calendar" . (lambda ()  (browse-url "https://www.google.com/calendar/render")))
-                                       ("RSS" . elfeed)
-                                       ("Agenda" . (lambda () (org-agenda "" "w")))))
-                       (action . (("Open" . (lambda (x) (funcall x))))))
-                      ;; ((name . "My Locations")
-                      ;;   (candidates . (("master" . "~/Dropbox/org-mode/master.org")
-                      ;;                   (".emacs.d" . "~/Dropbox/kitchingroup/jmax" )
-                      ;;                   ("blog" . "~/blogofile-jkitchin.github.com/_blog/blog.org")
-                      ;;                   ("ese" . "~/Dropbox/books/ese-book/ese.org" )
-                      ;;                   ("passwords" . "~/Dropbox/org-mode/passwords.org.gpg")
-                      ;;                   ("Pycse" . "~/Dropbox/books/pycse/pycse.org")
-                      ;;                   ("references" . "~/Dropbox/bibliography/references.bib")
-                      ;;                   ("notes" . "~/Dropbox/bibliography/notes.org")
-                      ;;                   ("journal" . "~/Dropbox/org-mode/journal.org")
-                      ;;                   ("tasks" . "~/Dropbox/org-mode/tasks.org")))
-                      ;;   (action . (("Open" . (lambda (x) (find-file x))))))
-                      ;; ((name . "My org files")
-                      ;;   (candidates . ,(f-entries "~/Dropbox/org-mode"))
-                      ;;   (action . (("Open" . (lambda (x) (find-file x))))))
-                      helm-source-bookmarks
-                      helm-source-bookmark-set
-                      helm-source-recentf)))
+                      (candidates . (("Inbox" . (lambda () (browse-url "https://inbox.google.com")))
+                                     ("RSS" . elfeed)
+                                     ("Facebook" . (lambda ()  (browse-url "https://www.facebook.com/")))
+                                     ("Calendar" . (lambda ()  (browse-url "https://www.google.com/calendar/render")))
+                                     ("Agenda" . (lambda () (org-agenda "" "w")))))
+                      (action . (("Open" . (lambda (x) (funcall x))))))
+                     ;; ((name . "My Locations")
+                     ;;   (candidates . (("master" . "~/Dropbox/org-mode/master.org")
+                     ;;                   (".emacs.d" . "~/Dropbox/kitchingroup/jmax" )
+                     ;;                   ("blog" . "~/blogofile-jkitchin.github.com/_blog/blog.org")
+                     ;;                   ("ese" . "~/Dropbox/books/ese-book/ese.org" )
+                     ;;                   ("passwords" . "~/Dropbox/org-mode/passwords.org.gpg")
+                     ;;                   ("Pycse" . "~/Dropbox/books/pycse/pycse.org")
+                     ;;                   ("references" . "~/Dropbox/bibliography/references.bib")
+                     ;;                   ("notes" . "~/Dropbox/bibliography/notes.org")
+                     ;;                   ("journal" . "~/Dropbox/org-mode/journal.org")
+                     ;;                   ("tasks" . "~/Dropbox/org-mode/tasks.org")))
+                     ;;   (action . (("Open" . (lambda (x) (find-file x))))))
+                     ;; ((name . "My org files")
+                     ;;   (candidates . ,(f-entries "~/Dropbox/org-mode"))
+                     ;;   (action . (("Open" . (lambda (x) (find-file x))))))
+                     helm-source-bookmarks
+                     helm-source-bookmark-set
+                     helm-source-recentf)))
   (evil-leader/set-key
     "oh" 'hotspots)
 
