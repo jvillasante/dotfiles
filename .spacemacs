@@ -297,6 +297,12 @@ before layers configuration."
                               yaml-mode-hook))
   (setq linum-format "%4d")
 
+  ;; turn off linum-mode on org files
+  (defun my/turn-off-linum-mode ()
+    (message "Deactivated linum mode.")
+    (linum-mode -1))
+  (add-hook 'org-mode-hook 'my/turn-off-linum-mode)
+
   ;; TODO move js2-mode settings to config layer
   (setq js2-basic-offset 2
         js2-bounce-indent-p t)
