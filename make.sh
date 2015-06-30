@@ -49,17 +49,13 @@ install_zsh
 install_spacemacs
 # install_neobundle
 
-# spacemacs private contribs
-echo "Removing existing version of $dir/.emacs.d/private/mycontribs."
-rm -rf $dir/.emacs.d/private/mycontribs
-echo "Creating symlink to $dir/.spc_private/mycontribs on ~/.emacs.d/private."
-ln -s $dir/.spc_private/mycontribs ~/.emacs.d/private
-
-# spacemacs private snippets
-echo "Removing existing version of $dir/.emacs.d/private/snippets."
-rm -rf $dir/.emacs.d/private/snippets
-echo "Creating symlink to $dir/.spc_private/snippets on ~/.emacs.d/private."
-ln -s $dir/.spc_private/snippets ~/.emacs.d/private
+# spacemacs private
+echo "Removing existing version of $dir/.emacs.d/private/"
+rm -rf $dir/.emacs.d/private/*
+echo "Copying $dir/private_layers/ on ~/.emacs.d/private."
+cp -R $dir/private_layers/contrib/* $dir/.emacs.d/private
+echo "Copying $dir/private_layers/snippets on ~/.emacs.d/private."
+cp -R $dir/private_layers/snippets $dir/.emacs.d/private
 
 # list of files/folders to symlink in homedir
 files=".bashrc .editorconfig .gitconfig .profile .spacemacs .tmux.conf .zshrc .oh-my-zsh .vimrc .vimrc.before .vim .emacs.d .percol.d"

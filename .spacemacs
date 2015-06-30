@@ -55,7 +55,15 @@
                                        slime
                                        vim-empty-lines
                                        eyebrowse
-                                       mycontribs)
+
+                                       ;; private layers
+                                       my-mail
+                                       my-define-word
+                                       my-deft
+                                       my-password-store
+                                       my-rss
+                                       my-twitter
+                                       my-zeal)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(dash)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -375,7 +383,8 @@ before layers configuration."
     "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
     (interactive)
     (helm :sources `(((name . "Mail and News")
-                      (candidates . (("Inbox" . (lambda () (browse-url "https://inbox.google.com")))
+                      (candidates . (("Mail"  . mu4e)
+                                     ("Google Inbox" . (lambda () (browse-url "https://inbox.google.com")))
                                      ("RSS" . elfeed)
                                      ("Facebook" . (lambda ()  (browse-url "https://www.facebook.com/")))
                                      ("Calendar" . (lambda ()  (browse-url "https://www.google.com/calendar/render")))
