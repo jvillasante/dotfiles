@@ -57,6 +57,7 @@
                                        eyebrowse
 
                                        ;; private layers
+                                       my-symon
                                        my-mail
                                        my-define-word
                                        my-deft
