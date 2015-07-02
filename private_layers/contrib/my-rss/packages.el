@@ -57,4 +57,4 @@
         "of" 'elfeed))
     :config ; :config is called after the package is actually loaded with defer
     ;; You can put stuff that relies on the package like function calls here
-    (message "zeal mode was actually loaded!")))
+    (message "elfeed mode was actually loaded!")))

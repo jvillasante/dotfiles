@@ -22,8 +22,9 @@
         mu4e-update-interval 300
         mu4e-headers-include-related t
         mu4e-view-prefer-html t
-        ;;mu4e-html2text-command "html2text"
+        ;; mu4e-html2text-command "html2text -utf8 -nobs -width 72"
         mu4e-html2text-command 'mu4e-shr2text
+        ;; mu4e-html2text-command "w3m -I utf8 -O utf8 -T text/html"
         mu4e-compose-dont-reply-to-self t
         mu4e-compose-keep-self-cc nil
         mu4e-confirm-quit nil
@@ -133,6 +134,7 @@
 
   ;; date time
   (setq
+   mu4e-date-format-long "%Y-%m-%d %H:%M:%S"
    mu4e-headers-date-format "%Y-%m-%d"
    mu4e-headers-time-format "%H:%M")
 

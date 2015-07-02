@@ -22,10 +22,10 @@
                                                         auto-completion-enable-sort-by-usage t)
                                        (colors :variables
                                                colors-enable-rainbow-identifiers nil)
+                                       version-control
+                                       github
                                        (git :variables
-                                            git-magit-status-fullscreen t
-                                            git-enable-github-support t
-                                            git-gutter-use-fringe t)
+                                            git-magit-status-fullscreen t)
                                        (html :variables
                                              css-indent-offset 2
                                              web-mode-code-indent-offset 2
@@ -47,7 +47,7 @@
                                        (org :variables
                                             org-enable-github-support t)
                                        syntax-checking
-                                       auctex
+                                       latex
                                        ycmd
                                        evil-commentary
                                        restclient
@@ -57,7 +57,7 @@
                                        eyebrowse
 
                                        ;; private layers
-                                       my-symon
+                                       ;; my-symon
                                        my-mail
                                        my-define-word
                                        my-deft
@@ -274,8 +274,8 @@ before layers configuration."
   (global-set-key (kbd "M-=") 'count-words)
 
   ;; ycmd
-  (set-variable 'ycmd-server-command '("python" "~/bin/ycmd/ycmd/__main__.py"))
   (add-hook 'after-init-hook #'global-ycmd-mode)
+  (set-variable 'ycmd-server-command '("python" "~/bin/ycmd/ycmd"))
 
   ;; don't use default persistent search highlight
   evil-search-highlight-persist nil

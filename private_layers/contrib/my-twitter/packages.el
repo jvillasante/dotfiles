@@ -35,4 +35,4 @@
     :config ; :config is called after the package is actually loaded with defer
     ;; You can put stuff that relies on the package like function calls here
     (twittering-enable-unread-status-notifier)
-    (message "zeal mode was actually loaded!")))
+    (message "twittering mode was actually loaded!")))
