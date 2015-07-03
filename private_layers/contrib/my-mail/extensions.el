@@ -53,7 +53,7 @@
                               (:subject . 74)))
 
   ;; Trim the number of fields shown in the email view. This is customizable. See mu4e-view.el for a full list.
-  (setq mu4e-view-fields '(:from :to :cc :subject :date :tags :attachments))
+  (setq mu4e-view-fields '(:from :to :cc :subject :date :tags :attachments :flags))
   (setq mu4e-view-show-addresses t)
 
   ;; Custom marks
@@ -71,7 +71,36 @@
   (setq mu4e-drafts-folder "/[Gmail].Drafts")      ;; unfinished messages
   (setq mu4e-sent-folder   "/[Gmail].Sent Mail")   ;; folder for sent messages
   (setq mu4e-trash-folder  "/[Gmail].Trash")       ;; trashed messages
-  (setq mu4e-refile-folder "/Archive")             ;; saved messages
+
+  ;; refile to "[Gmail].All Mail". This is the google inbox way
+  (setq mu4e-refile-folder
+        (lambda (msg)
+          (cond
+           ;; messages to mailing lists
+           ((mu4e-message-contact-field-matches msg :from "contact@golangweekly.com") "/[Gmail].Mailing Lists.Golang")
+           ((mu4e-message-contact-field-matches msg :from "contact@androidweekly.net") "/[Gmail].Mailing Lists.Android")
+           ((mu4e-message-contact-field-matches msg :from "nightly@changelog.com") "/[Gmail].Mailing Lists.ChangeLogNightly")
+           ((mu4e-message-contact-field-matches msg :from "newsletters@sitepoint.com") "/[Gmail].Mailing Lists.SitePoint")
+
+           ;; ;; messages sent directly to me go to /archive
+           ;; ;; also `mu4e-user-mail-address-p' can be used
+           ;; ((mu4e-message-contact-field-matches msg :to "me@example.com")
+           ;;  "/private")
+           ;; ;; messages with football or soccer in the subject go to /football
+           ;; ((string-match "football\\|soccer"
+           ;;                (mu4e-message-field msg :subject))
+           ;;  "/football")
+
+           ;; messages sent by me go to the sent folder
+           ((find-if
+             (lambda (addr)
+               (mu4e-message-contact-field-matches msg :from addr))
+             mu4e-user-mail-address-list)
+            mu4e-sent-folder)
+
+           ;; everything else goes to "/[Gmail].All Mail"
+           ;; important to have a catch-all at the end!
+           (t "/[Gmail].All Mail"))))
 
   ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
   (setq mu4e-sent-messages-behavior 'delete)
@@ -81,7 +110,7 @@
   ;; then, when you want archive some messages, move them to
   ;; the 'All Mail' folder by pressing ``ma''.
   (setq mu4e-maildir-shortcuts
-        '(("/Archive"             . ?a)
+        '(("/Archive"             . ?A)
           ("/INBOX"               . ?i)
           ("/[Gmail].Important"   . ?!)
           ("/[Gmail].Sent Mail"   . ?s)
