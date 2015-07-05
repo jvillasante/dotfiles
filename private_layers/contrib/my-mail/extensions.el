@@ -34,6 +34,7 @@
         mu4e-split-view 'horizontal
         mu4e-headers-visible-lines 20
         mu4e-headers-leave-behavior 'ask
+        mu4e-headers-skip-duplicates t
         mu4e~main-buffer-name "*mu4e-main*")
 
   ;; If you use the mu4e-shr2text, it might be useful to emulate some of the shr key bindings
