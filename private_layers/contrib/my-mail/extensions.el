@@ -54,7 +54,7 @@
                               (:subject . 74)))
 
   ;; Trim the number of fields shown in the email view. This is customizable. See mu4e-view.el for a full list.
-  (setq mu4e-view-fields '(:from :to :cc :subject :date :tags :attachments :flags))
+  (setq mu4e-view-fields '(:from :to :cc :subject :date :tags :attachments :flags :maildir))
   (setq mu4e-view-show-addresses t)
 
   ;; Custom marks

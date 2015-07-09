@@ -180,10 +180,12 @@ before layers configuration."
   ;; User initialization goes here
 
   ;; utf-8
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (set-language-environment "UTF-8")
   (prefer-coding-system 'utf-8)
+  (set-language-environment 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-selection-coding-system 'utf-8)
 
   ;; Get rid of these no matter what, and do it early
   (setq load-prefer-newer t)
@@ -249,6 +251,11 @@ before layers configuration."
   ;; Whitespace settings
   (setq whitespace-action '(auto-cleanup))
   (setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab))
+
+  ;; Fortune path
+  (require 'fortune)
+  (setq fortune-dir "/usr/share/games/fortunes"
+        fortune-file "/usr/share/games/fortunes/fortunes")
 
   ;; company
   (global-company-mode)
