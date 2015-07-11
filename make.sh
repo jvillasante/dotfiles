@@ -39,15 +39,8 @@ install_spacemacs () {
     fi
 }
 
-install_neobundle() {
-    if [[ ! -d $dir/.vim/bundle/ ]]; then
-        mkdir -p ~/.vim/bundle
-        git clone https://github.com/Shougo/neobundle.vim $dir/.vim/bundle/neobundle.vim
-    fi
-}
 install_zsh
 install_spacemacs
-# install_neobundle
 
 # spacemacs private
 echo "Removing existing version of $dir/.emacs.d/private/"

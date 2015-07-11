@@ -139,14 +139,14 @@ NeoBundleLazy 'jalcine/cmake.vim', {
       \}
 
 
-" NeoBundleLazy 'jeaye/color_coded', {
-"       \ 'build': {
-"       \   'unix': 'cmake . && make && make install',
-"       \   'linux': 'cmake . -DCUSTOM_CLANG=1 -DLLVM_ROOT_PATH=/usr -DLLVM_INCLUDE_PATH=/usr/lib/llvm-3.4/include'
-"       \ },
-"       \ 'autoload' : { 'filetypes' : ['c', 'cpp', 'objc', 'objcpp'] },
-"       \ 'build_commands' : ['cmake', 'make']
-"       \}
+NeoBundleLazy 'jeaye/color_coded', {
+      \ 'build': {
+      \   'unix': 'cmake . && make && make install',
+      \   'linux': 'cmake . -DCUSTOM_CLANG=1 -DLLVM_ROOT_PATH=/usr -DLLVM_INCLUDE_PATH=/usr/lib/llvm-3.4/include'
+      \ },
+      \ 'autoload' : { 'filetypes' : ['c', 'cpp', 'objc', 'objcpp'] },
+      \ 'build_commands' : ['cmake', 'make']
+      \}
 
 NeoBundleLazy 'rhysd/vim-clang-format',
       \ { 'autoload' : { 'filetypes' : ['c', 'cpp', 'objc', 'objcpp'] } }
@@ -223,26 +223,6 @@ NeoBundleLazy 'Xuyuanp/git-nerdtree', {
       \       "commands" : ["NERDTreeToggle", "NERDTree", "NERDTreeClose"]
       \   }
       \}
-" NeoBundle 'Shougo/vimfiler.vim', {
-"       \'depends' : 'Shougo/unite.vim',
-"       \'commands' : [{
-"       \'name' : ['VimFiler', 'Edit', 'Write'],
-"       \'complete' : 'customlist,vimfiler#complete'
-"       \},
-"       \'Read', 'Source'
-"       \],
-"       \ 'mappings' : '<Plug>',
-"       \ 'explorer' : 1,
-"       \ }
-
-" Find files
-" NeoBundle 'ctrlpvim/ctrlp.vim',
-"       \ {'autoload': {'commands': ['CtrlP', 'CtrlPBuffer', 'CtrlPMRU', 'CtrlPLastMode', 'CtrlPRoot', 'CtrlPClearCache', 'CtrlPClearAllCaches']}}
-" NeoBundleLazy 'tacahiroy/ctrlp-funky',
-"       \ {'autoload': {'commands': ['CtrlPFunky']}}
-" NeoBundle 'FelikZ/ctrlp-py-matcher', {
-"       \   'depends' : 'ctrlpvim/ctrlp.vim'
-"       \}
 
 " Vim plugin that displays tags in a window, ordered by class etc.
 NeoBundle "majutsushi/tagbar", {
@@ -372,13 +352,13 @@ if executable('node')
         \   },
         \}
 
-  " NeoBundleFetch 'ramitos/jsctags.git', { 'build': {
-  "     \   'windows': 'npm install',
-  "     \   'cygwin': 'npm install',
-  "     \   'mac': 'npm install',
-  "     \   'unix': 'npm install --update',
-  "     \ }
-  " \ }
+  NeoBundleFetch 'ramitos/jsctags.git', { 'build': {
+      \   'windows': 'npm install',
+      \   'cygwin': 'npm install',
+      \   'mac': 'npm install',
+      \   'unix': 'npm install --update',
+      \ }
+  \ }
   NeoBundleLazy 'marijnh/tern_for_vim', { 'build': {
         \   'windows': 'npm install',
         \   'cygwin': 'npm install',
@@ -446,7 +426,7 @@ if executable('scala')
         \}
   NeoBundleLazy 'gre/play2vim'
 endif
-" NeoBundleLazy 'elixir-lang/vim-elixir'
+"NeoBundleLazy 'elixir-lang/vim-elixir'
 "NeoBundleLazy 'evanmiller/nginx-vim-syntax'
 if executable('nginx')
   NeoBundleLazy 'evanmiller/nginx-vim-syntax', {'autoload': {'filetypes': 'nginx'}}

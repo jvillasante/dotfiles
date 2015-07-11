@@ -8,7 +8,6 @@
 
 let g:SESSION_DIR   = $HOME.'/.cache/vim/sessions'
 
-
 " Environment {
 
     " Identify platform {
@@ -62,13 +61,11 @@ if !exists('s:loaded_my_vimrc')
   source ~/.vim/ignore.vim
 endif
 
-
 "===============================================================================
 " Local Settings
 "===============================================================================
 
 source ~/.vim/colors.vim
-
 
 if has('nvim')
   runtime! plugin/python_setup.vim
