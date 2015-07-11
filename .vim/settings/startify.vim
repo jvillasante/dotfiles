@@ -1,9 +1,18 @@
 " Startify {{{
 " ========
-if neobundle#tap('startify')
+if neobundle#tap('vim-startify')
   function! neobundle#hooks.on_post_source(bundle)
 
     " A fancy start screen for Vim.
+    let g:startify_custom_header = [
+        \ '           ______________________________________           ',
+        \ '  ________|                                      |_______   ',
+        \ '  \       |         VIM ' . v:version . ' - www.vim.org        |      /   ',
+        \ '   \      |                                      |     /    ',
+        \ '   /      |______________________________________|     \    ',
+        \ '  /__________)                                (_________\   ',
+        \ '']
+    " }}}
 
     let g:startify_session_dir = g:SESSION_DIR
     let g:startify_change_to_vcs_root = 1
@@ -14,15 +23,6 @@ if neobundle#tap('startify')
         \ 'sessions',
     \ ]
     " let g:startify_change_to_dir = 0
-    let g:startify_custom_header = [
-        \ '           ______________________________________           ',
-        \ '  ________|                                      |_______   ',
-        \ '  \       |         VIM ' . v:version . ' - www.vim.org        |      /   ',
-        \ '   \      |                                      |     /    ',
-        \ '   /      |______________________________________|     \    ',
-        \ '  /__________)                                (_________\   ',
-        \ '']
-    " }}}
   endfunction
 
   call neobundle#untap()

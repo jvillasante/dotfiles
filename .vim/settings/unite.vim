@@ -11,7 +11,7 @@ if neobundle#tap('unite.vim')
     let g:unite_enable_start_insert = 1
 
     " Enable short source name in window
-    " let g:unite_enable_short_source_names = 1
+    let g:unite_enable_short_source_names = 1
 
     " Enable history yank source
     let g:unite_source_history_yank_enable = 1
@@ -19,7 +19,10 @@ if neobundle#tap('unite.vim')
     " Open in bottom right
     let g:unite_split_rule = "botright"
 
-    let g:unite_enable_split_vertically = 1
+    " prompt
+    let g:unite_prompt = '» '
+
+    " let g:unite_enable_split_vertically = 1
 
     " Shorten the default update date of 500ms
     let g:unite_update_time = 500
@@ -87,7 +90,7 @@ if neobundle#tap('unite.vim')
           \ 'buffer,file_rec', 'matchers',
           \ ['converter_relative_word', 'matcher_fuzzy',
           \  'matcher_project_ignore_files'])
-    call unite#custom#source('file_rec/async,file_rec/git', 'matchers', 
+    call unite#custom#source('file_rec/async,file_rec/git', 'matchers',
           \  [ 'converter_relative_word', 'matcher_default' ])
     call unite#custom#source(
           \ 'file_rec,file_rec/async,file_rec/git,file_mru', 'converters',
@@ -183,7 +186,7 @@ if neobundle#tap('unite.vim')
     " nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 
     " Fuzzy search from current buffer
-    nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir -no-split 
+    nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir -no-split
           \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
 
     " Quick commands

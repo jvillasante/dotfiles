@@ -11,9 +11,9 @@ augroup END
 
 
 " highlight current line
-au WinLeave * set nocursorline nocursorcolumn
-au WinEnter * set cursorline cursorcolumn
-set cursorline cursorcolumn
+au WinLeave * set nocursorline
+au WinEnter * set cursorline
+set cursorline
 
 
 filetype plugin indent on
@@ -24,9 +24,10 @@ if &t_Co <= 256 && &term!="xterm" && &term!="xterm-256color" && &term!="screen-2
 else
   " 256bit terminal
   set t_Co=256
-  let g:solarized_contrast="normal"
-  let g:solarized_visibility="normal"
-  colorscheme solarized
+  " let g:solarized_contrast="normal"
+  " let g:solarized_visibility="normal"
+  " colorscheme solarized
+  colorscheme zenburn
 
   " Disable Background Color Erase (BCE) so that color scheme work
   " properly when Vim is used inside tmux and GNU screen

@@ -44,7 +44,8 @@ NeoBundle 'Shougo/unite-build'
 NeoBundle 'Shougo/vinarise.vim'
 NeoBundle 'Shougo/unite-sudo'
 
-"NeoBundle 'airblade/vim-rooter'
+NeoBundle 'mhinz/vim-startify'
+NeoBundle 'airblade/vim-rooter'
 
 let ycm_build_options = './install.sh'
 
@@ -158,6 +159,7 @@ NeoBundleLazy 'rhysd/vim-clang-format',
 NeoBundle 'tomasr/molokai'
 NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'jnurmine/Zenburn'
 
 " Fork of NeoBundle "kien/rainbow_parentheses.vim"
 NeoBundle "luochen1990/rainbow"

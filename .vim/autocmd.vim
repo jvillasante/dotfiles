@@ -123,11 +123,11 @@ if has("autocmd")
   " go support
   " ----------
   autocmd BufNewFile,BufRead *.go setlocal ft=go
-  autocmd FileType go setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
+  autocmd FileType go setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
   " php support
   " -----------
-  autocmd FileType php setlocal shiftwidth=4 tabstop=8 softtabstop=4 expandtab
+  autocmd FileType php setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 
   " template language support (SGML / XML too)
   " ------------------------------------------
@@ -186,7 +186,7 @@ if has("autocmd")
 
   " Java
   " ----
-  autocmd FileType java setlocal shiftwidth=2 tabstop=8 softtabstop=2 expandtab
+  autocmd FileType java setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 
   " rst
   " ---
@@ -198,9 +198,9 @@ if has("autocmd")
   autocmd FileType cs setlocal tabstop=8 softtabstop=4 shiftwidth=4 expandtab
 
   " C/Obj-C/C++
-  autocmd FileType c setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-  autocmd FileType cpp setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-  autocmd FileType objc setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+  autocmd FileType c setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType objc setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
   let c_no_curly_error=1
 
   " Octave/Matlab
@@ -208,7 +208,7 @@ if has("autocmd")
 
   " vim
   " ---
-  autocmd FileType vim setlocal expandtab shiftwidth=2 tabstop=8 softtabstop=2
+  autocmd FileType vim setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
   " Javascript
   " ----------

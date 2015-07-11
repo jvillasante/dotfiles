@@ -3,8 +3,8 @@ if neobundle#tap('vim-go')
     au BufNewFile,BufRead *.go set ft=go nu
     au FileType go nnoremap <buffer><leader>r :GoRun<CR>
     au FileType go nnoremap <buffer><leader>g :GoDef<CR>
-    au FileType go setlocal tabstop=4
-    au FileType go setlocal softtabstop=4
+    au FileType go setlocal tabstop=2
+    au FileType go setlocal softtabstop=2
     let g:go_disable_autoinstall = 1
   endfunction
   call neobundle#untap()
