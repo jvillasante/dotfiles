@@ -78,7 +78,7 @@ alias grep='grep --color=auto'
 alias vi=vim                    # vi is now vim
 alias gvim='gvim 2>/dev/null'   # Discard gvim starting warnings
 alias mux='tmuxifier'
-alias em='emacs'
+alias em='emacs -nw'
 alias r="source ~/.zshrc"
 alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
 alias tmuxsrc="tmux source-file ~/.tmux.conf"
