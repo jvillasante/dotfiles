@@ -47,8 +47,11 @@ NeoBundle 'Shougo/unite-sudo'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'airblade/vim-rooter'
 
-let ycm_build_options = './install.sh'
+" tmux integration
+NeoBundle 'edkolev/tmuxline.vim'
+NeoBundle 'christoomey/vim-tmux-navigator'
 
+let ycm_build_options = './install.sh'
 if executable('cmake')
   let ycm_build_options .= ' --clang-completer --system-libclang --system-boost'
 endif
