@@ -252,6 +252,12 @@ before layers configuration."
   (setq whitespace-action '(auto-cleanup))
   (setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab))
 
+  ;; Display Visited File's Path in the Frame Title
+  (setq frame-title-format
+        '((:eval (if (buffer-file-name)
+                     (abbreviate-file-name (buffer-file-name))
+                   "%b"))))
+
   ;; Fortune path
   (require 'fortune)
   (setq fortune-dir "/usr/share/games/fortunes"
