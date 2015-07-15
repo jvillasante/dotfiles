@@ -220,8 +220,10 @@ before layers configuration."
     (let ((gopath-from-shell (shell-command-to-string "$SHELL -i -c 'echo $GOPATH'")))
       (setenv "GOPATH" gopath-from-shell)
       (setq exec-path (split-string gopath-from-shell path-separator))))
-  (if window-system (set-PATH-from-shell-PATH))
-  (if window-system (set-GOPATH-from-shell-GOPATH))
+  (if window-system
+      (progn
+        (set-PATH-from-shell-PATH)
+        (set-GOPATH-from-shell-GOPATH)))
 
   ;; Enable mouse support
   (unless window-system
