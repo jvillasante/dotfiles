@@ -11,15 +11,16 @@
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers '(better-defaults
-                                       editorconfig
+                                       ;; editorconfig
                                        search-engine
                                        ibuffer
                                        (auto-completion :variables
-                                                        auto-completion-return-key-behavior 'complete
-                                                        auto-completion-tab-key-behavior 'cycle
+                                                        auto-completion-return-key-behavior 'nil
+                                                        auto-completion-tab-key-behavior 'complete
                                                         auto-completion-complete-with-key-sequence nil
                                                         auto-completion-enable-help-tooltip t
-                                                        auto-completion-enable-sort-by-usage t)
+                                                        auto-completion-enable-sort-by-usage t
+                                                        auto-completion-enable-snippets-in-popup t)
                                        (colors :variables
                                                colors-enable-rainbow-identifiers nil)
                                        version-control
@@ -194,15 +195,33 @@ before layers configuration."
   (setq user-full-name "Julio C. Villasante")
   (setq user-mail-address "jvillasantegomez@gmail.com")
 
+  ;; Suppressing ad-handle-definition Warnings
+  (setq ad-redefinition-action 'accept)
+
   ;; multiterm
   (setq multi-term-program "/bin/zsh")
   (add-hook 'term-mode-hook
             (lambda ()
               (setq term-buffer-maximum-size 10000)))
 
+  ;; yassnippet
+  (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"
+                           yas-installed-snippets-dir))
+
+  ;; ycmd
+  (set-variable 'ycmd-server-command '("python" "~/bin/ycmd/ycmd"))
+
   ;; env
-  (setenv "PATH" "/home/jvillasante/.bin:/home/jvillasante/Hacking/workspace/go/bin:/home/jvillasante/.gvm/pkgsets/go1.4.2/global/bin:/home/jvillasante/.gvm/gos/go1.4.2/bin:/home/jvillasante/.gvm/pkgsets/go1.4.2/global/overlay/bin:/home/jvillasante/.gvm/bin:/home/jvillasante/.gvm/bin:/home/jvillasante/.nvm/versions/node/v0.12.0/bin:/home/jvillasante/.tmuxifier/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games")
-  (setenv "GOPATH" "/home/jvillasante/Hacking/workspace/go")
+  (defun set-PATH-from-shell-PATH ()
+    (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
+      (setenv "PATH" path-from-shell)
+      (setq exec-path (split-string path-from-shell path-separator))))
+  (defun set-GOPATH-from-shell-GOPATH ()
+    (let ((gopath-from-shell (shell-command-to-string "$SHELL -i -c 'echo $GOPATH'")))
+      (setenv "GOPATH" gopath-from-shell)
+      (setq exec-path (split-string gopath-from-shell path-separator))))
+  (if window-system (set-PATH-from-shell-PATH))
+  (if window-system (set-GOPATH-from-shell-GOPATH))
 
   ;; Enable mouse support
   (unless window-system
@@ -266,10 +285,6 @@ before layers configuration."
   ;; company
   (global-company-mode)
 
-  ;; yassnippet
-  (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"
-                           yas-installed-snippets-dir))
-
   ;; use evil-matchit everywhere
   (global-evil-matchit-mode 1)
 
@@ -288,7 +303,6 @@ before layers configuration."
 
   ;; ycmd
   (add-hook 'after-init-hook #'global-ycmd-mode)
-  (set-variable 'ycmd-server-command '("python" "~/bin/ycmd/ycmd"))
 
   ;; don't use default persistent search highlight
   evil-search-highlight-persist nil
