@@ -216,14 +216,10 @@ before layers configuration."
     (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
       (setenv "PATH" path-from-shell)
       (setq exec-path (split-string path-from-shell path-separator))))
-  (defun set-GOPATH-from-shell-GOPATH ()
-    (let ((gopath-from-shell (shell-command-to-string "$SHELL -i -c 'echo $GOPATH'")))
-      (setenv "GOPATH" gopath-from-shell)
-      (setq exec-path (split-string gopath-from-shell path-separator))))
   (if window-system
       (progn
         (set-PATH-from-shell-PATH)
-        (set-GOPATH-from-shell-GOPATH)))
+        (setenv "GOPATH" "/home/jvillasante/Hacking/workspace/go")))
 
   ;; Enable mouse support
   (unless window-system
