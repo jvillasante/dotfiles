@@ -51,7 +51,7 @@ echo "Copying $dir/private_layers/snippets on ~/.emacs.d/private."
 cp -R $dir/private_layers/snippets $dir/.emacs.d/private
 
 # list of files/folders to symlink in homedir
-files=".bashrc .editorconfig .gitconfig .profile .spacemacs .tmux.conf .zshrc .oh-my-zsh .vimrc .vimrc.before .vim .emacs.d .percol.d"
+files=".bashrc .editorconfig .gitconfig .profile .spacemacs .tmux.conf .zshrc .oh-my-zsh .vimrc .vimrc.before .vim .emacs.d .percol.d .offlineimaprc .offlineimap.py"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do

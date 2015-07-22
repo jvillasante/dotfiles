@@ -30,7 +30,7 @@
         mu4e-confirm-quit nil
         mu4e-hide-index-messages t
         mu4e-headers-auto-update t
-        mu4e-use-fancy-chars t
+        ;; mu4e-use-fancy-chars t
         mu4e-split-view 'horizontal
         mu4e-headers-visible-lines 20
         mu4e-headers-leave-behavior 'ask
