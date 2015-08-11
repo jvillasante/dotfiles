@@ -204,9 +204,9 @@ before layers configuration."
             (lambda ()
               (setq term-buffer-maximum-size 10000)))
 
-  ;; yassnippet
-  (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"
-                           yas-installed-snippets-dir))
+  ;; yasnippet
+  ;; (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"
+  ;;                          yas-installed-snippets-dir))
 
   ;; ycmd
   (set-variable 'ycmd-server-command '("python" "~/bin/ycmd/ycmd"))
@@ -242,6 +242,7 @@ before layers configuration."
         require-final-newline t
         visible-bell t
         ediff-window-setup-function 'ediff-setup-windows-plain
+        redisplay-dont-pause t
         git-enable-github-support t)
 
   ;; smooth scroll

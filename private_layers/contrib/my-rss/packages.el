@@ -35,6 +35,9 @@
               ("https://www.reddit.com/r/hacking/.rss" reedit)
               ("https://www.reddit.com/r/machinelearning/.rss" reedit)
 
+              ;; Misc
+              ("http://www.embeddedrelated.com/blogs.php" programming)
+
               ;; golang
               ("https://blog.golang.org/feed.atom" golang)))
 

@@ -19,8 +19,10 @@
       (setq deft-extension "org")
       (setq deft-text-mode 'org-mode)
       (setq deft-use-filename-as-title t)
+      (setq deft-use-filter-string-for-filename t)
       (setq deft-auto-save-interval 0)
 
+      ;; launch deft
       (evil-leader/set-key
         "od" 'deft))
     :config ; :config is called after the package is actually loaded with defer

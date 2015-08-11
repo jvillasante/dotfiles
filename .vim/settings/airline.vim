@@ -11,7 +11,7 @@ if neobundle#tap('vim-airline')
     let g:airline#extensions#tabline#fnamemod=':t'
     let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
     let g:airline_theme='solarized'
-    let g:airline_detect_iminsert = 1
+    " let g:airline_detect_iminsert = 1
   endfunction
 
   call neobundle#untap()
