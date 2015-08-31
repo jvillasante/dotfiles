@@ -27,6 +27,7 @@
                                        github
                                        (git :variables
                                             git-magit-status-fullscreen t)
+                                       gtags
                                        (html :variables
                                              css-indent-offset 2
                                              web-mode-code-indent-offset 2
@@ -36,10 +37,13 @@
                                        markdown
                                        c-c++
                                        go
+                                       php
                                        sql
+                                       emacs-lisp
+                                       latex
+                                       shell-scripts
                                        extra-langs
                                        semantic
-                                       emacs-lisp
                                        (shell :variables
                                               shell-default-term-shell "/bin/zsh"
                                               shell-default-shell 'multi-term
@@ -48,7 +52,6 @@
                                        (org :variables
                                             org-enable-github-support t)
                                        syntax-checking
-                                       latex
                                        ycmd
                                        evil-commentary
                                        restclient
@@ -262,7 +265,7 @@ before layers configuration."
 
   ;; my coding style, bsd but with 2 spaces indentation (and no tab
   ;; characters, only spaces)
-  (setq-default c-basic-offset 2 c-default-style "bsd")
+  (setq-default c-basic-indent 2 c-basic-offset 2)
   (setq-default tab-width 2 indent-tabs-mode nil)
   (setq-default highlight-tabs t)
 
@@ -387,6 +390,9 @@ before layers configuration."
                 (setq-local jshint-configuration-path (find-jshintrc))
                 (flycheck-select-checker 'jsxhint-checker)
                 (flycheck-mode))))
+
+  ;; java - eclim
+
 
   ;; neotree
   (setq neo-theme 'ascii)
