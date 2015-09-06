@@ -192,9 +192,6 @@ unset JAVA_TOOL_OPTIONS
 export NVM_DIR="/home/jvillasante/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# Bighuge api key (Synonyms program - `Go Programming Blueprints` book)
-export BHT_APIKEY="0079712bb23ceda4dd8913a944602d0a"
-
 # go language stuff
 [[ -s "/home/jvillasante/.gvm/scripts/gvm" ]] && source "/home/jvillasante/.gvm/scripts/gvm"
 export GOPATH=$HOME/Hacking/workspace/go

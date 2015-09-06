@@ -37,7 +37,7 @@
                                        markdown
                                        c-c++
                                        go
-                                       php
+                                       ;; php
                                        sql
                                        emacs-lisp
                                        latex
@@ -342,10 +342,32 @@ before layers configuration."
   (add-hook 'org-mode-hook 'my/turn-off-linum-mode)
 
   ;; TODO move js2-mode settings to config layer
+  (eval-after-load 'js2-mode
+    `(progn
+       ;; BUG: self is not a browser extern, just a convention that needs checking
+       (setq js2-browser-externs (delete "self" js2-browser-externs))
+
+       ;; Consider the chai 'expect()' statement to have side-effects, so we don't warn about it
+       (defun js2-add-strict-warning (msg-id &optional msg-arg beg end)
+         (if (and js2-compiler-strict-mode
+                  (not (and (string= msg-id "msg.no.side.effects")
+                            (string= (buffer-substring-no-properties beg (+ beg 7)) "expect("))))
+             (js2-report-warning msg-id msg-arg beg
+                                 (and beg end (- end beg)))))))
   (setq js2-basic-offset 2
         js2-bounce-indent-p t)
-  (add-hook 'js2-mode-hook (lambda ()
-                             (electric-indent-mode -1)))
+  (add-hook 'js2-mode-hook (lambda () (electric-indent-mode -1)))
+
+  ;; Highlight node.js stacktraces in *compile* buffers
+  (defvar my-nodejs-compilation-regexp
+    '("^[ \t]+at +\\(?:.+(\\)?\\([^()\n]+\\):\\([0-9]+\\):\\([0-9]+\\))?$" 1 2 3))
+
+  (add-to-list 'compilation-error-regexp-alist-alist
+               (cons 'nodejs my-nodejs-compilation-regexp))
+  (add-to-list 'compilation-error-regexp-alist 'nodejs)
+
+  ;; Open files that start with "#!/usr/bin/env node" in js2-mode
+  (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
 
   ;; remove whitespace before saving
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
