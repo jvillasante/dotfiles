@@ -59,12 +59,12 @@
                                        slime
                                        vim-empty-lines
                                        eyebrowse
+                                       deft
 
                                        ;; private layers
                                        ;; my-symon
                                        my-mail
                                        my-define-word
-                                       my-deft
                                        my-password-store
                                        my-rss
                                        my-twitter
@@ -273,6 +273,19 @@ before layers configuration."
   (setq whitespace-action '(auto-cleanup))
   (setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab))
 
+  ;; remove whitespace before saving
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+  ;; dont wrap lines
+  (setq-default truncate-lines t)
+
+  ;; show matching parens
+  (show-paren-mode t)
+
+  ;; change projectile action
+  (projectile-global-mode)
+  (setq projectile-switch-project-action 'helm-projectile)
+
   ;; Display Visited File's Path in the Frame Title
   (setq frame-title-format
         '((:eval (if (buffer-file-name)
@@ -286,6 +299,18 @@ before layers configuration."
 
   ;; company
   (global-company-mode)
+
+  ;; deft
+  (use-package deft
+    :config
+    (progn
+      (setq deft-directory "~/Dropbox/Personal/Notes")
+      (setq deft-extension "org")
+      (setq deft-text-mode 'org-mode)
+      (setq deft-use-filename-as-title t)
+      (setq deft-use-filter-string-for-filename t)
+      (setq deft-auto-save-interval 0)
+      ))
 
   ;; use evil-matchit everywhere
   (global-evil-matchit-mode 1)
@@ -369,19 +394,6 @@ before layers configuration."
   ;; Open files that start with "#!/usr/bin/env node" in js2-mode
   (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
 
-  ;; remove whitespace before saving
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-  ;; dont wrap lines
-  (setq-default truncate-lines t)
-
-  ;; show matching parens
-  (show-paren-mode t)
-
-  ;; change projectile action
-  (projectile-global-mode)
-  (setq projectile-switch-project-action 'helm-projectile)
-
   ;; jsx syntax highlighting with web-mode
   (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
   (defadvice web-mode-highlight-part (around tweak-jsx activate)
@@ -412,9 +424,6 @@ before layers configuration."
                 (setq-local jshint-configuration-path (find-jshintrc))
                 (flycheck-select-checker 'jsxhint-checker)
                 (flycheck-mode))))
-
-  ;; java - eclim
-
 
   ;; neotree
   (setq neo-theme 'ascii)
