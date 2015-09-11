@@ -52,7 +52,7 @@
                                        (org :variables
                                             org-enable-github-support t)
                                        syntax-checking
-                                       ycmd
+                                       ;; ycmd
                                        evil-commentary
                                        restclient
                                        themes-megapack
@@ -212,7 +212,7 @@ before layers configuration."
   ;;                          yas-installed-snippets-dir))
 
   ;; ycmd
-  (set-variable 'ycmd-server-command '("python" "~/bin/ycmd/ycmd"))
+  ;; (set-variable 'ycmd-server-command '("python" "~/bin/ycmd/ycmd"))
 
   ;; env
   (defun set-PATH-from-shell-PATH ()
@@ -329,7 +329,7 @@ before layers configuration."
   (global-set-key (kbd "M-=") 'count-words)
 
   ;; ycmd
-  (add-hook 'after-init-hook #'global-ycmd-mode)
+  ;; (add-hook 'after-init-hook #'global-ycmd-mode)
 
   ;; don't use default persistent search highlight
   evil-search-highlight-persist nil
