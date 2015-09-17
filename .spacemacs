@@ -37,7 +37,6 @@
                                        markdown
                                        c-c++
                                        go
-                                       ;; php
                                        sql
                                        emacs-lisp
                                        latex
@@ -52,7 +51,6 @@
                                        (org :variables
                                             org-enable-github-support t)
                                        syntax-checking
-                                       ;; ycmd
                                        evil-commentary
                                        restclient
                                        themes-megapack
@@ -63,6 +61,7 @@
 
                                        ;; private layers
                                        ;; my-symon
+                                       my-javascript
                                        my-mail
                                        my-define-word
                                        my-password-store
@@ -207,21 +206,14 @@ before layers configuration."
             (lambda ()
               (setq term-buffer-maximum-size 10000)))
 
-  ;; yasnippet
-  ;; (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"
-  ;;                          yas-installed-snippets-dir))
-
-  ;; ycmd
-  ;; (set-variable 'ycmd-server-command '("python" "~/bin/ycmd/ycmd"))
-
   ;; env
-  (defun set-PATH-from-shell-PATH ()
+  (defun my-set-PATH-from-shell-PATH ()
     (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
       (setenv "PATH" path-from-shell)
       (setq exec-path (split-string path-from-shell path-separator))))
   (if window-system
       (progn
-        (set-PATH-from-shell-PATH)
+        (my-set-PATH-from-shell-PATH)
         (setenv "GOPATH" "/home/jvillasante/Hacking/workspace/go")))
 
   ;; Enable mouse support
@@ -247,13 +239,6 @@ before layers configuration."
         ediff-window-setup-function 'ediff-setup-windows-plain
         redisplay-dont-pause t
         git-enable-github-support t)
-
-  ;; smooth scroll
-  ;; (setq redisplay-dont-pause t
-  ;;   scroll-margin 5
-  ;;   scroll-step 1
-  ;;   scroll-conservatively 10000
-  ;;   scroll-preserve-screen-position 3)
 
   ;; emacs url-queue package timeout
   (setf url-queue-timeout 30))
@@ -292,6 +277,25 @@ before layers configuration."
                      (abbreviate-file-name (buffer-file-name))
                    "%b"))))
 
+  ;; compilation mode
+  (ignore-errors
+    (require 'ansi-color)
+    (defun my-colorize-compilation-buffer ()
+      (when (eq major-mode 'compilation-mode)
+        (ansi-color-apply-on-region compilation-filter-start (point-max))))
+    (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
+  (defun my-desperately-compile ()
+    "Traveling up the path, find a Makefile and `compile'."
+    (interactive)
+    (with-temp-buffer
+      (while (and (not (file-exists-p "Makefile"))
+                  (not (equal "/" default-directory)))
+        (cd ".."))
+      (when (file-exists-p "Makefile")
+        (compile "make -k"))))
+  (evil-leader/set-key
+    "oc" 'my-desperately-compile)
+
   ;; Fortune path
   (require 'fortune)
   (setq fortune-dir "/usr/share/games/fortunes"
@@ -309,8 +313,7 @@ before layers configuration."
       (setq deft-text-mode 'org-mode)
       (setq deft-use-filename-as-title t)
       (setq deft-use-filter-string-for-filename t)
-      (setq deft-auto-save-interval 0)
-      ))
+      (setq deft-auto-save-interval 0)))
 
   ;; use evil-matchit everywhere
   (global-evil-matchit-mode 1)
@@ -328,11 +331,12 @@ before layers configuration."
   ;; if no region is selected
   (global-set-key (kbd "M-=") 'count-words)
 
-  ;; ycmd
-  ;; (add-hook 'after-init-hook #'global-ycmd-mode)
-
   ;; don't use default persistent search highlight
   evil-search-highlight-persist nil
+
+  ;; linum-mode
+  (setq linum-delay t
+        linum-eager nil)
 
   ;; line numbers when i'm coding pls
   (add-to-hooks 'linum-mode '(c-mode-hook
@@ -361,69 +365,10 @@ before layers configuration."
   (setq linum-format "%4d")
 
   ;; turn off linum-mode on org files
-  (defun my/turn-off-linum-mode ()
+  (defun my-turn-off-linum-mode ()
     (message "Deactivated linum mode.")
     (linum-mode -1))
-  (add-hook 'org-mode-hook 'my/turn-off-linum-mode)
-
-  ;; TODO move js2-mode settings to config layer
-  (eval-after-load 'js2-mode
-    `(progn
-       ;; BUG: self is not a browser extern, just a convention that needs checking
-       (setq js2-browser-externs (delete "self" js2-browser-externs))
-
-       ;; Consider the chai 'expect()' statement to have side-effects, so we don't warn about it
-       (defun js2-add-strict-warning (msg-id &optional msg-arg beg end)
-         (if (and js2-compiler-strict-mode
-                  (not (and (string= msg-id "msg.no.side.effects")
-                            (string= (buffer-substring-no-properties beg (+ beg 7)) "expect("))))
-             (js2-report-warning msg-id msg-arg beg
-                                 (and beg end (- end beg)))))))
-  (setq js2-basic-offset 2
-        js2-bounce-indent-p t)
-  (add-hook 'js2-mode-hook (lambda () (electric-indent-mode -1)))
-
-  ;; Highlight node.js stacktraces in *compile* buffers
-  (defvar my-nodejs-compilation-regexp
-    '("^[ \t]+at +\\(?:.+(\\)?\\([^()\n]+\\):\\([0-9]+\\):\\([0-9]+\\))?$" 1 2 3))
-
-  (add-to-list 'compilation-error-regexp-alist-alist
-               (cons 'nodejs my-nodejs-compilation-regexp))
-  (add-to-list 'compilation-error-regexp-alist 'nodejs)
-
-  ;; Open files that start with "#!/usr/bin/env node" in js2-mode
-  (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
-
-  ;; jsx syntax highlighting with web-mode
-  (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
-  (defadvice web-mode-highlight-part (around tweak-jsx activate)
-    (if (equal web-mode-content-type "jsx")
-        (let ((web-mode-enable-part-face nil))
-          ad-do-it)
-      ad-do-it))
-
-  ;; jsx syntax checking for web-mode
-  (require 'flycheck)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled idle-change))
-  (setq flycheck-idle-change-delay 5)
-  (flycheck-define-checker jsxhint-checker
-    "A JSX syntax and style checker based on JSXHint."
-    :command ("jsxhint" (config-file "--config=" jshint-configuration-path) source)
-    :error-patterns ((error line-start (1+ nonl) ": line " line ", col " column ", " (message) line-end))
-    :modes (web-mode))
-
-  (defun find-jshintrc ()
-    (expand-file-name ".jshintrc"
-                      (locate-dominating-file
-                       (or (buffer-file-name) default-directory) ".jshintrc")))
-
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (equal web-mode-content-type "jsx")
-                (tern-mode t)
-                (setq-local jshint-configuration-path (find-jshintrc))
-                (flycheck-select-checker 'jsxhint-checker)
-                (flycheck-mode))))
+  (add-hook 'org-mode-hook 'my-turn-off-linum-mode)
 
   ;; neotree
   (setq neo-theme 'ascii)
@@ -443,7 +388,7 @@ before layers configuration."
           (server :default "localhost")
           (port :default 5432)))
 
-  (defun hotspots ()
+  (defun my-hotspots ()
     "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
     (interactive)
     (helm :sources `(((name . "Mail and News")
@@ -473,7 +418,7 @@ before layers configuration."
                      helm-source-bookmark-set
                      helm-source-recentf)))
   (evil-leader/set-key
-    "oh" 'hotspots)
+    "oh" 'my-hotspots)
 
   ;; others
   (golden-ratio-mode 1)
