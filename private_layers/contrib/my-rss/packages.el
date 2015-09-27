@@ -17,29 +17,33 @@
     (progn ; :init only takes one expression so use "progn" to combine multiple things
       (setq elfeed-feeds
             '(
+              ;; ycombinator
+              ("https://news.ycombinator.com/" ycombinator)
+
               ;; emacs
-              ("http://nullprogram.com/feed/" emacs)
-              ("http://emacs-fu.blogspot.com/feeds/posts/default" emacs)
-              ("http://planet.emacsen.org/atom.xml" emacs)
-              ("http://emacsrocks.com/atom.xml" emacs)
-              ("http://nedroid.com/feed/" webcomic)
+              ;; ("http://nullprogram.com/feed/" emacs)
+              ;; ("http://emacs-fu.blogspot.com/feeds/posts/default" emacs)
+              ;; ("http://planet.emacsen.org/atom.xml" emacs)
+              ;; ("http://emacsrocks.com/atom.xml" emacs)
+              ;; ("http://nedroid.com/feed/" webcomic)
 
               ;; reedit
-              ("https://www.reddit.com/r/programming/.rss" reedit)
-              ("https://www.reddit.com/r/coding/.rss" reedit)
-              ("https://www.reddit.com/r/compsci/.rss" reedit)
-              ("https://www.reddit.com/r/dailyprogrammer/.rss" reedit)
-              ("https://www.reddit.com/r/webdev/.rss" reedit)
-              ("https://www.reddit.com/r/startups/.rss" reedit)
-              ("https://www.reddit.com/r/opensource/.rss" reedit)
-              ("https://www.reddit.com/r/hacking/.rss" reedit)
-              ("https://www.reddit.com/r/machinelearning/.rss" reedit)
+              ;; ("https://www.reddit.com/r/programming/.rss" reedit)
+              ;; ("https://www.reddit.com/r/coding/.rss" reedit)
+              ;; ("https://www.reddit.com/r/compsci/.rss" reedit)
+              ;; ("https://www.reddit.com/r/dailyprogrammer/.rss" reedit)
+              ;; ("https://www.reddit.com/r/webdev/.rss" reedit)
+              ;; ("https://www.reddit.com/r/startups/.rss" reedit)
+              ;; ("https://www.reddit.com/r/opensource/.rss" reedit)
+              ;; ("https://www.reddit.com/r/hacking/.rss" reedit)
+              ;; ("https://www.reddit.com/r/machinelearning/.rss" reedit)
 
               ;; Misc
-              ("http://www.embeddedrelated.com/blogs.php" programming)
+              ;; ("http://www.embeddedrelated.com/blogs.php" programming)
 
               ;; golang
-              ("https://blog.golang.org/feed.atom" golang)))
+              ;; ("https://blog.golang.org/feed.atom" golang)
+              ))
 
       (setq-default elfeed-search-filter "-junk @2-week-ago +unread")
       (setq elfeed-sort-order 'ascending)

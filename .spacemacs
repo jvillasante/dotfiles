@@ -51,16 +51,18 @@
                                        (org :variables
                                             org-enable-github-support t)
                                        syntax-checking
-                                       evil-commentary
                                        restclient
                                        themes-megapack
                                        slime
+                                       evil-commentary
                                        vim-empty-lines
                                        eyebrowse
                                        deft
+                                       chrome
 
                                        ;; private layers
                                        ;; my-symon
+                                       my-sunshine
                                        my-javascript
                                        my-mail
                                        my-define-word
@@ -240,6 +242,16 @@ before layers configuration."
         redisplay-dont-pause t
         git-enable-github-support t)
 
+  ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  (setq display-time-world-list '(("UTC" "UTC")
+                                  ("US/Eastern" "Miami")
+                                  ("America/Havana" "Habana")
+                                  ("America/New_York" "New York")
+                                  ("Europe/Amsterdam" "Amsterdam")
+                                  ("Europe/Copenhagen" "Denmark")
+                                  ("Asia/Shanghai" "China")
+                                  ("Asia/Calcutta" "India")))
+
   ;; emacs url-queue package timeout
   (setf url-queue-timeout 30))
 
@@ -256,13 +268,21 @@ before layers configuration."
 
   ;; Whitespace settings
   (setq whitespace-action '(auto-cleanup))
-  (setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab))
-
+  ;; (setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab))
+  (setq whitespace-style '(indentation::space
+                           space-after-tab
+                           space-before-tab
+                           trailing
+                           lines-tail
+                           tab-mark
+                           face
+                           tabs))
   ;; remove whitespace before saving
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
   ;; dont wrap lines
   (setq-default truncate-lines t)
+  (setq truncate-partial-width-windows nil) ;; for vertically-split windows
 
   ;; show matching parens
   (show-paren-mode t)
@@ -305,15 +325,12 @@ before layers configuration."
   (global-company-mode)
 
   ;; deft
-  (use-package deft
-    :config
-    (progn
-      (setq deft-directory "~/Dropbox/Personal/Notes")
-      (setq deft-extension "org")
-      (setq deft-text-mode 'org-mode)
-      (setq deft-use-filename-as-title t)
-      (setq deft-use-filter-string-for-filename t)
-      (setq deft-auto-save-interval 0)))
+  (setq deft-directory "~/Dropbox/Personal/Notes")
+  (setq deft-extensions '("org" "md" "txt"))
+  (setq deft-text-mode "org")
+  (setq deft-use-filename-as-title t)
+  (setq deft-use-filter-string-for-filename t)
+  (setq deft-auto-save-interval 0)
 
   ;; use evil-matchit everywhere
   (global-evil-matchit-mode 1)
