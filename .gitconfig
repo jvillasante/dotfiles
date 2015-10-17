@@ -12,7 +12,7 @@
 	status = auto
 	branch = auto
 [core]
-	editor = vim
+	# editor = vim
 	autocrlf = false
 	safecrlf = true
 [merge]
@@ -22,4 +22,4 @@
 [github]
 	user = jvillasante
 	password = p
-	oauth-token = 
+	oauth-token =
