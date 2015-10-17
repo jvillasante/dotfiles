@@ -45,8 +45,8 @@ umask 0022
 export ZSH=$HOME/.oh-my-zsh          # Path to your oh-my-zsh installation.
 export ZSH_THEME="robbyrussell"      # Set name of the theme to load.
 # export EDITOR=/usr/local/bin/vim     # Default editor
-export EDITOR="emacsclient -c"
-export ALTERNATE_EDITOR=""
+export EDITOR="/usr/local/bin/emacsclient -c"
+export ALTERNATE_EDITOR=/usr/bin/vim
 export VISUAL=$EDITOR
 export LANG=en_US.UTF-8              # You may need to manually set your language environment
 export SSH_KEY_PATH="~/.ssh/dsa_id"  # ssh
