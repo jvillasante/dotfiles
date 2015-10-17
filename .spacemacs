@@ -43,6 +43,10 @@ values."
            web-mode-code-indent-offset 2
            web-mode-markup-indent-offset 2
            web-mode-css-indent-offset 2)
+     semantic
+     (c-c++ :variables
+            c-c++-enable-clang-support t)
+            ;; c-c++-default-mode-for-headers 'c++-mode)
      javascript
      markdown
      latex
@@ -113,13 +117,13 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(zenburn
+                         monokai
+                         spacemacs-dark
                          spacemacs-light
                          solarized-light
                          solarized-dark
-                         leuven
-                         monokai
-                         zenburn)
+                         leuven)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -128,7 +132,7 @@ values."
                                :size 18
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.2)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -155,7 +159,7 @@ values."
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
    dotspacemacs-use-ido nil
    ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
-   dotspacemacs-helm-resize nil
+   dotspacemacs-helm-resize t
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
    dotspacemacs-helm-no-header nil
@@ -210,7 +214,7 @@ values."
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil advises quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -244,40 +248,6 @@ user code."
   ;; Suppressing ad-handle-definition Warnings
   (setq ad-redefinition-action 'accept)
 
-  ;; multiterm
-  (setq multi-term-program "/bin/zsh")
-  (add-hook 'term-mode-hook
-            (lambda ()
-              (setq term-buffer-maximum-size 10000)))
-
-  ;; env
-  (defun my-set-PATH-from-shell-PATH ()
-    (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
-      (setenv "PATH" path-from-shell)
-      (setq exec-path (split-string path-from-shell path-separator))))
-  (if window-system
-      (progn
-        (my-set-PATH-from-shell-PATH)
-        (setenv "GOPATH" "/home/jvillasante/Hacking/workspace/go")))
-
-  ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  (setq display-time-world-list '(("UTC" "UTC")
-                                  ("US/Eastern" "Miami")
-                                  ("America/Havana" "Habana")
-                                  ("America/New_York" "New York")
-                                  ("Europe/Amsterdam" "Amsterdam")
-                                  ("Europe/Copenhagen" "Denmark")
-                                  ("Asia/Shanghai" "China")
-                                  ("Asia/Calcutta" "India")))
-
-  (setf url-queue-timeout 30)
-  )
-
-(defun dotspacemacs/user-config ()
-  "Configuration function for user code.
- This function is called at the very end of Spacemacs initialization after
-layers configuration. You are free to put any user code."
-
   ;; my coding style, bsd but with 2 spaces indentation (and no tab
   ;; characters, only spaces)
   (setq-default c-basic-indent 2 c-basic-offset 2)
@@ -304,6 +274,43 @@ layers configuration. You are free to put any user code."
 
   ;; show matching parens
   (show-paren-mode t)
+
+  ;; multiterm
+  (setq multi-term-program "/bin/zsh")
+  (add-hook 'term-mode-hook
+            (lambda ()
+              (setq term-buffer-maximum-size 10000)))
+
+  ;; env
+  ;; (defun my-set-PATH-from-shell-PATH ()
+  ;;   (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
+  ;;     (setenv "PATH" path-from-shell)
+  ;;     (setq exec-path (split-string path-from-shell path-separator))))
+  ;; (if window-system
+  ;;     (progn
+  ;;       (my-set-PATH-from-shell-PATH)
+  ;;       (setenv "GOPATH" "/home/jvillasante/Hacking/workspace/go")))
+
+  ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  (setq display-time-world-list '(("UTC" "UTC")
+                                  ("US/Eastern" "Miami")
+                                  ("America/Havana" "Habana")
+                                  ("America/New_York" "New York")
+                                  ("Europe/Amsterdam" "Amsterdam")
+                                  ("Europe/Copenhagen" "Denmark")
+                                  ("Asia/Shanghai" "China")
+                                  ("Asia/Calcutta" "India")))
+
+  (setf url-queue-timeout 30)
+  )
+
+(defun dotspacemacs/user-config ()
+  "Configuration function for user code.
+ This function is called at the very end of Spacemacs initialization after
+layers configuration. You are free to put any user code."
+
+  ;; start server
+  (server-start)
 
   ;; Display Visited File's Path in the Frame Title
   (setq frame-title-format
@@ -339,12 +346,15 @@ layers configuration. You are free to put any user code."
   (global-company-mode)
 
   ;; deft
-  (setq deft-directory "~/Dropbox/Personal/Notes")
+  (setq deft-directory "~/Dropbox/Personal/notes")
   (setq deft-extensions '("org" "md" "txt"))
   (setq deft-text-mode "org")
   (setq deft-use-filename-as-title t)
   (setq deft-use-filter-string-for-filename t)
   (setq deft-auto-save-interval 0)
+
+  ;; tramp mode
+  (setq tramp-default-method "ssh")
 
   ;; use evil-matchit everywhere
   (global-evil-matchit-mode 1)
@@ -427,3 +437,19 @@ layers configuration. You are free to put any user code."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (smeargle paradox linum-relative leuven-theme helm-swoop google-translate alert zenburn-theme zeal-at-point window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe use-package twittering-mode toc-org tagedit sunshine stickyfunc-enhance srefactor spray spinner spacemacs-theme smooth-scrolling slim-mode shell-pop scss-mode sass-mode restclient rainbow-delimiters quelpa powerline popwin pcre2el password-store page-break-lines org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep log4e less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-descbinds helm-css-scss helm-c-yasnippet helm-ag golden-ratio gnuplot gntp gmail-message-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed edit-server disaster diff-hl deft define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))

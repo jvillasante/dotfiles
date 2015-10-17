@@ -48,7 +48,7 @@ install_neobundle () {
 
 install_zsh
 install_spacemacs
-install_neobundle
+# install_neobundle
 
 # spacemacs private
 echo "Removing existing version of $dir/.emacs.d/private/"

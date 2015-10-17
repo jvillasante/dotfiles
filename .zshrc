@@ -44,7 +44,8 @@ umask 0022
 # Exports {{{
 export ZSH=$HOME/.oh-my-zsh          # Path to your oh-my-zsh installation.
 export ZSH_THEME="robbyrussell"      # Set name of the theme to load.
-export EDITOR=/usr/local/bin/vim     # Default editor
+# export EDITOR=/usr/local/bin/vim     # Default editor
+export EDITOR=emacsclient
 export LANG=en_US.UTF-8              # You may need to manually set your language environment
 export SSH_KEY_PATH="~/.ssh/dsa_id"  # ssh
 export TERM=xterm-256color
@@ -77,7 +78,7 @@ alias ls='ls -lFh --color=auto'
 alias grep='grep --color=auto'
 alias vi=vim                    # vi is now vim
 alias gvim='gvim 2>/dev/null'   # Discard gvim starting warnings
-alias mux='tmuxifier'
+# alias mux='tmuxifier'
 alias em='emacs -nw'
 alias r="source ~/.zshrc"
 alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
@@ -179,9 +180,9 @@ function pphist() {
 #}}}
 
 # tmuxifier
-export PATH="$HOME/.tmuxifier/bin:$PATH"
-export TMUXIFIER_TMUX_OPTS="-2"
-eval "$(tmuxifier init -)"
+# export PATH="$HOME/.tmuxifier/bin:$PATH"
+# export TMUXIFIER_TMUX_OPTS="-2"
+# eval "$(tmuxifier init -)"
 # }}}
 
 # java stuff {{{
