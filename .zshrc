@@ -44,6 +44,7 @@ umask 0022
 # Exports {{{
 export ZSH=$HOME/.oh-my-zsh          # Path to your oh-my-zsh installation.
 export ZSH_THEME="robbyrussell"      # Set name of the theme to load.
+
 # export EDITOR=/usr/local/bin/vim     # Default editor
 export EDITOR="emacsclient -c"
 export ALTERNATE_EDITOR=""
