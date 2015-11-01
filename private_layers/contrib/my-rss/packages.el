@@ -18,7 +18,7 @@
       (setq elfeed-feeds
             '(
               ;; ycombinator
-              ("https://news.ycombinator.com/" ycombinator)
+              ("https://news.ycombinator.com/rss" ycombinator)
 
               ;; emacs
               ;; ("http://nullprogram.com/feed/" emacs)
