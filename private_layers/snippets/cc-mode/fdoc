@@ -1,7 +1,7 @@
 # key: fdoc
 # name: function documentation comment
 # --
-/*
+/**
  * $0func()
  *
  * Description of the function.
