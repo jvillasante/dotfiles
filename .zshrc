@@ -51,7 +51,8 @@ export VISUAL=$EDITOR
 export LANG=en_US.UTF-8              # You may need to manually set your language environment
 export SSH_KEY_PATH="~/.ssh/dsa_id"  # ssh
 export TERM=xterm-256color
-export PATH="$HOME/bin:$PATH"
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
 # }}}
 
 # oh-my-zsh {{{
@@ -59,7 +60,7 @@ export PATH="$HOME/bin:$PATH"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras gitignore golang)
+plugins=(git osx)
 COMPLETION_WAITING_DOTS="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 DISABLE_AUTO_TITLE="true"
@@ -74,19 +75,18 @@ zstyle :omz:plugins:ssh-agent agent-forwarding on
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-alias zshconfig="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
-alias ls='ls -lFh --color=auto'
-alias grep='grep --color=auto'
-alias vi=vim                    # vi is now vim
-alias gvim='gvim 2>/dev/null'   # Discard gvim starting warnings
+# alias zshconfig="vim ~/.zshrc"
+# alias ohmyzsh="vim ~/.oh-my-zsh"
+alias ls='ls -lFh'
+# alias vi=vim                    # vi is now vim
+# alias gvim='gvim 2>/dev/null'   # Discard gvim starting warnings
 # alias mux='tmuxifier'
 alias em="emacsclient -c -n"
 alias r="source ~/.zshrc"
 alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
 alias tmuxsrc="tmux source-file ~/.tmux.conf"
 alias tmuxkillall="tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}" # tmux kill all sessions
-alias ct="ctags -R --exclude=.git --exclude=node_modules"
+# alias ct="ctags -R --exclude=.git --exclude=node_modules"
 alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
 
 #git
@@ -188,18 +188,18 @@ function pphist() {
 # }}}
 
 # java stuff {{{
-unset JAVA_TOOL_OPTIONS
+# unset JAVA_TOOL_OPTIONS
 # }}}
 
 # node stuff
-export NVM_DIR="/home/jvillasante/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# export NVM_DIR="/home/jvillasante/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # go language stuff
-[[ -s "/home/jvillasante/.gvm/scripts/gvm" ]] && source "/home/jvillasante/.gvm/scripts/gvm"
-export GOPATH=$HOME/Hacking/workspace/go
-export PATH="$GOPATH/bin:$PATH"
+# [[ -s "/home/jvillasante/.gvm/scripts/gvm" ]] && source "/home/jvillasante/.gvm/scripts/gvm"
+# export GOPATH=$HOME/Hacking/workspace/go
+# export PATH="$GOPATH/bin:$PATH"
 
 # android
-export PATH="$HOME/Android/Sdk/tools:$PATH"
-export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
+# export PATH="$HOME/Android/Sdk/tools:$PATH"
+# export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
