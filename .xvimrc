@@ -1,0 +1,20 @@
+i kk <Esc>
+set incsearch
+
+" Case-insensitive searching.
+set ignorecase
+
+" But case-sensitive if expression contains a capital letter.
+set smartcase
+
+" Default to global substitutions on lines
+set gdefault
+
+" Use the system pasteboard
+set pasteboard
+
+" Map <space>b to toggle a breakpoint at the current line
+nmap <space>b :xccmd toggleBreakpointAtCurrentLine<CR>
+
+" Use <space>cm to toggle comments for the selection
+nmap <space>cm :xccmd commentAndUncommentCurrentLines<CR>

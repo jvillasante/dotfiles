@@ -20,8 +20,8 @@
                           (string= (buffer-substring-no-properties beg (+ beg 7)) "expect("))))
            (js2-report-warning msg-id msg-arg beg
                                (and beg end (- end beg)))))))
-  (setq js2-basic-offset 2
-        js2-bounce-indent-p t)
+  (setq-default js2-basic-offset 2)
+  (setq-default js-indent-level 2)
   (add-hook 'js2-mode-hook (lambda () (electric-indent-mode -1)))
 
 (eval-after-load 'compile
