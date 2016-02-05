@@ -60,7 +60,7 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git osx)
+plugins=(git)
 COMPLETION_WAITING_DOTS="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 DISABLE_AUTO_TITLE="true"
@@ -192,13 +192,13 @@ function pphist() {
 # }}}
 
 # node stuff
-export NVM_DIR="/Users/jvillasante/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# export NVM_DIR="/Users/jvillasante/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # go language stuff
-[[ -s "/Users/jvillasante/.gvm/scripts/gvm" ]] && source "/Users/jvillasante/.gvm/scripts/gvm"
-export GOPATH=$HOME/Hacking/workspace/go
-export PATH="$GOPATH/bin:$PATH"
+# [[ -s "/Users/jvillasante/.gvm/scripts/gvm" ]] && source "/Users/jvillasante/.gvm/scripts/gvm"
+# export GOPATH=$HOME/Hacking/workspace/go
+# export PATH="$GOPATH/bin:$PATH"
 
 # android
 # export PATH="$HOME/Android/Sdk/tools:$PATH"
