@@ -28,6 +28,13 @@ values."
      spell-checking
      search-engine
      ibuffer
+     syntax-checking
+     shell-scripts
+     (shell :variables
+            shell-default-term-shell "/bin/zsh"
+            shell-default-shell 'multi-term
+            shell-default-position 'bottom
+            shell-default-height 30)
      (auto-completion :variables
                       auto-completion-return-key-behavior 'nil
                       auto-completion-tab-key-behavior 'complete
@@ -44,22 +51,16 @@ values."
            web-mode-markup-indent-offset 2
            web-mode-css-indent-offset 2)
      semantic
-     shell-scripts
-     (shell :variables
-            shell-default-term-shell "/bin/zsh"
-            shell-default-shell 'multi-term
-            shell-default-position 'bottom
-            shell-default-height 30)
      (c-c++ :variables
-            c-c++-default-mode-for-headers 'c++-mode
-            c-c++-enable-clang-support t)
+            c-c++-default-mode-for-headers 'c++-mode)
+            ;; c-c++-enable-clang-support t)
+     ycmd
      ;; go
      javascript
      markdown
      latex
      (org :variables
           org-enable-github-support t)
-     syntax-checking
      restclient
      evil-commentary
      ;; eyebrowse
@@ -76,7 +77,7 @@ values."
      ;; my-define-word
      my-password-store
      my-rss
-     ;; my-zeal
+     my-zeal
      my-twitter)
 
    ;; List of additional packages that will be installed without being
@@ -161,9 +162,9 @@ values."
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
-   dotspacemacs-use-ido nil
+   dotspacemacs-use-ido t
    ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
-   dotspacemacs-helm-resize nil
+   dotspacemacs-helm-resize t
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
    dotspacemacs-helm-no-header nil
@@ -244,6 +245,12 @@ user code."
 
   ;; start server
   (server-start)
+
+  ;; ycmd
+  (set-variable 'ycmd-server-command '("python" "/home/jvillasante/Software/src/ycmd/ycmd"))
+  (set-variable 'ycmd-global-config "/home/jvillasante/Hacking/workspace/dotfiles/.emacs.d/layers/+tools/ycmd/global_conf.py")
+  (set-variable 'ycmd-extra-conf-whitelist '("/home/jvillasante/Hacking/workspace/*"))
+  ;; (setq ycmd--log-enabled t)
 
   ;; ispell
   (if (system-is-mac)
@@ -369,7 +376,7 @@ layers configuration. You are free to put any user code."
     "oc" 'my-desperately-compile)
 
   ;; company
-  ;; (global-company-mode)
+  (global-company-mode)
 
   ;; deft
   (setq deft-directory "~/Dropbox/Personal/notes")
@@ -470,7 +477,7 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (xterm-color ws-butler spaceline restart-emacs persp-mode osx-trash orgit lorem-ipsum hl-todo help-fns+ helm-flx helm-company git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter evil-mc evil-magit evil-indent-plus bracketed-paste auto-compile ace-jump-helm-line bind-map diminish go-mode highlight multiple-cursors json-reformat tern popup reveal-in-osx-finder pbcopy launchctl helm-dash dash-at-point auto-complete f async go-eldoc company-go markdown-mode magit-popup html-to-markdown hydra symon avy yasnippet haml-mode gitignore-mode git-commit company auctex evil-leader evil package-build bind-key s dash anzu smartparens flycheck helm helm-core projectile js2-mode magit smeargle paradox linum-relative leuven-theme helm-swoop google-translate alert zenburn-theme zeal-at-point window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe use-package twittering-mode toc-org tagedit sunshine stickyfunc-enhance srefactor spray spinner spacemacs-theme smooth-scrolling slim-mode shell-pop scss-mode sass-mode restclient rainbow-delimiters quelpa powerline popwin pcre2el password-store page-break-lines org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep log4e less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-descbinds helm-css-scss helm-c-yasnippet helm-ag golden-ratio gnuplot gntp gmail-message-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed edit-server disaster diff-hl deft define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
+    (flycheck-ycmd company-ycmd packed xterm-color ws-butler spaceline restart-emacs persp-mode osx-trash orgit lorem-ipsum hl-todo help-fns+ helm-flx helm-company git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter evil-mc evil-magit evil-indent-plus bracketed-paste auto-compile ace-jump-helm-line bind-map diminish go-mode highlight multiple-cursors json-reformat tern popup reveal-in-osx-finder pbcopy launchctl helm-dash dash-at-point auto-complete f async go-eldoc company-go markdown-mode magit-popup html-to-markdown hydra symon avy yasnippet haml-mode gitignore-mode git-commit company auctex evil-leader evil package-build bind-key s dash anzu smartparens flycheck helm helm-core projectile js2-mode magit smeargle paradox linum-relative leuven-theme helm-swoop google-translate alert zenburn-theme zeal-at-point window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe use-package twittering-mode toc-org tagedit sunshine stickyfunc-enhance srefactor spray spinner spacemacs-theme smooth-scrolling slim-mode shell-pop scss-mode sass-mode restclient rainbow-delimiters quelpa powerline popwin pcre2el password-store page-break-lines org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep log4e less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-descbinds helm-css-scss helm-c-yasnippet helm-ag golden-ratio gnuplot gntp gmail-message-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed edit-server disaster diff-hl deft define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
  '(paradox-github-token t)
  '(safe-local-variable-values
    (quote
