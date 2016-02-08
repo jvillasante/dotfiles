@@ -23,4 +23,4 @@ export PATH
 # export PATH="$HOME/Android/Sdk/tools:$PATH"
 # export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 
-eval "$(direnv hook zsh)"
+# eval "$(direnv hook zsh)"

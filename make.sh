@@ -4,8 +4,8 @@
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
 
-dir=~/Hacking/workspace/dotfiles                   # dotfiles directory
-dir_bak=~/Hacking/workspace/dotfiles/dotfiles_old  # existing dotfiles backup
+dir=~/Hacking/workspace/dotfiles/                   # dotfiles directory
+dir_bak=~/Hacking/workspace/dotfiles/dotfiles_old/  # existing dotfiles backup
 
 install_zsh () {
     # Test to see if zshell is installed.  If it is:
@@ -57,6 +57,8 @@ echo "Copying $dir/private_layers/ on ~/.emacs.d/private."
 cp -R $dir/private_layers/contrib/* $dir/.emacs.d/private
 echo "Copying $dir/private_layers/snippets on ~/.emacs.d/private."
 cp -R $dir/private_layers/snippets $dir/.emacs.d/private
+echo "Removing old backup."
+rm -rf $dir_bak/*
 
 # list of files/folders to symlink in homedir
 files=".clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .profile .spacemacs .tern-project .tmux.conf .tmuxline.snapshot .zshenv .zshrc .oh-my-zsh .vimrc .vimrc.before .vim .xvimrc .emacs.d .percol.d"
