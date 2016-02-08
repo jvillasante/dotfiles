@@ -50,6 +50,11 @@ install_zsh
 install_spacemacs
 # install_neobundle
 
+# Create backup folder if not exist
+if [[ ! -d $dir_bak/ ]]; then
+    mkdir $dir_bak/
+fi
+
 # spacemacs private
 echo "Removing existing version of $dir/.emacs.d/private/"
 rm -rf $dir/.emacs.d/private/*
