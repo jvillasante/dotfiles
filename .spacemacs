@@ -246,6 +246,9 @@ user code."
   ;; start server
   (server-start)
 
+  ;; annoying warning
+  ;; (setq exec-path-from-shell-arguments '("-l"))
+
   ;; ycmd
   (set-variable 'ycmd-server-command '("python" "/home/jvillasante/Software/src/ycmd/ycmd"))
   (set-variable 'ycmd-global-config "/home/jvillasante/Hacking/workspace/dotfiles/.emacs.d/layers/+tools/ycmd/global_conf.py")

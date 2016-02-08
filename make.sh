@@ -4,8 +4,8 @@
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
 
-dir=~/Hacking/workspace/dotfiles/                   # dotfiles directory
-dir_bak=~/Hacking/workspace/dotfiles/dotfiles_old/  # existing dotfiles backup
+dir=~/Hacking/workspace/dotfiles                   # dotfiles directory
+dir_bak=~/Hacking/workspace/dotfiles/dotfiles_old  # existing dotfiles backup
 
 install_zsh () {
     # Test to see if zshell is installed.  If it is:
