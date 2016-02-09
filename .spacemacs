@@ -165,7 +165,7 @@ values."
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
-   dotspacemacs-use-ido t
+   dotspacemacs-use-ido nil
    ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
    dotspacemacs-helm-resize t
    ;; if non nil, the helm header is hidden when there is only one source.
@@ -459,18 +459,29 @@ layers configuration. You are free to put any user code."
   (when (fboundp 'imagemagick-register-types)
     (imagemagick-register-types))
 
-  (add-to-list 'mu4e-view-actions
-               '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+  (eval-after-load 'mu4e
+    '(progn
+       ;; mu4e - actions
+       (defun search-for-sender (msg)
+         "Search for messages sent by the sender of the message at point."
+         (mu4e-headers-search
+          (concat "from:" (cdar (mu4e-message-field msg :from)))))
 
-  ;; search for messages by the sender of the message at point:
-  (defun search-for-sender (msg)
-    "Search for messages sent by the sender of the message at point."
-    (mu4e-headers-search
-     (concat "from:" (cdar (mu4e-message-field msg :from)))))
+       (defun show-number-of-recipients (msg)
+         "Display the number of recipients for the message at point."
+         (message "Number of recipients: %d"
+                  (+ (length (mu4e-message-field msg :to))
+                     (length (mu4e-message-field msg :cc)))))
 
-  ;; define 'x' as the shortcut
-  (add-to-list 'mu4e-view-actions
-               '("xsearch for sender" . search-for-sender) t)
+       (add-to-list 'mu4e-headers-actions
+                    '("Number of recipients" . show-number-of-recipients) t)
+       ;; (add-to-list 'mu4e-headers-actions
+       ;;              '("View in browser" . mu4e-action-view-in-browser) t)
+       ;; (add-to-list 'mu4e-view-actions
+       ;;              '("View in browser" . mu4e-action-view-in-browser) t)
+       (add-to-list 'mu4e-view-actions
+                    '("xsearch for sender" . search-for-sender) t)
+       ))
 
   ;; mu4e - something about ourselves
   (setq
@@ -519,7 +530,7 @@ layers configuration. You are free to put any user code."
     "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
     (interactive)
     (helm :sources `(((name . "Mail and News")
-                      (candidates . (;; ("Mail"  . mu4e)
+                      (candidates . (("Mail" . mu4e)
                                      ("Google Inbox" . (lambda () (browse-url "https://inbox.google.com")))
                                      ("RSS" . elfeed)
                                      ("Facebook" . (lambda ()  (browse-url "https://www.facebook.com/")))
