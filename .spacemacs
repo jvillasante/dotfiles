@@ -435,15 +435,18 @@ layers configuration. You are free to put any user code."
    '(neo-expand-btn-face ((t . (:inherit button :underline nil))) t))
 
   ;; mu4e -  Set up some common mu4e variables
+  (require 'mu4e-contrib)
   (setq mu4e-maildir "~/.Maildir/gmail"
         mu4e-view-show-images t
         mu4e-view-image-max-width 800
         mu4e-view-prefer-html t
-        mu4e-html2text-command "w3m -T text/html"
+        ;; mu4e-html2text-command "w3m -T text/html"
+        ;; mu4e-html2text-command "html2markdown --body-width=0"
+        mu4e-html2text-command 'mu4e-shr2text'
         ;; mu4e-use-fancy-chars t
         mu4e-headers-skip-duplicates t
         mu4e-get-mail-command "mbsync -a"
-        mu4e-update-interval nil
+        mu4e-update-interval 300
         mu4e-attachment-dir "~/Downloads"
         mu4e-sent-messages-behavior 'delete
         message-kill-buffer-on-exit t
@@ -454,6 +457,16 @@ layers configuration. You are free to put any user code."
         mu4e-compose-signature-auto-include t
         mu4e-confirm-quit nil
         mu4e-view-show-addresses t)
+
+  ;; make shr/eww readable with dark themes
+  (setq shr-color-visible-luminance-min 80)
+
+  ;; If you use the mu4e-shr2text, it might be useful to emulate some of the shr key bindings
+  (add-hook 'mu4e-view-mode-hook
+            (lambda()
+              ;; try to emulate some of the eww key-bindings
+              (local-set-key (kbd "<tab>") 'shr-next-link)
+              (local-set-key (kbd "<backtab>") 'shr-previous-link)))
 
   ;; use imagemagick, if available
   (when (fboundp 'imagemagick-register-types)
@@ -570,6 +583,8 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(elfeed-goodies/entry-pane-position (quote bottom))
+ '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
     (elfeed-web elfeed-org elfeed-goodies flycheck-ycmd company-ycmd packed xterm-color ws-butler spaceline restart-emacs persp-mode osx-trash orgit lorem-ipsum hl-todo help-fns+ helm-flx helm-company git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter evil-mc evil-magit evil-indent-plus bracketed-paste auto-compile ace-jump-helm-line bind-map diminish go-mode highlight multiple-cursors json-reformat tern popup reveal-in-osx-finder pbcopy launchctl helm-dash dash-at-point auto-complete f async go-eldoc company-go markdown-mode magit-popup html-to-markdown hydra symon avy yasnippet haml-mode gitignore-mode git-commit company auctex evil-leader evil package-build bind-key s dash anzu smartparens flycheck helm helm-core projectile js2-mode magit smeargle paradox linum-relative leuven-theme helm-swoop google-translate alert zenburn-theme zeal-at-point window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe use-package twittering-mode toc-org tagedit sunshine stickyfunc-enhance srefactor spray spinner spacemacs-theme smooth-scrolling slim-mode shell-pop scss-mode sass-mode restclient rainbow-delimiters quelpa powerline popwin pcre2el password-store page-break-lines org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep log4e less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-descbinds helm-css-scss helm-c-yasnippet helm-ag golden-ratio gnuplot gntp gmail-message-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed edit-server disaster diff-hl deft define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
