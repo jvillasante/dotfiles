@@ -24,7 +24,7 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      better-defaults
-     emacs-lisp
+     ;; emacs-lisp
      spell-checking
      search-engine
      ibuffer
@@ -436,20 +436,39 @@ layers configuration. You are free to put any user code."
 
   ;; mu4e -  Set up some common mu4e variables
   (setq mu4e-maildir "~/.Maildir/gmail"
-        mu4e-trash-folder "/Trash"
-        mu4e-refile-folder "/Archive"
+        mu4e-view-show-images t
+        mu4e-view-image-max-width 800
+        mu4e-view-prefer-html t
+        mu4e-html2text-command "w3m -T text/html"
+        ;; mu4e-use-fancy-chars t
+        mu4e-headers-skip-duplicates t
         mu4e-get-mail-command "mbsync -a"
         mu4e-update-interval nil
-        mu4e-view-show-images t
-        mu4e-view-show-addresses t
-        mu4e-headers-skip-duplicates t
-        mu4e-view-prefer-html t
-        mu4e-html2text-command "w3m -dump -T text/html"
-        ;; mu4e-use-fancy-chars t
-        mu4e-attachment-dir "~/Downloads")
+        mu4e-attachment-dir "~/Downloads"
+        mu4e-sent-messages-behavior 'delete
+        message-kill-buffer-on-exit t
+        mu4e-hide-index-messages t
+        mu4e-trash-folder "/Trash"
+        mu4e-refile-folder "/Archive"
+        mu4e-headers-leave-behavior 'apply
+        mu4e-compose-signature-auto-include t
+        mu4e-confirm-quit nil
+        mu4e-view-show-addresses t)
 
-  ;; mu4e - don't save message to Sent Messages, Gmail/IMAP takes care of this
-  (setq mu4e-sent-messages-behavior 'delete)
+  ;; use imagemagick, if available
+  (when (fboundp 'imagemagick-register-types)
+    (imagemagick-register-types))
+
+  ;; mu4e - something about ourselves
+  (setq
+   user-mail-address "jvillasantegomez@gmail.com"
+   user-full-name  "Julio C. Villasante"
+   mu4e-compose-signature
+   (concat
+    "\n\nKind Regards,\n"
+    "Julio C. Villasante\n\n"
+    "--\n"
+    "Sent with my mu4e\n"))
 
   ;; mu4e - Mail directory shortcuts
   (setq mu4e-maildir-shortcuts
@@ -458,45 +477,17 @@ layers configuration. You are free to put any user code."
            ("/[Gmail].Trash"       . ?t)
            ("/[Gmail].All Mail"    . ?a)))
 
-  ;; mu4e - something about ourselves
-  (setq
-   user-mail-address "jvillasantegomez@gmail.com"
-   user-full-name  "Julio C. Villasante"
-   mu4e-compose-signature-auto-include t
-   mu4e-compose-signature
-   (concat
-    "\n\nKind Regards,\n"
-    "Julio C. Villasante\n\n"
-    "--\n"
-    "Sent with my mu4e\n"))
-
   ;; mu4e - sending mail
   (setq message-send-mail-function 'message-send-mail-with-sendmail)
   (setq sendmail-program "/usr/bin/msmtp")
   (setq message-sendmail-extra-arguments '("--read-envelope-from"))
   (setq message-sendmail-f-is-evil 't)
 
-  ;; (require 'smtpmail)
-  ;; (setq message-send-mail-function 'smtpmail-send-it
-  ;;       starttls-use-gnutls t
-  ;;       smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-  ;;       smtpmail-auth-credentials
-  ;;       '(("smtp.gmail.com" 587 "jvillasantegomez@gmail.com" nil))
-  ;;       smtpmail-default-smtp-server "smtp.gmail.com"
-  ;;       smtpmail-smtp-server "smtp.gmail.com"
-  ;;       smtpmail-smtp-service 587
-  ;;       smtpmail-debug-info t)
-
-  ;; smtpmail
-  ;; (require 'smtpmail)
-  ;; (require 'starttls)
-  ;; (setq message-send-mail-function 'smtpmail-send-it
-  ;;       smtpmail-stream-type 'starttls
-  ;;       smtpmail-smtp-service 587
-  ;;       smtpmail-default-smtp-server "smtp.gmail.com"
-  ;;       smtpmail-smtp-server "smtp.gmail.com"
-  ;;       smtpmail-smtp-user "jvillasantegomez@gmail.com")
-  ;; (setq starttls-extra-arguments '("--x509cafile" "/etc/ssl/certs/ca-bundle.crt"))
+  ;; mu4e - gpg
+  ;; When composing an e-mail, C-c C-e s to sign your message then C-c C-e e to encrypt.
+  ;; When receiving a PGP encrypted e-mail: C-c C-e v to verify the signature, and C-c C-e d to decrypt.
+  (add-hook 'mu4e-compose-mode-hook 'epa-mail-mode)
+  (add-hook 'mu4e-view-mode-hook 'epa-mail-mode)
 
   ;; mu4e -  Bookmarks
   (setq mu4e-bookmarks
@@ -510,9 +501,6 @@ layers configuration. You are free to put any user code."
                           (concat "maildir:" (car maildir)))
                         mu4e-maildir-shortcuts) " OR ")
           "All inboxes" ?i)))
-
-  ;; mu4e - don't keep message buffers around
-  (setq message-kill-buffer-on-exit t)
 
   (defun my-hotspots ()
     "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
