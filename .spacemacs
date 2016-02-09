@@ -459,6 +459,19 @@ layers configuration. You are free to put any user code."
   (when (fboundp 'imagemagick-register-types)
     (imagemagick-register-types))
 
+  (add-to-list 'mu4e-view-actions
+               '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+
+  ;; search for messages by the sender of the message at point:
+  (defun search-for-sender (msg)
+    "Search for messages sent by the sender of the message at point."
+    (mu4e-headers-search
+     (concat "from:" (cdar (mu4e-message-field msg :from)))))
+
+  ;; define 'x' as the shortcut
+  (add-to-list 'mu4e-view-actions
+               '("xsearch for sender" . search-for-sender) t)
+
   ;; mu4e - something about ourselves
   (setq
    user-mail-address "jvillasantegomez@gmail.com"
