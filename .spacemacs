@@ -63,25 +63,17 @@ values."
           org-enable-github-support t)
      restclient
      evil-commentary
-     ;; eyebrowse
      deft
-     chrome
      (elfeed :variables
              rmh-elfeed-org-files (list "~/Dropbox/Personal/elfeed/elfeed.org"))
      mu4e
-     ;; osx
-     ;; dash
 
      ;; private layers
      ;; my-symon
      my-sunshine
      my-javascript
-     ;; my-mail
-     ;; my-define-word
      my-password-store
-     ;; my-rss
-     my-zeal
-     my-twitter)
+     my-zeal)
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -440,10 +432,7 @@ layers configuration. You are free to put any user code."
         mu4e-view-show-images t
         mu4e-view-image-max-width 800
         mu4e-view-prefer-html t
-        ;; mu4e-html2text-command "w3m -T text/html"
-        ;; mu4e-html2text-command "html2markdown --body-width=0"
-        mu4e-html2text-command 'mu4e-shr2text'
-        ;; mu4e-use-fancy-chars t
+        mu4e-html2text-command 'mu4e-shr2text
         mu4e-headers-skip-duplicates t
         mu4e-get-mail-command "mbsync -a"
         mu4e-update-interval 300
@@ -525,6 +514,11 @@ layers configuration. You are free to put any user code."
   ;; When receiving a PGP encrypted e-mail: C-c C-e v to verify the signature, and C-c C-e d to decrypt.
   (add-hook 'mu4e-compose-mode-hook 'epa-mail-mode)
   (add-hook 'mu4e-view-mode-hook 'epa-mail-mode)
+
+  ;; search engine
+  (setq browse-url-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-generic
+        browse-url-generic-program "google-chrome")
 
   ;; mu4e -  Bookmarks
   (setq mu4e-bookmarks

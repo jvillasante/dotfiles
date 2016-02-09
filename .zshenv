@@ -7,8 +7,7 @@
 # }}}
 
 # QT Stuff
-PATH="/usr/local/qt5/bin:$PATH"
-export PATH
+export PATH="$HOME/Software/qt/5.5/gcc_64/bin:$PATH"
 
 # node stuff
 # export NVM_DIR="/Users/jvillasante/.nvm"
