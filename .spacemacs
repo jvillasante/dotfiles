@@ -429,12 +429,10 @@ layers configuration. You are free to put any user code."
   ;; mu4e -  Set up some common mu4e variables
   (require 'mu4e-contrib)
   (require 'org-mu4e)
+  (require 'gnus-dired)
+
   (setq mu4e-maildir "~/.Maildir/gmail"
-        mu4e-drafts-folder "/[Gmail]/.Drafts"      ;; unfinished messages
-        mu4e-sent-folder   "/[Gmail]/.Sent Mail"   ;; folder for sent messages
-        mu4e-trash-folder  "/[Gmail]/.Trash"       ;; trashed messages
         mu4e-view-show-images t
-        mu4e-show-images t
         mu4e-view-image-max-width 800
         mu4e-view-prefer-html t
         mu4e-html2text-command 'mu4e-shr2text
@@ -445,75 +443,63 @@ layers configuration. You are free to put any user code."
         mu4e-sent-messages-behavior 'delete
         message-kill-buffer-on-exit t
         mu4e-hide-index-messages t
-        mu4e-headers-leave-behavior 'apply
         mu4e-compose-signature-auto-include t
         mu4e-headers-include-related t
         mu4e-confirm-quit nil
         mu4e-compose-dont-reply-to-self t
         mu4e-compose-keep-self-cc nil
-        mu4e-confirm-quit nil
         mu4e-headers-auto-update t
         mu4e-headers-leave-behavior 'ask
         mu4e-headers-visible-lines 22
-        mu4e-view-show-addresses t)
+        mu4e-view-show-addresses t
+        mail-user-agent 'mu4e-user-agent
+        message-citation-line-format "On %m/%d/%Y %H:%M:%S, %f wrote:"
+        message-citation-line-function 'message-insert-formatted-citation-line
+        mu4e-headers-results-limit 250)
 
-  ;; Trim down the types of columns we show, to leave more room for the sender & subject.
+  (setq mu4e-drafts-folder "/[Gmail]/.Drafts"
+        mu4e-sent-folder   "/[Gmail]/.Sent Mail"
+        mu4e-trash-folder  "/[Gmail]/.Trash")
+  (setq mu4e-maildir-shortcuts
+        '( ("/Inbox"                . ?i)
+           ("/[Gmail]/.Important"   . ?I)
+           ("/[Gmail]/.Sent Mail"   . ?s)
+           ("/[Gmail]/.Spam"        . ?p)
+           ("/[Gmail]/.Trash"       . ?t)
+           ("/[Gmail]/.Drafts"      . ?d)
+           ("/[Gmail]/.Starred"     . ?S)
+           ("/[Gmail]/.All Mail"    . ?a)))
+  (add-to-list 'mu4e-bookmarks '("flag:attach"    "Messages with attachment"   ?a) t)
+  (add-to-list 'mu4e-bookmarks '("size:5M..500M"  "Big messages"               ?b) t)
+  (add-to-list 'mu4e-bookmarks '("flag:flagged"   "Flagged messages"           ?f) t)
+
+  ;; mu4e - something about ourselves
+  (setq
+   user-mail-address "jvillasantegomez@gmail.com"
+   user-full-name  "Julio C. Villasante"
+   mu4e-compose-signature
+   (concat
+    "\n\nKind Regards,\n"
+    "Julio C. Villasante\n\n"
+    "--\n"
+    "Sent from my Emacs (mu4e)\n"))
+
   (setq
    mu4e-date-format-long "%m/%d/%Y %H:%M:%S"
    mu4e-headers-date-format "%m/%d/%Y"
    mu4e-headers-time-format "%H:%M:%S")
 
+  ;; Trim down the types of columns we show, to leave more room for the sender & subject.
   (setq mu4e-headers-fields '((:human-date . 12)
                               (:flags . 6)
                               (:from-or-to . 22)
                               (:subject . nil)))
 
   ;; Trim the number of fields shown in the email view. This is customizable. See mu4e-view.el for a full list.
-  (setq mu4e-view-fields '(:from :to :cc :subject :date :tags :attachments :flags :maildir))
+  (setq mu4e-view-fields '(:from :to :cc :bcc :subject :date :tags :attachments :flags :maildir))
   (setq mu4e-view-show-addresses t)
 
-  ;; refile to "[Gmail]/.All Mail". This is the google inbox way
-  (setq mu4e-refile-folder
-        (lambda (msg)
-          (cond
-           ;; messages to mailing lists
-           ;; ((mu4e-message-contact-field-matches msg :from "contact@golangweekly.com") "/[Gmail]/.Mailing Lists.Golang")
-           ;; ((mu4e-message-contact-field-matches msg :from "contact@androidweekly.net") "/[Gmail]/.Mailing Lists.Android")
-           ;; ((mu4e-message-contact-field-matches msg :from "nightly@changelog.com") "/[Gmail]/.Mailing Lists.ChangeLogNightly")
-           ;; ((mu4e-message-contact-field-matches msg :from "newsletters@sitepoint.com") "/[Gmail]/.Mailing Lists.SitePoint")
-
-           ;; ;; messages sent directly to me go to /archive
-           ;; ;; also `mu4e-user-mail-address-p' can be used
-           ;; ((mu4e-message-contact-field-matches msg :to "me@example.com")
-           ;;  "/private")
-           ;; ;; messages with football or soccer in the subject go to /football
-           ;; ((string-match "football\\|soccer"
-           ;;                (mu4e-message-field msg :subject))
-           ;;  "/football")
-
-           ;; messages sent by me go to the sent folder
-           ((find-if
-             (lambda (addr)
-               (mu4e-message-contact-field-matches msg :from addr))
-             mu4e-user-mail-address-list)
-            mu4e-sent-folder)
-
-           ;; everything else goes to "/[Gmail]/.All Mail"
-           ;; important to have a catch-all at the end!
-           (t "/[Gmail]/.All Mail"))))
-
-  ;; Custom marks
-  (setq
-   mu4e-headers-new-mark            '("N" . "✉")
-   mu4e-headers-empty-parent-prefix '("-" . "○")
-   mu4e-headers-first-child-prefix  '("\\" . "┗━❯")
-   mu4e-headers-has-child-prefix    '("+" . "┗◉")
-   mu4e-headers-duplicate-prefix    '("=" . "⚌")
-   mu4e-headers-default-prefix      '("|" . "┃")
-   )
-
   ;; mu4e - attachment
-  (require 'gnus-dired)
   (defun gnus-dired-mail-buffers ()
     "Return a list of active message buffers."
     (let (buffers)
@@ -555,38 +541,12 @@ layers configuration. You are free to put any user code."
                   (+ (length (mu4e-message-field msg :to))
                      (length (mu4e-message-field msg :cc)))))
 
-       ;; (add-to-list 'helm-find-files-actions
-       ;;              '("Attach files for mu4e" . helm-mu4e-attach) t)
-       ;; (defun helm-mu4e-attach (_file)
-       ;;   (gnus-dired-attach (helm-marked-candidates)))
-
        (add-to-list 'mu4e-headers-actions
                     '("Number of recipients" . show-number-of-recipients) t)
-       ;; (add-to-list 'mu4e-headers-actions
-       ;;              '("View in browser" . mu4e-action-view-in-browser) t)
-       ;; (add-to-list 'mu4e-view-actions
-       ;;              '("View in browser" . mu4e-action-view-in-browser) t)
        (add-to-list 'mu4e-view-actions
                     '("xsearch for sender" . search-for-sender) t)
        ))
 
-  ;; mu4e - something about ourselves
-  (setq
-   user-mail-address "jvillasantegomez@gmail.com"
-   user-full-name  "Julio C. Villasante"
-   mu4e-compose-signature
-   (concat
-    "\n\nKind Regards,\n"
-    "Julio C. Villasante\n\n"
-    "--\n"
-    "Sent from my Emacs (mu4e)\n"))
-
-  ;; mu4e - Mail directory shortcuts
-  (setq mu4e-maildir-shortcuts
-        '( ("/Inbox"               . ?i)
-           ("/[Gmail]/.Sent Mail"   . ?s)
-           ("/[Gmail]/.Trash"       . ?t)
-           ("/[Gmail]/.All Mail"    . ?a)))
 
   ;; mu4e - sending mail
   (setq message-send-mail-function 'message-send-mail-with-sendmail)

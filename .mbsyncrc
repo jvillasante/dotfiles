@@ -1,35 +1,21 @@
 IMAPAccount gmail
-# Address to connect to
 Host imap.gmail.com
 User jvillasantegomez@gmail.com
-# Pass **************
-# To store the password in an encrypted file use PassCmd instead of Pass
 PassCmd "pass Logins/google.com"
-#
-# Use SSL
-# SSLType IMAPS
 UseIMAPS yes
-# The following line should work. If get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
 CertificateFile /etc/ssl/certs/ca-certificates.crt
-#CertificateFile ~/.cert/imap.gmail.com.pem
-#CertificateFile ~/.cert/Equifax_Secure_CA.pem
 
 IMAPStore gmail-remote
 Account gmail
 
 MaildirStore gmail-local
-# The trailing "/" is important
 Path ~/.Maildir/gmail/
 Inbox ~/.Maildir/gmail/Inbox
 
 Channel gmail
 Master :gmail-remote:
 Slave :gmail-local:
-# Exclude everything under the internal [Gmail] folder, except the interesting folders
-Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
-# Or include everything
-#Patterns *
-# Automatically create missing mailboxes, both locally and on the server
+Patterns *
 Create Both
-# Save the synchronization state files in the relevant directory
+Expunge Both
 SyncState *
