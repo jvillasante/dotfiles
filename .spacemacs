@@ -66,7 +66,8 @@ values."
      deft
      (elfeed :variables
              rmh-elfeed-org-files (list "~/Dropbox/Personal/elfeed/elfeed.org"))
-     mu4e
+     (mu4e :variables
+           mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
 
      ;; private layers
      ;; my-symon
@@ -459,7 +460,8 @@ layers configuration. You are free to put any user code."
 
   (setq mu4e-drafts-folder "/[Gmail]/.Drafts"
         mu4e-sent-folder   "/[Gmail]/.Sent Mail"
-        mu4e-trash-folder  "/[Gmail]/.Trash")
+        mu4e-trash-folder  "/[Gmail]/.Trash"
+        mu4e-refile-folder "/Archive")
   (setq mu4e-maildir-shortcuts
         '( ("/Inbox"                . ?i)
            ("/[Gmail]/.Important"   . ?I)
@@ -545,6 +547,8 @@ layers configuration. You are free to put any user code."
                     '("Number of recipients" . show-number-of-recipients) t)
        (add-to-list 'mu4e-view-actions
                     '("xsearch for sender" . search-for-sender) t)
+       ;; (add-to-list 'mu4e-view-actions
+       ;;              '("wView with XWidget" . mu4e-action-view-with-xwidget) t)
        ))
 
 
