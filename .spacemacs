@@ -71,6 +71,7 @@ values."
 
      ;; private layers
      ;; my-symon
+     my-mu4e
      my-sunshine
      my-javascript
      my-password-store
@@ -435,6 +436,7 @@ layers configuration. You are free to put any user code."
   (setq mu4e-maildir "~/.Maildir/gmail"
         mu4e-view-show-images t
         mu4e-view-image-max-width 800
+        ;; mu4e-use-fancy-chars t
         mu4e-view-prefer-html t
         mu4e-html2text-command 'mu4e-shr2text
         mu4e-headers-skip-duplicates t
@@ -471,9 +473,6 @@ layers configuration. You are free to put any user code."
            ("/[Gmail]/.Drafts"      . ?d)
            ("/[Gmail]/.Starred"     . ?S)
            ("/[Gmail]/.All Mail"    . ?a)))
-  (add-to-list 'mu4e-bookmarks '("flag:attach"    "Messages with attachment"   ?a) t)
-  (add-to-list 'mu4e-bookmarks '("size:5M..500M"  "Big messages"               ?b) t)
-  (add-to-list 'mu4e-bookmarks '("flag:flagged"   "Flagged messages"           ?f) t)
 
   ;; mu4e - something about ourselves
   (setq
@@ -484,7 +483,7 @@ layers configuration. You are free to put any user code."
     "\n\nKind Regards,\n"
     "Julio C. Villasante\n\n"
     "--\n"
-    "Sent from my Emacs (mu4e)\n"))
+    "Sent from GNU Emacs\n"))
 
   (setq
    mu4e-date-format-long "%m/%d/%Y %H:%M:%S"
@@ -547,10 +546,9 @@ layers configuration. You are free to put any user code."
                     '("Number of recipients" . show-number-of-recipients) t)
        (add-to-list 'mu4e-view-actions
                     '("xsearch for sender" . search-for-sender) t)
-       ;; (add-to-list 'mu4e-view-actions
-       ;;              '("wView with XWidget" . mu4e-action-view-with-xwidget) t)
+       (add-to-list 'mu4e-view-actions
+                    '("wView with XWidget" . mu4e-action-view-with-xwidget) t)
        ))
-
 
   ;; mu4e - sending mail
   (setq message-send-mail-function 'message-send-mail-with-sendmail)
