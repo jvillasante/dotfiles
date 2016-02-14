@@ -13,6 +13,9 @@
     ;; The code in :init is always run, use it to set up config vars and key bindings
     :init
     (progn ; :init only takes one expression so use "progn" to combine multiple things
+      (evil-leader/set-key
+        "ou" 'mu4e-alert-view-unread-mails)
+
       (setq mu4e-alert-interesting-mail-query
             (concat
              "flag:unread"

@@ -52,8 +52,8 @@ values."
            web-mode-css-indent-offset 2)
      semantic
      (c-c++ :variables
-            c-c++-default-mode-for-headers 'c++-mode)
-            ;; c-c++-enable-clang-support t)
+            c-c++-default-mode-for-headers 'c++-mode
+            c-c++-enable-clang-support t)
      ycmd
      ;; go
      javascript
@@ -159,7 +159,7 @@ values."
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
-   dotspacemacs-use-ido nil
+   dotspacemacs-use-ido t
    ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
    dotspacemacs-helm-resize t
    ;; if non nil, the helm header is hidden when there is only one source.
@@ -243,15 +243,71 @@ user code."
   ;; start server
   (server-start)
 
+  ;; change all prompts to y or n
+  (fset 'yes-or-no-p 'y-or-n-p)
+
   ;; ycmd
   (set-variable 'ycmd-server-command '("python" "/home/jvillasante/Software/src/ycmd/ycmd"))
   (set-variable 'ycmd-global-config "/home/jvillasante/Hacking/workspace/dotfiles/.emacs.d/layers/+tools/ycmd/global_conf.py")
   (set-variable 'ycmd-extra-conf-whitelist '("/home/jvillasante/Hacking/workspace/*"))
   ;; (setq ycmd--log-enabled t)
 
-  ;; ispell
-  (if (system-is-mac)
-      (setq ispell-program-name "/usr/local/bin/aspell"))
+  ;; if (aspell installed) { use aspell}
+  ;; else if (hunspell installed) { use hunspell }
+  ;; whatever spell checker I use, I always use English dictionary
+  ;; I prefer use aspell because:
+  ;; 1. aspell is older
+  ;; 2. looks Kevin Atkinson still get some road map for aspell:
+  ;; @see http://lists.gnu.org/archive/html/aspell-announce/2011-09/msg00000.html
+  (defun flyspell-detect-ispell-args (&optional RUN-TOGETHER)
+    "if RUN-TOGETHER is true, spell check the CamelCase words"
+    (let (args)
+      (cond
+       ((string-match  "aspell$" ispell-program-name)
+        ;; force the English dictionary, support Camel Case spelling check (tested with aspell 0.6)
+        (setq args (list "--sug-mode=ultra" "--lang=en_US"))
+        (if RUN-TOGETHER
+            (setq args (append args '("--run-together" "--run-together-limit=5" "--run-together-min=2")))))
+       ((string-match "hunspell$" ispell-program-name)
+        (setq args nil)))
+      args
+      ))
+
+  (cond
+   ((executable-find "aspell")
+    (setq ispell-program-name "aspell"))
+   ((executable-find "hunspell")
+    (setq ispell-program-name "hunspell")
+    ;; just reset dictionary to the safe one "en_US" for hunspell.
+    ;; if we need use different dictionary, we specify it in command line arguments
+    (setq ispell-local-dictionary "en_US")
+    (setq ispell-local-dictionary-alist
+          '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8))))
+   (t (setq ispell-program-name nil)))
+
+  ;; ispell-cmd-args is useless, it's the list of *extra* arguments we will append to the ispell process when "ispell-word" is called.
+  ;; ispell-extra-args is the command arguments which will *always* be used when start ispell process
+  (setq ispell-extra-args (flyspell-detect-ispell-args t))
+  ;; (setq ispell-cmd-args (flyspell-detect-ispell-args))
+  (defadvice ispell-word (around my-ispell-word activate)
+    (let ((old-ispell-extra-args ispell-extra-args))
+      (ispell-kill-ispell t)
+      (setq ispell-extra-args (flyspell-detect-ispell-args))
+      ad-do-it
+      (setq ispell-extra-args old-ispell-extra-args)
+      (ispell-kill-ispell t)
+      ))
+
+  (defadvice flyspell-auto-correct-word (around my-flyspell-auto-correct-word activate)
+    (let ((old-ispell-extra-args ispell-extra-args))
+      (ispell-kill-ispell t)
+      ;; use emacs original arguments
+      (setq ispell-extra-args (flyspell-detect-ispell-args))
+      ad-do-it
+      ;; restore our own ispell arguments
+      (setq ispell-extra-args old-ispell-extra-args)
+      (ispell-kill-ispell t)
+      ))
 
   ;; utf-8
   (prefer-coding-system 'utf-8)
@@ -458,12 +514,13 @@ layers configuration. You are free to put any user code."
         mail-user-agent 'mu4e-user-agent
         message-citation-line-format "On %m/%d/%Y %H:%M:%S, %f wrote:"
         message-citation-line-function 'message-insert-formatted-citation-line
+        mu4e-change-filenames-when-moving t
         mu4e-headers-results-limit 250)
 
   (setq mu4e-drafts-folder "/[Gmail]/.Drafts"
         mu4e-sent-folder   "/[Gmail]/.Sent Mail"
         mu4e-trash-folder  "/[Gmail]/.Trash"
-        mu4e-refile-folder "/Archive")
+        mu4e-refile-folder "/[Gmail]/.All Mail")
   (setq mu4e-maildir-shortcuts
         '( ("/Inbox"                . ?i)
            ("/[Gmail]/.Important"   . ?I)
