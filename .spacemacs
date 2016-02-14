@@ -42,9 +42,9 @@ values."
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-snippets-in-popup t)
-     version-control
      (git :variables
           git-magit-status-fullscreen t)
+     github
      (html :variables
            css-indent-offset 2
            web-mode-code-indent-offset 2
@@ -61,8 +61,11 @@ values."
      latex
      (org :variables
           org-enable-github-support t)
-     restclient
+     (evil-snipe :variables
+                 evil-snipe-enable-alternate-f-and-t-behaviors t)
      evil-commentary
+     vim-empty-lines
+     restclient
      deft
      (elfeed :variables
              rmh-elfeed-org-files (list "~/Dropbox/Personal/elfeed/elfeed.org"))
@@ -685,7 +688,7 @@ layers configuration. You are free to put any user code."
  '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
-    (mu4e-alert elfeed-web elfeed-org elfeed-goodies flycheck-ycmd company-ycmd packed xterm-color ws-butler spaceline restart-emacs persp-mode osx-trash orgit lorem-ipsum hl-todo help-fns+ helm-flx helm-company git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter evil-mc evil-magit evil-indent-plus bracketed-paste auto-compile ace-jump-helm-line bind-map diminish go-mode highlight multiple-cursors json-reformat tern popup reveal-in-osx-finder pbcopy launchctl helm-dash dash-at-point auto-complete f async go-eldoc company-go markdown-mode magit-popup html-to-markdown hydra symon avy yasnippet haml-mode gitignore-mode git-commit company auctex evil-leader evil package-build bind-key s dash anzu smartparens flycheck helm helm-core projectile js2-mode magit smeargle paradox linum-relative leuven-theme helm-swoop google-translate alert zenburn-theme zeal-at-point window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe use-package twittering-mode toc-org tagedit sunshine stickyfunc-enhance srefactor spray spinner spacemacs-theme smooth-scrolling slim-mode shell-pop scss-mode sass-mode restclient rainbow-delimiters quelpa powerline popwin pcre2el password-store page-break-lines org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep log4e less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-descbinds helm-css-scss helm-c-yasnippet helm-ag golden-ratio gnuplot gntp gmail-message-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed edit-server disaster diff-hl deft define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
+    (magit-gh-pulls github-clone github-browse-file git-link gist evil-snipe mu4e-alert elfeed-web elfeed-org elfeed-goodies flycheck-ycmd company-ycmd packed xterm-color ws-butler spaceline restart-emacs persp-mode osx-trash orgit lorem-ipsum hl-todo help-fns+ helm-flx helm-company git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter evil-mc evil-magit evil-indent-plus bracketed-paste auto-compile ace-jump-helm-line bind-map diminish go-mode highlight multiple-cursors json-reformat tern popup reveal-in-osx-finder pbcopy launchctl helm-dash dash-at-point auto-complete f async go-eldoc company-go markdown-mode magit-popup html-to-markdown hydra symon avy yasnippet haml-mode gitignore-mode git-commit company auctex evil-leader evil package-build bind-key s dash anzu smartparens flycheck helm helm-core projectile js2-mode magit smeargle paradox linum-relative leuven-theme helm-swoop google-translate alert zenburn-theme zeal-at-point window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe use-package twittering-mode toc-org tagedit sunshine stickyfunc-enhance srefactor spray spinner spacemacs-theme smooth-scrolling slim-mode shell-pop scss-mode sass-mode restclient rainbow-delimiters quelpa powerline popwin pcre2el password-store page-break-lines org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep log4e less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-descbinds helm-css-scss helm-c-yasnippet helm-ag golden-ratio gnuplot gntp gmail-message-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed edit-server disaster diff-hl deft define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
  '(paradox-github-token t)
  '(safe-local-variable-values
    (quote
