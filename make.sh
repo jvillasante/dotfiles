@@ -62,6 +62,10 @@ echo "Copying $dir/private_layers/ on ~/.emacs.d/private."
 cp -R $dir/private_layers/contrib/* $dir/.emacs.d/private
 echo "Copying $dir/private_layers/snippets on ~/.emacs.d/private."
 cp -R $dir/private_layers/snippets $dir/.emacs.d/private
+echo "Copying $dir/private_layers/local on ~/.emacs.d/private."
+cp -R $dir/private_layers/local $dir/.emacs.d/private
+echo "Copying $dir/private_layers/README.md on ~/.emacs.d/private."
+cp -R $dir/private_layers/README.md $dir/.emacs.d/private
 echo "Removing old backup."
 rm -rf $dir_bak/*
 

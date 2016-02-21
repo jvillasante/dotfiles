@@ -23,7 +23,6 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     better-defaults
      spell-checking
      search-engine
      ibuffer
@@ -61,7 +60,6 @@ values."
      ;; go
      javascript
      markdown
-     latex
      restclient
      deft
      (elfeed :variables
@@ -72,7 +70,6 @@ values."
      ;; private layers
      ;; my-symon
      my-mu4e
-     my-sunshine
      my-javascript
      my-password-store
      my-zeal)
@@ -159,9 +156,9 @@ values."
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
-   dotspacemacs-use-ido t
+   dotspacemacs-use-ido nil
    ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
-   dotspacemacs-helm-resize t
+   dotspacemacs-helm-resize nil
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
    dotspacemacs-helm-no-header nil
@@ -521,7 +518,7 @@ layers configuration. You are free to put any user code."
         message-kill-buffer-on-exit t
         mu4e-hide-index-messages t
         mu4e-compose-signature-auto-include t
-        mu4e-headers-include-related t
+        ;; mu4e-headers-include-related t
         mu4e-confirm-quit nil
         mu4e-compose-dont-reply-to-self t
         mu4e-compose-keep-self-cc nil
