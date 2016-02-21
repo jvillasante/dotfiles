@@ -68,7 +68,7 @@ values."
            mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
 
      ;; private layers
-     ;; my-symon
+     my-forecast
      my-mu4e
      my-javascript
      my-password-store
@@ -95,6 +95,18 @@ values."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
+   ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
+   ;; possible. Set it to nil if you have no way to use HTTPS in your
+   ;; environment, otherwise it is strongly recommended to let it set to t.
+   ;; This variable has no effect if Emacs is launched with the parameter
+   ;; `--insecure' which forces the value of this variable to nil.
+   ;; (default t)
+   dotspacemacs-elpa-https t
+   ;; Maximum allowed time in seconds to contact an ELPA repository.
+   dotspacemacs-elpa-timeout 5
+   ;; If non nil then spacemacs will check for updates at startup
+   ;; when the current branch is not `develop'. (default t)
+   dotspacemacs-check-for-update t
    ;; One of `vim', `emacs' or `hybrid'. Evil is always enabled but if the
    ;; variable is `emacs' then the `holy-mode' is enabled at startup. `hybrid'
    ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
@@ -108,11 +120,19 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner 2
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
    dotspacemacs-startup-lists '(recents projects)
+   ;; Number of recent files to show in the startup buffer. Ignored if
+   ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
+   dotspacemacs-startup-recent-list-size 5
+   ;; Default major mode of the scratch buffer (default `text-mode')
+   dotspacemacs-scratch-mode 'text-mode
+   ;; List of themes, the first of the list is loaded when spacemacs starts.
+   ;; Press <SPC> T n to cycle to the next theme in the list (works great
+   ;; with 2 themes variants, one dark and one light)
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -131,7 +151,7 @@ values."
                                :size 18
                                :weight normal
                                :width normal
-                               :powerline-scale 1.2)
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -143,16 +163,35 @@ values."
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m)
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; These variables control whether separate commands are bound in the GUI to
+   ;; the key pairs C-i, TAB and C-m, RET.
+   ;; Setting it to a non-nil value, allows for separate commands under <C-i>
+   ;; and TAB or <C-m> and RET.
+   ;; In the terminal, these pairs are generally indistinguishable, so this only
+   ;; works in the GUI. (default nil)
+   dotspacemacs-distinguish-gui-tab nil
    ;; The command key used for Evil commands (ex-commands) and
    ;; Emacs commands (M-x).
    ;; By default the command key is `:' so ex-commands are executed like in Vim
    ;; with `:' and Emacs commands are executed with `<leader> :'.
    dotspacemacs-command-key ":"
+   ;; If non nil `Y' is remapped to `y$'. (default t)
+   dotspacemacs-remap-Y-to-y$ t
+   ;; Name of the default layout (default "Default")
+   dotspacemacs-default-layout-name "Default"
+   ;; If non nil the default layout name is displayed in the mode-line.
+   ;; (default nil)
+   dotspacemacs-display-default-layout nil
+   ;; If non nil then the last auto saved layouts are resume automatically upon
+   ;; start. (default nil)
+   dotspacemacs-auto-resume-layouts nil
    ;; Location where to auto-save files. Possible values are `original' to
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; (default 'cache)
    dotspacemacs-auto-save-file-location 'cache
+   ;; Maximum number of rollback slots to keep in the cache. (default 5)
+   dotspacemacs-max-rollback-slots 5
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
@@ -204,6 +243,10 @@ values."
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
+   ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
+   ;; derivatives. If set to `relative', also turns on relative line numbers.
+   ;; (default nil)
+   dotspacemacs-line-numbers nil
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
@@ -222,6 +265,12 @@ values."
    ;; specified with an installed package.
    ;; Not used for now. (default nil)
    dotspacemacs-default-package-repository nil
+   ;; Delete whitespace while saving buffer. Possible values are `all'
+   ;; to aggressively delete empty line and long sequences of whitespace,
+   ;; `trailing' to delete only the whitespace at end of lines, `changed'to
+   ;; delete only whitespace for changed lines or `nil' to disable cleanup.
+   ;; (default nil)
+   dotspacemacs-whitespace-cleanup 'trailing
    ))
 
 (defun dotspacemacs/user-init ()
@@ -359,7 +408,7 @@ user code."
                            face
                            tabs))
   ;; remove whitespace before saving
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
   ;; dont wrap lines
   (setq-default truncate-lines t)
@@ -477,15 +526,14 @@ layers configuration. You are free to put any user code."
   evil-search-highlight-persist nil
 
   ;; linum-mode
-  (setq linum-delay t
-        linum-eager nil)
-  (add-hook 'prog-mode-hook 'linum-mode)
-  (setq linum-format "%4d")
-
-  ;; turn off linum-mode on org files
   (defun my-turn-off-linum-mode ()
     (message "Deactivated linum mode.")
     (linum-mode -1))
+  (setq linum-delay t
+        linum-eager nil
+        linum-format "%4d")
+  (add-hook 'prog-mode-hook 'linum-mode)
+  (add-hook 'text-mode-hook 'linum-mode)
   (add-hook 'org-mode-hook 'my-turn-off-linum-mode)
 
   ;; neotree
@@ -518,7 +566,7 @@ layers configuration. You are free to put any user code."
         message-kill-buffer-on-exit t
         mu4e-hide-index-messages t
         mu4e-compose-signature-auto-include t
-        ;; mu4e-headers-include-related t
+        mu4e-headers-include-related t
         mu4e-confirm-quit nil
         mu4e-compose-dont-reply-to-self t
         mu4e-compose-keep-self-cc nil
@@ -645,42 +693,42 @@ layers configuration. You are free to put any user code."
         engine/browser-function 'browse-url-generic
         browse-url-generic-program "google-chrome")
 
-  (defun my-hotspots ()
-    "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
-    (interactive)
-    (helm :sources `(((name . "Mail and News")
-                      (candidates . (("Mail" . mu4e)
-                                     ("Google Inbox" . (lambda () (browse-url "https://inbox.google.com")))
-                                     ("RSS" . elfeed)
-                                     ("Facebook" . (lambda ()  (browse-url "https://www.facebook.com/")))
-                                     ("Calendar" . (lambda ()  (browse-url "https://www.google.com/calendar/render")))
-                                     ("Agenda" . (lambda () (org-agenda "" "w")))))
-                      (action . (("Open" . (lambda (x) (funcall x))))))
-                     ;; ((name . "My Locations")
-                     ;;   (candidates . (("master" . "~/Dropbox/org-mode/master.org")
-                     ;;                   (".emacs.d" . "~/Dropbox/kitchingroup/jmax" )
-                     ;;                   ("blog" . "~/blogofile-jkitchin.github.com/_blog/blog.org")
-                     ;;                   ("ese" . "~/Dropbox/books/ese-book/ese.org" )
-                     ;;                   ("passwords" . "~/Dropbox/org-mode/passwords.org.gpg")
-                     ;;                   ("Pycse" . "~/Dropbox/books/pycse/pycse.org")
-                     ;;                   ("references" . "~/Dropbox/bibliography/references.bib")
-                     ;;                   ("notes" . "~/Dropbox/bibliography/notes.org")
-                     ;;                   ("journal" . "~/Dropbox/org-mode/journal.org")
-                     ;;                   ("tasks" . "~/Dropbox/org-mode/tasks.org")))
-                     ;;   (action . (("Open" . (lambda (x) (find-file x))))))
-                     ;; ((name . "My org files")
-                     ;;   (candidates . ,(f-entries "~/Dropbox/org-mode"))
-                     ;;   (action . (("Open" . (lambda (x) (find-file x))))))
-                     helm-source-bookmarks
-                     helm-source-bookmark-set
-                     helm-source-recentf)))
-  (evil-leader/set-key
-    "oh" 'my-hotspots)
+  ;; (defun my-hotspots ()
+  ;;   "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
+  ;;   (interactive)
+  ;;   (helm :sources `(((name . "Mail and News")
+  ;;                     (candidates . (("Mail" . mu4e)
+  ;;                                    ("Google Inbox" . (lambda () (browse-url "https://inbox.google.com")))
+  ;;                                    ("RSS" . elfeed)
+  ;;                                    ("Facebook" . (lambda ()  (browse-url "https://www.facebook.com/")))
+  ;;                                    ("Calendar" . (lambda ()  (browse-url "https://www.google.com/calendar/render")))
+  ;;                                    ("Agenda" . (lambda () (org-agenda "" "w")))))
+  ;;                     (action . (("Open" . (lambda (x) (funcall x))))))
+  ;;                    ;; ((name . "My Locations")
+  ;;                    ;;   (candidates . (("master" . "~/Dropbox/org-mode/master.org")
+  ;;                    ;;                   (".emacs.d" . "~/Dropbox/kitchingroup/jmax" )
+  ;;                    ;;                   ("blog" . "~/blogofile-jkitchin.github.com/_blog/blog.org")
+  ;;                    ;;                   ("ese" . "~/Dropbox/books/ese-book/ese.org" )
+  ;;                    ;;                   ("passwords" . "~/Dropbox/org-mode/passwords.org.gpg")
+  ;;                    ;;                   ("Pycse" . "~/Dropbox/books/pycse/pycse.org")
+  ;;                    ;;                   ("references" . "~/Dropbox/bibliography/references.bib")
+  ;;                    ;;                   ("notes" . "~/Dropbox/bibliography/notes.org")
+  ;;                    ;;                   ("journal" . "~/Dropbox/org-mode/journal.org")
+  ;;                    ;;                   ("tasks" . "~/Dropbox/org-mode/tasks.org")))
+  ;;                    ;;   (action . (("Open" . (lambda (x) (find-file x))))))
+  ;;                    ;; ((name . "My org files")
+  ;;                    ;;   (candidates . ,(f-entries "~/Dropbox/org-mode"))
+  ;;                    ;;   (action . (("Open" . (lambda (x) (find-file x))))))
+  ;;                    helm-source-bookmarks
+  ;;                    helm-source-bookmark-set
+  ;;                    helm-source-recentf)))
+  ;; (evil-leader/set-key
+  ;;   "oh" 'my-hotspots)
 
   ;; others
   (golden-ratio-mode 1)
-  (global-evil-search-highlight-persist -1)
-)
+  (global-evil-search-highlight-persist nil)
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
