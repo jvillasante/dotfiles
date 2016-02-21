@@ -76,7 +76,7 @@ values."
    ;; configuration in `dotspacemacs/config'.
    dotspacemacs-additional-packages '()
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(company dash)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -120,10 +120,10 @@ values."
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-startup-lists '(recents bookmarks projects)
    ;; Number of recent files to show in the startup buffer. Ignored if
    ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
-   dotspacemacs-startup-recent-list-size 5
+   dotspacemacs-startup-recent-list-size 10
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
@@ -147,7 +147,7 @@ values."
                                :size 18
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.2)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -193,7 +193,7 @@ values."
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
    dotspacemacs-use-ido nil
    ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
-   dotspacemacs-helm-resize t
+   dotspacemacs-helm-resize nil
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
    dotspacemacs-helm-no-header t
@@ -284,9 +284,6 @@ user code."
 
   ;; start server
   (server-start)
-
-  ;; change all prompts to y or n
-  (fset 'yes-or-no-p 'y-or-n-p)
 
   ;; magit
   (setq-default git-magit-status-fullscreen t)
@@ -403,8 +400,6 @@ user code."
                            tab-mark
                            face
                            tabs))
-  ;; remove whitespace before saving
-  ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
   ;; dont wrap lines
   (setq-default truncate-lines t)
@@ -459,6 +454,21 @@ user code."
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
 
+  ;; helm bug
+  (setq helm-echo-input-in-header-line nil)
+  (defun helm/turn-on-header-line ()
+    (interactive)
+    (setq helm-echo-input-in-header-line t)
+    (setq helm-split-window-in-side-p t)
+    (helm-autoresize-mode -1)
+    (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
+  (defun helm/turn-off-header-line ()
+    (interactive)
+    (setq helm-echo-input-in-header-line nil)
+    ;;(helm-autoresize-mode 1)
+    (setq helm-split-window-in-side-p nil)
+    (remove-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
+
   ;; Display Visited File's Path in the Frame Title
   (setq frame-title-format
         '((:eval (if (buffer-file-name)
@@ -489,7 +499,7 @@ layers configuration. You are free to put any user code."
     "oc" 'my-desperately-compile)
 
   ;; company
-  ;; (global-company-mode)
+  (global-company-mode)
 
   ;; deft
   (setq deft-directory "~/Dropbox/Personal/notes")
@@ -735,6 +745,9 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(elfeed-goodies/entry-pane-position (quote bottom))
  '(elfeed-goodies/entry-pane-size 0.75)
+ '(package-selected-packages
+   (quote
+    (smartparens flycheck projectile evil-nerd-commenter smex zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md forecast flycheck-ycmd flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-jumper evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster deft define-word company-ycmd company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
