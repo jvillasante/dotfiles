@@ -1,7 +1,3 @@
-;; -*- mode: emacs-lisp -*-
-;; This file is loaded by Spacemacs at startup.
-;; It must be stored in your home directory.
-
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration.
 You should not put any user code in this function besides modifying the variable
@@ -197,10 +193,10 @@ values."
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
    dotspacemacs-use-ido nil
    ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
-   dotspacemacs-helm-resize nil
+   dotspacemacs-helm-resize t
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
-   dotspacemacs-helm-no-header nil
+   dotspacemacs-helm-no-header t
    ;; define the position to display `helm', options are `bottom', `top',
    ;; `left', or `right'. (default 'bottom)
    dotspacemacs-helm-position 'bottom
@@ -218,7 +214,7 @@ values."
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
-   dotspacemacs-loading-progress-bar t
+   dotspacemacs-loading-progress-bar nil
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
    dotspacemacs-fullscreen-at-startup nil
@@ -693,37 +689,37 @@ layers configuration. You are free to put any user code."
         engine/browser-function 'browse-url-generic
         browse-url-generic-program "google-chrome")
 
-  ;; (defun my-hotspots ()
-  ;;   "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
-  ;;   (interactive)
-  ;;   (helm :sources `(((name . "Mail and News")
-  ;;                     (candidates . (("Mail" . mu4e)
-  ;;                                    ("Google Inbox" . (lambda () (browse-url "https://inbox.google.com")))
-  ;;                                    ("RSS" . elfeed)
-  ;;                                    ("Facebook" . (lambda ()  (browse-url "https://www.facebook.com/")))
-  ;;                                    ("Calendar" . (lambda ()  (browse-url "https://www.google.com/calendar/render")))
-  ;;                                    ("Agenda" . (lambda () (org-agenda "" "w")))))
-  ;;                     (action . (("Open" . (lambda (x) (funcall x))))))
-  ;;                    ;; ((name . "My Locations")
-  ;;                    ;;   (candidates . (("master" . "~/Dropbox/org-mode/master.org")
-  ;;                    ;;                   (".emacs.d" . "~/Dropbox/kitchingroup/jmax" )
-  ;;                    ;;                   ("blog" . "~/blogofile-jkitchin.github.com/_blog/blog.org")
-  ;;                    ;;                   ("ese" . "~/Dropbox/books/ese-book/ese.org" )
-  ;;                    ;;                   ("passwords" . "~/Dropbox/org-mode/passwords.org.gpg")
-  ;;                    ;;                   ("Pycse" . "~/Dropbox/books/pycse/pycse.org")
-  ;;                    ;;                   ("references" . "~/Dropbox/bibliography/references.bib")
-  ;;                    ;;                   ("notes" . "~/Dropbox/bibliography/notes.org")
-  ;;                    ;;                   ("journal" . "~/Dropbox/org-mode/journal.org")
-  ;;                    ;;                   ("tasks" . "~/Dropbox/org-mode/tasks.org")))
-  ;;                    ;;   (action . (("Open" . (lambda (x) (find-file x))))))
-  ;;                    ;; ((name . "My org files")
-  ;;                    ;;   (candidates . ,(f-entries "~/Dropbox/org-mode"))
-  ;;                    ;;   (action . (("Open" . (lambda (x) (find-file x))))))
-  ;;                    helm-source-bookmarks
-  ;;                    helm-source-bookmark-set
-  ;;                    helm-source-recentf)))
-  ;; (evil-leader/set-key
-  ;;   "oh" 'my-hotspots)
+  (defun my-hotspots ()
+    "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
+    (interactive)
+    (helm :sources `(((name . "Mail and News")
+                      (candidates . (("Mail" . mu4e)
+                                     ("Google Inbox" . (lambda () (browse-url "https://inbox.google.com")))
+                                     ("RSS" . elfeed)
+                                     ("Facebook" . (lambda ()  (browse-url "https://www.facebook.com/")))
+                                     ("Calendar" . (lambda ()  (browse-url "https://www.google.com/calendar/render")))
+                                     ("Agenda" . (lambda () (org-agenda "" "w")))))
+                      (action . (("Open" . (lambda (x) (funcall x))))))
+                     ;; ((name . "My Locations")
+                     ;;   (candidates . (("master" . "~/Dropbox/org-mode/master.org")
+                     ;;                   (".emacs.d" . "~/Dropbox/kitchingroup/jmax" )
+                     ;;                   ("blog" . "~/blogofile-jkitchin.github.com/_blog/blog.org")
+                     ;;                   ("ese" . "~/Dropbox/books/ese-book/ese.org" )
+                     ;;                   ("passwords" . "~/Dropbox/org-mode/passwords.org.gpg")
+                     ;;                   ("Pycse" . "~/Dropbox/books/pycse/pycse.org")
+                     ;;                   ("references" . "~/Dropbox/bibliography/references.bib")
+                     ;;                   ("notes" . "~/Dropbox/bibliography/notes.org")
+                     ;;                   ("journal" . "~/Dropbox/org-mode/journal.org")
+                     ;;                   ("tasks" . "~/Dropbox/org-mode/tasks.org")))
+                     ;;   (action . (("Open" . (lambda (x) (find-file x))))))
+                     ;; ((name . "My org files")
+                     ;;   (candidates . ,(f-entries "~/Dropbox/org-mode"))
+                     ;;   (action . (("Open" . (lambda (x) (find-file x))))))
+                     helm-source-bookmarks
+                     helm-source-bookmark-set
+                     helm-source-recentf)))
+  (evil-leader/set-key
+    "oh" 'my-hotspots)
 
   ;; others
   (golden-ratio-mode 1)
@@ -739,10 +735,6 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(elfeed-goodies/entry-pane-position (quote bottom))
  '(elfeed-goodies/entry-pane-size 0.75)
- '(package-selected-packages
-   (quote
-    (helm-gtags ggtags ycmd magit-gh-pulls github-clone github-browse-file git-link gist evil-snipe mu4e-alert elfeed-web elfeed-org elfeed-goodies flycheck-ycmd company-ycmd packed xterm-color ws-butler spaceline restart-emacs persp-mode osx-trash orgit lorem-ipsum hl-todo help-fns+ helm-flx helm-company git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter evil-mc evil-magit evil-indent-plus bracketed-paste auto-compile ace-jump-helm-line bind-map diminish go-mode highlight multiple-cursors json-reformat tern popup reveal-in-osx-finder pbcopy launchctl helm-dash dash-at-point auto-complete f async go-eldoc company-go markdown-mode magit-popup html-to-markdown hydra symon avy yasnippet haml-mode gitignore-mode git-commit company auctex evil-leader evil package-build bind-key s dash anzu smartparens flycheck helm helm-core projectile js2-mode magit smeargle paradox linum-relative leuven-theme helm-swoop google-translate alert zenburn-theme zeal-at-point window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe use-package twittering-mode toc-org tagedit sunshine stickyfunc-enhance srefactor spray spinner spacemacs-theme smooth-scrolling slim-mode shell-pop scss-mode sass-mode restclient rainbow-delimiters quelpa powerline popwin pcre2el password-store page-break-lines org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep log4e less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-descbinds helm-css-scss helm-c-yasnippet helm-ag golden-ratio gnuplot gntp gmail-message-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed edit-server disaster diff-hl deft define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
- '(paradox-github-token t)
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
