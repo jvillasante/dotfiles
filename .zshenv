@@ -6,6 +6,9 @@
 # eval "$(tmuxifier init -)"
 # }}}
 
+# Home vim
+export PATH="$HOME/bin:$PATH"
+
 # QT Stuff
 export PATH="$HOME/Software/qt/5.5/gcc_64/bin:$PATH"
 
@@ -37,5 +40,3 @@ export BOOST_VERSION=1.60.0
 # android
 # export PATH="$HOME/Android/Sdk/tools:$PATH"
 # export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
-
-# eval "$(direnv hook zsh)"

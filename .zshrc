@@ -44,9 +44,8 @@ umask 0022
 # Exports {{{
 export ZSH=$HOME/.oh-my-zsh          # Path to your oh-my-zsh installation.
 export ZSH_THEME="robbyrussell"      # Set name of the theme to load.
-# export EDITOR=/usr/local/bin/vim     # Default editor
-export EDITOR="/usr/bin/emacsclient-snapshot -c"
-export ALTERNATE_EDITOR=/usr/bin/vim
+export EDITOR="emacsclient -c -n"
+export ALTERNATE_EDITOR=vim
 export VISUAL=$EDITOR
 export LANG=en_US.UTF-8              # You may need to manually set your language environment
 export SSH_KEY_PATH="~/.ssh/dsa_id"  # ssh
@@ -81,7 +80,7 @@ alias ls='ls -lFh'
 # alias vi=vim                    # vi is now vim
 # alias gvim='gvim 2>/dev/null'   # Discard gvim starting warnings
 # alias mux='tmuxifier'
-alias em="emacsclient-snapshot -c -n"
+alias em="emacsclient -c -n"
 alias r="source ~/.zshrc"
 alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
 alias tmuxsrc="tmux source-file ~/.tmux.conf"
