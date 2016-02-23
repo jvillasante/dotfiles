@@ -21,7 +21,7 @@ values."
      ;; ----------------------------------------------------------------
      spell-checking
      search-engine
-     ibuffer
+     (ibuffer :variables ibuffer-group-buffers-by nil)
      syntax-checking
      shell-scripts
      (shell :variables
@@ -33,11 +33,12 @@ values."
                       auto-completion-return-key-behavior 'nil
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-complete-with-key-sequence nil
+                      auto-completion-complete-with-key-sequence-delay 0.1
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
-                      auto-completion-enable-snippets-in-popup t)
-     (org :variables
-          org-enable-github-support t)
+                      auto-completion-enable-snippets-in-popup t
+                      :disabled-for org erc git)
+     org
      (evil-snipe :variables
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
      evil-commentary
@@ -45,6 +46,7 @@ values."
      (version-control :variables
                       version-control-diff-tool 'git-gutter
                       version-control-global-margin t)
+     ranger
      git
      semantic
      ycmd
@@ -77,9 +79,9 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(helm-flycheck)
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '(company dash evil-jumper)
+   dotspacemacs-excluded-packages '(dash evil-jumper)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -102,7 +104,7 @@ values."
    ;; (default t)
    dotspacemacs-elpa-https t
    ;; Maximum allowed time in seconds to contact an ELPA repository.
-   dotspacemacs-elpa-timeout 5
+   dotspacemacs-elpa-timeout 10
    ;; If non nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. (default t)
    dotspacemacs-check-for-update t
@@ -126,7 +128,7 @@ values."
    dotspacemacs-startup-lists '(recents bookmarks projects)
    ;; Number of recent files to show in the startup buffer. Ignored if
    ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
-   dotspacemacs-startup-recent-list-size 10
+   dotspacemacs-startup-recent-list-size 5
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
@@ -136,6 +138,7 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(zenburn
+                         material
                          spacemacs-dark
                          spacemacs-light
                          solarized-dark
@@ -150,7 +153,7 @@ values."
                                :size 18
                                :weight normal
                                :width normal
-                               :powerline-scale 1.2)
+                               :powerline-scale 1.15)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -168,7 +171,7 @@ values."
    ;; and TAB or <C-m> and RET.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab nil
+   dotspacemacs-distinguish-gui-tab t
    ;; The command key used for Evil commands (ex-commands) and
    ;; Emacs commands (M-x).
    ;; By default the command key is `:' so ex-commands are executed like in Vim
@@ -217,7 +220,7 @@ values."
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
-   dotspacemacs-loading-progress-bar nil
+   dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
    dotspacemacs-fullscreen-at-startup nil
@@ -269,105 +272,106 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'trailing
+   dotspacemacs-whitespace-cleanup 'changed
    ))
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init'.  You are free to put any
 user code."
-
-  (defun system-is-mac ()
-    (interactive)
-    (string-equal system-type "darwin"))
-
-  (defun system-is-linux ()
-    (interactive)
-    (string-equal system-type "gnu/linux"))
-
   ;; start server
   (server-start)
 
-  ;; magit
-  (setq-default git-magit-status-fullscreen t)
+  (setq-default
+   ;; Miscellaneous
+   vc-follow-symlinks t
+   ring-bell-function 'ignore
+   require-final-newline t
+   indent-tabs-mode nil
+   system-time-locale "C"
+   paradox-github-token t
+   open-junk-file-find-file-function 'find-file
+   load-prefer-newer t
+   user-full-name "Julio C. Villasante"
+   user-mail-address "jvillasantegomez@gmail.com"
+
+   ;; Evil
+   evil-shift-round nil
+   evil-want-C-i-jump t
+
+   ;; Magit
+   git-magit-status-fullscreen t
+   magit-popup-show-common-commands t
+
+   ;; Flycheck
+   flycheck-check-syntax-automatically '(save mode-enabled)
+
+   ;; Avy
+   avy-all-windows 'all-frames
+
+   ;; Ranger
+   ranger-override-dired t
+
+   ;; Spaceline
+   spaceline-buffer-encoding-abbrev-p nil
+   spaceline-version-control-p nil
+
+   ;; LaTeX
+   font-latex-fontify-script nil
+   TeX-newline-function 'reindent-then-newline-and-indent
+
+   ;; Web
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+
+   ;; Org
+   org-tags-column -80
+   org-startup-indented t
+   org-clock-into-drawer "LOGBOOK"
+   org-log-into-drawer "LOGBOOK"
+   org-startup-align-all-tables t
+   org-footnote-auto-adjust t
+   org-footnote-auto-label 'confirm
+   org-M-RET-may-split-line
+   '((headline . nil) (item . nil) (table . nil))
+   org-agenda-restore-windows-after-quit t
+   org-agenda-window-setup 'other-window
+   org-directory "~/org"
+   org-default-notes-file "~/org/capture.org"
+   org-agenda-files '("~/org/agenda.org")
+   org-catch-invisible-edits 'show-and-error
+   org-list-demote-modify-bullet '(("-" . "*") ("*" . "+") ("+" . "-"))
+   org-list-allow-alphabetical t
+   org-todo-keywords
+   '((sequence "TODO(t)" "|" "DONE(D)")
+     (type "SIMPLE(s)" "FAST-TRACK(f)" "CONFLICTING(c)" "WAITING(w)" "DUBIOUS(d)"
+           "|" "MERGED(M)" "CLOSED(C)"))
+   org-todo-keyword-faces
+   '(("SIMPLE" . "khaki2")
+     ("FAST-TRACK" . "OrangeRed1")
+     ("WAITING" . "deepskyblue1"))
+   org-capture-templates
+   '(("t" "Tasks")
+     ("tg" "General" entry (file+headline "" "Tasks")
+      "* TODO %?\n%i\n%U"
+      :empty-lines 1)
+     ("tl" "Location" entry (file+headline "" "Tasks")
+      "* TODO %?\n%i\n%U\n%a"
+      :empty-lines 1)
+     ("n" "Notes")
+     ("ng" "General" entry (file+headline "" "Notes")
+      "* %?\n%i\n%U"
+      :empty-lines 1)
+     ("nl" "Location" entry (file+headline "" "Notes")
+      "* %?\n%i\n%U\n%a"
+      :empty-lines 1))
+   )
 
   ;; ycmd
   (set-variable 'ycmd-server-command '("python" "/home/jvillasante/Software/src/ycmd/ycmd"))
   (set-variable 'ycmd-global-config "/home/jvillasante/Hacking/workspace/dotfiles/.emacs.d/layers/+tools/ycmd/global_conf.py")
   (set-variable 'ycmd-extra-conf-whitelist '("/home/jvillasante/Hacking/workspace/*"))
   ;; (setq ycmd--log-enabled t)
-
-  ;; if (aspell installed) { use aspell}
-  ;; else if (hunspell installed) { use hunspell }
-  ;; whatever spell checker I use, I always use English dictionary
-  ;; I prefer use aspell because:
-  ;; 1. aspell is older
-  ;; 2. looks Kevin Atkinson still get some road map for aspell:
-  ;; @see http://lists.gnu.org/archive/html/aspell-announce/2011-09/msg00000.html
-  (defun flyspell-detect-ispell-args (&optional RUN-TOGETHER)
-    "if RUN-TOGETHER is true, spell check the CamelCase words"
-    (let (args)
-      (cond
-       ((string-match  "aspell$" ispell-program-name)
-        ;; force the English dictionary, support Camel Case spelling check (tested with aspell 0.6)
-        (setq args (list "--sug-mode=ultra" "--lang=en_US"))
-        (if RUN-TOGETHER
-            (setq args (append args '("--run-together" "--run-together-limit=5" "--run-together-min=2")))))
-       ((string-match "hunspell$" ispell-program-name)
-        (setq args nil)))
-      args
-      ))
-
-  (cond
-   ((executable-find "aspell")
-    (setq ispell-program-name "aspell"))
-   ((executable-find "hunspell")
-    (setq ispell-program-name "hunspell")
-    ;; just reset dictionary to the safe one "en_US" for hunspell.
-    ;; if we need use different dictionary, we specify it in command line arguments
-    (setq ispell-local-dictionary "en_US")
-    (setq ispell-local-dictionary-alist
-          '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8))))
-   (t (setq ispell-program-name nil)))
-
-  ;; ispell-cmd-args is useless, it's the list of *extra* arguments we will append to the ispell process when "ispell-word" is called.
-  ;; ispell-extra-args is the command arguments which will *always* be used when start ispell process
-  (setq ispell-extra-args (flyspell-detect-ispell-args t))
-  ;; (setq ispell-cmd-args (flyspell-detect-ispell-args))
-  (defadvice ispell-word (around my-ispell-word activate)
-    (let ((old-ispell-extra-args ispell-extra-args))
-      (ispell-kill-ispell t)
-      (setq ispell-extra-args (flyspell-detect-ispell-args))
-      ad-do-it
-      (setq ispell-extra-args old-ispell-extra-args)
-      (ispell-kill-ispell t)
-      ))
-
-  (defadvice flyspell-auto-correct-word (around my-flyspell-auto-correct-word activate)
-    (let ((old-ispell-extra-args ispell-extra-args))
-      (ispell-kill-ispell t)
-      ;; use emacs original arguments
-      (setq ispell-extra-args (flyspell-detect-ispell-args))
-      ad-do-it
-      ;; restore our own ispell arguments
-      (setq ispell-extra-args old-ispell-extra-args)
-      (ispell-kill-ispell t)
-      ))
-
-  (dolist (hook '(text-mode-hook))
-    (add-hook hook (lambda () (flyspell-mode 1))))
-  (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-    (add-hook hook (lambda () (flyspell-mode -1))))
-  (dolist (mode '(emacs-lisp-mode-hook
-                  inferior-lisp-mode-hook
-                  python-mode-hook
-                  js-mode-hook
-                  c++-mode-hook
-                  R-mode-hook))
-    (add-hook mode
-              '(lambda ()
-                 (flyspell-prog-mode))))
-  (setq flyspell-issue-message-flag nil)
 
   ;; utf-8
   (prefer-coding-system 'utf-8)
@@ -377,15 +381,37 @@ user code."
   (set-terminal-coding-system 'utf-8)
   (set-selection-coding-system 'utf-8)
 
-  ;; Get rid of these no matter what, and do it early
-  (setq load-prefer-newer t)
+  ;; multiterm
+  (setq multi-term-program "/usr/bin/zsh")
+  (add-hook 'term-mode-hook
+            (lambda ()
+              (setq term-buffer-maximum-size 10000)))
 
-  ;; me
-  (setq user-full-name "Julio C. Villasante")
-  (setq user-mail-address "jvillasantegomez@gmail.com")
+  ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  (setq display-time-world-list '(("UTC" "UTC")
+                                  ("US/Eastern" "Miami")
+                                  ("America/Havana" "Habana")
+                                  ("America/New_York" "New York")
+                                  ("Europe/Amsterdam" "Amsterdam")
+                                  ("Europe/Copenhagen" "Denmark")
+                                  ("Asia/Shanghai" "China")
+                                  ("Asia/Calcutta" "India")))
 
-  ;; Suppressing ad-handle-definition Warnings
-  (setq ad-redefinition-action 'accept)
+  (setf url-queue-timeout 30))
+
+(defun dotspacemacs/user-config ()
+  "Configuration function for user code.
+ This function is called at the very end of Spacemacs initialization after
+layers configuration. You are free to put any user code."
+
+  ;; Miscellaneous
+  (add-hook 'text-mode-hook 'auto-fill-mode)
+  (add-hook 'makefile-mode-hook 'whitespace-mode)
+  (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
+
+  ;; Semantic fucks up scrolling
+  (with-eval-after-load 'semantic
+    (setq semantic-submode-list (delq 'global-semantic-stickyfunc-mode semantic-submode-list)))
 
   ;; my coding style, bsd but with 2 spaces indentation (and no tab
   ;; characters, only spaces)
@@ -408,69 +434,8 @@ user code."
   (setq-default truncate-lines t)
   (setq truncate-partial-width-windows nil) ;; for vertically-split windows
 
-  ;; show matching parens
-  (show-paren-mode t)
-
-  ;; multiterm
-  (setq multi-term-program "/usr/bin/zsh")
-  (add-hook 'term-mode-hook
-            (lambda ()
-              (setq term-buffer-maximum-size 10000)))
-
-  ;; env
-  ;; (defun my-set-PATH-from-shell-PATH ()
-  ;;   (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
-  ;;     (setenv "PATH" path-from-shell)
-  ;;     (setq exec-path (split-string path-from-shell path-separator))))
-  ;; (if window-system
-  ;;     (progn
-  ;;       (setenv "GOPATH" "~/Hacking/workspace/go")))
-
-  ;; Allow editing of binary .plist files.
-  (add-to-list 'jka-compr-compression-info-list
-               ["\\.plist$"
-                "converting text XML to binary plist"
-                "plutil"
-                ("-convert" "binary1" "-o" "-" "-")
-                "converting binary plist to text XML"
-                "plutil"
-                ("-convert" "xml1" "-o" "-" "-")
-                nil nil "bplist"])
-
-  ;; It is necessary to perform an update!
-  (jka-compr-update)
-
-  ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  (setq display-time-world-list '(("UTC" "UTC")
-                                  ("US/Eastern" "Miami")
-                                  ("America/Havana" "Habana")
-                                  ("America/New_York" "New York")
-                                  ("Europe/Amsterdam" "Amsterdam")
-                                  ("Europe/Copenhagen" "Denmark")
-                                  ("Asia/Shanghai" "China")
-                                  ("Asia/Calcutta" "India")))
-
-  (setf url-queue-timeout 30))
-
-(defun dotspacemacs/user-config ()
-  "Configuration function for user code.
- This function is called at the very end of Spacemacs initialization after
-layers configuration. You are free to put any user code."
-
   ;; helm bug
   (setq helm-echo-input-in-header-line nil)
-  (defun my/helm/turn-on-header-line ()
-    (interactive)
-    (setq helm-echo-input-in-header-line t)
-    (setq helm-split-window-in-side-p t)
-    (helm-autoresize-mode -1)
-    (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
-  (defun my/helm/turn-off-header-line ()
-    (interactive)
-    (setq helm-echo-input-in-header-line nil)
-    ;;(helm-autoresize-mode 1)
-    (setq helm-split-window-in-side-p nil)
-    (remove-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
 
   ;; Display Visited File's Path in the Frame Title
   (setq frame-title-format
@@ -530,9 +495,6 @@ layers configuration. You are free to put any user code."
   ;; use count-words instead of count-words-region as it works on buffer
   ;; if no region is selected
   (global-set-key (kbd "M-=") 'count-words)
-
-  ;; don't use default persistent search highlight
-  evil-search-highlight-persist nil
 
   ;; linum-mode
   (defun my-turn-off-linum-mode ()
@@ -734,10 +696,15 @@ layers configuration. You are free to put any user code."
   (evil-leader/set-key
     "oh" 'my-hotspots)
 
+  ;; Additional packages
+  (use-package helm-flycheck
+    :defer t
+    :init
+    (spacemacs/set-leader-keys "eh" 'helm-flycheck))
+
   ;; others
   (golden-ratio-mode 1)
-  (global-evil-search-highlight-persist nil)
-  )
+  (global-evil-search-highlight-persist nil))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -750,7 +717,7 @@ layers configuration. You are free to put any user code."
  '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
-    (helm helm-core markdown-mode git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter diff-hl smartparens flycheck projectile evil-nerd-commenter smex zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md forecast flycheck-ycmd flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-jumper evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster deft define-word company-ycmd company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (ranger helm-flycheck helm helm-core markdown-mode git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter diff-hl smartparens flycheck projectile evil-nerd-commenter smex zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md forecast flycheck-ycmd flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-jumper evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster deft define-word company-ycmd company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
