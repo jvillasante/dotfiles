@@ -26,7 +26,7 @@ values."
      shell-scripts
      (shell :variables
             shell-default-term-shell "/bin/zsh"
-            shell-default-shell 'multi-term
+            shell-default-shell 'ansi-term
             shell-default-position 'bottom
             shell-default-height 30)
      (auto-completion :variables
@@ -56,8 +56,8 @@ values."
            web-mode-markup-indent-offset 2
            web-mode-css-indent-offset 2)
      (c-c++ :variables
-            c-c++-default-mode-for-headers 'c++-mode
-            c-c++-enable-clang-support t)
+            c-c++-default-mode-for-headers 'c++-mode)
+            ;; c-c++-enable-clang-support t)
      ;; go
      javascript
      markdown
@@ -295,10 +295,6 @@ user code."
    user-full-name "Julio C. Villasante"
    user-mail-address "jvillasantegomez@gmail.com"
 
-   ;; Evil
-   evil-shift-round nil
-   evil-want-C-i-jump t
-
    ;; Magit
    git-magit-status-fullscreen t
    magit-popup-show-common-commands t
@@ -322,50 +318,7 @@ user code."
 
    ;; Web
    web-mode-markup-indent-offset 2
-   web-mode-css-indent-offset 2
-
-   ;; Org
-   org-tags-column -80
-   org-startup-indented t
-   org-clock-into-drawer "LOGBOOK"
-   org-log-into-drawer "LOGBOOK"
-   org-startup-align-all-tables t
-   org-footnote-auto-adjust t
-   org-footnote-auto-label 'confirm
-   org-M-RET-may-split-line
-   '((headline . nil) (item . nil) (table . nil))
-   org-agenda-restore-windows-after-quit t
-   org-agenda-window-setup 'other-window
-   org-directory "~/org"
-   org-default-notes-file "~/org/capture.org"
-   org-agenda-files '("~/org/agenda.org")
-   org-catch-invisible-edits 'show-and-error
-   org-list-demote-modify-bullet '(("-" . "*") ("*" . "+") ("+" . "-"))
-   org-list-allow-alphabetical t
-   org-todo-keywords
-   '((sequence "TODO(t)" "|" "DONE(D)")
-     (type "SIMPLE(s)" "FAST-TRACK(f)" "CONFLICTING(c)" "WAITING(w)" "DUBIOUS(d)"
-           "|" "MERGED(M)" "CLOSED(C)"))
-   org-todo-keyword-faces
-   '(("SIMPLE" . "khaki2")
-     ("FAST-TRACK" . "OrangeRed1")
-     ("WAITING" . "deepskyblue1"))
-   org-capture-templates
-   '(("t" "Tasks")
-     ("tg" "General" entry (file+headline "" "Tasks")
-      "* TODO %?\n%i\n%U"
-      :empty-lines 1)
-     ("tl" "Location" entry (file+headline "" "Tasks")
-      "* TODO %?\n%i\n%U\n%a"
-      :empty-lines 1)
-     ("n" "Notes")
-     ("ng" "General" entry (file+headline "" "Notes")
-      "* %?\n%i\n%U"
-      :empty-lines 1)
-     ("nl" "Location" entry (file+headline "" "Notes")
-      "* %?\n%i\n%U\n%a"
-      :empty-lines 1))
-   )
+   web-mode-css-indent-offset 2)
 
   ;; ycmd
   (set-variable 'ycmd-server-command '("python" "/home/jvillasante/Software/src/ycmd/ycmd"))
@@ -405,9 +358,24 @@ user code."
 layers configuration. You are free to put any user code."
 
   ;; Miscellaneous
-  (add-hook 'text-mode-hook 'auto-fill-mode)
+  (defun my/fill-buffer ()
+    (interactive)
+    (save-excursion
+      (save-restriction
+        (widen)
+        (fill-region (point-min) (point-max)))))
+
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  (add-hook 'text-mode-hook
+            '(lambda() (set-fill-column 110)))
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+  (add-hook 'org-mode-hook
+            '(lambda() (set-fill-column 110)))
   (add-hook 'makefile-mode-hook 'whitespace-mode)
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
+
+  ;; evil multiple cursors
+  ;; (global-evil-mc-mode  1)
 
   ;; Semantic fucks up scrolling
   (with-eval-after-load 'semantic
@@ -713,11 +681,12 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(compile-command "make -j4 clean")
  '(elfeed-goodies/entry-pane-position (quote bottom))
  '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
-    (ranger helm-flycheck helm helm-core markdown-mode git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter diff-hl smartparens flycheck projectile evil-nerd-commenter smex zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md forecast flycheck-ycmd flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-jumper evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster deft define-word company-ycmd company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (avy with-editor async powerline dash bind-key evil ranger helm-flycheck helm helm-core markdown-mode git-gutter-fringe+ git-gutter-fringe git-gutter+ git-gutter diff-hl smartparens flycheck projectile evil-nerd-commenter smex zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md forecast flycheck-ycmd flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-jumper evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster deft define-word company-ycmd company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
