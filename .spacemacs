@@ -363,7 +363,7 @@ layers configuration. You are free to put any user code."
   (setq-default fill-column 110                    ; Maximum line width
                 truncate-lines t                   ; Don't fold lines
                 truncate-partial-width-windows nil ; for vertically-split windows
-                split-width-threshold 100          ; Split verticly by default
+                split-width-threshold 160          ; Split verticly by default
                 auto-fill-function 'do-auto-fill)  ; Auto-fill-mode everywhere
 
   (add-hook 'mu4e-compose-mode-hook
