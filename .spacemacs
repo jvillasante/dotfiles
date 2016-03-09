@@ -61,7 +61,7 @@ values."
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
-     ;; go
+     go
      javascript
      markdown
      restclient
@@ -289,10 +289,13 @@ user code."
   (setq org-planning-line-re "")
 
   ;; smooth scrolling
-  (setq scroll-conservatively 101) ;; move minimum when cursor exits view, instead of recentering
-  (setq mouse-wheel-scroll-amount '(1)) ;; mouse scroll moves 1 line at a time, instead of 5 lines
-  (setq mouse-wheel-progressive-speed nil) ;; on a long mouse scroll keep scrolling by 1 line
-  (setq scroll-margin 3)
+  (setq redisplay-dont-pause t
+        scroll-margin 3
+        scroll-step 1
+        scroll-conservatively 101
+        mouse-wheel-scroll-amount '(1)
+        mouse-wheel-progressive-speed nil
+        scroll-preserve-screen-position 1)
 
   (setq-default
    ;; Miscellaneous
@@ -541,7 +544,7 @@ layers configuration. You are free to put any user code."
  '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
-    (paradox hydra magit-gh-pulls helm helm-core projectile multiple-cursors markdown-mode magit which-key zenburn-theme zeal-at-point xterm-color ws-butler window-numbering web-mode web-beautify volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spinner spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs ranger rainbow-delimiters quelpa persp-mode pcre2el password-store page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flycheck helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md forecast flycheck-ycmd flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word company-ycmd company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (go-eldoc company-go go-mode ycmd js2-mode f evil paradox hydra magit-gh-pulls helm helm-core projectile multiple-cursors markdown-mode magit which-key zenburn-theme zeal-at-point xterm-color ws-butler window-numbering web-mode web-beautify volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spinner spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs ranger rainbow-delimiters quelpa persp-mode pcre2el password-store page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flycheck helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md forecast flycheck-ycmd flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word company-ycmd company-web company-tern company-statistics company-quickhelp company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
