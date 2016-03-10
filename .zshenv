@@ -1,4 +1,4 @@
-# export PATH=${PATH}:${HOME}/bin
+export PATH=${PATH}:${HOME}/bin
 
 # tmuxifier
 # export PATH="$HOME/.tmuxifier/bin:$PATH"

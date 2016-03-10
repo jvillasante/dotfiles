@@ -1,17 +1,8 @@
 # key: fdoc
-# name: function documentation comment
+# name: file documentation comment
 # --
 /**
- * $0func()
- *
- * Description of the function.
- *
- * Parameters:
- *   int param1: parameter 1.
- * Returns: int
- *   An integer representing...
- * Throws:
- *   Exception1 if...
- * Notes:
- *   Additional notes...
+ * File: $0
+ * ----------------------------
+ * $1Description
  */
