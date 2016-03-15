@@ -304,6 +304,8 @@ user code."
 
   (setq-default
    ;; Miscellaneous
+   user-full-name "Julio C. Villasante"
+   user-mail-address "jvillasantegomez@gmail.com"
    vc-follow-symlinks t
    ring-bell-function 'ignore
    require-final-newline t
@@ -312,12 +314,38 @@ user code."
    paradox-github-token t
    open-junk-file-find-file-function 'find-file
    load-prefer-newer t
-   user-full-name "Julio C. Villasante"
-   user-mail-address "jvillasantegomez@gmail.com"
+   fill-column 110                    ; Maximum line width
+   truncate-lines t                   ; Don't fold lines
+   truncate-partial-width-windows nil ; for vertically-split windows
+   split-width-threshold 160          ; Split verticly by default
+   auto-fill-function 'do-auto-fill   ; Auto-fill-mode everywhere
+   evil-cross-lines t                 ; Make horizontal movement cross lines
+
+   ;; my coding style, bsd but with 2 spaces indentation (and no tab
+   ;; characters, only spaces)
+   c-basic-indent 2
+   c-basic-offset 2
+   tab-width 2
+   indent-tabs-mode nil
+   highlight-tabs t
+
+   ;; Whitespace settings
+   whitespace-action '(auto-cleanup)
+   whitespace-style '(indentation::space
+                      space-after-tab
+                      space-before-tab
+                      trailing
+                      lines-tail
+                      tab-mark
+                      face
+                      tabs)
 
    ;; Magit
    git-magit-status-fullscreen t
    magit-popup-show-common-commands t
+
+   ;; helm
+   helm-echo-input-in-header-line nil
 
    ;; Flycheck
    flycheck-check-syntax-automatically '(save mode-enabled)
@@ -327,6 +355,17 @@ user code."
 
    ;; Ranger
    ranger-override-dired t
+
+   ;; deft
+   deft-directory "~/Dropbox/Personal/notes"
+   deft-extensions '("org" "md" "txt")
+   deft-text-mode "org"
+   deft-use-filename-as-title t
+   deft-use-filter-string-for-filename t
+   deft-auto-save-interval 0
+
+   ;; tramp mode
+   tramp-default-method "ssh"
 
    ;; LaTeX
    font-latex-fontify-script nil
@@ -372,12 +411,6 @@ user code."
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  (setq-default fill-column 110                    ; Maximum line width
-                truncate-lines t                   ; Don't fold lines
-                truncate-partial-width-windows nil ; for vertically-split windows
-                split-width-threshold 160          ; Split verticly by default
-                auto-fill-function 'do-auto-fill)  ; Auto-fill-mode everywhere
-
   (add-hook 'mu4e-compose-mode-hook
             (lambda ()
               (auto-fill-mode 0)
@@ -398,26 +431,6 @@ layers configuration. You are free to put any user code."
   ;; Semantic fucks up scrolling
   (with-eval-after-load 'semantic
     (setq semantic-submode-list (delq 'global-semantic-stickyfunc-mode semantic-submode-list)))
-
-  ;; my coding style, bsd but with 2 spaces indentation (and no tab
-  ;; characters, only spaces)
-  (setq-default c-basic-indent 2 c-basic-offset 2)
-  (setq-default tab-width 2 indent-tabs-mode nil)
-  (setq-default highlight-tabs t)
-
-  ;; Whitespace settings
-  (setq whitespace-action '(auto-cleanup))
-  (setq whitespace-style '(indentation::space
-                           space-after-tab
-                           space-before-tab
-                           trailing
-                           lines-tail
-                           tab-mark
-                           face
-                           tabs))
-
-  ;; helm bug
-  (setq helm-echo-input-in-header-line nil)
 
   ;; Display Visited File's Path in the Frame Title
   (setq frame-title-format
@@ -448,19 +461,8 @@ layers configuration. You are free to put any user code."
   (evil-leader/set-key
     "oc" 'my-desperately-compile)
 
-  ;; company
+  ;; use company everywhere
   (global-company-mode)
-
-  ;; deft
-  (setq deft-directory "~/Dropbox/Personal/notes")
-  (setq deft-extensions '("org" "md" "txt"))
-  (setq deft-text-mode "org")
-  (setq deft-use-filename-as-title t)
-  (setq deft-use-filter-string-for-filename t)
-  (setq deft-auto-save-interval 0)
-
-  ;; tramp mode
-  (setq tramp-default-method "ssh")
 
   ;; use evil-matchit everywhere
   (global-evil-matchit-mode 1)
@@ -470,9 +472,6 @@ layers configuration. You are free to put any user code."
   (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
   (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
   (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-
-  ;; Make horizontal movement cross lines
-  (setq-default evil-cross-lines t)
 
   ;; use count-words instead of count-words-region as it works on buffer
   ;; if no region is selected
