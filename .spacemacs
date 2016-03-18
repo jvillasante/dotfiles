@@ -382,12 +382,28 @@ user code."
   ;; (setq ycmd--log-enabled t)
 
   ;; utf-8
-  (prefer-coding-system 'utf-8)
+  ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+  (setq utf-translate-cjk-mode nil)
+
   (set-language-environment 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
+
+  ;; set the default encoding system
+  (prefer-coding-system 'utf-8)
+  (setq default-file-name-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
   (set-selection-coding-system 'utf-8)
+
+  ;; backwards compatibility as default-buffer-file-coding-system
+  ;; is deprecated in 23.2.
+  (if (boundp buffer-file-coding-system)
+      (setq buffer-file-coding-system 'utf-8)
+    (setq default-buffer-file-coding-system 'utf-8))
+
+  ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
   ;; multiterm
   (setq multi-term-program "/usr/bin/zsh")
@@ -549,6 +565,7 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(elfeed-goodies/entry-pane-position (quote bottom))
  '(elfeed-goodies/entry-pane-size 0.75)
+ '(fill-column 110)
  '(package-selected-packages
    (quote
     (toc-org orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets htmlize gnuplot zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights use-package tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs ranger rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow magit-gh-pulls lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio go-eldoc github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md forecast flycheck-ycmd flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word company-ycmd company-web company-tern company-statistics company-quickhelp company-go company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
@@ -565,10 +582,10 @@ layers configuration. You are free to put any user code."
  '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
- '(neo-banner-face ((t :inherit shadow :underline nil)))
- '(neo-button-face ((t :inherit dired-directory :underline nil)))
- '(neo-dir-link-face ((t :inherit dired-directory :underline nil)))
- '(neo-expand-btn-face ((t :inherit button :underline nil)))
- '(neo-file-link-face ((t :inherit default :underline nil)))
- '(neo-header-face ((t :inherit shadow :underline nil)))
- '(neo-root-dir-face ((t :inherit link-visited :underline nil))))
+ '(neo-banner-face ((t :inherit shadow :underline nil)) t)
+ '(neo-button-face ((t :inherit dired-directory :underline nil)) t)
+ '(neo-dir-link-face ((t :inherit dired-directory :underline nil)) t)
+ '(neo-expand-btn-face ((t :inherit button :underline nil)) t)
+ '(neo-file-link-face ((t :inherit default :underline nil)) t)
+ '(neo-header-face ((t :inherit shadow :underline nil)) t)
+ '(neo-root-dir-face ((t :inherit link-visited :underline nil)) t))
