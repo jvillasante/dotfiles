@@ -344,9 +344,6 @@ user code."
    git-magit-status-fullscreen t
    magit-popup-show-common-commands t
 
-   ;; helm
-   helm-echo-input-in-header-line nil
-
    ;; Flycheck
    flycheck-check-syntax-automatically '(save mode-enabled)
 
@@ -427,6 +424,7 @@ user code."
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+
   (add-hook 'mu4e-compose-mode-hook
             (lambda ()
               (auto-fill-mode 0)
@@ -439,9 +437,15 @@ layers configuration. You are free to put any user code."
             (lambda ()
               (set-fill-column 80)
               (flyspell-prog-mode)))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (set-fill-column 110)))
   (add-hook 'text-mode-hook 'turn-on-flyspell)
   (add-hook 'makefile-mode-hook 'whitespace-mode)
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
+
+  ;; helm bug
+  (setq helm-echo-input-in-header-line nil)
 
   ;; Semantic fucks up scrolling
   (with-eval-after-load 'semantic
