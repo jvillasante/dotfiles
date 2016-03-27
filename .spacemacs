@@ -291,6 +291,13 @@ user code."
     (setq org-clock-line-re "^[    ]*CLOCK:")
 
     (setq org-startup-indented t)
+    (setq org-indent-mode t)
+
+    ;; set maximum indentation for description lists
+    (setq org-list-description-max-indent 5)
+
+    ;; prevent demoting heading also shifting text inside sections
+    (setq org-adapt-indentation nil)
     )
 
   ;; smooth scrolling
@@ -568,6 +575,9 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(elfeed-goodies/entry-pane-position (quote bottom))
  '(elfeed-goodies/entry-pane-size 0.75)
+ '(package-selected-packages
+   (quote
+    (xterm-color web-mode web-beautify ranger paradox org-plus-contrib leuven-theme helm-make gitconfig-mode gitattributes-mode git-timemachine flycheck-ycmd flycheck-pos-tip flycheck evil-surround evil-mc evil-magit company-ycmd ycmd coffee-mode ace-link ace-jump-helm-line avy smartparens go-mode company gitignore-mode helm helm-core projectile markdown-mode magit quelpa which-key evil zenburn-theme zeal-at-point ws-butler window-numbering volatile-highlights use-package undo-tree toc-org tagedit stickyfunc-enhance srefactor spinner spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs rainbow-delimiters pkg-info persp-mode pcre2el password-store page-break-lines package-build orgit org-repo-todo org-present org-pomodoro org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow magit-gh-pulls lorem-ipsum linum-relative less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag goto-chg google-translate golden-ratio go-eldoc gnuplot github-clone github-browse-file git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md forecast flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-snipe evil-search-highlight-persist evil-numbers evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word deferred company-web company-tern company-statistics company-quickhelp company-go company-c-headers cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
