@@ -70,10 +70,8 @@
 (defun my-irony/init-flycheck-irony ()
   (use-package flycheck-irony
     :init
-    (defun setup-flycheck-irony ()
-      (when (featurep 'flycheck)
-        (flycheck-irony-setup)))
-    (add-to-hook 'setup-flycheck-irony '(c-mode-hook c++-mode-hook)))
+    (eval-after-load 'flycheck
+      '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
 
   ;; (use-package flycheck-irony
   ;;   ;; :defer t                            ; fix this ???
