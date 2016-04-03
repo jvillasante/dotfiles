@@ -290,6 +290,26 @@ user code."
   ;; start server
   ;; (server-start)
 
+  ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  (setq display-time-world-list '(("UTC" "UTC")
+                                  ("US/Eastern" "Miami")
+                                  ("America/Havana" "Habana")
+                                  ("America/New_York" "New York")
+                                  ("Europe/Amsterdam" "Amsterdam")
+                                  ("Europe/Copenhagen" "Denmark")
+                                  ("Asia/Shanghai" "China")
+                                  ("Asia/Calcutta" "India")))
+
+  ;; default is 1000, increase the backtrace level
+  (setq max-specpdl-size 3000)
+
+  (setf url-queue-timeout 30))
+
+(defun dotspacemacs/user-config ()
+  "Configuration function for user code.
+ This function is called at the very end of Spacemacs initialization after
+layers configuration. You are free to put any user code."
+
   (with-eval-after-load 'org
     ;; org problems
     (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
@@ -302,8 +322,7 @@ user code."
     (setq org-list-description-max-indent 5)
 
     ;; prevent demoting heading also shifting text inside sections
-    (setq org-adapt-indentation nil)
-    )
+    (setq org-adapt-indentation nil))
 
   ;; smooth scrolling
   (setq redisplay-dont-pause t
@@ -420,26 +439,6 @@ user code."
             (lambda ()
               (setq term-buffer-maximum-size 10000)))
 
-  ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  (setq display-time-world-list '(("UTC" "UTC")
-                                  ("US/Eastern" "Miami")
-                                  ("America/Havana" "Habana")
-                                  ("America/New_York" "New York")
-                                  ("Europe/Amsterdam" "Amsterdam")
-                                  ("Europe/Copenhagen" "Denmark")
-                                  ("Asia/Shanghai" "China")
-                                  ("Asia/Calcutta" "India")))
-
-  (setf url-queue-timeout 30))
-
-(defun dotspacemacs/user-config ()
-  "Configuration function for user code.
- This function is called at the very end of Spacemacs initialization after
-layers configuration. You are free to put any user code."
-
-  ;; default is 1000, increase the backtrace level
-  (setq max-specpdl-size 3000)
-
   ;; line spacing
   (setq-default line-spacing 0.1)
 
@@ -461,7 +460,6 @@ layers configuration. You are free to put any user code."
   (diff-hl-flydiff-mode)
 
   ;; helm
-  ;; (setq helm-echo-input-in-header-line nil)
   (helm-projectile-on)
   (with-eval-after-load 'helm-mode
     (setq helm-google-suggest-use-curl-p t
@@ -581,8 +579,7 @@ layers configuration. You are free to put any user code."
 
     (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
     (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
-    (spacemacs/home)
-    )
+    (spacemacs/home))
 
   (add-hook 'mu4e-compose-mode-hook
             (lambda ()
@@ -602,7 +599,6 @@ layers configuration. You are free to put any user code."
   (add-hook 'text-mode-hook 'turn-on-flyspell)
   (add-hook 'makefile-mode-hook 'whitespace-mode)
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
-
 
   ;; Semantic fucks up scrolling
   (with-eval-after-load 'semantic
