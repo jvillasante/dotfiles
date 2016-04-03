@@ -52,7 +52,6 @@ values."
      github
      semantic
      ranger
-     ycmd
      (html :variables
            css-indent-offset 2
            web-mode-code-indent-offset 2
@@ -61,6 +60,7 @@ values."
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
+     ;; ycmd
      go
      javascript
      markdown
@@ -72,6 +72,7 @@ values."
            mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
 
      ;; private layers
+     my-irony
      my-forecast
      my-mu4e
      my-javascript
@@ -380,9 +381,9 @@ user code."
    web-mode-css-indent-offset 2)
 
   ;; ycmd
-  (set-variable 'ycmd-server-command '("python" "/home/jvillasante/Software/src/ycmd/ycmd"))
-  (set-variable 'ycmd-global-config "/home/jvillasante/Hacking/workspace/dotfiles/.emacs.d/layers/+tools/ycmd/global_conf.py")
-  (set-variable 'ycmd-extra-conf-whitelist '("/home/jvillasante/Hacking/workspace/*"))
+  ;; (set-variable 'ycmd-server-command '("python" "/home/jvillasante/Software/src/ycmd/ycmd"))
+  ;; (set-variable 'ycmd-global-config "/home/jvillasante/Hacking/workspace/dotfiles/.emacs.d/layers/+tools/ycmd/global_conf.py")
+  ;; (set-variable 'ycmd-extra-conf-whitelist '("/home/jvillasante/Hacking/workspace/*"))
   ;; (setq ycmd--log-enabled t)
 
   ;; utf-8
@@ -580,7 +581,7 @@ layers configuration. You are free to put any user code."
  '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
-    (auto-complete tern js2-mode magit-popup git-commit xterm-color web-mode web-beautify ranger paradox org-plus-contrib leuven-theme helm-make gitconfig-mode gitattributes-mode git-timemachine flycheck-ycmd flycheck-pos-tip flycheck evil-surround evil-mc evil-magit company-ycmd ycmd coffee-mode ace-link ace-jump-helm-line avy smartparens go-mode company gitignore-mode helm helm-core projectile markdown-mode magit quelpa which-key evil zenburn-theme zeal-at-point ws-butler window-numbering volatile-highlights use-package undo-tree toc-org tagedit stickyfunc-enhance srefactor spinner spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs rainbow-delimiters pkg-info persp-mode pcre2el password-store page-break-lines package-build orgit org-repo-todo org-present org-pomodoro org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow magit-gh-pulls lorem-ipsum linum-relative less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag goto-chg google-translate golden-ratio go-eldoc gnuplot github-clone github-browse-file git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md forecast flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-snipe evil-search-highlight-persist evil-numbers evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word deferred company-web company-tern company-statistics company-quickhelp company-go company-c-headers cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ac-ispell)))
+    (irony-eldoc flycheck-irony company-irony irony zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs ranger rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term move-text mmm-mode markdown-toc magit-gitflow magit-gh-pulls lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio go-eldoc gnuplot github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md forecast flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word company-web company-tern company-statistics company-quickhelp company-go company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
