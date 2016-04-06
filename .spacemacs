@@ -19,6 +19,7 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     org
      search-engine
      shell-scripts
      syntax-checking
@@ -61,10 +62,10 @@ values."
             c-c++-enable-clang-support t)
      ;; gtags
      ;; ycmd
-     go
+     ;; go
      javascript
      markdown
-     emacs-lisp
+     ;; emacs-lisp
      ;; python
      restclient
      deft
@@ -78,8 +79,7 @@ values."
      my-forecast
      my-mu4e
      my-javascript
-     my-password-store
-     my-zeal)
+     my-password-store)
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -87,7 +87,10 @@ values."
    ;; configuration in `dotspacemacs/config'.
    dotspacemacs-additional-packages '()
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '(dash evil-jumper smooth-scrolling ws-butler)
+   dotspacemacs-excluded-packages '(dash
+                                    evil-jumper
+                                    smooth-scrolling
+                                    ws-butler)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -697,7 +700,7 @@ layers configuration. You are free to put any user code."
  '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
-    (sx skeletor region-state quickrun puppet-mode lispy swiper flyspell-lazy firestarter dtrt-indent describe-number yabin corral bookmark+ pyvenv pytest pyenv-mode pip-requirements macrostep hy-mode helm-pydoc helm-gtags ggtags elisp-slime-nav cython-mode company-anaconda auto-compile packed anaconda-mode pythonic mu4e-alert ht irony-eldoc flycheck-irony company-irony irony zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs ranger rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nodejs-repl neotree multi-term move-text mmm-mode markdown-toc magit-gitflow magit-gh-pulls lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio go-eldoc gnuplot github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md forecast flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word company-web company-tern company-statistics company-quickhelp company-go company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (toc-org org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets htmlize gnuplot zenburn-theme zeal-at-point xterm-color window-numbering which-key web-mode web-beautify volatile-highlights use-package tagedit sx spacemacs-theme spaceline smeargle slim-mode skeletor shell-pop scss-mode sass-mode restclient restart-emacs region-state ranger rainbow-delimiters quickrun quelpa puppet-mode persp-mode pcre2el password-store paradox page-break-lines orgit open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum lispy linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio go-eldoc gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flycheck-pos-tip flycheck-irony flx-ido fish-mode firestarter fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dtrt-indent disaster diff-hl describe-number deft define-word corral company-web company-tern company-statistics company-quickhelp company-irony company-go company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste bookmark+ auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)

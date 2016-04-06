@@ -24,10 +24,10 @@
         ;; nasm-mode
         ;; helm-gtags
         ;; ggtags
-        shell-pop
-        slime
+        ;; shell-pop
+        ;; slime
         persp-mode
-        puppet-mode
+        ;; puppet-mode
         popwin
         irony
         lispy
@@ -46,6 +46,7 @@
         quickrun
         ;; wiki-summary
         ;; x86-lookup
+        zeal-at-point
         ))
 
 ;; List of packages to exclude.
@@ -461,460 +462,6 @@
       "osi" 'sx-inbox
       "osa" 'sx-ask)))
 
-(defun jvillasante/post-init-org ()
-  (add-hook 'org-mode-hook 'yas-minor-mode)
-
-  (with-eval-after-load 'org
-    ;; org problems
-    (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
-    (setq org-clock-line-re "^[    ]*CLOCK:")
-
-    (setq org-startup-indented t)
-    (setq org-indent-mode t)
-
-    ;; set maximum indentation for description lists
-    (setq org-list-description-max-indent 5)
-
-    ;; prevent demoting heading also shifting text inside sections
-    (setq org-adapt-indentation nil))
-
-  (progn
-    (setq org-ellipsis " ▼ ")
-    ;; (add-to-list 'load-path (concat user-emacs-directory "private/jvillasante/extensions/org/contrib/lisp"))
-
-    (require 'org)
-
-    (require 'org-eldoc)
-    (add-hook 'org-mode-hook 'org-eldoc-load)
-    (add-hook 'org-mode-hook 'eldoc-mode)
-
-    (require 'org-table)
-    ;; (require 'org-drill)
-    ;; (require 'org-depend)
-    (require 'ox-beamer)
-
-    (global-unset-key (kbd "C-c a"))
-
-    (add-to-list 'auto-mode-alist '("\\.org\\â€™" . org-mode))
-    (add-hook 'org-mode-hook 'auto-fill-mode)
-    (define-key org-mode-map (kbd "C-c j") 'helm-org-in-buffer-headings)
-
-    ;; (global-set-key (kbd "C-c a") 'org-agenda)
-    (global-set-key (kbd "C-c l") 'org-store-link)
-
-    ;; (global-set-key "\C-cb" 'org-iswitchb)
-    (setq org-log-done t)
-
-    (add-hook 'org-mode-hook 'org-indent-mode)
-    ;;org-key bindings
-    ;; Custom Key Bindings
-    ;; (global-unset-key (kbd "<f10>"))
-    ;; (global-set-key (kbd "<f12>") 'org-agenda)
-    ;; ;; (global-set-key (kbd "<f5>") 'bh/org-todo)
-    ;; ;; (global-set-key (kbd "<S-f5>") 'bh/widen)
-    ;; ;; (global-set-key (kbd "<f7>") 'bh/set-truncate-lines)
-    ;; ;; (global-set-key (kbd "<f8>") 'org-cycle-agenda-files)
-    ;; ;; (global-set-key (kbd "<f10> <f10>") 'bh/show-org-agenda)
-    ;; ;; (global-set-key (kbd "<f10> b") 'bbdb)
-    ;; (global-set-key (kbd "<f10> c") 'calendar)
-    ;; (global-set-key (kbd "<f10> f") 'boxquote-insert-file)
-    ;; ;; (global-set-key (kbd "<f10> g") 'gnus)
-    ;; (global-set-key (kbd "<f10> h") 'bh/hide-other)
-    ;; (global-set-key (kbd "<f10> n") 'bh/toggle-next-task-display)
-    ;; (global-set-key (kbd "<f10> w") 'widen)
-
-    ;; (global-set-key (kbd "<f10> I") 'bh/punch-in)
-    ;; (global-set-key (kbd "<f10> O") 'bh/punch-out)
-
-    ;; ;; (global-set-key (kbd "<f10> o") 'bh/make-org-scratch)
-
-    ;; (global-set-key (kbd "<f10> r") 'boxquote-region)
-    ;; (global-set-key (kbd "<f10> s") 'bh/switch-to-scratch)
-
-    ;; (global-set-key (kbd "<f10> t") 'bh/insert-inactive-timestamp)
-    ;; (global-set-key (kbd "<f10> T") 'bh/toggle-insert-inactive-timestamp)
-
-    ;; (global-set-key (kbd "<f10> v") 'visible-mode)
-    ;; (global-set-key (kbd "<f10> l") 'org-toggle-link-display)
-    ;; (global-set-key (kbd "<f10> SPC") 'bh/clock-in-last-task)
-    ;; (global-set-key (kbd "C-<f10>") 'previous-buffer)
-    ;; (global-set-key (kbd "M-<f10>") 'org-toggle-inline-images)
-    ;; (global-set-key (kbd "C-x n r") 'narrow-to-region)
-    ;; (global-set-key (kbd "C-<f10>") 'next-buffer)
-    ;; (global-set-key (kbd "<f11>") 'org-clock-goto)
-    ;; (global-set-key (kbd "C-<f11>") 'org-clock-in)
-    ;; (global-set-key (kbd "C-s-<f12>") 'bh/save-then-publish)
-
-    (defun bh/hide-other ()
-      (interactive)
-      (save-excursion
-        (org-back-to-heading 'invisible-ok)
-        (hide-other)
-        (org-cycle)
-        (org-cycle)
-        (org-cycle)))
-
-    (defun bh/set-truncate-lines ()
-      "Toggle value of truncate-lines and refresh window display."
-      (interactive)
-      (setq truncate-lines (not truncate-lines))
-      ;; now refresh window display (an idiom from simple.el):
-      (save-excursion
-        (set-window-start (selected-window)
-                          (window-start (selected-window)))))
-
-    ;; (defun bh/make-org-scratch ()
-    ;;   (interactive)
-    ;;   (find-file "/tmp/publish/scratch.org")
-    ;;   (gnus-make-directory "/tmp/publish"))
-
-    (defun bh/switch-to-scratch ()
-      (interactive)
-      (switch-to-buffer "*scratch*"))
-
-    ;; (setq org-default-notes-file (concat org-directory "~/org-data/tasks.org"))
-    (defvar custom--org-project-file-path "~/org-data/")
-
-    (defun custom-org-project-files
-        (directory-files custom--org-project-file-path nil "\\.org$"))8
-        (defun custom-org-project-chooser ()
-          (let ((completing-read-func (if (null ido-mode)
-                                          'completing-read
-                                        'ido-completing-read)))
-            (setq project-file
-                  (funcall completing-read-func
-                           "Project: "
-                           (custom-org-project-files)
-                           nil
-                           t))))
-
-        ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
-        (setq org-capture-templates
-              (quote (("t" "todo" entry (file "~/org-data/refile.org")
-                       "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                      ("l" "link" entry (file "~/org-data/refile.org")
-                       "* %?\n%A\n" :clock-in t :clock-resume t)
-                      ("r" "respond" entry (file "~/org-data/refile.org")
-                       "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-                      ("n" "note" entry (file "~/org-data/refile.org")
-                       "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-                      ("j" "Journal" entry (file+datetree "~/org-data/diary.org")
-                       "* %?\n%U\n" :clock-in t :clock-resume t)
-                      ("w" "org-protocol" entry (file "~/org-data/refile.org")
-                       "* TODO Review %c\n%U\n" :immediate-finish t)
-                      ("m" "Meeting" entry (file "~/org-data/refile.org")
-                       "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-                      ("p" "Phone call" entry (file "~/org-data/refile.org")
-                       "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-                      ("h" "Habit" entry (file "~/org-data/refile.org")
-                       "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
-
-        (global-set-key (kbd "C-c c") 'org-capture)
-
-        (setq org-clock-persist 'history)
-        (org-clock-persistence-insinuate)
-        (setq org-replace-disputed-keys nil)
-
-        (org-babel-do-load-languages
-         'org-babel-load-languages
-         '((sh . t)))
-
-        (setq org-agenda-files (list
-                                "~/workspace/study/study-plan.org"
-                                "~/Dropbox/org/projects.org"
-                                "~/org-data/tasks.org"))
-        (add-hook 'org-mode-hook
-                  (lambda ()
-                    (local-set-key "\M-\C-n" 'outline-next-visible-heading)
-                    (local-set-key "\M-\C-p" 'outline-previous-visible-heading)
-                    (local-set-key "\M-\C-u" 'outline-up-heading)
-                    ;; table
-                    (local-set-key "\M-\C-w" 'org-table-copy-region)
-                    (local-set-key "\M-\C-y" 'org-table-paste-rectangle)
-                    (local-set-key "\M-\C-l" 'org-table-sort-lines)
-                    ;; display images
-                    (local-set-key "\M-I" 'org-toggle-iimage-in-org)
-                    (yas-minor-mode -1)))
-
-        (setq org-use-speed-commands t)
-
-        (setq org-confirm-babel-evaluate nil)
-
-        (setq org-src-fontify-natively t)
-        (setq org-src-tab-acts-natively t)
-
-        (setq org-todo-keywords
-              (quote ((sequence "TODO(t)" "NEXT(n)" "PROGRESS(p)" "|" "DONE(d)")
-                      (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
-
-        (setq org-todo-keyword-faces
-              (quote (("TODO" :foreground "red" :weight bold)
-                      ("NEXT" :foreground "blue" :weight bold)
-                      ("PROGRESS" :foreground "yellow" :weight bold)
-                      ("DONE" :foreground "forest green" :weight bold)
-                      ("HOLD" :foreground "magenta" :weight bold)
-                      ("WAITING" :foreground "orange" :weight bold)
-                      ("CANCELLED" :foreground "forest green" :weight bold)
-                      ("MEETING" :foreground "forest green" :weight bold)
-                      ("PHONE" :foreground "forest green" :weight bold))))
-
-        ;; ,----
-        ;; | Refilling Tasks
-        ;; `----
-        ;; Targets include this file and any file contributing to the agenda - up to 9 levels deep
-        (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                         (org-agenda-files :maxlevel . 9))))
-
-        ;; Use full outline paths for refile targets - we file directly with IDO
-        (setq org-refile-use-outline-path t)
-
-        ;; Targets complete directly with IDO
-        (setq org-outline-path-complete-in-steps nil)
-
-        ;; Allow refile to create parent tasks with confirmation
-        (setq org-refile-allow-creating-parent-nodes (quote confirm))
-
-        ;; Use IDO for both buffer and file completion and ido-everywhere to t
-        ;; (setq org-completion-use-ido t)
-        ;; (setq ido-everywhere t)
-        ;; (setq ido-max-directory-size 100000)
-        ;; (ido-mode (quote both))
-        ;; Use the current window when visiting files and buffers with ido
-        ;; (setq ido-default-file-method 'selected-window)
-        ;; (setq ido-default-buffer-method 'selected-window)
-        ;; Use the current window for indirect buffer display
-        ;; (setq org-indirect-buffer-display 'current-window)
-
-        ;; Refile settings
-        ;; Exclude DONE state tasks from refile targets
-        (defun bh/verify-refile-target ()
-          "Exclude todo keywords with a done state from refile targets"
-          (not (member (nth 2 (org-heading-components)) org-done-keywords)))
-
-        (setq org-refile-target-verify-function 'bh/verify-refile-target)
-
-        ;; ,----
-        ;; | Agenda setup
-        ;; `----
-        ;; Do not dim blocked tasks
-        (setq org-agenda-dim-blocked-tasks nil)
-
-        ;; Compact the block agenda view
-        (setq org-agenda-compact-blocks t)
-
-        ;; Custom agenda command definitions
-        (setq org-agenda-custom-commands
-              (quote (("N" "Notes" tags "NOTE"
-                       ((org-agenda-overriding-header "Notes")
-                        (org-tags-match-list-sublevels t)))
-                      ("h" "Habits" tags-todo "STYLE=\"habit\""
-                       ((org-agenda-overriding-header "Habits")
-                        (org-agenda-sorting-strategy
-                         '(todo-state-down effort-up category-keep))))
-                      (" " "Agenda"
-                       ((agenda "" nil)
-                        (tags "REFILE"
-                              ((org-agenda-overriding-header "Tasks to Refile")
-                               (org-tags-match-list-sublevels nil)))
-                        (tags-todo "-CANCELLED/!"
-                                   ((org-agenda-overriding-header "Stuck Projects")
-                                    (org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                                    (org-agenda-sorting-strategy
-                                     '(category-keep))))
-                        (tags-todo "-HOLD-CANCELLED/!"
-                                   ((org-agenda-overriding-header "Projects")
-                                    (org-agenda-skip-function 'bh/skip-non-projects)
-                                    (org-tags-match-list-sublevels 'indented)
-                                    (org-agenda-sorting-strategy
-                                     '(category-keep))))
-                        (tags-todo "-CANCELLED/!NEXT"
-                                   ((org-agenda-overriding-header (concat "Project Next Tasks"
-                                                                          (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                              ""
-                                                                            " (including WAITING and SCHEDULED tasks)")))
-                                    (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
-                                    (org-tags-match-list-sublevels t)
-                                    (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                                    (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                                    (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                                    (org-agenda-sorting-strategy
-                                     '(todo-state-down effort-up category-keep))))
-                        (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-                                   ((org-agenda-overriding-header (concat "Project Subtasks"
-                                                                          (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                              ""
-                                                                            " (including WAITING and SCHEDULED tasks)")))
-                                    (org-agenda-skip-function 'bh/skip-non-project-tasks)
-                                    (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                                    (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                                    (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                                    (org-agenda-sorting-strategy
-                                     '(category-keep))))
-                        (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-                                   ((org-agenda-overriding-header (concat "Standalone Tasks"
-                                                                          (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                              ""
-                                                                            " (including WAITING and SCHEDULED tasks)")))
-                                    (org-agenda-skip-function 'bh/skip-project-tasks)
-                                    (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                                    (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                                    (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                                    (org-agenda-sorting-strategy
-                                     '(category-keep))))
-                        (tags-todo "-CANCELLED+WAITING|HOLD/!"
-                                   ((org-agenda-overriding-header "Waiting and Postponed Tasks")
-                                    (org-agenda-skip-function 'bh/skip-stuck-projects)
-                                    (org-tags-match-list-sublevels nil)
-                                    (org-agenda-todo-ignore-scheduled t)
-                                    (org-agenda-todo-ignore-deadlines t)))
-                        (tags "-REFILE/"
-                              ((org-agenda-overriding-header "Tasks to Archive")
-                               (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
-                               (org-tags-match-list-sublevels nil))))
-                       nil))))
-
-        (add-hook 'org-mode-hook 'yas-minor-mode-on)
-        (add-hook 'org-mode-hook (lambda () (semantic-mode -1)))
-
-        (defun yas/org-very-safe-expand ()
-          (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
-
-        (add-hook 'org-mode-hook
-                  (lambda ()
-                    (make-variable-buffer-local 'yas/trigger-key)
-                    (setq yas/trigger-key [tab])
-                    (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-                    (define-key yas/keymap [tab] 'yas/next-field)
-                    ))
-
-        ;; Make windmove work in org-mode:
-        (add-hook 'org-shiftup-final-hook 'windmove-up)
-        (add-hook 'org-shiftleft-final-hook 'windmove-left)
-        (add-hook 'org-shiftdown-final-hook 'windmove-down)
-        (add-hook 'org-shiftright-final-hook 'windmove-right)
-
-        (defun my/org-add-ids-to-headlines-in-file ()
-          "Add ID properties to all headlines in the current file which
-do not already have one."
-          (interactive)
-          (org-map-entries 'org-id-get-create))
-
-        ;; (add-hook 'org-mode-hook
-        ;;           (lambda ()
-        ;;             (add-hook 'before-save-hook 'my/org-add-ids-to-headlines-in-file nil 'local)))
-
-        ;; (setq org-hide-emphasis-markers t)
-
-        (require 'ox-html)
-        ;; (require 'ox-rs)			;
-        (require 'ox-publish)
-
-        (setq org-publish-project-alist
-              '(("blog-content"
-                 :base-directory "~/Public/emacs-tutor/emacs-tutor/"
-                 :html-extension "html"
-                 :base-extension "org"
-                 :publishing-directory "~/Public/emacs-tutor/"
-                 :publishing-function (org-html-publish-to-html)
-                 :recursive t               ; descend into sub-folders?
-                 :section-numbers nil       ; don't create numbered sections
-                 :with-toc t                ; don't create a table of contents
-                 :with-latex t              ; do use MathJax for awesome formulas!
-                 :html-preamble
-                 (lambda (info)
-                   (concat "<!-- Start of StatCounter Code for Default Guide -->
-<script type=\"text/javascript\">
-var sc_project=9874755;
-var sc_invisible=1;
-var sc_security=\"c2028bb7\";
-var scJsHost = ((\"https:\" == document.location.protocol) ?
-\"https://secure.\" : \"http://www.\");
-document.write(\"<sc\"+\"ript type='text/javascript' src='\" + scJsHost+
-\"statcounter.com/counter/counter.js'></\"+\"script>\");
-</script>
-<noscript><div class=\"statcounter\"><a title=\"hit counter\"
-href=\"http://statcounter.com/free-hit-counter/\" target=\"_blank\"><img
-class=\"statcounter\" src=\"http://c.statcounter.com/9874755/0/c2028bb7/1/\"
-alt=\"hit counter\"></a></div></noscript>
-<!-- End of StatCounter Code for Default Guide -->"
-                           (cond ((and (listp (plist-get info :title))
-                                       (or (string= (car (plist-get info :title)) "Table of Contents")
-                                           (string= (car (plist-get info :title)) "Contents")))
-                                  "")
-                                 (t "
-<h2><a href=\"index.html\">Back to Table of Contents</a></h2>
-"))))                                   ; this stuff is put before your post
-                 :html-postamble
-                 (lambda (info)
-                   (cond ((and (listp (plist-get info :title))
-                               (or (string= (car (plist-get info :title)) "Table of Contents")
-                                   (string= (car (plist-get info :title)) "Contents")))
-                          "")
-                         (t "
-    <div id=\"disqus_thread\"></div>
-    <script type=\"text/javascript\">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'emacs-tutor'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href=\"http://disqus.com/?ref_noscript\">comments powered by Disqus.</a></noscript>
-    <a href=\"http://disqus.com\" class=\"dsq-brlink\">comments powered by <span class=\"logo-disqus\">Disqus</span></a>
-")
-                         ;; (t "<div id=\"archive\"><a href=\"index.html\">index</a></div>")
-                         ))
-                 :html-head-extra "<link rel=\"stylesheet\" href=\"./static/worg.css\">"
-                 ;; :auto-sitemap t
-                 ;; :sitemap-filename "index.org"
-                 ;; :sitemap-title "Table of Content"
-                 ;; :sitemap-sort-files chronologically
-                 ;; :sitemap-style list
-                 ;; :makeindex t
-                 :html-head-extra "<link rel=\"stylesheet\" href=\"./static/worg.css\">"
-                 )
-                ("blog-static"
-                 :base-directory "~/Public/emacs-tutor/emacs-tutor/static/"
-                 :base-extension "gif\\|png\\|jpg\\|css"
-                 :publishing-directory "~/Public/emacs-tutor/static"
-                 :recursive t
-                 :publishing-function org-publish-attachment)
-                ("blog"
-                 :components ("blog-content" "blog-static"))
-                ("enux"
-                 :base-directory "~/enux"
-                 :html-extension "html"
-                 :base-extension "org"
-                 :publishing-directory "~/enux"
-                 :publishing-function (org-html-publish-to-html)
-                 :recursive t               ; descend into sub-folders?
-                 :section-numbers nil       ; don't create numbered sections
-                 :with-toc t                ; don't create a table of contents
-                 :with-latex t              ; do use MathJax for awesome formulas!
-                 :html-head-extra "<link rel=\"stylesheet\" href=\"./worg.css\">"
-                 )))
-
-        (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n\"'")
-        (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
-
-        (setq org-use-speed-commands t)
-        (add-to-list 'org-structure-template-alist '("n" "#+NAME:"))
-
-        (defun org-babel-src-block-names (&optional file)
-          "Returns the names of source blocks in FILE or the current buffer."
-          (when file (find-file file))
-          (save-excursion
-            (goto-char (point-min))
-            (let ((re (org-babel-named-src-block-regexp-for-name))
-                  names)
-              (while (ignore-errors (org-next-block 1 nil re))
-                (push (org-match-string-no-properties 9) names))
-              (nreverse  names))))))
-
 (defun jvillasante/post-init-omnisharp ()
   (setq omnisharp-server-executable-path "/usr/local/bin/omnisharp"))
 
@@ -1055,3 +602,465 @@ alt=\"hit counter\"></a></div></noscript>
 
 (defun jvillasante/post-init-nasm-mode ()
   (define-key nasm-mode-map (kbd "C-c d .") 'x86-lookup))
+
+(defun jvillasante/init-zeal-at-point ()
+  (use-package zeal-at-point
+    :init
+    (evil-leader/set-key
+      "oz" 'zeal-at-point)))
+
+(defun jvillasante/post-init-org ()
+  (add-hook 'org-mode-hook 'yas-minor-mode)
+
+  (with-eval-after-load 'org
+    ;; org problems
+    (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
+    (setq org-clock-line-re "^[    ]*CLOCK:")
+
+    (setq org-startup-indented t)
+    (setq org-indent-mode t)
+
+    ;; set maximum indentation for description lists
+    (setq org-list-description-max-indent 5)
+
+    ;; prevent demoting heading also shifting text inside sections
+    (setq org-adapt-indentation nil))
+
+  (progn
+    (setq org-ellipsis " ▼ ")
+    (add-to-list 'load-path (concat user-emacs-directory "private/jvillasante/extensions/org/contrib/lisp"))
+
+    (require 'org)
+
+    (require 'org-eldoc)
+    (add-hook 'org-mode-hook 'org-eldoc-load)
+    (add-hook 'org-mode-hook 'eldoc-mode)
+
+    (require 'org-table)
+    ;; (require 'org-drill)
+    ;; (require 'org-depend)
+    (require 'ox-beamer)
+
+    (global-unset-key (kbd "C-c a"))
+
+    (add-to-list 'auto-mode-alist '("\\.org\\â€™" . org-mode))
+    (add-hook 'org-mode-hook 'auto-fill-mode)
+    (define-key org-mode-map (kbd "C-c j") 'helm-org-in-buffer-headings)
+
+    ;; (global-set-key (kbd "C-c a") 'org-agenda)
+    (global-set-key (kbd "C-c l") 'org-store-link)
+
+    ;; (global-set-key "\C-cb" 'org-iswitchb)
+    (setq org-log-done t)
+
+    (add-hook 'org-mode-hook 'org-indent-mode)
+    ;;org-key bindings
+    ;; Custom Key Bindings
+    ;; (global-unset-key (kbd "<f10>"))
+    ;; (global-set-key (kbd "<f12>") 'org-agenda)
+    ;; ;; (global-set-key (kbd "<f5>") 'bh/org-todo)
+    ;; ;; (global-set-key (kbd "<S-f5>") 'bh/widen)
+    ;; ;; (global-set-key (kbd "<f7>") 'bh/set-truncate-lines)
+    ;; ;; (global-set-key (kbd "<f8>") 'org-cycle-agenda-files)
+    ;; ;; (global-set-key (kbd "<f10> <f10>") 'bh/show-org-agenda)
+    ;; ;; (global-set-key (kbd "<f10> b") 'bbdb)
+    ;; (global-set-key (kbd "<f10> c") 'calendar)
+    ;; (global-set-key (kbd "<f10> f") 'boxquote-insert-file)
+    ;; ;; (global-set-key (kbd "<f10> g") 'gnus)
+    ;; (global-set-key (kbd "<f10> h") 'bh/hide-other)
+    ;; (global-set-key (kbd "<f10> n") 'bh/toggle-next-task-display)
+    ;; (global-set-key (kbd "<f10> w") 'widen)
+
+    ;; (global-set-key (kbd "<f10> I") 'bh/punch-in)
+    ;; (global-set-key (kbd "<f10> O") 'bh/punch-out)
+
+    ;; ;; (global-set-key (kbd "<f10> o") 'bh/make-org-scratch)
+
+    ;; (global-set-key (kbd "<f10> r") 'boxquote-region)
+    ;; (global-set-key (kbd "<f10> s") 'bh/switch-to-scratch)
+
+    ;; (global-set-key (kbd "<f10> t") 'bh/insert-inactive-timestamp)
+    ;; (global-set-key (kbd "<f10> T") 'bh/toggle-insert-inactive-timestamp)
+
+    ;; (global-set-key (kbd "<f10> v") 'visible-mode)
+    ;; (global-set-key (kbd "<f10> l") 'org-toggle-link-display)
+    ;; (global-set-key (kbd "<f10> SPC") 'bh/clock-in-last-task)
+    ;; (global-set-key (kbd "C-<f10>") 'previous-buffer)
+    ;; (global-set-key (kbd "M-<f10>") 'org-toggle-inline-images)
+    ;; (global-set-key (kbd "C-x n r") 'narrow-to-region)
+    ;; (global-set-key (kbd "C-<f10>") 'next-buffer)
+    ;; (global-set-key (kbd "<f11>") 'org-clock-goto)
+    ;; (global-set-key (kbd "C-<f11>") 'org-clock-in)
+    ;; (global-set-key (kbd "C-s-<f12>") 'bh/save-then-publish)
+
+    (defun bh/hide-other ()
+      (interactive)
+      (save-excursion
+        (org-back-to-heading 'invisible-ok)
+        (hide-other)
+        (org-cycle)
+        (org-cycle)
+        (org-cycle)))
+
+    (defun bh/set-truncate-lines ()
+      "Toggle value of truncate-lines and refresh window display."
+      (interactive)
+      (setq truncate-lines (not truncate-lines))
+      ;; now refresh window display (an idiom from simple.el):
+      (save-excursion
+        (set-window-start (selected-window)
+                          (window-start (selected-window)))))
+
+    ;; (defun bh/make-org-scratch ()
+    ;;   (interactive)
+    ;;   (find-file "/tmp/publish/scratch.org")
+    ;;   (gnus-make-directory "/tmp/publish"))
+
+    (defun bh/switch-to-scratch ()
+      (interactive)
+      (switch-to-buffer "*scratch*"))
+
+    ;; (setq org-default-notes-file (concat org-directory "~/org-data/tasks.org"))
+    (defvar custom--org-project-file-path "~/org-data/")
+
+    (defun custom-org-project-files
+        (directory-files custom--org-project-file-path nil "\\.org$"))8
+    (defun custom-org-project-chooser ()
+      (let ((completing-read-func (if (null ido-mode)
+                                      'completing-read
+                                    'ido-completing-read)))
+        (setq project-file
+              (funcall completing-read-func
+                       "Project: "
+                       (custom-org-project-files)
+                       nil
+                       t))))
+
+    ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+    (setq org-capture-templates
+          (quote (("t" "todo" entry (file "~/org-data/refile.org")
+                   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                  ("l" "link" entry (file "~/org-data/refile.org")
+                   "* %?\n%A\n" :clock-in t :clock-resume t)
+                  ("r" "respond" entry (file "~/org-data/refile.org")
+                   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+                  ("n" "note" entry (file "~/org-data/refile.org")
+                   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+                  ("j" "Journal" entry (file+datetree "~/org-data/diary.org")
+                   "* %?\n%U\n" :clock-in t :clock-resume t)
+                  ("w" "org-protocol" entry (file "~/org-data/refile.org")
+                   "* TODO Review %c\n%U\n" :immediate-finish t)
+                  ("m" "Meeting" entry (file "~/org-data/refile.org")
+                   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+                  ("p" "Phone call" entry (file "~/org-data/refile.org")
+                   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+                  ("h" "Habit" entry (file "~/org-data/refile.org")
+                   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+
+    (global-set-key (kbd "C-c c") 'org-capture)
+
+    (setq org-clock-persist 'history)
+    (org-clock-persistence-insinuate)
+    (setq org-replace-disputed-keys nil)
+
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((sh . t)))
+
+    ;; TODO
+    ;; (setq org-agenda-files (list
+    ;;                         "~/workspace/study/study-plan.org"
+    ;;                         "~/Dropbox/org/projects.org"
+    ;;                         "~/org-data/tasks.org"))
+
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (local-set-key "\M-\C-n" 'outline-next-visible-heading)
+                (local-set-key "\M-\C-p" 'outline-previous-visible-heading)
+                (local-set-key "\M-\C-u" 'outline-up-heading)
+                ;; table
+                (local-set-key "\M-\C-w" 'org-table-copy-region)
+                (local-set-key "\M-\C-y" 'org-table-paste-rectangle)
+                (local-set-key "\M-\C-l" 'org-table-sort-lines)
+                ;; display images
+                (local-set-key "\M-I" 'org-toggle-iimage-in-org)
+                (yas-minor-mode -1)))
+
+    (setq org-use-speed-commands t)
+
+    (setq org-confirm-babel-evaluate nil)
+
+    (setq org-src-fontify-natively t)
+    (setq org-src-tab-acts-natively t)
+
+    (setq org-todo-keywords
+          (quote ((sequence "TODO(t)" "NEXT(n)" "PROGRESS(p)" "|" "DONE(d)")
+                  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+
+    (setq org-todo-keyword-faces
+          (quote (("TODO" :foreground "red" :weight bold)
+                  ("NEXT" :foreground "blue" :weight bold)
+                  ("PROGRESS" :foreground "yellow" :weight bold)
+                  ("DONE" :foreground "forest green" :weight bold)
+                  ("HOLD" :foreground "magenta" :weight bold)
+                  ("WAITING" :foreground "orange" :weight bold)
+                  ("CANCELLED" :foreground "forest green" :weight bold)
+                  ("MEETING" :foreground "forest green" :weight bold)
+                  ("PHONE" :foreground "forest green" :weight bold))))
+
+    ;; ,----
+    ;; | Refilling Tasks
+    ;; `----
+    ;; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+    (setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                     (org-agenda-files :maxlevel . 9))))
+
+    ;; Use full outline paths for refile targets - we file directly with IDO
+    (setq org-refile-use-outline-path t)
+
+    ;; Targets complete directly with IDO
+    (setq org-outline-path-complete-in-steps nil)
+
+    ;; Allow refile to create parent tasks with confirmation
+    (setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+    ;; Use IDO for both buffer and file completion and ido-everywhere to t
+    ;; (setq org-completion-use-ido t)
+    ;; (setq ido-everywhere t)
+    ;; (setq ido-max-directory-size 100000)
+    ;; (ido-mode (quote both))
+    ;; Use the current window when visiting files and buffers with ido
+    ;; (setq ido-default-file-method 'selected-window)
+    ;; (setq ido-default-buffer-method 'selected-window)
+    ;; Use the current window for indirect buffer display
+    ;; (setq org-indirect-buffer-display 'current-window)
+
+    ;; Refile settings
+    ;; Exclude DONE state tasks from refile targets
+    (defun bh/verify-refile-target ()
+      "Exclude todo keywords with a done state from refile targets"
+      (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+
+    (setq org-refile-target-verify-function 'bh/verify-refile-target)
+
+    ;; ,----
+    ;; | Agenda setup
+    ;; `----
+    ;; Do not dim blocked tasks
+    (setq org-agenda-dim-blocked-tasks nil)
+
+    ;; Compact the block agenda view
+    (setq org-agenda-compact-blocks t)
+
+    ;; Custom agenda command definitions
+    (setq org-agenda-custom-commands
+          (quote (("N" "Notes" tags "NOTE"
+                   ((org-agenda-overriding-header "Notes")
+                    (org-tags-match-list-sublevels t)))
+                  ("h" "Habits" tags-todo "STYLE=\"habit\""
+                   ((org-agenda-overriding-header "Habits")
+                    (org-agenda-sorting-strategy
+                     '(todo-state-down effort-up category-keep))))
+                  (" " "Agenda"
+                   ((agenda "" nil)
+                    (tags "REFILE"
+                          ((org-agenda-overriding-header "Tasks to Refile")
+                           (org-tags-match-list-sublevels nil)))
+                    (tags-todo "-CANCELLED/!"
+                               ((org-agenda-overriding-header "Stuck Projects")
+                                (org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                                (org-agenda-sorting-strategy
+                                 '(category-keep))))
+                    (tags-todo "-HOLD-CANCELLED/!"
+                               ((org-agenda-overriding-header "Projects")
+                                (org-agenda-skip-function 'bh/skip-non-projects)
+                                (org-tags-match-list-sublevels 'indented)
+                                (org-agenda-sorting-strategy
+                                 '(category-keep))))
+                    (tags-todo "-CANCELLED/!NEXT"
+                               ((org-agenda-overriding-header (concat "Project Next Tasks"
+                                                                      (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                          ""
+                                                                        " (including WAITING and SCHEDULED tasks)")))
+                                (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
+                                (org-tags-match-list-sublevels t)
+                                (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                                (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                                (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                                (org-agenda-sorting-strategy
+                                 '(todo-state-down effort-up category-keep))))
+                    (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                               ((org-agenda-overriding-header (concat "Project Subtasks"
+                                                                      (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                          ""
+                                                                        " (including WAITING and SCHEDULED tasks)")))
+                                (org-agenda-skip-function 'bh/skip-non-project-tasks)
+                                (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                                (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                                (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                                (org-agenda-sorting-strategy
+                                 '(category-keep))))
+                    (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                               ((org-agenda-overriding-header (concat "Standalone Tasks"
+                                                                      (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                          ""
+                                                                        " (including WAITING and SCHEDULED tasks)")))
+                                (org-agenda-skip-function 'bh/skip-project-tasks)
+                                (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                                (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                                (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                                (org-agenda-sorting-strategy
+                                 '(category-keep))))
+                    (tags-todo "-CANCELLED+WAITING|HOLD/!"
+                               ((org-agenda-overriding-header "Waiting and Postponed Tasks")
+                                (org-agenda-skip-function 'bh/skip-stuck-projects)
+                                (org-tags-match-list-sublevels nil)
+                                (org-agenda-todo-ignore-scheduled t)
+                                (org-agenda-todo-ignore-deadlines t)))
+                    (tags "-REFILE/"
+                          ((org-agenda-overriding-header "Tasks to Archive")
+                           (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
+                           (org-tags-match-list-sublevels nil))))
+                   nil))))
+
+    (add-hook 'org-mode-hook 'yas-minor-mode-on)
+    (add-hook 'org-mode-hook (lambda () (semantic-mode -1)))
+
+    (defun yas/org-very-safe-expand ()
+      (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (make-variable-buffer-local 'yas/trigger-key)
+                (setq yas/trigger-key [tab])
+                (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+                (define-key yas/keymap [tab] 'yas/next-field)
+                ))
+
+    ;; Make windmove work in org-mode:
+    (add-hook 'org-shiftup-final-hook 'windmove-up)
+    (add-hook 'org-shiftleft-final-hook 'windmove-left)
+    (add-hook 'org-shiftdown-final-hook 'windmove-down)
+    (add-hook 'org-shiftright-final-hook 'windmove-right)
+
+    (defun my/org-add-ids-to-headlines-in-file ()
+      "Add ID properties to all headlines in the current file which
+do not already have one."
+      (interactive)
+      (org-map-entries 'org-id-get-create))
+
+    ;; (add-hook 'org-mode-hook
+    ;;           (lambda ()
+    ;;             (add-hook 'before-save-hook 'my/org-add-ids-to-headlines-in-file nil 'local)))
+
+    ;; (setq org-hide-emphasis-markers t)
+
+    (require 'ox-html)
+    ;; (require 'ox-rs)			;
+    (require 'ox-publish)
+
+    (setq org-publish-project-alist
+          '(("blog-content"
+             :base-directory "~/Public/emacs-tutor/emacs-tutor/"
+             :html-extension "html"
+             :base-extension "org"
+             :publishing-directory "~/Public/emacs-tutor/"
+             :publishing-function (org-html-publish-to-html)
+             :recursive t               ; descend into sub-folders?
+             :section-numbers nil       ; don't create numbered sections
+             :with-toc t                ; don't create a table of contents
+             :with-latex t              ; do use MathJax for awesome formulas!
+             :html-preamble
+             (lambda (info)
+               (concat "<!-- Start of StatCounter Code for Default Guide -->
+<script type=\"text/javascript\">
+var sc_project=9874755;
+var sc_invisible=1;
+var sc_security=\"c2028bb7\";
+var scJsHost = ((\"https:\" == document.location.protocol) ?
+\"https://secure.\" : \"http://www.\");
+document.write(\"<sc\"+\"ript type='text/javascript' src='\" + scJsHost+
+\"statcounter.com/counter/counter.js'></\"+\"script>\");
+</script>
+<noscript><div class=\"statcounter\"><a title=\"hit counter\"
+href=\"http://statcounter.com/free-hit-counter/\" target=\"_blank\"><img
+class=\"statcounter\" src=\"http://c.statcounter.com/9874755/0/c2028bb7/1/\"
+alt=\"hit counter\"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->"
+                       (cond ((and (listp (plist-get info :title))
+                                   (or (string= (car (plist-get info :title)) "Table of Contents")
+                                       (string= (car (plist-get info :title)) "Contents")))
+                              "")
+                             (t "
+<h2><a href=\"index.html\">Back to Table of Contents</a></h2>
+"))))                                   ; this stuff is put before your post
+             :html-postamble
+             (lambda (info)
+               (cond ((and (listp (plist-get info :title))
+                           (or (string= (car (plist-get info :title)) "Table of Contents")
+                               (string= (car (plist-get info :title)) "Contents")))
+                      "")
+                     (t "
+    <div id=\"disqus_thread\"></div>
+    <script type=\"text/javascript\">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'emacs-tutor'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href=\"http://disqus.com/?ref_noscript\">comments powered by Disqus.</a></noscript>
+    <a href=\"http://disqus.com\" class=\"dsq-brlink\">comments powered by <span class=\"logo-disqus\">Disqus</span></a>
+")
+                     ;; (t "<div id=\"archive\"><a href=\"index.html\">index</a></div>")
+                     ))
+             :html-head-extra "<link rel=\"stylesheet\" href=\"./static/worg.css\">"
+             ;; :auto-sitemap t
+             ;; :sitemap-filename "index.org"
+             ;; :sitemap-title "Table of Content"
+             ;; :sitemap-sort-files chronologically
+             ;; :sitemap-style list
+             ;; :makeindex t
+             :html-head-extra "<link rel=\"stylesheet\" href=\"./static/worg.css\">"
+             )
+            ("blog-static"
+             :base-directory "~/Public/emacs-tutor/emacs-tutor/static/"
+             :base-extension "gif\\|png\\|jpg\\|css"
+             :publishing-directory "~/Public/emacs-tutor/static"
+             :recursive t
+             :publishing-function org-publish-attachment)
+            ("blog"
+             :components ("blog-content" "blog-static"))
+            ("enux"
+             :base-directory "~/enux"
+             :html-extension "html"
+             :base-extension "org"
+             :publishing-directory "~/enux"
+             :publishing-function (org-html-publish-to-html)
+             :recursive t               ; descend into sub-folders?
+             :section-numbers nil       ; don't create numbered sections
+             :with-toc t                ; don't create a table of contents
+             :with-latex t              ; do use MathJax for awesome formulas!
+             :html-head-extra "<link rel=\"stylesheet\" href=\"./worg.css\">"
+             )))
+
+    (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n\"'")
+    (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+
+    (setq org-use-speed-commands t)
+    (add-to-list 'org-structure-template-alist '("n" "#+NAME:"))
+
+    (defun org-babel-src-block-names (&optional file)
+      "Returns the names of source blocks in FILE or the current buffer."
+      (when file (find-file file))
+      (save-excursion
+        (goto-char (point-min))
+        (let ((re (org-babel-named-src-block-regexp-for-name))
+              names)
+          (while (ignore-errors (org-next-block 1 nil re))
+            (push (org-match-string-no-properties 9) names))
+          (nreverse  names))))))

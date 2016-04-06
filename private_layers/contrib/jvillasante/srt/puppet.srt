@@ -1,0 +1,99 @@
+set mode "puppet-mode"
+set HEADEREXT ".pp"
+
+context declaration
+
+template class
+----
+class {{?CLASS-NAME}} ({{?ARGS}}) {
+
+}
+----
+bind "c"
+
+template file
+----
+file {'{{?FILE-PATH}}':
+  ensure  => file,
+  owner   => {{?OWNER-NAME}},
+  content => template('{{?TEMPLATE-NAME}}'),
+  source  => 'puppet:///modules/'
+}
+----
+bind "f"
+
+template service
+----
+service{'{{?SERVICE-NAME}}':
+	ensure     => {{?ENSURE}},
+	enable     => {{?ENABLE-P}},
+	hasrestart => {{?HAS-RESTART}}
+	hasstatus  => {{?HAS-STATUS}}  
+}
+----
+bind "f"
+
+template package
+----
+package{'{{?PACKAGE-NAME}}':
+	ensure     => {{?ENSURE}},
+  before => File['{{?FILE-PATH}}'],
+}
+----
+bind "p"
+
+template if
+----
+if {{?CONDITION}} {
+
+}
+----
+bind "i"
+
+template ifelse
+----
+if {{?CONDITION}} {
+
+}
+else {
+
+}
+----
+bind "I"
+
+template unless
+----
+unless {{?CONDITION}} {
+
+}
+----
+bind "U"
+
+template case
+----
+case {{?CONDITION}} {
+  default:
+}
+----
+bind "i"
+
+template define
+----
+define {{?NAME}} ({{?ARGS}}) {
+  
+}
+----
+bind "d"
+
+template user
+----
+user { '{{?USER-NAME}}':
+	comment => '{{?COMMENT}}',
+	home    => '{{?HOME}}',
+  ensure  => {{?ENSURE}},
+	shell   => '{{?SHELL}}',
+	uid     => '{{?UID}}',
+	gid     => '{{?GID}}',
+}
+----
+bind "u"
