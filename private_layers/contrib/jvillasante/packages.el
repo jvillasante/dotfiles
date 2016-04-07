@@ -19,6 +19,7 @@
         firestarter
         flycheck
         flyspell-lazy
+        forecast
         goto-chg
         magit
         ;; nasm-mode
@@ -26,11 +27,12 @@
         ;; ggtags
         ;; shell-pop
         ;; slime
+        password-store
         persp-mode
         ;; puppet-mode
         popwin
         irony
-        lispy
+        ;; lispy
         company-irony
         flycheck-irony
         semantic
@@ -605,9 +607,32 @@
 
 (defun jvillasante/init-zeal-at-point ()
   (use-package zeal-at-point
+    :defer t
     :init
     (evil-leader/set-key
       "oz" 'zeal-at-point)))
+
+(defun jvillasante/init-password-store ()
+  (use-package password-store
+    :defer t
+    :init
+    (setq password-store-password-length 25)
+    (evil-leader/set-key
+      "opc" 'password-store-copy
+      "ope" 'password-store-edit
+      "opg" 'password-store-generate)))
+
+(defun jvillasante/init-forecast ()
+  (use-package forecast
+    :defer t
+    :init
+    (setq forecast-latitude 25.6400320
+          forecast-longitude -80.3385390
+          forecast-city "Miami"
+          forecast-country "USA"
+          forecast-api-key "96a8f25d9ec2a623b6606f079bbd2f5f")
+    (evil-leader/set-key
+      "of" 'forecast)))
 
 (defun jvillasante/post-init-org ()
   (add-hook 'org-mode-hook 'yas-minor-mode)
