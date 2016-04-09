@@ -6,9 +6,8 @@
         ;; asm-mode
         bookmark+
         ;; caps-lock
-        company
+        ;; company
         corral
-        cc-mode
         ;; csharp-mode
         clean-aindent-mode
         dtrt-indent
@@ -364,16 +363,6 @@
 (defun jvillasante/init-bookmark+()
   (use-package bookmark+))
 
-(defun jvillasante/post-init-cc-mode ()
-  (add-hook 'c++-mode-hook
-            '(lambda ( )
-               (c-set-style "Stroustrup")
-               (c-toggle-auto-state)))
-
-  (setq c-basic-offset 2
-        c-hungry-delete-key t
-        c-default-style "linux"))
-
 (defun jvillasante/init-csharp-mode ()
   (use-package csharp-mode
     :defer t
@@ -495,13 +484,12 @@
 
 (defun jvillasante/post-init-semantic ()
   (add-hook 'java-mode-hook 'semantic-mode)
-  (eval-after-load "semantic"
-    (lambda ()
-      (semantic-add-system-include "~/workspace/linux/kernel" 'c-mode)
-      (semantic-add-system-include "~/workspace/linux/include" 'c-mode)
-      (semantic-add-system-include "~/workspace/linux/kernel" 'c++-mode)
-      (semantic-add-system-include "~/workspace/linux/include" 'c++-mode)))
-
+  ;; (eval-after-load "semantic"
+  ;;   (lambda ()
+  ;;     (semantic-add-system-include "~/workspace/linux/kernel" 'c-mode)
+  ;;     (semantic-add-system-include "~/workspace/linux/include" 'c-mode)
+  ;;     (semantic-add-system-include "~/workspace/linux/kernel" 'c++-mode)
+  ;;     (semantic-add-system-include "~/workspace/linux/include" 'c++-mode)))
   (setq semantic-idle-scheduler-max-buffer-size 2000000))
 
 (defun jvillasante/init-quickrun ()
