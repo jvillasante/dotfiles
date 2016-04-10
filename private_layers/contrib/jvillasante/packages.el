@@ -422,7 +422,8 @@
       (define-key irony-mode-map [remap complete-symbol]
         'irony-completion-at-point-async))
     (add-hook 'irony-mode-hook 'my-irony-mode-hook)
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)))
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+    (spacemacs|diminish irony-mode "I" "I")))
 
 (defun jvillasante/init-company-irony ()
   (use-package company-irony
@@ -484,13 +485,18 @@
 
 (defun jvillasante/post-init-semantic ()
   (add-hook 'java-mode-hook 'semantic-mode)
+  (setq semantic-idle-scheduler-max-buffer-size 2000000))
+
+  ;; Semantic fucks up scrolling
+  (with-eval-after-load 'semantic
+    (setq semantic-submode-list (delq 'global-semantic-stickyfunc-mode semantic-submode-list)))
+
   ;; (eval-after-load "semantic"
   ;;   (lambda ()
   ;;     (semantic-add-system-include "~/workspace/linux/kernel" 'c-mode)
   ;;     (semantic-add-system-include "~/workspace/linux/include" 'c-mode)
   ;;     (semantic-add-system-include "~/workspace/linux/kernel" 'c++-mode)
   ;;     (semantic-add-system-include "~/workspace/linux/include" 'c++-mode)))
-  (setq semantic-idle-scheduler-max-buffer-size 2000000))
 
 (defun jvillasante/init-quickrun ()
   (use-package quickrun

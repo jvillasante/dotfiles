@@ -248,7 +248,7 @@ values."
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen. (default t)
@@ -576,10 +576,6 @@ layers configuration. You are free to put any user code."
   (add-hook 'makefile-mode-hook 'whitespace-mode)
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
 
-  ;; Semantic fucks up scrolling
-  (with-eval-after-load 'semantic
-    (setq semantic-submode-list (delq 'global-semantic-stickyfunc-mode semantic-submode-list)))
-
   ;; Display Visited File's Path in the Frame Title
   (setq frame-title-format
         '((:eval (if (buffer-file-name)
@@ -697,9 +693,6 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(elfeed-goodies/entry-pane-position (quote bottom))
  '(elfeed-goodies/entry-pane-size 0.75)
- '(package-selected-packages
-   (quote
-    (stickyfunc-enhance srefactor toc-org org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets htmlize gnuplot zenburn-theme zeal-at-point xterm-color window-numbering which-key web-mode web-beautify volatile-highlights use-package tagedit sx spacemacs-theme spaceline smeargle slim-mode skeletor shell-pop scss-mode sass-mode restclient restart-emacs region-state ranger rainbow-delimiters quickrun quelpa puppet-mode persp-mode pcre2el password-store paradox page-break-lines orgit open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum lispy linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio go-eldoc gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flycheck-pos-tip flycheck-irony flx-ido fish-mode firestarter fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dtrt-indent disaster diff-hl describe-number deft define-word corral company-web company-tern company-statistics company-quickhelp company-irony company-go company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste bookmark+ auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
