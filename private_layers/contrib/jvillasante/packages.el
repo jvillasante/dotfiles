@@ -26,12 +26,13 @@
         ;; ggtags
         ;; shell-pop
         ;; slime
+        ;; nodejs-repl
         password-store
         persp-mode
         ;; puppet-mode
         popwin
         irony
-        ;; lispy
+        lispy
         company-irony
         flycheck-irony
         semantic
@@ -627,6 +628,25 @@
           forecast-api-key "96a8f25d9ec2a623b6606f079bbd2f5f")
     (evil-leader/set-key
       "of" 'forecast)))
+
+(defun /init-nodejs-repl ()
+  (use-package nodejs-repl
+    ;; :defer t activates lazy loading which makes startup faster
+    :defer t
+    ;; The code in :init is always run, use it to set up config vars and key bindings
+    :init
+    (progn ; :init only takes one expression so use "progn" to combine multiple things
+      (defun my-send-region-to-nodejs-repl-process (start end)
+        "Send region to `nodejs-repl' process."
+        (interactive "r")
+        (save-selected-window
+          (save-excursion (nodejs-repl)))
+        (comint-send-region (get-process nodejs-repl-process-name)
+                            start end))
+
+      (evil-leader/set-key
+        "ojs" 'my-send-region-to-nodejs-repl-process
+        "ojn" 'nodejs-repl))))
 
 (defun jvillasante/post-init-org ()
   (add-hook 'org-mode-hook 'yas-minor-mode)

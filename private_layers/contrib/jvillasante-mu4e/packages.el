@@ -1,14 +1,14 @@
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
-(setq my-mu4e-packages
+(setq jvillasante-mu4e-packages
       '(
         mu4e-alert
         ))
 
 ;; List of packages to exclude.
-(setq my-mu4e-excluded-packages '())
+(setq jvillasante-mu4e-excluded-packages '())
 
-(defun my-mu4e/init-mu4e-alert ()
+(defun jvillasante-mu4e/init-mu4e-alert ()
   (use-package mu4e-alert
     ;; The code in :init is always run, use it to set up config vars and key bindings
     :init

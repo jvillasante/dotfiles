@@ -1,8 +1,8 @@
-(setq my-mu4e-pre-extensions
+(setq jvillasante-mu4e-pre-extensions
       '(
         ))
 
-(setq my-mu4e-post-extensions
+(setq jvillasante-mu4e-post-extensions
       '(
         ))
 

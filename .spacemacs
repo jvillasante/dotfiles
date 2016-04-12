@@ -66,7 +66,7 @@ values."
      ;; go
      javascript
      markdown
-     ;; emacs-lisp
+     emacs-lisp
      ;; python
      restclient
      deft
@@ -74,10 +74,7 @@ values."
              rmh-elfeed-org-files (list "~/Dropbox/Personal/elfeed/elfeed.org"))
      (mu4e :variables
            mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
-
-     ;; private layers
-     my-mu4e
-     my-javascript
+     jvillasante-mu4e
      jvillasante)
 
    ;; List of additional packages that will be installed without being
@@ -300,9 +297,7 @@ user code."
                                   ("Asia/Shanghai" "China")
                                   ("Asia/Calcutta" "India")))
 
-  ;; default is 1000, increase the backtrace level
   (setq max-specpdl-size 3000)
-
   (setf url-queue-timeout 30))
 
 (defun dotspacemacs/user-config ()
@@ -378,12 +373,6 @@ layers configuration. You are free to put any user code."
    ;; Web
    web-mode-markup-indent-offset 2
    web-mode-css-indent-offset 2)
-
-  ;; ycmd
-  ;; (set-variable 'ycmd-server-command '("python" "/home/jvillasante/Software/src/ycmd/ycmd"))
-  ;; (set-variable 'ycmd-global-config "/home/jvillasante/Hacking/workspace/dotfiles/.emacs.d/layers/+tools/ycmd/global_conf.py")
-  ;; (set-variable 'ycmd-extra-conf-whitelist '("/home/jvillasante/Hacking/workspace/*"))
-  ;; (setq ycmd--log-enabled t)
 
   ;; utf-8
   ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
@@ -693,6 +682,9 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(elfeed-goodies/entry-pane-position (quote bottom))
  '(elfeed-goodies/entry-pane-size 0.75)
+ '(package-selected-packages
+   (quote
+    (macrostep elisp-slime-nav auto-compile packed web-mode web-beautify spacemacs-theme spaceline restclient org-plus-contrib helm-ag evil-snipe evil-exchange bracketed-paste aggressive-indent anzu smartparens flycheck git-gutter helm popup helm-core projectile yasnippet js2-mode magit magit-popup git-commit with-editor hydra markdown-mode s which-key evil zenburn-theme zeal-at-point xterm-color window-numbering volatile-highlights use-package undo-tree toc-org tagedit sx stickyfunc-enhance srefactor smeargle slim-mode skeletor shell-pop scss-mode sass-mode restart-emacs region-state ranger rainbow-delimiters quickrun quelpa pkg-info persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet goto-chg google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flycheck-pos-tip flycheck-irony flx-ido fish-mode firestarter fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies dtrt-indent disaster diff-hl describe-number deft define-word corral company-web company-tern company-statistics company-quickhelp company-irony company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bookmark+ auto-yasnippet auto-highlight-symbol auto-dictionary async adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
