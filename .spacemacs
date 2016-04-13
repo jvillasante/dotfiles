@@ -71,9 +71,9 @@ values."
      restclient
      deft
      (elfeed :variables
-             rmh-elfeed-org-files (list "~/Dropbox/Personal/elfeed/elfeed.org"))
+             rmh-elfeed-org-files (list (concat my-dropbox-path "/Personal/elfeed/elfeed.org")))
      (mu4e :variables
-           mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
+           my4e-installation-path my-mu4e-path)
      jvillasante-mu4e
      jvillasante)
 
@@ -85,6 +85,7 @@ values."
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(dash
                                     evil-jumper
+                                    evil-search-highlight-persist
                                     smooth-scrolling
                                     ws-butler)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -284,8 +285,10 @@ values."
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init'.  You are free to put any
 user code."
-  ;; start server
-  ;; (server-start)
+  (setq
+     my-dropbox-path "~/Dropbox"
+     my-mu4e-path    "/usr/local/share/emacs/site-lisp/mu4e"
+   )
 
   ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   (setq display-time-world-list '(("UTC" "UTC")
@@ -356,7 +359,7 @@ layers configuration. You are free to put any user code."
    ranger-override-dired t
 
    ;; deft
-   deft-directory "~/Dropbox/Personal/notes"
+   deft-directory (concat my-dropbox-path "/Personal/notes")
    deft-extensions '("org" "md" "txt")
    deft-text-mode "org"
    deft-use-filename-as-title t
@@ -670,8 +673,7 @@ layers configuration. You are free to put any user code."
     "oh" 'my-hotspots)
 
   ;; others
-  (golden-ratio-mode 1)
-  (global-evil-search-highlight-persist nil))
+  (golden-ratio-mode 1))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -684,7 +686,7 @@ layers configuration. You are free to put any user code."
  '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
-    (macrostep elisp-slime-nav auto-compile packed web-mode web-beautify spacemacs-theme spaceline restclient org-plus-contrib helm-ag evil-snipe evil-exchange bracketed-paste aggressive-indent anzu smartparens flycheck git-gutter helm popup helm-core projectile yasnippet js2-mode magit magit-popup git-commit with-editor hydra markdown-mode s which-key evil zenburn-theme zeal-at-point xterm-color window-numbering volatile-highlights use-package undo-tree toc-org tagedit sx stickyfunc-enhance srefactor smeargle slim-mode skeletor shell-pop scss-mode sass-mode restart-emacs region-state ranger rainbow-delimiters quickrun quelpa pkg-info persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet goto-chg google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flycheck-pos-tip flycheck-irony flx-ido fish-mode firestarter fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies dtrt-indent disaster diff-hl describe-number deft define-word corral company-web company-tern company-statistics company-quickhelp company-irony company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bookmark+ auto-yasnippet auto-highlight-symbol auto-dictionary async adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (ht lispy swiper macrostep elisp-slime-nav auto-compile packed web-mode web-beautify spacemacs-theme spaceline restclient org-plus-contrib helm-ag evil-snipe evil-exchange bracketed-paste aggressive-indent anzu smartparens flycheck git-gutter helm popup helm-core projectile yasnippet js2-mode magit magit-popup git-commit with-editor hydra markdown-mode s which-key evil zenburn-theme zeal-at-point xterm-color window-numbering volatile-highlights use-package undo-tree toc-org tagedit sx stickyfunc-enhance srefactor smeargle slim-mode skeletor shell-pop scss-mode sass-mode restart-emacs region-state ranger rainbow-delimiters quickrun quelpa pkg-info persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet goto-chg google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flycheck-pos-tip flycheck-irony flx-ido fish-mode firestarter fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies dtrt-indent disaster diff-hl describe-number deft define-word corral company-web company-tern company-statistics company-quickhelp company-irony company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bookmark+ auto-yasnippet auto-highlight-symbol auto-dictionary async adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
