@@ -84,10 +84,8 @@ values."
    dotspacemacs-additional-packages '()
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(dash
-                                    evil-jumper
                                     evil-search-highlight-persist
-                                    smooth-scrolling
-                                    ws-butler)
+                                    smooth-scrolling)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -278,8 +276,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'changed
-   ))
+   dotspacemacs-whitespace-cleanup 'trailing))
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
@@ -686,7 +683,7 @@ layers configuration. You are free to put any user code."
  '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
-    (ht lispy swiper macrostep elisp-slime-nav auto-compile packed web-mode web-beautify spacemacs-theme spaceline restclient org-plus-contrib helm-ag evil-snipe evil-exchange bracketed-paste aggressive-indent anzu smartparens flycheck git-gutter helm popup helm-core projectile yasnippet js2-mode magit magit-popup git-commit with-editor hydra markdown-mode s which-key evil zenburn-theme zeal-at-point xterm-color window-numbering volatile-highlights use-package undo-tree toc-org tagedit sx stickyfunc-enhance srefactor smeargle slim-mode skeletor shell-pop scss-mode sass-mode restart-emacs region-state ranger rainbow-delimiters quickrun quelpa pkg-info persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet goto-chg google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flycheck-pos-tip flycheck-irony flx-ido fish-mode firestarter fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies dtrt-indent disaster diff-hl describe-number deft define-word corral company-web company-tern company-statistics company-quickhelp company-irony company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bookmark+ auto-yasnippet auto-highlight-symbol auto-dictionary async adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (ws-butler ht lispy swiper macrostep elisp-slime-nav auto-compile packed web-mode web-beautify spacemacs-theme spaceline restclient org-plus-contrib helm-ag evil-snipe evil-exchange bracketed-paste aggressive-indent anzu smartparens flycheck git-gutter helm popup helm-core projectile yasnippet js2-mode magit magit-popup git-commit with-editor hydra markdown-mode s which-key evil zenburn-theme zeal-at-point xterm-color window-numbering volatile-highlights use-package undo-tree toc-org tagedit sx stickyfunc-enhance srefactor smeargle slim-mode skeletor shell-pop scss-mode sass-mode restart-emacs region-state ranger rainbow-delimiters quickrun quelpa pkg-info persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-bullets open-junk-file nodejs-repl neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet goto-chg google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flycheck-pos-tip flycheck-irony flx-ido fish-mode firestarter fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web elfeed-org elfeed-goodies dtrt-indent disaster diff-hl describe-number deft define-word corral company-web company-tern company-statistics company-quickhelp company-irony company-c-headers coffee-mode cmake-mode clean-aindent-mode clang-format buffer-move bookmark+ auto-yasnippet auto-highlight-symbol auto-dictionary async adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
