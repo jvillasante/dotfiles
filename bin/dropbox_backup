@@ -4,3 +4,5 @@ dropbox=~/Dropbox
 
 cp -fR ~/.gnupg $dropbox/Personal
 cp -fR ~/.ssh $dropbox/Personal
+cp -fR ~/.password-store $dropbox/Personal
+cp -f ~/.mbsyncpass.gpg $dropbox/Personal/
