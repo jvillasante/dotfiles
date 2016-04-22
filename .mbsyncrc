@@ -2,7 +2,8 @@ IMAPAccount gmail
 Host imap.gmail.com
 User jvillasantegomez@gmail.com
 PassCmd "pass Logins/google.com"
-UseIMAPS yes
+AuthMech LOGIN
+SSLType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 IMAPStore gmail-remote
@@ -11,6 +12,7 @@ Account gmail
 MaildirStore gmail-local
 Path ~/.Maildir/gmail/
 Inbox ~/.Maildir/gmail/Inbox
+Flatten .
 
 Channel gmail
 Master :gmail-remote:

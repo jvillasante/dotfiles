@@ -73,5 +73,5 @@ for file in $files; do
     ln -fs $dir/$file ~/
 done
 
-echo "linking .neovimrc"
-ln -fs $dir/.neovimrc ~/.config/nvim/init.vim
+# echo "linking .neovimrc"
+# ln -fs $dir/.neovimrc ~/.config/nvim/init.vim

@@ -42,19 +42,19 @@
       mu4e-change-filenames-when-moving t
       mu4e-headers-results-limit 250)
 
-(setq mu4e-drafts-folder "/[Gmail]/.Drafts"
-      mu4e-sent-folder   "/[Gmail]/.Sent Mail"
-      mu4e-trash-folder  "/[Gmail]/.Trash"
-      mu4e-refile-folder "/[Gmail]/.All Mail")
+(setq mu4e-drafts-folder "/[Gmail].Drafts"
+      mu4e-sent-folder   "/[Gmail].Sent Mail"
+      mu4e-trash-folder  "/[Gmail].Trash"
+      mu4e-refile-folder "/[Gmail].All Mail")
 (setq mu4e-maildir-shortcuts
       '( ("/Inbox"                . ?i)
-         ("/[Gmail]/.Important"   . ?I)
-         ("/[Gmail]/.Sent Mail"   . ?s)
-         ("/[Gmail]/.Spam"        . ?p)
-         ("/[Gmail]/.Trash"       . ?t)
-         ("/[Gmail]/.Drafts"      . ?d)
-         ("/[Gmail]/.Starred"     . ?S)
-         ("/[Gmail]/.All Mail"    . ?a)))
+         ("/[Gmail].Important"   . ?I)
+         ("/[Gmail].Sent Mail"   . ?s)
+         ("/[Gmail].Spam"        . ?p)
+         ("/[Gmail].Trash"       . ?t)
+         ("/[Gmail].Drafts"      . ?d)
+         ("/[Gmail].Starred"     . ?S)
+         ("/[Gmail].All Mail"    . ?a)))
 (add-to-list 'mu4e-bookmarks
              '((concat "maildir:/Inbox AND date:"
                        (format-time-string "%Y%m%d" (subtract-time (current-time) (days-to-time 7))))
