@@ -32,9 +32,11 @@
         ;; puppet-mode
         popwin
         irony
-        lispy
+        irony-eldoc
         company-irony
+        company-irony-c-headers
         flycheck-irony
+        lispy
         semantic
         skeletor
         ;; srecode
@@ -414,9 +416,6 @@
     :init
     (add-hook 'c++-mode-hook 'irony-mode)
     (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'objc-mode-hook 'irony-mode)
-    ;; replace the `completion-at-point' and `complete-symbol' bindings in
-    ;; irony-mode's buffers by irony-mode's function
     (defun my-irony-mode-hook ()
       (define-key irony-mode-map [remap completion-at-point]
         'irony-completion-at-point-async)
@@ -425,6 +424,14 @@
     (add-hook 'irony-mode-hook 'my-irony-mode-hook)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
     (spacemacs|diminish irony-mode "I" "I")))
+
+(defun jvillasante/init-irony-eldoc ()
+  (use-package irony-eldoc
+    :defer t
+    :init
+    (add-hook 'c-mode-hook 'eldoc-mode)
+    (add-hook 'c++-mode-hook 'eldoc-mode)
+    (add-hook 'irony-mode-hook 'irony-eldoc)))
 
 (defun jvillasante/init-company-irony ()
   (use-package company-irony
