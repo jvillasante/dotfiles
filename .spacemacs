@@ -64,7 +64,7 @@ values."
      ;; gtags
      ;; ycmd
      ;; go
-     javascript
+     ;; javascript
      markdown
      emacs-lisp
      ;; python
