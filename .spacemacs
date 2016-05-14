@@ -41,8 +41,8 @@ values."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-snippets-in-popup t
                       :disabled-for org erc git)
-     (evil-snipe :variables
-                 evil-snipe-enable-alternate-f-and-t-behaviors t)
+     ;; (evil-snipe :variables
+     ;;             evil-snipe-enable-alternate-f-and-t-behaviors t)
      evil-commentary
      vim-empty-lines
      (git :variables
