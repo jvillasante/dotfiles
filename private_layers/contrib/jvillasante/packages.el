@@ -32,11 +32,12 @@
         ;; puppet-mode
         popwin
         irony
-        irony-eldoc
+        ;; irony-eldoc
         company-irony
         company-irony-c-headers
         flycheck-irony
         lispy
+        ;; modern-cpp-font-lock
         semantic
         skeletor
         ;; srecode
@@ -606,6 +607,12 @@
 
 (defun jvillasante/post-init-nasm-mode ()
   (define-key nasm-mode-map (kbd "C-c d .") 'x86-lookup))
+
+;; (defun jvillasante/init-modern-cpp-font-lock ()
+;;     (use-package modern-cpp-font-lock
+;;       :defer t
+;;       :init
+;;       (modern-c++-font-lock-global-mode t)))
 
 (defun jvillasante/init-zeal-at-point ()
   (use-package zeal-at-point
