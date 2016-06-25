@@ -55,10 +55,10 @@ values."
            web-mode-code-indent-offset 2
            web-mode-markup-indent-offset 2
            web-mode-css-indent-offset 2)
+     ;; semantic
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
-     semantic
      ;; gtags
      ;; ycmd
      ;; go
@@ -282,8 +282,8 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put any
 user code."
   (setq
-     my-dropbox-path "~/Dropbox"
-     my-mu4e-path    "/usr/local/share/emacs/site-lisp/mu4e"
+   my-dropbox-path "~/Dropbox"
+   my-mu4e-path    "/usr/local/share/emacs/site-lisp/mu4e"
    )
 
   ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
@@ -423,128 +423,6 @@ layers configuration. You are free to put any user code."
   (setf diff-hl-side 'left)
   (diff-hl-flydiff-mode)
 
-  ;; helm
-  (helm-projectile-on)
-  (with-eval-after-load 'helm-mode
-    (setq helm-google-suggest-use-curl-p t
-          helm-scroll-amount 4 ; scroll 4 lines other window using M-<next>/M-<prior>
-          ;; helm-quick-update t ; do not display invisible candidates
-          helm-ff-search-library-in-sexp t ; search for library in `require' and `declare-function' sexp.
-
-          ;; you can customize helm-do-grep to execute ack-grep
-          ;; helm-grep-default-command "ack-grep -Hn --smart-case --no-group --no-color %e %p %f"
-          ;; helm-grep-default-recurse-command "ack-grep -H --smart-case --no-group --no-color %e %p %f"
-          helm-split-window-in-side-p t ;; open helm buffer inside current window, not occupy whole other window
-
-          helm-echo-input-in-header-line nil
-
-          ;; helm-candidate-number-limit 500 ; limit the number of displayed canidates
-          helm-ff-file-name-history-use-recentf t
-          helm-move-to-line-cycle-in-source t ; move to end or beginning of source when reaching top or bottom of source.
-          helm-buffer-skip-remote-checking t
-
-          helm-buffers-fuzzy-matching t ; fuzzy matching buffer names when non-nil
-                                        ; useful in helm-mini that lists buffers
-          helm-org-headings-fontify t
-          ;; helm-find-files-sort-directories t
-          ;; ido-use-virtual-buffers t
-          helm-semantic-fuzzy-match t
-          helm-M-x-fuzzy-match t
-          helm-imenu-fuzzy-match t
-          helm-lisp-fuzzy-completion t
-          ;; helm-apropos-fuzzy-match t
-          helm-buffer-skip-remote-checking t
-          helm-locate-fuzzy-match t
-          helm-display-header-line nil)
-
-    (defun helm-hide-minibuffer-maybe ()
-      (when (with-helm-buffer helm-echo-input-in-header-line)
-        (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-          (overlay-put ov 'window (selected-window))
-          (overlay-put ov 'face (let ((bg-color (face-background 'default nil)))
-                                  `(:background ,bg-color :foreground ,bg-color)))
-          (setq-local cursor-type nil))))
-    (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
-
-    (setq helm-ag-insert-at-point 'symbol)
-
-    (setq helm-autoresize-max-height 40)
-    (setq helm-autoresize-min-height 40)
-    (helm-autoresize-mode 1)
-
-    (with-eval-after-load 'helm-semantic
-      (push '(c-mode . semantic-format-tag-summarize) helm-semantic-display-style)
-      (push '(c++-mode . semantic-format-tag-summarize) helm-semantic-display-style))
-    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebihnd tab to do persistent action
-    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-    (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-
-    (define-key helm-grep-mode-map (kbd "<return>")  'helm-grep-mode-jump-other-window)
-    (define-key helm-grep-mode-map (kbd "n")  'helm-grep-mode-jump-other-window-forward)
-    (define-key helm-grep-mode-map (kbd "p")  'helm-grep-mode-jump-other-window-backward)
-    (define-key global-map [remap find-tag] 'helm-etags-select)
-    ;; (define-key global-map [remap jump-to-register] 'helm-register)
-    (define-key global-map [remap list-buffers] 'helm-mini)
-    ;; (define-key global-map [remap find-tag] 'helm-gtags-select)
-    (add-hook 'ielm-mode-hook
-              #'(lambda ()
-                  (define-key ielm-map [remap completion-at-point] 'helm-lisp-completion-or-file-name-at-point)))
-
-    ;; tramp
-    ;; (add-to-list 'tramp-default-proxies-alist
-    ;;              '("10.51.58.80" nil "/ssh:xtuudoo@jogvan:"))
-
-    (add-hook 'after-init-hook 'server-start)
-    (setq server-raise-frame t)
-
-    ;; (if window-system
-    ;;     (add-hook 'server-done-hook
-    ;;               (lambda () (shell-command "stumpish 'eval (stumpwm::return-es-called-win stumpwm::*es-win*)'"))))
-
-    (cond
-     ((eq (car custom-enabled-themes) 'darktooth)
-      ;; (set-face-attribute 'region nil :background "#1a1a1a")
-      (set-face-attribute 'header-line nil
-                          :box '(:line-width -1 :style released-button))
-      (set-face-attribute 'helm-source-header nil
-                          :box '(:line-width -1 :style released-button)))
-     ((eq (car custom-enabled-themes) 'jbeans)
-      (set-face-attribute 'helm-ff-directory nil
-                          :foreground (face-attribute 'helm-buffer-directory :foreground)))
-     ((eq (car custom-enabled-themes) 'stekene-dark)
-      (set-face-attribute 'fringe nil
-                          :background "#242424"))
-     ((eq (car custom-enabled-themes) 'jazz)
-      ;; (set-face-attribute 'region nil
-      ;;                     :foreground nil
-      ;;                     :background "#000000")
-      ;; (set-face-attribute 'hl-line nil
-      ;;                     :foreground nil
-      ;;                     :background "#404040")
-      (set-face-attribute 'helm-selection nil
-                          :foreground nil
-                          :background nil
-                          :inherit 'highlight)
-      (set-face-attribute 'vhl/default-face nil
-                          :foreground nil
-                          :background "#1a1a1a")
-      (set-face-attribute 'sp-show-pair-match-face nil
-                          :foreground nil
-                          :background "gray20")))
-
-    (persp-mode)
-    (ido-mode -1)
-    (setq-default gc-cons-threshold 800000)
-    (defun my-minibuffer-setup-hook ()
-      (setq gc-cons-threshold most-positive-fixnum))
-
-    (defun my-minibuffer-exit-hook ()
-      (setq gc-cons-threshold 800000))
-
-    (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
-    (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
-    (spacemacs/home))
-
   (add-hook 'mu4e-compose-mode-hook
             (lambda ()
               (auto-fill-mode 0)
@@ -571,8 +449,8 @@ layers configuration. You are free to put any user code."
                    "%b"))))
 
   ;; c support
-  (push '("pconnect_linux.*\\.h\\'" . c-mode) auto-mode-alist)
-  (push '("learn-c-the-hard-way.*\\.h\\'" . c-mode) auto-mode-alist)
+  ;; (push '("learn-c-the-hard-way.*\\.h\\'" . c-mode) auto-mode-alist)
+  ;; (push '("the-c-programming-language.*\\.h\\'" . c-mode) auto-mode-alist)
 
   ;; compilation mode
   (ignore-errors
@@ -682,7 +560,7 @@ layers configuration. You are free to put any user code."
  '(elfeed-goodies/entry-pane-size 0.75)
  '(package-selected-packages
    (quote
-    (zeal-at-point password-store f irony-eldoc forecast flyspell-lazy flycheck-irony company-irony irony zenburn-theme xterm-color ws-butler window-numbering which-key web-mode volatile-highlights use-package toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs ranger rainbow-delimiters quelpa persp-mode pcre2el paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum linum-relative leuven-theme less-css-mode jade-mode info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md flycheck-pos-tip flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word company-web company-statistics company-quickhelp company-c-headers cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (flycheck projectile evil avy elfeed highlight anzu iedit smartparens yasnippet company helm helm-core magit hydra dash package-build stickyfunc-enhance srefactor zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode volatile-highlights use-package toc-org tagedit spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs ranger rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum linum-relative leuven-theme less-css-mode jade-mode irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word company-web company-statistics company-quickhelp company-irony company-c-headers cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((c-c++-default-mode-for-headers . c-mode)
