@@ -68,8 +68,8 @@
  user-full-name  "Julio C. Villasante"
  mu4e-compose-signature
  (concat
-  "\n\nKind Regards,\n"
-  "Julio C. Villasante\n\n"
+  "Kind Regards,\n"
+  "Julio C. Villasante\n"
   "--\n"
   "Sent from GNU Emacs\n"))
 

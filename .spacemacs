@@ -1,3 +1,7 @@
+;; -*- mode: emacs-lisp -*-
+;; This file is loaded by Spacemacs at startup.
+;; It must be stored in your home directory.
+
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration.
 You should not put any user code in this function besides modifying the variable
@@ -19,19 +23,6 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     org
-     search-engine
-     shell-scripts
-     syntax-checking
-     (spell-checking :variables
-                     spell-checking-enable-by-default nil)
-     (ibuffer :variables
-              ibuffer-group-buffers-by 'modes)
-     (shell :variables
-            shell-default-term-shell "/bin/zsh"
-            shell-default-shell 'ansi-term
-            shell-default-position 'bottom
-            shell-default-height 30)
      (auto-completion :variables
                       auto-completion-return-key-behavior 'nil
                       auto-completion-tab-key-behavior 'complete
@@ -41,50 +32,52 @@ values."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-snippets-in-popup t
                       :disabled-for org erc git)
-     evil-commentary
-     vim-empty-lines
+     better-defaults
+     emacs-lisp
      (git :variables
           git-use-magit-next t
           git-enable-github-support t)
-     (version-control :variables
-                      version-control-diff-tool 'diff-hl
-                      version-control-global-margin t)
-     ranger
+     ;; version-control
+     markdown
+     org
+     (ibuffer :variables
+              ibuffer-group-buffers-by 'modes)
+     (shell :variables
+            shell-default-term-shell "/bin/zsh"
+            shell-default-shell 'ansi-term
+            shell-default-position 'bottom
+            shell-default-height 30)
+     spell-checking
+     syntax-checking
+     search-engine
+     version-control
+     evil-commentary
      (html :variables
            css-indent-offset 2
            web-mode-code-indent-offset 2
            web-mode-markup-indent-offset 2
            web-mode-css-indent-offset 2)
-     ;; semantic
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
-     ;; gtags
-     ;; ycmd
-     ;; go
-     ;; javascript
-     markdown
-     emacs-lisp
-     ;; python
      restclient
      deft
      (elfeed :variables
              rmh-elfeed-org-files (list (concat my-dropbox-path "/Personal/elfeed/elfeed.org")))
      (mu4e :variables
-           my4e-installation-path my-mu4e-path)
+           mu4e-installation-path my-mu4e-path)
      jvillasante-mu4e
-     jvillasante
-     )
-
+     jvillasante)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
-   ;; packages then consider to create a layer, you can also put the
-   ;; configuration in `dotspacemacs/config'.
+   ;; packages, then consider creating a layer. You can also put the
+   ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '()
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(dash
                                     evil-search-highlight-persist
-                                    smooth-scrolling)
+                                    ;; smooth-scrolling
+                                    )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -124,11 +117,11 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 2
+   dotspacemacs-startup-banner nil
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(recents bookmarks projects)
+   dotspacemacs-startup-lists '(recents projects)
    ;; Number of recent files to show in the startup buffer. Ignored if
    ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
    dotspacemacs-startup-recent-list-size 5
@@ -137,18 +130,14 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   ;; List of themes, the first of the list is loaded when spacemacs starts.
-   ;; Press <SPC> T n to cycle to the next theme in the list (works great
-   ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(zenburn
-                         material
                          spacemacs-dark
                          spacemacs-light
-                         solarized-dark
                          solarized-light
-                         monokai
-                         leuven)
-   ;; If non nil the cursor color matches the state color.
+                         solarized-dark
+                         leuven
+                         monokai)
+   ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
@@ -156,7 +145,7 @@ values."
                                :size 18
                                :weight normal
                                :width normal
-                               :powerline-scale 1.15)
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -174,7 +163,8 @@ values."
    ;; and TAB or <C-m> and RET.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab t
+   dotspacemacs-distinguish-gui-tab nil
+   ;; (Not implemented) dotspacemacs-distinguish-gui-ret nil
    ;; The command key used for Evil commands (ex-commands) and
    ;; Emacs commands (M-x).
    ;; By default the command key is `:' so ex-commands are executed like in Vim
@@ -201,7 +191,7 @@ values."
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
    dotspacemacs-use-ido nil
-   ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
+   ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
    dotspacemacs-helm-resize nil
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
@@ -247,7 +237,7 @@ values."
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen. (default t)
-   dotspacemacs-smooth-scrolling nil
+   dotspacemacs-smooth-scrolling t
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
@@ -275,12 +265,16 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'trailing))
+   dotspacemacs-whitespace-cleanup 'trailing
+   ))
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
-It is called immediately after `dotspacemacs/init'.  You are free to put any
-user code."
+It is called immediately after `dotspacemacs/init', before layer configuration
+executes.
+ This function is mostly useful for variables that need to be set
+before packages are loaded. If you are unsure, you should try in setting them in
+`dotspacemacs/user-config' first."
   (setq
    my-dropbox-path "~/Dropbox"
    my-mu4e-path    "/usr/local/share/emacs/site-lisp/mu4e"
@@ -301,8 +295,11 @@ user code."
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
- This function is called at the very end of Spacemacs initialization after
-layers configuration. You are free to put any user code."
+This function is called at the very end of Spacemacs initialization after
+layers configuration.
+This is the place where most of your configurations should be done. Unless it is
+explicitly specified that a variable should be set before a package is loaded,
+you should place your code here."
 
   ;; smooth scrolling
   (setq redisplay-dont-pause t
@@ -313,22 +310,22 @@ layers configuration. You are free to put any user code."
         mouse-wheel-progressive-speed nil
         scroll-preserve-screen-position 1)
 
-  (setq-default
+  ;; Display Visited File's Path in the Frame Title
+  (setq frame-title-format
+        '((:eval (if (buffer-file-name)
+                     (abbreviate-file-name (buffer-file-name))
+                   "%b"))))
+
+  (setq
    ;; Miscellaneous
    user-full-name "Julio C. Villasante"
    user-mail-address "jvillasantegomez@gmail.com"
-   vc-follow-symlinks t
-   ring-bell-function 'ignore
-   require-final-newline t
-   indent-tabs-mode nil
-   system-time-locale "C"
    paradox-github-token t
-   open-junk-file-find-file-function 'find-file
    load-prefer-newer t
    fill-column 110                    ; Maximum line width
    truncate-lines t                   ; Don't fold lines
    truncate-partial-width-windows nil ; for vertically-split windows
-   split-width-threshold 160          ; Split verticly by default
+   split-width-threshold 160          ; Split verticaly by default
    auto-fill-function 'do-auto-fill   ; Auto-fill-mode everywhere
    evil-cross-lines t                 ; Make horizontal movement cross lines
 
@@ -351,9 +348,6 @@ layers configuration. You are free to put any user code."
                       face
                       tabs)
 
-   ;; Ranger
-   ranger-override-dired t
-
    ;; deft
    deft-directory (concat my-dropbox-path "/Personal/notes")
    deft-extensions '("org" "md" "txt")
@@ -367,13 +361,8 @@ layers configuration. You are free to put any user code."
 
    ;; LaTeX
    font-latex-fontify-script nil
-   TeX-newline-function 'reindent-then-newline-and-indent
+   TeX-newline-function 'reindent-then-newline-and-indent)
 
-   ;; Web
-   web-mode-markup-indent-offset 2
-   web-mode-css-indent-offset 2)
-
-  ;; utf-8
   ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
   (setq utf-translate-cjk-mode nil)
 
@@ -410,17 +399,9 @@ layers configuration. You are free to put any user code."
   (setq search-whitespace-regexp ".*?")
 
   ;; Misc
-  (setq dired-listing-switches "-lha")
-  (global-highlight-parentheses-mode)
-  (setq projectile-indexing-method 'alien)
-  (setq projectile-enable-caching t)
-  (global-hl-line-mode -1)
-  ;; (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-  ;; (add-hook 'lisp-mode-hook #'aggressive-indent-mode)
-  ;; (add-hook 'scheme-mode-hook #'aggressive-indent-mode)
-  (setf git-gutter-fr+-side 'left-fringe)
-  (setf diff-hl-side 'left)
-  (diff-hl-flydiff-mode)
+  ;; (setf git-gutter-fr+-side 'left-fringe)
+  ;; (setf diff-hl-side 'left)
+  ;; (diff-hl-flydiff-mode)
 
   (add-hook 'mu4e-compose-mode-hook
             (lambda ()
@@ -440,35 +421,6 @@ layers configuration. You are free to put any user code."
   (add-hook 'text-mode-hook 'turn-on-flyspell)
   (add-hook 'makefile-mode-hook 'whitespace-mode)
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
-
-  ;; Display Visited File's Path in the Frame Title
-  (setq frame-title-format
-        '((:eval (if (buffer-file-name)
-                     (abbreviate-file-name (buffer-file-name))
-                   "%b"))))
-
-  ;; c support
-  ;; (push '("learn-c-the-hard-way.*\\.h\\'" . c-mode) auto-mode-alist)
-  ;; (push '("the-c-programming-language.*\\.h\\'" . c-mode) auto-mode-alist)
-
-  ;; compilation mode
-  (ignore-errors
-    (require 'ansi-color)
-    (defun my-colorize-compilation-buffer ()
-      (when (eq major-mode 'compilation-mode)
-        (ansi-color-apply-on-region compilation-filter-start (point-max))))
-    (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
-  (defun my-desperately-compile ()
-    "Traveling up the path, find a Makefile and `compile'."
-    (interactive)
-    (with-temp-buffer
-      (while (and (not (file-exists-p "Makefile"))
-                  (not (equal "/" default-directory)))
-        (cd ".."))
-      (when (file-exists-p "Makefile")
-        (compile "make -k"))))
-  (evil-leader/set-key
-    "oc" 'my-desperately-compile)
 
   ;; use company everywhere
   (global-company-mode 1)
@@ -555,25 +507,13 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(elfeed-goodies/entry-pane-position (quote bottom))
- '(elfeed-goodies/entry-pane-size 0.75)
- '(safe-local-variable-values
+ '(package-selected-packages
    (quote
-    ((c-c++-default-mode-for-headers . c-mode)
-     (c-c++-default-mode-for-headers . c++-mode)
-     (c-c++-default-mode-for-headers quote c++-mode)))))
+    (vi-tilde-fringe smooth-scrolling zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode volatile-highlights use-package toc-org tagedit spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restclient restart-emacs ranger rainbow-delimiters quelpa persp-mode pcre2el password-store paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file neotree multi-term mu4e-alert move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum linum-relative leuven-theme less-css-mode jade-mode irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies disaster diff-hl deft define-word company-web company-statistics company-quickhelp company-irony company-c-headers cmake-mode clean-aindent-mode clang-format buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
- '(neo-banner-face ((t :inherit shadow :underline nil)) t)
- '(neo-button-face ((t :inherit dired-directory :underline nil)) t)
- '(neo-dir-link-face ((t :inherit dired-directory :underline nil)) t)
- '(neo-expand-btn-face ((t :inherit button :underline nil)) t)
- '(neo-file-link-face ((t :inherit default :underline nil)) t)
- '(neo-header-face ((t :inherit shadow :underline nil)) t)
- '(neo-root-dir-face ((t :inherit link-visited :underline nil)) t))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))

@@ -23,7 +23,9 @@
 
 (defun jvillasante/post-init-flycheck ()
   (add-hook 'c++-mode-hook (lambda ()
-                             (setq flycheck-clang-language-standard "c++11"))))
+                             (setq flycheck-clang-language-standard "c++11")))
+  (add-hook 'c-mode-hook (lambda ()
+                           (setq flycheck-clang-language-standard "c99"))))
 
 (defun jvillasante/init-flyspell-lazy ()
   (use-package flyspell-lazy
@@ -74,10 +76,10 @@
     (add-hook 'c++-mode-hook 'setup-flycheck-irony)))
 
 (defun jvillasante/init-modern-cpp-font-lock ()
-    (use-package modern-cpp-font-lock
-      :defer t
-      :init
-      (modern-c++-font-lock-global-mode t)))
+  (use-package modern-cpp-font-lock
+    :defer t
+    :init
+    (modern-c++-font-lock-global-mode t)))
 
 (defun jvillasante/init-zeal-at-point ()
   (use-package zeal-at-point
