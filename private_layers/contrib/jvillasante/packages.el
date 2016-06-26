@@ -10,6 +10,7 @@
         forecast
         password-store
         zeal-at-point
+        org
         ;; modern-cpp-font-lock
         ))
 
@@ -102,10 +103,28 @@
   (use-package forecast
     :defer t
     :init
-    (setq forecast-latitude 25.6400320
-          forecast-longitude -80.3385390
-          forecast-city "Miami"
+    (setq forecast-latitude 27.395712
+          forecast-longitude -82.4427907
+          forecast-city "Bradenton, FL"
           forecast-country "USA"
           forecast-api-key "96a8f25d9ec2a623b6606f079bbd2f5f")
     (evil-leader/set-key
       "of" 'forecast)))
+
+(defun jvillasante/post-init-org ()
+  ;; (add-hook 'org-mode-hook 'yas-minor-mode)
+
+  (with-eval-after-load 'org
+    ;; org problems
+    (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
+    (setq org-clock-line-re "^[    ]*CLOCK:")
+
+    (setq org-startup-indented t)
+    (setq org-indent-mode t)
+
+    ;; set maximum indentation for description lists
+    (setq org-list-description-max-indent 5)
+
+    ;; prevent demoting heading also shifting text inside sections
+    (setq org-adapt-indentation nil))
+  )
