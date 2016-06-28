@@ -9,8 +9,10 @@
         flycheck-irony
         forecast
         password-store
-        zeal-at-point
         org
+        esqlite
+        zeal-at-point
+        helm-dash
         ;; modern-cpp-font-lock
         ))
 
@@ -82,13 +84,6 @@
     :init
     (modern-c++-font-lock-global-mode t)))
 
-(defun jvillasante/init-zeal-at-point ()
-  (use-package zeal-at-point
-    :defer t
-    :init
-    (evil-leader/set-key
-      "oz" 'zeal-at-point)))
-
 (defun jvillasante/init-password-store ()
   (use-package password-store
     :defer t
@@ -126,5 +121,28 @@
     (setq org-list-description-max-indent 5)
 
     ;; prevent demoting heading also shifting text inside sections
-    (setq org-adapt-indentation nil))
-  )
+    (setq org-adapt-indentation nil)))
+
+(defun jvillasante/init-zeal-at-point ()
+  (use-package zeal-at-point
+    :defer t
+    :init
+    (spacemacs/set-leader-keys
+      "dd" 'zeal-at-point
+      "dD" 'zeal-at-point-set-docset)))
+
+(defun jvillasante/init-helm-dash ()
+  (use-package helm-dash
+    :defer t
+    :init
+    (setq helm-dash-browser-func 'eww)
+    (setq helm-dash-docsets-path my-docsets-path)
+
+    (defun c-doc-hook ()
+      (interactive)
+      (setq-local helm-dash-docsets '("C" "C++")))
+    (add-hook 'c-mode-common-hook 'c-doc-hook)
+
+    (spacemacs/set-leader-keys
+      "dh" 'helm-dash-at-point
+      "dH" 'helm-dash)))
