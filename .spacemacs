@@ -300,7 +300,6 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-
   ;; smooth scrolling
   (setq redisplay-dont-pause t
         scroll-margin 3
@@ -401,11 +400,6 @@ you should place your code here."
   ;; Isearch convenience, space matches anything (non-greedy)
   (setq search-whitespace-regexp ".*?")
 
-  ;; Misc
-  ;; (setf git-gutter-fr+-side 'left-fringe)
-  ;; (setf diff-hl-side 'left)
-  ;; (diff-hl-flydiff-mode)
-
   (add-hook 'mu4e-compose-mode-hook
             (lambda ()
               (auto-fill-mode 0)
@@ -467,6 +461,10 @@ you should place your code here."
   (setq browse-url-browser-function 'browse-url-generic
         engine/browser-function 'browse-url-generic
         browse-url-generic-program "google-chrome")
+
+  (add-hook 'after-init-hook 'server-start)
+  (add-hook 'kill-emacs-hook 'elfeed-db-compact)
+  (setq server-raise-frame t)
 
   (defun my-hotspots ()
     "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
