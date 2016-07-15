@@ -463,7 +463,6 @@ you should place your code here."
         browse-url-generic-program "google-chrome")
 
   (add-hook 'after-init-hook 'server-start)
-  (add-hook 'kill-emacs-hook 'elfeed-db-compact)
   (setq server-raise-frame t)
 
   (defun my-hotspots ()
