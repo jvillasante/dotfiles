@@ -59,7 +59,7 @@
     (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)))
 
 (defun jvillasante/init-company-irony-c-headers ()
-  (use-package company-irony
+  (use-package company-irony-c-headers
     :init
     (add-hook 'c-mode-hook (lambda () (add-to-list 'company-backends 'company-irony-c-headers)))
     (add-hook 'c++-mode-hook (lambda () (add-to-list 'company-backends 'company-irony-c-headers)))))
