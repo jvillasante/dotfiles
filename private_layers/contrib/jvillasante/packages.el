@@ -127,13 +127,14 @@
   (use-package helm-dash
     :defer t
     :init
-    (setq helm-dash-browser-func 'eww)
+    ;; (setq helm-dash-browser-func 'eww)
+    (setq helm-dash-browser-func 'xwidget-webkit-browse-url)
     (setq helm-dash-docsets-path my-docsets-path)
 
-    (defun c-doc-hook ()
+    (defun my-c-doc-hook ()
       (interactive)
       (setq-local helm-dash-docsets '("C" "C++")))
-    (add-hook 'c-mode-common-hook 'c-doc-hook)
+    (add-hook 'c-mode-common-hook 'my-c-doc-hook)
 
     (spacemacs/set-leader-keys
       "dh" 'helm-dash-at-point
