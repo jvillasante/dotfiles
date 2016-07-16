@@ -3,6 +3,7 @@
         flyspell-lazy
         irony
         irony-eldoc
+        company
         company-irony
         company-irony-c-headers
         flycheck-irony
@@ -29,39 +30,36 @@
 
 (defun jvillasante/init-irony ()
   (use-package irony
-    :defer t
     :init
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-
     (defun my-irony-mode-hook ()
       (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
       (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
 
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
     (add-hook 'irony-mode-hook 'my-irony-mode-hook)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
     (spacemacs|diminish irony-mode "I" "I")))
 
 (defun jvillasante/init-irony-eldoc ()
   (use-package irony-eldoc
-    :defer t
     :init
     (add-hook 'c-mode-hook 'eldoc-mode)
     (add-hook 'c++-mode-hook 'eldoc-mode)
     (add-hook 'irony-mode-hook 'irony-eldoc)))
 
+(defun jvillasante/post-init-company ()
+  (with-eval-after-load 'company
+    (add-hook 'c-mode-hook (lambda () (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
+    (add-hook 'c++-mode-hook (lambda () (add-to-list 'company-backends '(company-irony-c-headers company-irony))))))
+
 (defun jvillasante/init-company-irony ()
   (use-package company-irony
     :init
-    (add-hook 'c-mode-hook (lambda () (add-to-list 'company-backends 'company-irony)))
-    (add-hook 'c++-mode-hook (lambda () (add-to-list 'company-backends 'company-irony)))
     (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)))
 
 (defun jvillasante/init-company-irony-c-headers ()
-  (use-package company-irony-c-headers
-    :init
-    (add-hook 'c-mode-hook (lambda () (add-to-list 'company-backends 'company-irony-c-headers)))
-    (add-hook 'c++-mode-hook (lambda () (add-to-list 'company-backends 'company-irony-c-headers)))))
+  (use-package company-irony-c-headers))
 
 (defun jvillasante/init-flycheck-irony ()
   (use-package flycheck-irony
@@ -74,7 +72,6 @@
 
 (defun jvillasante/init-modern-cpp-font-lock ()
   (use-package modern-cpp-font-lock
-    :defer t
     :init
     (modern-c++-font-lock-global-mode t)
     (spacemacs|diminish modern-c++-font-lock-mode "M" "M")))

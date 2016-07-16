@@ -420,7 +420,8 @@ you should place your code here."
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
 
   ;; use company everywhere
-  (global-company-mode 1)
+  (add-hook 'after-init-hook 'global-company-mode)
+  (setq company-backends (delete 'company-semantic company-backends))
 
   ;; use evil-matchit everywhere
   (global-evil-matchit-mode 1)
