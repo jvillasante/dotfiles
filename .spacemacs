@@ -499,6 +499,7 @@ you should place your code here."
     "oh" 'my-hotspots)
 
   ;; others
+  (helm-mode 1)
   (golden-ratio-mode 1))
 
 ;; Do not write anything past this comment. This is where Emacs will
