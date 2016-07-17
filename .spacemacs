@@ -463,9 +463,6 @@ you should place your code here."
         engine/browser-function 'browse-url-generic
         browse-url-generic-program "google-chrome")
 
-  (add-hook 'after-init-hook 'server-start)
-  (setq server-raise-frame t)
-
   (defun my-hotspots ()
     "helm interface to my hotspots, which includes my locations, org-files and bookmarks"
     (interactive)
@@ -499,6 +496,9 @@ you should place your code here."
     "oh" 'my-hotspots)
 
   ;; others
+  (add-hook 'after-init-hook 'server-start)
+  (setq server-raise-frame t)
+
   (helm-mode 1)
   (golden-ratio-mode 1))
 
