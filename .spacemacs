@@ -37,11 +37,14 @@ values."
      (git :variables
           git-use-magit-next t
           git-enable-github-support t)
+     github
      ;; version-control
      markdown
      org
      (ibuffer :variables
-              ibuffer-group-buffers-by 'modes)
+              ibuffer-group-buffers-by 'projects)
+     (ranger :variables
+             ranger-show-preview t)
      (shell :variables
             shell-default-term-shell "/bin/zsh"
             shell-default-shell 'ansi-term
@@ -347,7 +350,7 @@ you should place your code here."
                       face
                       tabs)
 
-   ;; helm
+   doc-view-continuous t
    helm-echo-input-in-header-line nil
 
    ;; deft
