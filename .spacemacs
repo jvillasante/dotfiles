@@ -303,14 +303,13 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; smooth scrolling
-  (setq redisplay-dont-pause t
+  ;; scroll one line at a time (less "jumpy" than defaults)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ; one line at a time
+  (setq mouse-wheel-progressive-speed nil)            ; don't accelerate scrolling
+  (setq-default smooth-scroll-margin 3)
+  (setq scroll-step 1
         scroll-margin 3
-        scroll-step 1
-        scroll-conservatively 101
-        mouse-wheel-scroll-amount '(1)
-        mouse-wheel-progressive-speed nil
-        scroll-preserve-screen-position 1)
+        scroll-conservatively 100000)
 
   ;; Display Visited File's Path in the Frame Title
   (setq frame-title-format
