@@ -1,16 +1,11 @@
-export PATH=${PATH}:${HOME}/bin
-
-# tmuxifier
-# export PATH="$HOME/.tmuxifier/bin:$PATH"
-# export TMUXIFIER_TMUX_OPTS="-2"
-# eval "$(tmuxifier init -)"
-# }}}
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export MANPATH="/usr/local/man:$MANPATH"
 
 # Home bin
 export PATH="$HOME/bin:$PATH"
 
 # QT Stuff
-export PATH="$HOME/Software/Qt/5.6/gcc_64/bin:$PATH"
+# export PATH="$HOME/Software/Qt/5.6/gcc_64/bin:$PATH"
 
 # Google Test
 export GTEST_HOME="$HOME/Software/src/googletest"

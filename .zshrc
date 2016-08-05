@@ -1,11 +1,18 @@
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-# ZSH_THEME="robbyrussell"
+ZSH_THEME="robbyrussell"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -17,18 +24,18 @@
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -38,45 +45,45 @@
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Change umask to make directory sharing easier
-umask 0022
-
-# Exports {{{
-export ZSH=$HOME/.oh-my-zsh          # Path to your oh-my-zsh installation.
-export ZSH_THEME="robbyrussell"      # Set name of the theme to load.
-export EDITOR="emacsclient -c -n"
-export ALTERNATE_EDITOR=vim
-export VISUAL=$EDITOR
-export LANG=en_US.UTF-8              # You may need to manually set your language environment
-export SSH_KEY_PATH="~/.ssh/dsa_id"  # ssh
-export TERM=xterm-256color
-export CLICOLOR=1
-export LSCOLORS=ExFxBxDxCxegedabagacad
-# }}}
-
-# oh-my-zsh {{{
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-COMPLETION_WAITING_DOTS="true"
-DISABLE_UNTRACKED_FILES_DIRTY="true"
-DISABLE_AUTO_TITLE="true"
+plugins=(git common-aliases)
 
 # User configuration
-source $ZSH/oh-my-zsh.sh
-zstyle :omz:plugins:ssh-agent agent-forwarding on
-# }}}
 
-# Aliases {{{
+# Change umask to make directory sharing easier
+umask 0022
+
+# Exports
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+else
+    export EDITOR='emacsclient -c -n'
+fi
+export ALTERNATE_EDITOR=vim
+export VISUAL=$EDITOR
+export TERM=xterm-256color
+
+source $ZSH/oh-my-zsh.sh
+
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+export SSH_KEY_PATH="~/.ssh/dsa_id"
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-# alias zshconfig="vim ~/.zshrc"
-# alias ohmyzsh="vim ~/.oh-my-zsh"
-alias ls='ls -lFh'
+#
+# alias ls='ls -lFh'
 # alias vi=vim                    # vi is now vim
 # alias gvim='gvim 2>/dev/null'   # Discard gvim starting warnings
 # alias mux='tmuxifier'
@@ -95,9 +102,7 @@ alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -p
 
 # tor
 alias tor-browser="/home/jvillasante/Software/src/tor-browser_en-US/Browser/start-tor-browser --detach"
-# }}}
 
-# Tmux {{{
 # Makes creating a new tmux session (with a specific name) easier
 function tmuxopen() {
   tmux attach -t $1
@@ -181,4 +186,3 @@ function ppvim() {
 function pphist() {
     $(history | cut -c8- | sort -u | percol)
 }
-#}}}
