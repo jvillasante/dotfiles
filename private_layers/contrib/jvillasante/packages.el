@@ -1,5 +1,6 @@
 (setq jvillasante-packages
       '(magit
+        sr-speedbar
         flyspell-lazy
         irony
         irony-eldoc
@@ -22,6 +23,13 @@
   (setq-default git-magit-status-fullscreen t)
   (setq magit-completing-read-function 'magit-builtin-completing-read
         magit-push-always-verify nil))
+
+(defun jvillasante/init-sr-speedbar ()
+  (use-package sr-speedbar
+    :defer t
+    :init
+    (spacemacs/set-leader-keys
+      "sr" 'sr-speedbar-toggle)))
 
 (defun jvillasante/init-flyspell-lazy ()
   (use-package flyspell-lazy
@@ -64,11 +72,9 @@
 (defun jvillasante/init-flycheck-irony ()
   (use-package flycheck-irony
     :init
-    (defun setup-flycheck-irony ()
-      (when (featurep 'flycheck)
-        (flycheck-irony-setup)))
-    (add-hook 'c-mode-hook 'setup-flycheck-irony)
-    (add-hook 'c++-mode-hook 'setup-flycheck-irony)))
+    (progn
+      (eval-after-load 'flycheck
+        '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))))
 
 (defun jvillasante/init-modern-cpp-font-lock ()
   (use-package modern-cpp-font-lock

@@ -61,6 +61,7 @@ values."
            web-mode-markup-indent-offset 2
            web-mode-css-indent-offset 2)
      ;; semantic
+     gtags
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
