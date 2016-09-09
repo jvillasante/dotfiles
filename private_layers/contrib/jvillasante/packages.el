@@ -14,6 +14,7 @@
         esqlite
         zeal-at-point
         helm-dash
+        ;; helm-gtags
         modern-cpp-font-lock))
 
 ;; List of packages to exclude.
@@ -144,3 +145,6 @@
     (spacemacs/set-leader-keys
       "dh" 'helm-dash-at-point
       "dH" 'helm-dash)))
+
+;; (defun jvillasante/post-init-helm-gtags ()
+;;   (spacemacs|diminish helm-gtags-mode "HG" "HG"))

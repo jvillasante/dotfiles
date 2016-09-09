@@ -61,7 +61,7 @@ values."
            web-mode-markup-indent-offset 2
            web-mode-css-indent-offset 2)
      ;; semantic
-     gtags
+     ;; gtags
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
@@ -328,7 +328,6 @@ you should place your code here."
    truncate-lines t                   ; Don't fold lines
    truncate-partial-width-windows nil ; for vertically-split windows
    split-width-threshold 160          ; Split verticaly by default
-   auto-fill-function 'do-auto-fill   ; Auto-fill-mode everywhere
    evil-cross-lines t                 ; Make horizontal movement cross lines
 
    ;; my coding style, bsd but with 2 spaces indentation (and no tab
@@ -413,10 +412,11 @@ you should place your code here."
               (visual-line-mode 1)))
   (add-hook 'prog-mode-hook
             (lambda ()
-              (set-fill-column 80)
+              (set-fill-column 110)
               (flyspell-prog-mode)))
   (add-hook 'org-mode-hook
             (lambda ()
+              (spacemacs/toggle-auto-fill-mode-on)
               (set-fill-column 110)))
   (add-hook 'text-mode-hook 'turn-on-flyspell)
   (add-hook 'makefile-mode-hook 'whitespace-mode)

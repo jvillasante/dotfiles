@@ -15,12 +15,13 @@
       mu4e-view-show-images t
       mu4e-view-image-max-width 800
       ;; mu4e-use-fancy-chars t
-      mu4e-view-prefer-html t
-      ;; mu4e-html2text-command 'mu4e-shr2text
+      ;; mu4e-view-prefer-html t
+      mu4e-html2text-command 'mu4e-shr2text
       ;; mu4e-html2text-command "html2text -utf8 -nobs -width 72"
-      mu4e-html2text-command "w3m -dump -cols 80 -T text/html"
+      ;; mu4e-html2text-command "w3m -dump -cols 80 -T text/html"
       ;; mu4e-html2text-command "html2markdown --body-width=0 | sed \"s/&nbsp_place_holder;/ /g; /^$/d\""
       mu4e-headers-skip-duplicates t
+      mu4e-headers-full-search t
       mu4e-get-mail-command "mbsync -a"
       mu4e-update-interval 300
       mu4e-attachment-dir "~/Downloads"
@@ -79,10 +80,10 @@
  mu4e-headers-time-format "%H:%M:%S")
 
 ;; Trim down the types of columns we show, to leave more room for the sender & subject.
-(setq mu4e-headers-fields '((:human-date . 12)
-                            (:flags . 6)
-                            (:from-or-to . 22)
-                            (:subject . nil)))
+(setq mu4e-headers-fields '((:human-date .    12)
+                            (:flags      .     6)
+                            (:from-or-to .    22)
+                            (:subject    . nil)))
 
 ;; Trim the number of fields shown in the email view. This is customizable. See mu4e-view.el for a full list.
 (setq mu4e-view-fields '(:from :to :cc :bcc :subject :date :tags :attachments :flags :maildir))
