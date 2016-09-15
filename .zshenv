@@ -30,10 +30,10 @@ export BOOST_VERSION=1.61.0
 # export NVM_DIR="/Users/jvillasante/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# go language stuff
-# [[ -s "/home/jvillasante/.gvm/scripts/gvm" ]] && source "/home/jvillasante/.gvm/scripts/gvm"
-# export GOPATH=$HOME/Hacking/workspace/go
-# export PATH="$GOPATH/bin:$PATH"
+# golang stuff
+[[ -s "/home/jvillasante/.gvm/scripts/gvm" ]] && source "/home/jvillasante/.gvm/scripts/gvm"
+export GOPATH="$HOME/Hacking/workspace/golang"
+export PATH="$PATH:$GOPATH/bin"
 
 # android
 # export PATH="$HOME/Android/Sdk/tools:$PATH"
