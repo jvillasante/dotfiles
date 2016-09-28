@@ -14,8 +14,10 @@
         esqlite
         zeal-at-point
         helm-dash
+        xwidgete
         ;; helm-gtags
-        modern-cpp-font-lock))
+        ;; modern-cpp-font-lock
+        ))
 
 ;; List of packages to exclude.
 (setq jvillasante-excluded-packages '())
@@ -77,11 +79,11 @@
       (eval-after-load 'flycheck
         '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))))
 
-(defun jvillasante/init-modern-cpp-font-lock ()
-  (use-package modern-cpp-font-lock
-    :init
-    (modern-c++-font-lock-global-mode t)
-    (spacemacs|diminish modern-c++-font-lock-mode "M" "M")))
+;; (defun jvillasante/init-modern-cpp-font-lock ()
+;;   (use-package modern-cpp-font-lock
+;;     :init
+;;     (modern-c++-font-lock-global-mode t)
+;;     (spacemacs|diminish modern-c++-font-lock-mode "M" "M")))
 
 (defun jvillasante/init-password-store ()
   (use-package password-store
@@ -148,3 +150,11 @@
 
 ;; (defun jvillasante/post-init-helm-gtags ()
 ;;   (spacemacs|diminish helm-gtags-mode "HG" "HG"))
+
+(defun jvillasante/init-xwidgete ()
+  (use-package helm-dash
+    :defer t
+    :init
+    (evil-set-initial-state 'xwidget-webkit-mode 'emacs)
+    (spacemacs/set-leader-keys
+      "ox" 'xwidget-webkit-browse-url)))

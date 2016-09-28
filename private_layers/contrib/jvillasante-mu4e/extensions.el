@@ -16,9 +16,9 @@
       mu4e-view-image-max-width 800
       ;; mu4e-use-fancy-chars t
       ;; mu4e-view-prefer-html t
-      mu4e-html2text-command 'mu4e-shr2text
+      ;; mu4e-html2text-command 'mu4e-shr2text
       ;; mu4e-html2text-command "html2text -utf8 -nobs -width 72"
-      ;; mu4e-html2text-command "w3m -dump -cols 80 -T text/html"
+      mu4e-html2text-command "w3m -dump -cols 80 -T text/html"
       ;; mu4e-html2text-command "html2markdown --body-width=0 | sed \"s/&nbsp_place_holder;/ /g; /^$/d\""
       mu4e-headers-skip-duplicates t
       mu4e-headers-full-search t
