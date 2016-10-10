@@ -13,14 +13,9 @@
         org
         esqlite
         zeal-at-point
-        helm-dash
         xwidgete
-        ;; helm-gtags
         ;; modern-cpp-font-lock
         ))
-
-;; List of packages to exclude.
-(setq jvillasante-excluded-packages '())
 
 (defun jvillasante/post-init-magit ()
   (setq-default git-magit-status-fullscreen t)
@@ -132,28 +127,8 @@
       "dd" 'zeal-at-point
       "dD" 'zeal-at-point-set-docset)))
 
-(defun jvillasante/init-helm-dash ()
-  (use-package helm-dash
-    :defer t
-    :init
-    ;; (setq helm-dash-browser-func 'eww)
-    ;; (setq helm-dash-browser-func 'xwidget-webkit-browse-url)
-    (setq helm-dash-docsets-path my-docsets-path)
-
-    (defun my-c-doc-hook ()
-      (interactive)
-      (setq-local helm-dash-docsets '("C" "C++")))
-    (add-hook 'c-mode-common-hook 'my-c-doc-hook)
-
-    (spacemacs/set-leader-keys
-      "dh" 'helm-dash-at-point
-      "dH" 'helm-dash)))
-
-;; (defun jvillasante/post-init-helm-gtags ()
-;;   (spacemacs|diminish helm-gtags-mode "HG" "HG"))
-
 (defun jvillasante/init-xwidgete ()
-  (use-package helm-dash
+  (use-package xwidgete
     :defer t
     :init
     (evil-set-initial-state 'xwidget-webkit-mode 'emacs)

@@ -1,11 +1,3 @@
-(setq jvillasante-mu4e-pre-extensions
-      '(
-        ))
-
-(setq jvillasante-mu4e-post-extensions
-      '(
-        ))
-
 ;; mu4e -  Set up some common mu4e variables
 (require 'mu4e-contrib)
 (require 'org-mu4e)

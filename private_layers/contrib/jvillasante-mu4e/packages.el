@@ -5,9 +5,6 @@
         mu4e-alert
         ))
 
-;; List of packages to exclude.
-(setq jvillasante-mu4e-excluded-packages '())
-
 (defun jvillasante-mu4e/init-mu4e-alert ()
   (use-package mu4e-alert
     ;; The code in :init is always run, use it to set up config vars and key bindings
