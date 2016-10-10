@@ -137,6 +137,7 @@
     :defer t
     :init
     ;; (setq helm-dash-browser-func 'eww)
+    ;; (setq helm-dash-browser-func 'xwidget-webkit-browse-url)
     (setq helm-dash-docsets-path my-docsets-path)
 
     (defun my-c-doc-hook ()
