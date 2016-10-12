@@ -380,6 +380,9 @@ you should place your code here."
    split-width-threshold 160          ; Split verticaly by default
    evil-cross-lines t                 ; Make horizontal movement cross lines
 
+   ;; scroll
+   scroll-margin 3
+
    ;; my coding style, bsd but with 2 spaces indentation (and no tab
    ;; characters, only spaces)
    c-basic-indent 2
@@ -400,7 +403,6 @@ you should place your code here."
                       tabs)
 
    doc-view-continuous t
-   ;; helm-echo-input-in-header-line nil
 
    ;; deft
    deft-directory (concat my-dropbox-path "/Personal/notes")
