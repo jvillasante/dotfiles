@@ -5,21 +5,16 @@
         mu4e-alert
         ))
 
-(defun jvillasante-mu4e/init-mu4e-alert ()
-  (use-package mu4e-alert
-    ;; The code in :init is always run, use it to set up config vars and key bindings
-    :init
-    (progn ; :init only takes one expression so use "progn" to combine multiple things
-      (evil-leader/set-key
-        "ou" 'mu4e-alert-view-unread-mails)
+;; List of packages to exclude.
+(setq jvillasante-mu4e-excluded-packages '())
 
-      (setq mu4e-alert-interesting-mail-query
-            (concat
-             "flag:unread"
-             " AND NOT flag:trashed"
-             " AND maildir:"
-             "\"/Inbox\""))
+(defun jvillasante-mu4e/post-init-mu4e-alert ()
+  (evil-leader/set-key
+    "ou" 'mu4e-alert-view-unread-mails)
 
-      ;; (mu4e-alert-set-default-style 'libnotify)
-      ;; (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
-      (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display))))
+  (setq mu4e-alert-interesting-mail-query
+        (concat
+         "flag:unread"
+         " AND NOT flag:trashed"
+         " AND maildir:"
+         "\"/Inbox\"")))
