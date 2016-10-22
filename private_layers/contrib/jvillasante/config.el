@@ -1,3 +1,29 @@
+;; magit
+(with-eval-after-load 'magit
+  (setq-default git-magit-status-fullscreen t)
+  (setq magit-completing-read-function 'magit-builtin-completing-read
+        magit-push-always-verify nil))
+
+;; company
+(with-eval-after-load 'company
+  (add-hook 'c-mode-hook (lambda () (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
+  (add-hook 'c++-mode-hook (lambda () (add-to-list 'company-backends '(company-irony-c-headers company-irony)))))
+
+;; org
+(with-eval-after-load 'org
+  ;; org problems
+  (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
+  (setq org-clock-line-re "^[    ]*CLOCK:")
+
+  (setq org-startup-indented t)
+  (setq org-indent-mode t)
+
+  ;; set maximum indentation for description lists
+  (setq org-list-description-max-indent 5)
+
+  ;; prevent demoting heading also shifting text inside sections
+  (setq org-adapt-indentation nil))
+
 ;; javascript stuff, not used for now
 ;; (setenv "NODE_NO_READLINE" "1")
 

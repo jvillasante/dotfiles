@@ -40,7 +40,7 @@
       mu4e-trash-folder  "/[Gmail].Trash"
       mu4e-refile-folder "/[Gmail].All Mail")
 (setq mu4e-maildir-shortcuts
-      '( ("/Inbox"                . ?i)
+      '( ("/Inbox"               . ?i)
          ("/[Gmail].Important"   . ?I)
          ("/[Gmail].Sent Mail"   . ?s)
          ("/[Gmail].Spam"        . ?p)
@@ -149,3 +149,12 @@
 ;; When receiving a PGP encrypted e-mail: C-c C-e v to verify the signature, and C-c C-e d to decrypt.
 (add-hook 'mu4e-compose-mode-hook 'epa-mail-mode)
 (add-hook 'mu4e-view-mode-hook 'epa-mail-mode)
+
+;; mu4e-alert
+(with-eval-after-load 'mu4e-alert
+  (setq mu4e-alert-interesting-mail-query
+        (concat
+         "flag:unread"
+         " AND NOT flag:trashed"
+         " AND maildir:"
+         "\"/Inbox\"")))
