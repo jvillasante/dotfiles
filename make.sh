@@ -73,5 +73,8 @@ for file in $files; do
     ln -fs $dir/$file ~/
 done
 
+echo "linking redshift.conf"
+ln -fs $dir/redshift.conf ~/.config/redshift.conf
+
 # echo "linking .neovimrc"
 # ln -fs $dir/.neovimrc ~/.config/nvim/init.vim
