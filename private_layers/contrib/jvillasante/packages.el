@@ -11,9 +11,7 @@
         helm-dash
         ;; helm-gtags
         zeal-at-point
-        xwidgete
-        modern-cpp-font-lock
-        ))
+        modern-cpp-font-lock))
 
 (defun jvillasante/init-sr-speedbar ()
   (use-package sr-speedbar
@@ -117,11 +115,3 @@
 
 ;; (defun jvillasante/post-init-helm-gtags ()
 ;;   (spacemacs|diminish helm-gtags-mode "HG" "HG"))
-
-(defun jvillasante/init-xwidgete ()
-  (use-package xwidgete
-    :defer t
-    :init
-    (evil-set-initial-state 'xwidget-webkit-mode 'emacs)
-    (spacemacs/set-leader-keys
-      "ox" 'xwidget-webkit-browse-url)))
