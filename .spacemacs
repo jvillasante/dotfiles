@@ -407,14 +407,6 @@ you should place your code here."
    doc-view-continuous t
    helm-echo-input-in-header-line nil
 
-   ;; deft
-   deft-directory (concat my-dropbox-path "/Personal/notes")
-   deft-extensions '("org" "md" "txt")
-   deft-text-mode "org"
-   deft-use-filename-as-title t
-   deft-use-filter-string-for-filename t
-   deft-auto-save-interval 0
-
    ;; tramp mode
    tramp-default-method "ssh"
 
@@ -493,6 +485,19 @@ you should place your code here."
   ;; use count-words instead of count-words-region as it works on buffer
   ;; if no region is selected
   (global-set-key (kbd "M-=") 'count-words)
+
+  ;; deft
+  (setq deft-directory (concat my-dropbox-path "/Personal/notes")
+        deft-default-extension "org"
+        deft-extensions '("org")
+        deft-recursive t
+        deft-text-mode 'org-mode
+        deft-use-filename-as-title t
+        deft-use-filter-string-for-filename t
+        deft-file-naming-rules '((noslash . "-")
+                                 (nospace . "-")
+                                 (case-fn . downcase))
+        deft-auto-save-interval 0)
 
   ;; neotree
   (setq neo-theme 'ascii)

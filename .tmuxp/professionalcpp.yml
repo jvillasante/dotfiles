@@ -1,13 +1,7 @@
 session_name: Professional C++
-start_directory: ~/Hacking/workspace/c++/professional_c++
 windows:
-  - window_name: emacs
-    panes:
-      - shell_commands:
-          - emacs ~/Hacking/workspace/c++/professional_c++/Readme.org
-  - window_name: terminal
-    panes:
-    - focus: true
-    - shell_command:
-        - cd ~/Hacking/workspace/c++/professional_c++/
-        - git status
+- window_name: terminal
+  panes:
+  - shell_command:
+    - cd ~/Hacking/workspace/c++/professional_c++/
+    - git status
