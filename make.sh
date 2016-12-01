@@ -35,12 +35,20 @@ install_zsh () {
 
 install_spacemacs () {
     if [[ ! -d $dir/.emacs.d/ ]]; then
-        git clone --recursive http://github.com/syl20bnr/spacemacs $dir/.emacs.d
+        # git clone --recursive http://github.com/syl20bnr/spacemacs $dir/.emacs.d
+        git clone https://github.com/syl20bnr/spacemacs $dir/.emacs.d
+    fi
+}
+
+install_neovim () {
+    if [[ ! -d ~/.config/nvim/ ]]; then
+        mkdir ~/.config/nvim/
     fi
 }
 
 install_zsh
 install_spacemacs
+install_neovim
 
 # Create backup folder if not exist
 if [[ ! -d $dir_bak/ ]]; then
@@ -76,5 +84,5 @@ done
 echo "linking redshift.conf"
 ln -fs $dir/redshift.conf ~/.config/redshift.conf
 
-# echo "linking .neovimrc"
-# ln -fs $dir/.neovimrc ~/.config/nvim/init.vim
+echo "linking .neovimrc"
+ln -fs $dir/.neovimrc ~/.config/nvim/init.vim

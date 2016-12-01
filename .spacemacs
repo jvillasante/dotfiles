@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     vimscript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -54,8 +55,9 @@ values."
           git-use-magit-next t
           git-enable-github-support t)
      version-control
+     (org :variables
+          org-enable-github-support t)
      markdown
-     org
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      (ranger :variables
@@ -89,7 +91,6 @@ values."
            mu4e-installation-path my-mu4e-path
            mu4e-enable-notifications nil
            mu4e-enable-mode-line t)
-     jvillasante-mu4e
      jvillasante)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -461,10 +462,6 @@ you should place your code here."
             (lambda ()
               (set-fill-column 110)
               (flyspell-prog-mode)))
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (spacemacs/toggle-auto-fill-mode-on)
-              (set-fill-column 110)))
   (add-hook 'text-mode-hook 'turn-on-flyspell)
   (add-hook 'makefile-mode-hook 'whitespace-mode)
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
@@ -485,6 +482,198 @@ you should place your code here."
   ;; use count-words instead of count-words-region as it works on buffer
   ;; if no region is selected
   (global-set-key (kbd "M-=") 'count-words)
+
+  ;; org
+  (with-eval-after-load 'org
+    ;; org problems
+    (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
+    (setq org-clock-line-re "^[    ]*CLOCK:")
+
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (spacemacs/toggle-auto-fill-mode-on)
+                (set-fill-column 110)))
+
+    (setq org-startup-indented t)
+    (setq org-indent-mode t)
+
+    ;; set maximum indentation for description lists
+    (setq org-list-description-max-indent 5)
+
+    ;; prevent demoting heading also shifting text inside sections
+    (setq org-adapt-indentation nil))
+
+  ;; magit
+  (with-eval-after-load 'magit
+    (setq-default git-magit-status-fullscreen t)
+    (setq magit-completing-read-function 'magit-builtin-completing-read
+          magit-push-always-verify nil))
+
+  ;; company
+  (with-eval-after-load 'company
+    (add-hook 'c-mode-hook (lambda () (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
+    (add-hook 'c++-mode-hook (lambda () (add-to-list 'company-backends '(company-irony-c-headers company-irony)))))
+
+  (with-eval-after-load 'mu4e
+    (require 'mu4e-contrib)
+    (require 'org-mu4e)
+    (require 'gnus-dired)
+
+    (setq mu4e-maildir "~/.Maildir/gmail"
+          mu4e-view-show-images t
+          mu4e-view-image-max-width 800
+          ;; mu4e-use-fancy-chars t
+          ;; mu4e-view-prefer-html t
+          ;; mu4e-html2text-command 'mu4e-shr2text
+          ;; mu4e-html2text-command "html2text -utf8 -nobs -width 72"
+          mu4e-html2text-command "w3m -dump -cols 80 -T text/html"
+          ;; mu4e-html2text-command "html2markdown --body-width=0 | sed \"s/&nbsp_place_holder;/ /g; /^$/d\""
+          mu4e-headers-skip-duplicates t
+          mu4e-headers-full-search t
+          mu4e-get-mail-command "mbsync -a"
+          mu4e-update-interval 300
+          mu4e-attachment-dir "~/Downloads"
+          mu4e-sent-messages-behavior 'delete
+          message-kill-buffer-on-exit t
+          mu4e-hide-index-messages t
+          mu4e-compose-signature-auto-include t
+          mu4e-headers-include-related t
+          mu4e-confirm-quit nil
+          mu4e-compose-dont-reply-to-self t
+          mu4e-compose-keep-self-cc nil
+          mu4e-headers-auto-update t
+          mu4e-headers-leave-behavior 'ask
+          mu4e-headers-visible-lines 22
+          mu4e-view-show-addresses t
+          mail-user-agent 'mu4e-user-agent
+          message-citation-line-format "On %m/%d/%Y %H:%M:%S, %f wrote:"
+          message-citation-line-function 'message-insert-formatted-citation-line
+          mu4e-change-filenames-when-moving t
+          mu4e-headers-results-limit 250)
+
+    (setq mu4e-drafts-folder "/[Gmail].Drafts"
+          mu4e-sent-folder   "/[Gmail].Sent Mail"
+          mu4e-trash-folder  "/[Gmail].Trash"
+          mu4e-refile-folder "/[Gmail].All Mail")
+    (setq mu4e-maildir-shortcuts
+          '( ("/Inbox"               . ?i)
+             ("/[Gmail].Important"   . ?I)
+             ("/[Gmail].Sent Mail"   . ?s)
+             ("/[Gmail].Spam"        . ?p)
+             ("/[Gmail].Trash"       . ?t)
+             ("/[Gmail].Drafts"      . ?d)
+             ("/[Gmail].Starred"     . ?S)
+             ("/[Gmail].All Mail"    . ?a)))
+    (add-to-list 'mu4e-bookmarks
+                 '((concat "maildir:/Inbox AND date:"
+                           (format-time-string "%Y%m%d" (subtract-time (current-time) (days-to-time 7))))
+                   "Inbox messages in the last 7 days" ?W) t)
+    (add-to-list 'mu4e-bookmarks
+                 '("size:5M..500M" "Big messages" ?b) t)
+
+    ;; mu4e - something about ourselves
+    (setq
+     user-mail-address "jvillasantegomez@gmail.com"
+     user-full-name  "Julio C. Villasante"
+     mu4e-compose-signature
+     (concat
+      "Kind Regards,\n"
+      "Julio C. Villasante\n"
+      "--\n"
+      "Sent from GNU Emacs\n"))
+
+    (setq
+     mu4e-date-format-long "%m/%d/%Y %H:%M:%S"
+     mu4e-headers-date-format "%m/%d/%Y"
+     mu4e-headers-time-format "%H:%M:%S")
+
+    ;; Trim down the types of columns we show, to leave more room for the sender & subject.
+    (setq mu4e-headers-fields '((:human-date .    12)
+                                (:flags      .     6)
+                                (:from-or-to .    22)
+                                (:subject    . nil)))
+
+    ;; Trim the number of fields shown in the email view. This is customizable. See mu4e-view.el for a full list.
+    (setq mu4e-view-fields '(:from :to :cc :bcc :subject :date :tags :attachments :flags :maildir))
+    (setq mu4e-view-show-addresses t)
+
+    ;; mu4e - attachment
+    (defun gnus-dired-mail-buffers ()
+      "Return a list of active message buffers."
+      (let (buffers)
+        (save-current-buffer
+          (dolist (buffer (buffer-list t))
+            (set-buffer buffer)
+            (when (and (derived-mode-p 'message-mode)
+                       (null message-sent-message-via))
+              (push (buffer-name buffer) buffers))))
+        (nreverse buffers)))
+    (setq gnus-dired-mail-mode 'mu4e-user-agent)
+    (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+
+    ;; make shr/eww readable with dark themes
+    (setq shr-color-visible-luminance-min 80)
+
+    ;; If you use the mu4e-shr2text, it might be useful to emulate some of the shr key bindings
+    (add-hook 'mu4e-view-mode-hook
+              (lambda()
+                ;; try to emulate some of the eww key-bindings
+                (local-set-key (kbd "<tab>") 'shr-next-link)
+                (local-set-key (kbd "<backtab>") 'shr-previous-link)))
+
+    ;; use imagemagick, if available
+    (when (fboundp 'imagemagick-register-types)
+      (imagemagick-register-types))
+
+    (eval-after-load 'mu4e
+      '(progn
+         ;; mu4e - actions
+         (defun search-for-sender (msg)
+           "Search for messages sent by the sender of the message at point."
+           (mu4e-headers-search
+            (concat "from:" (cdar (mu4e-message-field msg :from)))))
+
+         (defun show-number-of-recipients (msg)
+           "Display the number of recipients for the message at point."
+           (message "Number of recipients: %d"
+                    (+ (length (mu4e-message-field msg :to))
+                       (length (mu4e-message-field msg :cc)))))
+
+         (add-to-list 'mu4e-headers-actions
+                      '("Number of recipients" . show-number-of-recipients) t)
+         (add-to-list 'mu4e-view-actions
+                      '("xsearch for sender" . search-for-sender) t)
+         (add-to-list 'mu4e-view-actions
+                      '("wView with XWidget" . mu4e-action-view-with-xwidget) t)
+         ))
+
+    ;; mu4e - sending mail
+    (setq message-send-mail-function 'message-send-mail-with-sendmail)
+    (setq sendmail-program "/usr/bin/msmtp")
+    (setq message-sendmail-extra-arguments '("--read-envelope-from"))
+    (setq message-sendmail-f-is-evil 't)
+
+    (add-hook 'mu4e-compose-mode-hook
+              (lambda ()
+                (auto-fill-mode 0)
+                (visual-line-mode 1)))
+    (add-hook 'mu4e-view-mode-hook
+              (lambda () (visual-line-mode 1)))
+
+    ;; mu4e - gpg
+    ;; When composing an e-mail, C-c C-e s to sign your message then C-c C-e e to encrypt.
+    ;; When receiving a PGP encrypted e-mail: C-c C-e v to verify the signature, and C-c C-e d to decrypt.
+    (add-hook 'mu4e-compose-mode-hook 'epa-mail-mode)
+    (add-hook 'mu4e-view-mode-hook 'epa-mail-mode)
+
+    ;; mu4e-alert
+    (with-eval-after-load 'mu4e-alert
+      (setq mu4e-alert-interesting-mail-query
+            (concat
+             "flag:unread"
+             " AND NOT flag:trashed"
+             " AND maildir:"
+             "\"/Inbox\""))))
 
   ;; deft
   (setq deft-directory (concat my-dropbox-path "/Personal/notes")
@@ -518,8 +707,18 @@ you should place your code here."
   (helm-mode 1)
   (golden-ratio-mode 1))
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(neo-banner-face ((t :inherit shadow :underline nil)))
+ '(neo-button-face ((t :inherit dired-directory :underline nil)))
+ '(neo-dir-link-face ((t :inherit dired-directory :underline nil)))
+ '(neo-expand-btn-face ((t :inherit button :underline nil)))
+ '(neo-file-link-face ((t :inherit default :underline nil)))
+ '(neo-header-face ((t :inherit shadow :underline nil)))
+ '(neo-root-dir-face ((t :inherit link-visited :underline nil))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -527,16 +726,4 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yaml-mode hide-comnt modern-cpp-font-lock helm-gitignore helm-css-scss helm-company helm-c-yasnippet flyspell-correct-helm nlinum-relative nlinum zeal-at-point xwidgete xterm-color web-mode tagedit sr-speedbar smeargle slim-mode shell-pop scss-mode sass-mode ranger pug-mode password-store orgit org-projectile org-present org-pomodoro org-download mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp mmm-mode markdown-toc markdown-mode magit-gitflow less-css-mode irony-eldoc ibuffer-projectile htmlize helm-dash haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md forecast flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-pos-tip flycheck-irony flycheck evil-magit magit magit-popup git-commit with-editor evil-commentary eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elfeed-web simple-httpd elfeed-org org elfeed-goodies ace-jump-mode noflet elfeed disaster diff-hl deft company-web web-completion-data company-statistics company-quickhelp pos-tip company-irony-c-headers company-irony irony company-c-headers company cmake-mode clang-format auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete wgrep smex ivy-hydra counsel-projectile counsel swiper ivy ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(neo-banner-face ((t :inherit shadow :underline nil)) t)
- '(neo-button-face ((t :inherit dired-directory :underline nil)) t)
- '(neo-dir-link-face ((t :inherit dired-directory :underline nil)) t)
- '(neo-expand-btn-face ((t :inherit button :underline nil)) t)
- '(neo-file-link-face ((t :inherit default :underline nil)) t)
- '(neo-header-face ((t :inherit shadow :underline nil)) t)
- '(neo-root-dir-face ((t :inherit link-visited :underline nil)) t))
+    (zeal-at-point yaml-mode xterm-color ws-butler window-numbering which-key web-mode volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters pug-mode persp-mode pcre2el password-store paradox spinner ox-gfm orgit org-projectile pcache org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file nlinum-relative nlinum neotree mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp move-text modern-cpp-font-lock mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum link-hint less-css-mode irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md forecast flyspell-lazy flyspell-correct-helm flyspell-correct flycheck-pos-tip flycheck-irony flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd elfeed-org org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed dumb-jump f s disaster diminish diff-hl deft define-word dactyl-mode company-web web-completion-data company-statistics company-quickhelp pos-tip company-irony-c-headers company-irony irony company-c-headers company column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup quelpa package-build zenburn-theme))))
