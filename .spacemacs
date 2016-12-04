@@ -31,14 +31,15 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     vimscript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     helm
-     ;; ivy
+     better-defaults
+     (spell-checking :variables
+                     spell-checking-enable-by-default nil
+                     spell-checking-enable-auto-dictionary nil)
      (auto-completion :variables
                       auto-completion-return-key-behavior 'nil
                       auto-completion-tab-key-behavior 'complete
@@ -48,9 +49,11 @@ values."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-snippets-in-popup t
                       :disabled-for org erc git)
-     better-defaults
+     syntax-checking
      nlinum
      emacs-lisp
+     helm
+     ;; ivy
      (git :variables
           git-use-magit-next t
           git-enable-github-support t)
@@ -58,6 +61,7 @@ values."
      (org :variables
           org-enable-github-support t)
      markdown
+     vimscript
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      (ranger :variables
@@ -67,8 +71,6 @@ values."
             shell-default-shell 'ansi-term
             shell-default-position 'bottom
             shell-default-height 30)
-     spell-checking
-     syntax-checking
      search-engine
      evil-commentary
      (html :variables
