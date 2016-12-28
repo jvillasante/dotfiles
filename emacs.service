@@ -11,5 +11,8 @@ Restart=always
 # cloning and building all packages can take time
 TimeoutStartSec=0
 
+# SSH environment (for git et al)
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+
 [Install]
 WantedBy=default.target
