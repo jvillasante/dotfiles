@@ -11,7 +11,9 @@
         helm-dash
         ;; helm-gtags
         zeal-at-point
-        modern-cpp-font-lock))
+        modern-cpp-font-lock
+        ;; xwidgete
+        ))
 
 (defun jvillasante/init-sr-speedbar ()
   (use-package sr-speedbar
@@ -36,7 +38,7 @@
     (add-hook 'c-mode-hook 'irony-mode)
     (add-hook 'irony-mode-hook 'my-irony-mode-hook)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-    (spacemacs|diminish irony-mode "I" "I")))
+    (spacemacs|diminish irony-mode "ⓘ" "i")))
 
 (defun jvillasante/init-irony-eldoc ()
   (use-package irony-eldoc
@@ -64,7 +66,7 @@
   (use-package modern-cpp-font-lock
     :init
     (modern-c++-font-lock-global-mode t)
-    (spacemacs|diminish modern-c++-font-lock-mode "M" "M")))
+    (spacemacs|diminish modern-c++-font-lock-mode "ⓜ" "m")))
 
 (defun jvillasante/init-password-store ()
   (use-package password-store
@@ -115,3 +117,6 @@
 
 ;; (defun jvillasante/post-init-helm-gtags ()
 ;;   (spacemacs|diminish helm-gtags-mode "HG" "HG"))
+
+;; (defun jvillasante/init-xwidgete ()
+;;   (use-package xwidgete))

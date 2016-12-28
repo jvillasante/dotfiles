@@ -92,7 +92,8 @@ values."
      (mu4e :variables
            mu4e-installation-path my-mu4e-path
            mu4e-enable-notifications nil
-           mu4e-enable-mode-line t)
+           mu4e-enable-mode-line t
+           mu4e-alert-interesting-mail-query "")
      jvillasante)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -187,7 +188,7 @@ values."
                                :size 18
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.2)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -292,7 +293,7 @@ values."
    ;; If non nil show the color guide hint for transient state keys. (default t)
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols nil
+   dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -550,7 +551,10 @@ you should place your code here."
         message-citation-line-format "On %m/%d/%Y %H:%M:%S, %f wrote:"
         message-citation-line-function 'message-insert-formatted-citation-line
         mu4e-change-filenames-when-moving t
-        mu4e-headers-results-limit 250)
+        mu4e-headers-results-limit 250
+        ;; mu4e-index-cleanup nil      ;; don't do a full cleanup check
+        ;; mu4e-index-lazy-check t     ;; don't consider up-to-date dirs
+        )
 
   (setq mu4e-drafts-folder "/[Gmail].Drafts"
         mu4e-sent-folder   "/[Gmail].Sent Mail"
@@ -625,26 +629,24 @@ you should place your code here."
   (when (fboundp 'imagemagick-register-types)
     (imagemagick-register-types))
 
-  (with-eval-after-load 'mu4e
-    '(progn
-       ;; mu4e - actions
-       (defun search-for-sender (msg)
-         "Search for messages sent by the sender of the message at point."
-         (mu4e-headers-search
-          (concat "from:" (cdar (mu4e-message-field msg :from)))))
+  ;; mu4e - actions
+  (defun search-for-sender (msg)
+    "Search for messages sent by the sender of the message at point."
+    (mu4e-headers-search
+     (concat "from:" (cdar (mu4e-message-field msg :from)))))
 
-       (defun show-number-of-recipients (msg)
-         "Display the number of recipients for the message at point."
-         (message "Number of recipients: %d"
-                  (+ (length (mu4e-message-field msg :to))
-                     (length (mu4e-message-field msg :cc)))))
+  (defun show-number-of-recipients (msg)
+    "Display the number of recipients for the message at point."
+    (message "Number of recipients: %d"
+             (+ (length (mu4e-message-field msg :to))
+                (length (mu4e-message-field msg :cc)))))
 
-       (add-to-list 'mu4e-headers-actions
-                    '("Number of recipients" . show-number-of-recipients) t)
-       (add-to-list 'mu4e-view-actions
-                    '("xsearch for sender" . search-for-sender) t)
-       (add-to-list 'mu4e-view-actions
-                    '("wView with XWidget" . mu4e-action-view-with-xwidget) t)))
+  (add-to-list 'mu4e-headers-actions
+               '("Number of recipients" . show-number-of-recipients) t)
+  (add-to-list 'mu4e-view-actions
+               '("xsearch for sender" . search-for-sender) t)
+  (add-to-list 'mu4e-view-actions
+               '("wView with XWidget" . mu4e-action-view-with-xwidget) t)
 
   ;; mu4e - sending mail
   (setq message-send-mail-function 'message-send-mail-with-sendmail)
@@ -673,6 +675,42 @@ you should place your code here."
            " AND NOT flag:trashed"
            " AND maildir:"
            "\"/Inbox\"")))
+
+  ;; xwidget
+  (evil-set-initial-state 'xwidget-webkit-mode 'emacs)
+  (add-hook 'xwidget-webkit-mode-hook
+            (lambda ()
+              (define-key xwidget-webkit-mode-map [mouse-4] 'xwidget-webkit-scroll-down)
+              (define-key xwidget-webkit-mode-map [mouse-5] 'xwidget-webkit-scroll-up)
+              (define-key xwidget-webkit-mode-map (kbd "<up>") 'xwidget-webkit-scroll-down)
+              (define-key xwidget-webkit-mode-map (kbd "<down>") 'xwidget-webkit-scroll-up)
+              (define-key xwidget-webkit-mode-map (kbd "C-p") 'xwidget-webkit-scroll-down)
+              (define-key xwidget-webkit-mode-map (kbd "C-n") 'xwidget-webkit-scroll-up)
+              (define-key xwidget-webkit-mode-map (kbd "M-w") 'xwidget-webkit-copy-selection-as-kill)
+              (define-key xwidget-webkit-mode-map (kbd "C-c") 'xwidget-webkit-copy-selection-as-kill)
+
+              ;; make xwidget default browser (not for now... maybe in the future!)
+              ;; (setq browse-url-browser-function (lambda (url session)
+              ;;                                     (other-window 1)
+              ;;                                     (xwidget-browse-url-no-reuse url)))
+
+              ;; adapt webkit according to window configuration change automatically
+              ;; without this hook, every time you change your window configuration,
+              ;; you must press 'a' to adapt webkit content to new window size
+              (add-hook 'window-configuration-change-hook (lambda ()
+                                                            (when (equal major-mode 'xwidget-webkit-mode)
+                                                              (xwidget-webkit-adjust-size-dispatch))))
+
+              ;; by default, xwidget reuses previous xwidget window,
+              ;; thus overriding your current website, unless a prefix argument
+              ;; is supplied
+              ;;
+              ;; This function always opens a new website in a new window
+              (defun xwidget-browse-url-no-reuse (url &optional sessoin)
+                (interactive (progn
+                               (require 'browse-url)
+                               (browse-url-interactive-arg "xwidget-webkit URL: ")))
+                (xwidget-webkit-browse-url url t))))
 
   ;; deft
   (setq deft-directory (concat my-dropbox-path "/Personal/notes")
@@ -705,19 +743,6 @@ you should place your code here."
 
   (helm-mode 1)
   (golden-ratio-mode 1))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(neo-banner-face ((t :inherit shadow :underline nil)))
- '(neo-button-face ((t :inherit dired-directory :underline nil)))
- '(neo-dir-link-face ((t :inherit dired-directory :underline nil)))
- '(neo-expand-btn-face ((t :inherit button :underline nil)))
- '(neo-file-link-face ((t :inherit default :underline nil)))
- '(neo-header-face ((t :inherit shadow :underline nil)))
- '(neo-root-dir-face ((t :inherit link-visited :underline nil))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -725,4 +750,10 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (zeal-at-point yaml-mode xterm-color ws-butler window-numbering which-key web-mode volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters pug-mode persp-mode pcre2el password-store paradox spinner ox-gfm orgit org-projectile pcache org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file nlinum-relative nlinum neotree mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp move-text modern-cpp-font-lock mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum link-hint less-css-mode irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md forecast flyspell-lazy flyspell-correct-helm flyspell-correct flycheck-pos-tip flycheck-irony flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd elfeed-org org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed dumb-jump f s disaster diminish diff-hl deft define-word dactyl-mode company-web web-completion-data company-statistics company-quickhelp pos-tip company-irony-c-headers company-irony irony company-c-headers company column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup quelpa package-build zenburn-theme))))
+    (which-key web-mode use-package pug-mode persp-mode org-plus-contrib neotree indent-guide git-gutter-fringe eyebrowse elfeed highlight yasnippet request helm helm-core irony markdown-mode magit magit-popup git-commit zenburn-theme zeal-at-point yaml-mode xterm-color ws-butler with-editor window-numbering volatile-highlights vimrc-mode vi-tilde-fringe uuidgen toc-org tagedit sr-speedbar spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters quelpa pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file nlinum-relative mwim multi-term mu4e-maildirs-extension mu4e-alert move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum link-hint less-css-mode irony-eldoc info+ ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter gh-md forecast flyspell-lazy flyspell-correct-helm flycheck-pos-tip flycheck-irony flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster diminish diff-hl deft define-word dactyl-mode company-web company-statistics company-quickhelp company-irony-c-headers company-irony company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-key auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
