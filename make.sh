@@ -4,8 +4,24 @@
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
 
-dir=~/Hacking/workspace/dotfiles             # dotfiles directory
-dir_bak=~/Hacking/workspace/dotfiles/backup  # existing dotfiles backup
+if [ "$#" -ne 1 ]; then
+    echo "Usage: ./make.sh mode(home|work)"
+    exit
+fi
+
+if [ "$1" = "home" ]; then
+    dir=~/Hacking/workspace/dotfiles             # dotfiles directory
+    dir_bak=~/Hacking/workspace/dotfiles/backup  # existing dotfiles backup
+    GIT_EMAIL="email = jvillasantegomez@gmail.com"
+elif [ "$1" = "work" ]; then
+    dir=~/Software/src/dotfiles             # dotfiles directory
+    dir_bak=~/Software/src/dotfiles/backup  # existing dotfiles backup
+    GIT_EMAIL="email = julio.villasante@ascom.com"
+else
+    echo "Usage: ./make.sh mode(home|work)"
+    exit
+fi
+sed -i "s/email = .*/$GIT_EMAIL/" $dir/.gitconfig
 
 install_zsh () {
     # Test to see if zshell is installed.  If it is:
@@ -35,20 +51,12 @@ install_zsh () {
 
 install_spacemacs () {
     if [[ ! -d $dir/.emacs.d/ ]]; then
-        # git clone --recursive http://github.com/syl20bnr/spacemacs $dir/.emacs.d
         git clone https://github.com/syl20bnr/spacemacs $dir/.emacs.d
     fi
 }
 
-# install_neovim () {
-#     if [[ ! -d ~/.config/nvim/ ]]; then
-#         mkdir ~/.config/nvim/
-#     fi
-# }
-
 install_zsh
 install_spacemacs
-# install_neovim
 
 # Create backup folder if not exist
 if [[ ! -d $dir_bak/ ]]; then
@@ -70,7 +78,7 @@ echo "Removing old backup."
 rm -rf $dir_bak/*
 
 # list of files/folders to symlink in homedir
-files="bin .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .spacemacs .tern-project .tmux.conf .zshenv .zshrc .oh-my-zsh .emacs.d .percol.d .tmuxp"
+files="bin .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .spacemacs .spacemacs.custom.el .tern-project .tmux.conf .zshenv .zshrc .oh-my-zsh .emacs.d .percol.d .tmuxp"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
@@ -83,9 +91,6 @@ done
 
 echo "linking redshift.conf"
 ln -fs $dir/redshift.conf ~/.config/redshift.conf
-
-# echo "linking .neovimrc"
-# ln -fs $dir/.neovimrc ~/.config/nvim/init.vim
 
 echo "linking emacs.service"
 if [[ ! -d ~/.config/systemd/user/ ]]; then
