@@ -8,23 +8,23 @@ export PATH="$HOME/bin:$PATH"
 # export PATH="$HOME/Software/Qt/5.6/gcc_64/bin:$PATH"
 
 # Google Test
-export GTEST_HOME="$HOME/Software/src/googletest"
+# export GTEST_HOME="$HOME/Software/src/googletest"
 
 # CppUTest
-export CPPUTEST_HOME="$HOME/Software/src/cpputest"
+# export CPPUTEST_HOME="$HOME/Software/src/cpputest"
 
 # Curl
-export CURL_HOME="$HOME/Software/src/curl-7.49.1"
+# export CURL_HOME="$HOME/Software/src/curl-7.49.1"
 
 # JSON Cpp
-export JSONCPP_HOME="$HOME/Software/src/jsoncpp"
+# export JSONCPP_HOME="$HOME/Software/src/jsoncpp"
 
 # RLog
-export RLOG_HOME="$HOME/Software/src/rlog-1.4"
+# export RLOG_HOME="$HOME/Software/src/rlog-1.4"
 
 # Boost
-export BOOST_ROOT="$HOME/Software/src/boost_1_61_0"
-export BOOST_VERSION=1.61.0
+# export BOOST_ROOT="$HOME/Software/src/boost_1_61_0"
+# export BOOST_VERSION=1.61.0
 
 # node stuff
 # export NVM_DIR="/Users/jvillasante/.nvm"

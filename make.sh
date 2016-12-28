@@ -40,15 +40,15 @@ install_spacemacs () {
     fi
 }
 
-install_neovim () {
-    if [[ ! -d ~/.config/nvim/ ]]; then
-        mkdir ~/.config/nvim/
-    fi
-}
+# install_neovim () {
+#     if [[ ! -d ~/.config/nvim/ ]]; then
+#         mkdir ~/.config/nvim/
+#     fi
+# }
 
 install_zsh
 install_spacemacs
-install_neovim
+# install_neovim
 
 # Create backup folder if not exist
 if [[ ! -d $dir_bak/ ]]; then
@@ -84,5 +84,11 @@ done
 echo "linking redshift.conf"
 ln -fs $dir/redshift.conf ~/.config/redshift.conf
 
-echo "linking .neovimrc"
-ln -fs $dir/.neovimrc ~/.config/nvim/init.vim
+# echo "linking .neovimrc"
+# ln -fs $dir/.neovimrc ~/.config/nvim/init.vim
+
+echo "linking emacs.service"
+if [[ ! -d ~/.config/systemd/user/ ]]; then
+    mkdir -p ~/.config/systemd/user/
+fi
+cp -u $dir/emacs.service ~/.config/systemd/user/emacs.service
