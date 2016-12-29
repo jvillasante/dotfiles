@@ -8,8 +8,6 @@
         flycheck-irony
         forecast
         password-store
-        helm-dash
-        ;; helm-gtags
         zeal-at-point
         modern-cpp-font-lock
         ;; xwidgete
@@ -97,26 +95,6 @@
     (spacemacs/set-leader-keys
       "dd" 'zeal-at-point
       "dD" 'zeal-at-point-set-docset)))
-
-(defun jvillasante/init-helm-dash ()
-  (use-package helm-dash
-    :defer t
-    :init
-    ;; (setq helm-dash-browser-func 'eww)
-    ;; (setq helm-dash-browser-func 'xwidget-webkit-browse-url)
-    (setq helm-dash-docsets-path my-docsets-path)
-
-    (defun my-c-doc-hook ()
-      (interactive)
-      (setq-local helm-dash-docsets '("C" "C++")))
-    (add-hook 'c-mode-common-hook 'my-c-doc-hook)
-
-    (spacemacs/set-leader-keys
-      "dh" 'helm-dash-at-point
-      "dH" 'helm-dash)))
-
-;; (defun jvillasante/post-init-helm-gtags ()
-;;   (spacemacs|diminish helm-gtags-mode "HG" "HG"))
 
 ;; (defun jvillasante/init-xwidgete ()
 ;;   (use-package xwidgete))

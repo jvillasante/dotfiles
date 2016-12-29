@@ -78,7 +78,7 @@ echo "Removing old backup."
 rm -rf $dir_bak/*
 
 # list of files/folders to symlink in homedir
-files="bin .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .spacemacs .spacemacs.custom.el .tern-project .tmux.conf .zshenv .zshrc .oh-my-zsh .emacs.d .percol.d .tmuxp"
+files="bin .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .spacemacs .spacemacs.custom .tern-project .tmux.conf .zshenv .zshrc .oh-my-zsh .emacs.d .percol.d .tmuxp"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
@@ -92,8 +92,8 @@ done
 echo "linking redshift.conf"
 ln -fs $dir/redshift.conf ~/.config/redshift.conf
 
-echo "linking emacs.service"
-if [[ ! -d ~/.config/systemd/user/ ]]; then
-    mkdir -p ~/.config/systemd/user/
-fi
-cp -u $dir/emacs.service ~/.config/systemd/user/emacs.service
+# echo "linking emacs.service"
+# if [[ ! -d ~/.config/systemd/user/ ]]; then
+#     mkdir -p ~/.config/systemd/user/
+# fi
+# cp -u $dir/emacs.service ~/.config/systemd/user/emacs.service

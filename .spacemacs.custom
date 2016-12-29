@@ -1,3 +1,7 @@
+;; -*- mode: emacs-lisp -*-
+;; This file is loaded by Spacemacs at startup.
+;; It must be stored in your home directory.
+
 ;; Display Visited File's Path in the Frame Title
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
@@ -37,7 +41,6 @@
                                  tabs)
 
               doc-view-continuous t
-              helm-echo-input-in-header-line nil
 
               ;; tramp mode
               tramp-default-method "ssh"
@@ -109,6 +112,10 @@
 ;; use count-words instead of count-words-region as it works on buffer
 ;; if no region is selected
 (global-set-key (kbd "M-=") 'count-words)
+
+;; yasnippet
+(spacemacs/set-leader-keys "si" 'yas/insert-snippet)
+(spacemacs/set-leader-keys "sd" 'yas/describe-tables)
 
 ;; org
 (with-eval-after-load 'org
