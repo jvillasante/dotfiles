@@ -175,6 +175,15 @@
       engine/browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
 
+;; ivy
+(setq ivy-display-style 'fancy
+      ivy-count-format "(%d/%d) "
+      ivy-virtual-abbreviate 'full   ; default is name
+      ivy-initial-inputs-alist nil   ; remove initial ^ input.
+      ivy-extra-directories nil      ; remove . and .. directory. (default value: ("../" "./"))
+      ;; counsel-find-file-ignore-regexp "\\`\\."
+      )
+
 ;; mu4e
 (require 'mu4e-contrib)
 (require 'org-mu4e)
