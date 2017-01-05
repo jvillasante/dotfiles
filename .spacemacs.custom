@@ -113,6 +113,11 @@
 ;; if no region is selected
 (global-set-key (kbd "M-=") 'count-words)
 
+;; recentf - ignore some file
+(require 'recentf)
+(add-to-list 'recentf-exclude "/tmp/")
+(add-to-list 'recentf-exclude "~/.Maildir/")
+
 ;; yasnippet
 (spacemacs/set-leader-keys "si" 'yas/insert-snippet)
 (spacemacs/set-leader-keys "sd" 'yas/describe-tables)

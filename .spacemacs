@@ -368,11 +368,23 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (setq
-   vc-follow-symlinks t
-   neotree-vc-integration nil)
 
-  ;; Prevent Custom from dumping its local settings into this file.
+  ;; Start Emacs server if it’s not running. This allows you to use
+  ;; emacsclient [filename] to attach to already running Emacs.
+  (require 'server)
+  (unless (server-running-p)
+    (server-start))
+
+  ;; Using midnight mode to clean up old buffers with periodically.
+  (require 'midnight)
+  (midnight-delay-set 'midnight-delay 0)
+
+  ;; Better Scrolling
+  (setq scroll-conservatively 9999
+        scroll-preserve-screen-position t
+        scroll-margin 2)
+
+  ;; Prevent custom from dumping its local settings into this file.
   (setq custom-file "~/.spacemacs.custom")
   (load-file custom-file)
 
