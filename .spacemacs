@@ -379,11 +379,6 @@ you should place your code here."
   (require 'midnight)
   (midnight-delay-set 'midnight-delay 0)
 
-  ;; Better Scrolling
-  (setq scroll-conservatively 9999
-        scroll-preserve-screen-position t
-        scroll-margin 2)
-
   ;; Prevent custom from dumping its local settings into this file.
   (setq custom-file "~/.spacemacs.custom")
   (load-file custom-file)
