@@ -91,6 +91,7 @@ alias tmuxsrc="tmux source-file ~/.tmux.conf"
 alias tmuxkillall="tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}" # tmux kill all sessions
 # alias ct="ctags -R --exclude=.git --exclude=node_modules"
 alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
+alias gpg='gpg2'
 
 #git
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"

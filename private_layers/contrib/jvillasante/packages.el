@@ -9,7 +9,7 @@
         forecast
         password-store
         zeal-at-point
-        modern-cpp-font-lock
+        ;; modern-cpp-font-lock
         ;; xwidgete
         ))
 
@@ -60,12 +60,6 @@
       (eval-after-load 'flycheck
         '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))))
 
-(defun jvillasante/init-modern-cpp-font-lock ()
-  (use-package modern-cpp-font-lock
-    :init
-    (modern-c++-font-lock-global-mode t)
-    (spacemacs|diminish modern-c++-font-lock-mode "ⓜ" "m")))
-
 (defun jvillasante/init-password-store ()
   (use-package password-store
     :defer t
@@ -95,6 +89,12 @@
     (spacemacs/set-leader-keys
       "dd" 'zeal-at-point
       "dD" 'zeal-at-point-set-docset)))
+
+;; (defun jvillasante/init-modern-cpp-font-lock ()
+;;   (use-package modern-cpp-font-lock
+;;     :init
+;;     (modern-c++-font-lock-global-mode t)
+;;     (spacemacs|diminish modern-c++-font-lock-mode "ⓜ" "m")))
 
 ;; (defun jvillasante/init-xwidgete ()
 ;;   (use-package xwidgete))
