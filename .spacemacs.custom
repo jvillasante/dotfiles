@@ -257,6 +257,8 @@
                "Inbox messages in the last 7 days" ?W) t)
 (add-to-list 'mu4e-bookmarks
              '("size:5M..500M" "Big messages" ?b) t)
+(add-to-list 'mu4e-bookmarks
+             '("maildir:/Inbox AND flag:flagged" "Flagged Messages" ?f) t)
 
 (setq
  user-mail-address "jvillasantegomez@gmail.com"
@@ -274,10 +276,10 @@
  mu4e-headers-time-format "%H:%M:%S")
 
 ;; Trim down the types of columns we show, to leave more room for the sender & subject.
-(setq mu4e-headers-fields '((:human-date .    12)
-                            (:flags      .     6)
-                            (:from-or-to .    22)
-                            (:subject    . nil)))
+(setq mu4e-headers-fields '((:human-date . 14)    ;; alternatively, use :date
+                            (:flags      .  6)
+                            (:from-or-to . 22)
+                            (:subject    . nil))) ;; alternatively, use :thread-subject
 
 ;; Trim the number of fields shown in the email view. This is customizable. See mu4e-view.el for a full list.
 (setq mu4e-view-fields '(:from :to :cc :bcc :subject :date :tags :attachments :flags :maildir))
