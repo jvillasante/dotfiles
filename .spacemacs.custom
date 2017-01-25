@@ -2,6 +2,9 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+;; Don't use GTK dialogs, but use minibuffer/status instead
+(setq use-dialog-box nil)
+
 ;; Display Visited File's Path in the Frame Title
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
@@ -48,6 +51,14 @@
               ;; LaTeX
               font-latex-fontify-script nil
               TeX-newline-function 'reindent-then-newline-and-indent)
+
+;; Waiting For Tonight
+(require 'midnight)
+(add-to-list 'clean-buffer-list-kill-never-regexps "\\`\\*tramp::.*\\*\\`")
+(add-to-list 'clean-buffer-list-kill-never-regexps "\\`\\*eshell::.*\\*\\`")
+(setq clean-buffer-list-delay-general 1)
+(midnight-delay-set 'midnight-delay "4:30am")
+(midnight-mode t)
 
 ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
 (setq utf-translate-cjk-mode nil)
