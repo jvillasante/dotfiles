@@ -67,7 +67,9 @@ values."
              ranger-show-preview t)
      (shell :variables
             shell-default-term-shell "/bin/zsh"
-            shell-default-shell 'ansi-term
+            ;; shell-default-shell 'ansi-term
+            shell-default-shell 'eshell
+            shell-enable-smart-eshell t
             shell-default-position 'bottom
             shell-default-height 30)
      search-engine
