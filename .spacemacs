@@ -67,9 +67,9 @@ values."
              ranger-show-preview t)
      (shell :variables
             shell-default-term-shell "/bin/zsh"
-            ;; shell-default-shell 'ansi-term
-            shell-default-shell 'eshell
-            shell-enable-smart-eshell t
+            shell-default-shell 'ansi-term
+            ;; shell-default-shell 'eshell
+            ;; shell-enable-smart-eshell t
             shell-default-position 'bottom
             shell-default-height 30)
      search-engine
@@ -84,6 +84,7 @@ values."
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
+     ;; common-lisp
      ;; go
      ;; restclient
      deft
@@ -344,6 +345,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   (setq
+   ;; my-sbcl-path "/home/jvillasante/.roswell/impls/x86-64/linux/sbcl/1.3.14/bin/sbcl"
    my-dropbox-path "~/Dropbox"
    my-mu4e-path    "/usr/local/share/emacs/site-lisp/mu4e"
    my-docsets-path "~/.local/share/Zeal/Zeal/docsets")
@@ -378,6 +380,8 @@ you should place your code here."
   (unless (server-running-p)
     (server-start))
 
+  ;; (setq inferior-lisp-program my-sbcl-path)
+
   ;; Prevent custom from dumping its local settings into this file.
   (setq custom-file "~/.spacemacs.custom")
   (load-file custom-file)
@@ -389,9 +393,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (org yasnippet request alert hydra haml-mode company elfeed highlight iedit smartparens flycheck helm helm-core projectile magit magit-popup git-commit with-editor wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper ivy zenburn-theme zeal-at-point yaml-mode xterm-color ws-butler window-numbering which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters quelpa pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file nlinum-relative neotree mwim multi-term mu4e-maildirs-extension mu4e-alert move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum link-hint less-css-mode irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flyspell-correct-helm flycheck-pos-tip flycheck-irony flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster diff-hl deft define-word company-web company-statistics company-quickhelp company-irony-c-headers company-irony company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+ )
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
