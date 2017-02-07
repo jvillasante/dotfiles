@@ -58,9 +58,9 @@ plugins=(git common-aliases)
 umask 0022
 
 # Exports
-export ALTERNATE_EDITOR="emacs"
-export EDITOR="emacsclient -t"     # $EDITOR should open in terminal
-export VISUAL="emacsclient -c -n"  # $VISUAL opens in GUI with non-daemon as alternate
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -t"           # $EDITOR should open in terminal
+export VISUAL="emacsclient -c -a emacs"  # $VISUAL opens in GUI with non-daemon as alternate
 export TERM=xterm-256color
 
 source $ZSH/oh-my-zsh.sh
@@ -79,12 +79,13 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# alias ls='ls -lFh'
+alias ls='ls -alFh --color'
 # alias vi=vim                    # vi is now vim
 # alias gvim='gvim 2>/dev/null'   # Discard gvim starting warnings
 # alias mux='tmuxifier'
-alias em="emacsclient -c -n -a 'emacs'"
-alias et="emacsclient -t -a ''"
+alias em="emacsclient -c -a emacs"   # opens the GUI with alternate non-daemon
+alias emt="emacsclient -t"           # used to be "emacs -nw"
+alias semt="sudo emacsclient -t"     # used to be "sudo emacs -nw"
 alias r="source ~/.zshrc"
 alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
 alias tmuxsrc="tmux source-file ~/.tmux.conf"

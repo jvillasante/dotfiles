@@ -376,9 +376,10 @@ you should place your code here."
 
   ;; Start Emacs server if it’s not running. This allows you to use
   ;; emacsclient [filename] to attach to already running Emacs.
-  (require 'server)
-  (unless (server-running-p)
-    (server-start))
+  ;; This is happening on the init file!!!
+  ;; (require 'server)
+  ;; (unless (server-running-p)
+  ;;   (server-start))
 
   ;; (setq inferior-lisp-program my-sbcl-path)
 
