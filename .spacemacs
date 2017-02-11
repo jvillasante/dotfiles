@@ -74,13 +74,16 @@ values."
             shell-default-height 30)
      search-engine
      evil-commentary
+     imenu-list
+     ;; semantic
      (html :variables
            css-indent-offset 2
            web-mode-code-indent-offset 2
            web-mode-markup-indent-offset 2
            web-mode-css-indent-offset 2)
-     yaml
+     ;; yaml
      ;; javascript
+     gtags
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
@@ -189,7 +192,7 @@ values."
                                :size 18
                                :weight normal
                                :width normal
-                               :powerline-scale 1.2)
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -394,7 +397,9 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(package-selected-packages
+   (quote
+    (ggtags stickyfunc-enhance srefactor imenu-list which-key web-mode toc-org spacemacs-theme request ranger pug-mode org-download neotree helm-make helm helm-core forecast evil-mc evil-ediff elfeed-web simple-httpd auto-compile packed auto-complete yasnippet counsel swiper elfeed smartparens evil flycheck ivy avy magit magit-popup git-commit haml-mode dash zenburn-theme zeal-at-point yaml-mode xterm-color ws-butler with-editor window-numbering wgrep volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree tagedit sr-speedbar spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters quelpa persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-plus-contrib org-bullets open-junk-file nlinum-relative mwim multi-term mu4e-maildirs-extension mu4e-alert move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum link-hint less-css-mode ivy-hydra irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ goto-chg google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flyspell-lazy flyspell-correct-ivy flycheck-pos-tip flycheck-irony flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-org elfeed-goodies dumb-jump disaster diff-hl deft define-word counsel-projectile company-web company-statistics company-quickhelp company-irony-c-headers company-irony company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
