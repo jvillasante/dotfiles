@@ -6,12 +6,9 @@
         company-irony
         company-irony-c-headers
         flycheck-irony
-        forecast
         password-store
         zeal-at-point
-        modern-cpp-font-lock
-        ;; xwidgete
-        ))
+        modern-cpp-font-lock))
 
 (defun jvillasante/init-sr-speedbar ()
   (use-package sr-speedbar
@@ -70,18 +67,6 @@
       "ope" 'password-store-edit
       "opg" 'password-store-generate)))
 
-(defun jvillasante/init-forecast ()
-  (use-package forecast
-    :defer t
-    :init
-    (setq forecast-latitude 27.395712
-          forecast-longitude -82.4427907
-          forecast-city "Bradenton, FL"
-          forecast-country "USA"
-          forecast-api-key "96a8f25d9ec2a623b6606f079bbd2f5f")
-    (evil-leader/set-key
-      "of" 'forecast)))
-
 (defun jvillasante/init-zeal-at-point ()
   (use-package zeal-at-point
     :defer t
@@ -95,6 +80,3 @@
     :init
     (modern-c++-font-lock-global-mode t)
     (spacemacs|diminish modern-c++-font-lock-mode "ⓜ" "m")))
-
-;; (defun jvillasante/init-xwidgete ()
-;;   (use-package xwidgete))

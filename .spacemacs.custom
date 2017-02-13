@@ -340,8 +340,6 @@
              '("Number of recipients" . show-number-of-recipients) t)
 (add-to-list 'mu4e-view-actions
              '("xsearch for sender" . search-for-sender) t)
-(add-to-list 'mu4e-view-actions
-             '("wView with XWidget" . mu4e-action-view-with-xwidget) t)
 
 ;; mu4e - sending mail
 (setq message-send-mail-function 'message-send-mail-with-sendmail)
@@ -370,47 +368,3 @@
          " AND NOT flag:trashed"
          " AND maildir:"
          "\"/Inbox\"")))
-
-;; xwidget
-(evil-set-initial-state 'xwidget-webkit-mode 'emacs)
-(add-hook 'xwidget-webkit-mode-hook
-          (lambda ()
-            (define-key xwidget-webkit-mode-map [mouse-4] 'xwidget-webkit-scroll-down)
-            (define-key xwidget-webkit-mode-map [mouse-5] 'xwidget-webkit-scroll-up)
-            (define-key xwidget-webkit-mode-map (kbd "<up>") 'xwidget-webkit-scroll-down)
-            (define-key xwidget-webkit-mode-map (kbd "<down>") 'xwidget-webkit-scroll-up)
-            (define-key xwidget-webkit-mode-map (kbd "C-p") 'xwidget-webkit-scroll-down)
-            (define-key xwidget-webkit-mode-map (kbd "C-n") 'xwidget-webkit-scroll-up)
-            (define-key xwidget-webkit-mode-map (kbd "M-w") 'xwidget-webkit-copy-selection-as-kill)
-            (define-key xwidget-webkit-mode-map (kbd "C-c") 'xwidget-webkit-copy-selection-as-kill)
-
-            ;; make xwidget default browser (not for now... maybe in the future!)
-            ;; (setq browse-url-browser-function (lambda (url session)
-            ;;                                     (other-window 1)
-            ;;                                     (xwidget-browse-url-no-reuse url)))
-
-            ;; adapt webkit according to window configuration change automatically
-            ;; without this hook, every time you change your window configuration,
-            ;; you must press 'a' to adapt webkit content to new window size
-            (add-hook 'window-configuration-change-hook (lambda ()
-                                                          (when (equal major-mode 'xwidget-webkit-mode)
-                                                            (xwidget-webkit-adjust-size-dispatch))))
-
-            ;; by default, xwidget reuses previous xwidget window,
-            ;; thus overriding your current website, unless a prefix argument
-            ;; is supplied
-            ;;
-            ;; This function always opens a new website in a new window
-            (defun xwidget-browse-url-no-reuse (url &optional sessoin)
-              (interactive (progn
-                             (require 'browse-url)
-                             (browse-url-interactive-arg "xwidget-webkit URL: ")))
-              (xwidget-webkit-browse-url url t))))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (web-beautify livid-mode skewer-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode company elfeed highlight iedit smartparens flycheck helm helm-core projectile magit magit-popup git-commit with-editor wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper ivy zenburn-theme zeal-at-point yaml-mode xterm-color ws-butler window-numbering which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spacemacs-theme spaceline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters quelpa pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file nlinum-relative neotree mwim multi-term mu4e-maildirs-extension mu4e-alert move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum link-hint less-css-mode irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md forecast flyspell-lazy flyspell-correct-helm flycheck-pos-tip flycheck-irony flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster diff-hl deft define-word company-web company-statistics company-quickhelp company-irony-c-headers company-irony company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
