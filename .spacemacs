@@ -20,10 +20,10 @@ values."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemacs-enable-lazy-installation nil
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
-   dotspacemacs-ask-for-lazy-installation t
+   dotspacemacs-ask-for-lazy-installation nil
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
@@ -36,7 +36,6 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     better-defaults
      (spell-checking :variables
                      spell-checking-enable-by-default nil
                      spell-checking-enable-auto-dictionary nil)
@@ -52,7 +51,6 @@ values."
      syntax-checking
      nlinum
      emacs-lisp
-     ;; helm
      ivy
      (git :variables
           git-use-magit-next t
@@ -68,14 +66,10 @@ values."
      (shell :variables
             shell-default-term-shell "/bin/zsh"
             shell-default-shell 'ansi-term
-            ;; shell-default-shell 'eshell
-            ;; shell-enable-smart-eshell t
             shell-default-position 'bottom
             shell-default-height 30)
      search-engine
      evil-commentary
-     imenu-list
-     ;; semantic
      (html :variables
            css-indent-offset 2
            web-mode-code-indent-offset 2
@@ -84,11 +78,13 @@ values."
      ;; yaml
      ;; javascript
      ;; gtags
+     ;; cscope
+     ;; semantic
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
      ;; common-lisp
-     ;; go
+     ;; (go :variables go-tab-width 2)
      ;; restclient
      deft
      (elfeed :variables
@@ -376,7 +372,13 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; SLIME - SBCL (Common Lisp) -- Not used for the moment... :(
   ;; (setq inferior-lisp-program my-sbcl-path)
+  ;; (setf slime-lisp-implementations
+  ;;       `((sbcl ("ros" "-Q" "-l" "~/.sbclrc" "-L" "sbcl" "run"))
+  ;;         (ccl  ("ros" "-Q" "-l" "~/.ccl-init.lisp" "-L" "ccl-bin" "run"))))
+  ;; (setf slime-default-lisp 'sbcl)
+  ;; (setq slime-net-coding-system 'utf-8-unix)
 
   ;; Prevent custom from dumping its local settings into this file.
   (setq custom-file "~/.spacemacs.custom")
@@ -389,7 +391,9 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(package-selected-packages
+   (quote
+    (xcscope stickyfunc-enhance srefactor ggtags go-guru go-eldoc company-go go-mode zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spacemacs-theme spaceline smex smeargle slime-company slim-mode shell-pop scss-mode sass-mode restart-emacs request ranger rainbow-delimiters quelpa pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file nlinum-relative neotree mwim multi-term mu4e-maildirs-extension mu4e-alert move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow lorem-ipsum link-hint less-css-mode ivy-hydra irony-eldoc info+ indent-guide imenu-list ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flyspell-lazy flyspell-correct-ivy flycheck-pos-tip flycheck-irony flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster diff-hl deft define-word counsel-projectile company-web company-statistics company-quickhelp company-irony-c-headers company-irony company-c-headers common-lisp-snippets column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
