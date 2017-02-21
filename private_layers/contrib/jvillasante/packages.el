@@ -8,7 +8,8 @@
         flycheck-irony
         password-store
         zeal-at-point
-        modern-cpp-font-lock))
+        ;; modern-cpp-font-lock
+        ))
 
 (defun jvillasante/init-sr-speedbar ()
   (use-package sr-speedbar
@@ -75,8 +76,8 @@
       "dd" 'zeal-at-point
       "dD" 'zeal-at-point-set-docset)))
 
-(defun jvillasante/init-modern-cpp-font-lock ()
-  (use-package modern-cpp-font-lock
-    :init
-    (modern-c++-font-lock-global-mode t)
-    (spacemacs|diminish modern-c++-font-lock-mode "ⓜ" "m")))
+;; (defun jvillasante/init-modern-cpp-font-lock ()
+;;   (use-package modern-cpp-font-lock
+;;     :init
+;;     (modern-c++-font-lock-global-mode t)
+;;     (spacemacs|diminish modern-c++-font-lock-mode "ⓜ" "m")))
