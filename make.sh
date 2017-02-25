@@ -78,7 +78,7 @@ echo "Removing old backup."
 rm -rf $dir_bak/*
 
 # list of files/folders to symlink in homedir
-files="bin .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .spacemacs .spacemacs.custom .tern-project .tmux.conf .zshenv .zshrc .oh-my-zsh .emacs.d .percol.d .tmuxp"
+files="bin .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .spacemacs .spacemacs.custom .tern-project .tmux.conf .zshenv .zshrc .oh-my-zsh .emacs.d .percol.d .tmuxp .sbclrc"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
