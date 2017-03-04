@@ -2,6 +2,21 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Full width comment box                                                 ;;
+;; from http://irreal.org/blog/?p=374                                     ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun jv-comment-box (b e)
+  "Draw a box comment around the region but arrange for the region to extend to at least the fill column. Place the point after the comment box."
+  (interactive "r")
+  (let ((e (copy-marker e t)))
+    (goto-char b)
+    (end-of-line)
+    (insert-char ?  (- fill-column (current-column)))
+    (comment-box b e 1)
+    (goto-char e)
+    (set-marker e nil)))
+
 ;; Don't use GTK dialogs, but use minibuffer/status instead
 (setq use-dialog-box nil)
 
@@ -51,14 +66,6 @@
               ;; LaTeX
               font-latex-fontify-script nil
               TeX-newline-function 'reindent-then-newline-and-indent)
-
-;; Waiting For Tonight - dont really seems to work... :(
-;; (require 'midnight)
-;; (add-to-list 'clean-buffer-list-kill-never-regexps "\\`\\*tramp::.*\\*\\`")
-;; (add-to-list 'clean-buffer-list-kill-never-regexps "\\`\\*eshell::.*\\*\\`")
-;; (setq clean-buffer-list-delay-general 1)
-;; (midnight-delay-set 'midnight-delay "4:30am")
-;; (midnight-mode t)
 
 ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
 (setq utf-translate-cjk-mode nil)
@@ -129,6 +136,29 @@
 (add-to-list 'recentf-exclude "/tmp/")
 (add-to-list 'recentf-exclude "~/.Maildir/")
 
+;; SLIME - SBCL (Common Lisp)
+(setq inferior-lisp-program my-cl-path)
+(setf slime-lisp-implementations
+      `((sbcl ("ros" "-Q" "-l" "~/.sbclrc" "-L" "sbcl" "run"))
+        (ccl  ("ros" "-Q" "-l" "~/.ccl-init.lisp" "-L" "ccl-bin" "run"))))
+(setf slime-default-lisp 'sbcl)
+(setq slime-net-coding-system 'utf-8-unix)
+
+;; Slack
+;; (setq request-backend 'url-retrieve)
+(setq slack-request-timeout 15)
+(setq request-backend 'curl)
+(setq slack-buffer-emojify t)
+(setq slack-prefer-current-team t)
+(setq alert-default-style 'message)
+(slack-register-team
+ :name "cpplang"
+ :default t
+ :client-id (shell-command-to-string "secret-tool lookup user jvillasante service slack-client-id domain slack.com")
+ :client-secret (shell-command-to-string "secret-tool lookup user jvillasante service slack-client-secret domain slack.com")
+ :token (shell-command-to-string "secret-tool lookup user jvillasante service slack-client-token domain slack.com")
+ :subscribed-channels '(general random))
+
 ;; yasnippet
 (spacemacs/set-leader-keys "si" 'yas/insert-snippet)
 (spacemacs/set-leader-keys "sd" 'yas/describe-tables)
@@ -196,13 +226,13 @@
       browse-url-generic-program "google-chrome")
 
 ;; ivy
-(setq ivy-display-style 'fancy
-      ivy-count-format "(%d/%d) "
-      ivy-virtual-abbreviate 'full   ; default is name
-      ivy-initial-inputs-alist nil   ; remove initial ^ input.
-      ivy-extra-directories nil      ; remove . and .. directory. (default value: ("../" "./"))
-      ;; counsel-find-file-ignore-regexp "\\`\\."
-      )
+;; (setq ivy-display-style 'fancy
+;;       ivy-count-format "(%d/%d) "
+;;       ivy-virtual-abbreviate 'full   ; default is name
+;;       ivy-initial-inputs-alist nil   ; remove initial ^ input.
+;;       ivy-extra-directories nil      ; remove . and .. directory. (default value: ("../" "./"))
+;;       ;; counsel-find-file-ignore-regexp "\\`\\."
+;;       )
 
 ;; mu4e
 (require 'mu4e-contrib)
@@ -245,8 +275,10 @@
       message-citation-line-function 'message-insert-formatted-citation-line
       mu4e-change-filenames-when-moving t
       mu4e-headers-results-limit 250
-      ;; mu4e-index-cleanup nil      ;; don't do a full cleanup check
-      ;; mu4e-index-lazy-check t     ;; don't consider up-to-date dirs
+      mu4e-completing-read-function 'completing-read
+      mu4e-context-policy 'pick-first
+      mu4e-index-cleanup nil      ;; don't do a full cleanup check
+      mu4e-index-lazy-check t     ;; don't consider up-to-date dirs
       )
 
 (setq mu4e-drafts-folder "/[Gmail].Drafts"
