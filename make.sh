@@ -58,33 +58,11 @@ install_spacemacs () {
 install_zsh
 install_spacemacs
 
-# Create backup folder if not exist
-if [[ ! -d $dir_bak/ ]]; then
-    mkdir $dir_bak/
-fi
-
-# spacemacs private
-echo "Removing existing version of $dir/.emacs.d/private/"
-rm -rf $dir/.emacs.d/private/*
-echo "Copying $dir/private_layers/ on ~/.emacs.d/private."
-cp -R $dir/private_layers/contrib/* $dir/.emacs.d/private
-echo "Copying $dir/private_layers/snippets on ~/.emacs.d/private."
-cp -R $dir/private_layers/snippets $dir/.emacs.d/private
-echo "Copying $dir/private_layers/local on ~/.emacs.d/private."
-cp -R $dir/private_layers/local $dir/.emacs.d/private
-echo "Copying $dir/private_layers/README.md on ~/.emacs.d/private."
-cp -R $dir/private_layers/README.md $dir/.emacs.d/private
-echo "Removing old backup."
-rm -rf $dir_bak/*
-
 # list of files/folders to symlink in homedir
-files="bin .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .spacemacs .spacemacs.custom .tern-project .tmux.conf .zshenv .zshrc .oh-my-zsh .emacs.d .percol.d .tmuxp .sbclrc"
+files="bin .spacemacs.d .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .tern-project .tmux.conf .zshenv .zshrc .oh-my-zsh .emacs.d .percol.d .tmuxp .sbclrc"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
-    echo "Backing upexisting $file from home directory."
-    mv -f ~/$file $dir_bak
-
     echo "Creating symlink to $file in home directory."
     ln -fs $dir/$file ~/
 done

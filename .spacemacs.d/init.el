@@ -20,10 +20,10 @@ values."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation nil
+   dotspacemacs-enable-lazy-installation 'unused
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
-   dotspacemacs-ask-for-lazy-installation nil
+   dotspacemacs-ask-for-lazy-installation t
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
@@ -36,33 +36,34 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     (spell-checking :variables
-                     spell-checking-enable-by-default nil
-                     spell-checking-enable-auto-dictionary nil)
+     helm
      (auto-completion :variables
                       auto-completion-return-key-behavior 'nil
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-complete-with-key-sequence nil
                       auto-completion-complete-with-key-sequence-delay 0.1
-                      auto-completion-enable-help-tooltip t
+                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
+                      auto-completion-enable-help-tooltip 'manual
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-snippets-in-popup t
-                      :disabled-for org erc git)
+                      :disabled-for org erc git markdown eshell ledger text)
+     (spell-checking :variables
+                     spell-checking-enable-by-default nil
+                     spell-checking-enable-auto-dictionary nil)
      syntax-checking
+     shell-scripts
      nlinum
      emacs-lisp
-     helm
      (git :variables
           git-use-magit-next t
           git-enable-github-support t)
      version-control
      (org :variables
           org-enable-github-support t)
-     markdown
+     (markdown :variables
+               markdown-italic-underscore t)
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
-     (ranger :variables
-             ranger-show-preview t)
      (shell :variables
             shell-default-term-shell "/bin/zsh"
             shell-default-shell 'ansi-term
@@ -83,7 +84,8 @@ values."
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
-     common-lisp
+     rust
+     ;; common-lisp
      ;; (go :variables go-tab-width 2)
      ;; restclient
      deft
@@ -228,7 +230,7 @@ values."
    dotspacemacs-default-layout-name "Default"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
-   dotspacemacs-display-default-layout nil
+   dotspacemacs-display-default-layout t
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
    dotspacemacs-auto-resume-layouts nil
@@ -373,18 +375,33 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; Dired customisation
+  (setq projectile-switch-project-action 'projectile-dired) ; dired loads on project switch
+  (setq dired-listing-switches "-alh")
+  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+  (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))
+  (evil-leader/set-key
+    "od" 'dired)
+
+  ;; text-mode modifications
+  (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+
   ;; Prevent custom from dumping its local settings into this file.
-  (setq custom-file "~/.spacemacs.custom")
+  (setq custom-file "~/.spacemacs.d/.spacemacs.custom")
   (load-file custom-file)
 
-  (golden-ratio-mode 1))
+  (golden-ratio-mode 1)
+  (spaceline-compile))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(package-selected-packages
+   (quote
+    (insert-shebang fish-mode company-shell circe elfeed smartparens evil yasnippet helm helm-core projectile magit toml-mode racer flycheck-rust seq cargo rust-mode zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spacemacs-theme spaceline smeargle slime-company slim-mode slack shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters quelpa pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file nlinum-relative neotree multi-term mu4e-maildirs-extension mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum link-hint less-css-mode irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flyspell-lazy flyspell-correct-helm flycheck-pos-tip flycheck-irony flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster diff-hl deft define-word company-web company-statistics company-quickhelp company-irony-c-headers company-irony company-c-headers common-lisp-snippets column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
