@@ -376,10 +376,6 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  ;; text-mode modifications
-  (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
-  (add-hook 'text-mode-hook 'turn-on-auto-fill)
-
   ;; Prevent custom from dumping its local settings into this file.
   (setq custom-file "~/.spacemacs.d/.spacemacs.custom")
   (load-file custom-file)
