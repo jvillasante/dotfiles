@@ -76,11 +76,6 @@ values."
            web-mode-code-indent-offset 2
            web-mode-markup-indent-offset 2
            web-mode-css-indent-offset 2)
-     ;; yaml
-     ;; javascript
-     ;; gtags
-     ;; cscope
-     ;; semantic
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
@@ -97,7 +92,13 @@ values."
            mu4e-enable-mode-line t
            mu4e-alert-interesting-mail-query "")
      slack
-     jvillasante)
+
+     ;; private layers
+     jv
+     jv-org
+     jv-cpp
+     jv-mu4e
+     jv-slack)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -375,14 +376,6 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  ;; Dired customisation
-  (setq projectile-switch-project-action 'projectile-dired) ; dired loads on project switch
-  (setq dired-listing-switches "-alh")
-  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
-  (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))
-  (evil-leader/set-key
-    "od" 'dired)
-
   ;; text-mode modifications
   (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
   (add-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -401,7 +394,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (insert-shebang fish-mode company-shell circe elfeed smartparens evil yasnippet helm helm-core projectile magit toml-mode racer flycheck-rust seq cargo rust-mode zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spacemacs-theme spaceline smeargle slime-company slim-mode slack shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters quelpa pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file nlinum-relative neotree multi-term mu4e-maildirs-extension mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum link-hint less-css-mode irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flyspell-lazy flyspell-correct-helm flycheck-pos-tip flycheck-irony flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster diff-hl deft define-word company-web company-statistics company-quickhelp company-irony-c-headers company-irony company-c-headers common-lisp-snippets column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (modern-cpp-font-lock rtags irony emojify oauth2 websocket spinner nlinum ht markdown-mode macrostep hydra parent-mode request haml-mode gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck pkg-info epl flx magit-popup git-commit with-editor iedit anzu goto-chg undo-tree highlight simple-httpd org ace-jump-mode noflet powerline popwin f s diminish web-completion-data pos-tip company bind-map bind-key packed dash alert log4e gntp avy async auto-complete popup package-build insert-shebang fish-mode company-shell circe elfeed smartparens evil yasnippet helm helm-core projectile magit toml-mode racer flycheck-rust seq cargo rust-mode zenburn-theme zeal-at-point xterm-color ws-butler window-numbering which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spacemacs-theme spaceline smeargle slime-company slim-mode slack shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters quelpa pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file nlinum-relative neotree multi-term mu4e-maildirs-extension mu4e-alert move-text mmm-mode markdown-toc magit-gitflow lorem-ipsum link-hint less-css-mode irony-eldoc info+ indent-guide ido-vertical-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flyspell-lazy flyspell-correct-helm flycheck-pos-tip flycheck-irony flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster diff-hl deft define-word company-web company-statistics company-quickhelp company-irony-c-headers company-irony company-c-headers common-lisp-snippets column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

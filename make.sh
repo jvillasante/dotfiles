@@ -59,16 +59,21 @@ install_zsh
 install_spacemacs
 
 # list of files/folders to symlink in homedir
-files="bin .spacemacs.d .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .tern-project .tmux.conf .zshenv .zshrc .oh-my-zsh .emacs.d .percol.d .tmuxp .sbclrc"
+files="bin .spacemacs.d .oh-my-zsh .emacs.d .percol.d .tmuxp .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .mbsyncrc .msmtprc .profile .tern-project .tmux.conf .zshenv .zshrc .sbclrc"
 
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
-    echo "Creating symlink to $file in home directory."
-    ln -fs $dir/$file ~/
+    echo "Deleting old file $file in home directory..."
+    unlink ~/$file
+
+    echo "Creating symlink to $file in home directory...."
+    ln -s $dir/$file ~/
 done
 
-echo "linking redshift.conf"
-ln -fs $dir/redshift.conf ~/.config/redshift.conf
+echo "deleting old file ~/.config/redshift.conf..."
+unlink ~/.config/redshift.conf
+
+echo "Creating symlink to redshift.conf in ~/.config directory..."
+ln -s $dir/redshift.conf ~/.config/redshift.conf
 
 # echo "linking emacs.service"
 # if [[ ! -d ~/.config/systemd/user/ ]]; then
