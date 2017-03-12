@@ -108,10 +108,6 @@
 (add-hook 'makefile-mode-hook 'whitespace-mode)
 (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
 
-;; use company everywhere
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-backends (delete 'company-semantic company-backends))
-
 ;; use evil-matchit everywhere
 (global-evil-matchit-mode 1)
 
@@ -130,6 +126,11 @@
 (add-to-list 'recentf-exclude "/tmp/")
 (add-to-list 'recentf-exclude "~/.Maildir/")
 
+;; use company everywhere
+(with-eval-after-load 'company
+  (add-hook 'after-init-hook 'global-company-mode)
+  (setq company-backends (delete 'company-semantic company-backends)))
+
 ;; SLIME - SBCL (Common Lisp)
 ;; (setq inferior-lisp-program my-cl-path)
 ;; (setf slime-lisp-implementations
@@ -139,41 +140,45 @@
 ;; (setq slime-net-coding-system 'utf-8-unix)
 
 ;; yasnippet
-(spacemacs/set-leader-keys "si" 'yas/insert-snippet)
-(spacemacs/set-leader-keys "sd" 'yas/describe-tables)
+;; (spacemacs/set-leader-keys "si" 'yas/insert-snippet)
+;; (spacemacs/set-leader-keys "sd" 'yas/describe-tables)
 
 ;; magit
-(setq-default git-magit-status-fullscreen t)
-(setq magit-completing-read-function 'magit-builtin-completing-read
-      magit-push-always-verify nil)
+(with-eval-after-load 'magit
+  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+  (setq-default git-magit-status-fullscreen t)
+  (setq magit-completing-read-function 'magit-builtin-completing-read
+        magit-push-always-verify nil))
 
 ;; deft
-(setq deft-directory (concat my-dropbox-path "/Personal/notes")
-      deft-default-extension "org"
-      deft-extensions '("org")
-      deft-recursive t
-      deft-text-mode 'org-mode
-      deft-use-filename-as-title t
-      deft-use-filter-string-for-filename t
-      deft-file-naming-rules '((noslash . "-")
-                               (nospace . "-")
-                               (case-fn . downcase))
-      deft-auto-save-interval 0)
+(with-eval-after-load 'deft
+  (setq deft-directory (concat my-dropbox-path "/Personal/notes")
+        deft-default-extension "org"
+        deft-extensions '("org")
+        deft-recursive t
+        deft-text-mode 'org-mode
+        deft-use-filename-as-title t
+        deft-use-filter-string-for-filename t
+        deft-file-naming-rules '((noslash . "-")
+                                 (nospace . "-")
+                                 (case-fn . downcase))
+        deft-auto-save-interval 0))
 
 ;; neotree
-(setq neo-theme 'ascii)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(neo-banner-face ((t :inherit shadow :underline nil)))
- '(neo-button-face ((t :inherit dired-directory :underline nil)))
- '(neo-dir-link-face ((t :inherit dired-directory :underline nil)))
- '(neo-expand-btn-face ((t :inherit button :underline nil)))
- '(neo-file-link-face ((t :inherit default :underline nil)))
- '(neo-header-face ((t :inherit shadow :underline nil)))
- '(neo-root-dir-face ((t :inherit link-visited :underline nil))))
+(with-eval-after-load 'neotree
+  (setq neo-theme 'ascii)
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(neo-banner-face ((t :inherit shadow :underline nil)))
+   '(neo-button-face ((t :inherit dired-directory :underline nil)))
+   '(neo-dir-link-face ((t :inherit dired-directory :underline nil)))
+   '(neo-expand-btn-face ((t :inherit button :underline nil)))
+   '(neo-file-link-face ((t :inherit default :underline nil)))
+   '(neo-header-face ((t :inherit shadow :underline nil)))
+   '(neo-root-dir-face ((t :inherit link-visited :underline nil)))))
 
 ;; search engine
 (setq browse-url-browser-function 'browse-url-generic
