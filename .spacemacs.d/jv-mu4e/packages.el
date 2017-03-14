@@ -45,8 +45,8 @@
         mu4e-headers-results-limit 250
         mu4e-completing-read-function 'completing-read
         mu4e-context-policy 'pick-first
-        mu4e-index-cleanup nil      ;; don't do a full cleanup check
-        mu4e-index-lazy-check t     ;; don't consider up-to-date dirs
+        ;; mu4e-index-cleanup nil      ;; don't do a full cleanup check
+        ;; mu4e-index-lazy-check t     ;; don't consider up-to-date dirs
         )
 
   (setq mu4e-drafts-folder "/[Gmail].Drafts"
