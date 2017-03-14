@@ -97,6 +97,7 @@ values."
      jv
      jv-cpp
      jv-elfeed
+     ;; jv-lisp
      jv-mu4e
      jv-org
      jv-slack)

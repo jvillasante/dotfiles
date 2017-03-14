@@ -131,17 +131,10 @@
   (add-hook 'after-init-hook 'global-company-mode)
   (setq company-backends (delete 'company-semantic company-backends)))
 
-;; SLIME - SBCL (Common Lisp)
-;; (setq inferior-lisp-program my-cl-path)
-;; (setf slime-lisp-implementations
-;;       `((sbcl ("ros" "-Q" "-l" "~/.sbclrc" "-L" "sbcl" "run"))
-;;         (ccl  ("ros" "-Q" "-l" "~/.ccl-init.lisp" "-L" "ccl-bin" "run"))))
-;; (setf slime-default-lisp 'sbcl)
-;; (setq slime-net-coding-system 'utf-8-unix)
-
-;; yasnippet
-;; (spacemacs/set-leader-keys "si" 'yas/insert-snippet)
-;; (spacemacs/set-leader-keys "sd" 'yas/describe-tables)
+;; search engine
+(setq browse-url-browser-function 'browse-url-generic
+      engine/browser-function 'browse-url-generic
+      browse-url-generic-program "google-chrome")
 
 ;; magit
 (with-eval-after-load 'magit
@@ -179,11 +172,6 @@
    '(neo-file-link-face ((t :inherit default :underline nil)))
    '(neo-header-face ((t :inherit shadow :underline nil)))
    '(neo-root-dir-face ((t :inherit link-visited :underline nil)))))
-
-;; search engine
-(setq browse-url-browser-function 'browse-url-generic
-      engine/browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome")
 
 ;; Dired customisation
 (setq projectile-switch-project-action 'projectile-dired) ; dired loads on project switch
