@@ -1,8 +1,16 @@
 (defconst jv-packages
-  '(sr-speedbar
-    flyspell-lazy
-    password-store
-    zeal-at-point))
+  '(editorconfig
+     sr-speedbar
+     flyspell-lazy
+     password-store
+     zeal-at-point))
+
+(defun jv/init-editorconfig ()
+  (use-package editorconfig
+    :ensure t
+    :config
+    (editorconfig-mode 1)
+    (spacemacs|diminish editorconfig-mode "ⓔ" "e")))
 
 (defun jv/init-sr-speedbar ()
   (use-package sr-speedbar
@@ -18,7 +26,7 @@
 
 (defun jv/init-password-store ()
   (use-package password-store
-    :defer t
+    :ensure t
     :init
     (setq password-store-password-length 25)
     (evil-leader/set-key
