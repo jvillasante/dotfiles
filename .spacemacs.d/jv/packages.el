@@ -1,5 +1,6 @@
 (defconst jv-packages
   '(editorconfig
+     dired-quick-sort
      sr-speedbar
      flyspell-lazy
      password-store
@@ -11,6 +12,12 @@
     :config
     (editorconfig-mode 1)
     (spacemacs|diminish editorconfig-mode "ⓔ" "e")))
+
+(defun jv/init-dired-quick-sort ()
+  (use-package dired-quick-sort
+    :ensure t
+    :config
+    (dired-quick-sort-setup)))
 
 (defun jv/init-sr-speedbar ()
   (use-package sr-speedbar
