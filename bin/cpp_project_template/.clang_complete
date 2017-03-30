@@ -1,10 +1,6 @@
 -std=c++14
--Wall
--Wextra
--Wpedantic
--g
--O0
--DDEBUG
+-Weverything
+-pedantic
 -I/usr/include/
 -I/usr/include/c++/5/
 -I.

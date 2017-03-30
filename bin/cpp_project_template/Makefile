@@ -1,5 +1,5 @@
 CC=clang++
-CFLAGS=-std=c++14 -Wall -Wextra -Wpedantic -g -O0 -DDEBUG
+CFLAGS=-std=c++14 -Weverything -pedantic
 SRC=src
 BIN=bin
 RM=rm -rf
