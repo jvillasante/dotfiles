@@ -1,5 +1,5 @@
 CC=clang++
-CFLAGS=-std=c++14 -Weverything -pedantic
+CFLAGS=-std=c++14 -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
 SRC=src
 BIN=bin
 RM=rm -rf

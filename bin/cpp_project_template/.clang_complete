@@ -1,5 +1,8 @@
 -std=c++14
--Weverything
+-Wall
+-Wextra
+-Wshadow
+-Wnon-virtual-dtor
 -pedantic
 -I/usr/include/
 -I/usr/include/c++/5/
