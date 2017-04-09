@@ -25,18 +25,18 @@
         (length (mu4e-message-field msg :cc)))))
 
   ;; Add some actions
-  (add-to-list 'mu4e-view-actions '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+  ;; (add-to-list 'mu4e-view-actions '("ViewInBrowser" . mu4e-action-view-in-browser) t)
   (add-to-list 'mu4e-view-actions '("Eww view" . jv-view-in-eww) t)
   (add-to-list 'mu4e-view-actions '("xsearch for sender" . jv-search-for-sender) t)
   (add-to-list 'mu4e-headers-actions '("Number of recipients" . jv-show-number-of-recipients) t)
 
-  ;; compose hook
-  ;; (add-hook 'mu4e-compose-mode-hook
-  ;;           (lambda ()
-  ;;             (auto-fill-mode 0)
-  ;;             (visual-line-mode 1)))
-  ;; (add-hook 'mu4e-view-mode-hook
-  ;;           (lambda () (visual-line-mode 1)))
+  ;; hooks
+  (add-hook 'mu4e-compose-mode-hook
+            (lambda ()
+              (auto-fill-mode 0)
+              (visual-line-mode 1)))
+  (add-hook 'mu4e-view-mode-hook
+            (lambda () (visual-line-mode 1)))
 
   ;; From Ben Maughan: Get some Org functionality in compose buffer
   (add-hook 'message-mode-hook 'turn-on-orgtbl)
@@ -62,7 +62,7 @@
   ;; mu4e sets up visual-line-mode and also fill (M-q) to do the right thing
   ;; each paragraph is a single long line; at sending, emacs will add the
   ;; special line continuation characters.
-  (setq mu4e-compose-format-flowed t)
+  ;; (setq mu4e-compose-format-flowed t)
 
   ;; every new email composition gets its own frame! (window)
   ;;(setq mu4e-compose-in-new-frame t)

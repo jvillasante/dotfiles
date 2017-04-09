@@ -178,8 +178,9 @@
 (setq dired-listing-switches "-alh")
 (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
 (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))
-(evil-leader/set-key
-  "od" 'dired)
+(evil-leader/set-key "od" 'dired)
+
+;; Custom (Do not edit!)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -11,13 +11,13 @@
 (defun jv-cpp/init-irony ()
   (use-package irony
     :init
-    (defun my-irony-mode-hook ()
+    (defun jv-irony-mode-hook ()
       (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
       (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
 
     (add-hook 'c++-mode-hook 'irony-mode)
     (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+    (add-hook 'irony-mode-hook 'jv-irony-mode-hook)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
     (spacemacs|diminish irony-mode "ⓘ" "i")))
 
