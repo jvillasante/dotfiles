@@ -1,12 +1,13 @@
 (defconst jv-cpp-packages
   '(irony
-    irony-eldoc
-    company-irony
-    company-irony-c-headers
-    flycheck-irony
-    company
-    rtags
-    modern-cpp-font-lock))
+     irony-eldoc
+     company-irony
+     company-irony-c-headers
+     flycheck-irony
+     company
+     rtags
+     modern-cpp-font-lock
+     ))
 
 (defun jv-cpp/init-irony ()
   (use-package irony
