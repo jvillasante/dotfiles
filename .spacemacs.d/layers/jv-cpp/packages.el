@@ -1,5 +1,6 @@
 (defconst jv-cpp-packages
   '(irony
+     cc-mode
      irony-eldoc
      company-irony
      company-irony-c-headers
@@ -8,6 +9,14 @@
      rtags
      modern-cpp-font-lock
      ))
+
+(defun jv-cpp/post-init-cc-mode ()
+  (add-hook 'c++-mode-hook
+    (lambda () (progn
+                 (setq company-clang-arguments '("-std=c++14")
+                   flycheck-clang-language-standard "c++14"
+                   flycheck-gcc-language-standard "c++14"
+                   disaster-cxxflags "-std=c++14 -O1 -g3")))))
 
 (defun jv-cpp/init-irony ()
   (use-package irony

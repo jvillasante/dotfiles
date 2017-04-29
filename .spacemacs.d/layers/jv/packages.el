@@ -1,5 +1,6 @@
 (defconst jv-packages
   '(editorconfig
+     neotree
      dired-quick-sort
      sr-speedbar
      flyspell-lazy
@@ -12,6 +13,16 @@
     :config
     (editorconfig-mode 1)
     (spacemacs|diminish editorconfig-mode "ⓔ" "e")))
+
+(defun jv/post-init-neotree ()
+  (setq neo-theme 'nerd
+    neo-hidden-regexp-list
+    '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
+       "^\\.\\(DS_Store\\|python\\-version\\)"
+       "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
+       "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+       "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
+       "\\.egg\-info$")))
 
 (defun jv/init-dired-quick-sort ()
   (use-package dired-quick-sort

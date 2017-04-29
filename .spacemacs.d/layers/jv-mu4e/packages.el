@@ -67,6 +67,9 @@
   ;; every new email composition gets its own frame! (window)
   ;;(setq mu4e-compose-in-new-frame t)
 
+  ;; path to our Maildir directory
+  (setq mu4e-maildir "~/.Maildir/gmail")
+
   ;; date formats
   (setq
     mu4e-date-format-long "%m/%d/%Y %H:%M:%S"
@@ -88,9 +91,6 @@
   (setq mu4e-view-show-images t
     mu4e-show-images t
     mu4e-view-image-max-width 800)
-
-  ;; path to our Maildir directory
-  (setq mu4e-maildir "~/.Maildir/gmail")
 
   ;; the next are relative to `mu4e-maildir'
   ;; instead of strings, they can be functions too, see
