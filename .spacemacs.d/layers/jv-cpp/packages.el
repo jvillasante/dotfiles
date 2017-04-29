@@ -1,6 +1,6 @@
 (defconst jv-cpp-packages
-  '(irony
-     cc-mode
+  '(cc-mode
+     irony
      irony-eldoc
      company-irony
      company-irony-c-headers
