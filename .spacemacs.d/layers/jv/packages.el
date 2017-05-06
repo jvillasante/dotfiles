@@ -15,6 +15,16 @@
     (spacemacs|diminish editorconfig-mode "ⓔ" "e")))
 
 (defun jv/post-init-neotree ()
+  (defadvice neo-buffer--get-nodes
+    (after neo-buffer--get-nodes-new-sorter activate)
+    (setq ad-return-value
+      (let ((nodes ad-return-value)
+             (comparator (lambda (s1 s2) (string< (downcase s1)
+                                           (downcase s2)))))
+        (apply 'cons (mapcar (lambda (x) (sort (apply x (list nodes))
+                                           comparator))
+                       '(car cdr))))))
+
   (setq neo-theme 'nerd
     neo-hidden-regexp-list
     '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
