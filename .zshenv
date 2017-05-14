@@ -30,6 +30,10 @@ fi
 export BOOST_ROOT="$HOME/Software/src/boost_1_61_0"
 export BOOST_VERSION=1.61.0
 
+# ASIO
+export BOOST_ASIO_ROOT="$HOME/Software/src/asio-1.10.8"
+export BOOST_ASIO_VERSION=1.10.8
+
 # Google Test
 export GTEST_HOME="$HOME/Software/src/googletest"
 
