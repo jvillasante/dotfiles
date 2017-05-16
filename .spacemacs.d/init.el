@@ -369,17 +369,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
                                    ("Asia/Shanghai" "China")
                                    ("Asia/Calcutta" "India")))
 
-  (defun jv-comment-box (b e)
-    "Draw a box comment around the region but arrange for the region to extend to at least the fill column. Place the point after the comment box."
-    (interactive "r")
-    (let ((e (copy-marker e t)))
-      (goto-char b)
-      (end-of-line)
-      (insert-char ?  (- fill-column (current-column)))
-      (comment-box b e 1)
-      (goto-char e)
-      (set-marker e nil)))
-
   (setq max-specpdl-size 3000)
   (setf url-queue-timeout 30))
 
@@ -463,6 +452,7 @@ you should place your code here."
   ;; Isearch convenience, space matches anything (non-greedy)
   (setq search-whitespace-regexp ".*?")
 
+  ;; Hooks
   (add-hook 'markdown-mode-hook
     (lambda ()
       (auto-fill-mode 0)
