@@ -7,8 +7,7 @@
      flycheck-irony
      company
      rtags
-     modern-cpp-font-lock
-     ))
+     modern-cpp-font-lock))
 
 (defun jv-cpp/post-init-cc-mode ()
   (add-hook 'c++-mode-hook
@@ -21,12 +20,9 @@
 (defun jv-cpp/init-irony ()
   (use-package irony
     :init
-    ;; (defun jv-irony-mode-hook ()
-    ;;   (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
-    ;;   (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
     (defun jv-irony-mode-hook ()
-      (define-key irony-mode-map [remap completion-at-point] 'counsel-irony)
-      (define-key irony-mode-map [remap complete-symbol] 'counsel-irony))
+      (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
+      (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
 
     (add-hook 'c++-mode-hook 'irony-mode)
     (add-hook 'c-mode-hook 'irony-mode)
