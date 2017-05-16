@@ -185,3 +185,4 @@ function ppvim() {
 function pphist() {
     $(history | cut -c8- | sort -u | percol)
 }
+export XDG_DATA_DIRS="/home/jvillasante/.linuxbrew/share:$XDG_DATA_DIRS"

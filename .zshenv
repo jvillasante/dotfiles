@@ -6,6 +6,11 @@ if [ -d "$HOME/bin" ]; then
     PATH="$HOME/bin:$PATH"
 fi
 
+# LinuxBrew
+if [ -d "$HOME/.linuxbrew/bin" ]; then
+  export PATH="$HOME/.linuxbrew/bin:$PATH"
+fi
+
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
     export PATH="$HOME/.cargo/bin:$PATH"
