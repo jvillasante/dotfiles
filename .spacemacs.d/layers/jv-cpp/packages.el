@@ -21,9 +21,12 @@
 (defun jv-cpp/init-irony ()
   (use-package irony
     :init
+    ;; (defun jv-irony-mode-hook ()
+    ;;   (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
+    ;;   (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
     (defun jv-irony-mode-hook ()
-      (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
-      (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
+      (define-key irony-mode-map [remap completion-at-point] 'counsel-irony)
+      (define-key irony-mode-map [remap complete-symbol] 'counsel-irony))
 
     (add-hook 'c++-mode-hook 'irony-mode)
     (add-hook 'c-mode-hook 'irony-mode)
