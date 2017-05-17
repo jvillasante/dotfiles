@@ -536,12 +536,11 @@ you should place your code here."
   ;; ivy
   (setq ivy-display-style 'fancy
     ivy-count-format "(%d/%d) "
+    ivy-use-virtual-buffers t      ; to make ivy-views appear on the buffers list
     ivy-virtual-abbreviate 'full   ; default is name
     ivy-initial-inputs-alist nil   ; remove initial ^ input.
     ivy-extra-directories nil      ; remove . and .. directory. (default value: ("../" "./"))
-    ivy-use-virtual-buffers t      ; to make ivy-views appear on the buffers list
-    ;; counsel-find-file-ignore-regexp "\\`\\."
-    )
+    ivy-height 10)
 
   (golden-ratio-mode 1)
   (spaceline-compile))
@@ -551,6 +550,9 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (company-irony zenburn-theme zeal-at-point xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode slack shell-pop scss-mode sass-mode rtags restart-emacs rainbow-delimiters pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file nlinum-relative neotree multi-term mu4e-maildirs-extension mu4e-alert move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum link-hint less-css-mode ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-lazy flyspell-correct-ivy flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies editorconfig dumb-jump disaster dired-quick-sort diff-hl deft define-word csv-mode counsel-projectile company-web company-statistics company-shell company-quickhelp company-irony-c-headers company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((eval add-hook
