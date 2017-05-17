@@ -81,7 +81,7 @@ values."
          c-c++-default-mode-for-headers 'c++-mode
          c-c++-enable-clang-support t)
        ;; rust
-       ;; common-lisp
+       common-lisp
        ;; (go :variables go-tab-width 2)
        ;; restclient
        csv
@@ -99,7 +99,7 @@ values."
        jv
        jv-cpp
        jv-elfeed
-       ;; jv-lisp
+       jv-lisp
        jv-mu4e
        jv-org
        jv-slack)
@@ -351,7 +351,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   (setq
-    my-cl-path "/home/jvillasante/.roswell/impls/x86-64/linux/sbcl/1.3.14/bin/sbcl"
     my-dropbox-path "~/Dropbox"
     my-mu4e-path    "/usr/local/share/emacs/site-lisp/mu4e"
     my-docsets-path "~/.local/share/Zeal/Zeal/docsets")
@@ -552,7 +551,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-irony zenburn-theme zeal-at-point xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode slack shell-pop scss-mode sass-mode rtags restart-emacs rainbow-delimiters pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file nlinum-relative neotree multi-term mu4e-maildirs-extension mu4e-alert move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum link-hint less-css-mode ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-lazy flyspell-correct-ivy flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies editorconfig dumb-jump disaster dired-quick-sort diff-hl deft define-word csv-mode counsel-projectile company-web company-statistics company-shell company-quickhelp company-irony-c-headers company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
+    (slime-company slime common-lisp-snippets company-irony zenburn-theme zeal-at-point xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode slack shell-pop scss-mode sass-mode rtags restart-emacs rainbow-delimiters pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file nlinum-relative neotree multi-term mu4e-maildirs-extension mu4e-alert move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum link-hint less-css-mode ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-lazy flyspell-correct-ivy flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies editorconfig dumb-jump disaster dired-quick-sort diff-hl deft define-word csv-mode counsel-projectile company-web company-statistics company-shell company-quickhelp company-irony-c-headers company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((eval add-hook
