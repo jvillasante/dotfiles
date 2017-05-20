@@ -98,8 +98,12 @@ values."
        ;; private layers
        jv
        jv-cpp
+       jv-deft
+       jv-dired
        jv-elfeed
+       jv-ivy
        jv-lisp
+       jv-magit
        jv-mu4e
        jv-org
        jv-slack)
@@ -368,7 +372,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
                                    ("Asia/Shanghai" "China")
                                    ("Asia/Calcutta" "India")))
 
-  (setq max-specpdl-size 3000)
+  (setq max-specpdl-size 5000)
   (setf url-queue-timeout 30))
 
 (defun dotspacemacs/user-config ()
@@ -379,8 +383,8 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  ;; Don't use GTK dialogs, but use minibuffer/status instead
-  (setq use-dialog-box nil)
+  ;; Use aspell instead of ispell
+  (setq ispell-program-name "aspell")
 
   ;; Set default frame size and position.
   (setq default-frame-alist '((top . 0) (left . 0) (width . 110) (height . 64)))
@@ -391,8 +395,13 @@ you should place your code here."
        (:eval (if (buffer-file-name) (abbreviate-file-name (buffer-file-name)) "%b"))
        " [%*]"))
 
-  (setq-default user-full-name "Julio C. Villasante"
+  (setq-default
+    user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
+
+    major-mode 'text-mode
+    use-dialog-box nil
+    vc-follow-symlinks t
     paradox-github-token t
     load-prefer-newer t
     fill-column 110                    ; Maximum line width
@@ -452,6 +461,9 @@ you should place your code here."
   (setq search-whitespace-regexp ".*?")
 
   ;; Hooks
+  (add-hook 'focus-out-hook
+    (lambda ()
+      (save-some-buffers t)))
   (add-hook 'markdown-mode-hook
     (lambda ()
       (auto-fill-mode 0)
@@ -500,46 +512,9 @@ you should place your code here."
     engine/browser-function 'browse-url-generic
     browse-url-generic-program "google-chrome")
 
-  ;; magit
-  (with-eval-after-load 'magit
-    (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
-    (setq-default git-magit-status-fullscreen t)
-    (setq magit-completing-read-function 'magit-builtin-completing-read
-      magit-push-always-verify nil))
-
-  ;; deft
-  (with-eval-after-load 'deft
-    (setq deft-directory (concat my-dropbox-path "/Personal/notes")
-      deft-default-extension "org"
-      deft-extensions '("org")
-      deft-recursive t
-      deft-text-mode 'org-mode
-      deft-use-filename-as-title t
-      deft-use-filter-string-for-filename t
-      deft-file-naming-rules '((noslash . "-")
-                                (nospace . "-")
-                                (case-fn . downcase))
-      deft-auto-save-interval 0))
-
-  ;; Dired customisation
-  (setq projectile-switch-project-action 'projectile-dired) ; dired loads on project switch
-  (setq dired-listing-switches "-alh")
-  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
-  (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))
-  (evil-leader/set-key "od" 'dired)
-
   ;; yasnippet
   (spacemacs/set-leader-keys "is" 'yas/insert-snippet)
   (spacemacs/set-leader-keys "id" 'yas/describe-tables)
-
-  ;; ivy
-  (setq ivy-display-style 'fancy
-    ivy-count-format "(%d/%d) "
-    ivy-use-virtual-buffers t      ; to make ivy-views appear on the buffers list
-    ivy-virtual-abbreviate 'full   ; default is name
-    ivy-initial-inputs-alist nil   ; remove initial ^ input.
-    ivy-extra-directories nil      ; remove . and .. directory. (default value: ("../" "./"))
-    ivy-height 10)
 
   (golden-ratio-mode 1)
   (spaceline-compile))
