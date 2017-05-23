@@ -531,6 +531,10 @@ you should place your code here."
    (quote
     ((eval add-hook
            (quote before-save-hook)
+           (function rust-format-buffer)
+           nil t)
+     (eval add-hook
+           (quote before-save-hook)
            (function clang-format-buffer)
            nil t)
      (flycheck-clang-language-standard . c++14)))))
