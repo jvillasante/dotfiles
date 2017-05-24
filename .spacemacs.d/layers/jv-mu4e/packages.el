@@ -163,25 +163,25 @@
   ;; other config
   (setq
     ;; UI symbols
-    mu4e-use-fancy-chars t
-    mu4e-headers-attach-mark '("" . "")
-    mu4e-headers-encrypted-mark '("" . "")
-    mu4e-headers-flagged-mark '("+" . "⚑")
-    mu4e-headers-list-mark '("" . "")
-    mu4e-headers-new-mark '("" . "")
-    mu4e-headers-read-mark '("" . "")
-    mu4e-headers-replied-mark '("" . "↩")
-    mu4e-headers-seen-mark '("" . "")
-    mu4e-headers-unseen-mark '("" . "")
-    mu4e-headers-unread-mark '("" . "✱")
-    mu4e-headers-signed-mark '("" . "")
-    mu4e-headers-trashed-mark '("T" . "T")
-    mu4e-headers-from-or-to-prefix '("" . "→ ")
-    mu4e-headers-default-prefix '(" " . " ─")
-    mu4e-headers-duplicate-prefix '("D" . "D")
-    mu4e-headers-empty-parent-prefix '("X" . " X")
-    mu4e-headers-first-child-prefix '("|" . "╰─")
-    mu4e-headers-has-child-prefix '("+" . "╰┬")
+    ;; mu4e-use-fancy-chars t
+    ;; mu4e-headers-attach-mark '("" . "")
+    ;; mu4e-headers-encrypted-mark '("" . "")
+    ;; mu4e-headers-flagged-mark '("+" . "⚑")
+    ;; mu4e-headers-list-mark '("" . "")
+    ;; mu4e-headers-new-mark '("" . "")
+    ;; mu4e-headers-read-mark '("" . "")
+    ;; mu4e-headers-replied-mark '("" . "↩")
+    ;; mu4e-headers-seen-mark '("" . "")
+    ;; mu4e-headers-unseen-mark '("" . "")
+    ;; mu4e-headers-unread-mark '("" . "✱")
+    ;; mu4e-headers-signed-mark '("" . "")
+    ;; mu4e-headers-trashed-mark '("T" . "T")
+    ;; mu4e-headers-from-or-to-prefix '("" . "→ ")
+    ;; mu4e-headers-default-prefix '(" " . " ─")
+    ;; mu4e-headers-duplicate-prefix '("D" . "D")
+    ;; mu4e-headers-empty-parent-prefix '("X" . " X")
+    ;; mu4e-headers-first-child-prefix '("|" . "╰─")
+    ;; mu4e-headers-has-child-prefix '("+" . "╰┬")
 
     ;; mu4e-use-fancy-chars t
     ;; mu4e-view-prefer-html t
