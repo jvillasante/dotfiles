@@ -94,7 +94,7 @@ values."
          mu4e-enable-mode-line t
          mu4e-alert-interesting-mail-query "")
        slack
-       ycmd
+       ;; ycmd
 
        ;; private layers
        jv
