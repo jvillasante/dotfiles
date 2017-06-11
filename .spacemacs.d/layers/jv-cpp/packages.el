@@ -21,6 +21,7 @@
 ;; (defun jv-cpp/post-init-ycmd ()
 ;;   (setq ycmd-server-command (list "python" (file-truename "~/Software/src/ycmd/ycmd")))
 ;;   (setq ycmd-force-semantic-completion t)
+;;   (setq ycmd-startup-timeout 5)
 
 ;;   (add-hook 'c++-mode-hook 'ycmd-mode)
 ;;   (add-hook 'rust-mode-hook 'ycmd-mode))
