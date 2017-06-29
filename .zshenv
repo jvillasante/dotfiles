@@ -6,6 +6,9 @@ if [ -d "$HOME/bin" ]; then
     PATH="$HOME/bin:$PATH"
 fi
 
+# activate keyring capabilities
+source ~/.config/i3/start-gnome-keyring.sh
+
 # LinuxBrew
 if [ -d "$HOME/.linuxbrew/bin" ]; then
   export PATH="$HOME/.linuxbrew/bin:$PATH"
