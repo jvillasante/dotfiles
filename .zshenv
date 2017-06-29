@@ -9,6 +9,7 @@ fi
 # LinuxBrew
 if [ -d "$HOME/.linuxbrew/bin" ]; then
   export PATH="$HOME/.linuxbrew/bin:$PATH"
+  export XDG_DATA_DIRS="/home/jvillasante/.linuxbrew/share:$XDG_DATA_DIRS"
 fi
 
 # Rust

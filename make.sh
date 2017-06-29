@@ -75,6 +75,12 @@ unlink ~/.config/redshift.conf
 echo "Creating symlink to redshift.conf in ~/.config directory..."
 ln -s $dir/redshift.conf ~/.config/redshift.conf
 
+echo "deleting ols file ~/.config/i3..."
+unlink ~/.config/i3
+
+echo "Creating symlink to i3 in ~/.config directory..."
+ln -s $dir/i3 ~/.config
+
 # echo "linking emacs.service"
 # if [[ ! -d ~/.config/systemd/user/ ]]; then
 #     mkdir -p ~/.config/systemd/user/
