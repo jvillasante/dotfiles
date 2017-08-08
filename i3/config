@@ -10,7 +10,7 @@
 #
 
 # mod
-set $mod Mod1
+set $mod Mod4
 
 # font
 font pango:Source Code Pro 12
@@ -139,7 +139,7 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 bar {
   mode hide
   hidden_state hide
-  modifier Mod1
+  modifier $mod
 
   status_command i3status --config ~/.config/i3/i3status.conf
   tray_output primary
@@ -204,7 +204,7 @@ for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
 # Remove the titlebar.
-for_window [class="Gnome-terminal|Google-chrome"] border pixel 1
+for_window [class="Gnome-terminal|Google-chrome|Evince"] border pixel 1
 
 # startup
 # exec_always --no-startup-id feh --bg-scale /home/booker/.wallpaper.jpg
