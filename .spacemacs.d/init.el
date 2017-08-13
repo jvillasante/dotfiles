@@ -80,7 +80,7 @@ values."
        (c-c++ :variables
          c-c++-enable-clang-support t
          c-c++-default-mode-for-headers 'c++-mode)
-       rust
+       ;; rust
        common-lisp
        ;; (go :variables go-tab-width 2)
        ;; restclient

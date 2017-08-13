@@ -1,10 +1,7 @@
 ;;; config.el --- jv-lisp Layer config File for Spacemacs
-
-;; (setq inferior-lisp-program "ros -L sbcl -Q -l ~/.sbclrc run")
-;; (setq inferior-lisp-program "ros -Q run")
-(setf slime-lisp-implementations
-  `((sbcl ("sbcl" "--dynamic-space-size" "2000"))
-     (roswell ("ros" "-Q" "run"))))
-
-(setf slime-default-lisp 'roswell)
+(setf slime-default-lisp 'sbcl)
 (setq slime-net-coding-system 'utf-8-unix)
+
+(setf slime-lisp-implementations
+  `((roswell ("ros" "-Q" "run"))
+     (sbcl ("ros" "-L" "sbcl" "+R" "-l" "~/.sbclrc" "run"))))
