@@ -1,5 +1,5 @@
-;;; config.el --- jv-lisp Layer config File for Spacemacs
-(load (expand-file-name "~/.roswell/helper.el"))
+(with-eval-after-load 'common-lisp
+  (load (expand-file-name "~/.roswell/helper.el")))
 
 (setf slime-lisp-implementations
   `((roswell ("ros" "-Q" "run"))
