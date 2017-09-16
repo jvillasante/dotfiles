@@ -5,7 +5,7 @@
   ;; (setq request-backend 'url-retrieve)
   (setq slack-request-timeout 15)
   (setq request-backend 'curl)
-  (setq slack-buffer-emojify t)
+  ;; (setq slack-buffer-emojify t)
   (setq slack-prefer-current-team t)
   (setq alert-default-style 'message)
   (slack-register-team
