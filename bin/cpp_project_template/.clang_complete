@@ -1,12 +1,9 @@
--std=c++14
+-std=c++17
 -Wall
 -Wextra
 -Wshadow
--Wnon-virtual-dtor
 -pedantic
--g
--DDEBUG
--O0
--I/usr/include/
--I/usr/include/c++/5/
+-I/usr/local/opt/llvm/include/
+-I/usr/local/opt/llvm/include/c++/v1/
+-I./src
 -I.

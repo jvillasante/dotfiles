@@ -5,7 +5,8 @@
      sr-speedbar
      flyspell-lazy
      password-store
-     zeal-at-point))
+     ;; zeal-at-point
+     ))
 
 (defun jv/init-editorconfig ()
   (use-package editorconfig
@@ -25,8 +26,10 @@
                                            comparator))
                        '(car cdr))))))
 
-  (setq neo-theme 'nerd
-    neo-hidden-regexp-list
+  ;; (setq neo-theme 'nerd)
+  (setq neo-theme 'ascii)
+
+  (setq neo-hidden-regexp-list
     '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
        "^\\.\\(DS_Store\\|python\\-version\\)"
        "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"

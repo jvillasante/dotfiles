@@ -79,7 +79,9 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-alias ls='ls -AlFh --color'
+
+alias ls="/usr/local/bin/gls -AlFh --color"
+# alias ls='ls -AlFh --color'
 # alias vi=vim                    # vi is now vim
 # alias gvim='gvim 2>/dev/null'   # Discard gvim starting warnings
 # alias mux='tmuxifier'
@@ -101,6 +103,10 @@ alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -p
 
 # tor
 alias tor-browser="/home/jvillasante/Software/src/tor-browser_en-US/Browser/start-tor-browser --detach"
+
+# Toggle hidden files on mac
+alias show_hidden_files='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+alias hide_hidden_files='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
 # Makes creating a new tmux session (with a specific name) easier
 function tmuxopen() {

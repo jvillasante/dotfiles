@@ -37,6 +37,7 @@ values."
        ;; <M-m f e R> (Emacs style) to install them.
        ;; ----------------------------------------------------------------
        ;; helm
+       osx
        ivy
        (auto-completion :variables
          auto-completion-return-key-behavior 'nil
@@ -65,13 +66,13 @@ values."
        (ibuffer :variables
          ibuffer-group-buffers-by 'projects)
        (shell :variables
-         shell-default-term-shell "/bin/zsh"
          shell-default-shell 'ansi-term
          shell-default-position 'bottom
          shell-default-height 30)
        shell-scripts
        search-engine
        evil-commentary
+       dash
        (html :variables
          css-indent-offset 2
          web-mode-code-indent-offset 2
@@ -80,26 +81,18 @@ values."
        (c-c++ :variables
          c-c++-enable-clang-support t
          c-c++-default-mode-for-headers 'c++-mode)
-       ;; rust
-       common-lisp
-       ;; (go :variables go-tab-width 2)
+       rust
+       ;; common-lisp
+       (go :variables go-tab-width 2)
        ;; restclient
-       csv
+       ;; csv
        deft
-       ;; ranger
        (elfeed :variables
          rmh-elfeed-org-files (list (concat my-dropbox-path "/Personal/elfeed/elfeed.org")))
-       (mu4e :variables
-         mu4e-installation-path my-mu4e-path
-         mu4e-enable-notifications nil
-         mu4e-enable-mode-line t
-         mu4e-alert-interesting-mail-query "")
-       ;; emoji
-       ;; slack
-       ;; ycmd
 
        ;; private layers
        jv
+       jv-zenburn
        jv-cpp
        jv-deft
        jv-dired
@@ -107,20 +100,17 @@ values."
        jv-ivy
        jv-lisp
        jv-magit
-       jv-mu4e
-       jv-org
-       ;; jv-slack
-       )
+       jv-org)
+
     ;; List of additional packages that will be installed without being
     ;; wrapped in a layer. If you need some configuration for these
     ;; packages, then consider creating a layer. You can also put the
     ;; configuration in `dotspacemacs/user-config'.
-    dotspacemacs-additional-packages '(emojify)
+    dotspacemacs-additional-packages '()
     ;; A list of packages that cannot be updated.
     dotspacemacs-frozen-packages '()
     ;; A list of packages that will not be installed and loaded.
-    dotspacemacs-excluded-packages '(dash
-                                      evil-search-highlight-persist)
+    dotspacemacs-excluded-packages '(evil-search-highlight-persist)
     ;; Defines the behaviour of Spacemacs when installing packages.
     ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
     ;; `used-only' installs only explicitly used packages and uninstall any
@@ -360,8 +350,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   (setq
     my-dropbox-path "~/Dropbox"
-    my-mu4e-path    "/usr/local/share/emacs/site-lisp/mu4e"
-    my-docsets-path "~/.local/share/Zeal/Zeal/docsets")
+    my-zsh-path "/usr/local/bin/zsh")
 
   (setq
     flycheck-check-syntax-automatically '(mode-enabled save))
@@ -386,12 +375,7 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-
-  ;; Use aspell instead of ispell
   (setq ispell-program-name "aspell")
-
-  ;; Set default frame size and position.
-  (setq default-frame-alist '((top . 0) (left . 0) (width . 110) (height . 64)))
 
   ;; Customize frame title format.
   (setq frame-title-format
@@ -453,7 +437,8 @@ you should place your code here."
   (prefer-coding-system 'utf-8)
 
   ;; multiterm
-  (setq multi-term-program "/usr/bin/zsh")
+  (setq multi-term-program my-zsh-path)
+
   (add-hook 'term-mode-hook
     (lambda ()
       (setq term-buffer-maximum-size 10000)))
@@ -504,7 +489,6 @@ you should place your code here."
   ;; recentf - ignore some file
   (require 'recentf)
   (add-to-list 'recentf-exclude "/tmp/")
-  (add-to-list 'recentf-exclude "~/.Maildir/")
 
   ;; use company everywhere
   (with-eval-after-load 'company
@@ -512,9 +496,13 @@ you should place your code here."
     (setq company-backends (delete 'company-semantic company-backends)))
 
   ;; search engine
+  ;; (setq browse-url-generic-program
+  ;;   (cond
+  ;;     (is-a-mac "open")
+  ;;     (linux (executable-find "google-chrome"))))
   (setq browse-url-browser-function 'browse-url-generic
     engine/browser-function 'browse-url-generic
-    browse-url-generic-program "google-chrome")
+    browse-url-generic-program "open")
 
   ;; yasnippet
   (spacemacs/set-leader-keys "is" 'yas/insert-snippet)
@@ -528,9 +516,10 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(mac-toggle-tab-bar nil)
  '(package-selected-packages
    (quote
-    (oauth2 request spinner ht parent-mode fringe-helper git-gutter+ git-gutter flyspell-correct flx iedit anzu goto-chg simple-httpd ace-jump-mode noflet popwin f s diminish pkg-info epl web-completion-data pos-tip bind-map bind-key log4e gntp auto-complete popup emoji-cheat-sheet-plus company-emoji alert packed org-category-capture projectile hydra powerline ranger highlight undo-tree avy haml-mode websocket swiper nlinum magit-popup git-commit async flycheck-ycmd company-ycmd ycmd request-deferred deferred emojify circe yasnippet counsel elfeed smartparens evil flycheck helm helm-core irony markdown-mode org-plus-contrib magit with-editor company ivy dash toml-mode racer flycheck-rust seq cargo rust-mode slime-company slime common-lisp-snippets company-irony zenburn-theme zeal-at-point xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode slack shell-pop scss-mode sass-mode rtags restart-emacs rainbow-delimiters pug-mode persp-mode pcre2el password-store paradox ox-gfm orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file nlinum-relative neotree multi-term mu4e-maildirs-extension mu4e-alert move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum link-hint less-css-mode ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-lazy flyspell-correct-ivy flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies editorconfig dumb-jump disaster dired-quick-sort diff-hl deft define-word csv-mode counsel-projectile company-web company-statistics company-shell company-quickhelp company-irony-c-headers company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
+    (counsel swiper elfeed evil ivy magit hydra dash rtags pug-mode password-store link-hint info+ editorconfig dumb-jump counsel-projectile yasnippet company iedit smartparens goto-chg helm helm-core irony markdown-mode projectile org-plus-contrib magit-popup with-editor async haml-mode s zenburn-theme xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs request rainbow-delimiters racer persp-mode pcre2el pbcopy paradox ox-gfm osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file nlinum-relative neotree multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum less-css-mode launchctl ivy-hydra irony-eldoc insert-shebang indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-lazy flyspell-correct-ivy flycheck-rust flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies disaster dired-quick-sort diff-hl deft dash-at-point counsel-dash company-web company-statistics company-shell company-quickhelp company-irony-c-headers company-irony company-go company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((eval add-hook
@@ -541,11 +530,11 @@ you should place your code here."
            (quote before-save-hook)
            (function clang-format-buffer)
            nil t)
-     (flycheck-clang-language-standard . c++14)))))
+     (flycheck-clang-language-standard . c++17)))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F")))))
+  )

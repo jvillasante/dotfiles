@@ -1,7 +1,0 @@
-#!/bin/bash
-
-dropbox=~/Dropbox
-
-cp -fR ~/.gnupg $dropbox/Personal
-cp -fR ~/.ssh $dropbox/Personal
-cp -fR ~/.password-store $dropbox/Personal

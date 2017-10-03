@@ -1,7 +1,0 @@
-session_name: Professional C++
-windows:
-- window_name: terminal
-  panes:
-  - shell_command:
-    - cd ~/Hacking/workspace/c++/professional_c++/
-    - git status
