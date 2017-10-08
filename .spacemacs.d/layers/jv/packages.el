@@ -1,12 +1,11 @@
 (defconst jv-packages
   '(editorconfig
+     hydra
      neotree
-     dired-quick-sort
      sr-speedbar
      flyspell-lazy
      password-store
-     ;; zeal-at-point
-     ))
+     crux))
 
 (defun jv/init-editorconfig ()
   (use-package editorconfig
@@ -14,6 +13,19 @@
     :config
     (editorconfig-mode 1)
     (spacemacs|diminish editorconfig-mode "ⓔ" "e")))
+
+(defun jv/post-init-hydra()
+  (set-face-attribute 'hydra-face-red nil
+    :foreground "#FF6956" :bold t :background "#383838")
+  (set-face-attribute 'hydra-face-blue nil
+    :foreground "Cyan" :bold t :background "#383838")
+  (set-face-attribute 'hydra-face-amaranth nil
+    :foreground "#e52b50" :bold t :background "#383838")
+  (set-face-attribute 'hydra-face-pink nil
+    :foreground "HotPink1" :bold t :background "#383838")
+  (set-face-attribute 'hydra-face-teal nil
+    :foreground "SkyBlue1" :bold t :background "#383838")
+  (hydra-add-font-lock))
 
 (defun jv/post-init-neotree ()
   (defadvice neo-buffer--get-nodes
@@ -37,12 +49,6 @@
        "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
        "\\.egg\-info$")))
 
-(defun jv/init-dired-quick-sort ()
-  (use-package dired-quick-sort
-    :ensure t
-    :config
-    (dired-quick-sort-setup)))
-
 (defun jv/init-sr-speedbar ()
   (use-package sr-speedbar
     :defer t
@@ -65,10 +71,7 @@
       "ope" 'password-store-edit
       "opg" 'password-store-generate)))
 
-(defun jv/init-zeal-at-point ()
-  (use-package zeal-at-point
-    :defer t
-    :init
-    (spacemacs/set-leader-keys
-      "dd" 'zeal-at-point
-      "dD" 'zeal-at-point-set-docset)))
+(defun jv/init-crux ()
+  (use-package crux
+    :ensure t
+    :bind (("C-c o" . crux-open-with))))
