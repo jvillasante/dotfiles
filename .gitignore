@@ -5,4 +5,5 @@
 .vim_old/
 .vimrc_old/
 backup/
+.DS_Store
 *~

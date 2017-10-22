@@ -25,8 +25,8 @@ export PATH=$PATH:$GOROOT/bin
 # export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 
 # Boost
-# export BOOST_ROOT="$HOME/Software/src/boost_1_61_0"
-# export BOOST_VERSION=1.61.0
+export BOOST_ROOT="$HOME/Hacking/Software/boost_1_65_1"
+export BOOST_VERSION=1.65.1
 
 # ASIO
 # export BOOST_ASIO_ROOT="$HOME/Software/src/asio-1.10.8"
