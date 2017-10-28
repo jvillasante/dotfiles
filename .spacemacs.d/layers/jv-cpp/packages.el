@@ -26,6 +26,13 @@
     :init
     (progn
       (spacemacs|diminish irony-mode " Ⓘ" " I")
+
+      (defun jv-irony/enable-irony-mode-if-server-found ()
+        (let* ((exec-path (cons (expand-file-name "bin" irony-server-install-prefix) exec-path)))
+          (if (executable-find "irony-server") (irony-mode))))
+      (add-hook 'c-mode-hook 'jv-irony/enable-irony-mode-if-server-found)
+      (add-hook 'c++-mode-hook 'jv-irony/enable-irony-mode-if-server-found)
+
       (defun jv-irony/irony-mode-hook ()
         (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
         (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
