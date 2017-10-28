@@ -38,8 +38,8 @@
                                            comparator))
                        '(car cdr))))))
 
-  ;; (setq neo-theme 'nerd)
-  (setq neo-theme 'ascii)
+  (setq neo-theme 'nerd)
+  ;; (setq neo-theme 'ascii)
 
   (setq neo-hidden-regexp-list
     '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"

@@ -1,5 +1,5 @@
 (with-eval-after-load 'deft
-  (setq deft-directory (concat my-dropbox-path "/Personal/notes")
+  (setq deft-directory (concat jv/dropbox-path "/Personal/notes")
     deft-default-extension "org"
     deft-extensions '("org")
     deft-recursive t

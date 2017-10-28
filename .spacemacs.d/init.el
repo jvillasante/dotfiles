@@ -88,7 +88,7 @@ values."
        ;; csv
        deft
        (elfeed :variables
-         rmh-elfeed-org-files (list (concat my-dropbox-path "/Personal/elfeed/elfeed.org")))
+         rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
 
        ;; private layers
        jv
@@ -171,7 +171,7 @@ values."
     ;; List sizes may be nil, in which case
     ;; `spacemacs-buffer-startup-lists-length' takes effect.
     ;; (default nil)
-    dotspacemacs-startup-lists '(projects recents bookmarks)
+    dotspacemacs-startup-lists '(projects bookmarks)
     ;; True if the home buffer should respond to resize events.
     dotspacemacs-startup-buffer-responsive t
     ;; Default major mode of the scratch buffer (default `text-mode')
@@ -349,8 +349,9 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   (setq
-    my-dropbox-path "~/Dropbox"
-    my-zsh-path "/usr/local/bin/zsh")
+    jv/dropbox-path "~/Dropbox"
+    jv/zsh-path "/usr/local/bin/zsh"
+    jv/clang-path "/usr/local/opt/llvm/bin/clang")
 
   (setq
     flycheck-check-syntax-automatically '(mode-enabled save))
@@ -437,7 +438,7 @@ you should place your code here."
   (prefer-coding-system 'utf-8)
 
   ;; multiterm
-  (setq multi-term-program my-zsh-path)
+  (setq multi-term-program jv/zsh-path)
 
   (add-hook 'term-mode-hook
     (lambda ()
@@ -485,10 +486,6 @@ you should place your code here."
   ;; use count-words instead of count-words-region as it works on buffer
   ;; if no region is selected
   (global-set-key (kbd "M-=") 'count-words)
-
-  ;; recentf - ignore some file
-  (require 'recentf)
-  (add-to-list 'recentf-exclude "/tmp/")
 
   ;; use company everywhere
   (with-eval-after-load 'company

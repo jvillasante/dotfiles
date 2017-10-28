@@ -1,75 +1,86 @@
 (defconst jv-cpp-packages
   '(cc-mode
+     company
      irony
-     irony-eldoc
      company-irony
      company-irony-c-headers
      flycheck-irony
-     company
-     ;; ycmd
+     irony-eldoc
      rtags
      modern-cpp-font-lock))
 
 (defun jv-cpp/post-init-cc-mode ()
   (add-hook 'c++-mode-hook
     (lambda () (progn
-                 (setq company-clang-arguments '("-std=c++14")
-                   flycheck-clang-language-standard "c++14"
-                   flycheck-gcc-language-standard "c++14"
-                   disaster-cxxflags "-std=c++14 -O1 -g3")))))
+                 (setq-default flycheck-c/c++-clang-executable jv/clang-path)
+                 (setq-default flycheck-clang-standard-library "libc++")
+                 (setq-default flycheck-clang-language-standard "c++17")
+                 (setq company-clang-arguments '("-std=c++17"))))))
 
-;; (defun jv-cpp/post-init-ycmd ()
-;;   (setq ycmd-server-command (list "python" (file-truename "~/Software/src/ycmd/ycmd")))
-;;   (setq ycmd-force-semantic-completion t)
-;;   (setq ycmd-startup-timeout 5)
-
-;;   (add-hook 'c++-mode-hook 'ycmd-mode)
-;;   (add-hook 'rust-mode-hook 'ycmd-mode))
+(defun jv-cpp/post-init-company ()
+  (setq company-clang-executable jv/clang-path))
 
 (defun jv-cpp/init-irony ()
   (use-package irony
+    :defer t
     :init
-    (defun jv-irony-mode-hook ()
-      (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
-      (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
-
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'irony-mode-hook 'jv-irony-mode-hook)
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-    (spacemacs|diminish irony-mode "ⓘ" "i")))
-
-(defun jv-cpp/init-irony-eldoc ()
-  (use-package irony-eldoc
-    :init
-    (add-hook 'c-mode-hook 'eldoc-mode)
-    (add-hook 'c++-mode-hook 'eldoc-mode)
-    (add-hook 'irony-mode-hook 'irony-eldoc)))
+    (progn
+      (spacemacs|diminish irony-mode " Ⓘ" " I")
+      (defun jv-irony/irony-mode-hook ()
+        (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
+        (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
+      (add-hook 'irony-mode-hook 'jv-irony/irony-mode-hook)
+      (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+    :config nil))
 
 (defun jv-cpp/init-company-irony ()
   (use-package company-irony
+    :if
+    (and
+      (configuration-layer/layer-usedp 'auto-completion)
+      (configuration-layer/package-usedp 'company))
+    :defer t
+    :commands company-irony
     :init
-    (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)))
+    (progn
+      ;; (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))
+      ;; (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+      ;; (add-hook 'irony-mode-hook 'company-mode)
+      (push 'company-irony company-backends-c-mode-common)
+      (spacemacs|use-package-add-hook irony
+        :post-config (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)))
+    :config nil))
 
 (defun jv-cpp/init-company-irony-c-headers ()
-  (use-package company-irony-c-headers))
+  (use-package company-irony-c-headers
+    :if
+    (and
+      (configuration-layer/layer-usedp 'auto-completion)
+      (configuration-layer/package-usedp 'company))
+    :defer t
+    :commands company-irony-c-headers
+    :init
+    (progn
+      (push 'company-irony-c-headers company-backends-c-mode-common))))
 
 (defun jv-cpp/init-flycheck-irony ()
   (use-package flycheck-irony
+    :if
+    (and
+      (configuration-layer/layer-usedp 'syntax-checking)
+      (configuration-layer/package-usedp 'flycheck))
+    :defer t
     :init
     (progn
-      (eval-after-load 'flycheck
-        '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))))
+      (add-hook 'irony-mode-hook 'flycheck-irony-setup)
+      (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'irony))
+      (add-hook 'irony-mode-hook 'flycheck-mode))))
 
-(defun jv-cpp/post-init-company ()
-  ;; (spacemacs|add-company-backends
-  ;;  :modes c++-mode)
-  ;; (spacemacs|add-company-backends
-  ;;  :backends company-cmake
-  ;;  :modes cmake-mode)
-
-  (add-hook 'c-mode-hook (lambda () (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
-  (add-hook 'c++-mode-hook (lambda () (add-to-list 'company-backends '(company-irony-c-headers company-irony)))))
+(defun jv-cpp/init-irony-eldoc ()
+  (use-package irony-eldoc
+    :commands (irony-eldoc)
+    :init
+    (add-hook 'irony-mode-hook 'irony-eldoc)))
 
 (defun jv-cpp/init-rtags ()
   (use-package rtags
