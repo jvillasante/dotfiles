@@ -1,13 +1,13 @@
 (defconst jv-cpp-packages
   '(cc-mode
+     ;; semantic
      company
      irony
      company-irony
      company-irony-c-headers
      flycheck-irony
      irony-eldoc
-     rtags
-     modern-cpp-font-lock))
+     rtags))
 
 (defun jv-cpp/post-init-cc-mode ()
   (add-hook 'c++-mode-hook
@@ -16,6 +16,11 @@
                  (setq-default flycheck-clang-standard-library "libc++")
                  (setq-default flycheck-clang-language-standard "c++17")
                  (setq company-clang-arguments '("-std=c++17"))))))
+
+;; (defun jv-cpp/post-init-semantic ()
+;;   (with-eval-after-load 'semantic
+;;     (setq semantic-default-submodes
+;;       (remove 'global-semantic-stickyfunc-mode semantic-default-submodes))))
 
 (defun jv-cpp/post-init-company ()
   (setq company-clang-executable jv/clang-path))
@@ -123,9 +128,3 @@
       (require 'rtags-helm)
       (setq rtags-jump-to-first-match nil)
       (setq rtags-use-helm t))))
-
-(defun jv-cpp/init-modern-cpp-font-lock ()
-  (use-package modern-cpp-font-lock
-    :init
-    (modern-c++-font-lock-global-mode t)
-    (spacemacs|diminish modern-c++-font-lock-mode "ⓜ" "m")))

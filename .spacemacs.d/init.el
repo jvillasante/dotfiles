@@ -20,7 +20,7 @@ values."
     ;; installation feature and you have to explicitly list a layer in the
     ;; variable `dotspacemacs-configuration-layers' to install it.
     ;; (default 'unused)
-    dotspacemacs-enable-lazy-installation 'unused
+    dotspacemacs-enable-lazy-installation 'nil
     ;; If non-nil then Spacemacs will ask for confirmation before installing
     ;; a layer lazily. (default t)
     dotspacemacs-ask-for-lazy-installation t
@@ -78,6 +78,7 @@ values."
          web-mode-code-indent-offset 2
          web-mode-markup-indent-offset 2
          web-mode-css-indent-offset 2)
+       ;; semantic
        (c-c++ :variables
          c-c++-enable-clang-support t
          c-c++-default-mode-for-headers 'c++-mode)
@@ -106,7 +107,7 @@ values."
     ;; wrapped in a layer. If you need some configuration for these
     ;; packages, then consider creating a layer. You can also put the
     ;; configuration in `dotspacemacs/user-config'.
-    dotspacemacs-additional-packages '()
+    dotspacemacs-additional-packages '(ag)
     ;; A list of packages that cannot be updated.
     dotspacemacs-frozen-packages '()
     ;; A list of packages that will not be installed and loaded.
@@ -171,7 +172,7 @@ values."
     ;; List sizes may be nil, in which case
     ;; `spacemacs-buffer-startup-lists-length' takes effect.
     ;; (default nil)
-    dotspacemacs-startup-lists '(projects bookmarks)
+    dotspacemacs-startup-lists '((projects . 5) (recents . 5) bookmarks)
     ;; True if the home buffer should respond to resize events.
     dotspacemacs-startup-buffer-responsive t
     ;; Default major mode of the scratch buffer (default `text-mode')
@@ -348,10 +349,17 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
-  (setq
-    jv/dropbox-path "~/Dropbox"
-    jv/zsh-path "/usr/local/bin/zsh"
-    jv/clang-path "/usr/local/opt/llvm/bin/clang")
+  (cond
+    ((spacemacs/system-is-mac)
+      (setq
+        jv/dropbox-path "~/Dropbox"
+        jv/zsh-path "/usr/local/bin/zsh"
+        jv/clang-path "/usr/local/opt/llvm/bin/clang"))
+    ((spacemacs/system-is-linux)
+      (setq
+        jv/dropbox-path "~/Dropbox"
+        jv/zsh-path "/usr/bin/zsh"
+        jv/clang-path "/usr/bin/clang")))
 
   (setq
     flycheck-check-syntax-automatically '(mode-enabled save))
@@ -492,14 +500,13 @@ you should place your code here."
     (add-hook 'after-init-hook 'global-company-mode)
     (setq company-backends (delete 'company-semantic company-backends)))
 
-  ;; search engine
-  ;; (setq browse-url-generic-program
-  ;;   (cond
-  ;;     (is-a-mac "open")
-  ;;     (linux (executable-find "google-chrome"))))
-  (setq browse-url-browser-function 'browse-url-generic
-    engine/browser-function 'browse-url-generic
-    browse-url-generic-program "open")
+  (cond
+    ((spacemacs/system-is-mac)
+      (setq browse-url-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-generic
+        browse-url-generic-program "open"))
+    ((spacemacs/system-is-linux)
+      (executable-find "google-chrome")))
 
   ;; yasnippet
   (spacemacs/set-leader-keys "is" 'yas/insert-snippet)
@@ -516,7 +523,7 @@ you should place your code here."
  '(mac-toggle-tab-bar nil)
  '(package-selected-packages
    (quote
-    (dired+ elfeed-org xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rtags reveal-in-osx-finder restart-emacs request rainbow-delimiters racer pug-mode persp-mode pcre2el pbcopy password-store paradox spinner ox-gfm osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download org-bullets open-junk-file nlinum-relative nlinum neotree multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum link-hint less-css-mode launchctl ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-rust seq flycheck-pos-tip flycheck-irony flycheck flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd org-plus-contrib elfeed-goodies ace-jump-mode noflet powerline popwin elfeed editorconfig dumb-jump f s disaster dired-quick-sort hydra diminish diff-hl deft dash-at-point crux counsel-projectile projectile pkg-info epl counsel-dash helm-dash dash-functional helm helm-core counsel swiper ivy company-web web-completion-data company-statistics company-shell dash company-quickhelp pos-tip company-irony-c-headers company-irony irony company-go go-mode company-c-headers company column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy ac-ispell auto-complete popup zenburn-theme)))
+    (stickyfunc-enhance srefactor ag dired+ elfeed-org xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rtags reveal-in-osx-finder restart-emacs request rainbow-delimiters racer pug-mode persp-mode pcre2el pbcopy password-store paradox spinner ox-gfm osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download org-bullets open-junk-file nlinum-relative nlinum neotree multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum link-hint less-css-mode launchctl ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-rust seq flycheck-pos-tip flycheck-irony flycheck flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd org-plus-contrib elfeed-goodies ace-jump-mode noflet powerline popwin elfeed editorconfig dumb-jump f s disaster dired-quick-sort hydra diminish diff-hl deft dash-at-point crux counsel-projectile projectile pkg-info epl counsel-dash helm-dash dash-functional helm helm-core counsel swiper ivy company-web web-completion-data company-statistics company-shell dash company-quickhelp pos-tip company-irony-c-headers company-irony irony company-go go-mode company-c-headers company column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy ac-ispell auto-complete popup zenburn-theme)))
  '(safe-local-variable-values
    (quote
     ((eval add-hook
