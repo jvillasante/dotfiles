@@ -5,6 +5,7 @@
      sr-speedbar
      flyspell-lazy
      password-store
+     pass
      crux))
 
 (defun jv/init-editorconfig ()
@@ -70,6 +71,11 @@
       "opc" 'password-store-copy
       "ope" 'password-store-edit
       "opg" 'password-store-generate)))
+
+(defun jv/init-pass ()
+  (use-package pass
+    :ensure t
+    ))
 
 (defun jv/init-crux ()
   (use-package crux
