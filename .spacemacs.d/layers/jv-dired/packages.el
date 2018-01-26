@@ -1,6 +1,6 @@
 (defconst jv-dired-packages
   '(dired
-     dired+
+     ;; dired+
      dired-quick-sort))
 
 (defun jv-dired/post-init-dired ()
@@ -85,17 +85,17 @@ T - tag prefix
 
     (define-key dired-mode-map "." 'hydra-dired/body)))
 
-(defun jv-dired/init-dired+ ()
-  (use-package dired+
-    :config
-    (require 'dired+)
+;; (defun jv-dired/init-dired+ ()
+;;   (use-package dired+
+;;     :config
+;;     (require 'dired+)
 
-    ;; reuse dired directories instead of opening a thousand `dired' buffers
-    (diredp-toggle-find-file-reuse-dir 1)
+;;     ;; reuse dired directories instead of opening a thousand `dired' buffers
+;;     (diredp-toggle-find-file-reuse-dir 1)
 
-    ;; show more details by default
-    (setq diredp-hide-details-initially-flag nil)
-    (setq diredp-hide-details-propagate-flag nil)))
+;;     ;; show more details by default
+;;     (setq diredp-hide-details-initially-flag nil)
+;;     (setq diredp-hide-details-propagate-flag nil)))
 
 (defun jv-dired/init-dired-quick-sort ()
   (use-package dired-quick-sort
