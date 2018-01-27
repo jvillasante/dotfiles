@@ -515,7 +515,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "is" 'yas/insert-snippet)
   (spacemacs/set-leader-keys "id" 'yas/describe-tables)
 
-  ;; (golden-ratio-mode 1)
+  (golden-ratio-mode 1)
   (show-paren-mode 1)
   (spaceline-compile))
 
