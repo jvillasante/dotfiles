@@ -512,8 +512,8 @@ you should place your code here."
       (executable-find "google-chrome")))
 
   ;; yasnippet
-  (spacemacs/set-leader-keys "is" 'yas/insert-snippet)
-  (spacemacs/set-leader-keys "id" 'yas/describe-tables)
+  (spacemacs/set-leader-keys "is" 'yas-insert-snippet)
+  (spacemacs/set-leader-keys "id" 'yas-describe-tables)
 
   (golden-ratio-mode 1)
   (show-paren-mode 1)
