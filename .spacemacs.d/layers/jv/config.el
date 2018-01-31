@@ -17,6 +17,35 @@ at least the fill column. Place the point after the comment box."
     (set-marker e nil)))
 (global-set-key (kbd "C-c b b") 'jv/comment-box)
 
+;; Keeps the compilation buffer if there are warnings or errors,
+;; and buries it otherwise (after 1 second).
+(defun jv/bury-compile-buffer-if-successful (buffer string)
+  "Bury a compilation buffer if succeeded without warnings "
+  (when (and
+          (buffer-live-p buffer)
+          (string-match "compilation" (buffer-name buffer))
+          (string-match "finished" string)
+          (not
+            (with-current-buffer buffer
+              (goto-char (point-min))
+              (search-forward "warning" nil t))))
+    (run-with-timer 1 nil
+      (lambda (buf)
+        (bury-buffer buf)
+        ;; (switch-to-prev-buffer (get-buffer-window buf) 'kill)
+        (delete-windows-on buf))
+      buffer)))
+(add-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
+
+;; ANSI-colors in the compilation buffer output
+(require 'ansi-color)
+(defun jv/colorize-compilation ()
+  "Colorize from `compilation-filter-start' to `point'."
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region
+      compilation-filter-start (point))))
+(add-hook 'compilation-filter-hook #'jv/colorize-compilation)
+
 ;; http://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
 (defun jv/switch-to-previous-buffer ()
   "Switch to previously open buffer.

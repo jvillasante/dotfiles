@@ -45,15 +45,15 @@ values."
          auto-completion-complete-with-key-sequence nil
          auto-completion-complete-with-key-sequence-delay 0.1
          auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
-         ;; auto-completion-enable-help-tooltip 'manual
-         auto-completion-enable-help-tooltip t
+         auto-completion-enable-help-tooltip 'manual
          auto-completion-enable-sort-by-usage t
          auto-completion-enable-snippets-in-popup t
          :disabled-for org erc git markdown eshell ledger text)
+       (syntax-checking
+         :variables syntax-checking-enable-tooltips nil)
        (spell-checking :variables
          spell-checking-enable-by-default nil
          spell-checking-enable-auto-dictionary nil)
-       syntax-checking
        nlinum
        emacs-lisp
        (git :variables
@@ -478,14 +478,6 @@ you should place your code here."
   (add-hook 'makefile-mode-hook 'whitespace-mode)
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
 
-  ;; Colorize compilation window output.
-  (ignore-errors
-    (require 'ansi-color)
-    (add-hook 'compilation-filter-hook
-      (lambda ()
-        (when (eq major-mode 'compilation-mode)
-          (ansi-color-apply-on-region compilation-filter-start (point-max))))))
-
   ;; use evil-matchit everywhere
   (global-evil-matchit-mode 1)
 
@@ -516,8 +508,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "is" 'yas-insert-snippet)
   (spacemacs/set-leader-keys "id" 'yas-describe-tables)
 
-  (setq powerline-default-separator 'alternate)
-  (golden-ratio-mode 1)
+  ;; (golden-ratio-mode 1)
   (show-paren-mode 1)
   (spaceline-compile))
 
@@ -546,7 +537,6 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
  '(evil-goggles-delete-face ((t (:inherit diff-removed))))
  '(evil-goggles-paste-face ((t (:inherit diff-added))))
  '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
