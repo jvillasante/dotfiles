@@ -1,8 +1,9 @@
 CC=/usr/local/opt/llvm/bin/clang++
 LDFLAGS=-L/usr/local/opt/llvm/lib -lc++ -lc++experimental
 CPPFLAGS=-I/usr/local/opt/llvm/include/ -I/usr/local/opt/llvm/include/c++/v1/
-CFLAGS=$(LDFLAGS) $(CPPFLAGS) -std=c++17 -stdlib=libc++ -Wall -Wextra -Wshadow -pedantic -DNDEBUG -O3
-CFLAGS_DEBUG=$(LDFLAGS) $(CPPFLAGS) -std=c++17 -stdlib=libc++ -g -DDEBUG -O0
+CPPFLAGS_COMMON=-std=c++17 -stdlib=libc++ -Wall -Wextra -Wshadow -pedantic
+CFLAGS=$(LDFLAGS) $(CPPFLAGS) $(CPPFLAGS_COMMON) -DNDEBUG -O3
+CFLAGS_DEBUG=$(LDFLAGS) $(CPPFLAGS) $(CPPFLAGS_COMMON) -g -DDEBUG -O0
 SRC=src
 BIN=bin
 RM=rm -rf

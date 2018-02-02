@@ -5,5 +5,4 @@
 -pedantic
 -I/usr/local/opt/llvm/include/
 -I/usr/local/opt/llvm/include/c++/v1/
--I./src
 -I.
