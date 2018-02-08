@@ -86,7 +86,7 @@ values."
          c-c++-default-mode-for-headers 'c++-mode)
        ;; rust
        ;; common-lisp
-       ;; (go :variables go-tab-width 2)
+       (go :variables go-tab-width 2)
        ;; restclient
        ;; csv
        deft
