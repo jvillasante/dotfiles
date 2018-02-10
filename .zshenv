@@ -15,9 +15,7 @@ fi
 if [ -d "$HOME/.gvm" ]; then
   [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
   export GOPATH=$HOME/Hacking/workspace/golang
-  export GOROOT=/usr/local/opt/go/libexec
   export PATH=$PATH:$GOPATH/bin
-  export PATH=$PATH:$GOROOT/bin
 fi
 
 # QT
