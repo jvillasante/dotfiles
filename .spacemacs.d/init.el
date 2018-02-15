@@ -491,11 +491,6 @@ you should place your code here."
   ;; if no region is selected
   (global-set-key (kbd "M-=") 'count-words)
 
-  ;; use company everywhere
-  (with-eval-after-load 'company
-    (add-hook 'after-init-hook 'global-company-mode)
-    (setq company-backends (delete 'company-semantic company-backends)))
-
   (cond
     ((spacemacs/system-is-mac)
       (setq browse-url-browser-function 'browse-url-generic

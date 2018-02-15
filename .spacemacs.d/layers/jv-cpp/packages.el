@@ -23,13 +23,19 @@
 ;;       (remove 'global-semantic-stickyfunc-mode semantic-default-submodes))))
 
 (defun jv-cpp/post-init-company ()
-  (setq company-clang-executable jv/clang-path))
+  (setq company-clang-executable jv/clang-path)
+  (add-hook 'after-init-hook 'global-company-mode)
+  (setq company-idle-delay 0)
+  (setq company-backends (delete 'company-semantic company-backends)))
 
 (defun jv-cpp/init-irony ()
   (use-package irony
     :defer t
     :init
     (progn
+      ;; If irony server was never installed, install it.
+      ;; (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+
       (spacemacs|diminish irony-mode " Ⓘ" " I")
 
       (defun jv-irony/enable-irony-mode-if-server-found ()
