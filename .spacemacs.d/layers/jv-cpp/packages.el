@@ -1,6 +1,5 @@
 (defconst jv-cpp-packages
   '(cc-mode
-     ;; semantic
      company
      irony
      company-irony
@@ -17,16 +16,9 @@
                  (setq-default flycheck-clang-language-standard "c++17")
                  (setq company-clang-arguments '("-std=c++17"))))))
 
-;; (defun jv-cpp/post-init-semantic ()
-;;   (with-eval-after-load 'semantic
-;;     (setq semantic-default-submodes
-;;       (remove 'global-semantic-stickyfunc-mode semantic-default-submodes))))
-
 (defun jv-cpp/post-init-company ()
   (setq company-clang-executable jv/clang-path)
-  (add-hook 'after-init-hook 'global-company-mode)
-  (setq company-idle-delay 0)
-  (setq company-backends (delete 'company-semantic company-backends)))
+  (setq company-idle-delay 0))
 
 (defun jv-cpp/init-irony ()
   (use-package irony
