@@ -84,11 +84,11 @@ values."
        (c-c++ :variables
          c-c++-enable-clang-support t
          c-c++-default-mode-for-headers 'c++-mode)
-       ;; rust
-       ;; common-lisp
+       rust
        (go :variables go-tab-width 2)
-       ;; restclient
-       ;; csv
+       ;; common-lisp
+       restclient
+       csv
        deft
        (elfeed :variables
          rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
@@ -513,34 +513,34 @@ you should place your code here."
   (spaceline-compile))
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  '(package-selected-packages
-     (quote
-       (origami yasnippet-snippets org-mime vimish-fold define-word ghub let-alist evil-snipe pass password-store-otp evil-goggles stickyfunc-enhance srefactor ag dired+ elfeed-org xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rtags reveal-in-osx-finder restart-emacs request rainbow-delimiters racer pug-mode persp-mode pcre2el pbcopy password-store paradox spinner ox-gfm osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download org-bullets open-junk-file nlinum-relative nlinum neotree multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum link-hint less-css-mode launchctl ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-rust seq flycheck-pos-tip flycheck-irony flycheck flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd org-plus-contrib elfeed-goodies ace-jump-mode noflet powerline popwin elfeed editorconfig dumb-jump f s disaster dired-quick-sort hydra diminish diff-hl deft dash-at-point crux counsel-projectile projectile pkg-info epl counsel-dash helm-dash dash-functional helm helm-core counsel swiper ivy company-web web-completion-data company-statistics company-shell dash company-quickhelp pos-tip company-irony-c-headers company-irony irony company-go go-mode company-c-headers company column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy ac-ispell auto-complete popup zenburn-theme)))
-  '(safe-local-variable-values
-     (quote
-       ((eval add-hook
-          (quote before-save-hook)
-          (function rust-format-buffer)
-          nil t)
-         (eval add-hook
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (ob-restclient company-restclient restclient ob-http csv-mode know-your-http-well origami yasnippet-snippets org-mime vimish-fold define-word ghub let-alist evil-snipe pass password-store-otp evil-goggles stickyfunc-enhance srefactor ag dired+ elfeed-org xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rtags reveal-in-osx-finder restart-emacs request rainbow-delimiters racer pug-mode persp-mode pcre2el pbcopy password-store paradox spinner ox-gfm osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download org-bullets open-junk-file nlinum-relative nlinum neotree multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum link-hint less-css-mode launchctl ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-rust seq flycheck-pos-tip flycheck-irony flycheck flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd org-plus-contrib elfeed-goodies ace-jump-mode noflet powerline popwin elfeed editorconfig dumb-jump f s disaster dired-quick-sort hydra diminish diff-hl deft dash-at-point crux counsel-projectile projectile pkg-info epl counsel-dash helm-dash dash-functional helm helm-core counsel swiper ivy company-web web-completion-data company-statistics company-shell dash company-quickhelp pos-tip company-irony-c-headers company-irony irony company-go go-mode company-c-headers company column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy ac-ispell auto-complete popup zenburn-theme)))
+ '(safe-local-variable-values
+   (quote
+    ((eval add-hook
+           (quote before-save-hook)
+           (function rust-format-buffer)
+           nil t)
+     (eval add-hook
            (quote before-save-hook)
            (function clang-format-buffer)
            nil t)
-         (flycheck-clang-language-standard . c++17)))))
+     (flycheck-clang-language-standard . c++17)))))
 
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
-  '(evil-goggles-delete-face ((t (:inherit diff-removed))))
-  '(evil-goggles-paste-face ((t (:inherit diff-added))))
-  '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
-  '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
-  '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
-  '(evil-goggles-yank-face ((t (:inherit diff-changed)))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
+ '(evil-goggles-delete-face ((t (:inherit diff-removed))))
+ '(evil-goggles-paste-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
+ '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
+ '(evil-goggles-yank-face ((t (:inherit diff-changed)))))
