@@ -84,7 +84,8 @@ values."
        (c-c++ :variables
          c-c++-enable-clang-support t
          c-c++-default-mode-for-headers 'c++-mode)
-       rust
+       (rust :variables
+         rust-format-on-save t)
        (go :variables go-tab-width 2)
        ;; common-lisp
        restclient
@@ -387,6 +388,7 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq ispell-program-name "aspell")
+  (setq auto-window-vscroll nil)
 
   ;; Customize frame title format.
   (setq frame-title-format
