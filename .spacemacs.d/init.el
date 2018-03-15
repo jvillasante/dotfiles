@@ -81,12 +81,13 @@ values."
          web-mode-markup-indent-offset 2
          web-mode-css-indent-offset 2)
        ;; semantic
+       ;; javascript
        (c-c++ :variables
          c-c++-enable-clang-support t
          c-c++-default-mode-for-headers 'c++-mode)
        (rust :variables
          rust-format-on-save t)
-       (go :variables go-tab-width 2)
+       ;; (go :variables go-tab-width 2)
        ;; common-lisp
        restclient
        csv
@@ -454,10 +455,6 @@ you should place your code here."
   ;; multiterm
   (setq multi-term-program jv/zsh-path)
 
-  (add-hook 'term-mode-hook
-    (lambda ()
-      (setq term-buffer-maximum-size 10000)))
-
   ;; line spacing
   (setq-default line-spacing 0.1)
 
@@ -465,13 +462,18 @@ you should place your code here."
   (setq search-whitespace-regexp ".*?")
 
   ;; Hooks
+  (add-hook 'spacemacs-buffer-mode-hook
+    'spacemacs/toggle-visual-line-navigation-on)
+  (add-hook 'term-mode-hook
+    (lambda ()
+      (setq term-buffer-maximum-size 10000)))
   (add-hook 'focus-out-hook
     (lambda ()
       (save-some-buffers t)))
   (add-hook 'markdown-mode-hook
     (lambda ()
       (auto-fill-mode 0)
-      (visual-line-mode 1)))
+      (spacemacs/toggle-visual-line-navigation-on)))
   (add-hook 'prog-mode-hook
     (lambda ()
       (set-fill-column 110)
@@ -519,20 +521,20 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (ob-restclient company-restclient restclient ob-http csv-mode know-your-http-well origami yasnippet-snippets org-mime vimish-fold define-word ghub let-alist evil-snipe pass password-store-otp evil-goggles stickyfunc-enhance srefactor ag dired+ elfeed-org xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rtags reveal-in-osx-finder restart-emacs request rainbow-delimiters racer pug-mode persp-mode pcre2el pbcopy password-store paradox spinner ox-gfm osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download org-bullets open-junk-file nlinum-relative nlinum neotree multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum link-hint less-css-mode launchctl ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-rust seq flycheck-pos-tip flycheck-irony flycheck flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd org-plus-contrib elfeed-goodies ace-jump-mode noflet powerline popwin elfeed editorconfig dumb-jump f s disaster dired-quick-sort hydra diminish diff-hl deft dash-at-point crux counsel-projectile projectile pkg-info epl counsel-dash helm-dash dash-functional helm helm-core counsel swiper ivy company-web web-completion-data company-statistics company-shell dash company-quickhelp pos-tip company-irony-c-headers company-irony irony company-go go-mode company-c-headers company column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy ac-ispell auto-complete popup zenburn-theme)))
- '(safe-local-variable-values
-   (quote
-    ((eval add-hook
-           (quote before-save-hook)
-           (function rust-format-buffer)
-           nil t)
-     (eval add-hook
+  '(package-selected-packages
+     (quote
+       (web-beautify livid-mode skewer-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode adafruit-wisdom lsp-ui lsp-rust company-lsp lsp-mode ob-restclient company-restclient restclient ob-http csv-mode know-your-http-well origami yasnippet-snippets org-mime vimish-fold define-word ghub let-alist evil-snipe pass password-store-otp evil-goggles stickyfunc-enhance srefactor ag dired+ elfeed-org xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rtags reveal-in-osx-finder restart-emacs request rainbow-delimiters racer pug-mode persp-mode pcre2el pbcopy password-store paradox spinner ox-gfm osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download org-bullets open-junk-file nlinum-relative nlinum neotree multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum link-hint less-css-mode launchctl ivy-hydra irony-eldoc insert-shebang info+ indent-guide ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-rust seq flycheck-pos-tip flycheck-irony flycheck flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd org-plus-contrib elfeed-goodies ace-jump-mode noflet powerline popwin elfeed editorconfig dumb-jump f s disaster dired-quick-sort hydra diminish diff-hl deft dash-at-point crux counsel-projectile projectile pkg-info epl counsel-dash helm-dash dash-functional helm helm-core counsel swiper ivy company-web web-completion-data company-statistics company-shell dash company-quickhelp pos-tip company-irony-c-headers company-irony irony company-go go-mode company-c-headers company column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy ac-ispell auto-complete popup zenburn-theme)))
+  '(safe-local-variable-values
+     (quote
+       ((eval add-hook
+          (quote before-save-hook)
+          (function rust-format-buffer)
+          nil t)
+         (eval add-hook
            (quote before-save-hook)
            (function clang-format-buffer)
            nil t)
-     (flycheck-clang-language-standard . c++17)))))
+         (flycheck-clang-language-standard . c++17)))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
