@@ -6,6 +6,7 @@
      company-irony-c-headers
      flycheck-irony
      irony-eldoc
+     modern-cpp-font-lock
      rtags))
 
 (defun jv-cpp/post-init-cc-mode ()
@@ -91,6 +92,15 @@
     :commands (irony-eldoc)
     :init
     (add-hook 'irony-mode-hook 'irony-eldoc)))
+
+
+(defun jv-cpp/init-modern-cpp-font-lock ()
+  (use-package modern-cpp-font-lock
+    :ensure t
+    :init
+    (progn
+      (modern-c++-font-lock-global-mode t)
+      (spacemacs|diminish modern-c++-font-lock-mode " ⊗" " x"))))
 
 (defun jv-cpp/init-rtags ()
   (use-package rtags

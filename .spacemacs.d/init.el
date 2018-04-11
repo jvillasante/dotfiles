@@ -519,7 +519,8 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-    )
+   (quote
+    (modern-cpp-font-lock web-mode spaceline org-download insert-shebang htmlize hl-todo flycheck-rust evil-matchit engine-mode editorconfig company-web company counsel swiper flycheck helm helm-core ivy alert org-plus-contrib magit magit-popup git-commit ghub s zenburn-theme yasnippet-snippets xterm-color ws-butler winum which-key wgrep web-completion-data volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar solarized-theme smex smeargle slim-mode shell-pop scss-mode sass-mode rtags reveal-in-osx-finder restart-emacs request rainbow-delimiters racer pug-mode persp-mode pcre2el pbcopy pass paradox ox-gfm osx-trash osx-dictionary origami orgit org-projectile org-present org-pomodoro org-mime org-bullets open-junk-file ob-restclient ob-http nlinum-relative neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum log4e link-hint less-css-mode launchctl ivy-hydra irony-eldoc indent-guide ibuffer-projectile hungry-delete highlight-parentheses highlight-numbers highlight-indentation helm-make google-translate golden-ratio gnuplot gntp gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-lazy flyspell-correct-ivy flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster dired-quick-sort diminish diff-hl deft dash-at-point csv-mode crux counsel-projectile counsel-dash company-statistics company-shell company-restclient company-quickhelp company-irony-c-headers company-irony company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ag adaptive-wrap ace-window ace-link ac-ispell)))
  '(safe-local-variable-values
    (quote
     ((eval add-hook
@@ -537,6 +538,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
  '(evil-goggles-delete-face ((t (:inherit diff-removed))))
  '(evil-goggles-paste-face ((t (:inherit diff-added))))
  '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
