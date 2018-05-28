@@ -99,7 +99,8 @@ values."
        ;; private layers
        jv
        jv-zenburn
-       jv-cpp
+       jv-cpp-common
+       jv-cpp-irony
        jv-deft
        jv-dired
        jv-elfeed

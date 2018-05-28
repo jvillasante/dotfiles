@@ -1,27 +1,11 @@
-(defconst jv-cpp-packages
-  '(cc-mode
-     company
-     irony
+(defconst jv-cpp-irony-packages
+  '(irony
      company-irony
      company-irony-c-headers
      flycheck-irony
-     irony-eldoc
-     modern-cpp-font-lock
-     rtags))
+     irony-eldoc))
 
-(defun jv-cpp/post-init-cc-mode ()
-  (add-hook 'c++-mode-hook
-    (lambda () (progn
-                 (setq-default flycheck-c/c++-clang-executable jv/clang-path)
-                 (setq-default flycheck-clang-standard-library "libc++")
-                 (setq-default flycheck-clang-language-standard "c++17")
-                 (setq company-clang-arguments '("-std=c++17"))))))
-
-(defun jv-cpp/post-init-company ()
-  (setq company-clang-executable jv/clang-path)
-  (setq company-idle-delay 0))
-
-(defun jv-cpp/init-irony ()
+(defun jv-cpp-irony/init-irony ()
   (use-package irony
     :defer t
     :init
@@ -44,7 +28,7 @@
       (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
     :config nil))
 
-(defun jv-cpp/init-company-irony ()
+(defun jv-cpp-irony/init-company-irony ()
   (use-package company-irony
     :if
     (and
@@ -62,7 +46,7 @@
         :post-config (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)))
     :config nil))
 
-(defun jv-cpp/init-company-irony-c-headers ()
+(defun jv-cpp-irony/init-company-irony-c-headers ()
   (use-package company-irony-c-headers
     :if
     (and
@@ -74,7 +58,7 @@
     (progn
       (push 'company-irony-c-headers company-backends-c-mode-common))))
 
-(defun jv-cpp/init-flycheck-irony ()
+(defun jv-cpp-irony/init-flycheck-irony ()
   (use-package flycheck-irony
     :if
     (and
@@ -87,52 +71,8 @@
       (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'irony))
       (add-hook 'irony-mode-hook 'flycheck-mode))))
 
-(defun jv-cpp/init-irony-eldoc ()
+(defun jv-cpp-irony/init-irony-eldoc ()
   (use-package irony-eldoc
     :commands (irony-eldoc)
     :init
     (add-hook 'irony-mode-hook 'irony-eldoc)))
-
-
-(defun jv-cpp/init-modern-cpp-font-lock ()
-  (use-package modern-cpp-font-lock
-    :ensure t
-    :init
-    (progn
-      (modern-c++-font-lock-global-mode t)
-      (spacemacs|diminish modern-c++-font-lock-mode " ⊗" " x"))))
-
-(defun jv-cpp/init-rtags ()
-  (use-package rtags
-    :defer f
-    :init
-    (progn
-      (spacemacs/set-leader-keys-for-major-mode 'c++-mode
-        "d" 'rtags-find-symbol-at-point
-        "D" 'jv-cpp/rtags-find-symbol-at-point-other-file
-        "/" 'rtags-find-symbol
-        "R" 'rtags-find-references-at-point
-        ;; "r" 'rtags-find-references-at-point-in-file to implement
-        "v" 'rtags-find-virtuals-at-point
-        "i" 'rtags-imenu
-        "C-r" 'rtags-rename-symbol
-
-        ;; print prefix
-        "pt" 'rtags-print-class-hierarchy
-        "pe" 'rtags-print-enum-value-at-point
-        "pi" 'rtags-print-dependencies
-        "ps" 'rtags-print-symbol-info
-        "pp" 'rtags-preprocess-file
-
-        ;; TODO: planned micro state
-        ;; "o" (rtags-occurence-transient state)
-        ;; "n" 'rtags-next-match
-        ;; "N/p" 'rtags-previous-match
-        )
-      (add-hook 'rtags-jump-hook 'evil-set-jump)
-      (add-to-list 'spacemacs-jump-handlers-c++-mode '(rtags-find-symbol-at-point :async t)))
-    :config
-    (progn
-      (require 'rtags-helm)
-      (setq rtags-jump-to-first-match nil)
-      (setq rtags-use-helm t))))
