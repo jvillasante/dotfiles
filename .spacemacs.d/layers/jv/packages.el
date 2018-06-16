@@ -6,9 +6,7 @@
      flyspell-lazy
      password-store
      pass
-     crux
-     ;; adafruit-wisdom
-     ))
+     crux))
 
 (defun jv/init-editorconfig ()
   (use-package editorconfig
@@ -83,9 +81,3 @@
   (use-package crux
     :ensure t
     :bind (("C-c o" . crux-open-with))))
-
-;; (defun jv/init-adafruit-wisdom ()
-;;   (use-package adafruit-wisdom
-;;     :config
-;;     (setq inhibit-startup-message t)
-;;     (spacemacs-buffer/append (concat "\n" ";; " (adafruit-wisdom-select) "\n"))))
