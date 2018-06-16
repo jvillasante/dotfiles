@@ -83,10 +83,11 @@ values."
          web-mode-css-indent-offset 2)
        ;; semantic
        ;; javascript
+       python
        (c-c++ :variables
          c-c++-enable-clang-support t
          c-c++-default-mode-for-headers 'c++-mode)
-       ;; ycmd
+       ycmd
        (rust :variables
          rust-format-on-save t)
        ;; (go :variables go-tab-width 2)
@@ -102,8 +103,8 @@ values."
        jv
        jv-zenburn
        jv-cpp-common
-       jv-cpp-irony
-       ;; jv-cpp-ycmd
+       ;; jv-cpp-irony
+       jv-cpp-ycmd
        jv-deft
        jv-dired
        jv-elfeed
@@ -523,20 +524,20 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (flycheck-ycmd company-ycmd ycmd request-deferred deferred password-store-otp password-store spinner org-category-capture nlinum markdown-mode parent-mode haml-mode fringe-helper git-gutter+ git-gutter flyspell-correct flx with-editor smartparens iedit anzu evil goto-chg undo-tree highlight simple-httpd ace-jump-mode noflet powerline popwin elfeed f hydra projectile pkg-info epl helm-dash dash-functional restclient know-your-http-well pos-tip irony rust-mode bind-map bind-key yasnippet packed async dash avy auto-complete popup modern-cpp-font-lock web-mode spaceline org-download insert-shebang htmlize hl-todo flycheck-rust evil-matchit engine-mode editorconfig company-web company counsel swiper flycheck helm helm-core ivy alert org-plus-contrib magit magit-popup git-commit ghub s zenburn-theme yasnippet-snippets xterm-color ws-butler winum which-key wgrep web-completion-data volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar solarized-theme smex smeargle slim-mode shell-pop scss-mode sass-mode rtags reveal-in-osx-finder restart-emacs request rainbow-delimiters racer pug-mode persp-mode pcre2el pbcopy pass paradox ox-gfm osx-trash osx-dictionary origami orgit org-projectile org-present org-pomodoro org-mime org-bullets open-junk-file ob-restclient ob-http nlinum-relative neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum log4e link-hint less-css-mode launchctl ivy-hydra irony-eldoc indent-guide ibuffer-projectile hungry-delete highlight-parentheses highlight-numbers highlight-indentation helm-make google-translate golden-ratio gnuplot gntp gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-lazy flyspell-correct-ivy flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster dired-quick-sort diminish diff-hl deft dash-at-point csv-mode crux counsel-projectile counsel-dash company-statistics company-shell company-restclient company-quickhelp company-irony-c-headers company-irony company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ag adaptive-wrap ace-window ace-link ac-ispell)))
- '(safe-local-variable-values
-   (quote
-    ((eval add-hook
-           (quote before-save-hook)
-           (function rust-format-buffer)
-           nil t)
-     (eval add-hook
+  '(package-selected-packages
+     (quote
+       (yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode cython-mode company-anaconda anaconda-mode pythonic flycheck-ycmd company-ycmd ycmd request-deferred deferred password-store-otp password-store spinner org-category-capture nlinum markdown-mode parent-mode haml-mode fringe-helper git-gutter+ git-gutter flyspell-correct flx with-editor smartparens iedit anzu evil goto-chg undo-tree highlight simple-httpd ace-jump-mode noflet powerline popwin elfeed f hydra projectile pkg-info epl helm-dash dash-functional restclient know-your-http-well pos-tip irony rust-mode bind-map bind-key yasnippet packed async dash avy auto-complete popup modern-cpp-font-lock web-mode spaceline org-download insert-shebang htmlize hl-todo flycheck-rust evil-matchit engine-mode editorconfig company-web company counsel swiper flycheck helm helm-core ivy alert org-plus-contrib magit magit-popup git-commit ghub s zenburn-theme yasnippet-snippets xterm-color ws-butler winum which-key wgrep web-completion-data volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sr-speedbar solarized-theme smex smeargle slim-mode shell-pop scss-mode sass-mode rtags reveal-in-osx-finder restart-emacs request rainbow-delimiters racer pug-mode persp-mode pcre2el pbcopy pass paradox ox-gfm osx-trash osx-dictionary origami orgit org-projectile org-present org-pomodoro org-mime org-bullets open-junk-file ob-restclient ob-http nlinum-relative neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum log4e link-hint less-css-mode launchctl ivy-hydra irony-eldoc indent-guide ibuffer-projectile hungry-delete highlight-parentheses highlight-numbers highlight-indentation helm-make google-translate golden-ratio gnuplot gntp gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-lazy flyspell-correct-ivy flycheck-pos-tip flycheck-irony flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-numbers evil-mc evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-commentary evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies dumb-jump disaster dired-quick-sort diminish diff-hl deft dash-at-point csv-mode crux counsel-projectile counsel-dash company-statistics company-shell company-restclient company-quickhelp company-irony-c-headers company-irony company-c-headers column-enforce-mode cmake-mode clean-aindent-mode clang-format cargo auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ag adaptive-wrap ace-window ace-link ac-ispell)))
+  '(safe-local-variable-values
+     (quote
+       ((eval add-hook
+          (quote before-save-hook)
+          (function rust-format-buffer)
+          nil t)
+         (eval add-hook
            (quote before-save-hook)
            (function clang-format-buffer)
            nil t)
-     (flycheck-clang-language-standard . c++17)))))
+         (flycheck-clang-language-standard . c++17)))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
