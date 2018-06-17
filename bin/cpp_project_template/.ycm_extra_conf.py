@@ -7,7 +7,7 @@ import ycm_core
 flags = [
   '-std=c++17',
   '-x', 'c++',
-  'stdlib=libc++',
+  '-stdlib=libc++',
   '-Wall',
   '-Wextra',
   '-pedantic',
@@ -15,6 +15,7 @@ flags = [
   '-Wno-gnu-case-range',
   '-isystem', '/usr/local/opt/llvm/include/',
   '-isystem', 'usr/local/opt/llvm/include/c++/v1/',
+  '-I', '.',
 
 # '-Wall',
   # '-Wextra',
