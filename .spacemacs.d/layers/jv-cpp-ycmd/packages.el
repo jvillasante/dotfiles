@@ -7,4 +7,5 @@
 
 (defun jv-cpp-ycmd/post-init-ycmd ()
   (setq request-message-level -1)
+  (spacemacs|diminish ycmd-mode " Ⓨ" " Y")
   (setq ycmd-force-semantic-completion t))
