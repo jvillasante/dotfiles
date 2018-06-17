@@ -17,7 +17,7 @@ flags = [
   '-isystem', 'usr/local/opt/llvm/include/c++/v1/',
   '-I', '.',
 
-# '-Wall',
+  # '-Wall',
   # '-Wextra',
   # '-Werror',
   # '-Wno-long-long',

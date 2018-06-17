@@ -37,6 +37,17 @@ if [ ! -d $1 ]; then
   cp -a ~/bin/cpp_project_template/. $1/
   check $?
 
+  cp ~/.editorconfig $1/
+
+  cp ~/.clang-format $1/
+  check $?
+
+  # cp ~/.clang_complete.py $1/
+  # check $?
+
+  cp ~/.ycm_extra_conf.py $1/
+  check $?
+
   echo ">>> Done!"
   exit 0
 else

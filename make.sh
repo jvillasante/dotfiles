@@ -83,7 +83,7 @@ install_zsh
 install_spacemacs
 
 # list of files/folders to symlink in homedir
-files="bin .spacemacs.d .oh-my-zsh .emacs.d .percol.d .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .zshenv .zshrc .sbclrc"
+files="bin .spacemacs.d .oh-my-zsh .emacs.d .percol.d .ycm_extra_conf.py .clang_complete .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .zshenv .zshrc .sbclrc"
 
 for file in $files; do
   # echo "Deleting old file $file in home directory..."
