@@ -87,7 +87,6 @@ values."
        (c-c++ :variables
          c-c++-enable-clang-support t
          c-c++-default-mode-for-headers 'c++-mode)
-       ycmd
        (rust :variables
          rust-format-on-save t)
        ;; (go :variables go-tab-width 2)
@@ -99,12 +98,13 @@ values."
        (elfeed :variables
          rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
 
-       ;; private layers
+       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
        jv
        jv-zenburn
        jv-cpp-common
-       ;; jv-cpp-irony
-       jv-cpp-ycmd
+       jv-cpp-irony
+       ;; ycmd
+       ;; jv-cpp-ycmd
        jv-deft
        jv-dired
        jv-elfeed
