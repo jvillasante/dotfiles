@@ -102,9 +102,9 @@ values."
        jv
        jv-zenburn
        jv-cpp-common
-       jv-cpp-irony
-       ;; ycmd
-       ;; jv-cpp-ycmd
+       ;; jv-cpp-irony
+       ycmd
+       jv-cpp-ycmd
        jv-deft
        jv-dired
        jv-elfeed
