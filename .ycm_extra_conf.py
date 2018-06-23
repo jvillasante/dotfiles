@@ -27,8 +27,6 @@ flags = [
   '-Wextra',
   '-Werror',
   '-pedantic',
-  '-DDEBUG',
-  '-Wno-gnu-case-range',
   '-std=c++17',
   '-x', 'c++',
   '-stdlib=libc++',
