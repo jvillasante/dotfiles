@@ -500,8 +500,9 @@ you should place your code here."
 
   ;; use company everywhere
   (with-eval-after-load 'company
-    (add-hook 'after-init-hook 'global-company-mode)
-    (setq company-backends (delete 'company-semantic company-backends)))
+    ;; // delete only needed for irony, not for ycmd
+    ;; (setq company-backends (delete 'company-semantic company-backends))
+    (add-hook 'after-init-hook 'global-company-mode))
 
   (cond
     ((spacemacs/system-is-mac)
