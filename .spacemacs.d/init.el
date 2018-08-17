@@ -41,11 +41,11 @@ values."
        dash
        (auto-completion :variables
          auto-completion-return-key-behavior 'nil
-         auto-completion-tab-key-behavior 'complete
+         auto-completion-tab-key-behavior 'cycle
          auto-completion-complete-with-key-sequence nil
          auto-completion-complete-with-key-sequence-delay 0.1
          auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
-         auto-completion-enable-help-tooltip 'manual
+         auto-completion-enable-help-tooltip t
          auto-completion-enable-sort-by-usage t
          auto-completion-enable-snippets-in-popup t
          :disabled-for org erc git markdown eshell ledger text)
@@ -202,7 +202,7 @@ values."
     ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
     ;; quickly tweak the mode-line size to make separators look not too crappy.
     dotspacemacs-default-font '("Source Code Pro"
-                                 :size 18
+                                 :size 22
                                  :weight normal
                                  :width normal
                                  :powerline-scale 1.0)

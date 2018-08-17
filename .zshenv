@@ -30,12 +30,12 @@ fi
 export BOOST_ROOT="$HOME/Hacking/Software/boost_1_65_1"
 export BOOST_VERSION=1.65.1
 
+# ASIO
+export BOOST_ASIO_ROOT="$HOME/Software/src/asio-1.10.8"
+export BOOST_ASIO_VERSION=1.10.8
+
 # Range-v3
 export RANGEV3_HOME="$HOME/Hacking/Software/range-v3"
-
-# ASIO
-# export BOOST_ASIO_ROOT="$HOME/Software/src/asio-1.10.8"
-# export BOOST_ASIO_VERSION=1.10.8
 
 # Google Test
 export GTEST_HOME="$HOME/Hacking/software/googletest"
