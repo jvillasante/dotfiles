@@ -2,22 +2,19 @@ export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ]; then
-    PATH="$HOME/bin:$PATH"
+  export PATH="$HOME/bin:$PATH"
 fi
 
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-    export RUST_SRC_PATH="$HOME/.multirust/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"
-    # export RUST_SRC_PATH="$HOME/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
+  export PATH="$HOME/.cargo/bin:$PATH"
+  export RUST_SRC_PATH="$HOME/.multirust/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"
+  # export RUST_SRC_PATH="$HOME/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 fi
 
 # Go
-if [ -d "$HOME/.gvm" ]; then
-  [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-  export GOPATH=$HOME/Hacking/workspace/golang
-  export PATH=$PATH:$GOPATH/bin
-fi
+export GOPATH=$HOME/Hacking/workspace/golang
+export PATH="$GOPATH/bin:$PATH"
 
 # QT
 # export PATH="$HOME/Software/Qt/5.6/gcc_64/bin:$PATH"

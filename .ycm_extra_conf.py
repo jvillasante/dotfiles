@@ -23,14 +23,17 @@ database = None if not os.path.exists(compilation_database_folder) else ycm_core
 
 # Your custom flags
 flags = [
+  '-x', 'c++',
   '-Wall',
   '-Wextra',
   '-Werror',
-  '-pedantic',
   '-std=c++17',
-  '-x', 'c++',
   '-stdlib=libc++',
   '-I', '.',
+  # '-I', '/Users/jvillasante/Hacking/software/googletest/googletest/include',
+  # '-I', '/Users/jvillasante/Hacking/software/googletest/googlemock/include',
+  # '-I', '/Users/jvillasante/Hacking/software/boost_1_65_1',
+  # '-I', '/Users/jvillasante/Hacking/software/range-v3/include',
 ]
 
 # Add system includes
