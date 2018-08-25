@@ -90,8 +90,8 @@ values."
        (rust :variables
          rust-format-on-save t)
        (go :variables
-         go-tab-width 2
-         gofmt-command "goimports")
+         ;; gofmt-command "goimports"
+         go-tab-width 2)
        ;; common-lisp
        restclient
        csv
