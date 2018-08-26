@@ -83,6 +83,7 @@ values."
          web-mode-css-indent-offset 2)
        ;; semantic
        ;; javascript
+       ;; common-lisp
        python
        (c-c++ :variables
          c-c++-enable-clang-support t
@@ -92,7 +93,6 @@ values."
        (go :variables
          ;; gofmt-command "goimports"
          go-tab-width 2)
-       ;; common-lisp
        restclient
        csv
        deft

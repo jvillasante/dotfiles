@@ -13,8 +13,11 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 # Go
-export GOPATH=$HOME/Hacking/workspace/golang
-export PATH="$GOPATH/bin:$PATH"
+if [ -d "$HOME/.gvm/bin" ]; then
+  [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+  export GOPATH=$HOME/Hacking/workspace/golang
+  export PATH="$GOPATH/bin:$PATH"
+fi
 
 # QT
 # export PATH="$HOME/Software/Qt/5.6/gcc_64/bin:$PATH"
