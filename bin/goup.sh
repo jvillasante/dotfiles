@@ -6,11 +6,11 @@ if ask "Install common go packages?"; then
   # rm -rf $GOPATH/bin/*
   # rm -rf $GOPATH/pkg/*
 
-  # go get -u -v github.com/nsf/gocode
-  # check $?
-
-  go get -u -v github.com/mdempsky/gocode
+  go get -u -v github.com/nsf/gocode
   check $?
+
+  # go get -u -v github.com/mdempsky/gocode
+  # check $?
 
   go get -u -v github.com/rogpeppe/godef
   check $?
