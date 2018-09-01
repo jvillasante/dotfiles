@@ -85,6 +85,7 @@ install_spacemacs
 # list of files/folders to symlink in homedir
 files="bin .spacemacs.d .oh-my-zsh .emacs.d .percol.d .ycm_extra_conf.py .clang_complete .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .zshenv .zshrc .sbclrc"
 
+echo "Linking files..."
 for file in $files; do
   # echo "Deleting old file $file in home directory..."
   unlink ~/$file
@@ -92,6 +93,10 @@ for file in $files; do
   # echo "Creating symlink to $file in home directory...."
   ln -s $dir/$file ~/
 done
+
+echo "Linking neovim files..."
+unlink ~/.config/nvim
+ln -s $dir/nvim ~/.config/
 
 echo "==========================================================================="
 echo ">> Remember to change alias ls='/usr/local/bin/gls -AlFh --color' in .zshrc"
