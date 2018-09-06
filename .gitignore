@@ -6,4 +6,5 @@
 .vimrc_old/
 backup/
 .DS_Store
+.spacemacs.d/.spacemacs.env
 *~

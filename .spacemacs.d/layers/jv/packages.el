@@ -1,5 +1,6 @@
 (defconst jv-packages
-  '(editorconfig
+  '(
+     ;; editorconfig
      hydra
      neotree
      sr-speedbar
@@ -8,12 +9,12 @@
      pass
      crux))
 
-(defun jv/init-editorconfig ()
-  (use-package editorconfig
-    :ensure t
-    :config
-    (editorconfig-mode 1)
-    (spacemacs|diminish editorconfig-mode "ⓔ" "e")))
+;; (defun jv/init-editorconfig ()
+;;   (use-package editorconfig
+;;     :ensure t
+;;     :config
+;;     (editorconfig-mode 1)
+;;     (spacemacs|diminish editorconfig-mode "ⓔ" "e")))
 
 (defun jv/post-init-hydra()
   (set-face-attribute 'hydra-face-red nil

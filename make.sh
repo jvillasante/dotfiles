@@ -73,17 +73,31 @@ install_zsh () {
   fi
 }
 
-install_spacemacs () {
+CURRENT_EMACS_DISTRO="SPACEMACS"
+# CURRENT_EMACS_DISTRO="DOOM_EMACS"
+install_emacs () {
   if [[ ! -d $dir/.emacs.d/ ]]; then
-    git clone https://github.com/syl20bnr/spacemacs $dir/.emacs.d
+    if [[ $CURRENT_EMACS_DISTRO == "SPACEMACS" ]]; then
+      # git clone https://github.com/syl20bnr/spacemacs $dir/.emacs.d             # master branch
+      git clone https://github.com/syl20bnr/spacemacs $dir/.emacs.d -b develop  # develop branch
+    elif [[ $CURRENT_EMACS_DISTRO == "DOOM_EMACS" ]]; then
+      git clone https://github.com/hlissner/doom-emacs $dir/.emacs.d -b develop
+      cd $dir/.emacs.d
+      # cp -f init.example.el $dir/.doom.d/init.el
+      # make quickstart
+      make install
+      cd -
+    else
+      echo "Set CURRENT_EMACS_DISTRO!"
+    fi
   fi
 }
 
 install_zsh
-install_spacemacs
+install_emacs
 
 # list of files/folders to symlink in homedir
-files="bin .spacemacs.d .oh-my-zsh .emacs.d .percol.d .ycm_extra_conf.py .clang_complete .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .zshenv .zshrc .sbclrc"
+files="bin .spacemacs.d .doom.d .oh-my-zsh .emacs.d .percol.d .ycm_extra_conf.py .clang_complete .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .zshenv .zshrc .sbclrc"
 
 echo "Linking files..."
 for file in $files; do
