@@ -57,7 +57,6 @@ This function should only modify configuration layer settings."
        (spell-checking :variables
          spell-checking-enable-by-default nil
          spell-checking-enable-auto-dictionary nil)
-       emacs-lisp
        (git :variables
          git-use-magit-next t
          git-enable-github-support t)
@@ -86,6 +85,7 @@ This function should only modify configuration layer settings."
        ;; semantic
        ;; javascript
        ;; common-lisp
+       emacs-lisp
        python
        (c-c++ :variables
          c-c++-enable-clang-support t
@@ -98,7 +98,8 @@ This function should only modify configuration layer settings."
        restclient
        csv
        deft
-       ;; themes-megapack
+       neotree
+       ;; lsp
        (elfeed :variables
          rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
 
@@ -231,8 +232,8 @@ It should only modify the values of Spacemacs settings."
     ;; `recents' `bookmarks' `projects' `agenda' `todos'.
     ;; List sizes may be nil, in which case
     ;; `spacemacs-buffer-startup-lists-length' takes effect.
-    dotspacemacs-startup-lists '((recents . 5)
-                                  (projects . 7))
+    dotspacemacs-startup-lists '((recents . 7)
+                                  (projects . 5))
 
     ;; True if the home buffer should respond to resize events. (default t)
     dotspacemacs-startup-buffer-responsive t
@@ -515,9 +516,39 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  (let ((ui (concat dotspacemacs-directory "custom/user-init.el")))
-    (load-file ui))
-  )
+  ;; define some paths for later use
+  (cond
+    ((spacemacs/system-is-mac)
+      (setq
+        jv/dropbox-path "~/Dropbox"
+        jv/zsh-path "/usr/local/bin/zsh"
+        jv/clang-path "/usr/local/opt/llvm/bin/clang"))
+    ((spacemacs/system-is-linux)
+      (setq
+        jv/dropbox-path "~/Dropbox"
+        jv/zsh-path "/usr/bin/zsh"
+        jv/clang-path "/usr/bin/clang")))
+
+  (setq
+    flycheck-check-syntax-automatically '(mode-enabled save))
+
+  ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  (setq display-time-world-list '(("UTC" "UTC")
+                                   ("US/Eastern" "Miami")
+                                   ("America/Havana" "Habana")
+                                   ("America/New_York" "New York")
+                                   ("Europe/Amsterdam" "Amsterdam")
+                                   ("Europe/Copenhagen" "Denmark")
+                                   ("Asia/Shanghai" "China")
+                                   ("Asia/Calcutta" "India")))
+
+  ;; recentf exclude folders/files
+  (setq
+    recentf-exclude '("~/Hacking/workspace/dotfiles/.emacs.d"))
+
+  ;; I do not know what this is :)
+  (setq max-specpdl-size 5000)
+  (setf url-queue-timeout 30))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -532,9 +563,149 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (let ((uc (concat dotspacemacs-directory "custom/user-config.el")))
-    (load-file uc))
-  )
+  ;; Some defaults
+  (setq ispell-program-name "aspell")
+  (setq auto-window-vscroll nil)
+  (setq sp-escape-quotes-after-insert nil)
+
+  (setq-default
+    user-full-name "Julio C. Villasante"
+    user-mail-address "jvillasantegomez@gmail.com"
+
+    major-mode 'text-mode
+    use-dialog-box nil
+    vc-follow-symlinks t
+    paradox-github-token t
+    load-prefer-newer t
+    fill-column 110                    ; Maximum line width
+    truncate-lines t                   ; Don't fold lines
+    truncate-partial-width-windows nil ; for vertically-split windows
+    split-width-threshold 160          ; Split verticaly by default
+    evil-cross-lines t                 ; Make horizontal movement cross lines
+
+    ;; scroll
+    scroll-margin 3
+
+    ;; my coding style, bsd but with 2 spaces indentation (and no tab
+    ;; characters, only spaces)
+    c-basic-indent 2
+    c-basic-offset 2
+    tab-width 2
+    indent-tabs-mode nil
+    highlight-tabs t
+
+    ;; Whitespace settings
+    whitespace-action '(auto-cleanup)
+    whitespace-style '(indentation::space
+                        space-after-tab
+                        space-before-tab
+                        trailing
+                        lines-tail
+                        tab-mark
+                        face
+                        tabs)
+
+    doc-view-continuous t
+
+    ;; tramp mode
+    tramp-default-method "ssh"
+
+    ;; LaTeX
+    font-latex-fontify-script nil
+    TeX-newline-function 'reindent-then-newline-and-indent)
+
+  ;; UTF-8 please
+  (set-charset-priority 'unicode)
+  (setq locale-coding-system   'utf-8)   ; pretty
+  (set-terminal-coding-system  'utf-8)   ; pretty
+  (set-keyboard-coding-system  'utf-8)   ; pretty
+  (set-selection-coding-system 'utf-8)   ; please
+  (prefer-coding-system        'utf-8)   ; with sugar on top
+  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+
+  ;; multiterm
+  (setq multi-term-program jv/zsh-path)
+
+  ;; line spacing
+  (setq-default line-spacing 0.1)
+
+  ;; Isearch convenience, space matches anything (non-greedy)
+  (setq search-whitespace-regexp ".*?")
+
+  ;; Hooks
+  (add-hook 'spacemacs-buffer-mode-hook
+    'spacemacs/toggle-visual-line-navigation-on)
+  (add-hook 'term-mode-hook
+    (lambda ()
+      (setq term-buffer-maximum-size 10000)))
+  (add-hook 'focus-out-hook
+    (lambda ()
+      (save-some-buffers t)))
+  (add-hook 'prog-mode-hook
+    (lambda ()
+      (set-fill-column 110)
+      (flyspell-prog-mode)))
+  (add-hook 'text-mode-hook 'turn-on-flyspell)
+  (add-hook 'makefile-mode-hook 'whitespace-mode)
+  (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
+
+  ;; use evil-matchit everywhere
+  (global-evil-matchit-mode 1)
+
+  ;; Make movement keys work like they should
+  (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+  (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+  (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+  (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+
+  ;; use count-words instead of count-words-region as it works on buffer
+  ;; if no region is selected
+  (global-set-key (kbd "M-=") 'count-words)
+
+  ;; use company everywhere
+  (with-eval-after-load 'company
+    ;; // delete only needed for irony, not for ycmd
+    ;; (setq company-backends (delete 'company-semantic company-backends))
+    (add-hook 'after-init-hook 'global-company-mode))
+
+  (cond
+    ((spacemacs/system-is-mac)
+      (setq browse-url-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-generic
+        browse-url-generic-program "open"))
+    ((spacemacs/system-is-linux)
+      (executable-find "google-chrome")))
+
+  ;; yasnippet
+  (spacemacs/set-leader-keys "is" 'yas-insert-snippet)
+  (spacemacs/set-leader-keys "id" 'yas-describe-tables)
+
+  ;; No highligh persisten on evil search
+  (setq evil-ex-search-persistent-highlight nil)
+
+  ;; Workaround for terminal buffer scroll
+  (defun jv-config//term-normal-state ()
+    "Enable `term-line-mode' when in normal state in `term-mode' buffer
+   and make the buffer read only."
+    (term-line-mode)
+    (read-only-mode 1))
+  (defun jv-config//term-insert-state ()
+    "Enable `term-char-mode' when in insert state in a `term-mode' buffer."
+    (when (get-buffer-process (current-buffer))
+      (read-only-mode -1)
+      (term-char-mode)))
+  (defun jv-config//term-evil-bindings ()
+    "Enable term support for vim and hybrid editing styles."
+    (add-hook 'evil-hybrid-state-entry-hook 'jv-config//term-insert-state nil t)
+    (add-hook 'evil-insert-state-entry-hook 'jv-config//term-insert-state nil t)
+    (add-hook 'evil-hybrid-state-exit-hook 'jv-config//term-normal-state nil t)
+    (add-hook 'evil-insert-state-exit-hook 'jv-config//term-normal-state nil t))
+  (setq term-char-mode-point-at-process-mark t)
+  (add-hook 'term-mode-hook 'jv-config//term-evil-bindings)
+
+  ;; (golden-ratio-mode 1)
+  (show-paren-mode 1)
+  (spaceline-compile))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -543,18 +714,18 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (zenburn-theme yasnippet-snippets yapfify xterm-color ws-butler winum wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen toml-mode toc-org tagedit symon string-inflection sr-speedbar spaceline-all-the-icons spaceline solarized-theme smex smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode prettier-js pippel pipenv pip-requirements persp-mode password-generator pass password-store-otp password-store paradox spinner ox-gfm overseer osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain open-junk-file ob-restclient ob-http neotree nameless multi-term move-text monokai-theme modern-cpp-font-lock mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint launchctl ivy-yasnippet ivy-xref ivy-rtags ivy-purpose window-purpose imenu-list ivy-hydra insert-shebang indent-guide importmagic epc ctable concurrent impatient-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make haml-mode google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-bashate flycheck flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit ghub with-editor evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-commentary evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed editorconfig dumb-jump doom-modeline eldoc-eval shrink-path all-the-icons memoize disaster dired-quick-sort diff-hl deft dash-at-point cython-mode csv-mode crux counsel-projectile projectile counsel-dash helm-dash dash-functional helm helm-core counsel-css counsel swiper ivy company-ycmd ycmd pkg-info request-deferred request deferred epl company-web web-completion-data company-statistics company-shell company-rtags rtags company-restclient restclient know-your-http-well company-quickhelp pos-tip company-go go-mode company-c-headers company-anaconda company column-enforce-mode clean-aindent-mode clang-format centered-cursor-mode cargo markdown-mode rust-mode browse-at-remote auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed anaconda-mode pythonic f aggressive-indent ag s dash ace-window ace-link avy ac-ispell auto-complete popup which-key use-package pcre2el org-plus-contrib hydra font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
+  (custom-set-variables
+    ;; custom-set-variables was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    '(package-selected-packages
+       (quote
+         (zenburn-theme yasnippet-snippets yapfify xterm-color ws-butler winum wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen toml-mode toc-org tagedit symon string-inflection sr-speedbar spaceline-all-the-icons spaceline solarized-theme smex smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode prettier-js pippel pipenv pip-requirements persp-mode password-generator pass password-store-otp password-store paradox spinner ox-gfm overseer osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain open-junk-file ob-restclient ob-http neotree nameless multi-term move-text monokai-theme modern-cpp-font-lock mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint launchctl ivy-yasnippet ivy-xref ivy-rtags ivy-purpose window-purpose imenu-list ivy-hydra insert-shebang indent-guide importmagic epc ctable concurrent impatient-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make haml-mode google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-bashate flycheck flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-mc evil-matchit evil-magit magit magit-popup git-commit ghub with-editor evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-commentary evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed editorconfig dumb-jump doom-modeline eldoc-eval shrink-path all-the-icons memoize disaster dired-quick-sort diff-hl deft dash-at-point cython-mode csv-mode crux counsel-projectile projectile counsel-dash helm-dash dash-functional helm helm-core counsel-css counsel swiper ivy company-ycmd ycmd pkg-info request-deferred request deferred epl company-web web-completion-data company-statistics company-shell company-rtags rtags company-restclient restclient know-your-http-well company-quickhelp pos-tip company-go go-mode company-c-headers company-anaconda company column-enforce-mode clean-aindent-mode clang-format centered-cursor-mode cargo markdown-mode rust-mode browse-at-remote auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed anaconda-mode pythonic f aggressive-indent ag s dash ace-window ace-link avy ac-ispell auto-complete popup which-key use-package pcre2el org-plus-contrib hydra font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
+  (custom-set-faces
+    ;; custom-set-faces was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    )
+  )
