@@ -94,6 +94,8 @@ This function should only modify configuration layer settings."
        (rust :variables
          rust-format-on-save t)
        (go :variables
+         go-format-before-save t
+         godoc-at-point-function 'godoc-gogetdoc
          ;; gofmt-command "goimports"
          go-tab-width 2)
        restclient
