@@ -1,7 +1,8 @@
 (defconst jv-dired-packages
   '(dired
      ;; dired+
-     dired-quick-sort))
+     dired-quick-sort
+     ))
 
 (defun jv-dired/post-init-dired ()
   ;; mark symlinks
@@ -20,9 +21,9 @@
   ;;  -v : Do natural sort .. so the file names starting with . will show up first.
   ;;  -F : Classify filenames by appending '*' to executables,'/' to directories, etc.
   ;; default value for dired: "-al"
-  (setq dired-listing-switches (if (eq system-type 'windows-nt)
-                                 "-alh"
-                                 "-alhvF --group-directories-first"))
+  ;; (setq dired-listing-switches (if (eq system-type 'windows-nt)
+  ;;                                "-alh"
+  ;;                                "-alhvF --group-directories-first"))
 
   ;; auto-revert dired buffers if file changed on disk
   (setq dired-auto-revert-buffer t)
