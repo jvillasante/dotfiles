@@ -8,8 +8,8 @@ fi
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
   export PATH="$HOME/.cargo/bin:$PATH"
-  export RUST_SRC_PATH="$HOME/.multirust/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"
-  # export RUST_SRC_PATH="$HOME/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
+  # export RUST_SRC_PATH="$HOME/.multirust/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"
+  export RUST_SRC_PATH="$HOME/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 fi
 
 # Go
@@ -27,18 +27,18 @@ fi
 # export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 
 # Boost
-export BOOST_ROOT="$HOME/Hacking/Software/boost_1_65_1"
-export BOOST_VERSION=1.65.1
+# export BOOST_ROOT="$HOME/Hacking/Software/boost_1_65_1"
+# export BOOST_VERSION=1.65.1
 
 # ASIO
-export BOOST_ASIO_ROOT="$HOME/Software/src/asio-1.10.8"
-export BOOST_ASIO_VERSION=1.10.8
+# export BOOST_ASIO_ROOT="$HOME/Software/src/asio-1.10.8"
+# export BOOST_ASIO_VERSION=1.10.8
 
 # Range-v3
-export RANGEV3_HOME="$HOME/Hacking/Software/range-v3"
+# export RANGEV3_HOME="$HOME/Hacking/Software/range-v3"
 
 # Google Test
-export GTEST_HOME="$HOME/Hacking/software/googletest"
+# export GTEST_HOME="$HOME/Hacking/software/googletest"
 
 # CppUTest
 # export CPPUTEST_HOME="$HOME/Software/src/cpputest"
