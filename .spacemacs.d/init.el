@@ -110,6 +110,7 @@ This function should only modify configuration layer settings."
 
        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
        jv
+       jv-solarized
        ;; jv-zenburn
        jv-cpp-common
        ;; jv-cpp-irony
@@ -256,11 +257,9 @@ It should only modify the values of Spacemacs settings."
     ;; with 2 themes variants, one dark and one light)
     dotspacemacs-themes '(solarized-light
                            solarized-dark
-                           zenburn
                            spacemacs-light
                            spacemacs-dark
-                           leuven
-                           monokai)
+                           zenburn)
 
     ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
     ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -420,7 +419,14 @@ It should only modify the values of Spacemacs settings."
     ;;                       text-mode
     ;;   :size-limit-kb 1000)
     ;; (default nil)
-    dotspacemacs-line-numbers t
+    dotspacemacs-line-numbers '(:relative nil
+                                 :disabled-for-modes
+                                 dired-mode
+                                 doc-view-mode
+                                 markdown-mode
+                                 org-mode
+                                 pdf-view-mode
+                                 :size-limit-kb 1000)
 
     ;; Code folding method. Possible values are `evil' and `origami'.
     ;; (default 'evil)
