@@ -558,6 +558,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq
     recentf-exclude '("~/Hacking/workspace/dotfiles/.emacs.d"))
 
+  ;;;; Solarized theme (Needs to go before load-theme())
+  ;; Don't change the font for some headings and titles
+  (setq solarized-use-variable-pitch nil)
+  ;; Don't change size of org-mode headlines (but keep other size-changes)
+  ;; (setq solarized-scale-org-headlines nil)
+
   ;; I do not know what this is :)
   (setq max-specpdl-size 5000)
   (setf url-queue-timeout 30))
