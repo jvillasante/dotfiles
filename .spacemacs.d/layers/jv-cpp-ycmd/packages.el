@@ -8,5 +8,5 @@
 (defun jv-cpp-ycmd/post-init-ycmd ()
   (spacemacs|diminish ycmd-mode " Ⓨ" " Y")
   (setq request-message-level -1)
-  (setq ycmd-extra-conf-whitelist '("~/Hacking/workspace/*"))
+  (setq ycmd-extra-conf-whitelist '("~/Hacking/workspace/cpp/*"))
   (setq ycmd-force-semantic-completion t))
