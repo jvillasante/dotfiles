@@ -87,7 +87,8 @@ This function should only modify configuration layer settings."
        ;; common-lisp
        vimscript
        emacs-lisp
-       python
+       (python :variables
+         python-enable-yapf-format-on-save t)
        (c-c++ :variables
          c-c++-default-mode-for-headers 'c++-mode
          c-c++-enable-clang-support t
@@ -701,24 +702,7 @@ before packages are loaded."
   (setq evil-ex-search-persistent-highlight nil)
 
   ;; Workaround for terminal buffer scroll
-  (defun jv-config//term-normal-state ()
-    "Enable `term-line-mode' when in normal state in `term-mode' buffer
-   and make the buffer read only."
-    (term-line-mode)
-    (read-only-mode 1))
-  (defun jv-config//term-insert-state ()
-    "Enable `term-char-mode' when in insert state in a `term-mode' buffer."
-    (when (get-buffer-process (current-buffer))
-      (read-only-mode -1)
-      (term-char-mode)))
-  (defun jv-config//term-evil-bindings ()
-    "Enable term support for vim and hybrid editing styles."
-    (add-hook 'evil-hybrid-state-entry-hook 'jv-config//term-insert-state nil t)
-    (add-hook 'evil-insert-state-entry-hook 'jv-config//term-insert-state nil t)
-    (add-hook 'evil-hybrid-state-exit-hook 'jv-config//term-normal-state nil t)
-    (add-hook 'evil-insert-state-exit-hook 'jv-config//term-normal-state nil t))
-  (setq term-char-mode-point-at-process-mark t)
-  (add-hook 'term-mode-hook 'jv-config//term-evil-bindings)
+  (setq term-char-mode-point-at-process-mark nil)
 
   ;; (golden-ratio-mode 1)
   (show-paren-mode 1)
