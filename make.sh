@@ -1,8 +1,28 @@
 #!/bin/bash
+
 ############################
 # .make.sh
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
+
+CURRENT_ENV="$1"
+find_current_env() {
+  case "$CURRENT_ENV" in
+    "home")
+      {
+        CURRENT_ENV="HOME"
+      } ;;
+    "work")
+      {
+        CURRENT_ENV="WORK"
+      } ;;
+    *)
+      {
+        echo ">> Unsupported ENV: '$CURRENT_ENV', exiting!!!"
+        exit
+      } ;;
+  esac
+}
 
 CURRENT_OS="OSX"
 find_current_os() {
@@ -10,31 +30,31 @@ find_current_os() {
   case "$platform" in
     "Darwin")
       {
-        echo ">> Running on Mac OSX."
         CURRENT_OS="OSX"
       } ;;
     "Linux")
       {
-        echo ">> Running on LINUX."
         CURRENT_OS="LINUX"
       } ;;
     *)
       {
-        echo ">> Unsupported OS, exiting!!!"
+        echo ">> Unsupported OS: '$platform', exiting!!!"
         exit
       } ;;
   esac
 }
 
 echo "========================================================================"
+find_current_env
 find_current_os
+echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS'."
 
-if [[ $CURRENT_OS == "OSX" ]]; then
+if [[ $CURRENT_ENV == "HOME" ]]; then
   dir=~/Hacking/workspace/dotfiles             # dotfiles directory
   dir_bak=~/Hacking/workspace/dotfiles/backup  # existing dotfiles backup
-elif [[ $CURRENT_OS == "LINUX" ]]; then
-  dir=~/Hacking/workspace/dotfiles             # dotfiles directory
-  dir_bak=~/Hacking/workspace/dotfiles/backup  # existing dotfiles backup
+elif [[ $CURRENT_ENV == "WORK" ]]; then
+  dir=~/Hacking/Software/dotfiles              # dotfiles directory
+  dir_bak=~/Hacking/Software/dotfiles/backup   # existing dotfiles backup
 fi
 
 install_zsh () {
@@ -94,21 +114,29 @@ install_emacs () {
 install_zsh
 install_emacs
 
-# list of files/folders to symlink in homedir
-files="bin .spacemacs.d .doom.d .oh-my-zsh .emacs.d .percol.d .ycm_extra_conf.py .clang_complete .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .zshenv .zshrc .sbclrc"
+common_files=".emacs.d .oh-my-zsh"
+files="bin .spacemacs.d .doom.d .percol.d .ycm_extra_conf.py .clang_complete .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .zshenv .zshrc .sbclrc"
 
-echo "Linking files..."
-for file in $files; do
-  # echo "Deleting old file $file in home directory..."
+echo ">> Linking common files..."
+for file in $common_files; do
   unlink ~/$file
-
-  # echo "Creating symlink to $file in home directory...."
   ln -s $dir/$file ~/
 done
 
-echo "Linking neovim files..."
-unlink ~/.config/nvim
-ln -s $dir/nvim ~/.config/
+echo ">> Linking files..."
+for file in $files; do
+  unlink ~/$file
+
+  if [[ $CURRENT_ENV == "HOME" ]]; then
+    ln -s $dir/Home/$file ~/
+  elif [[ $CURRENT_ENV == "WORK" ]]; then
+    ln -s $dir/Work/$file ~/
+  fi
+done
+
+# echo ">> Linking neovim files..."
+# unlink ~/.config/nvim
+# ln -s $dir/nvim ~/.config/
 
 echo "==========================================================================="
 echo ">> Remember to change alias ls='/usr/local/bin/gls -AlFh --color' in .zshrc"

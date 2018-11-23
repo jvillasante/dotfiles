@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#name : code
+#key : code
+#contributor : Julio C. Villasante
+# --
+#+BEGIN_SRC $1
+  $0
+#+END_SRC

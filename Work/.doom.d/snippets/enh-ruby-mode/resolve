@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: resolve
+# key: resolve
+# --
+resolve ->(${1:_obj}, ${2:_args}, ${3:_ctx}) { $0 }

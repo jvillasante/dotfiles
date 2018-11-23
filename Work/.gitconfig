@@ -1,0 +1,25 @@
+[user]
+	name = Julio Villasante
+	email = Julio.Villasante.consultant@nielsen.com
+[credential]
+	helper = cache --timeout=3600
+[push]
+	default = matching
+[branch]
+	autosetuprebase = always
+[color]
+	ui = true
+	status = auto
+	branch = auto
+[core]
+	# editor = vim
+	autocrlf = false
+	safecrlf = true
+[merge]
+	tool = kdiff3
+[alias]
+  hist = log --pretty=format:'%ad | %s%d [%an]' --graph --date=short
+[github]
+	user = jvillasante
+	password = p
+	oauth-token =

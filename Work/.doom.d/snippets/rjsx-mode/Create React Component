@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: Create React Component
+# key: rc
+# --
+import React, { Component } from 'react'
+import { withTracker } from 'meteor/react-meteor-data'
+import $1 from '/client/imports/$1'
+import $2 from '/imports/api/$2'
+
+$0
+
+export default withTracker( props => {
+    const handle = Meteor.subscribe("$2")
+    return {
+        currentUser: Meteor.user(),
+        loading: !handle.ready(),
+        $2: $2.find().fetch(),
+    }
+})($1)
