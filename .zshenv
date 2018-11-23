@@ -19,13 +19,6 @@ if [ -d "$HOME/.gvm/bin" ]; then
   export PATH="$GOPATH/bin:$PATH"
 fi
 
-# QT
-# export PATH="$HOME/Software/Qt/5.6/gcc_64/bin:$PATH"
-
-# Android
-# export PATH="$HOME/Android/Sdk/tools:$PATH"
-# export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
-
 # Boost
 # export BOOST_ROOT="$HOME/Hacking/Software/boost_1_65_1"
 # export BOOST_VERSION=1.65.1
@@ -40,14 +33,14 @@ fi
 # Google Test
 export GTEST_HOME="$HOME/Hacking/software/googletest"
 
-# CppUTest
-# export CPPUTEST_HOME="$HOME/Software/src/cpputest"
-
 # cURL (libcurl)
-# export CURL_HOME="$HOME/Software/src/curl-7.49.1"
+export CURL_HOME="$HOME/Hacking/software/curl-7.62.0"
 
 # JsonCpp
-# export JSONCPP_HOME="$HOME/Software/src/jsoncpp"
+export JSONCPP_HOME="$HOME/Hacking/software/jsoncpp"
+
+# CppUTest
+# export CPPUTEST_HOME="$HOME/Software/src/cpputest"
 
 # rlog
 # export RLOG_HOME="$HOME/Software/src/rlog-1.4"
