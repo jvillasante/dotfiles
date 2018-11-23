@@ -18,7 +18,7 @@ find_current_env() {
       } ;;
     *)
       {
-        echo ">> Unsupported ENV: '$CURRENT_ENV', exiting!!!"
+        echo ">> Unsupported ENV: '$CURRENT_ENV'. <home|work> only allowed, exiting!!!"
         exit
       } ;;
   esac
