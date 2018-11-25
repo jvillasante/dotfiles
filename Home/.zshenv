@@ -20,8 +20,11 @@ if [ -d "$HOME/.gvm/bin" ]; then
 fi
 
 # Boost
-# export BOOST_ROOT="$HOME/Hacking/Software/boost_1_65_1"
-# export BOOST_VERSION=1.65.1
+export BOOST_ROOT="$HOME/Hacking/software/boost_1_68_0"
+export BOOST_VERSION=1.68.0
+
+# Google Test
+export GTEST_HOME="$HOME/Hacking/software/googletest"
 
 # ASIO
 # export BOOST_ASIO_ROOT="$HOME/Software/src/asio-1.10.8"
@@ -30,17 +33,11 @@ fi
 # Range-v3
 # export RANGEV3_HOME="$HOME/Hacking/Software/range-v3"
 
-# Google Test
-export GTEST_HOME="$HOME/Hacking/software/googletest"
-
 # cURL (libcurl)
 export CURL_HOME="$HOME/Hacking/software/curl-7.62.0"
 
 # JsonCpp
 export JSONCPP_HOME="$HOME/Hacking/software/jsoncpp"
-
-# CppUTest
-# export CPPUTEST_HOME="$HOME/Software/src/cpputest"
 
 # rlog
 # export RLOG_HOME="$HOME/Software/src/rlog-1.4"
