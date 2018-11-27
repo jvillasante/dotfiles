@@ -7,4 +7,6 @@
 backup/
 .DS_Store
 .spacemacs.d/.spacemacs.env
+Home/.spacemacs.d/.spacemacs.env
+Work/.spacemacs.d/.spacemacs.env
 *~

@@ -47,7 +47,6 @@ find_current_os() {
 echo "========================================================================"
 find_current_env
 find_current_os
-echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS'."
 
 if [[ $CURRENT_ENV == "HOME" ]]; then
   dir=~/Hacking/workspace/dotfiles             # dotfiles directory
@@ -56,6 +55,8 @@ elif [[ $CURRENT_ENV == "WORK" ]]; then
   dir=~/Hacking/Software/dotfiles              # dotfiles directory
   dir_bak=~/Hacking/Software/dotfiles/backup   # existing dotfiles backup
 fi
+
+echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS' at '$dir'."
 
 install_zsh () {
   # Test to see if zshell is installed.  If it is:
