@@ -44,18 +44,16 @@ find_current_os() {
   esac
 }
 
-echo "========================================================================"
 find_current_env
 find_current_os
 
 if [[ $CURRENT_ENV == "HOME" ]]; then
-  dir=~/Hacking/workspace/dotfiles             # dotfiles directory
-  dir_bak=~/Hacking/workspace/dotfiles/backup  # existing dotfiles backup
+  dir=~/Hacking/workspace/dotfiles        # dotfiles directory
 elif [[ $CURRENT_ENV == "WORK" ]]; then
-  dir=~/Hacking/Software/dotfiles              # dotfiles directory
-  dir_bak=~/Hacking/Software/dotfiles/backup   # existing dotfiles backup
+  dir=~/Hacking/Software/dotfiles         # dotfiles directory
 fi
 
+echo "========================================================================"
 echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS' at '$dir'."
 
 install_zsh () {
