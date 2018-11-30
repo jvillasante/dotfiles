@@ -104,8 +104,6 @@ This function should only modify configuration layer settings."
        csv
        deft
        neotree
-       ;; themes-megapack
-       ;; lsp
        (elfeed :variables
          rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
 
