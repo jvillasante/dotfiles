@@ -82,7 +82,6 @@ This function should only modify configuration layer settings."
          web-mode-code-indent-offset 2
          web-mode-markup-indent-offset 2
          web-mode-css-indent-offset 2)
-       ;; semantic
        ;; javascript
        ;; common-lisp
        vimscript
@@ -106,8 +105,6 @@ This function should only modify configuration layer settings."
        csv
        deft
        neotree
-       ;; themes-megapack
-       ;; lsp
        (elfeed :variables
          rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
 
