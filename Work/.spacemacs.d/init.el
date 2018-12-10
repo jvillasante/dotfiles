@@ -93,7 +93,8 @@ This function should only modify configuration layer settings."
          cmake-enable-cmake-ide-support nil)
        (c-c++ :variables
          c-c++-default-mode-for-headers 'c++-mode
-         c-c++-enable-clang-support t)
+         c-c++-enable-clang-support t
+         c-c++-enable-clang-format-on-save t)
        (rust :variables
          rust-format-on-save t)
        (go :variables
@@ -494,7 +495,7 @@ It should only modify the values of Spacemacs settings."
     ;; `trailing' to delete only the whitespace at end of lines, `changed' to
     ;; delete only whitespace for changed lines or `nil' to disable cleanup.
     ;; (default nil)
-    dotspacemacs-whitespace-cleanup nil
+    dotspacemacs-whitespace-cleanup 'trailing
 
     ;; Either nil or a number of seconds. If non-nil zone out after the specified
     ;; number of seconds. (default nil)
@@ -611,15 +612,15 @@ before packages are loaded."
     highlight-tabs t
 
     ;; Whitespace settings
-    ;; whitespace-action '(auto-cleanup)
-    ;; whitespace-style '(indentation::space
-    ;;                     space-after-tab
-    ;;                     space-before-tab
-    ;;                     trailing
-    ;;                     lines-tail
-    ;;                     tab-mark
-    ;;                     face
-    ;;                     tabs)
+    whitespace-action '(auto-cleanup)
+    whitespace-style '(indentation::space
+                        space-after-tab
+                        space-before-tab
+                        trailing
+                        lines-tail
+                        tab-mark
+                        face
+                        tabs)
 
     doc-view-continuous t
 
