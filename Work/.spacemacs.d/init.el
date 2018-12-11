@@ -86,13 +86,15 @@ This function should only modify configuration layer settings."
        javascript
        vimscript
        emacs-lisp
+       common-lisp
        (python :variables
          python-enable-yapf-format-on-save t)
        (cmake :variables
          cmake-enable-cmake-ide-support nil)
        (c-c++ :variables
          c-c++-default-mode-for-headers 'c++-mode
-         c-c++-enable-clang-support t)
+         c-c++-enable-clang-support t
+         c-c++-enable-clang-format-on-save t)
        (rust :variables
          rust-format-on-save t)
        (go :variables
@@ -267,7 +269,7 @@ It should only modify the values of Spacemacs settings."
     ;; refer to the DOCUMENTATION.org for more info on how to create your own
     ;; spaceline theme. Value can be a symbol or list with additional properties.
     ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-    dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.0)
+    dotspacemacs-mode-line-theme '(spacemacs :separator nil :separator-scale 1.0)
 
     ;; If non-nil the cursor color matches the state color in GUI Emacs.
     ;; (default t)
@@ -493,7 +495,7 @@ It should only modify the values of Spacemacs settings."
     ;; `trailing' to delete only the whitespace at end of lines, `changed' to
     ;; delete only whitespace for changed lines or `nil' to disable cleanup.
     ;; (default nil)
-    dotspacemacs-whitespace-cleanup nil
+    dotspacemacs-whitespace-cleanup 'trailing
 
     ;; Either nil or a number of seconds. If non-nil zone out after the specified
     ;; number of seconds. (default nil)
@@ -610,15 +612,15 @@ before packages are loaded."
     highlight-tabs t
 
     ;; Whitespace settings
-    ;; whitespace-action '(auto-cleanup)
-    ;; whitespace-style '(indentation::space
-    ;;                     space-after-tab
-    ;;                     space-before-tab
-    ;;                     trailing
-    ;;                     lines-tail
-    ;;                     tab-mark
-    ;;                     face
-    ;;                     tabs)
+    whitespace-action '(auto-cleanup)
+    whitespace-style '(indentation::space
+                        space-after-tab
+                        space-before-tab
+                        trailing
+                        lines-tail
+                        tab-mark
+                        face
+                        tabs)
 
     doc-view-continuous t
 
@@ -720,7 +722,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (zenburn-theme zeal-at-point yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode visual-fill-column winum wgrep web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen toml-mode toc-org tagedit symon string-inflection sr-speedbar spaceline-all-the-icons spaceline solarized-theme smex smeargle slim-mode shell-pop scss-mode sass-mode rmsbolt reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js pippel pipenv pip-requirements persp-mode password-generator pass password-store-otp password-store paradox spinner ox-gfm overseer osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain open-junk-file ob-restclient ob-http neotree nameless multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode live-py-mode link-hint launchctl json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc ivy-yasnippet ivy-xref ivy-rtags ivy-purpose window-purpose imenu-list ivy-hydra insert-shebang indent-guide importmagic epc ctable concurrent impatient-mode ibuffer-projectile hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make haml-mode google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-lazy flyspell-correct-ivy flyspell-correct flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-bashate flycheck flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-matchit evil-magit magit magit-popup git-commit ghub treepy graphql with-editor evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-commentary evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed eglot jsonrpc editorconfig dumb-jump doom-modeline eldoc-eval shrink-path all-the-icons memoize disaster dired-quick-sort diff-hl deft dactyl-mode cython-mode csv-mode crux counsel-projectile projectile counsel-dash helm-dash helm helm-core counsel-css counsel swiper ivy company-ycmd ycmd pkg-info request-deferred request deferred epl company-web web-completion-data company-tern dash-functional tern company-statistics company-shell company-rtags rtags company-restclient restclient know-your-http-well company-quickhelp pos-tip company-lua lua-mode company-go go-mode company-c-headers company-anaconda company column-enforce-mode cmake-mode cmake-ide levenshtein clean-aindent-mode clang-format centered-cursor-mode cargo markdown-mode rust-mode browse-at-remote auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed anaconda-mode pythonic f aggressive-indent ag s dash ace-window ace-link avy ac-ispell auto-complete popup which-key use-package pcre2el org-plus-contrib hydra font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
+    (web-mode pyvenv orgit org-brain live-py-mode ibuffer-projectile highlight-indentation google-translate git-timemachine flyspell-correct-ivy flyspell-correct evil-magit eglot flymake dumb-jump doom-modeline diff-hl cargo browse-at-remote anaconda-mode counsel swiper elfeed flycheck helm helm-core rtags ivy magit magit-popup git-commit ghub projectile company slime request-deferred request evil goto-chg org-plus-contrib hydra zenburn-theme zeal-at-point yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key wgrep web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package undo-tree treepy toml-mode toc-org tagedit symon string-inflection sr-speedbar spaceline-all-the-icons solarized-theme smex smeargle slime-company slim-mode shrink-path shell-pop scss-mode sass-mode rust-mode rmsbolt reveal-in-osx-finder restart-emacs rainbow-delimiters pytest pyenv-mode py-isort pug-mode prettier-js pippel pipenv pip-requirements persp-mode pcre2el password-generator pass paradox ox-gfm overseer osx-trash osx-dictionary org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file ob-restclient ob-http neotree nameless multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint launchctl jsonrpc json-navigator json-mode js2-refactor js-doc ivy-yasnippet ivy-xref ivy-rtags ivy-purpose ivy-hydra insert-shebang indent-guide importmagic impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers helm-make graphql google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-lazy flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-commentary evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies eldoc-eval editorconfig dotenv-mode disaster dired-quick-sort diminish deft dactyl-mode cython-mode csv-mode crux counsel-projectile counsel-dash counsel-css company-ycmd company-web company-tern company-statistics company-shell company-rtags company-restclient company-quickhelp company-lua company-go company-c-headers company-anaconda common-lisp-snippets column-enforce-mode cmake-mode cmake-ide clean-aindent-mode clang-format centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ag ace-window ace-link ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

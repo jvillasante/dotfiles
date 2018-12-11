@@ -49,7 +49,8 @@
        "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
        "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
        "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
-       "\\.egg\-info$"))
+       "\\.egg\-info$"
+       "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"))
   )
 
 (defun jv/init-sr-speedbar ()
