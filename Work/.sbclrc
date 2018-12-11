@@ -11,5 +11,4 @@
     (load quicklisp-init)))
 
 (require 'asdf)
-
 (format t "loaded ~A" *load-pathname*)
