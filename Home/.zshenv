@@ -31,7 +31,7 @@ export GTEST_HOME="$HOME/Hacking/software/googletest"
 # export BOOST_ASIO_VERSION=1.10.8
 
 # Range-v3
-# export RANGEV3_HOME="$HOME/Hacking/Software/range-v3"
+export RANGEV3_HOME="$HOME/Hacking/software/range-v3"
 
 # cURL (libcurl)
 export CURL_HOME="$HOME/Hacking/software/curl-7.62.0"
