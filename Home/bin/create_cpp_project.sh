@@ -45,7 +45,10 @@ if [ ! -d $1 ]; then
   # cp ~/.clang_complete.py $1/
   # check $?
 
-  cp ~/.ycm_extra_conf.py $1/
+  # cp ~/.ycm_extra_conf.py $1/
+  # check $?
+
+  cp ~/.ccls $1/
   check $?
 
   echo ">>> Done!"

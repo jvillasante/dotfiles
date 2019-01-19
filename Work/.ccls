@@ -1,0 +1,34 @@
+gcc
+%c -std=gnu11
+%cpp -std=c++17
+
+# Compiler Flags
+-Wall
+-Wextra
+-Werror
+-DNDEBUG
+
+# System includes Clang: Output of 'echo | /usr/local/opt/llvm/bin/clang -v -x c++ -E -' command.
+# -isystem/usr/local/Cellar/llvm/7.0.0/include/c++/v1
+# -isystem/usr/local/include
+# -isystem/usr/local/Cellar/llvm/7.0.0/lib/clang/7.0.0/include
+# -isystem/usr/include
+# -isystem/System/Library/Frameworks
+# -isystem/Library/Frameworks
+
+# System includes GCC: Output of 'echo | /usr/local/opt/gcc/bin/gcc-8 -v -x c++ -E -' command.
+-isystem/usr/include/c++/8
+-isystem/usr/include/x86_64-linux-gnu/c++/8
+-isystem/usr/include/c++/8/backward
+-isystem/usr/lib/gcc/x86_64-linux-gnu/8/include
+-isystem/usr/local/include
+-isystem/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
+-isystem/usr/include/x86_64-linux-gnu
+-isystem/usr/include
+
+# Local Includes
+-I.
+# -I/Users/jvillasante/Hacking/software/boost_1_68_0/build/include
+# -I/Users/jvillasante/Hacking/software/range-v3/include
+# -I/Users/jvillasante/Hacking/software/googletest/googletest/include
+# -I/Users/jvillasante/Hacking/software/googletest/googlemock/include

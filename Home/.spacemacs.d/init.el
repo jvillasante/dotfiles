@@ -69,7 +69,6 @@ This function should only modify configuration layer settings."
          ibuffer-group-buffers-by 'projects)
        (shell :variables
          shell-default-shell 'ansi-term
-         ;; shell-default-shell 'eshell
          shell-default-position 'bottom
          shell-default-height 50)
        (evil-snipe :variables
@@ -83,8 +82,8 @@ This function should only modify configuration layer settings."
          web-mode-markup-indent-offset 2
          web-mode-css-indent-offset 2)
        javascript
-       common-lisp
-       vimscript
+       ;; common-lisp
+       ;; vimscript
        emacs-lisp
        (python :variables
          python-enable-yapf-format-on-save t)
@@ -92,7 +91,10 @@ This function should only modify configuration layer settings."
          cmake-enable-cmake-ide-support nil)
        (c-c++ :variables
          c-c++-default-mode-for-headers 'c++-mode
-         c-c++-enable-clang-support t
+         c-c++-backend 'lsp-ccls
+         c-c++-lsp-executable (file-truename "~/Hacking/software/ccls/Release/ccls")
+         c-c++-adopt-subprojects t
+         ;; c-c++-enable-clang-support t
          c-c++-enable-clang-format-on-save t)
        (rust :variables
          rust-format-on-save t)
@@ -114,9 +116,9 @@ This function should only modify configuration layer settings."
        ;; jv-zenburn
        jv-cpp-common
        ;; jv-cpp-irony
-       ycmd
-       jv-cpp-ycmd
-       jv-rust
+       ;; ycmd
+       ;; jv-cpp-ycmd
+       ;; jv-rust
        jv-deft
        jv-dired
        jv-elfeed
@@ -721,7 +723,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (pyvenv orgit org-brain live-py-mode ibuffer-projectile highlight-indentation google-translate git-timemachine flyspell-correct-ivy flyspell-correct evil-magit eglot flymake dumb-jump doom-modeline diff-hl counsel-projectile cargo browse-at-remote counsel swiper elfeed flycheck helm helm-core rtags ivy avy magit magit-popup git-commit ghub projectile company request-deferred request evil goto-chg org-plus-contrib zenburn-theme yasnippet-snippets yapfify xterm-color ws-butler winum which-key wgrep web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package undo-tree treepy toml-mode toc-org tagedit symon string-inflection sr-speedbar spaceline-all-the-icons solarized-theme smex smeargle slime-company slim-mode shrink-path shell-pop scss-mode sass-mode rust-mode rmsbolt reveal-in-osx-finder restart-emacs rainbow-delimiters pytest pyenv-mode py-isort pug-mode prettier-js pippel pipenv pip-requirements persp-mode pcre2el password-generator pass paradox ox-gfm overseer osx-trash osx-dictionary org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file ob-restclient ob-http neotree nameless multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc magit-svn magit-gitflow lorem-ipsum livid-mode link-hint launchctl jsonrpc json-navigator json-mode js2-refactor js-doc ivy-yasnippet ivy-xref ivy-rtags ivy-purpose ivy-hydra insert-shebang indent-guide importmagic impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers helm-make graphql google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-lazy flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-commentary evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies eldoc-eval editorconfig dotenv-mode disaster dired-quick-sort diminish deft dash-at-point dactyl-mode cython-mode csv-mode crux counsel-dash counsel-css company-ycmd company-web company-tern company-statistics company-shell company-rtags company-restclient company-quickhelp company-go company-c-headers company-anaconda common-lisp-snippets column-enforce-mode cmake-mode cmake-ide clean-aindent-mode clang-format centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ag ace-window ace-link ac-ispell))))
+    (lsp-ui cquery company-lsp ccls lsp-mode ht zenburn-theme yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key wgrep web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit symon string-inflection sr-speedbar spaceline-all-the-icons solarized-theme smex smeargle slime-company slim-mode shell-pop scss-mode sass-mode rmsbolt reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js pippel pipenv pip-requirements persp-mode pcre2el password-generator pass paradox ox-gfm overseer osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file ob-restclient ob-http neotree nameless multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc magit-svn magit-gitflow lorem-ipsum livid-mode live-py-mode link-hint launchctl json-navigator json-mode js2-refactor js-doc ivy-yasnippet ivy-xref ivy-rtags ivy-purpose ivy-hydra insert-shebang indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-make google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-lazy flyspell-correct-ivy flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-commentary evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies eglot editorconfig dumb-jump dotenv-mode doom-modeline disaster dired-quick-sort diminish diff-hl deft dash-at-point dactyl-mode cython-mode csv-mode crux counsel-projectile counsel-dash counsel-css company-ycmd company-web company-tern company-statistics company-shell company-rtags company-restclient company-quickhelp company-go company-c-headers company-anaconda common-lisp-snippets column-enforce-mode cmake-mode cmake-ide clean-aindent-mode clang-format centered-cursor-mode cargo browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ag ace-window ace-link ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
