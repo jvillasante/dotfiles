@@ -94,14 +94,13 @@ This function should only modify configuration layer settings."
          c-c++-backend 'lsp-ccls
          c-c++-lsp-executable (file-truename "~/Hacking/software/ccls/Release/ccls")
          c-c++-adopt-subprojects t
-         ;; c-c++-enable-clang-support t
+         ;; c-c++-enable-clang-support t ;; not if lsp is enabled!
          c-c++-enable-clang-format-on-save t)
        (rust :variables
          rust-format-on-save t)
        (go :variables
          go-format-before-save t
          godoc-at-point-function 'godoc-gogetdoc
-         ;; gofmt-command "goimports"
          go-tab-width 2)
        restclient
        csv
@@ -113,12 +112,7 @@ This function should only modify configuration layer settings."
        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
        jv
        jv-solarized
-       ;; jv-zenburn
        jv-cpp-common
-       ;; jv-cpp-irony
-       ;; ycmd
-       ;; jv-cpp-ycmd
-       ;; jv-rust
        jv-deft
        jv-dired
        jv-elfeed
