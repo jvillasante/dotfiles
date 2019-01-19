@@ -113,6 +113,7 @@ This function should only modify configuration layer settings."
        jv
        jv-solarized
        jv-cpp-common
+       jv-lsp
        jv-deft
        jv-dired
        jv-elfeed
