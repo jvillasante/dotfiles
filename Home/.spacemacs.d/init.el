@@ -47,7 +47,7 @@ This function should only modify configuration layer settings."
          auto-completion-tab-key-behavior 'cycle
          auto-completion-complete-with-key-sequence nil
          auto-completion-complete-with-key-sequence-delay 0.1
-         auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
+         auto-completion-private-snippets-directory (file-truename "~/.spacemacs.d/snippets")
          auto-completion-enable-help-tooltip t
          auto-completion-enable-sort-by-usage t
          auto-completion-enable-snippets-in-popup t
@@ -82,8 +82,6 @@ This function should only modify configuration layer settings."
          web-mode-markup-indent-offset 2
          web-mode-css-indent-offset 2)
        javascript
-       ;; common-lisp
-       ;; vimscript
        emacs-lisp
        (python :variables
          python-enable-yapf-format-on-save t)
@@ -92,12 +90,10 @@ This function should only modify configuration layer settings."
        (c-c++ :variables
          c-c++-default-mode-for-headers 'c++-mode
          c-c++-backend 'lsp-ccls
-         c-c++-lsp-executable (file-truename "~/Hacking/software/ccls/Release/ccls")
+         ;; c-c++-lsp-executable (file-truename "~/Hacking/software/ccls/Release/ccls")
          c-c++-adopt-subprojects t
          ;; c-c++-enable-clang-support t ;; not if lsp is enabled!
          c-c++-enable-clang-format-on-save t)
-       (rust :variables
-         rust-format-on-save t)
        (go :variables
          go-format-before-save t
          godoc-at-point-function 'godoc-gogetdoc
