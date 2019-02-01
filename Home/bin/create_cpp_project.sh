@@ -6,7 +6,7 @@
 show_usage() {
   echo "Usage:"
   echo "    ./create_cpp_project.sh        -> show this message"
-  echo "    ./create_cpp_project.sh [path] -> create project on given [path]"
+  echo "    ./create_cpp_project.sh [make|cmake] [path] -> create project on given [path]"
   echo ""
 }
 
@@ -22,39 +22,57 @@ check() {
 #
 # Run baby, run!
 #
-if [ -z "$1" ]; then
+if [ -z "$1" ] || [ -z "$2" ] ; then
   show_usage
-  exit 0
+  exit 1
 fi
 
-if [ ! -d $1 ]; then
-  echo ">>> $1 does not exists, creating it..."
-  mkdir -p $1
+BUILD_SYSTEM=undefined
+if [ "$1" = make ]; then
+  BUILD_SYSTEM=make
+elif [ "$1" = cmake ]; then
+  BUILD_SYSTEM=cmake
+else
+  show_usage
+  exit 1
+fi
+
+if [ ! -d $2 ]; then
+  echo ">>> $2 does not exists, creating it..."
+  mkdir -p $2
   check $?
   echo ""
 
-  echo ">>> Copying project template to $1..."
-  cp -a ~/bin/cpp_project_template/. $1/
+  echo ">>> Copying project template to $2..."
+  if [ $BUILD_SYSTEM = make ]; then
+    cp -a ~/bin/cpp_project_template_make/. $2/
+    check $?
+  elif [ $BUILD_SYSTEM = cmake ]; then
+    cp -a ~/bin/cpp_project_template_cmake/. $2/
+    check $?
+  else
+    show_usage
+    exit 1
+  fi
+
+  cp ~/.editorconfig $2/
+
+  cp ~/.clang-format $2/
   check $?
 
-  cp ~/.editorconfig $1/
-
-  cp ~/.clang-format $1/
-  check $?
-
-  # cp ~/.clang_complete.py $1/
+  # cp ~/.clang_complete.py $2/
   # check $?
 
-  # cp ~/.ycm_extra_conf.py $1/
+  # cp ~/.ycm_extra_conf.py $2/
   # check $?
 
-  cp ~/.ccls $1/
+  cp ~/.ccls $2/
   check $?
 
   echo ">>> Done!"
   exit 0
 else
-  echo ">>> $1 already exists, exiting..."
+  echo ">>> $2 already exists, exiting..."
   echo ""
-  exit 0
+  exit 1
 fi
