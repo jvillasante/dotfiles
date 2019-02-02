@@ -22,7 +22,7 @@ if(CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # Project name
-project(the-modern-c++-challenge-book VERSION 0.0.1 LANGUAGES C CXX)
+project(project-name VERSION 0.0.1 LANGUAGES C CXX)
 
 # Compiler options
 set(CMAKE_CXX_FLAGS_COMMON "-std=c++17 -Wall -Wextra -Werror")
