@@ -8,8 +8,10 @@
     (setq lsp-navigation 'both))
 
   (spacemacs|diminish lsp-mode " Ⓛ" " L")
+
   (add-hook 'c-mode-hook 'jv-lsp/setup-lsp-mode)
-  (add-hook 'c++-mode-hook 'jv-lsp/setup-lsp-mode))
+  (add-hook 'c++-mode-hook 'jv-lsp/setup-lsp-mode)
+  (add-hook 'rust-mode-hook 'jv-lsp/setup-lsp-mode))
 
 (defun jv-lsp/post-init-lsp-ui ()
   (defun jv-lsp/setup-lsp-ui-mode ()
@@ -20,4 +22,5 @@
     (setq lsp-ui-sideline-ignore-dupliate nil))
 
   (add-hook 'c-mode-hook 'jv-lsp/setup-lsp-ui-mode)
-  (add-hook 'c++-mode-hook 'jv-lsp/setup-lsp-ui-mode))
+  (add-hook 'c++-mode-hook 'jv-lsp/setup-lsp-ui-mode)
+  (add-hook 'rust-mode-hook 'jv-lsp/setup-lsp-ui-mode))
