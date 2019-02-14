@@ -13,11 +13,8 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 # Go
-if [ -d "$HOME/.gvm/bin" ]; then
-  [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-  export GOPATH=$HOME/Hacking/workspace/golang
-  export PATH="$GOPATH/bin:$PATH"
-fi
+export GOPATH=$HOME/Hacking/workspace/golang
+export PATH="$GOPATH/bin:$PATH"
 
 # Boost
 export BOOST_ROOT="$HOME/Hacking/software/boost_1_68_0"
