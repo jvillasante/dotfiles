@@ -19,8 +19,8 @@ if ask "Install common go packages?"; then
   go get -u -v github.com/josharian/impl
 
   # Others
-  go get -u -v golang.org/x/net/html
-  check $?
+  # go get -u -v golang.org/x/net/html
+  # check $?
 else
   echo "Not installing common go packages."
 fi
