@@ -2,10 +2,12 @@ gcc
 %c -std=gnu11
 %cpp -std=c++17
 
+# Extras
+%h -x c++-header
+
 # Compiler Flags
 -Wall
 -Wextra
--Werror
 -DNDEBUG
 
 # System includes Clang: Output of 'echo | /usr/local/opt/llvm/bin/clang -v -x c++ -E -' command.
