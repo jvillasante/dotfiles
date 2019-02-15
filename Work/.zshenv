@@ -31,13 +31,13 @@ fi
 # export RANGEV3_HOME="$HOME/Hacking/Software/range-v3"
 
 # Google Test
-export GTEST_HOME="$HOME/Hacking/software/googletest"
+# export GTEST_HOME="$HOME/Hacking/software/googletest"
 
 # cURL (libcurl)
-export CURL_HOME="$HOME/Hacking/software/curl-7.62.0"
+# export CURL_HOME="$HOME/Hacking/software/curl-7.62.0"
 
 # JsonCpp
-export JSONCPP_HOME="$HOME/Hacking/software/jsoncpp"
+# export JSONCPP_HOME="$HOME/Hacking/software/jsoncpp"
 
 # CppUTest
 # export CPPUTEST_HOME="$HOME/Software/src/cpputest"

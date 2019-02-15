@@ -17,14 +17,14 @@ gcc
 # -isystem/Library/Frameworks
 
 # System includes GCC: Output of 'echo | /usr/local/opt/gcc/bin/gcc-8 -v -x c++ -E -' command.
--isystem/usr/include/c++/8
--isystem/usr/include/x86_64-linux-gnu/c++/8
--isystem/usr/include/c++/8/backward
--isystem/usr/lib/gcc/x86_64-linux-gnu/8/include
--isystem/usr/local/include
--isystem/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
--isystem/usr/include/x86_64-linux-gnu
--isystem/usr/include
+# -isystem/usr/include/c++/8
+# -isystem/usr/include/x86_64-linux-gnu/c++/8
+# -isystem/usr/include/c++/8/backward
+# -isystem/usr/lib/gcc/x86_64-linux-gnu/8/include
+# -isystem/usr/local/include
+# -isystem/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
+# -isystem/usr/include/x86_64-linux-gnu
+# -isystem/usr/include
 
 # Local Includes
 -I.

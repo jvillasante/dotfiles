@@ -47,6 +47,7 @@ This function should only modify configuration layer settings."
          auto-completion-tab-key-behavior 'cycle
          auto-completion-complete-with-key-sequence nil
          auto-completion-complete-with-key-sequence-delay 0.1
+         auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
          auto-completion-enable-help-tooltip t
          auto-completion-enable-sort-by-usage t
          auto-completion-enable-snippets-in-popup t
