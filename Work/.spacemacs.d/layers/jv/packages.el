@@ -43,14 +43,15 @@
   ;; (setq neo-theme 'nerd)
   (setq neo-theme 'ascii)
 
-  (setq neo-hidden-regexp-list
-    '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
-       "^\\.\\(DS_Store\\|python\\-version\\)"
-       "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
-       "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-       "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
-       "\\.egg\-info$"
-       "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"))
+    (setq neo-hidden-regexp-list
+        '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
+             "^\\.\\(DS_Store\\|python\\-version\\)"
+             "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
+             "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+             "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
+             "\\.egg\-info$"
+             "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+             "\\.cproject$" "\\.project$"))
   )
 
 (defun jv/init-sr-speedbar ()
