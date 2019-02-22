@@ -78,10 +78,10 @@ This function should only modify configuration layer settings."
              shell-scripts
              search-engine
              (html :variables
-                 css-indent-offset 2
-                 web-mode-code-indent-offset 2
-                 web-mode-markup-indent-offset 2
-                 web-mode-css-indent-offset 2)
+                 css-indent-offset 4
+                 web-mode-code-indent-offset 4
+                 web-mode-markup-indent-offset 4
+                 web-mode-css-indent-offset 4)
              lua
              javascript
              emacs-lisp
