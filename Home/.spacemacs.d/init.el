@@ -597,13 +597,12 @@ before packages are loaded."
     evil-cross-lines t                 ; Make horizontal movement cross lines
 
     ;; scroll
-    scroll-margin 3
+    scroll-margin 4
 
-    ;; my coding style, bsd but with 2 spaces indentation (and no tab
-    ;; characters, only spaces)
-    c-basic-indent 2
-    c-basic-offset 2
-    tab-width 2
+    ;; my coding style, bsd with 4 spaces indentation (and no tab characters)
+    c-basic-indent 4
+    c-basic-offset 4
+    tab-width 4
     indent-tabs-mode nil
     highlight-tabs t
 

@@ -598,7 +598,7 @@ before packages are loaded."
         evil-cross-lines t                 ; Make horizontal movement cross lines
 
         ;; scroll
-        scroll-margin 3
+        scroll-margin 4
 
         ;; my coding style, bsd but with 2 spaces indentation (and no tab
         ;; characters, only spaces)
