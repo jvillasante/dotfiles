@@ -26,7 +26,7 @@ project(hands-on-system-programming-book VERSION 0.0.1 LANGUAGES C CXX)
 
 # Compiler options
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS_COMMON "-std=c++17 -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS_COMMON "-std=c++17 -Wall -Wextra -Werror -march=native")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_COMMON} -DDEBUG -g -O2")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON} -O3")
 
