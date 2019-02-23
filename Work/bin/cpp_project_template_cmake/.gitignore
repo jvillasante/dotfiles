@@ -30,5 +30,4 @@
 # Others
 bin/
 build/
-lib/
 .DS_Store

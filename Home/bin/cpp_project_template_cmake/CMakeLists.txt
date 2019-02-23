@@ -22,9 +22,10 @@ if(CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # Project name
-project(project-name VERSION 0.0.1 LANGUAGES C CXX)
+project(hands-on-system-programming-book VERSION 0.0.1 LANGUAGES C CXX)
 
 # Compiler options
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_COMMON "-std=c++17 -Wall -Wextra -Werror")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_COMMON} -DDEBUG -g -O2")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON} -O3")
@@ -44,12 +45,12 @@ endif()
 
 ######################################################################################################################################
 
-set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
-set(LIBS_PATH "${CMAKE_SOURCE_DIR}/libs")
+set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/src/include")
+set(LIBS_PATH "/Users/jvillasante/Hacking/software")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
-# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
-# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 
 ######################################################################################################################################
 ###### This is how to link with C++17 filesystem library
