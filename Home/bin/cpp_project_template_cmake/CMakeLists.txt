@@ -45,7 +45,7 @@ endif()
 
 ######################################################################################################################################
 
-set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/src/include")
+set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
 set(LIBS_PATH "/Users/jvillasante/Hacking/software")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
