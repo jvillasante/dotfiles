@@ -1,5 +1,5 @@
 [user]
-	name = Julio Cesar Villasante
+	name = Julio C. Villasante
 	email = jvillasantegomez@gmail.com
 [credential]
 	helper = cache --timeout=3600

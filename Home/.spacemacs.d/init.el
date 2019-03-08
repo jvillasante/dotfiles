@@ -99,7 +99,7 @@ This function should only modify configuration layer settings."
                  rust-format-on-save t
                  rust-backend 'lsp)
              (go :variables
-                 ;; go-backend 'lsp
+                 go-backend 'lsp
                  go-tab-width nil ;; use editorconfig
                  godoc-at-point-function 'godoc-gogetdoc
                  go-format-before-save t)

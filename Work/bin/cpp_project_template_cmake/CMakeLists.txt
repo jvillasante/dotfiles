@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 # THIS HAS TO COME BEFORE THE PROJECT LINE
-set(CLANG_PREFIX "/usr/local/opt/llvm)
+set(CLANG_PREFIX "/usr/local/opt/llvm")
 set(CMAKE_C_COMPILER "${CLANG_PREFIX}/bin/clang")
 set(CMAKE_CXX_COMPILER "${CLANG_PREFIX}/bin/clang++")
 #
