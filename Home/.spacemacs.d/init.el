@@ -96,8 +96,8 @@ This function should only modify configuration layer settings."
                  ;; c-c++-enable-clang-support t ;; not if lsp is enabled!
                  c-c++-enable-clang-format-on-save t)
              (rust :variables
-                 rust-format-on-save t
-                 rust-backend 'lsp)
+                 rust-backend 'lsp
+                 rust-format-on-save t)
              (go :variables
                  go-backend 'lsp
                  go-tab-width nil ;; use editorconfig
