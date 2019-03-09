@@ -1,29 +1,19 @@
-;;;  -*- no-byte-compile: t; -*-
+;; -*- no-byte-compile: t; -*-
+;;; ~/Hacking/workspace/dotfiles/Home/.doom.d/packages.el
 
 ;; Ruby stuff
 ;; (package! enh-ruby-mode)
-;; (package! rbenv) ; i use rbenv
+;; (package! rbenv) ;; i use rbenv
 ;; (package! yard-mode)
 ;; (package! rinari)
 ;; (package! rubocop)
-
-;; Misc stuff
-;; Can highlight a region and hit M-x carbon-now-sh to get a https://carbon.now
-;; of the region
-;; (package! carbon-now-sh)
 
 ;; JS stuff
 (package! prettier-js)
 (package! pkgbuild-mode)
 
-;; Fuzzy searching
-;; (package! flx)
-
-;; Music stuff
-;; (package! google-play-music :recipe (:fetcher github :repo "merrickluo/google-play-music.el"))
-
 ;; Filestuff
-;; (package! ranger)
+(package! ranger)
 
 ;; Reasonml stuff
 ;; (package! reason-mode)

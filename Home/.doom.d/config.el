@@ -1,77 +1,153 @@
-;;;  -*- lexical-binding: t; -*-
+;;; ~/Hacking/workspace/dotfiles/Home/.doom.d/config.el -*- lexical-binding: t; -*-
+
+;; check OS type
+(cond
+ ((string-equal system-type "windows-nt") ; Microsoft Windows
+  (progn
+    (message "Microsoft Windows Not Supported!!!!")))
+ ((string-equal system-type "darwin") ; Mac OS X
+  (progn
+    (setq
+     jv/dropbox-path "~/Dropbox"
+     jv/zsh-path "/usr/local/bin/zsh"
+     jv/clang-path "/usr/local/opt/llvm/bin/clang")
+
+    (setq
+     browse-url-browser-function 'browse-url-generic
+     engine/browser-function 'browse-url-generic
+     browse-url-generic-program "open")))
+ ((string-equal system-type "gnu/linux") ; linux
+  (progn
+    (setq
+     jv/dropbox-path "~/Dropbox"
+     jv/zsh-path "/usr/bin/zsh"
+     jv/clang-path "/usr/bin/clang")
+
+     (executable-find "google-chrome"))))
+
+;; Some setq-defaults
 (setq-default
-  evil-shift-width 2 ;; I normally use 2wide for my projects.
-  tab-width 2)
+ user-full-name "Julio C. Villasante"
+ user-mail-address "jvillasantegomez@gmail.com"
 
+ major-mode 'text-mode
+ use-dialog-box nil
+ vc-follow-symlinks t
+ load-prefer-newer t
+ fill-column 110                    ; Maximum line width
+ truncate-lines t                   ; Don't fold lines
+ truncate-partial-width-windows nil ; for vertically-split windows
+ split-width-threshold 160          ; Split verticaly by default
+ evil-cross-lines t                 ; Make horizontal movement cross lines
+
+ ;; scroll
+ scroll-margin 3
+
+ ;; my coding style, bsd with 4 spaces indentation (and no tab characters)
+ evil-shift-width 4
+ tab-width 4
+ indent-tabs-mode nil
+
+ ;; Whitespace settings
+ whitespace-action '(auto-cleanup)
+ whitespace-style '(indentation::space
+                    space-after-tab
+                    space-before-tab
+                    trailing
+                    lines-tail
+                    tab-mark
+                    face
+                    tabs)
+
+ ;; tramp mode
+ tramp-default-method "ssh")
+
+;; LaTeX
+;; font-latex-fontify-script nil
+;; TeX-newline-function 'reindent-then-newline-and-indent)
+
+;; Some more defaults
 (setq
-  user-mail-address "jvillasantegomez@gmail.com"
-  user-full-name "Julio C. Villasante")
+ ;; No highligh persisten on evil search
+ evil-ex-search-persistent-highlight nil
 
-;; (delq 'rg +helm-project-search-engines) ;; rg is kinda buggy, and i prefer ag
+ flycheck-check-syntax-automatically '(mode-enabled save)
 
-(add-hook 'prog-mode-hook #'goto-address-mode) ;; Linkify links!
+ ;; recentf exclude folders/files
+ recentf-exclude '("~/Hacking/workspace/dotfiles/.emacs.d")
+
+ ispell-program-name "aspell"
+ auto-window-vscroll nil
+ sp-escape-quotes-after-insert nil
+
+ ;; I do not know what this is :)
+ max-specpdl-size 5000
+ url-queue-timeout 30)
 
 ;; Load snippets
 (after! yasnippet
   (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
-;; (after! auth-source
-;;   (let ((auth (plist-get (nth 0 (auth-source-search :host "wakatime.com")) :secret)))
-;;     (if (functionp auth)
-;;         (setq wakatime-api-key (funcall auth)))))
+;; (def-package! prettier-js
+;;   :commands (prettier-js-mode)
+;;   :init
+;;   (defun setup-prettier-js ()
+;;     "Sets up arguments and the mode."
+;;     (interactive)
+;;     (setq prettier-js-args '("--single-quote"))
 
+;;     (prettier-js-mode))
+;;   (add-hook! (typescript-mode
+;;               js2-mode)
+;;     #'setup-prettier-js)
+;;   (add-hook! web-mode (enable-minor-mode '("\\.tsx\\'" . setup-prettier-js))))
 
-(def-package! prettier-js
-  :commands (prettier-js-mode)
-  :init
-  (defun setup-prettier-js ()
-    "Sets up arguments and the mode."
-    (interactive)
-    (setq prettier-js-args '("--single-quote"))
+;; (after! typescript-mode
+;;   (add-hook 'typescript-mode-hook #'flycheck-mode)
+;;   (setq typescript-indent-level 2))
 
-    (prettier-js-mode))
-  (add-hook! (typescript-mode
-               js2-mode)
-    #'setup-prettier-js)
-  (add-hook! web-mode (enable-minor-mode '("\\.tsx\\'" . setup-prettier-js))))
+;; (after! js2-mode
+;;   ;; use eslintd-fix so when i save it fixes dumb shit
+;;   (add-hook 'js2-mode-hook #'eslintd-fix-mode)
 
-(after! typescript-mode
-  (add-hook 'typescript-mode-hook #'flycheck-mode)
-  (setq typescript-indent-level 2))
-
-
-(after! js2-mode
-  ;; use eslintd-fix so when i save it fixes dumb shit
-  (add-hook 'js2-mode-hook #'eslintd-fix-mode)
-
-  ;; Indent shit
-  (setq js2-basic-offset 2))
-
+;;   ;; Indent shit
+;;   (setq js2-basic-offset 2))
 
 (defun enable-minor-mode (my-pair)
   "Enable minor mode if filename matches the regexp.
   MY-PAIR is a cons cell (regexp . minor-mode)."
   (if (buffer-file-name)
-    (if (string-match (car my-pair) buffer-file-name)
-      (funcall (cdr my-pair)))))
+      (if (string-match (car my-pair) buffer-file-name)
+          (funcall (cdr my-pair)))))
 
 (after! web-mode
   (add-hook 'web-mode-hook #'flycheck-mode)
 
-  (setq web-mode-markup-indent-offset 2 ;; Indentation
-    web-mode-code-indent-offset 2
-    web-mode-enable-auto-quoting nil ;; disbale adding "" after an =
-    web-mode-auto-close-style 3)) ;; RJSX-mode style closing
+  (setq web-mode-markup-indent-offset 4 ;; Indentation
+        web-mode-code-indent-offset 4
+        web-mode-enable-auto-quoting nil ;; disbale adding "" after an =
+        web-mode-auto-close-style 4))
 
 ;; (after! elm
 ;;   (setq elm-tags-on-save t
-;;     elm-sort-imports-on-save t))
+;;         elm-sort-imports-on-save t))
 
-;; (after! helm
-;;   ;; I want backspace to go up a level, like ivy
-;;   (add-hook! 'helm-find-files-after-init-hook
-;;     (map! :map helm-find-files-map
-;;       "<DEL>" #'helm-find-files-up-one-level)))
+;; (map! :leader
+;;       :prefix "f"
+;;       "n" (lambda! (find-file "~/dotfiles/nixos/configuration.nix"))
+;;       "N" (lambda! (find-file "~/dotfiles/nixos/home.nix")))
+
+;; (setq lsp-haskell-process-wrapper-function
+;;       (lambda (argv)
+;;         (append
+;;          (append (list "nix-shell" "-I" "." "--command")
+;;                  (list (mapconcat 'identity argv " ")))
+
+;;          (list (concat (lsp-haskell--get-root) "/shell.nix")))))
+
+;; (after! lsp-haskell
+;;   ;; These take up a lot of space on my big font size
+;;   (setq lsp-ui-sideline-show-code-actions nil))
 
 ;; Set twitter edit buffer to be 15 lines high so I can actually see what im
 ;; editing. FIXME this will be fixed upstream, remove me when it is
@@ -81,12 +157,10 @@
 ;;     '((transient) (quit) (select . t))))
 
 ;; Modules
-;; (load! "+ruby") ;; Custom ruby mode. Make sure you disable ruby in init.el
-(load! "+ui") ;; My ui mods. Also contains ligature stuff.
-;; (load! "+music") ;; Music stuff, visible through SPC-a-m. Not perfect.
-;; (load! "+ranger") ;; File manager stuff
-;; (load! "+reason") ;; ReasonML stuff
-;; (load! "+mail") ;; Mail stuff
-(load! "+org") ;; Org mode stuff like todos and rebindings
+;; (load! "+ruby")    ;; Custom ruby mode. Make sure you disable ruby in init.el
+(load! "+ui")      ;; My ui mods. Also contains ligature stuff.
+;; (load! "+ranger")  ;; File manager stuff
+;; (load! "+reason")  ;; ReasonML stuff
+;; (load! "+mail")    ;; Mail stuff
+;; (load! "+org")     ;; Org mode stuff like todos and rebindings
 ;; (load! "+irc") ;; Irc config
-;; (load! "+twitter") ;; Twittering binds.

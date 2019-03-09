@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: map
+# key: map
+# --
+Enum.map(${1:list}, fn x -> $0 end)
