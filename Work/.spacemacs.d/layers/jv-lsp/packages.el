@@ -22,7 +22,14 @@
         (setq lsp-ui-sideline-show-symbol nil)
         (setq lsp-ui-sideline-ignore-dupliate nil))
 
+    (defun jv-lsp/setup-lsp-ui-mode-no-doc ()
+        (setq lsp-ui-doc-enable nil)
+        (setq lsp-ui-doc-include-signature nil)
+        (setq lsp-ui-sideline-enable nil)
+        (setq lsp-ui-sideline-show-symbol nil)
+        (setq lsp-ui-sideline-ignore-dupliate nil))
+
     (add-hook 'c-mode-hook 'jv-lsp/setup-lsp-ui-mode)
     (add-hook 'c++-mode-hook 'jv-lsp/setup-lsp-ui-mode)
-    (add-hook 'rust-mode-hook 'jv-lsp/setup-lsp-ui-mode)
-    (add-hook 'go-mode-hook 'jv-lsp/setup-lsp-ui-mode))
+    (add-hook 'rust-mode-hook 'jv-lsp/setup-lsp-ui-mode-no-doc)
+    (add-hook 'go-mode-hook 'jv-lsp/setup-lsp-ui-mode-no-doc))
