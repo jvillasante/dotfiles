@@ -1,16 +1,47 @@
 ;;; ~/Hacking/workspace/dotfiles/Home/.doom.d/+ui.el -*- lexical-binding: t; -*-
 
 ;;;  -*- lexical-binding: t; -*-
+;;;
 
-(setq doom-theme 'doom-solarized-light)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Title bar setup
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(if (eq system-type 'darwin)
+    (progn
+      (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+      (add-to-list 'default-frame-alist '(ns-appearance . dark))))
 
-;; Fonts
-;; 1920x1080, half screen at size 22 gives 80 columns 35 lines
+(setq ns-use-proxy-icon nil)
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Font setup
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq doom-font (font-spec :family "Source Code Pro" :size 22))
-
-;; On my 1920x1080, full screen gives about 90 columns 19 lines
+(setq doom-variable-pitch-font (font-spec :family "Source Code Pro"))
+(setq doom-unicode-font (font-spec :family "Source Code Pro"))
 (setq doom-big-font (font-spec :family "Source Code Pro" :size 40))
-;; (add-hook! 'window-setup-hook #'doom-big-font-mode)
 
 ;; Dash highlighting
 (after! dash (dash-enable-font-lock))
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Theme setup
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq doom-theme (if (display-graphic-p) 'doom-opera nil))
+(setq doom-theme (if (display-graphic-p) 'doom-solarized-light nil))
+
+(after! doom-themes
+  (custom-set-faces '(header-line ((t (:inherit neo-root-dir-face))))))
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Neotree setup
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! neotree
+  (setq doom-neotree-enable-variable-pitch nil)
+  (setq neo-autorefresh t))
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Resize window
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(def-package! resize-window
+  :commands  (resize-window))

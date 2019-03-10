@@ -1,19 +1,14 @@
-;; -*- no-byte-compile: t; -*-
-;;; ~/Hacking/workspace/dotfiles/Home/.doom.d/packages.el
+;;; packages.el --- description -*- no-byte-compile: t; -*-
 
-;; Ruby stuff
-;; (package! enh-ruby-mode)
-;; (package! rbenv) ;; i use rbenv
-;; (package! yard-mode)
-;; (package! rinari)
-;; (package! rubocop)
+(disable-packages! company-irony company-irony-c-headers flycheck-irony irony irony-eldoc ivy-rtags rtags)
+(disable-packages! winum)
 
 ;; JS stuff
 (package! prettier-js)
 (package! pkgbuild-mode)
 
 ;; Filestuff
-(package! ranger)
+;; (package! ranger)
 
 ;; Reasonml stuff
 ;; (package! reason-mode)
