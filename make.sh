@@ -116,7 +116,7 @@ install_emacs () {
 install_zsh
 install_emacs
 
-common_files=".emacs.d .oh-my-zsh"
+common_files=".emacs.d .oh-my-zsh .oh-my-zsh.d"
 files="bin .spacemacs.d .doom.d .percol.d .ccls .ycm_extra_conf.py .clang_complete .clang-format .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .zshenv .zshrc .sbclrc .rustfmt.toml"
 
 echo ">> Linking common files..."
