@@ -1,9 +1,9 @@
 /usr/local/opt/llvm/bin/clang
-%c -std=gnu11
-%cpp -std=c++17
 
-# Extras
+%c -std=gnu11
 %h -x c++-header
+%cpp -std=c++17
+%cpp -stdlib=libc++
 
 # Compiler Flags
 -Wall

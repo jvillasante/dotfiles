@@ -71,7 +71,7 @@ This function should only modify configuration layer settings."
                  shell-default-shell 'ansi-term
                  ;; shell-default-shell 'eshell
                  shell-default-position 'bottom
-                 shell-default-height 50)
+                 shell-default-height 45)
              (evil-snipe :variables
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
              evil-commentary

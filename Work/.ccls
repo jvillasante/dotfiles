@@ -1,6 +1,7 @@
 gcc
 %c -std=gnu11
 %cpp -std=c++17
+# %cpp -stdlib=libc++
 
 # Extras
 %h -x c++-header
