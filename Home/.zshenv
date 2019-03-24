@@ -13,8 +13,10 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 # Go
-export GOPATH=$HOME/Hacking/workspace/golang
-export PATH="$GOPATH/bin:$PATH"
+if [ -d "$HOME/Hacking/workspace/golang" ]; then
+    export GOPATH=$HOME/Hacking/workspace/golang
+    export PATH="$GOPATH/bin:$PATH"
+fi
 
 # Boost
 export BOOST_ROOT="$HOME/Hacking/software/boost_1_68_0"
