@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: with
-# key: with
-# --
-with $1 <- $2 do
-  $0
-end

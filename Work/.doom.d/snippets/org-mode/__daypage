@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: Day Page
-# key: __daypage
-# --
-* <`(file-name-base (buffer-file-name))`> Notes
-
-$0
