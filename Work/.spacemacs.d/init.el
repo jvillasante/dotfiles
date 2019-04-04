@@ -95,6 +95,7 @@ This function should only modify configuration layer settings."
                  c-c++-backend 'lsp-ccls
                  c-c++-lsp-executable (file-truename "~/Hacking/Software/ccls/Release/ccls")
                  c-c++-lsp-cache-dir (file-truename "~/Hacking/workspace/dotfiles/.emacs.d/.cache/lsp-ccls")
+                 ;; c-c++-lsp-sem-highlight-rainbow t
                  c-c++-adopt-subprojects t
                  ;; c-c++-enable-clang-support t ;; not if lsp is enabled!
                  c-c++-enable-clang-format-on-save t)
@@ -239,8 +240,11 @@ It should only modify the values of Spacemacs settings."
         ;; `recents' `bookmarks' `projects' `agenda' `todos'.
         ;; List sizes may be nil, in which case
         ;; `spacemacs-buffer-startup-lists-length' takes effect.
-        dotspacemacs-startup-lists '((recents . 7)
-                                        (projects . 5))
+        dotspacemacs-startup-lists '((recents . 5)
+                                        (projects . 10)
+                                        (agenda . 5)
+                                        (todos . 5)
+                                        bookmarks)
 
         ;; True if the home buffer should respond to resize events. (default t)
         dotspacemacs-startup-buffer-responsive t
