@@ -4,8 +4,8 @@
 (disable-packages! winum)
 
 ;; JS stuff
-(package! prettier-js)
-(package! pkgbuild-mode)
+;; (package! prettier-js)
+;; (package! pkgbuild-mode)
 
 ;; Filestuff
 ;; (package! ranger)

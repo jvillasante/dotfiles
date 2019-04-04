@@ -1,6 +1,4 @@
-;;; ~/Hacking/workspace/dotfiles/Home/.doom.d/+ui.el -*- lexical-binding: t; -*-
-
-;;;  -*- lexical-binding: t; -*-
+;;; private/personal/+ui.el -*- lexical-binding: t; -*-
 ;;;
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -27,7 +25,6 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Theme setup
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq doom-theme (if (display-graphic-p) 'doom-opera nil))
 (setq doom-theme (if (display-graphic-p) 'doom-solarized-light nil))
 
 (after! doom-themes
