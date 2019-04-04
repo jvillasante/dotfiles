@@ -558,8 +558,17 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
         recentf-exclude '("~/Hacking/workspace/dotfiles/.emacs.d"))
 
     ;; Solarized theme (Needs to go before load-theme())
-    ;; Don't change the font for some headings and titles
-    (setq solarized-use-variable-pitch nil)
+    (setq solarized-use-variable-pitch nil
+        solarized-use-less-bold t
+        solarized-use-more-italic nil
+        solarized-distinct-doc-face t
+        solarized-high-contrast-mode-line nil
+        ;; I find different font sizes irritating.
+        solarized-height-minus-1 1.0
+        solarized-height-plus-1 1.0
+        solarized-height-plus-2 1.0
+        solarized-height-plus-3 1.0
+        solarized-height-plus-4 1.0)
 
     ;; I do not know what this is :)
     (setq max-specpdl-size 5000)
