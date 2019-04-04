@@ -558,7 +558,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (setq
         recentf-exclude '("~/Hacking/workspace/dotfiles/.emacs.d"))
 
-  ;;;; Solarized theme (Needs to go before load-theme())
+    ;; Solarized theme (Needs to go before load-theme())
     ;; Don't change the font for some headings and titles
     (setq solarized-use-variable-pitch nil)
 
