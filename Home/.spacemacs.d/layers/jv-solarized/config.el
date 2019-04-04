@@ -1,3 +1,5 @@
+(setq my-black "#1b1b1e")
+
 (defun update-solarize-dark ()
     (custom-theme-set-faces
         'solarized-dark
@@ -38,8 +40,6 @@
         '(outline-4 ((t (:inherit org-level-4))))
         ))
 
-(setq my-black "#1b1b1e")
-
 (defun update-solarize-light ()
     (custom-theme-set-faces
         'solarized-light
@@ -64,20 +64,23 @@
         ;; `(powerline-inactive2 ((t (:inherit powerline-inactive1))))
 
         ;; Org and outline header updates
-        ;; `(org-level-1 ((t (:height 1.25 :foreground ,my-black
-        ;;                       :background "#C9DAEA"
-        ;;                       :weight bold))))
-        ;; `(org-level-2 ((t (:height 1.15 :foreground ,my-black
-        ;;                       :background "#7CDF64"
-        ;;                       :weight bold))))
-        ;; `(org-level-3 ((t (:height 1.05 :foreground ,my-black
-        ;;                       :background "#F8DE7E"
-        ;;                       :weight bold))))
+        `(org-level-1 ((t (:height 1.25
+                              ;; :foreground ,my-black
+                              ;; :background "#C9DAEA"
+                              :weight bold))))
+        `(org-level-2 ((t (:height 1.15
+                              ;; :foreground ,my-black
+                              ;; :background "#7CDF64"
+                              :weight bold))))
+        `(org-level-3 ((t (:height 1.05
+                              ;; :foreground ,my-black
+                              ;; :background "#F8DE7E"
+                              :weight bold))))
 
-        ;; '(outline-1 ((t (:inherit org-level-1))))
-        ;; '(outline-2 ((t (:inherit org-level-2))))
-        ;; '(outline-3 ((t (:inherit org-level-3))))
-        ;; '(outline-4 ((t (:inherit org-level-4))))
+        '(outline-1 ((t (:inherit org-level-1))))
+        '(outline-2 ((t (:inherit org-level-2))))
+        '(outline-3 ((t (:inherit org-level-3))))
+        '(outline-4 ((t (:inherit org-level-4))))
 
         ;; `(org-todo ((t (:foreground ,my-black :weight extra-bold
         ;;                    :background "light gray"))))
