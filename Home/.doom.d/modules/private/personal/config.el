@@ -87,4 +87,5 @@
 ;;     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
 ;; Modules
-(load! "+ui")      ;; My ui mods. Also contains ligature stuff.
+(load! "+spacemacs-bindings")
+(load! "+ui")
