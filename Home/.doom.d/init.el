@@ -156,6 +156,7 @@
     ;; and additional ex commands for evil-mode. Use it as a reference for
     ;; your own modules.
     (default +bindings +snippets +evil-commands +smartparens)
-
+    
+    ;; personal module, all my config goes here
     :private personal
     )
