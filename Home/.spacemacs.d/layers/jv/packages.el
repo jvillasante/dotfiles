@@ -42,6 +42,7 @@
 
     ;; (setq neo-theme 'nerd)
     (setq neo-theme 'ascii)
+    (setq neo-autorefresh t)
 
     (setq neo-hidden-regexp-list
         '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
