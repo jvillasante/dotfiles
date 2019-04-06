@@ -5,9 +5,9 @@ set(CLANG_PREFIX "/usr/local/opt/llvm")
 set(CMAKE_C_COMPILER "${CLANG_PREFIX}/bin/clang")
 set(CMAKE_CXX_COMPILER "${CLANG_PREFIX}/bin/clang++")
 #
-# set(GCC_PREFIX "/usr/local/Cellar/gcc/8.2.0")
-# set(CMAKE_C_COMPILER "${GCC_PREFIX}/bin/gcc-8")
-# set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-8")
+set(GCC_PREFIX "/usr/local/opt/gcc")
+set(CMAKE_C_COMPILER "${GCC_PREFIX}/bin/gcc-8")
+set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-8")
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 
 # Specify default build type if none provided (before project() command)
