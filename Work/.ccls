@@ -1,33 +1,31 @@
 gcc
 %c -std=gnu11
 %cpp -std=c++17
-# %cpp -stdlib=libc++
 
 # Extras
+# %cpp -stdlib=libc++
 %h -x c++-header
 
 # Compiler Flags
 -Wall
 -Wextra
--DNDEBUG
+-DDEBUG
 
 # System includes Clang: Output of 'echo | /usr/local/opt/llvm/bin/clang -v -x c++ -E -' command.
-# -isystem/usr/local/Cellar/llvm/7.0.1/include/c++/v1
+# -isystem/usr/local/opt/llvm/bin/../include/c++/v1
 # -isystem/usr/local/include
-# -isystem/usr/local/Cellar/llvm/7.0.1/lib/clang/7.0.1/include
-# -isystem/usr/include
+# -isystem/usr/local/Cellar/llvm/8.0.0/lib/clang/8.0.0/include
 # -isystem/System/Library/Frameworks
 # -isystem/Library/Frameworks
 
 # System includes GCC: Output of 'echo | /usr/local/opt/gcc/bin/gcc-8 -v -x c++ -E -' command.
-# -isystem/usr/include/c++/8
-# -isystem/usr/include/x86_64-linux-gnu/c++/8
-# -isystem/usr/include/c++/8/backward
-# -isystem/usr/lib/gcc/x86_64-linux-gnu/8/include
-# -isystem/usr/local/include
-# -isystem/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
-# -isystem/usr/include/x86_64-linux-gnu
-# -isystem/usr/include
+-isystem/usr/local/Cellar/gcc/8.3.0/lib/gcc/8/gcc/x86_64-apple-darwin18.2.0/8.3.0/../../../../../../include/c++/8.3.0
+-isystem/usr/local/Cellar/gcc/8.3.0/lib/gcc/8/gcc/x86_64-apple-darwin18.2.0/8.3.0/../../../../../../include/c++/8.3.0/x86_64-apple-darwin18.2.0
+-isystem/usr/local/Cellar/gcc/8.3.0/lib/gcc/8/gcc/x86_64-apple-darwin18.2.0/8.3.0/../../../../../../include/c++/8.3.0/backward
+-isystem/usr/local/Cellar/gcc/8.3.0/lib/gcc/8/gcc/x86_64-apple-darwin18.2.0/8.3.0/include
+-isystem/usr/local/Cellar/gcc/8.3.0/lib/gcc/8/gcc/x86_64-apple-darwin18.2.0/8.3.0/include-fixed
+-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
+-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
 
 # Local Includes
 -I.
