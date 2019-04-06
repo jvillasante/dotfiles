@@ -6,8 +6,8 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if (eq system-type 'darwin)
     (progn
-      (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-      (add-to-list 'default-frame-alist '(ns-appearance . dark))))
+        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+        (add-to-list 'default-frame-alist '(ns-appearance . dark))))
 
 (setq ns-use-proxy-icon nil)
 
@@ -28,17 +28,17 @@
 (setq doom-theme (if (display-graphic-p) 'doom-solarized-light nil))
 
 (after! doom-themes
-  (custom-set-faces '(header-line ((t (:inherit neo-root-dir-face))))))
+    (custom-set-faces '(header-line ((t (:inherit neo-root-dir-face))))))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Neotree setup
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! neotree
-  (setq doom-neotree-enable-variable-pitch nil)
-  (setq neo-autorefresh t))
+    (setq doom-neotree-enable-variable-pitch nil)
+    (setq neo-autorefresh t))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Resize window
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (def-package! resize-window
-  :commands  (resize-window))
+    :commands  (resize-window))

@@ -31,7 +31,7 @@
 ;; Some setq-defaults
 (setq-default
     user-full-name "Julio C. Villasante"
-    user-mail-address "jvillasantegomez@gmail.com"
+    user-mail-address "julio.villasante.consultant@gmail.com"
 
     major-mode 'text-mode
     use-dialog-box nil
@@ -72,7 +72,7 @@
     flycheck-check-syntax-automatically '(mode-enabled save)
 
     ;; recentf exclude folders/files
-    recentf-exclude '("~/Hacking/workspace/dotfiles/.emacs.d")
+    recentf-exclude '("~/Hacking/Software/dotfiles/.emacs.d")
 
     ispell-program-name "aspell"
     auto-window-vscroll nil
@@ -87,4 +87,5 @@
 ;;     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
 ;; Modules
-(load! "+ui")      ;; My ui mods. Also contains ligature stuff.
+(load! "+spacemacs-bindings")
+(load! "+ui")
