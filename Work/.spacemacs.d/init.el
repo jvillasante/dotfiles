@@ -93,8 +93,8 @@ This function should only modify configuration layer settings."
              (c-c++ :variables
                  c-c++-default-mode-for-headers 'c++-mode
                  c-c++-backend 'lsp-ccls
-                 c-c++-lsp-executable (list (concat jv/software-path "/ccls/Release/ccls"))
-                 c-c++-lsp-cache-dir (list (concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls"))
+                 c-c++-lsp-executable (concat jv/software-path "/ccls/Release/ccls")
+                 c-c++-lsp-cache-dir (concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls")
                  ;; c-c++-lsp-sem-highlight-rainbow t
                  c-c++-adopt-subprojects t
                  ;; c-c++-enable-clang-support t ;; not if lsp is enabled!
