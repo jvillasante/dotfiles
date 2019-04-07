@@ -48,20 +48,20 @@
         `(sp-show-pair-match-face ((t (:inherit sp-show-pair-match-face
                                           :background "light gray"))))
 
-        ;; '(font-lock-constant-face nil :weight 'normal)
-        ;; '(font-lock-function-name-face nil :weight 'bold)
-        ;; '(which-key-key-face nil :foreground
-        ;;      (face-attribute 'error :foreground))
+        '(font-lock-constant-face nil :weight 'normal)
+        '(font-lock-function-name-face nil :weight 'bold)
+        '(which-key-key-face nil :foreground
+             (face-attribute 'error :foreground))
 
         ;; active modeline has no colors
-        ;; `(mode-line ((t (:inherit mode-line :background "#fdf6e3"))))
-        ;; `(mode-line-inactive ((t (:inherit mode-line :background "#fdf6e3"))))
-        ;; `(spaceline-highlight-face ((t (:inherit mode-line :background "#fdf6e3"))))
-        ;; `(powerline-active1 ((t (:inherit mode-line :background "#fdf6e3"))))
-        ;; `(powerline-active2 ((t (:inherit mode-line :background "#fdf6e3"))))
+        `(mode-line ((t (:inherit mode-line :background "#fdf6e3"))))
+        `(mode-line-inactive ((t (:inherit mode-line :background "#fdf6e3"))))
+        `(spaceline-highlight-face ((t (:inherit mode-line :background "#fdf6e3"))))
+        `(powerline-active1 ((t (:inherit mode-line :background "#fdf6e3"))))
+        `(powerline-active2 ((t (:inherit mode-line :background "#fdf6e3"))))
 
         ;; Inactive modeline has tint
-        ;; `(powerline-inactive2 ((t (:inherit powerline-inactive1))))
+        `(powerline-inactive2 ((t (:inherit powerline-inactive1))))
 
         ;; Org and outline header updates
         `(org-level-1 ((t (:height 1.25
