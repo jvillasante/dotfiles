@@ -93,8 +93,8 @@ This function should only modify configuration layer settings."
              (c-c++ :variables
                  c-c++-default-mode-for-headers 'c++-mode
                  c-c++-backend 'lsp-ccls
-                 c-c++-lsp-executable (file-truename "~/Hacking/Software/ccls/Release/ccls")
-                 c-c++-lsp-cache-dir (file-truename "~/Hacking/workspace/dotfiles/.emacs.d/.cache/lsp-ccls")
+                 c-c++-lsp-executable (list (concat jv/software-path "/ccls/Release/ccls"))
+                 c-c++-lsp-cache-dir (list (concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls"))
                  ;; c-c++-lsp-sem-highlight-rainbow t
                  c-c++-adopt-subprojects t
                  ;; c-c++-enable-clang-support t ;; not if lsp is enabled!
@@ -103,7 +103,7 @@ This function should only modify configuration layer settings."
                  rust-backend 'lsp
                  rust-format-on-save t)
              (go :variables
-                 ;; go-backend 'lsp
+                 go-backend 'lsp
                  go-tab-width nil ;; use editorconfig
                  godoc-at-point-function 'godoc-gogetdoc
                  go-format-before-save t)
@@ -536,12 +536,16 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (cond
         ((spacemacs/system-is-mac)
             (setq
-                jv/dropbox-path "~/Dropbox"
+                jv/dotfiles-path (file-truename "~/Hacking/workspace/dotfiles")
+                jv/software-path (file-truename "~/Hacking/software")
+                jv/dropbox-path (file-truename "~/Dropbox")
                 jv/zsh-path "/usr/local/bin/zsh"
                 jv/clang-path "/usr/local/opt/llvm/bin/clang"))
         ((spacemacs/system-is-linux)
             (setq
-                jv/dropbox-path "~/Dropbox"
+                jv/dotfiles-path (file-truename "~/Hacking/Software/dotfiles")
+                jv/software-path (file-truename "~/Hacking/Software")
+                jv/dropbox-path (file-truename "~/Dropbox")
                 jv/zsh-path "/usr/bin/zsh"
                 jv/clang-path "/usr/bin/clang")))
 
@@ -559,8 +563,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                                        ("Asia/Calcutta" "India")))
 
     ;; recentf exclude folders/files
-    (setq
-        recentf-exclude '("~/Hacking/workspace/dotfiles/.emacs.d"))
+    (setq recentf-exclude (list (concat jv/dotfiles-path "/.emac.d")))
 
     ;; Solarized theme (Needs to go before load-theme())
     (setq solarized-use-variable-pitch nil
