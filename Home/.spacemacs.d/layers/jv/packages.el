@@ -1,7 +1,7 @@
 (defconst jv-packages
     '(
          ;; editorconfig
-         hydra
+         ;; hydra
          neotree
          sr-speedbar
          flyspell-lazy
@@ -16,18 +16,18 @@
 ;;     (editorconfig-mode 1)
 ;;     (spacemacs|diminish editorconfig-mode "ⓔ" "e")))
 
-(defun jv/post-init-hydra()
-    (set-face-attribute 'hydra-face-red nil
-        :foreground "#FF6956" :bold t :background "#383838")
-    (set-face-attribute 'hydra-face-blue nil
-        :foreground "Cyan" :bold t :background "#383838")
-    (set-face-attribute 'hydra-face-amaranth nil
-        :foreground "#e52b50" :bold t :background "#383838")
-    (set-face-attribute 'hydra-face-pink nil
-        :foreground "HotPink1" :bold t :background "#383838")
-    (set-face-attribute 'hydra-face-teal nil
-        :foreground "SkyBlue1" :bold t :background "#383838")
-    (hydra-add-font-lock))
+;; (defun jv/post-init-hydra()
+;;     (set-face-attribute 'hydra-face-red nil
+;;         :foreground "#FF6956" :bold t :background "#383838")
+;;     (set-face-attribute 'hydra-face-blue nil
+;;         :foreground "Cyan" :bold t :background "#383838")
+;;     (set-face-attribute 'hydra-face-amaranth nil
+;;         :foreground "#e52b50" :bold t :background "#383838")
+;;     (set-face-attribute 'hydra-face-pink nil
+;;         :foreground "HotPink1" :bold t :background "#383838")
+;;     (set-face-attribute 'hydra-face-teal nil
+;;         :foreground "SkyBlue1" :bold t :background "#383838")
+;;     (hydra-add-font-lock))
 
 (defun jv/post-init-neotree ()
     (defadvice neo-buffer--get-nodes
@@ -77,8 +77,7 @@
 
 (defun jv/init-pass ()
     (use-package pass
-        :ensure t
-        ))
+        :ensure t))
 
 (defun jv/init-crux ()
     (use-package crux
