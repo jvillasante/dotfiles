@@ -7,14 +7,14 @@ fi
 
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
-  export CARGO_HOME="$HOME/.cargo"
-  export PATH="$CARGO_HOME/bin:$PATH"
-  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+    export CARGO_HOME="$HOME/.cargo"
+    export PATH="$CARGO_HOME/bin:$PATH"
+    export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 fi
 
 # Go
-if [ -d "$HOME/Hacking/golang" ]; then
-    export GOPATH=$HOME/Hacking/workspace/golang
+if [ -d "$HOME/Hacking/workspace/go" ]; then
+    export GOPATH=$HOME/Hacking/workspace/go
     export PATH="$GOPATH/bin:$PATH"
 fi
 
