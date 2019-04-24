@@ -13,30 +13,30 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 # Go
-if [ -d "$HOME/Hacking/workspace/golang" ]; then
-    export GOPATH=$HOME/Hacking/workspace/golang
+if [ -d "$HOME/Hacking/workspace/go" ]; then
+    export GOPATH=$HOME/Hacking/workspace/go
     export PATH="$GOPATH/bin:$PATH"
 fi
 
 # Boost
-export BOOST_ROOT="$HOME/Hacking/software/boost_1_68_0"
-export BOOST_VERSION=1.68.0
+# export BOOST_ROOT="$HOME/Hacking/software/boost_1_68_0"
+# export BOOST_VERSION=1.68.0
 
 # Google Test
-export GTEST_HOME="$HOME/Hacking/software/googletest"
+# export GTEST_HOME="$HOME/Hacking/software/googletest"
 
 # ASIO
 # export BOOST_ASIO_ROOT="$HOME/Software/src/asio-1.10.8"
 # export BOOST_ASIO_VERSION=1.10.8
 
 # Range-v3
-export RANGEV3_HOME="$HOME/Hacking/software/range-v3"
+# export RANGEV3_HOME="$HOME/Hacking/software/range-v3"
 
 # cURL (libcurl)
-export CURL_HOME="$HOME/Hacking/software/curl-7.62.0"
+# export CURL_HOME="$HOME/Hacking/software/curl-7.62.0"
 
 # JsonCpp
-export JSONCPP_HOME="$HOME/Hacking/software/jsoncpp"
+# export JSONCPP_HOME="$HOME/Hacking/software/jsoncpp"
 
 # rlog
 # export RLOG_HOME="$HOME/Software/src/rlog-1.4"
