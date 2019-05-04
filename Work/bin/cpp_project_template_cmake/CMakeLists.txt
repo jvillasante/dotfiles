@@ -75,6 +75,26 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 ###### This is how to include directories of 3rd party libraries
 # include_directories(${LIBS_PATH}/path/to/include)
 #
+###### Libraries and executables
+# add_library(your-static-library STATIC 
+#     foo.hpp
+#     foo.cpp
+#     )
+
+# add_library(your-shared-library SHARED
+#     bar.hpp
+#     bar.cpp
+#     )
+
+# add_executable(your-executable
+#     main.cpp
+#     )
+
+# target_link_libraries(your-executable
+#     PRIVATE
+#         your-static-library
+#         your-shared-library
+#     )
 ######################################################################################################################################
 
 add_subdirectory(src/app)
