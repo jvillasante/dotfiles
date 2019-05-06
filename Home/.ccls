@@ -19,11 +19,11 @@ gcc
 # -isystem/Library/Frameworks
 
 # System includes GCC: Output of 'echo | /usr/local/opt/gcc/bin/gcc-8 -v -x c++ -E -' command.
--isystem/usr/local/Cellar/gcc/8.3.0_1/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/../../../../../../include/c++/8.3.0
--isystem/usr/local/Cellar/gcc/8.3.0_1/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/../../../../../../include/c++/8.3.0/x86_64-apple-darwin18
--isystem/usr/local/Cellar/gcc/8.3.0_1/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/../../../../../../include/c++/8.3.0/backward
--isystem/usr/local/Cellar/gcc/8.3.0_1/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/include
--isystem/usr/local/Cellar/gcc/8.3.0_1/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/include-fixed
+-isystem/usr/local/Cellar/gcc/8.3.0_2/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/../../../../../../include/c++/8.3.0
+-isystem/usr/local/Cellar/gcc/8.3.0_2/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/../../../../../../include/c++/8.3.0/x86_64-apple-darwin18
+-isystem/usr/local/Cellar/gcc/8.3.0_2/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/../../../../../../include/c++/8.3.0/backward
+-isystem/usr/local/Cellar/gcc/8.3.0_2/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/include
+-isystem/usr/local/Cellar/gcc/8.3.0_2/lib/gcc/8/gcc/x86_64-apple-darwin18/8.3.0/include-fixed
 -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
 -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
 
