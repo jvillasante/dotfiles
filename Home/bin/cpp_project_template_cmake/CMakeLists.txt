@@ -6,8 +6,8 @@ cmake_minimum_required(VERSION 3.8)
 # set(CMAKE_CXX_COMPILER "${CLANG_PREFIX}/bin/clang++")
 #
 set(GCC_PREFIX "/usr/local/opt/gcc")
-set(CMAKE_C_COMPILER "${GCC_PREFIX}/bin/gcc-8")
-set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-8")
+set(CMAKE_C_COMPILER "${GCC_PREFIX}/bin/gcc-9")
+set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-9")
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 
 # Specify default build type if none provided (before project() command)
