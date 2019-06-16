@@ -103,10 +103,7 @@ install_emacs () {
     elif [[ $CURRENT_EMACS_DISTRO == "DOOM_EMACS" ]]; then
       # git clone https://github.com/hlissner/doom-emacs $dir/.emacs.d -b develop
       git clone -b develop --single-branch git@github.com:hlissner/doom-emacs.git $dir/.emacs.d
-      cd $dir/.emacs.d
-      make install
-      make compile
-      cd -
+      $dir/.emacs.d/bin/doom quickstart
     else
       echo "Set CURRENT_EMACS_DISTRO!"
     fi
