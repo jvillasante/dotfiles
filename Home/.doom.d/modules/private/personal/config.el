@@ -50,10 +50,6 @@
 ;; recentf exclude folders/files
 (setq recentf-exclude (list (concat jv/dotfiles-path "/.emacs.d")))
 
-;; I do not know what this is :)
-(setq max-specpdl-size 5000)
-(setf url-queue-timeout 30))
-
 ;; Some setq-defaults
 (setq-default
     user-full-name "Julio C. Villasante"
