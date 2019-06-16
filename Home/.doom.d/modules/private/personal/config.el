@@ -11,7 +11,9 @@
     ((string-equal system-type "darwin") ; Mac OS X
         (progn
             (setq
-                jv/dropbox-path "~/Dropbox"
+                jv/dotfiles-path (file-truename "~/Hacking/workspace/dotfiles")
+                jv/software-path (file-truename "~/Hacking/software")
+                jv/dropbox-path (file-truename "~/Dropbox")
                 jv/zsh-path "/usr/local/bin/zsh"
                 jv/clang-path "/usr/local/opt/llvm/bin/clang")
 
@@ -22,11 +24,35 @@
     ((string-equal system-type "gnu/linux") ; linux
         (progn
             (setq
-                jv/dropbox-path "~/Dropbox"
+                jv/dotfiles-path (file-truename "~/Hacking/Software/dotfiles")
+                jv/software-path (file-truename "~/Hacking/Software")
+                jv/dropbox-path (file-truename "~/Dropbox")
                 jv/zsh-path "/usr/bin/zsh"
                 jv/clang-path "/usr/bin/clang")
 
             (executable-find "google-chrome"))))
+
+(global-auto-revert-mode t)
+
+(setq
+    flycheck-check-syntax-automatically '(mode-enabled save))
+
+;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+(setq display-time-world-list '(("UTC" "UTC")
+                                   ("US/Eastern" "Miami")
+                                   ("America/Havana" "Habana")
+                                   ("America/New_York" "New York")
+                                   ("Europe/Amsterdam" "Amsterdam")
+                                   ("Europe/Copenhagen" "Denmark")
+                                   ("Asia/Shanghai" "China")
+                                   ("Asia/Calcutta" "India")))
+
+;; recentf exclude folders/files
+(setq recentf-exclude (list (concat jv/dotfiles-path "/.emacs.d")))
+
+;; I do not know what this is :)
+(setq max-specpdl-size 5000)
+(setf url-queue-timeout 30))
 
 ;; Some setq-defaults
 (setq-default
@@ -89,3 +115,4 @@
 ;; Modules
 (load! "+spacemacs-bindings")
 (load! "+ui")
+(load! "+packages_custom")

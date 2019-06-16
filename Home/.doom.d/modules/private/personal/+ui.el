@@ -25,17 +25,22 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Theme setup
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq solarized-use-variable-pitch nil
+    solarized-use-less-bold t
+    solarized-use-more-italic nil
+    solarized-distinct-doc-face t
+    solarized-high-contrast-mode-line nil
+    ;; I find different font sizes irritating.
+    solarized-height-minus-1 1.0
+    solarized-height-plus-1 1.0
+    solarized-height-plus-2 1.0
+    solarized-height-plus-3 1.0
+    solarized-height-plus-4 1.0)
+
 (setq doom-theme (if (display-graphic-p) 'doom-solarized-light nil))
 
 (after! doom-themes
     (custom-set-faces '(header-line ((t (:inherit neo-root-dir-face))))))
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Neotree setup
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(after! neotree
-    (setq doom-neotree-enable-variable-pitch nil)
-    (setq neo-autorefresh t))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Resize window
