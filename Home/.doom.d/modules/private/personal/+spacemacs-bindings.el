@@ -15,7 +15,8 @@
     (:leader
         (:prefix "f"
             :desc "Save file (Spacemacs)" :n "s" #'save-buffer
-            :desc "Find file (Spacemacs)" :n "f" #'find-file)
+            :desc "Find file (Spacemacs)" :n "f" #'find-file
+            :desc "Neotree toggle (Spacemacs)" :n "t" #'neotree-toggle)
         (:prefix "b"
             :desc "Previous buffer (Spacemacs)" :n "p" #'previous-buffer
             :desc "Next buffer (Spacemacs)" :n "n" #'next-buffer

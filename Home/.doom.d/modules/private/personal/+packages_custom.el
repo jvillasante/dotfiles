@@ -3,4 +3,4 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! neotree
     (setq doom-neotree-enable-variable-pitch nil)
-    (setq neo-autorefresh t))
+    (setq neo-autorefresh nil))
