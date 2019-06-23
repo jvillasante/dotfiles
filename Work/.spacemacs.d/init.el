@@ -122,7 +122,6 @@ This function should only modify configuration layer settings."
              jv-deft
              jv-dired
              jv-elfeed
-             jv-ivy
              jv-magit
              jv-org)
 

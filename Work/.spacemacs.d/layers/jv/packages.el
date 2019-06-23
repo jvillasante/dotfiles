@@ -2,12 +2,33 @@
     '(
          ;; editorconfig
          ;; hydra
+         ivy
+         avy
+         counsel
          neotree
          sr-speedbar
+         flycheck
          flyspell-lazy
          password-store
          pass
          crux))
+
+(defun jv/post-init-ivy ()
+    (setq ivy-display-style 'fancy
+        ivy-count-format "(%d/%d) "
+        ivy-use-selectable-prompt t    ; much better than C-M-j
+        ivy-use-virtual-buffers t      ; to make ivy-views appear on the buffers list
+        ivy-virtual-abbreviate 'full   ; default is name
+        ivy-initial-inputs-alist nil   ; remove initial ^ input.
+        ivy-extra-directories nil      ; remove . and .. directory. (default value: ("../" "./"))
+        ivy-height 10))
+
+(defun jv/post-init-avy ()
+    (setq avy-all-windows t))
+
+(defun jv/post-init-counsel ()
+    (setq counsel-rg-base-command "rg -S --no-heading --line-number --color never %s ."
+        counsel-ag-base-command "ag -S --nocolor --nogroup %s"))
 
 ;; (defun jv/init-editorconfig ()
 ;;   (use-package editorconfig
@@ -42,6 +63,7 @@
 
     ;; (setq neo-theme 'nerd)
     (setq neo-theme 'ascii)
+    ;; (setq neo-autorefresh t)
 
     (setq neo-hidden-regexp-list
         '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
@@ -49,9 +71,7 @@
              "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
              "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
              "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
-             "\\.egg\-info$"
-             "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-             "\\.cproject$" "\\.project$"))
+             "\\.egg\-info$"))
     )
 
 (defun jv/init-sr-speedbar ()
@@ -60,6 +80,11 @@
         :init
         (spacemacs/set-leader-keys
             "sr" 'sr-speedbar-toggle)))
+
+(defun jv/post-init-flycheck ()
+    (setq-default
+        +flycheck-on-escape nil
+        flycheck-check-syntax-automatically '(save mode-enable)))
 
 (defun jv/init-flyspell-lazy ()
     (use-package flyspell-lazy
