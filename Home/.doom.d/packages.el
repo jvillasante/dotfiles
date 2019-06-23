@@ -1,7 +1,17 @@
 ;;; packages.el --- description -*- no-byte-compile: t; -*-
 
+;; Disable Packages
 (disable-packages! company-irony company-irony-c-headers flycheck-irony irony irony-eldoc ivy-rtags rtags)
 (disable-packages! winum)
+
+;; Load Packages
+(package! ccls)
+(package! ivy-prescient)
+(package! crux)
+(package! dired-quick-sort)
+
+;; Github example
+;; (package! tablature-mode :recipe (:fetcher github :repo "valrus/tablature-mode"))
 
 ;; JS stuff
 ;; (package! prettier-js)

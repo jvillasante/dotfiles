@@ -1,13 +1,11 @@
-;;; private/personal/+ui.el -*- lexical-binding: t; -*-
-;;;
+;;; -*- lexical-binding: t; -*-
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Title bar setup
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(if (eq system-type 'darwin)
-    (progn
-        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-        (add-to-list 'default-frame-alist '(ns-appearance . dark))))
+;; MAC setup
+(when IS-MAC
+    (setq ns-use-thin-smoothing t)
+    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+    (add-to-list 'default-frame-alist '(ns-appearance . dark))
+    (add-hook 'window-setup-hook #'toggle-frame-maximized))
 
 (setq ns-use-proxy-icon nil)
 

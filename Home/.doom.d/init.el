@@ -52,7 +52,7 @@
         ;;+icons          ; colorful icons for dired-mode
         )
     electric          ; smarter, keyword-based electric-indent
-    eshell            ; a consistent, cross-platform shell (WIP)
+    ;; eshell            ; a consistent, cross-platform shell (WIP)
     imenu             ; an imenu sidebar and searchable code index
     term              ; terminals in Emacs
     vc                ; version-control and Emacs, sitting in a tree
@@ -122,7 +122,7 @@
     ;;racket            ; a DSL for DSLs
     rest              ; Emacs as a REST client
     ;;ruby              ; 1.step do {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-    (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+    ;; (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
     ;;scala             ; java, but good
     sh                   ; she sells (ba|z|fi)sh shells on the C xor
     ;;solidity          ; do you need a blockchain? No.
@@ -156,7 +156,6 @@
     ;; and additional ex commands for evil-mode. Use it as a reference for
     ;; your own modules.
     (default +bindings +snippets +evil-commands +smartparens)
-    
+
     ;; personal module, all my config goes here
-    :private personal
-    )
+    :private personal)

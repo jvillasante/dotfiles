@@ -3,36 +3,38 @@
 (when (version<= "26.0.50" emacs-version )
     (global-display-line-numbers-mode))
 
-;; check OS type
-(cond
-    ((string-equal system-type "windows-nt") ; Microsoft Windows
-        (progn
-            (message "Microsoft Windows Not Supported!!!!")))
-    ((string-equal system-type "darwin") ; Mac OS X
-        (progn
-            (setq
-                jv/dotfiles-path (file-truename "~/Hacking/workspace/dotfiles")
-                jv/software-path (file-truename "~/Hacking/software")
-                jv/dropbox-path (file-truename "~/Dropbox")
-                jv/zsh-path "/usr/local/bin/zsh"
-                jv/clang-path "/usr/local/opt/llvm/bin/clang")
+;; OS types
+(when IS-MAC
+    (setq
+        jv/dotfiles-path (file-truename "~/Hacking/workspace/dotfiles")
+        jv/software-path (file-truename "~/Hacking/software")
+        jv/dropbox-path (file-truename "~/Dropbox")
+        jv/zsh-path "/usr/local/bin/zsh"
+        jv/clang-path "/usr/local/opt/llvm/bin/clang")
 
-            (setq
-                browse-url-browser-function 'browse-url-generic
-                engine/browser-function 'browse-url-generic
-                browse-url-generic-program "open")))
-    ((string-equal system-type "gnu/linux") ; linux
-        (progn
-            (setq
-                jv/dotfiles-path (file-truename "~/Hacking/Software/dotfiles")
-                jv/software-path (file-truename "~/Hacking/Software")
-                jv/dropbox-path (file-truename "~/Dropbox")
-                jv/zsh-path "/usr/bin/zsh"
-                jv/clang-path "/usr/bin/clang")
+    (setq
+        browse-url-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-generic
+        browse-url-generic-program "open"))
 
-            (executable-find "google-chrome"))))
+(when IS-LINUX
+    (setq
+        jv/dotfiles-path (file-truename "~/Hacking/Software/dotfiles")
+        jv/software-path (file-truename "~/Hacking/Software")
+        jv/dropbox-path (file-truename "~/Dropbox")
+        jv/zsh-path "/usr/bin/zsh"
+        jv/clang-path "/usr/bin/clang")
 
-(global-auto-revert-mode t)
+    (executable-find "google-chrome"))
+
+;; Minibuffer setup
+(setq-hook! 'minibuffer-setup-hook
+    show-trailing-whitespace nil
+    ;; room for icons
+    line-spacing 1)
+
+;; seems slow, barely works
+;; (global-auto-revert-mode)
 
 (setq
     flycheck-check-syntax-automatically '(mode-enabled save))
@@ -93,9 +95,6 @@
 
     flycheck-check-syntax-automatically '(mode-enabled save)
 
-    ;; recentf exclude folders/files
-    recentf-exclude '("~/Hacking/workspace/dotfiles/.emacs.d")
-
     ispell-program-name "aspell"
     auto-window-vscroll nil
     sp-escape-quotes-after-insert nil
@@ -104,11 +103,9 @@
     max-specpdl-size 5000
     url-queue-timeout 30)
 
-;; Load snippets
-;; (after! yasnippet
-;;     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
-
 ;; Modules
-(load! "+spacemacs-bindings")
+(load! "+config-packages")
 (load! "+ui")
-(load! "+packages_custom")
+(load! "+bindings")
+(load! "+bindings-spacemacs")
+(load! "+hooks")
