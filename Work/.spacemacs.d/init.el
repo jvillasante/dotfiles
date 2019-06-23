@@ -82,6 +82,7 @@ This function should only modify configuration layer settings."
                  web-mode-code-indent-offset 4
                  web-mode-markup-indent-offset 4
                  web-mode-css-indent-offset 4)
+             dap
              lsp
              lua
              javascript
