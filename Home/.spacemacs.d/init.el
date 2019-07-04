@@ -569,6 +569,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
         solarized-use-more-italic nil
         solarized-distinct-doc-face t
         solarized-high-contrast-mode-line nil
+
         ;; I find different font sizes irritating.
         solarized-height-minus-1 1.0
         solarized-height-plus-1 1.0
@@ -594,10 +595,6 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
     ;; Some defaults
-    (setq ispell-program-name "aspell")
-    (setq auto-window-vscroll nil)
-    (setq sp-escape-quotes-after-insert nil)
-
     (setq-default
         user-full-name "Julio C. Villasante"
         user-mail-address "jvillasantegomez@gmail.com"
@@ -643,14 +640,27 @@ before packages are loaded."
         font-latex-fontify-script nil
         TeX-newline-function 'reindent-then-newline-and-indent)
 
-    ;; UTF-8 please
+    ;; more defaults
+    (setq
+        ispell-program-name "aspell"
+        auto-window-vscroll nil
+        sp-escape-quotes-after-insert nil)
+
+    ;; Default Encoding
     (set-charset-priority 'unicode)
     (setq locale-coding-system   'utf-8)   ; pretty
-    (set-terminal-coding-system  'utf-8)   ; pretty
-    (set-keyboard-coding-system  'utf-8)   ; pretty
-    (set-selection-coding-system 'utf-8)   ; please
-    (prefer-coding-system        'utf-8)   ; with sugar on top
-    (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+    (prefer-coding-system 'utf-8-unix)
+    (set-locale-environment "en_US.UTF-8")
+    (set-default-coding-systems 'utf-8-unix)
+    (set-selection-coding-system 'utf-8-unix)
+    (set-buffer-file-coding-system 'utf-8-unix)
+    (set-clipboard-coding-system 'utf-8) ; included by set-selection-coding-system
+    (set-keyboard-coding-system 'utf-8) ; configured by prefer-coding-system
+    (set-terminal-coding-system 'utf-8) ; configured by prefer-coding-system
+    (setq buffer-file-coding-system 'utf-8) ; utf-8-unix
+    (setq save-buffer-coding-system 'utf-8-unix) ; nil
+    (setq process-coding-system-alist
+        (cons '("grep" utf-8 . utf-8) process-coding-system-alist))
 
     ;; multiterm
     (setq multi-term-program jv/zsh-path)
