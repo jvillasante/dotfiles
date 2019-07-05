@@ -53,12 +53,18 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 
 ######################################################################################################################################
+#
 ###### This is how to link with C++17 filesystem library
 # if(CMAKE_COMPILER_IS_GNUCXX)
 #   target_link_libraries(${PROJECT_NAME} stdc++fs)
 # elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 #   target_link_libraries(${PROJECT_NAME} c++fs)
 # endif()
+#
+###### This is how to link threading libraries
+# find_package(Threads)
+# add_executable(${PROJECT_NAME} executable_name.cpp)
+# target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 #
 ###### This is how to copy a file to bin
 # add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
@@ -78,23 +84,20 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 ###### Libraries and executables
 # add_library(your-static-library STATIC
 #     foo.hpp
-#     foo.cpp
-#     )
-
+#     foo.cpp)
+#
 # add_library(your-shared-library SHARED
 #     bar.hpp
-#     bar.cpp
-#     )
-
+#     bar.cpp)
+#
 # add_executable(your-executable
-#     main.cpp
-#     )
-
+#     main.cpp)
+#
 # target_link_libraries(your-executable
 #     PRIVATE
 #         your-static-library
-#         your-shared-library
-#     )
+#         your-shared-library)
+#
 ######################################################################################################################################
 
 add_subdirectory(src/app)
