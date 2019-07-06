@@ -5,13 +5,13 @@
          ivy
          avy
          counsel
-         ;; neotree
-         treemacs
+         neotree
+         ;; treemacs
          sr-speedbar
          flycheck
          flyspell-lazy
-         password-store
-         pass
+         ;; password-store
+         ;; pass
          crux))
 
 (defun jv/post-init-ivy ()
@@ -51,28 +51,28 @@
 ;;         :foreground "SkyBlue1" :bold t :background "#383838")
 ;;     (hydra-add-font-lock))
 
-;; (defun jv/post-init-neotree ()
-;;     (defadvice neo-buffer--get-nodes
-;;         (after neo-buffer--get-nodes-new-sorter activate)
-;;         (setq ad-return-value
-;;             (let ((nodes ad-return-value)
-;;                      (comparator (lambda (s1 s2) (string< (downcase s1)
-;;                                                      (downcase s2)))))
-;;                 (apply 'cons (mapcar (lambda (x) (sort (apply x (list nodes))
-;;                                                      comparator))
-;;                                  '(car cdr))))))
+(defun jv/post-init-neotree ()
+    (setq neo-theme 'ascii)
+    ;; (setq neo-autorefresh t)
 
-;;     ;; (setq neo-theme 'nerd)
-;;     (setq neo-theme 'ascii)
-;;     ;; (setq neo-autorefresh t)
+    (defadvice neo-buffer--get-nodes
+        (after neo-buffer--get-nodes-new-sorter activate)
+        (setq ad-return-value
+            (let ((nodes ad-return-value)
+                     (comparator (lambda (s1 s2) (string< (downcase s1)
+                                                     (downcase s2)))))
+                (apply 'cons (mapcar (lambda (x) (sort (apply x (list nodes))
+                                                     comparator))
+                                 '(car cdr))))))
 
-;;     (setq neo-hidden-regexp-list
-;;         '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
-;;              "^\\.\\(DS_Store\\|python\\-version\\)"
-;;              "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
-;;              "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-;;              "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
-;;              "\\.egg\-info$")))
+    (with-eval-after-load 'neotree
+        (setq neo-hidden-regexp-list
+            '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
+                 "^\\.\\(DS_Store\\|python\\-version\\)"
+                 "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
+                 "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+                 "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
+                 "\\.egg\-info$"))))
 
 (defun jv/post-init-treemacs ()
     (setq

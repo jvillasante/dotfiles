@@ -109,11 +109,12 @@ This function should only modify configuration layer settings."
              restclient
              csv
              deft
-             (treemacs :variables
-                 treemacs-use-follow-mode t
-                 treemacs-use-filewatch-mode t
-                 treemacs-use-collapsed-directories 3
-                 treemacs-lock-width nil)
+             neotree
+             ;; (treemacs :variables
+             ;;     treemacs-use-follow-mode t
+             ;;     treemacs-use-filewatch-mode t
+             ;;     treemacs-use-collapsed-directories 3
+             ;;     treemacs-lock-width nil)
              (elfeed :variables
                  rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
 
