@@ -72,6 +72,7 @@
                  "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
                  "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
                  "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
+                 "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
                  "\\.egg\-info$"))))
 
 (defun jv/post-init-treemacs ()
