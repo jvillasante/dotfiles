@@ -82,6 +82,7 @@ This function should only modify configuration layer settings."
                  web-mode-code-indent-offset 4
                  web-mode-markup-indent-offset 4
                  web-mode-css-indent-offset 4)
+             common-lisp
              dap
              lsp
              lua
@@ -124,6 +125,7 @@ This function should only modify configuration layer settings."
              jv
              jv-solarized
              jv-cpp-common
+             jv-lisp
              jv-lsp
              jv-deft
              jv-dired
