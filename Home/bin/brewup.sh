@@ -7,6 +7,7 @@ if hash brew 2>/dev/null; then
   if ask "Do you want to update brew?"; then
     brew update
     brew upgrade
+    brew cask upgrade
     brew cask outdated | cut -f 1 | xargs brew cask reinstall
   else
     echo "Not updating brew."
