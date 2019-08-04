@@ -571,6 +571,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
     ;; recentf exclude folders/files
     (setq recentf-exclude (list (concat jv/dotfiles-path "/.emacs.d*")))
+    (add-to-list 'recentf-exclude "/var/*")
 
     ;; Solarized theme (Needs to go before load-theme())
     (setq solarized-use-variable-pitch nil
