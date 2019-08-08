@@ -4,7 +4,8 @@ gcc
 
 # Extras
 # %cpp -stdlib=libc++
-%h -x c++-header
+%h -x
+%h c++-header
 
 # Compiler Flags
 -Wall
