@@ -15,15 +15,15 @@
 
         ;; settings
         (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
+        (setq org-agenda-window-setup (quote current-window)) ;; open agenda in current window
         (setq org-startup-indented t)
         (setq org-indent-mode t)
         (setq org-list-description-max-indent 5) ;; set maximum indentation for description lists
         (setq org-adapt-indentation nil) ;; prevent demoting heading also shifting text inside sections
-        (setq org-cycle-separator-lines 1)
+        (setq org-cycle-separator-lines 2)
         (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
         (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
         (setq org-clock-idle-time 15)
-        (setq org-ellipsis " ▼") ;; http://endlessparentheses.com/changing-the-org-mode-ellipsis.html
 
         ;; todos
         (setq org-todo-keywords
@@ -70,15 +70,16 @@
 
         ;; capture
         (setq org-capture-templates
-            (quote (("t" "todo" entry (file org-default-notes-file)
-                        "* TODO %?\n%U\n%a\n")
-                       ("m" "meeting" entry (file org-default-notes-file)
+            (quote (("t" "todo" entry (file+headline org-default-notes-file "Tasks")
+                        ;; "* TODO %?\n%U\n%a\n")
+                        "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
+                       ("m" "meeting" entry (file+headline org-default-notes-file "Meetings")
                            "* MEETING with %? :MEETING:\n%U")
-                       ("i" "idea" entry (file org-default-notes-file)
+                       ("i" "idea" entry (file+headline org-default-notes-file "Ideas")
                            "* %? :IDEA:\n%U\n%a\n")
-                       ("n" "note" entry (file org-default-notes-file)
+                       ("n" "note" entry (file+headline org-default-notes-file "Notes")
                            "* %? :NOTE:\n%U\n%a\n")
-                       ("h" "habit" entry (file rae/org-default-notes-file)
+                       ("h" "habit" entry (file+headline rae/org-default-notes-file "Habits")
                            "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 
         ;; refiling
