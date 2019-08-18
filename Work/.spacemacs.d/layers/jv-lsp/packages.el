@@ -4,6 +4,7 @@
 
 (defun jv-lsp/post-init-lsp-mode ()
     (defun jv-lsp/setup-lsp-mode ()
+        (setq lsp-restart 'auto-restart)
         (setq lsp-remap-xref-keybindings nil)
         (setq lsp-navigation 'both))
 
