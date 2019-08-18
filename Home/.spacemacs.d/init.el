@@ -557,13 +557,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
     ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
     (setq display-time-world-list '(("UTC" "UTC")
-                                       ("US/Eastern" "Miami")
-                                       ("America/Havana" "Habana")
-                                       ("America/New_York" "New York")
-                                       ("Europe/Amsterdam" "Amsterdam")
-                                       ("Europe/Copenhagen" "Denmark")
-                                       ("Asia/Shanghai" "China")
-                                       ("Asia/Calcutta" "India")))
+                                       ("America/New_York" "Tampa")
+                                       ("Europe/Ljubljana" "Slovenia")
+                                       ("Asia/Calcutta" "India")
+                                       ("America/Havana" "Havana")))
 
     ;; recentf exclude folders/files
     (setq recentf-exclude (list (concat jv/dotfiles-path "/.emacs.d*")))
