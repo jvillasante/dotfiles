@@ -53,7 +53,7 @@ elif [[ $CURRENT_ENV == "WORK" ]]; then
   dir=~/Hacking/Software/dotfiles         # dotfiles directory
 fi
 
-echo "========================================================================"
+echo "===================================================================================="
 echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS' at '$dir'."
 
 install_zsh () {
@@ -81,13 +81,9 @@ install_zsh () {
         git clone http://github.com/robbyrussell/oh-my-zsh.git $dir/.oh-my-zsh
       fi
 
-      echo "========================================================================"
       echo ">> Remember to set the default shell to zsh if it isn't already         "
-      echo "========================================================================"
     else
-      echo "========================================================================"
       echo ">> Remember to install zsh                                              "
-      echo "========================================================================"
     fi
   fi
 }
@@ -132,3 +128,6 @@ for file in $files; do
     ln -s $dir/Work/$file ~/
   fi
 done
+
+echo ">> Done!"
+echo "===================================================================================="
