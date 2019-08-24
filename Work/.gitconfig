@@ -1,6 +1,6 @@
 [user]
 	name = Julio C. Villasante
-	email = Julio.Villasante.consultant@nielsen.com
+	email = julio.c.villasante@nielsen.com
 [credential]
 	helper = cache --timeout=3600
 [push]

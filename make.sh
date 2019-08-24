@@ -132,8 +132,3 @@ for file in $files; do
     ln -s $dir/Work/$file ~/
   fi
 done
-
-echo "==========================================================================="
-echo ">> Remember to change alias ls='/usr/local/bin/gls -AlFh --color' in .zshrc"
-echo ">> Remember to change 'email = jvillasantegomez@gmail.com' in .gitconfig   "
-echo "==========================================================================="
