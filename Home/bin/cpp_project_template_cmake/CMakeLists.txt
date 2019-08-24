@@ -66,6 +66,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 # add_executable(${PROJECT_NAME} executable_name.cpp)
 # target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 #
+###### This is how to link TBB threading libraries
+# include("../../cmake/FindTBB.cmake")
+# find_package(TBB REQUIRED)
+# add_executable(${PROJECT_NAME} executable_name.cpp)
+# target_link_libraries(${PROJECT_NAME} tbb)
+#
 ###### This is how to copy a file to bin
 # add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
 #                    COMMAND ${CMAKE_COMMAND} -E copy

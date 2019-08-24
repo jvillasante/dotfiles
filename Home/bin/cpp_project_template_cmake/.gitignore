@@ -28,6 +28,6 @@
 *.app
 
 # Others
+.DS_Store
 bin/
 build/
-.DS_Store

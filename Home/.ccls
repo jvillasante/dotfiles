@@ -2,8 +2,11 @@ gcc
 %c -std=gnu11
 %cpp -std=c++17
 
+# llvm stuff
+# -stdlib=libc++
+# -nostdinc++
+
 # Extras
-# %cpp -stdlib=libc++
 %h -x
 %h c++-header
 
