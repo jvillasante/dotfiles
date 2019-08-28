@@ -6,6 +6,7 @@
     (defun jv-lsp/setup-lsp-mode ()
         (setq lsp-restart 'auto-restart)
         (setq lsp-remap-xref-keybindings nil)
+        (setq lsp-enable-on-type-formatting nil)
         (setq lsp-navigation 'both))
 
     (spacemacs|diminish lsp-mode " Ⓛ" " L")
