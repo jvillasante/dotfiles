@@ -30,13 +30,14 @@ at least the fill column. Place the point after the comment box."
                   (with-current-buffer buffer
                       (goto-char (point-min))
                       (search-forward "warning" nil t))))
-        (run-with-timer 1 nil
+        (run-with-timer 2 nil
             (lambda (buf)
                 (bury-buffer buf)
                 ;; (switch-to-prev-buffer (get-buffer-window buf) 'kill)
                 (delete-windows-on buf))
             buffer)))
 (add-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
+;; (remove-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ANSI-colors in the compilation buffer output                                                                   ;;
