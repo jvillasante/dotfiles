@@ -43,8 +43,10 @@ This function should only modify configuration layer settings."
              osx
              dash
              (auto-completion :variables
-                 auto-completion-return-key-behavior 'complete
-                 auto-completion-tab-key-behavior 'cycle
+                 ;; auto-completion-return-key-behavior 'complete
+                 ;; auto-completion-tab-key-behavior 'cycle
+                 auto-completion-return-key-behavior nil
+                 auto-completion-tab-key-behavior 'complete
                  auto-completion-complete-with-key-sequence nil
                  auto-completion-complete-with-key-sequence-delay 0.1
                  auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
