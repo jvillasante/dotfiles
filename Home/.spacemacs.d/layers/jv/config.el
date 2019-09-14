@@ -36,6 +36,7 @@ at least the fill column. Place the point after the comment box."
                 ;; (switch-to-prev-buffer (get-buffer-window buf) 'kill)
                 (delete-windows-on buf))
             buffer)))
+
 ;; (add-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
 ;; (remove-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
 
@@ -43,6 +44,12 @@ at least the fill column. Place the point after the comment box."
 ;; ANSI-colors in the compilation buffer output                                                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ansi-color)
+
+(defun jv/display-ansi-colors ()
+    (interactive)
+    (let ((inhibit-read-only t))
+        (ansi-color-apply-on-region (point-min) (point-max))))
+
 (defun jv/colorize-compilation ()
     "Colorize from `compilation-filter-start' to `point'."
     (let ((inhibit-read-only t))
