@@ -2,14 +2,19 @@ export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ]; then
-  export PATH="$HOME/bin:$PATH"
+    export PATH="$HOME/bin:$PATH"
+fi
+
+# llvm
+if [ -d "/usr/local/opt/llvm/bin" ]; then
+    export PATH="/usr/local/opt/llvm/bin:$PATH"
 fi
 
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
-  export CARGO_HOME="$HOME/.cargo"
-  export PATH="$CARGO_HOME/bin:$PATH"
-  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+    export CARGO_HOME="$HOME/.cargo"
+    export PATH="$CARGO_HOME/bin:$PATH"
+    export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 fi
 
 # Go
