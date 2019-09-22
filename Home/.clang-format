@@ -4,8 +4,13 @@ BasedOnStyle: LLVM
 Language: Cpp
 Standard: Cpp11
 
+# Things I like
 AlwaysBreakTemplateDeclarations: true
 PointerAlignment: Left
+AllowShortFunctionsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+ColumnLimit: 100
 
 # Indent with 4 spaces
 IndentWidth: 4
