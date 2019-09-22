@@ -14,10 +14,7 @@ if hash rustup 2>/dev/null; then
         echo "Not updating rust."
     fi
 
-    if ask "Do you want to update cargo?"; then
-        cargo install-update -a
-        check $?
-    else
-        echo "Not updating cargo."
-    fi
+    echo "Global Packages Installed:"
+    cargo install-update -al
+    check $?
 fi
