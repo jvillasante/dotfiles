@@ -47,10 +47,11 @@ This function should only modify configuration layer settings."
                  auto-completion-tab-key-behavior 'cycle
                  auto-completion-complete-with-key-sequence nil
                  auto-completion-complete-with-key-sequence-delay 0.1
-                 auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
-                 auto-completion-enable-help-tooltip t
-                 auto-completion-enable-sort-by-usage t
-                 auto-completion-enable-snippets-in-popup t
+                 auto-completion-idle-delay 0.2
+                 auto-completion-private-snippets-directory nil
+                 auto-completion-enable-snippets-in-popup nil
+                 auto-completion-enable-help-tooltip nil
+                 auto-completion-enable-sort-by-usage nil
                  :disabled-for org erc git markdown eshell ledger text)
              (syntax-checking
                  :variables syntax-checking-enable-tooltips nil)
@@ -723,10 +724,6 @@ before packages are loaded."
                 browse-url-generic-program "open"))
         ((spacemacs/system-is-linux)
             (executable-find "google-chrome")))
-
-    ;; yasnippet
-    (spacemacs/set-leader-keys "is" 'yas-insert-snippet)
-    (spacemacs/set-leader-keys "id" 'yas-describe-tables)
 
     ;; No highligh persisten on evil search
     (setq evil-ex-search-persistent-highlight nil)
