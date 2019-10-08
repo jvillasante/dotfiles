@@ -12,10 +12,10 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Font setup
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq doom-font (font-spec :family "Source Code Pro" :size 18))
+(setq doom-font (font-spec :family "Source Code Pro" :size 20))
 (setq doom-variable-pitch-font (font-spec :family "Source Code Pro"))
 (setq doom-unicode-font (font-spec :family "Source Code Pro"))
-(setq doom-big-font (font-spec :family "Source Code Pro" :size 30))
+(setq doom-big-font (font-spec :family "Source Code Pro" :size 40))
 
 ;; Dash highlighting
 (after! dash (dash-enable-font-lock))

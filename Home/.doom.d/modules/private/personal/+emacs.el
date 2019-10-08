@@ -18,7 +18,6 @@
     (when (memq last-command '(er/expand-region er/contract-region))
       (er/contract-region 0))))
 
-
 ;;
 ;;; Keybinds
 

@@ -1,5 +1,8 @@
 ;;; config/default/config.el -*- lexical-binding: t; -*-
 
+;;
+;;; Minibuffer
+
 (defvar +default-minibuffer-maps
   `(minibuffer-local-map
     minibuffer-local-ns-map
@@ -12,7 +15,6 @@
           ivy-switch-buffer-map)))
   "A list of all the keymaps used for the minibuffer.")
 
-
 ;;
 ;;; Reasonable defaults
 
@@ -20,7 +22,6 @@
 (setq avy-all-windows nil
       avy-all-windows-alt t
       avy-background t)
-
 
 (after! epa
   (setq epa-file-encrypt-to
@@ -34,7 +35,6 @@
         ;; prompt for the key passphrase.
         epa-pinentry-mode 'loopback))
 
-
 (use-package! drag-stuff
   :defer t
   :init
@@ -43,11 +43,9 @@
         "<M-left>"  #'drag-stuff-left
         "<M-right>" #'drag-stuff-right))
 
-
 ;;;###package tramp
 (unless IS-WINDOWS
   (setq tramp-default-method "ssh")) ; faster than the default scp
-
 
 ;;
 ;;; Smartparens config
@@ -159,8 +157,8 @@
           (delete-char 2))))
     (sp-local-pair
      '(js2-mode typescript-mode rjsx-mode rust-mode c-mode c++-mode objc-mode
-       csharp-mode java-mode php-mode css-mode scss-mode less-css-mode
-       stylus-mode scala-mode)
+                csharp-mode java-mode php-mode css-mode scss-mode less-css-mode
+                stylus-mode scala-mode)
      "/*" "*/"
      :actions '(insert)
      :post-handlers '(("| " "SPC")
@@ -214,7 +212,6 @@
   ;; Makes `newline-and-indent' continue comments (and more reliably)
   (advice-add #'newline-and-indent :override #'+default--newline-indent-and-continue-comments-a))
 
-
 ;;
 ;;; Keybinding fixes
 
@@ -264,7 +261,6 @@
         :gi  [M-backspace] #'backward-kill-word
         :gi  [M-left]      #'backward-word
         :gi  [M-right]     #'forward-word))
-
 
 ;;
 ;;; Keybind schemes
@@ -337,7 +333,6 @@
     (which-key-add-key-based-replacements (concat doom-leader-key     " r") "reload")
     (which-key-add-key-based-replacements (concat doom-leader-alt-key " r") "reload")))
 
-
 (when (featurep! +bindings)
   ;; Make M-x harder to miss
   (define-key! 'override
@@ -370,10 +365,10 @@
           :gni [M-return]    #'+default/newline-below
           :gni [M-S-return]  #'+default/newline-above)))
 
-
 ;;
 ;;; Bootstrap configs
 (load! "+ui")
+(load! "+package-config")
 (if (featurep 'evil)
     (load! "+evil")
   (load! "+emacs"))
