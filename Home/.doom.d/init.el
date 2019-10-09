@@ -58,7 +58,7 @@
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       dired             ; making dired pretty [functional]
+       (dired +ranger)   ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        vc                ; version-control and Emacs, sitting in a tree
 
@@ -176,4 +176,7 @@
        ;; The default module sets reasonable defaults for Emacs. It also
        ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
        ;; config. Use it as a reference for your own modules.
-       (default +bindings +snippets +evil-commands +smartparens))
+       (default +bindings +snippets +evil-commands +smartparens)
+
+       :private
+       jv)

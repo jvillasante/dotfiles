@@ -1,10 +1,28 @@
 ;;; -*- lexical-binding: t; -*-
 ;;;
 
+;;;###autoload
+(defun jv/neotree-project-root-dir-or-current-dir ()
+  "Open NeoTree using the project root, using projectile, or the
+current buffer directory."
+  (interactive)
+  (let ((project-dir (ignore-errors (projectile-project-root)))
+        (file-name (buffer-file-name))
+        (neo-smart-open t))
+    (if (neo-global--window-exists-p)
+        (neotree-hide)
+      (progn
+        (neotree-show)
+        (if project-dir
+            (neotree-dir project-dir))
+        (if file-name
+            (neotree-find file-name))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Full width comment box                                                 ;;
 ;; from http://irreal.org/blog/?p=374                                     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;###autoload
 (defun jv/comment-box (b e)
     "Draw a box comment around the region but arrange for the region to extend to
 at least the fill column. Place the point after the comment box."
@@ -21,6 +39,7 @@ at least the fill column. Place the point after the comment box."
 
 ;; Keeps the compilation buffer if there are warnings or errors,
 ;; and buries it otherwise (after 1 second).
+;;;###autoload
 (defun jv/bury-compile-buffer-if-successful (buffer string)
     "Bury a compilation buffer if succeeded without warnings "
     (when (and
@@ -37,18 +56,20 @@ at least the fill column. Place the point after the comment box."
                 ;; (switch-to-prev-buffer (get-buffer-window buf) 'kill)
                 (delete-windows-on buf))
             buffer)))
-(add-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
+;; (add-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
 
 ;; ANSI-colors in the compilation buffer output
 (require 'ansi-color)
+;;;###autoload
 (defun jv/colorize-compilation ()
     "Colorize from `compilation-filter-start' to `point'."
     (let ((inhibit-read-only t))
         (ansi-color-apply-on-region
             compilation-filter-start (point))))
-(add-hook 'compilation-filter-hook #'jv/colorize-compilation)
+;; (add-hook 'compilation-filter-hook #'jv/colorize-compilation)
 
 ;; http://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
+;;;###autoload
 (defun jv/switch-to-previous-buffer ()
     "Switch to previously open buffer.
 Repeated invocations toggle between the two most recently open buffers."

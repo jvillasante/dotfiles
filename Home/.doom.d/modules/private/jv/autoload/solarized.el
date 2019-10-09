@@ -2,6 +2,7 @@
 
 (setq my-black "#1b1b1e")
 
+;;;###autoload
 (defun jv/update-solarize-dark ()
     (custom-theme-set-faces
         'solarized-dark
@@ -42,6 +43,7 @@
         '(outline-4 ((t (:inherit org-level-4))))
         ))
 
+;;;###autoload
 (defun jv/update-solarize-light ()
     (custom-theme-set-faces
         'solarized-light

@@ -288,7 +288,7 @@ T - tag prefix
 (after! lsp
   (require 'ccls)
   (setq ccls-executable (concat jv/software-path "/ccls/Release/ccls"))
-  ;; (setq ccls-args "--init='{"cache":{\"directory\":\"/home/viju8003/Hacking/Software/dotfiles/.emacs.d/.cache/lsp-ccls\"}}'")
+  (setq ccls-initialization-options `(:cache (:directory ,(concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls"))))
 
   (defun jv/setup-lsp-mode ()
     (setq lsp-remap-xref-keybindings nil)
