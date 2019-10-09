@@ -1,5 +1,3 @@
-;;; config/default/+bindings.el -*- lexical-binding: t; -*-
-
 ;; This file defines a Spacemacs-esque keybinding scheme
 
 ;; Don't let evil-collection interfere with certain keys
@@ -527,6 +525,8 @@
 (map! :leader
       :desc "Eval expression"       ";"    #'eval-expression
       :desc "M-x"                   ":"    #'execute-extended-command
+      ;; :desc "Neotree toggle"        "n"    #'jv/neotree-project-root-dir-or-current-dir
+      ;; :desc "Neotree toggle"         :n  "n"   #'jv/neotree-project-root-dir-or-current-dir
       :desc "Pop up scratch buffer" "x"    #'doom/open-scratch-buffer
       :desc "Org Capture"           "X"    #'org-capture
 
