@@ -296,11 +296,17 @@ T - tag prefix
   (add-to-list 'projectile-globally-ignored-directories ".cquery_cached_index")
   (add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
   (add-to-list 'projectile-globally-ignored-directories (concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls"))
+
   (setq projectile-project-root-files-top-down-recurring
         (append '("compile_commands.json"
                   ".cquery"
                   ".ccls")
-                projectile-project-root-files-top-down-recurring)))
+                projectile-project-root-files-top-down-recurring))
+
+  ;; TODO: Reorganize projectile-project-root-files-functions to use projectile-root-top-down-recurring first
+  ;; projectile-project-root-files-functions:
+  ;;    (projectile-root-local projectile-root-bottom-up projectile-root-top-down projectile-root-top-down-recurring)
+  )
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LSP setup
