@@ -73,7 +73,8 @@
                  "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
                  "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
                  "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-                 "\\.egg\-info$"))))
+                 "\\.egg\-info$")))
+    )
 
 (defun jv/post-init-treemacs ()
     (setq

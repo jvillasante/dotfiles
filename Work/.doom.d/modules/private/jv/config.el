@@ -39,6 +39,7 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! neotree
   (set-popup-rule! "^ ?\\*NeoTree" :ignore t)
+  (setq neo-theme 'ascii)
 
   (defadvice neo-buffer--get-nodes
       (after neo-buffer--get-nodes-new-sorter activate)
@@ -62,8 +63,6 @@
         neo-auto-indent-point t
         ;; neo-modern-sidebar t
         neo-vc-integration nil
-
-        neo-theme 'ascii
         ;; doom-neotree-enable-variable-pitch nil
         neo-autorefresh nil)
 
@@ -76,6 +75,7 @@
           "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
           "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
           "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
+          "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
           "\\.egg\-info$")))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -292,7 +292,7 @@ T - tag prefix
 (after! lsp
   (require 'ccls)
   (setq ccls-executable (concat jv/software-path "/ccls/Release/ccls"))
-  (setq ccls-initialization-options `(:cache (:directory ,(concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls"))))
+  ;; (setq ccls-initialization-options `(:cache (:directory ,(concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls"))))
 
   (defun jv/setup-lsp-mode ()
     (setq lsp-remap-xref-keybindings nil)
