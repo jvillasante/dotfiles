@@ -73,7 +73,7 @@
        ;;debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        ;;docker
-       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        eval              ; run code, run (also, repls)
        flycheck          ; tasing you for every semicolon you forget
@@ -178,5 +178,4 @@
        ;; config. Use it as a reference for your own modules.
        (default +bindings +snippets +evil-commands +smartparens)
 
-       :private
-       jv)
+       :private jv)

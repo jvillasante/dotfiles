@@ -38,6 +38,8 @@
 ;; Neotree setup
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! neotree
+  (set-popup-rule! "^ ?\\*NeoTree" :ignore t)
+
   (defadvice neo-buffer--get-nodes
       (after neo-buffer--get-nodes-new-sorter activate)
     (setq ad-return-value
@@ -50,7 +52,7 @@
 
   (setq neo-window-width 60
         neo-create-file-auto-open t
-        neo-banner-message "Press ? for neotree help"
+        neo-banner-message "Press ? does not work!"
         neo-show-updir-line nil
         neo-mode-line-type 'neotree
         neo-smart-open t
@@ -117,6 +119,8 @@
 (after! counsel
   (setq counsel-rg-base-command "rg -S --no-heading --line-number --color never %s ."
         counsel-ag-base-command "ag -S --nocolor --nogroup %s"))
+;; (after! counsel
+;;   (setq counsel-rg-base-command "rg -S --with-filename --no-heading --line-number --color never -uu %s ."))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Ivy setup

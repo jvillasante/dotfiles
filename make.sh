@@ -88,8 +88,8 @@ install_zsh () {
   fi
 }
 
-CURRENT_EMACS_DISTRO="SPACEMACS"
-# CURRENT_EMACS_DISTRO="DOOM_EMACS"
+# CURRENT_EMACS_DISTRO="SPACEMACS"
+CURRENT_EMACS_DISTRO="DOOM_EMACS"
 install_emacs () {
   if [[ ! -d $dir/.emacs.d/ ]]; then
     if [[ $CURRENT_EMACS_DISTRO == "SPACEMACS" ]]; then
