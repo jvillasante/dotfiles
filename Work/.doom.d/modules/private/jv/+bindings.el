@@ -1,3 +1,7 @@
+;;
+;; (map! :leader "o n" #'jv/neotree-project-root-dir-or-current-dir)
+;;
+
 (map!
  :desc "Redo" :n "U" #'undo-tree-redo
 
@@ -20,11 +24,11 @@
    (:map helm-find-files-map
      :desc "Up one directory" "C-h" #'helm-find-files-up-one-level))
 
- ;; (map! :leader "o n" #'jv/neotree-project-root-dir-or-current-dir)
  (:leader
    (:prefix "b"
      :desc "Rename buffer" :n "R" #'rename-buffer
      :desc "Kill buffer" :n "d" #'kill-this-buffer ; consistency with `SPC w d'
+     :desc "Ibuffer" :n "I" #'ibuffer
      )
    (:prefix "o"
      ;; :desc "Open directory browser" :n "b" #'treemacs
@@ -33,4 +37,5 @@
    (:prefix "w"
      :desc "Maximize frame" :n "M" #'toggle-frame-maximized
      :desc "Delete window" :n "d" #'evil-quit
-     )))
+     )
+   ))
