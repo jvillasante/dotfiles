@@ -256,26 +256,26 @@ T - tag prefix
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Elfeed setup
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  (defun jv/elfeed-mark-all-as-read ()
-    (interactive)
-    (mark-whole-buffer)
-    (elfeed-search-untag-all-unread))
+(defun jv/elfeed-mark-all-as-read ()
+  (interactive)
+  (mark-whole-buffer)
+  (elfeed-search-untag-all-unread))
 
-  ;; functions to support syncing .elfeed between machines
-  ;; makes sure elfeed reads index from disk before launching
-  (defun jv/elfeed-load-db-and-open ()
-    "Wrapper to load the elfeed db from disk before opening"
-    (interactive)
-    (elfeed-db-load)
-    (elfeed)
-    (elfeed-search-update--force))
+;; functions to support syncing .elfeed between machines
+;; makes sure elfeed reads index from disk before launching
+(defun jv/elfeed-load-db-and-open ()
+  "Wrapper to load the elfeed db from disk before opening"
+  (interactive)
+  (elfeed-db-load)
+  (elfeed)
+  (elfeed-search-update--force))
 
-  ;; write to disk when quiting
-  (defun jv/elfeed-save-db-and-bury ()
-    "Wrapper to save the elfeed db to disk before burying buffer"
-    (interactive)
-    (elfeed-db-save)
-    (quit-window))
+;; write to disk when quiting
+(defun jv/elfeed-save-db-and-bury ()
+  "Wrapper to save the elfeed db to disk before burying buffer"
+  (interactive)
+  (elfeed-db-save)
+  (quit-window))
 
 (after! elfeed
   ;; elfeed db path
@@ -286,39 +286,29 @@ T - tag prefix
   (evil-define-key 'evilified elfeed-search-mode-map "q" 'jv/elfeed-save-db-and-bury))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Projectile setup
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(after! projectile
+ (setq projectile-sort-order 'recentf
+            projectile-cache-file (concat jv/dotfiles-path "/.emacs.d/.cache/projectile.cache")
+            projectile-known-projects-file (concat jv/dotfiles-path "/.emacs.d/.cache/projectile-bookmarks.eld"))
+
+  (add-to-list 'projectile-globally-ignored-directories ".cquery_cached_index")
+  (add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
+  (add-to-list 'projectile-globally-ignored-directories (concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls"))
+  (setq projectile-project-root-files-top-down-recurring
+        (append '("compile_commands.json"
+                  ".cquery"
+                  ".ccls")
+                projectile-project-root-files-top-down-recurring)))
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LSP setup
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (after! lsp
   (require 'ccls)
   (setq ccls-executable (concat jv/software-path "/ccls/Release/ccls"))
-  (setq ccls-initialization-options `(:cache (:directory ,(concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls"))))
-
-  (defun jv/setup-lsp-mode ()
-    (setq lsp-remap-xref-keybindings nil)
-    (setq lsp-navigation 'both))
-
-  (defun jv/setup-lsp-ui-mode ()
-    (setq lsp-ui-doc-enable t)
-    (setq lsp-ui-doc-include-signature nil)
-    (setq lsp-ui-sideline-enable nil)
-    (setq lsp-ui-sideline-show-symbol nil)
-    (setq lsp-ui-sideline-ignore-dupliate nil))
-
-  (defun jv/setup-lsp-ui-mode-no-doc ()
-    (setq lsp-ui-doc-enable nil)
-    (setq lsp-ui-doc-include-signature nil)
-    (setq lsp-ui-sideline-enable nil)
-    (setq lsp-ui-sideline-show-symbol nil)
-    (setq lsp-ui-sideline-ignore-dupliate nil))
-
-  (add-hook 'cc-mode-hook 'jv/setup-lsp-mode)
-  (add-hook 'rust-mode-hook 'jv/setup-lsp-mode)
-  (add-hook 'go-mode-hook 'jv/setup-lsp-mode)
-
-  (add-hook 'cc-mode-hook 'jv/setup-lsp-ui-mode-no-doc)
-  (add-hook 'rust-mode-hook 'jv/setup-lsp-ui-mode-no-doc)
-  (add-hook 'go-mode-hook 'jv/setup-lsp-ui-mode-no-doc))
+  (setq ccls-initialization-options `(:cache (:directory ,(concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls")))))
 
 ;;
 ;;; Bootstrap configs
