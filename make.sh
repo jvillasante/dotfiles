@@ -48,7 +48,7 @@ find_current_env
 find_current_os
 
 if [[ $CURRENT_ENV == "HOME" ]]; then
-  dir=~/Hacking/workspace/dotfiles        # dotfiles directory
+  dir=~/Workspace/Others/dotfiles         # dotfiles directory
 elif [[ $CURRENT_ENV == "WORK" ]]; then
   dir=~/Hacking/Software/dotfiles         # dotfiles directory
 fi
@@ -88,8 +88,8 @@ install_zsh () {
   fi
 }
 
-# CURRENT_EMACS_DISTRO="SPACEMACS"
-CURRENT_EMACS_DISTRO="DOOM_EMACS"
+CURRENT_EMACS_DISTRO="SPACEMACS"
+# CURRENT_EMACS_DISTRO="DOOM_EMACS"
 install_emacs () {
   if [[ ! -d $dir/.emacs.d/ ]]; then
     if [[ $CURRENT_EMACS_DISTRO == "SPACEMACS" ]]; then

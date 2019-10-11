@@ -544,8 +544,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (cond
         ((spacemacs/system-is-mac)
             (setq
-                jv/dotfiles-path (file-truename "~/Hacking/workspace/dotfiles")
-                jv/software-path (file-truename "~/Hacking/software")
+                jv/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
+                jv/software-path (file-truename "~/Workspace/Software")
                 jv/dropbox-path (file-truename "~/Dropbox")
                 jv/zsh-path "/usr/local/bin/zsh"
                 jv/clang-path "/usr/local/opt/llvm/bin/clang"))

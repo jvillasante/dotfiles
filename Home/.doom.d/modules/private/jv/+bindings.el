@@ -1,24 +1,28 @@
+;;
+;; (map! :leader "o n" #'jv/neotree-project-root-dir-or-current-dir)
+;;
+
 (map!
  :desc "Redo" :n "U" #'undo-tree-redo
 
- ;; (:after treemacs-evil
- ;;   (:map evil-treemacs-state-map
- ;;     "C-h" #'evil-window-left
- ;;     "C-l" #'evil-window-right))
+ (:after treemacs-evil
+   (:map evil-treemacs-state-map
+     "C-h" #'evil-window-left
+     "C-l" #'evil-window-right))
 
  (:after ivy
    (:leader
      (:prefix "/"
        :desc "Find in project" :n "/" #'+ivy/project-search)))
 
- ;; (:after helm
- ;;   (:leader
- ;;     (:prefix "/"
- ;;       :desc "Find in project" :n "/" #'+helm/project-search)))
+ (:after helm
+   (:leader
+     (:prefix "/"
+       :desc "Find in project" :n "/" #'+helm/project-search)))
 
- ;; (:after helm-files
- ;;   (:map helm-find-files-map
- ;;     :desc "Up one directory" "C-h" #'helm-find-files-up-one-level))
+ (:after helm-files
+   (:map helm-find-files-map
+     :desc "Up one directory" "C-h" #'helm-find-files-up-one-level))
 
  (:leader
    (:prefix "b"

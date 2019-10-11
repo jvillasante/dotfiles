@@ -14,3 +14,4 @@
 (package! ivy-prescient)
 (package! crux)
 (package! dired-quick-sort)
+(package! ibuffer-vc)
