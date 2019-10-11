@@ -74,7 +74,9 @@
                  "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
                  "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
                  "\\.egg\-info$")))
-    )
+
+    (evil-leader/set-key
+        "on" 'neotree-find-project-root))
 
 (defun jv/post-init-treemacs ()
     (setq

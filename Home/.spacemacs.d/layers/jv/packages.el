@@ -73,7 +73,10 @@
                  "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
                  "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
                  "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-                 "\\.egg\-info$"))))
+                 "\\.egg\-info$")))
+
+    (evil-leader/set-key
+        "on" 'neotree-find-project-root))
 
 (defun jv/post-init-treemacs ()
     (setq
