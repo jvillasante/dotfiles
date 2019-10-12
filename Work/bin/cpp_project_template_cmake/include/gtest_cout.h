@@ -11,10 +11,12 @@ namespace internal {
 extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
 } // namespace internal
 } // namespace testing
-#define PRINTF(...)                                                                                \
-    do {                                                                                           \
-        testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[          ] ");         \
-        testing::internal::ColoredPrintf(testing::internal::COLOR_YELLOW, __VA_ARGS__);            \
+#define PRINTF(...)                                                            \
+    do {                                                                       \
+        testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN,       \
+                                         "[      OUT>] ");                     \
+        testing::internal::ColoredPrintf(testing::internal::COLOR_YELLOW,      \
+                                         __VA_ARGS__);                         \
     } while (0)
 
 // C++ stream interface

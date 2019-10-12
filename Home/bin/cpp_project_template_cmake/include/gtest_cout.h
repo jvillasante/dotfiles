@@ -13,7 +13,7 @@ extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
 } // namespace testing
 #define PRINTF(...)                                                                                \
     do {                                                                                           \
-        testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[          ] ");         \
+        testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[      OUT>] ");         \
         testing::internal::ColoredPrintf(testing::internal::COLOR_YELLOW, __VA_ARGS__);            \
     } while (0)
 
