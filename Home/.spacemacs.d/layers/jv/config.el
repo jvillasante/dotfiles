@@ -36,8 +36,7 @@ at least the fill column. Place the point after the comment box."
                 ;; (switch-to-prev-buffer (get-buffer-window buf) 'kill)
                 (delete-windows-on buf))
             buffer)))
-
-;; (add-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
+(add-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
 ;; (remove-hook 'compilation-finish-functions 'jv/bury-compile-buffer-if-successful)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
