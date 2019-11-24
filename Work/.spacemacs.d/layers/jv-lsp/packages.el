@@ -1,6 +1,7 @@
 (defconst jv-lsp-packages
     '(lsp-mode
-         lsp-ui))
+         lsp-ui
+         ccls))
 
 (defun jv-lsp/post-init-lsp-mode ()
     (defun jv-lsp/setup-lsp-mode ()
@@ -35,3 +36,7 @@
     (add-hook 'c++-mode-hook 'jv-lsp/setup-lsp-ui-mode-no-doc)
     (add-hook 'rust-mode-hook 'jv-lsp/setup-lsp-ui-mode-no-doc)
     (add-hook 'go-mode-hook 'jv-lsp/setup-lsp-ui-mode-no-doc))
+
+(defun jv-lsp/post-init-ccls ()
+    (setq ccls-initialization-options
+        `(:cache (:directory ,(concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls")))))
