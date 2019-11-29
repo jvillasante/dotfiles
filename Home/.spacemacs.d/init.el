@@ -101,20 +101,10 @@ This function should only modify configuration layer settings."
              (rust :variables
                  rust-backend 'lsp
                  rust-format-on-save t)
-             (go :variables
-                 ;; go-backend 'lsp
-                 go-tab-width nil ;; use editorconfig
-                 godoc-at-point-function 'godoc-gogetdoc
-                 go-format-before-save t)
              restclient
              csv
              deft
              neotree
-             ;; (treemacs :variables
-             ;;     treemacs-use-follow-mode t
-             ;;     treemacs-use-filewatch-mode t
-             ;;     treemacs-use-collapsed-directories 3
-             ;;     treemacs-lock-width nil)
              (elfeed :variables
                  rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
 
