@@ -17,4 +17,8 @@ if hash rustup 2>/dev/null; then
     echo "Global Packages Installed:"
     cargo install-update -al
     check $?
+
+    echo "Run the following to update:
+        $ cargo install-update -a                # Update all installed packages.
+        $ cargo install-update crate1 crate2 ... # check for newer versions and update selected packages, will not install new packages."
 fi
