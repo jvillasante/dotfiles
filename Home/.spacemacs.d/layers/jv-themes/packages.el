@@ -34,8 +34,6 @@
         :init
         (jv/add-theme-hook 'solarized-dark  #'jv/solarized-dark-theme-hook)
         (jv/add-theme-hook 'solarized-light #'jv/solarized-light-theme-hook)
-        ;; load initial theme
-        (load-theme 'solarized-light t)
         :config
         (setq
             solarized-use-variable-pitch nil
