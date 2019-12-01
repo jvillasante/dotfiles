@@ -110,7 +110,7 @@ This function should only modify configuration layer settings."
 
              ;; private layers
              jv
-             jv-solarized
+             jv-themes
              jv-cpp-common
              jv-lsp
              jv-deft
@@ -252,11 +252,8 @@ It should only modify the values of Spacemacs settings."
         ;; List of themes, the first of the list is loaded when spacemacs starts.
         ;; Press `SPC T n' to cycle to the next theme in the list (works great
         ;; with 2 themes variants, one dark and one light)
-        dotspacemacs-themes '(solarized-light
-                                 solarized-dark
-                                 spacemacs-light
-                                 spacemacs-dark
-                                 zenburn)
+        dotspacemacs-themes '(spacemacs-light
+                                 spacemacs-dark)
 
         ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
         ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -556,20 +553,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (setq recentf-exclude (list (concat jv/dotfiles-path "/.emacs.d*")))
     (add-to-list 'recentf-exclude "/var/*")
 
-    ;; Solarized theme (Needs to go before load-theme())
-    (setq solarized-use-variable-pitch nil
-        solarized-use-less-bold t
-        solarized-use-more-italic nil
-        solarized-distinct-doc-face t
-        solarized-high-contrast-mode-line nil
-
-        ;; I find different font sizes irritating.
-        solarized-height-minus-1 1.0
-        solarized-height-plus-1 1.0
-        solarized-height-plus-2 1.0
-        solarized-height-plus-3 1.0
-        solarized-height-plus-4 1.0)
-
     ;; I do not know what this is :)
     (setq max-specpdl-size 5000)
     (setf url-queue-timeout 30))
@@ -726,14 +709,14 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
+
     (custom-set-variables
         ;; custom-set-variables was added by Custom.
         ;; If you edit it by hand, you could mess it up, so be careful.
         ;; Your init file should contain only one such instance.
         ;; If there is more than one, they won't work right.
-        '(package-selected-packages
-             (quote
-                 (yasnippet-snippets web-mode solarized-theme paradox lsp-ui evil-unimpaired evil-magit dumb-jump doom-modeline diff-hl company-lsp centered-cursor-mode ccls rust-mode company lsp-mode multiple-cursors magit-popup alert magit transient with-editor haml-mode all-the-icons powerline dash which-key evil org-plus-contrib zenburn-theme yapfify xterm-color ws-butler writeroom-mode winum wgrep web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit symon string-inflection sr-speedbar spinner spaceline-all-the-icons smex smeargle slim-mode shrink-path shell-pop scss-mode sass-mode rmsbolt reveal-in-osx-finder restart-emacs request rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js pippel pipenv pip-requirements persp-mode pcre2el password-generator pass ox-gfm overseer osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file ob-restclient ob-http neotree nameless multi-term move-text modern-cpp-font-lock mmm-mode markdown-toc magit-svn magit-gitflow macrostep lv lorem-ipsum log4e livid-mode live-py-mode link-hint launchctl json-navigator json-mode js2-refactor js-doc ivy-yasnippet ivy-xref ivy-rtags ivy-purpose ivy-hydra insert-shebang indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete ht hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-make goto-chg google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gntp gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-lazy flyspell-correct-ivy flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-commentary evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav elfeed-web elfeed-org elfeed-goodies eldoc-eval editorconfig dotenv-mode disaster dired-quick-sort diminish deft dash-at-point cython-mode csv-mode crux cquery counsel-projectile counsel-dash counsel-css company-web company-tern company-statistics company-shell company-rtags company-restclient company-quickhelp company-go company-c-headers company-anaconda column-enforce-mode cmake-mode cmake-ide clean-aindent-mode clang-format cargo browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ag ace-window ace-link ac-ispell))))
+        )
+
     (custom-set-faces
         ;; custom-set-faces was added by Custom.
         ;; If you edit it by hand, you could mess it up, so be careful.
