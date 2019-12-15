@@ -1,10 +1,9 @@
-clang
-# %c -std=gnu11
+gcc
 %cpp -std=c++17
 
 # llvm stuff
--stdlib=libc++
--nostdinc++
+# -stdlib=libc++
+# -nostdinc++
 
 # Extras
 %h -x
@@ -17,22 +16,23 @@ clang
 -DDEBUG
 
 # System includes Clang: Output of 'echo | /usr/local/opt/llvm/bin/clang -v -x c++ -E -' command.
--isystem/usr/local/opt/llvm/bin/../include/c++/v1
--isystem/usr/local/Cellar/llvm/9.0.0_1/lib/clang/9.0.0/include
--isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
--isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
-
-# System includes GCC: Output of 'echo | /usr/local/opt/gcc/bin/gcc-9 -v -x c++ -E -' command.
-# -isystem/usr/local/Cellar/gcc/9.2.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/../../../../../../include/c++/9.2.0
-# -isystem/usr/local/Cellar/gcc/9.2.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/../../../../../../include/c++/9.2.0/x86_64-apple-darwin19
-# -isystem/usr/local/Cellar/gcc/9.2.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/../../../../../../include/c++/9.2.0/backward
-# -isystem/usr/local/Cellar/gcc/9.2.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/include
-# -isystem/usr/local/Cellar/gcc/9.2.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/include-fixed
+# -isystem/usr/local/opt/llvm/bin/../include/c++/v1
+# -isystem/usr/local/include
+# -isystem/usr/local/Cellar/llvm/9.0.0/lib/clang/9.0.0/include
 # -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
 # -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
+
+# System includes GCC: Output of 'echo | /usr/local/opt/gcc/bin/gcc-9 -v -x c++ -E -' command.
+-isystem/usr/local/Cellar/gcc/9.2.0_2/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/../../../../../../include/c++/9.2.0
+-isystem/usr/local/Cellar/gcc/9.2.0_2/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/../../../../../../include/c++/9.2.0/x86_64-apple-darwin19
+-isystem/usr/local/Cellar/gcc/9.2.0_2/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/../../../../../../include/c++/9.2.0/backward
+-isystem/usr/local/Cellar/gcc/9.2.0_2/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/include
+-isystem/usr/local/Cellar/gcc/9.2.0_2/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/include-fixed
+-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include
+-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks
 
 # Local Includes
 -I.
 -I./include
-# -I/Users/juliovillasante/Workspace/Software/googletest/googletest/include
-# -I/Users/juliovillasante/Workspace/Software/googletest/googlemock/include
+-I/Users/juliovillasante/Workspace/Software/gcc/googletest/googletest/include
+-I/Users/juliovillasante/Workspace/Software/gcc/googletest/googlemock/include
