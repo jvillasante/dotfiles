@@ -525,6 +525,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+
     ;; define some paths for later use
     (cond
         ((spacemacs/system-is-mac)
@@ -541,20 +542,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                 jv/dropbox-path (file-truename "~/Dropbox")
                 jv/zsh-path "/usr/bin/zsh"
                 jv/clang-path "/usr/bin/clang")))
-
-    (setq
-        flycheck-check-syntax-automatically '(mode-enabled save))
-
-    ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-    (setq display-time-world-list '(("UTC" "UTC")
-                                       ("America/New_York" "Tampa")
-                                       ("Europe/Ljubljana" "Slovenia")
-                                       ("Asia/Calcutta" "India")
-                                       ("America/Havana" "Havana")))
-
-    ;; recentf exclude folders/files
-    (setq recentf-exclude (list (concat jv/dotfiles-path "/.emacs.d*")))
-    (add-to-list 'recentf-exclude "/var/*")
 
     ;; I do not know what this is :)
     (setq max-specpdl-size 5000)
@@ -641,6 +628,21 @@ before packages are loaded."
     (setq save-buffer-coding-system 'utf-8-unix) ; nil
     (setq process-coding-system-alist
         (cons '("grep" utf-8 . utf-8) process-coding-system-alist))
+
+    ;; flycheck 
+    (setq
+        flycheck-check-syntax-automatically '(mode-enabled save))
+
+    ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+    (setq display-time-world-list '(("UTC" "UTC")
+                                       ("America/New_York" "Tampa")
+                                       ("Europe/Ljubljana" "Slovenia")
+                                       ("Asia/Calcutta" "India")
+                                       ("America/Havana" "Havana")))
+
+    ;; recentf exclude folders/files
+    (setq recentf-exclude (list (concat jv/dotfiles-path "/.emacs.d*")))
+    (add-to-list 'recentf-exclude "/var/*")
 
     ;; multiterm
     (setq multi-term-program jv/zsh-path)
