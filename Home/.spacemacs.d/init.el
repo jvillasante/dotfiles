@@ -626,7 +626,6 @@ before packages are loaded."
     (setq process-coding-system-alist
         (cons '("grep" utf-8 . utf-8) process-coding-system-alist))
 
-
     ;; flycheck
     (setq
         flycheck-check-syntax-automatically '(mode-enabled save))
