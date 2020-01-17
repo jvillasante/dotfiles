@@ -38,8 +38,8 @@
     (add-hook 'go-mode-hook 'jv-lsp/setup-lsp-ui-mode-no-doc))
 
 (defun jv-lsp/post-init-ccls ()
-    (setq ccls-executable (concat jv/software-path "/ccls/Release/ccls"))
-    ;; (setq ccls-args '("--log-file=/tmp/ccls.log"))
+    (unless (executable-find "ccls")
+        (setq ccls-executable (concat jv/software-path "/ccls/Release/ccls")))
 
     (setq ccls-initialization-options
         `(:cache (:directory ,(concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls")))))
