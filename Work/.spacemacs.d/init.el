@@ -42,9 +42,7 @@ This function should only modify configuration layer settings."
              (better-defaults :variables
                  better-defaults-move-to-beginning-of-code-first t
                  better-defaults-move-to-end-of-code-first t)
-             osx
              ivy
-             dash
              (auto-completion :variables
                  auto-completion-return-key-behavior 'complete
                  auto-completion-tab-key-behavior 'cycle
@@ -155,7 +153,15 @@ This function should only modify configuration layer settings."
         ;; installs only the used packages but won't delete unused ones. `all'
         ;; installs *all* packages supported by Spacemacs and never uninstalls them.
         ;; (default is `used-only')
-        dotspacemacs-install-packages 'used-only))
+        dotspacemacs-install-packages 'used-only)
+
+    ;; OS-specific layers
+    (when (spacemacs/system-is-mswindows)
+        (append dotspacemacs-configuration-layers
+            '(autohotkey)))
+    (when (spacemacs/system-is-mac)
+        (append dotspacemacs-configuration-layers
+            '(osx))))
 
 (defun dotspacemacs/init ()
     "Initialization:
