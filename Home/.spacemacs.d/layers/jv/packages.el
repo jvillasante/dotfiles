@@ -10,7 +10,7 @@
          sr-speedbar
          flycheck
          flyspell-lazy
-         ;; password-store
+         password-store
          ;; pass
          crux))
 

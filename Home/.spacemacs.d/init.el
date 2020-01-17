@@ -126,7 +126,10 @@ This function should only modify configuration layer settings."
         ;; To use a local version of a package, use the `:location' property:
         ;; '(your-package :location "~/path/to/your-package/")
         ;; Also include the dependencies as they will not be resolved automatically.
-        dotspacemacs-additional-packages '(ag yasnippet-snippets rmsbolt)
+        dotspacemacs-additional-packages '(ag
+                                              yasnippet-snippets
+                                              rmsbolt
+                                              pinentry)
 
         ;; A list of packages that cannot be updated.
         dotspacemacs-frozen-packages '()
@@ -691,6 +694,9 @@ before packages are loaded."
                 browse-url-generic-program "open"))
         ((spacemacs/system-is-linux)
             (executable-find "google-chrome")))
+
+    ;; pinentry
+    (setq epa-pinentry-mode 'loopback)
 
     ;; No highligh persisten on evil search
     (setq evil-ex-search-persistent-highlight nil)
