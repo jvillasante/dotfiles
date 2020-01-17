@@ -1,6 +1,5 @@
 (defconst jv-packages
     '(ag
-         yasnippet-snippets
          ivy
          avy
          counsel
@@ -14,10 +13,6 @@
 
 (defun jv/init-ag ()
     (use-package ag
-        :ensure t))
-
-(defun jv/init-yasnippet-snippets ()
-    (use-package yasnippet-snippets
         :ensure t))
 
 (defun jv/post-init-ivy ()

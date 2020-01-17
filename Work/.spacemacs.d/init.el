@@ -39,10 +39,10 @@ This function should only modify configuration layer settings."
              ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
              ;; `M-m f e R' (Emacs style) to install them.
              ;; ----------------------------------------------------------------
-             (when (spacemacs/system-is-mac) (osx))
              (better-defaults :variables
                  better-defaults-move-to-beginning-of-code-first t
                  better-defaults-move-to-end-of-code-first t)
+             osx
              ivy
              dash
              (auto-completion :variables
@@ -60,7 +60,7 @@ This function should only modify configuration layer settings."
                  :variables syntax-checking-enable-tooltips nil)
              (spell-checking :variables
                  spell-checking-enable-by-default nil
-                 spell-checking-enable-auto-dictionary t)
+                 spell-checking-enable-auto-dictionary nil)
              (git :variables
                  git-use-magit-next t
                  git-enable-github-support t)
@@ -140,7 +140,7 @@ This function should only modify configuration layer settings."
         ;; To use a local version of a package, use the `:location' property:
         ;; '(your-package :location "~/path/to/your-package/")
         ;; Also include the dependencies as they will not be resolved automatically.
-        dotspacemacs-additional-packages '()
+        dotspacemacs-additional-packages '(yasnippet-snippets)
 
         ;; A list of packages that cannot be updated.
         dotspacemacs-frozen-packages '()
