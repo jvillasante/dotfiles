@@ -39,8 +39,11 @@ This function should only modify configuration layer settings."
              ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
              ;; `M-m f e R' (Emacs style) to install them.
              ;; ----------------------------------------------------------------
+             (when (spacemacs/system-is-mac) (osx))
+             (better-defaults :variables
+                 better-defaults-move-to-beginning-of-code-first t
+                 better-defaults-move-to-end-of-code-first t)
              ivy
-             osx
              dash
              (auto-completion :variables
                  auto-completion-return-key-behavior 'complete
@@ -57,13 +60,21 @@ This function should only modify configuration layer settings."
                  :variables syntax-checking-enable-tooltips nil)
              (spell-checking :variables
                  spell-checking-enable-by-default nil
-                 spell-checking-enable-auto-dictionary nil)
+                 spell-checking-enable-auto-dictionary t)
              (git :variables
                  git-use-magit-next t
                  git-enable-github-support t)
              version-control
              (org :variables
-                 org-enable-github-support t)
+                 org-enable-epub-support t
+                 org-enable-github-support t
+                 org-enable-reveal-js-support t
+                 org-enable-sticky-header t
+                 org-enable-org-journal-support t
+                 spaceline-org-clock-p t
+                 org-projectile-file "TODOs.org"
+                 org-download-image-dir "~/Downloads/org/"
+                 org-return-follows-link t)
              (markdown :variables
                  markdown-italic-underscore t)
              (ibuffer :variables
@@ -92,15 +103,16 @@ This function should only modify configuration layer settings."
                  cmake-enable-cmake-ide-support nil)
              (c-c++ :variables
                  c-c++-default-mode-for-headers 'c++-mode
-                 c-c++-backend 'lsp-ccls
-                 ;; c-c++-lsp-sem-highlight-rainbow t
                  c-c++-adopt-subprojects t
-                 ;; c-c++-enable-clang-support t ;; not if lsp is enabled!
+                 c-c++-enable-google-style t
+                 c-c++-enable-c++11 t
+                 c-c++-backend 'lsp-ccls
                  c-c++-enable-clang-format-on-save t)
              (rust :variables
                  rust-backend 'lsp
                  rust-format-on-save t)
-             restclient
+             (restclient :variables
+                 restclient-use-org t)
              csv
              deft
              neotree
@@ -125,10 +137,7 @@ This function should only modify configuration layer settings."
         ;; To use a local version of a package, use the `:location' property:
         ;; '(your-package :location "~/path/to/your-package/")
         ;; Also include the dependencies as they will not be resolved automatically.
-        dotspacemacs-additional-packages '(ag
-                                              yasnippet-snippets
-                                              rmsbolt
-                                              pinentry)
+        dotspacemacs-additional-packages '()
 
         ;; A list of packages that cannot be updated.
         dotspacemacs-frozen-packages '()
@@ -694,9 +703,6 @@ before packages are loaded."
                 browse-url-generic-program "open"))
         ((spacemacs/system-is-linux)
             (executable-find "google-chrome")))
-
-    ;; pinentry
-    (setq epa-pinentry-mode 'loopback)
 
     ;; No highligh persisten on evil search
     (setq evil-ex-search-persistent-highlight nil)
