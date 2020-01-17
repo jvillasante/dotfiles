@@ -64,15 +64,7 @@ This function should only modify configuration layer settings."
                  git-enable-github-support t)
              version-control
              (org :variables
-                 org-enable-epub-support t
-                 org-enable-github-support t
-                 org-enable-reveal-js-support t
-                 org-enable-sticky-header t
-                 org-enable-org-journal-support t
-                 spaceline-org-clock-p t
-                 org-projectile-file "TODOs.org"
-                 org-download-image-dir "~/Downloads/org/"
-                 org-return-follows-link t)
+                 org-enable-github-support t)
              (markdown :variables
                  markdown-italic-underscore t)
              (ibuffer :variables
