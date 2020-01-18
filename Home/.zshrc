@@ -129,6 +129,14 @@ if [ "$TERM_PROGRAM" = 'iTerm.app' ]; then
 
     iterm_profile() {
         iterm_emit '1337;SetProfile=%s' "$1"
+
+        if [[ -n "$TMUX" || "$TERM" = tmux* ]]; then
+            if [ "$1" = 'light' ]; then
+                tmux source-file "$HOME/.tmux_light.conf"
+            else
+                tmux source-file "$HOME/.tmux_dark.conf"
+            fi
+        fi
     }
 
     iterm_user_var() {

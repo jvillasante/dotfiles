@@ -110,7 +110,7 @@ install_zsh
 install_emacs
 
 common_files=".emacs.d .oh-my-zsh .oh-my-zsh.d"
-files="bin .spacemacs.d .doom.d .offlineimaprc .offlineimap.py .msmtprc .percol.d .ccls .ycm_extra_conf.py .clang_complete .clang-format .clang-tidy .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .zshenv .zshrc .sbclrc .rustfmt.toml"
+files="bin .spacemacs.d .doom.d .offlineimaprc .offlineimap.py .msmtprc .percol.d .ccls .ycm_extra_conf.py .clang_complete .clang-format .clang-tidy .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .tmux_light.conf .tmux_dark.conf .zshenv .zshrc .sbclrc .rustfmt.toml"
 
 echo ">> Linking common files..."
 for file in $common_files; do
