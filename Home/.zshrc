@@ -250,7 +250,7 @@ if type percol >/dev/null 2>/dev/null; then
 
     # switch to a project
     function ppproj() {
-        cd $(find ~/Hacking/workspace/ -maxdepth 1 -type d | percol)
+        cd $(find ~/Workspace/Projects/ -maxdepth 2 -type d | percol)
     }
 
     # change to an arbitrary subdirectory
