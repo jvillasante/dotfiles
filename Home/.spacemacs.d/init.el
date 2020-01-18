@@ -43,6 +43,7 @@ This function should only modify configuration layer settings."
                  better-defaults-move-to-beginning-of-code-first t
                  better-defaults-move-to-end-of-code-first t)
              ivy
+             dash
              (auto-completion :variables
                  auto-completion-return-key-behavior 'complete
                  auto-completion-tab-key-behavior 'cycle
