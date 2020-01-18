@@ -106,6 +106,24 @@ alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -p
 alias show_hidden_files='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hide_hidden_files='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
+#
+# iTerm Dark/Light Profiles
+#
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    iterm_switch_profile() {
+        if [[ $ITERM_PROFILE == "Light" ]]; then
+            echo -ne "\033]50;SetProfile=Dark\a"
+            export ITERM_PROFILE="Dark"
+        else
+            echo -ne "\033]50;SetProfile=Light\a"
+            export ITERM_PROFILE="Light"
+        fi
+    }
+fi
+
+#
+# Tmux
+#
 # Makes creating a new tmux session (with a specific name) easier
 function tmuxopen() {
     tmux attach -t $1
@@ -121,7 +139,9 @@ function tmuxkill() {
     tmux kill-session -t $1
 }
 
+#
 # percol
+#
 function exists { which $1 &> /dev/null }
 
 # history search (C-r)
