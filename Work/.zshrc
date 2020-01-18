@@ -81,131 +81,193 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 # For a full list of active aliases, run `alias`.
 #
 
-# alias ls="/usr/local/bin/gls -AlFh --color"
 alias ls='ls -AlFh --color'
-# alias vi=vim                    # vi is now vim
-# alias gvim='gvim 2>/dev/null'   # Discard gvim starting warnings
-# alias mux='tmuxifier'
+alias vi=vim                         # vi is now vim
 alias em="emacsclient -c -a emacs"   # opens the GUI with alternate non-daemon
 alias emt="emacsclient -t"           # used to be "emacs -nw"
 alias semt="sudo emacsclient -t"     # used to be "sudo emacs -nw"
 alias r="source ~/.zshrc"
-alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
-alias tmuxsrc="tmux source-file ~/.tmux.conf"
-alias tmuxkillall="tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}" # tmux kill all sessions
-# alias ct="ctags -R --exclude=.git --exclude=node_modules"
 alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
-alias gpg='gpg2'
 
 #git
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gl='git pull --prune'
 alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -pe 's/^[ \t]*//' | sed 's/ /\\\\ /g' | xargs git rm"
 
-# Toggle hidden files on mac
-alias show_hidden_files='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
-alias hide_hidden_files='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+# gpg is not gpg2 if installed
+if type gpg2 >/dev/null 2>/dev/null; then
+    alias gpg='gpg2'
+fi
 
 #
-# iTerm Dark/Light Profiles
+# Mac Stuff
 #
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    iterm_switch_profile() {
-        if [[ $ITERM_PROFILE == "Light" ]]; then
-            echo -ne "\033]50;SetProfile=Dark\a"
-            export ITERM_PROFILE="Dark"
-        else
-            echo -ne "\033]50;SetProfile=Light\a"
-            export ITERM_PROFILE="Light"
+    # use gls on mac
+    alias ls="/usr/local/bin/gls -AlFh --color"
+
+    # Toggle hidden files on mac
+    alias show_hidden_files='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+    alias hide_hidden_files='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+fi
+
+#
+# iTerm
+#
+if [ "$TERM_PROGRAM" = 'iTerm.app' ]; then
+    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+    iterm_emit() {
+        local template="\e]${1}\007"
+        shift
+
+        if [[ -n "$TMUX" || "$TERM" = tmux* ]]; then
+            template="\ePtmux;\e${template}\e\\"
+        fi
+        printf "$template" "$@"
+    }
+
+    iterm_profile() {
+        iterm_emit '1337;SetProfile=%s' "$1"
+    }
+
+    iterm_user_var() {
+        iterm_emit '1337;SetUserVar=%s=%s' "$1" "$(echo -n "$2" | base64)"
+    }
+
+    iterm_badge_format() {
+        iterm_emit '1337;SetBadgeFormat=%s' "$(echo -n "$1" | base64)"
+    }
+
+    iterm_highlight_cursor() {
+        local bool="${1:-true}"
+        iterm_emit '1337;HighlightCursorLine=%s' "$bool"
+    }
+
+    iterm_annotation() {
+        if [ -z "$TMUX" ]; then
+            # Doesn't work in TMUX
+            iterm_emit '1337;AddAnnotation=%s' "${1:-annotation}"
         fi
     }
+
+    iterm_clear_scrollback() {
+        iterm_emit '1337;ClearScrollback'
+    }
+
+    iterm_get_attention() {
+        iterm_emit '1337;RequestAttention=true'
+    }
+
+    iterm_steal_focus() {
+        iterm_emit '1337;StealFocus'
+    }
+
+    iterm_send_cwd() {
+        local cwd="${1:-$PWD}"
+        iterm_emit '1337;CurrentDir=%s' "$cwd"
+    }
+
+    [[ -z $chpwd_functions ]] && chpwd_functions=()
+    chpwd_functions=($chpwd_functions iterm_send_cwd)
+else
+    ITERM_SHELL_INTEGRATION_INSTALLED=no
+    ITERM2_SHOULD_DECORATE_PROMPT=0
 fi
 
 #
 # Tmux
 #
-# Makes creating a new tmux session (with a specific name) easier
-function tmuxopen() {
-    tmux attach -t $1
-}
+if type tmux >/dev/null 2>/dev/null; then
+    alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
+    alias tmuxsrc="tmux source-file ~/.tmux.conf"
+    alias tmuxkillall="tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}" # tmux kill all sessions
 
-# Makes creating a new tmux session (with a specific name) easier
-function tmuxnew() {
-    tmux new -s $1
-}
+    # Makes creating a new tmux session (with a specific name) easier
+    function tmuxopen() {
+        tmux attach -t $1
+    }
 
-# Makes deleting a tmux session easier
-function tmuxkill() {
-    tmux kill-session -t $1
-}
+    # Makes creating a new tmux session (with a specific name) easier
+    function tmuxnew() {
+        tmux new -s $1
+    }
+
+    # Makes deleting a tmux session easier
+    function tmuxkill() {
+        tmux kill-session -t $1
+    }
+fi
 
 #
 # percol
 #
-function exists { which $1 &> /dev/null }
+if type percol >/dev/null 2>/dev/null; then
+    function exists { which $1 &> /dev/null }
 
-# history search (C-r)
-if exists percol; then
-    function percol_select_history() {
-        local tac
-        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-        CURSOR=$#BUFFER         # move cursor
-        zle -R -c               # refresh
+    # history search (C-r)
+    if exists percol; then
+        function percol_select_history() {
+            local tac
+            exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+            BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+            CURSOR=$#BUFFER         # move cursor
+            zle -R -c               # refresh
+        }
+
+        zle -N percol_select_history
+        bindkey '^R' percol_select_history
+    fi
+
+    # interactive pgrep
+    function ppgrep() {
+        if [[ $1 == "" ]]; then
+            PERCOL=percol
+        else
+            PERCOL="percol --query $1"
+        fi
+        ps aux | eval $PERCOL | awk '{ print $2 }'
     }
 
-    zle -N percol_select_history
-    bindkey '^R' percol_select_history
+    #interactive pkill
+    function ppkill() {
+        if [[ $1 =~ "^-" ]]; then
+            QUERY=""            # options only
+        else
+            QUERY=$1            # with a query
+            [[ $# > 0 ]] && shift
+        fi
+        ppgrep $QUERY | xargs kill $*
+    }
+
+    # switch to a project
+    function ppproj() {
+        cd $(find ~/Hacking/workspace/ -maxdepth 1 -type d | percol)
+    }
+
+    # change to an arbitrary subdirectory
+    function ppcd() {
+        cd $(find . -type d | percol)
+    }
+
+    # fuzzy match current directory contents
+    function ppfuzz() {
+        search_term=$1
+        find . -wholename \*$search_term\* -not -path './.*/*' | percol
+    }
+
+    # switch between git branches
+    function ppcheckout() {
+        git checkout $(git branch | cut -c 3- | percol)
+    }
+
+    # find and edit file containing a specific word
+    function ppvim() {
+        vim $(ag -l $1 | percol)
+    }
+
+    # run a command from the history
+    function pphist() {
+        $(history | cut -c8- | sort -u | percol)
+    }
 fi
-
-# interactive pgrep
-function ppgrep() {
-    if [[ $1 == "" ]]; then
-        PERCOL=percol
-    else
-        PERCOL="percol --query $1"
-    fi
-    ps aux | eval $PERCOL | awk '{ print $2 }'
-}
-
-#interactive pkill
-function ppkill() {
-    if [[ $1 =~ "^-" ]]; then
-        QUERY=""            # options only
-    else
-        QUERY=$1            # with a query
-        [[ $# > 0 ]] && shift
-    fi
-    ppgrep $QUERY | xargs kill $*
-}
-
-# switch to a project
-function ppproj() {
-    cd $(find ~/Hacking/workspace/ -maxdepth 1 -type d | percol)
-}
-
-# change to an arbitrary subdirectory
-function ppcd() {
-    cd $(find . -type d | percol)
-}
-
-# fuzzy match current directory contents
-function ppfuzz() {
-    search_term=$1
-    find . -wholename \*$search_term\* -not -path './.*/*' | percol
-}
-
-# switch between git branches
-function ppcheckout() {
-    git checkout $(git branch | cut -c 3- | percol)
-}
-
-# find and edit file containing a specific word
-function ppvim() {
-    vim $(ag -l $1 | percol)
-}
-
-# run a command from the history
-function pphist() {
-    $(history | cut -c8- | sort -u | percol)
-}
