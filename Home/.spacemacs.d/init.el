@@ -586,8 +586,6 @@ before packages are loaded."
         scroll-margin 4
 
         ;; my coding style, bsd with 4 spaces indentation (and no tab characters)
-        c-basic-indent 4
-        c-basic-offset 4
         tab-width 4
         indent-tabs-mode nil
         highlight-tabs t

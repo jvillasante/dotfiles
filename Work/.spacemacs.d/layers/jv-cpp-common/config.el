@@ -1,9 +1,14 @@
 ;;; config.el --- jv-cpp Layer config File for Spacemacs
 ;;
 
-(defvar jv-cpp-default-mode-for-headers 'c++-mode
-  "Default mode to open header files. Can be `c-mode' or `c++-mode'.")
-
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+(defun jv/c-mode-common-hook ()
+    (setq c-basic-offset 4)
+    (setq c-basic-indent 4)
+    (c-set-offset 'substatement-open 0))
+(add-hook 'c-mode-common-hook 'jv/c-mode-common-hook)
+
+(defvar jv-cpp-default-mode-for-headers 'c++-mode
+    "Default mode to open header files. Can be `c-mode' or `c++-mode'.")
 
 (spacemacs|define-jump-handlers c++-mode)

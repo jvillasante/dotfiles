@@ -591,8 +591,6 @@ before packages are loaded."
 
         ;; my coding style, bsd but with 2 spaces indentation (and no tab
         ;; characters, only spaces)
-        c-basic-indent 4
-        c-basic-offset 4
         tab-width 4
         indent-tabs-mode nil
         highlight-tabs t
