@@ -585,9 +585,13 @@ before packages are loaded."
         ;; scroll
         scroll-margin 4
 
-        ;; my coding style, bsd with 4 spaces indentation (and no tab characters)
-        tab-width 4
+        ;; use space to indent by default
         indent-tabs-mode nil
+
+        ;; set appearance of a tab that is represented by 4 spaces
+        tab-width 4
+
+        ;; show those ugly tabs
         highlight-tabs t
 
         ;; Whitespace settings

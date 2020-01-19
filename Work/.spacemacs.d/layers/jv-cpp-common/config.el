@@ -2,9 +2,12 @@
 ;;
 
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+
 (defun jv/c-mode-common-hook ()
-    (setq c-basic-offset 4)
-    (setq c-basic-indent 4)
+    (setq
+        c-default-style "stroustrup"
+        c-basic-offset 4
+        c-basic-indent 4)
     (c-set-offset 'substatement-open 0))
 (add-hook 'c-mode-common-hook 'jv/c-mode-common-hook)
 
