@@ -42,8 +42,8 @@
 
         ;; organizer directory
         (setq org-directory (concat jv/dropbox-path "/Personal/org/"))
-        (setq org-default-notes-file (concat org-directory "inbox.org.txt"))
-        (setq jv/org-default-habits-file (concat org-directory "habits.org.txt"))
+        (setq org-default-notes-file (concat org-directory "inbox.org"))
+        (setq jv/org-bookmarks-file (concat org-directory "bookmarks.org"))
 
         ;; agenda
         (setq org-agenda-files (list org-directory))
@@ -79,7 +79,9 @@
                            "* %? :IDEA:\n%U\n%a\n")
                        ("n" "note" entry (file+headline org-default-notes-file "Notes")
                            "* %? :NOTE:\n%U\n%a\n")
-                       ("h" "habit" entry (file+headline rae/org-default-notes-file "Habits")
+                       ("b" "Bookmark" entry (file+headline jv/org-bookmarks-file "Bookmarks")
+                           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
+                       ("h" "habit" entry (file+headline org-default-notes-file "Habits")
                            "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 
         ;; refiling
