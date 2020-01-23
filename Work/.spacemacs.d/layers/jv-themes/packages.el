@@ -63,17 +63,17 @@
     https://github.com/hlissner/emacs-doom-themes
 "
     (use-package doom-themes
-        :init
-        (jv/add-theme-hook 'doom-solarized-dark  #'jv/doom-themes-hook)
-        (jv/add-theme-hook 'doom-solarized-light #'jv/doom-themes-hook)
-        (jv/add-theme-hook 'doom-one #'jv/doom-themes-hook)
-        (jv/add-theme-hook 'doom-one-light #'jv/doom-themes-hook)
-        (jv/add-theme-hook 'doom-nord #'jv/doom-themes-hook)
-        (jv/add-theme-hook 'doom-nord-light #'jv/doom-themes-hook)
-        (jv/add-theme-hook 'doom-opera #'jv/doom-themes-hook)
-        (jv/add-theme-hook 'doom-opera-light #'jv/doom-themes-hook)
-        (jv/add-theme-hook 'doom-molokai #'jv/doom-themes-hook)
-        (jv/add-theme-hook 'doom-spacegrey #'jv/doom-themes-hook)
+        ;; :init
+        ;; (jv/add-theme-hook 'doom-solarized-dark  #'jv/doom-themes-hook)
+        ;; (jv/add-theme-hook 'doom-solarized-light #'jv/doom-themes-hook)
+        ;; (jv/add-theme-hook 'doom-one #'jv/doom-themes-hook)
+        ;; (jv/add-theme-hook 'doom-one-light #'jv/doom-themes-hook)
+        ;; (jv/add-theme-hook 'doom-nord #'jv/doom-themes-hook)
+        ;; (jv/add-theme-hook 'doom-nord-light #'jv/doom-themes-hook)
+        ;; (jv/add-theme-hook 'doom-opera #'jv/doom-themes-hook)
+        ;; (jv/add-theme-hook 'doom-opera-light #'jv/doom-themes-hook)
+        ;; (jv/add-theme-hook 'doom-molokai #'jv/doom-themes-hook)
+        ;; (jv/add-theme-hook 'doom-spacegrey #'jv/doom-themes-hook)
         :config
         ;; Global settings (defaults)
         (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
