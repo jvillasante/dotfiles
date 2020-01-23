@@ -91,7 +91,7 @@ fi
 
 echo "===================================================================================="
 echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS' at '$dir'."
-if ! ask "Do you want to continue?"; then
+if ! ask ">> Do you want to continue?"; then
     echo ">> Done!"
     echo "===================================================================================="
     exit
