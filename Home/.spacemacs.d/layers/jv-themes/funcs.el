@@ -203,15 +203,23 @@
         "
 Themes
 
-^Solarized^   ^Material^   ^Other^
-----------------------------------------------------
-_s_: Dark     _m_: Dark    _z_: Zenburn  _DEL_: none
-_S_: Light    _M_: Light
+^Solarized^   ^Material^    ^Doom^                        ^Other
+-----------------------------------------------------------------------------------
+_s_: Dark     _m_: Dark     _d_: Doom Solarized Dark      _z_: Zenburn  _DEL_: none
+_S_: Light    _M_: Light    _D_: Doom Solarized Light
+^ ^           ^ ^           _o_: Doom One Dark
+^ ^           ^ ^           _O_: Doom One Light
+^ ^           ^ ^           _g_: Doom Space gray
 "
         ("s" (load-theme 'solarized-dark  t))
         ("S" (load-theme 'solarized-light t))
         ("m" (load-theme 'material        t))
         ("M" (load-theme 'material-light  t))
+        ("d" (load-theme 'doom-solarized-dark  t))
+        ("D" (load-theme 'doom-solarized-light t))
+        ("o" (load-theme 'doom-one  t))
+        ("O" (load-theme 'doom-one-light t))
+        ("g" (load-theme 'doom-spacegrey t))
         ("z" (load-theme 'zenburn         t))
         ("DEL" (jv/disable-all-themes))
         ("RET" nil "done" :color blue)))

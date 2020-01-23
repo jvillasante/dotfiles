@@ -3,4 +3,4 @@
 
 ;;; load default theme
 (add-hook 'after-init-hook
-    (lambda () (load-theme 'solarized-light t)))
+    (lambda () (load-theme 'doom-solarized-light t)))
