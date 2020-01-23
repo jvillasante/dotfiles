@@ -196,6 +196,26 @@
         '(markdown-header-face-5 ((t (:foreground "#93E0E3" :weight bold :height 1.1))))
         '(markdown-header-face-6 ((t (:foreground "#9FC59F" :weight bold))))))
 
+(defun jv/doom-themes-hook ()
+    (custom-set-faces
+        ;; Org and outline header updates
+        `(org-level-1 ((t (:height 1.25
+                              :weight bold))))
+        `(org-level-2 ((t (:height 1.15
+                              :weight bold))))
+        `(org-level-3 ((t (:height 1.05
+                              :weight bold))))
+
+        ;; `(org-todo ((t (:foreground ,my-black :weight extra-bold
+        ;;                    :background "light gray"))))
+        ;; `(org-priority ((t (:foreground ,my-black :weight bold
+        ;;                        :background "light gray"))))
+
+        '(outline-1 ((t (:inherit org-level-1))))
+        '(outline-2 ((t (:inherit org-level-2))))
+        '(outline-3 ((t (:inherit org-level-3))))
+        '(outline-4 ((t (:inherit org-level-4))))))
+
 ;;; Hydra
 
 (with-eval-after-load 'hydra
@@ -209,6 +229,11 @@ _s_: Dark     _m_: Dark     _d_: Doom Solarized Dark      _z_: Zenburn  _DEL_: n
 _S_: Light    _M_: Light    _D_: Doom Solarized Light
 ^ ^           ^ ^           _o_: Doom One Dark
 ^ ^           ^ ^           _O_: Doom One Light
+^ ^           ^ ^           _n_: Doom Nord Dark
+^ ^           ^ ^           _N_: Doom Nord Light 
+^ ^           ^ ^           _p_: Doom Opera Dark
+^ ^           ^ ^           _P_: Doom Opera Light 
+^ ^           ^ ^           _k_: Doom molokai
 ^ ^           ^ ^           _g_: Doom Space gray
 "
         ("s" (load-theme 'solarized-dark  t))
@@ -219,6 +244,11 @@ _S_: Light    _M_: Light    _D_: Doom Solarized Light
         ("D" (load-theme 'doom-solarized-light t))
         ("o" (load-theme 'doom-one  t))
         ("O" (load-theme 'doom-one-light t))
+        ("n" (load-theme 'doom-nord t))
+        ("N" (load-theme 'doom-nord-light t))
+        ("n" (load-theme 'doom-opera t))
+        ("N" (load-theme 'doom-opera-light t))
+        ("g" (load-theme 'doom-molokai t))
         ("g" (load-theme 'doom-spacegrey t))
         ("z" (load-theme 'zenburn         t))
         ("DEL" (jv/disable-all-themes))

@@ -1,8 +1,18 @@
 (defconst jv-themes-packages
-    '(material-theme
+    '(solaire-mode
+         material-theme
          zenburn-theme
          solarized-theme
          doom-themes))
+
+(defun jv-themes/init-solaire-mode ()
+    (use-package solaire-mode
+        :hook
+        ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+        (minibuffer-setup . solaire-mode-in-minibuffer)
+        :config
+        (solaire-global-mode +1)
+        (solaire-mode-swap-bg)))
 
 (defun jv-themes/init-material-theme ()
     (use-package material-theme
@@ -53,11 +63,21 @@
     https://github.com/hlissner/emacs-doom-themes
 "
     (use-package doom-themes
+        :init
+        (jv/add-theme-hook 'doom-solarized-dark  #'jv/doom-themes-hook)
+        (jv/add-theme-hook 'doom-solarized-light #'jv/doom-themes-hook)
+        (jv/add-theme-hook 'doom-one #'jv/doom-themes-hook)
+        (jv/add-theme-hook 'doom-one-light #'jv/doom-themes-hook)
+        (jv/add-theme-hook 'doom-nord #'jv/doom-themes-hook)
+        (jv/add-theme-hook 'doom-nord-light #'jv/doom-themes-hook)
+        (jv/add-theme-hook 'doom-opera #'jv/doom-themes-hook)
+        (jv/add-theme-hook 'doom-opera-light #'jv/doom-themes-hook)
+        (jv/add-theme-hook 'doom-molokai #'jv/doom-themes-hook)
+        (jv/add-theme-hook 'doom-spacegrey #'jv/doom-themes-hook)
         :config
         ;; Global settings (defaults)
         (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-            doom-themes-enable-italic t) ; if nil, italics is universally disabled
-        ;; (load-theme 'doom-one t)
+            doom-themes-enable-italic t)   ; if nil, italics is universally disabled
 
         ;; Enable flashing mode-line on errors
         (doom-themes-visual-bell-config)
