@@ -63,30 +63,13 @@
     https://github.com/hlissner/emacs-doom-themes
 "
     (use-package doom-themes
-        ;; :init
-        ;; (jv/add-theme-hook 'doom-solarized-dark  #'jv/doom-themes-hook)
-        ;; (jv/add-theme-hook 'doom-solarized-light #'jv/doom-themes-hook)
-        ;; (jv/add-theme-hook 'doom-one #'jv/doom-themes-hook)
-        ;; (jv/add-theme-hook 'doom-one-light #'jv/doom-themes-hook)
-        ;; (jv/add-theme-hook 'doom-nord #'jv/doom-themes-hook)
-        ;; (jv/add-theme-hook 'doom-nord-light #'jv/doom-themes-hook)
-        ;; (jv/add-theme-hook 'doom-opera #'jv/doom-themes-hook)
-        ;; (jv/add-theme-hook 'doom-opera-light #'jv/doom-themes-hook)
-        ;; (jv/add-theme-hook 'doom-molokai #'jv/doom-themes-hook)
-        ;; (jv/add-theme-hook 'doom-spacegrey #'jv/doom-themes-hook)
         :config
         ;; Global settings (defaults)
         (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
             doom-themes-enable-italic t)   ; if nil, italics is universally disabled
 
         ;; Enable flashing mode-line on errors
-        (doom-themes-visual-bell-config)
-
-        ;; Enable custom neotree theme (all-the-icons must be installed!)
-        ;; (doom-themes-neotree-config)
-        ;; or for treemacs users
-        ;; (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-        ;; (doom-themes-treemacs-config)
+        ;; (doom-themes-visual-bell-config)
 
         ;; Corrects (and improves) org-mode's native fontification.
         (doom-themes-org-config)))

@@ -16,6 +16,11 @@
         (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
         (setq org-clock-line-re "^[    ]*CLOCK:")
 
+        ;; To get the most out of themes
+        (setq org-fontify-whole-heading-line t
+            org-fontify-done-headline t
+            org-fontify-quote-and-verse-blocks t)
+
         ;; settings
         (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
         (setq org-agenda-window-setup (quote current-window)) ;; open agenda in current window
@@ -60,13 +65,7 @@
                 `(org-level-2        ((t (,@headline ,@variable-tuple :height 1.15))))
                 `(org-level-1        ((t (,@headline ,@variable-tuple :height 1.25))))
                 `(org-headline-done  ((t (,@headline ,@variable-tuple :strike-through t))))
-                `(org-document-title ((t (,@headline ,@variable-tuple
-                                             :height 1.30 :underline nil))))))
-
-        ;; To get the most out of themes
-        (setq org-fontify-whole-heading-line t
-            org-fontify-done-headline t
-            org-fontify-quote-and-verse-blocks t)
+                `(org-document-title ((t (,@headline ,@variable-tuple :height 1.30 :underline nil))))))
 
         ;; todos
         (setq org-todo-keywords
