@@ -34,9 +34,7 @@
 (defun jv-themes/init-zenburn-theme ()
     (use-package zenburn-theme
         :ensure t
-        :defer t
-        :init
-        (jv/add-theme-hook 'zenburn #'jv/zenburn-theme-hook)))
+        :defer t))
 
 (defun jv-themes/init-solarized-theme ()
     (use-package solarized-theme
