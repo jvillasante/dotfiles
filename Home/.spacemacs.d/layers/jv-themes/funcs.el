@@ -31,8 +31,47 @@
 (defun jv/solarized-theme-hook ()
     (set-face-attribute 'font-lock-constant-face nil :weight 'normal)
     (set-face-attribute 'font-lock-function-name-face nil :weight 'bold)
+    (set-face-attribute 'which-key-key-face nil :foreground (face-attribute 'error :foreground))
+
+    ;; disable solaire
+    (solaire-mode-reset)
+    (solaire-global-mode -1))
+
+(defun jv/material-theme-hook ()
     (set-face-attribute 'which-key-key-face nil :foreground
-        (face-attribute 'error :foreground)))
+        (face-attribute 'error :foreground))
+    (loop for n from 1 to 8
+        do (set-face-attribute (intern-soft (format "org-level-%s" n))
+               nil
+               :height     'unspecified
+               :background 'unspecified
+               :box        'unspecified))
+
+    ;; disable solaire
+    (solaire-mode-reset)
+    (solaire-global-mode -1))
+
+(defun jv/zenburn-theme-hook ()
+    ;; disable solaire
+    (solaire-mode-reset)
+    (solaire-global-mode -1))
+
+(defun jv/doom-solarized-theme-hook ()
+    (set-face-attribute 'font-lock-constant-face nil :weight 'normal)
+    (set-face-attribute 'font-lock-function-name-face nil :weight 'bold)
+    (set-face-attribute 'which-key-key-face nil
+        :foreground (face-attribute 'error :foreground))
+
+    ;; enable solaire
+    (solaire-mode-reset)
+    (solaire-global-mode +1)
+    (solaire-mode-swap-bg))
+
+(defun jv/doom-theme-hook ()
+    ;; enable solaire
+    (solaire-mode-reset)
+    (solaire-global-mode +1)
+    (solaire-mode-swap-bg))
 
 ;;; Hydra
 

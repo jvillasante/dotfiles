@@ -11,7 +11,7 @@
         ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
         (minibuffer-setup . solaire-mode-in-minibuffer)
         :config
-        (solaire-global-mode +1)
+        (solaire-global-mode t)
         (solaire-mode-swap-bg)))
 
 (defun jv-themes/init-material-theme ()
@@ -19,22 +19,15 @@
         :ensure t
         :defer t
         :init
-        (defun jv/material-theme-hook ()
-            (set-face-attribute 'which-key-key-face nil :foreground
-                (face-attribute 'error :foreground))
-            (loop for n from 1 to 8
-                do (set-face-attribute (intern-soft (format "org-level-%s" n))
-                       nil
-                       :height     'unspecified
-                       :background 'unspecified
-                       :box        'unspecified)))
         (jv/add-theme-hook 'material       #'jv/material-theme-hook)
         (jv/add-theme-hook 'material-light #'jv/material-theme-hook)))
 
 (defun jv-themes/init-zenburn-theme ()
     (use-package zenburn-theme
         :ensure t
-        :defer t))
+        :defer t
+        :init
+        (jv/add-theme-hook 'zenburn #'jv/zenburn-theme-hook)))
 
 (defun jv-themes/init-solarized-theme ()
     (use-package solarized-theme
@@ -62,8 +55,18 @@
 "
     (use-package doom-themes
         :init
-        (jv/add-theme-hook 'doom-solarized-dark  #'jv/solarized-theme-hook)
-        (jv/add-theme-hook 'doom-solarized-light #'jv/solarized-theme-hook)
+        (jv/add-theme-hook 'doom-solarized-dark  #'jv/doom-solarized-theme-hook)
+        (jv/add-theme-hook 'doom-solarized-light #'jv/doom-solarized-theme-hook)
+        (jv/add-theme-hook 'doom-one #'jv/doom-theme-hook)
+        (jv/add-theme-hook 'doom-one-light #'jv/doom-theme-hook)
+        (jv/add-theme-hook 'doom-nord #'jv/doom-theme-hook)
+        (jv/add-theme-hook 'doom-nord-light #'jv/doom-theme-hook)
+        (jv/add-theme-hook 'doom-opera #'jv/doom-theme-hook)
+        (jv/add-theme-hook 'doom-opera-light #'jv/doom-theme-hook)
+        (jv/add-theme-hook 'doom-tomorrow-night #'jv/doom-theme-hook)
+        (jv/add-theme-hook 'doom-tomorrow-day #'jv/doom-theme-hook)
+        (jv/add-theme-hook 'doom-vibrant #'jv/doom-theme-hook)
+        (jv/add-theme-hook 'doom-molokai #'jv/doom-theme-hook)
         :config
         ;; Global settings (defaults)
         (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
