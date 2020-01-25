@@ -43,8 +43,8 @@
         :ensure t
         :defer t
         :init
-        (jv/add-theme-hook 'solarized-dark  #'jv/solarized-dark-theme-hook)
-        (jv/add-theme-hook 'solarized-light #'jv/solarized-light-theme-hook)
+        (jv/add-theme-hook 'solarized-dark  #'jv/solarized-theme-hook)
+        (jv/add-theme-hook 'solarized-light #'jv/solarized-theme-hook)
         :config
         (setq
             solarized-use-variable-pitch nil
@@ -63,13 +63,16 @@
     https://github.com/hlissner/emacs-doom-themes
 "
     (use-package doom-themes
+        :init
+        (jv/add-theme-hook 'doom-solarized-dark  #'jv/solarized-theme-hook)
+        (jv/add-theme-hook 'doom-solarized-light #'jv/solarized-theme-hook)
         :config
         ;; Global settings (defaults)
         (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
             doom-themes-enable-italic t)   ; if nil, italics is universally disabled
 
         ;; Enable flashing mode-line on errors
-        ;; (doom-themes-visual-bell-config)
+        (doom-themes-visual-bell-config)
 
         ;; Corrects (and improves) org-mode's native fontification.
         (doom-themes-org-config)))

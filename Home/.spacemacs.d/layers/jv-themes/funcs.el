@@ -28,63 +28,11 @@
 
 ;;; Theme custom configs
 
-(setq my-black "#1b1b1e")
-
-(defun jv/solarized-dark-theme-hook ()
-    (custom-theme-set-faces
-        'solarized-dark
-
-        ;; Makes matching parens obvious
-        `(sp-show-pair-match-face ((t (:inherit sp-show-pair-match-face
-                                          :background "#586e75"))))
-
-        '(font-lock-constant-face nil :weight 'normal)
-        '(font-lock-function-name-face nil :weight 'bold)
-        '(which-key-key-face nil :foreground
-             (face-attribute 'error :foreground))
-
-        ;; active modeline has no colors
-        `(mode-line ((t (:inherit mode-line :background "#002b36"))))
-        `(mode-line-inactive ((t (:inherit mode-line :background "#002b36"))))
-        `(spaceline-highlight-face ((t (:inherit mode-line :background "#002b36"))))
-        `(powerline-active1 ((t (:inherit mode-line :background "#002b36"))))
-        `(powerline-active2 ((t (:inherit mode-line :background "#002b36"))))
-
-        ;; Inactive modeline has tint
-        `(powerline-inactive2 ((t (:inherit powerline-inactive1))))
-
-        '(outline-1 ((t (:inherit org-level-1))))
-        '(outline-2 ((t (:inherit org-level-2))))
-        '(outline-3 ((t (:inherit org-level-3))))
-        '(outline-4 ((t (:inherit org-level-4))))))
-
-(defun jv/solarized-light-theme-hook ()
-    (custom-theme-set-faces
-        'solarized-light
-
-        ;; Makes matching parens obvious
-        `(sp-show-pair-match-face ((t (:inherit sp-show-pair-match-face
-                                          :background "light gray"))))
-
-        '(font-lock-constant-face nil :weight 'normal)
-        '(font-lock-function-name-face nil :weight 'bold)
-        '(which-key-key-face nil :foreground
-             (face-attribute 'error :foreground))
-
-        ;; active modeline has no colors
-        `(mode-line ((t (:inherit mode-line :background "#fdf6e3"))))
-        `(mode-line-inactive ((t (:inherit mode-line :background "#fdf6e3"))))
-        `(spaceline-highlight-face ((t (:inherit mode-line :background "#fdf6e3"))))
-        `(powerline-active1 ((t (:inherit mode-line :background "#fdf6e3"))))
-        `(powerline-active2 ((t (:inherit mode-line :background "#fdf6e3"))))
-
-        ;; Inactive modeline has tint
-        `(powerline-inactive2 ((t (:inherit powerline-inactive1))))
-
-        '(outline-1 ((t (:inherit org-level-1))))
-        '(outline-2 ((t (:inherit org-level-2))))
-        '(outline-3 ((t (:inherit org-level-3))))
-        '(outline-4 ((t (:inherit org-level-4))))))
+(defun jv/solarized-theme-hook ()
+    (set-face-attribute 'font-lock-constant-face nil :weight 'normal)
+    (set-face-attribute 'font-lock-function-name-face nil :weight 'bold)
+    (set-face-attribute 'which-key-key-face nil :foreground
+        (face-attribute 'error :foreground)))
 
 (defun jv/zenburn-theme-hook ()
     (custom-theme-set-faces
