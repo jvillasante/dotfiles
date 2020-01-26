@@ -5,6 +5,7 @@
 
 (defun jv-lsp/post-init-lsp-mode ()
     (defun jv-lsp/setup-lsp-mode ()
+        (setq lsp-enable-file-watchers nil)
         (setq lsp-restart 'auto-restart)
         (setq lsp-remap-xref-keybindings nil)
         (setq lsp-enable-on-type-formatting nil)
