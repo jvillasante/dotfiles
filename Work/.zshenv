@@ -26,8 +26,9 @@ fi
 
 # Go
 if [ -d "$HOME/Hacking/workspace/go" ]; then
-    export GOPATH=$HOME/Hacking/workspace/go
-    export PATH="$GOPATH/bin:$PATH"
+        export GOPATH=$HOME/Hacking/workspace/go
+        export GOBIN=$GOPATH/bin
+        export PATH="$GOBIN:$PATH"
 fi
 
 # Boost

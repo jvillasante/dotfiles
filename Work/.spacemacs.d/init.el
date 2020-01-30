@@ -101,6 +101,12 @@ This function should only modify configuration layer settings."
                  c-c++-enable-c++11 t
                  c-c++-backend 'lsp-ccls
                  c-c++-enable-clang-format-on-save t)
+             (go :variables
+                 go-backend 'go-mode
+                 go-tab-width nil
+                 go-format-before-save t
+                 go-use-golangci-lint nil
+                 go-use-test-args "-race -timeout 10s")
              (rust :variables
                  rust-backend 'lsp
                  rust-format-on-save t)
