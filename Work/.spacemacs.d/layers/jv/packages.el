@@ -8,7 +8,6 @@
          flycheck
          flyspell-lazy
          pinentry
-         password-store
          crux))
 
 (defun jv/init-ag ()
@@ -85,18 +84,7 @@
         :init
         (setq epa-pinentry-mode 'loopback)))
 
-(defun jv/init-password-store ()
-    (use-package password-store
-        :ensure t
-        :init
-        (setq password-store-password-length 25)
-        (evil-leader/set-key
-            "opc" 'password-store-copy
-            "ope" 'password-store-edit
-            "opg" 'password-store-generate)))
-
 (defun jv/init-crux ()
     (use-package crux
         :ensure t
         :bind (("C-c o" . crux-open-with))))
-

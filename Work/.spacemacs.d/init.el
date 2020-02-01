@@ -115,6 +115,7 @@ This function should only modify configuration layer settings."
              csv
              deft
              neotree
+             pass
              (elfeed :variables
                  rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
 
