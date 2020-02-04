@@ -294,7 +294,7 @@ It should only modify the values of Spacemacs settings."
                                        :size 20
                                        :weight normal
                                        :width normal
-                                       :powerline-scale 1.0)
+                                       :powerline-scale 1.1)
 
         ;; The leader key (default "SPC")
         dotspacemacs-leader-key "SPC"

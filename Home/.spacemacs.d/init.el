@@ -290,7 +290,8 @@ It should only modify the values of Spacemacs settings."
         dotspacemacs-default-font '("Source Code Pro"
                                        :size 22
                                        :weight normal
-                                       :powerline-scale 1.0)
+                                       :width normal
+                                       :powerline-scale 1.1)
 
         ;; The leader key (default "SPC")
         dotspacemacs-leader-key "SPC"
