@@ -3,9 +3,11 @@
          ivy
          avy
          counsel
+         which-key
          neotree
          sr-speedbar
          flycheck
+         flyspell
          flyspell-lazy
          pinentry
          crux))
@@ -33,6 +35,9 @@
 (defun jv/post-init-counsel ()
     (setq counsel-rg-base-command "rg -S --no-heading --line-number --color never %s ."
         counsel-ag-base-command "ag -S --nocolor --nogroup %s"))
+
+(defun jv/post-init-which-key ()
+    (spacemacs|diminish which-key-mode "  " " k"))
 
 (defun jv/post-init-neotree ()
     (setq neo-theme 'ascii)
@@ -72,6 +77,9 @@
     (setq-default
         +flycheck-on-escape nil
         flycheck-check-syntax-automatically '(save mode-enable)))
+
+(defun jv/post-init-flyspell ()
+    (spacemacs|diminish flyspell-mode "  " " s"))
 
 (defun jv/init-flyspell-lazy ()
     (use-package flyspell-lazy

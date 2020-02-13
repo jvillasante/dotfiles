@@ -21,4 +21,4 @@
         :init
         (progn
             (modern-c++-font-lock-global-mode t)
-            (spacemacs|diminish modern-c++-font-lock-mode " Ⓜ" " M"))))
+            (spacemacs|diminish modern-c++-font-lock-mode " Ⓜ" " m"))))

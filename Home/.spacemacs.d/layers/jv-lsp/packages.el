@@ -11,7 +11,7 @@
         (setq lsp-enable-on-type-formatting nil)
         (setq lsp-navigation 'both))
 
-    (spacemacs|diminish lsp-mode " Ⓛ" " L")
+    (spacemacs|diminish lsp-mode " Ⓛ" " l")
 
     (add-hook 'c-mode-hook 'jv-lsp/setup-lsp-mode)
     (add-hook 'c++-mode-hook 'jv-lsp/setup-lsp-mode)
