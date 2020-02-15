@@ -46,6 +46,17 @@ void collection(std::string_view header, Iterator begin, Iterator end,
     out << "]\n";
 }
 
+template <typename Iterator>
+void collection_inline(std::string_view header, Iterator begin, Iterator end,
+                       std::ostream& out = std::cout) {
+    out << header;
+    out << " [";
+    if (begin != end) {
+        std::copy(begin, end, iterator_utils::make_ostream_joiner(out, ", "));
+    }
+    out << "]\n";
+}
+
 template <typename T>
 void vector(std::string_view header, std::vector<T>& vec,
             std::ostream& out = std::cout) {
@@ -54,6 +65,16 @@ void vector(std::string_view header, std::vector<T>& vec,
     out << "  Size:     " << vec.size() << '\n';
     out << "  Capacity: " << vec.capacity() << '\n';
 }
+
+template <typename T>
+void vector_inline(std::string_view header, std::vector<T>& vec,
+                   std::ostream& out = std::cout) {
+    collection_inline(header, std::begin(vec), std::end(vec), out);
+
+    out << "  Size:     " << vec.size() << '\n';
+    out << "  Capacity: " << vec.capacity() << '\n';
+}
+
 } // namespace print
 
 #endif /* PRINT_H */
