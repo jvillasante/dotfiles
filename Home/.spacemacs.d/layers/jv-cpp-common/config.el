@@ -2,6 +2,7 @@
 ;;
 
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
 
 (defun jv/c-mode-common-hook ()
     (setq
