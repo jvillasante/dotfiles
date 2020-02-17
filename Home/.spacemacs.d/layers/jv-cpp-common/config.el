@@ -22,8 +22,8 @@
 
 (with-eval-after-load 'smartparens
     (sp-with-modes '(c-mode c++-mode)
-        ;; adds <> to c mode
-        (sp-local-pair "<" ">")
+        ;; messes with std::cout << ...
+        ;; (sp-local-pair "<" ">")
 
         ;; when you press RET, the curly braces automatically
         ;; add another newline
