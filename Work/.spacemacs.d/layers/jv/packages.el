@@ -4,6 +4,7 @@
          avy
          counsel
          which-key
+         smartparens
          neotree
          sr-speedbar
          flycheck
@@ -38,6 +39,12 @@
 
 (defun jv/post-init-which-key ()
     (spacemacs|diminish which-key-mode "  " " k"))
+
+(defun jv/post-init-smartparens ()
+    (require 'smartparens-config)
+    (show-smartparens-global-mode +1)
+    (smartparens-global-mode 1)
+    (show-paren-mode t))
 
 (defun jv/post-init-neotree ()
     (setq neo-theme 'ascii)

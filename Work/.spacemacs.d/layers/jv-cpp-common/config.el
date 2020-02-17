@@ -19,3 +19,13 @@
     "Default mode to open header files. Can be `c-mode' or `c++-mode'.")
 
 (spacemacs|define-jump-handlers c++-mode)
+
+(with-eval-after-load 'smartparens
+    (sp-with-modes '(c-mode c++-mode)
+        ;; adds <> to c mode
+        (sp-local-pair "<" ">")
+
+        ;; when you press RET, the curly braces automatically
+        ;; add another newline
+        (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+        (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
