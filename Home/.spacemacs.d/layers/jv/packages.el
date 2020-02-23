@@ -25,10 +25,7 @@
         ivy-virtual-abbreviate 'full   ; default is name
         ivy-initial-inputs-alist nil   ; remove initial ^ input.
         ivy-extra-directories nil      ; remove . and .. directory. (default value: ("../" "./"))
-        ivy-height 10)
-
-    (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
-    (define-key ivy-minibuffer-map (kbd "<escape>") #'minibuffer-keyboard-quit))
+        ivy-height 10))
 
 (defun jv/post-init-avy ()
     (setq avy-all-windows t))
