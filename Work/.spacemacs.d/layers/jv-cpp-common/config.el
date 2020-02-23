@@ -12,9 +12,6 @@
     (c-set-offset 'substatement-open 0))
 (add-hook 'c-mode-common-hook 'jv/c-mode-common-hook)
 
-(add-hook 'c++-mode-hook (lambda ()
-                             (push '(?< . ("< " . " >")) evil-surround-pairs-alist)))
-
 (defvar jv-cpp-default-mode-for-headers 'c++-mode
     "Default mode to open header files. Can be `c-mode' or `c++-mode'.")
 
@@ -29,3 +26,5 @@
         ;; add another newline
         (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
         (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
+                                                     ("* ||\n[i]" "RET")))))
+
