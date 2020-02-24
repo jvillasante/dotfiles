@@ -554,8 +554,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                 jv/clang-path "/usr/local/opt/llvm/bin/clang"))
         ((spacemacs/system-is-linux)
             (setq
-                jv/dotfiles-path (file-truename "~/Hacking/Software/dotfiles")
-                jv/software-path (file-truename "~/Hacking/Software")
+                jv/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
+                jv/software-path (file-truename "~/Workspace/Software")
                 jv/dropbox-path (file-truename "~/Dropbox")
                 jv/zsh-path "/usr/bin/zsh"
                 jv/clang-path "/usr/bin/clang")))
