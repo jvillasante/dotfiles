@@ -50,7 +50,7 @@ find_current_os
 if [[ $CURRENT_ENV == "HOME" ]]; then
     dir=~/Workspace/Others/dotfiles         # dotfiles directory
 elif [[ $CURRENT_ENV == "WORK" ]]; then
-    dir=~/Hacking/Software/dotfiles         # dotfiles directory
+    dir=~/Workspace/Others/dotfiles         # dotfiles directory
 fi
 
 echo "===================================================================================="
