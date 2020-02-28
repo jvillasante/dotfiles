@@ -9,4 +9,6 @@ backup/
 .spacemacs.d/.spacemacs.env
 Home/.spacemacs.d/.spacemacs.env
 Work/.spacemacs.d/.spacemacs.env
+Home/.doom.d.old
+Work/.doom.d.old
 *~
