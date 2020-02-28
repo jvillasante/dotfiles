@@ -107,6 +107,7 @@ This function should only modify configuration layer settings."
                  go-use-test-args "-race -timeout 10s")
              (rust :variables
                  rust-backend 'lsp
+                 lsp-rust-server 'rust-analyzer
                  rust-format-on-save t)
              (restclient :variables
                  restclient-use-org t)
