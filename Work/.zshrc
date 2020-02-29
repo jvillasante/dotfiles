@@ -114,74 +114,74 @@ fi
 #
 # iTerm
 #
-if [ "$TERM_PROGRAM" = 'iTerm.app' ]; then
-    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# if [ "$TERM_PROGRAM" = 'iTerm.app' ]; then
+#     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-    iterm_emit() {
-        local template="\e]${1}\007"
-        shift
+#     iterm_emit() {
+#         local template="\e]${1}\007"
+#         shift
 
-        if [[ -n "$TMUX" || "$TERM" = tmux* ]]; then
-            template="\ePtmux;\e${template}\e\\"
-        fi
-        printf "$template" "$@"
-    }
+#         if [[ -n "$TMUX" || "$TERM" = tmux* ]]; then
+#             template="\ePtmux;\e${template}\e\\"
+#         fi
+#         printf "$template" "$@"
+#     }
 
-    iterm_profile() {
-        iterm_emit '1337;SetProfile=%s' "$1"
+#     iterm_profile() {
+#         iterm_emit '1337;SetProfile=%s' "$1"
 
-        if [[ -n "$TMUX" || "$TERM" = tmux* ]]; then
-            if [ "$1" = 'light' ]; then
-                tmux source-file "$HOME/.tmux_light.conf"
-            else
-                tmux source-file "$HOME/.tmux_dark.conf"
-            fi
-        fi
-    }
+#         if [[ -n "$TMUX" || "$TERM" = tmux* ]]; then
+#             if [ "$1" = 'light' ]; then
+#                 tmux source-file "$HOME/.tmux_light.conf"
+#             else
+#                 tmux source-file "$HOME/.tmux_dark.conf"
+#             fi
+#         fi
+#     }
 
-    iterm_user_var() {
-        iterm_emit '1337;SetUserVar=%s=%s' "$1" "$(echo -n "$2" | base64)"
-    }
+#     iterm_user_var() {
+#         iterm_emit '1337;SetUserVar=%s=%s' "$1" "$(echo -n "$2" | base64)"
+#     }
 
-    iterm_badge_format() {
-        iterm_emit '1337;SetBadgeFormat=%s' "$(echo -n "$1" | base64)"
-    }
+#     iterm_badge_format() {
+#         iterm_emit '1337;SetBadgeFormat=%s' "$(echo -n "$1" | base64)"
+#     }
 
-    iterm_highlight_cursor() {
-        local bool="${1:-true}"
-        iterm_emit '1337;HighlightCursorLine=%s' "$bool"
-    }
+#     iterm_highlight_cursor() {
+#         local bool="${1:-true}"
+#         iterm_emit '1337;HighlightCursorLine=%s' "$bool"
+#     }
 
-    iterm_annotation() {
-        if [ -z "$TMUX" ]; then
-            # Doesn't work in TMUX
-            iterm_emit '1337;AddAnnotation=%s' "${1:-annotation}"
-        fi
-    }
+#     iterm_annotation() {
+#         if [ -z "$TMUX" ]; then
+#             # Doesn't work in TMUX
+#             iterm_emit '1337;AddAnnotation=%s' "${1:-annotation}"
+#         fi
+#     }
 
-    iterm_clear_scrollback() {
-        iterm_emit '1337;ClearScrollback'
-    }
+#     iterm_clear_scrollback() {
+#         iterm_emit '1337;ClearScrollback'
+#     }
 
-    iterm_get_attention() {
-        iterm_emit '1337;RequestAttention=true'
-    }
+#     iterm_get_attention() {
+#         iterm_emit '1337;RequestAttention=true'
+#     }
 
-    iterm_steal_focus() {
-        iterm_emit '1337;StealFocus'
-    }
+#     iterm_steal_focus() {
+#         iterm_emit '1337;StealFocus'
+#     }
 
-    iterm_send_cwd() {
-        local cwd="${1:-$PWD}"
-        iterm_emit '1337;CurrentDir=%s' "$cwd"
-    }
+#     iterm_send_cwd() {
+#         local cwd="${1:-$PWD}"
+#         iterm_emit '1337;CurrentDir=%s' "$cwd"
+#     }
 
-    [[ -z $chpwd_functions ]] && chpwd_functions=()
-    chpwd_functions=($chpwd_functions iterm_send_cwd)
-else
-    ITERM_SHELL_INTEGRATION_INSTALLED=no
-    ITERM2_SHOULD_DECORATE_PROMPT=0
-fi
+#     [[ -z $chpwd_functions ]] && chpwd_functions=()
+#     chpwd_functions=($chpwd_functions iterm_send_cwd)
+# else
+#     ITERM_SHELL_INTEGRATION_INSTALLED=no
+#     ITERM2_SHOULD_DECORATE_PROMPT=0
+# fi
 
 #
 # Tmux
