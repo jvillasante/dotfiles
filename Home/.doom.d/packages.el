@@ -2,17 +2,14 @@
 ;;; $DOOMDIR/packages.el
 
 (disable-packages! glsl-mode cuda-mode opencl-mode latex-preview-pane org-ref nose anaconda-mode)
-(disable-packages! company-irony company-irony-c-headers flycheck-irony irony irony-eldoc ivy-rtags rtags)
-(disable-packages! winum)
 
 (package! ivy-prescient)
 (package! dired-quick-sort)
 (package! ibuffer-vc)
 
-(package! ag)
-(package! rg)
+;; (package! ag)
+;; (package! rg)
 (package! sr-speedbar)
-(package! flyspell-lazy)
 (package! pinentry)
 (package! crux)
 (package! visual-regexp)

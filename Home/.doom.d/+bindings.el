@@ -44,6 +44,8 @@
         (:prefix "o"
             :desc "Dired" :n "d" #'dired
             :desc "Scratch Buffer" :n "s" #'doom/open-scratch-buffer
+            (:after sr-speedbar
+                :desc "Open speedbar" :n "x" #'sr-speedbar-toggle)
             (:when (featurep! :ui neotree)
                 :desc "Open neotree"    :n "n" #'neotree-toggle
                 ;; :desc "Open neotree"    :n "n" #'+neotree/open
@@ -83,4 +85,5 @@
     (:after neotree
         (:map neotree-mode-map
             :desc "Neotree Hydra" :n "?" #'+my/hydra-neotree/body))
+
     )

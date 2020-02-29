@@ -1,7 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+; sync' after modifying this file!
 
 (after! yasnippet
   (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
@@ -125,6 +125,9 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
             ("r" neotree-rename-node)
             ("R" neotree-change-root)
             ("s" neotree-hidden-file-toggle))))
+
+(after! flyspell-lazy
+    (add-hook 'prog-mode-hook 'flyspell-lazy-mode))
 
 (after! flycheck
     (setq-default
@@ -486,10 +489,6 @@ T - tag prefix
 (load! "+ui")
 (load! "+config")
 (load! "+bindings")
-
-;; Run as server for `emacsclient`
-(load "server")
-(unless (server-running-p) (server-start))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
