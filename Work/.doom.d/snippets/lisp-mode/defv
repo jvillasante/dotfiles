@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: defv
+# key: defv
+# --
+(defvar ${1:name} ${2:value}
+  ${3:doc})
