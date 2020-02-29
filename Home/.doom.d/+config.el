@@ -59,6 +59,7 @@
     indent-tabs-mode nil
 
     ;; set appearance of a tab that is represented by 4 spaces
+    evil-shift-width 4
     tab-width 4
 
     ;; show those ugly tabs
@@ -124,10 +125,6 @@
                                    ("Asia/Calcutta" "India")
                                    ("America/Havana" "Havana")))
 
-;; recentf exclude folders/files
-(setq recentf-exclude (list (concat jv/dotfiles-path "/.emacs.d*")))
-(add-to-list 'recentf-exclude "/var/*")
-
 ;; multiterm
 (setq multi-term-program jv/zsh-path)
 
@@ -144,6 +141,7 @@
 (add-hook 'focus-out-hook
     (lambda ()
         (save-some-buffers t)))
+(add-hook 'prog-mode-hook #'goto-address-mode) ;; Linkify links!
 (add-hook 'prog-mode-hook
     (lambda ()
         (set-fill-column 110)

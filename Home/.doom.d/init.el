@@ -23,7 +23,9 @@
     company           ; the ultimate code completion backend
     ;;helm              ; the *other* search engine for love and life
     ;;ido               ; the other *other* search engine...
-    ivy               ; a search engine for love and life
+    (ivy               ; a search engine for love and life
+        +fuzzy
+        +prescient)
 
     :ui
     deft              ; notational velocity for Emacs
@@ -52,7 +54,8 @@
     ;;zen               ; distraction-free coding or writing
 
     :editor
-    (evil +everywhere); come to the dark side, we have cookies
+    (evil             ; come to the dark side, we have cookies
+        +everywhere)
     file-templates    ; auto-snippets for empty files
     fold              ; (nigh) universal code folding
     ;;(format +onsave)  ; automated prettiness
@@ -72,14 +75,15 @@
     vc                ; version-control and Emacs, sitting in a tree
 
     :term
-    ;;eshell            ; a consistent, cross-platform shell (WIP)
-    ;;shell             ; a terminal REPL for Emacs
-    ;;term              ; terminals in Emacs
+    eshell            ; a consistent, cross-platform shell (WIP)
+    ;; shell             ; a terminal REPL for Emacs
+    term              ; terminals in Emacs
     ;;vterm             ; another terminals in Emacs
 
     :checkers
     syntax              ; tasing you for every semicolon you forget
-    ;;spell             ; tasing you for misspelling mispelling
+    (spell              ; tasing you for misspelling mispelling
+        +everywhere)
     ;;grammar           ; tasing grammar mistake every you make
 
     :tools
@@ -175,12 +179,17 @@
     :app
     ;;calendar
     ;;irc               ; how neckbeards socialize
-    (rss +org)        ; emacs as an RSS reader
+    (rss                ; emacs as an RSS reader
+        +org)
     ;;twitter           ; twitter client https://twitter.com/vnought
 
     :config
     ;;literate
-    (default +bindings +snippets +evil-commands +smartparens)
+    (default
+        +bindings
+        +snippets
+        +evil-commands
+        +smartparens)
 
     ;; My Private modules
     :private

@@ -127,11 +127,13 @@ at least the fill column. Place the point after the comment box. http://irreal.o
 (add-hook 'compilation-finish-functions '+my/bury-compile-buffer-if-successful)
 ;; (remove-hook 'compilation-finish-functions '+my/bury-compile-buffer-if-successful)
 
+;;;###autoload
 (defun +my/elfeed-mark-all-as-read ()
     (interactive)
     (mark-whole-buffer)
     (elfeed-search-untag-all-unread))
 
+;;;###autoload
 (defun +my/elfeed-load-db-and-open ()
     "Wrapper to load the elfeed db from disk before opening"
     (interactive)
@@ -139,8 +141,47 @@ at least the fill column. Place the point after the comment box. http://irreal.o
     (elfeed)
     (elfeed-search-update--force))
 
+;;;###autoload
 (defun +my/elfeed-save-db-and-bury ()
     "Wrapper to save the elfeed db to disk before burying buffer"
     (interactive)
     (elfeed-db-save)
     (quit-window))
+
+;;;###autoload
+(defun +my/neotree-collapse ()
+  "Collapse a neotree node."
+  (interactive)
+  (let ((node (neo-buffer--get-filename-current-line)))
+    (when node
+      (when (file-directory-p node)
+        (neo-buffer--set-expand node nil)
+        (neo-buffer--refresh t))
+      (when neo-auto-indent-point
+        (neo-point-auto-indent)))))
+
+;;;###autoload
+(defun +my/neotree-collapse-or-up ()
+  "Collapse an expanded directory node or go to the parent node."
+  (interactive)
+  (let ((node (neo-buffer--get-filename-current-line)))
+    (when node
+      (if (file-directory-p node)
+          (if (neo-buffer--expanded-node-p node)
+              (spacemacs/neotree-collapse)
+            (neotree-select-up-node))
+        (neotree-select-up-node)))))
+
+;;;###autoload
+(defun +my/neotree-find-project-root ()
+  (interactive)
+  (if (neo-global--window-exists-p)
+      (neotree-hide)
+    (let ((origin-buffer-file-name (buffer-file-name)))
+      (neotree-find (projectile-project-root))
+      (neotree-find origin-buffer-file-name))))
+
+;;;###autoload
+(defun +my/neotree-maybe-attach-window ()
+  (when (get-buffer-window (neo-global--get-buffer))
+    (neo-global--attach)))

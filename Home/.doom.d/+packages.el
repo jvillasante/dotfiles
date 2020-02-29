@@ -30,7 +30,6 @@
     (remove-hook 'compilation-filter-hook #'doom-apply-ansi-color-to-compilation-buffer-h))
 
 (use-package! sr-speedbar
-    :defer t
     ;; :init
     ;; (spacemacs/set-leader-keys
     ;;     "sr" 'sr-speedbar-toggle)
@@ -51,12 +50,3 @@
 
 (use-package! visual-regexp
     :commands (vr/query-replace vr/replace))
-
-(use-package! yapfify
-    :after python
-    :defer t)
-
-(use-package! company-posframe
-    :after company
-    :config (company-posframe-mode 1))
-

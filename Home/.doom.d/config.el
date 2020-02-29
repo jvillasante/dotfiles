@@ -3,10 +3,23 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-(load! "+packages")
-
 (after! yasnippet
   (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
+
+(after! recentf
+    (push (list (concat jv/dotfiles-path "/.emacs.d*")) recentf-exclude)
+    (push #'+org-is-agenda-file recentf-exclude)
+    (push "~/.mail" recentf-exclude)
+    (push "\\.git" recentf-exclude)
+    (push "/tmp/" recentf-exclude)
+    (push "/ssh:" recentf-exclude)
+    (push "~/\\.emacs\\.d/.local" recentf-exclude)
+    (push "~/mail" recentf-exclude)
+    (push "/var" recentf-exclude)
+    (push "/usr" recentf-exclude)
+    (push "\\.?ido\\.last$" recentf-exclude)
+    (push "^/nix/store/" recentf-exclude)
+    (push ".+\\.mp3$" recentf-exclude))
 
 (after! ivy
     (setq ivy-display-style nil
@@ -48,9 +61,9 @@
                                  '(car cdr))))))
 
     (setq neo-theme 'ascii
-        ;; neo-window-width 60
+        neo-window-width 32
         neo-create-file-auto-open t
-        ;; neo-banner-message "Press ? does not work!"
+        neo-banner-message "Press ? for neotree help"
         neo-show-updir-line nil
         neo-mode-line-type 'neotree
         neo-smart-open t
@@ -73,7 +86,45 @@
              "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
              "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
              "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-             "\\.egg\-info$")))
+             "\\.egg\-info$"))
+
+    ;; Hydra for neotree
+    (after! hydra
+        (defhydra +my/hydra-neotree (:hint nil :color pink)
+            "
+Navigation^^^^             Actions^^         Visual actions/config^^^
+───────^^^^─────────────── ───────^^──────── ───────^^^────────────────
+[_L_]   next sibling^^     [_c_] create      [_=_]   shrink/enlarge
+[_H_]   previous sibling^^ [_C_] copy        [_|_]   vertical split
+[_J_]   goto child^^       [_d_] delete      [_-_]   horizontal split
+[_K_]   goto parent^^      [_r_] rename      [_gr_]  refresh^
+[_l_]   open/expand^^      [_R_] change root [_s_]   hidden:^^^ %s(if neo-buffer--show-hidden-file-p \"on\" \"off\")
+[_h_]   up/collapse^^      ^^                ^^^
+[_j_]   line down^^        ^^                ^^^
+[_k_]   line up^^          ^^                ^^
+[_'_]   quick look         ^^                ^^
+^^^                        ^^^^              [_?_]   close hints
+"
+            ("=" neotree-stretch-toggle)
+            ("|" neotree-enter-vertical-split)
+            ("-" neotree-enter-horizontal-split)
+            ("?" nil :exit t)
+            ("'" neotree-quick-look)
+            ("c" neotree-create-node)
+            ("C" neotree-copy-node)
+            ("d" neotree-delete-node)
+            ("gr" neotree-refresh)
+            ("h" +my/neotree-collapse-or-up)
+            ("H" neotree-select-previous-sibling-node)
+            ("j" neotree-next-line)
+            ("J" neotree-select-down-node)
+            ("k" neotree-previous-line)
+            ("K" neotree-select-up-node)
+            ("l" +my/neotree-expand-or-open)
+            ("L" neotree-select-next-sibling-node)
+            ("r" neotree-rename-node)
+            ("R" neotree-change-root)
+            ("s" neotree-hidden-file-toggle))))
 
 (after! flycheck
     (setq-default
@@ -106,9 +157,10 @@
 (after! company
     (add-hook 'after-init-hook 'global-company-mode)
 
-    (setq company-idle-delay 0.1
+    (setq
+        company-idle-delay 0.1
         company-tooltip-limit 12
-        company-minimum-prefix-length 3
+        company-minimum-prefix-length 2
         ;; company-dabbrev-downcase nil
         ;; company-dabbrev-ignore-case t
         company-show-numbers nil))
@@ -117,14 +169,6 @@
     (setq ws-butler-global-exempt-modes
         (append ws-butler-global-exempt-modes
             '(prog-mode org-mode))))
-
-(after! color-rg
-    ;; solve the issue that color-rg buffer color is messed
-    ;; see https://github.com/manateelazycat/color-rg/issues/33
-    (remove-hook 'compilation-filter-hook #'doom-apply-ansi-color-to-compilation-buffer-h))
-
-(after! eshell
-    (setq eshell-directory-name (expand-file-name "eshell" doom-etc-dir)))
 
 (after! python
     (setq python-shell-interpreter "python3"))
@@ -174,11 +218,10 @@
     (setq dired-auto-revert-buffer t)
 
     (setq projectile-switch-project-action 'projectile-dired) ; dired loads on project switch
-    ;; (evil-leader/set-key "od" 'dired)
 
     ;; Hydra for dired
-    (with-eval-after-load 'hydra
-        (defhydra hydra-dired (:hint nil :color pink)
+    (after! hydra
+        (defhydra +my/hydra-dired (:hint nil :color pink)
             "
 _+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
 _C_opy             _O_ view other   _U_nmark all       _)_ omit-mode      _$_ hide-subdir    C-x C-q : edit
@@ -227,9 +270,8 @@ T - tag prefix
             ("z" diredp-compress-this-file)
             ("Z" dired-do-compress)
             ("q" nil)
-            ("." nil :color blue))
-
-        (define-key dired-mode-map "." 'hydra-dired/body)))
+            ("." nil :color blue)))
+    )
 
 (after! dired-quick-sort
   (dired-quick-sort-setup)
@@ -255,46 +297,41 @@ T - tag prefix
     (setq slime-net-coding-system 'utf-8-unix))
 
 (after! lsp
-    (setq lsp-enable-snippet nil))
+    (setq lsp-enable-snippet nil)
+
+    ;; These take up a lot of space on my big font size
+    (setq lsp-ui-sideline-show-code-actions nil
+        lsp-ui-sideline-show-diagnostics nil
+        lsp-signature-render-all nil))
 
 (after! lsp-mode
+    (setq lsp-auto-guess-root nil)
     (setq lsp-enable-file-watchers nil)
 
-    ;; (defun +my/setup-lsp-mode ()
-    ;;     (setq lsp-enable-file-watchers nil)
-    ;;     (setq lsp-restart 'auto-restart)
-    ;;     (setq lsp-remap-xref-keybindings nil)
-    ;;     (setq lsp-enable-on-type-formatting nil)
-    ;;     (setq lsp-navigation 'both))
+    (defun +my/setup-lsp-mode ()
+        (setq lsp-enable-file-watchers nil)
+        (setq lsp-restart 'auto-restart)
+        (setq lsp-remap-xref-keybindings nil)
+        (setq lsp-enable-on-type-formatting nil)
+        (setq lsp-navigation 'both))
 
-    ;; (add-hook 'c-mode-hook '+my/setup-lsp-mode)
-    ;; (add-hook 'c++-mode-hook '+my/setup-lsp-mode)
-    ;; (add-hook 'rust-mode-hook '+my/setup-lsp-mode)
-    ;; (add-hook 'go-mode-hook '+my/setup-lsp-mode)
-    )
+    (add-hook 'c-mode-hook '+my/setup-lsp-mode)
+    (add-hook 'c++-mode-hook '+my/setup-lsp-mode)
+    (add-hook 'rust-mode-hook '+my/setup-lsp-mode)
+    (add-hook 'go-mode-hook '+my/setup-lsp-mode))
 
 (after! lsp-ui
-    (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-    (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-    (setq
-        lsp-ui-doc-enable nil
-        lsp-ui-sideline-enable nil
-        lsp-ui-flycheck-enable nil
-        lsp-ui-imenu-enable nil
-        lsp-ui-sideline-ignore-duplicate t)
+    (defun +my/setup-lsp-ui-mode ()
+        (setq lsp-ui-doc-enable nil)
+        (setq lsp-ui-doc-include-signature nil)
+        (setq lsp-ui-sideline-enable nil)
+        (setq lsp-ui-sideline-show-symbol nil)
+        (setq lsp-ui-sideline-ignore-dupliate nil))
 
-    ;; (defun +my/setup-lsp-ui-mode ()
-    ;;     (setq lsp-ui-doc-enable nil)
-    ;;     (setq lsp-ui-doc-include-signature nil)
-    ;;     (setq lsp-ui-sideline-enable nil)
-    ;;     (setq lsp-ui-sideline-show-symbol nil)
-    ;;     (setq lsp-ui-sideline-ignore-dupliate nil))
-
-    ;; (add-hook 'c-mode-hook '+my/setup-lsp-ui-mode)
-    ;; (add-hook 'c++-mode-hook '+my/setup-lsp-ui-mode)
-    ;; (add-hook 'rust-mode-hook '+my/setup-lsp-ui-mode)
-    ;; (add-hook 'go-mode-hook '+my/setup-lsp-ui-mode)
-    )
+    (add-hook 'c-mode-hook '+my/setup-lsp-ui-mode)
+    (add-hook 'c++-mode-hook '+my/setup-lsp-ui-mode)
+    (add-hook 'rust-mode-hook '+my/setup-lsp-ui-mode)
+    (add-hook 'go-mode-hook '+my/setup-lsp-ui-mode))
 
 (after! magit
     (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
@@ -444,6 +481,16 @@ T - tag prefix
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                         (org-agenda-files :maxlevel . 9)))))
 
+;; Bootstrap everything
+(load! "+packages")
+(load! "+ui")
+(load! "+config")
+(load! "+bindings")
+
+;; Run as server for `emacsclient`
+(load "server")
+(unless (server-running-p) (server-start))
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -461,6 +508,3 @@ T - tag prefix
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
-(load! "+ui")
-(load! "+config")
-(load! "+bindings")

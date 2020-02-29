@@ -5,13 +5,6 @@
 (disable-packages! company-irony company-irony-c-headers flycheck-irony irony irony-eldoc ivy-rtags rtags)
 (disable-packages! winum)
 
-(package! yapfify
-    :disable t)
-
-(package! company-posframe)
-(package! lsp-python-ms)
-(package! company-tabnine)
-
 (package! ivy-prescient)
 (package! dired-quick-sort)
 (package! ibuffer-vc)

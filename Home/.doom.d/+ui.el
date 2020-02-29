@@ -7,6 +7,9 @@
 (setq doom-unicode-font (font-spec :family "Source Code Pro"))
 (setq doom-big-font (font-spec :family "Source Code Pro" :size 40))
 
+;; Dash highlighting
+(after! dash (dash-enable-font-lock))
+
 ;; theme
 (setq doom-theme 'doom-solarized-light)
 

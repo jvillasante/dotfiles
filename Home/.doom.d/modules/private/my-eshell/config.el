@@ -7,7 +7,6 @@
     (magit-status (pop args) nil)
     (eshell/echo))   ;; The echo command suppresses output
 
-
 ;; Find File
 (defun eshell/f (filename &optional dir try-count)
     "Searches for files matching FILENAME in either DIR or the
