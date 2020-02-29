@@ -343,10 +343,6 @@ T - tag prefix
         magit-push-always-verify nil)
 
     (setq
-        ;; magit-repository-directories '(("~/work" . 2))
-        ;; magit-commit-arguments '("--gpg-sign=5F6C0EA160557395")
-        ;; magit-rebase-arguments '("--autostash" "--gpg-sign=5F6C0EA160557395")
-        ;; magit-pull-arguments   '("--rebase" "--autostash" "--gpg-sign=5F6C0EA160557395")
         +magit-hub-features t
         git-commit-summary-max-length 80
         vc-handled-backends (delq 'Git vc-handled-backends))
@@ -354,11 +350,13 @@ T - tag prefix
     ;; Temporary workaround for +magit/quit hang with lots of buffers
     (define-key magit-status-mode-map [remap magit-mode-bury-buffer] nil))
 
+(after! evil-org
+  (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
+
 (after! org
     ;; hook
     (add-hook 'org-mode-hook
         (lambda ()
-            ;; (spacemacs/toggle-auto-fill-mode-on)
             (set-fill-column 110)))
 
     ;; org problems
@@ -381,6 +379,20 @@ T - tag prefix
     (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
     (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
     (setq org-clock-idle-time 15)
+
+    ;; more settings
+    (setq
+        org-clock-persist-file (concat jv/dotfiles-path "/.emacs.d/.cache/org-clock-save.el")
+        org-id-locations-file (concat jv/dotfiles-path "/.emacs.d/.cache/.org-id-locations")
+        org-publish-timestamp-directory (concat jv/dotfiles-path "/.emacs.d/.cache/.org-timestamps/")
+        org-log-done t
+        org-startup-with-inline-images t
+        org-image-actual-width nil
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        ;; this is consistent with the value of
+        ;; `helm-org-headings-max-depth'.
+        org-imenu-depth 8)
 
     ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
     (setq org-hide-emphasis-markers t)

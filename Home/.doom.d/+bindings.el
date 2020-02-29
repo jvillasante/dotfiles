@@ -62,6 +62,26 @@
 
         (:prefix ("f" . "file")
             :desc "Find git file" :n "g" #'counsel-git)
+
+        (:prefix ("d" . "doom")
+            :desc "Dashboard"                   "d" #'+doom-dashboard/open
+            :desc "Recent files"                "f" #'recentf-open-files
+            :desc "Popup other"                 "o" #'+popup/other
+            :desc "Popup toggle"                "t" #'+popup/toggle
+            :desc "Popup close"                 "c" #'+popup/close
+            :desc "Popup close all"             "C" #'+popup/close-all
+            :desc "Popup raise"                 "r" #'+popup/raise
+            :desc "Popup restore"               "R" #'+popup/restore
+            :desc "Scratch buffer"              "s" #'doom/open-scratch-buffer
+            :desc "Switch to scratch buffer"    "S" #'doom/switch-to-scratch-buffer
+            :desc "Sudo this file"              "u" #'doom/sudo-this-file
+            :desc "Sudo find file"              "U" #'doom/sudo-find-file
+            :desc "Terminal open popup"         "l" #'multi-term-dedicated-toggle
+            :desc "Terminal open"               "L" #'multi-term
+            :desc "Reload Private Config"       "R" #'doom/reload
+            :desc "Open Lisp REPL"              ";" #'+eval/open-repl
+            :desc "Toggle frame fullscreen"     "F" #'toggle-frame-fullscreen
+            :desc "Toggle modal edition mode"   "m" #'modalka-global-mode)
         )
 
     (:after ivy
