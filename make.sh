@@ -93,13 +93,10 @@ CURRENT_EMACS_DISTRO="SPACEMACS"
 install_emacs () {
     if [[ ! -d $dir/.emacs.d/ ]]; then
         if [[ $CURRENT_EMACS_DISTRO == "SPACEMACS" ]]; then
-            # git clone https://github.com/syl20bnr/spacemacs $dir/.emacs.d             # master branch
-            # git clone https://github.com/syl20bnr/spacemacs $dir/.emacs.d -b develop  # develop branch
             git clone -b develop --single-branch git@github.com:syl20bnr/spacemacs.git $dir/.emacs.d
         elif [[ $CURRENT_EMACS_DISTRO == "DOOM_EMACS" ]]; then
-            # git clone https://github.com/hlissner/doom-emacs $dir/.emacs.d -b develop
             git clone -b develop --single-branch git@github.com:hlissner/doom-emacs.git $dir/.emacs.d
-            $dir/.emacs.d/bin/doom quickstart
+            $dir/.emacs.d/bin/doom install
         else
             echo "Set CURRENT_EMACS_DISTRO!"
         fi

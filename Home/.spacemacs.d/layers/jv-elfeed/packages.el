@@ -8,4 +8,4 @@
 
     ;; load and save db on open and quit
     (spacemacs/set-leader-keys "af" 'jv/elfeed-load-db-and-open)
-    (evil-define-key 'evilified elfeed-search-mode-map "q" 'jv/elfeed-save-db-and-bury)))
+      (evil-define-key 'evilified elfeed-search-mode-map "q" 'jv/elfeed-save-db-and-bury)))

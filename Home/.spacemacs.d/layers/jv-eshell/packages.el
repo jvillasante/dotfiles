@@ -37,5 +37,4 @@
                           "/usr/local/bin/gls"
                           "/bin/ls")))
                 (eshell/alias "ll" (concat ls " -AlohG --color=always")))))
-
     )
