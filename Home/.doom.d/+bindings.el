@@ -32,8 +32,8 @@
 
     (:leader
         (:prefix ("a" . "application")
-            ;; :desc "Elfeed Rss Reader" :n "r" #'elfeed
-            :desc "Elfeed Rss Reader" :n "r" #'+my/elfeed-load-db-and-open
+            :desc "Elfeed Rss Reader" :n "f" #'elfeed
+            ;; :desc "Elfeed Rss Reader" :n "r" #'+my/elfeed-load-db-and-open
             :desc "Deft"              :n "n" #'deft)
 
         (:prefix "b"
@@ -44,8 +44,6 @@
         (:prefix "o"
             :desc "Dired" :n "d" #'dired
             :desc "Scratch Buffer" :n "s" #'doom/open-scratch-buffer
-            (:after sr-speedbar
-                :desc "Open speedbar" :n "x" #'sr-speedbar-toggle)
             (:when (featurep! :ui neotree)
                 :desc "Open neotree"    :n "n" #'neotree-toggle
                 ;; :desc "Open neotree"    :n "n" #'+neotree/open
@@ -64,24 +62,53 @@
             :desc "Find git file" :n "g" #'counsel-git)
 
         (:prefix ("d" . "doom")
-            :desc "Dashboard"                   "d" #'+doom-dashboard/open
-            :desc "Recent files"                "f" #'recentf-open-files
-            :desc "Popup other"                 "o" #'+popup/other
-            :desc "Popup toggle"                "t" #'+popup/toggle
-            :desc "Popup close"                 "c" #'+popup/close
-            :desc "Popup close all"             "C" #'+popup/close-all
-            :desc "Popup raise"                 "r" #'+popup/raise
-            :desc "Popup restore"               "R" #'+popup/restore
-            :desc "Scratch buffer"              "s" #'doom/open-scratch-buffer
-            :desc "Switch to scratch buffer"    "S" #'doom/switch-to-scratch-buffer
-            :desc "Sudo this file"              "u" #'doom/sudo-this-file
-            :desc "Sudo find file"              "U" #'doom/sudo-find-file
-            :desc "Terminal open popup"         "l" #'multi-term-dedicated-toggle
-            :desc "Terminal open"               "L" #'multi-term
-            :desc "Reload Private Config"       "R" #'doom/reload
-            :desc "Open Lisp REPL"              ";" #'+eval/open-repl
-            :desc "Toggle frame fullscreen"     "F" #'toggle-frame-fullscreen
-            :desc "Toggle modal edition mode"   "m" #'modalka-global-mode)
+            :desc "Dashboard"                 :n  "d" #'+doom-dashboard/open
+            :desc "Recent files"              :n  "f" #'recentf-open-files
+            :desc "Popup other"               :n  "o" #'+popup/other
+            :desc "Popup toggle"              :n  "t" #'+popup/toggle
+            :desc "Popup close"               :n  "c" #'+popup/close
+            :desc "Popup close all"           :n  "C" #'+popup/close-all
+            :desc "Popup raise"               :n  "r" #'+popup/raise
+            :desc "Popup restore"             :n  "R" #'+popup/restore
+            :desc "Scratch buffer"            :n  "s" #'doom/open-scratch-buffer
+            :desc "Switch to scratch buffer"  :n  "S" #'doom/switch-to-scratch-buffer
+            :desc "Sudo this file"            :n  "u" #'doom/sudo-this-file
+            :desc "Sudo find file"            :n  "U" #'doom/sudo-find-file
+            :desc "Terminal open popup"       :n  "l" #'multi-term-dedicated-toggle
+            :desc "Terminal open"             :n  "L" #'multi-term
+            :desc "Reload Private Config"     :n  "R" #'doom/reload
+            :desc "Open Lisp REPL"            :n  ";" #'+eval/open-repl
+            :desc "Toggle frame fullscreen"   :n  "F" #'toggle-frame-fullscreen
+            :desc "Toggle modal edition mode" :n  "m" #'modalka-global-mode)
+
+        (:prefix ("c" . "code")
+            :desc "Compile"                     :n "c" #'compile
+            :desc "Make"                        :n "m" #'+make/run
+            :desc "Jump to definition"          :n "d" #'+lookup/definition
+            :desc "Jump to references"          :n "D" #'+lookup/references
+            :desc "Evaluate buffer/region"      :n "e" #'+eval/buffer-or-region
+            :desc "Evaluate & replace region"   :n "E" #'+eval:replace-region
+            :desc "Format buffer/region"        :n "f" #'+format/region-or-buffer
+            :desc "Open REPL"                   :n "r" #'+eval/open-repl-other-window
+            :desc "Delete trailing whitespace"  :n "w" #'delete-trailing-whitespace
+            :desc "Delete trailing newlines"    :n "W" #'doom/delete-trailing-newlines
+            :desc "List errors"                 :n "x" #'flycheck-list-errors
+            :desc "Describe thing at point"     :n "t" #'lsp-describe-thing-at-point
+            (:prefix ("g" . "Go to")
+                :desc "Implementation"          :n "i" #'lsp-goto-implementation
+                :desc "Definition"              :n "d" #'lsp-goto-type-definition
+                :desc "Find Definition"         :n "D" #'lsp-find-definition
+                :desc "Find References"         :n "r" #'lsp-find-references)
+            (:prefix ("p" . "Peek")
+                :desc "Implementation"          :n "i" #'lsp-ui-peek-find-implementation
+                :desc "Definition"              :n "d" #'lsp-ui-peek-find-definitions
+                :desc "Reference"               :n "r" #'lsp-ui-peek-find-references)
+            (:prefix ("l" . "Lens")
+                :desc "Show"                    :n "l" #'lsp-lens-show
+                :desc "Hide"                    :n "q" #'lsp-lens-hide)
+            (:prefix ("u" . "menu")
+                :desc "Show"                    :n "m" #'lsp-ui-imenu
+                :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))
         )
 
     (:after ivy
@@ -106,4 +133,7 @@
         (:map neotree-mode-map
             :desc "Neotree Hydra" :n "?" #'+my/hydra-neotree/body))
 
+    ;; (:after elfeed
+    ;;     (:map elfeed-search-mode-map
+    ;;         :desc "Elfeed Quit" :n "q" #'+my/elfeed-save-db-and-bury))
     )

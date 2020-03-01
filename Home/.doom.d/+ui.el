@@ -17,6 +17,10 @@
         doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t)   ; if nil, italics is universally disabled
 
+    (setq
+        doom-themes-neotree-enable-file-icons nil
+        doom-themes-neotree-file-icons nil)
+
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
 

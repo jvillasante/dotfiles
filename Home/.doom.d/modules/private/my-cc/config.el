@@ -46,10 +46,7 @@
 
 (after! ccls
     (unless (executable-find "ccls")
-        (setq ccls-executable (concat jv/software-path "/ccls/Release/ccls")))
+        (setq ccls-executable (expand-file-name "ccls/Release/ccls" jv/software-path)))
 
     (setq ccls-initialization-options
-        `(:cache (:directory ,(concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls")))))
-
-(after! realgud
-   (setq realgud-safe-mode nil))
+        `(:cache (:directory ,(expand-file-name ".emacs.d/.cache/lsp-ccls" jv/dotfiles-path)))))

@@ -148,7 +148,7 @@
         (flyspell-prog-mode)))
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 (add-hook 'makefile-mode-hook 'whitespace-mode)
-(remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
+;; (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
 ;; (remove-hook 'rust-mode-hook 'adaptive-wrap-prefix-mode)
 (add-hook! 'markdown-mode-hook
     (progn
