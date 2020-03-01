@@ -3,12 +3,12 @@
 (cond
     (IS-MAC
         (setq
-            jv/home-path (file-truename "~")
-            jv/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
-            jv/software-path (file-truename "~/Workspace/Software")
-            jv/dropbox-path (file-truename "~/Dropbox")
-            jv/zsh-path "/usr/local/bin/zsh"
-            jv/clang-path "/usr/local/opt/llvm/bin/clang")
+            +my/home-path (file-truename "~")
+            +my/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
+            +my/software-path (file-truename "~/Workspace/Software")
+            +my/dropbox-path (file-truename "~/Dropbox")
+            +my/zsh-path "/usr/local/bin/zsh"
+            +my/clang-path "/usr/local/opt/llvm/bin/clang")
 
         (setq
             browse-url-browser-function 'browse-url-generic
@@ -20,12 +20,12 @@
         (add-to-list 'default-frame-alist '(ns-appearance . dark)))
     (IS-LINUX
         (setq
-            jv/home-path (file-truename "~")
-            jv/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
-            jv/software-path (file-truename "~/Workspace/Software")
-            jv/dropbox-path (file-truename "~/Dropbox")
-            jv/zsh-path "/usr/bin/zsh"
-            jv/clang-path "/usr/bin/clang")
+            +my/home-path (file-truename "~")
+            +my/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
+            +my/software-path (file-truename "~/Workspace/Software")
+            +my/dropbox-path (file-truename "~/Dropbox")
+            +my/zsh-path "/usr/bin/zsh"
+            +my/clang-path "/usr/bin/clang")
 
         (executable-find "firefox")))
 
@@ -128,7 +128,7 @@
                                    ("America/Havana" "Havana")))
 
 ;; multiterm
-(setq multi-term-program jv/zsh-path)
+(setq multi-term-program +my/zsh-path)
 
 ;; line spacing
 (setq-default line-spacing 0.1)

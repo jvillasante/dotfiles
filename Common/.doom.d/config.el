@@ -12,7 +12,7 @@
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
 (after! recentf
-    (push (list (expand-file-name ".emacs.d/" jv/dropbox-path)) recentf-exclude)
+    (push (list (expand-file-name ".emacs.d/" +my/dropbox-path)) recentf-exclude)
     (push #'+org-is-agenda-file recentf-exclude)
     (push "~/.mail" recentf-exclude)
     (push "\\.git" recentf-exclude)
@@ -31,11 +31,11 @@
     (add-to-list 'projectile-project-root-files-bottom-up ".projectile")
 
     (setq projectile-sort-order 'recentf
-        projectile-cache-file (expand-file-name ".emacs.d/.cache/projectile.cache" jv/dotfiles-path)
-        projectile-known-projects-file (expand-file-name ".emacs.d/.cache/projectile-bookmarks.eld" jv/dotfiles-path))
+        projectile-cache-file (expand-file-name ".emacs.d/.cache/projectile.cache" +my/dotfiles-path)
+        projectile-known-projects-file (expand-file-name ".emacs.d/.cache/projectile-bookmarks.eld" +my/dotfiles-path))
 
-    (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".emacs.d" jv/dotfiles-path))
-    (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".rustup" jv/home-path)))
+    (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".emacs.d" +my/dotfiles-path))
+    (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".rustup" +my/home-path)))
 
 (after! ivy
     (setq ivy-display-style nil
@@ -172,7 +172,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
 
 (after! deft
     (setq
-        deft-directory (expand-file-name "Personal/org/notes" jv/dropbox-path)
+        deft-directory (expand-file-name "Personal/org/notes" +my/dropbox-path)
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
         deft-recursive t
@@ -185,10 +185,10 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
         deft-auto-save-interval 0))
 
 (after! elfeed
-    (setq elfeed-db-directory (expand-file-name "Personal/elfeed/elfeed_db" jv/dropbox-path)))
+    (setq elfeed-db-directory (expand-file-name "Personal/elfeed/elfeed_db" +my/dropbox-path)))
 
 (after! elfeed-org
-    (setq rmh-elfeed-org-files (list (expand-file-name "Personal/elfeed/elfeed.org" jv/dropbox-path))))
+    (setq rmh-elfeed-org-files (list (expand-file-name "Personal/elfeed/elfeed.org" +my/dropbox-path))))
 
 (after! dired
     ;; mark symlinks
@@ -385,9 +385,9 @@ T - tag prefix
 
     ;; more settings
     (setq
-        org-clock-persist-file (expand-file-name ".emacs.d/.cache/org-clock-save.el" jv/dotfiles-path)
-        org-id-locations-file (expand-file-name ".emacs.d/.cache/.org-id-locations" jv/dotfiles-path)
-        org-publish-timestamp-directory (expand-file-name ".emacs.d/.cache/.org-timestamps/" jv/dotfiles-path)
+        org-clock-persist-file (expand-file-name ".emacs.d/.cache/org-clock-save.el" +my/dotfiles-path)
+        org-id-locations-file (expand-file-name ".emacs.d/.cache/.org-id-locations" +my/dotfiles-path)
+        org-publish-timestamp-directory (expand-file-name ".emacs.d/.cache/.org-timestamps/" +my/dotfiles-path)
         org-log-done t
         org-startup-with-inline-images t
         org-image-actual-width nil
@@ -447,9 +447,9 @@ T - tag prefix
                    ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
     ;; organizer directory
-    (setq org-directory (expand-file-name "Personal/org/" jv/dropbox-path))
+    (setq org-directory (expand-file-name "Personal/org/" +my/dropbox-path))
     (setq org-default-notes-file (concat org-directory "inbox.org"))
-    (setq jv/org-bookmarks-file (concat org-directory "bookmarks.org"))
+    (setq +my/org-bookmarks-file (concat org-directory "bookmarks.org"))
 
     ;; agenda
     (setq org-agenda-files (list org-directory))
@@ -486,7 +486,7 @@ T - tag prefix
                        "* %? :IDEA:\n%U\n%a\n")
                    ("n" "note" entry (file+headline org-default-notes-file "Notes")
                        "* %? :NOTE:\n%U\n%a\n")
-                   ("b" "Bookmark" entry (file+headline jv/org-bookmarks-file "Bookmarks")
+                   ("b" "Bookmark" entry (file+headline +my/org-bookmarks-file "Bookmarks")
                        "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
                    ("h" "habit" entry (file+headline org-default-notes-file "Habits")
                        "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))

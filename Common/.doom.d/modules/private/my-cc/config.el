@@ -31,13 +31,13 @@
     (add-hook 'c++-mode-hook
         (lambda ()
             (progn
-                (setq-default flycheck-c/c++-clang-executable jv/clang-path)
+                (setq-default flycheck-c/c++-clang-executable +my/clang-path)
                 (setq-default flycheck-clang-standard-library "libc++")
                 (setq-default flycheck-clang-language-standard "c++17")
                 (setq company-clang-arguments '("-std=c++17"))))))
 
 (after! company
-    (setq company-clang-executable jv/clang-path)
+    (setq company-clang-executable +my/clang-path)
     (setq company-idle-delay 0))
 
 (use-package! modern-cpp-font-lock
@@ -46,7 +46,7 @@
 
 (after! ccls
     (unless (executable-find "ccls")
-        (setq ccls-executable (expand-file-name "ccls/Release/ccls" jv/software-path)))
+        (setq ccls-executable (expand-file-name "ccls/Release/ccls" +my/software-path)))
 
     (setq ccls-initialization-options
-        `(:cache (:directory ,(expand-file-name ".emacs.d/.cache/lsp-ccls" jv/dotfiles-path)))))
+        `(:cache (:directory ,(expand-file-name ".emacs.d/.cache/lsp-ccls" +my/dotfiles-path)))))
