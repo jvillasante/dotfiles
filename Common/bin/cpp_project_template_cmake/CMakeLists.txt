@@ -1,24 +1,24 @@
 cmake_minimum_required(VERSION 3.8)
 
 # THIS HAS TO COME BEFORE THE PROJECT LINE
-set(CLANG_PREFIX "/usr/local/opt/llvm")
-set(CMAKE_C_COMPILER "${CLANG_PREFIX}/bin/clang")
-set(CMAKE_CXX_COMPILER "${CLANG_PREFIX}/bin/clang++")
+# set(CLANG_PREFIX "/usr/local/opt/llvm")
+# set(CMAKE_C_COMPILER "${CLANG_PREFIX}/bin/clang")
+# set(CMAKE_CXX_COMPILER "${CLANG_PREFIX}/bin/clang++")
 #
 set(GCC_PREFIX "/usr/local/opt/gcc")
-set(CMAKE_C_COMPILER "${GCC_PREFIX}/bin/gcc-8")
-set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-8")
+set(CMAKE_C_COMPILER "${GCC_PREFIX}/bin/gcc-9")
+set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-9")
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 
 # Specify default build type if none provided (before project() command)
 if(NOT CMAKE_BUILD_TYPE)
-	set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
 endif()
 
 # For generators with multiple configurations (like VS), only allow Debug and Release
 if(CMAKE_CONFIGURATION_TYPES)
-	set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Limited configurations" FORCE)
-	mark_as_advanced(CMAKE_CONFIGURATION_TYPES)
+    set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Limited configurations" FORCE)
+    mark_as_advanced(CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # Project name
@@ -32,21 +32,21 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON
 
 # Mac OS X: clang uses libc++ standard library
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-command-line-argument")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${CLANG_PREFIX}/include")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${CLANG_PREFIX}/include/c++/v1")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CLANG_PREFIX}/lib")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,-rpath,${CLANG_PREFIX}/lib")
-  endif()
+    if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-command-line-argument")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${CLANG_PREFIX}/include")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${CLANG_PREFIX}/include/c++/v1")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CLANG_PREFIX}/lib")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,-rpath,${CLANG_PREFIX}/lib")
+    endif()
 endif()
 
 ######################################################################################################################################
 
 set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
-set(LIBS_PATH "/Users/jvillasante/Hacking/software")
+set(LIBS_PATH "/Users/juliovillasante/Workspace/Software")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")

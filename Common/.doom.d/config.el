@@ -1,13 +1,18 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
-; sync' after modifying this file!
+;; sync' after modifying this file!
+
+(load! "+packages")
+(load! "+ui")
+(load! "+config")
+(load! "+bindings")
 
 (after! yasnippet
-  (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
+    (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
 (after! recentf
-    (push (list (concat jv/dotfiles-path "/.emacs.d*")) recentf-exclude)
+    (push (list (expand-file-name ".emacs.d/" jv/dropbox-path)) recentf-exclude)
     (push #'+org-is-agenda-file recentf-exclude)
     (push "~/.mail" recentf-exclude)
     (push "\\.git" recentf-exclude)
@@ -20,6 +25,17 @@
     (push "\\.?ido\\.last$" recentf-exclude)
     (push "^/nix/store/" recentf-exclude)
     (push ".+\\.mp3$" recentf-exclude))
+
+(after! projectile
+    (setq projectile-require-project-root t)
+    (add-to-list 'projectile-project-root-files-bottom-up ".projectile")
+
+    (setq projectile-sort-order 'recentf
+        projectile-cache-file (expand-file-name ".emacs.d/.cache/projectile.cache" jv/dotfiles-path)
+        projectile-known-projects-file (expand-file-name ".emacs.d/.cache/projectile-bookmarks.eld" jv/dotfiles-path))
+
+    (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".emacs.d" jv/dotfiles-path))
+    (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".rustup" jv/home-path)))
 
 (after! ivy
     (setq ivy-display-style nil
@@ -134,29 +150,6 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
         +flycheck-on-escape nil
         flycheck-check-syntax-automatically '(save mode-enable)))
 
-(after! projectile
-    (setq projectile-require-project-root t)
-    (add-to-list 'projectile-project-root-files-bottom-up ".projectile")
-
-    (setq projectile-sort-order 'recentf
-        projectile-cache-file (concat jv/dotfiles-path "/.emacs.d/.cache/projectile.cache")
-        projectile-known-projects-file (concat jv/dotfiles-path "/.emacs.d/.cache/projectile-bookmarks.eld"))
-
-    (add-to-list 'projectile-globally-ignored-directories ".cquery_cached_index")
-    (add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
-    (add-to-list 'projectile-globally-ignored-directories (concat jv/dotfiles-path "/.emacs.d/.cache/lsp-ccls"))
-
-    (setq projectile-project-root-files-top-down-recurring
-        (append '("compile_commands.json"
-                     ".cquery"
-                     ".ccls")
-            projectile-project-root-files-top-down-recurring))
-
-    ;; TODO: Reorganize projectile-project-root-files-functions to use projectile-root-top-down-recurring first
-    ;; projectile-project-root-files-functions:
-    ;;    (projectile-root-local projectile-root-bottom-up projectile-root-top-down projectile-root-top-down-recurring)
-    )
-
 (after! company
     (add-hook 'after-init-hook 'global-company-mode)
 
@@ -164,8 +157,6 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
         company-idle-delay 0.1
         company-tooltip-limit 12
         company-minimum-prefix-length 2
-        ;; company-dabbrev-downcase nil
-        ;; company-dabbrev-ignore-case t
         company-show-numbers nil))
 
 (after! ws-butler
@@ -181,7 +172,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
 
 (after! deft
     (setq
-        deft-directory (concat jv/dropbox-path "/Personal/org/notes")
+        deft-directory (expand-file-name "Personal/org/notes" jv/dropbox-path)
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
         deft-recursive t
@@ -192,6 +183,12 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
                                     (nospace . "-")
                                     (case-fn . downcase))
         deft-auto-save-interval 0))
+
+(after! elfeed
+    (setq elfeed-db-directory (expand-file-name "Personal/elfeed/elfeed_db" jv/dropbox-path)))
+
+(after! elfeed-org
+    (setq rmh-elfeed-org-files (list (expand-file-name "Personal/elfeed/elfeed.org" jv/dropbox-path))))
 
 (after! dired
     ;; mark symlinks
@@ -277,12 +274,8 @@ T - tag prefix
     )
 
 (after! dired-quick-sort
-  (dired-quick-sort-setup)
-  (define-key dired-mode-map "s" 'hydra-dired-quick-sort/body))
-
-(after! elfeed
-    (setq elfeed-db-directory (concat jv/dropbox-path "/Personal/elfeed/elfeed_db"))
-    (evil-define-key 'evilified elfeed-search-mode-map "q" '+my/elfeed-save-db-and-bury))
+    (dired-quick-sort-setup)
+    (define-key dired-mode-map "s" 'hydra-dired-quick-sort/body))
 
 (after! common-lisp
     (setq inferior-lisp-program "/usr/local/bin/sbcl")
@@ -331,10 +324,20 @@ T - tag prefix
         (setq lsp-ui-sideline-show-symbol nil)
         (setq lsp-ui-sideline-ignore-dupliate nil))
 
+    ;; setup lsp ui
     (add-hook 'c-mode-hook '+my/setup-lsp-ui-mode)
     (add-hook 'c++-mode-hook '+my/setup-lsp-ui-mode)
     (add-hook 'rust-mode-hook '+my/setup-lsp-ui-mode)
     (add-hook 'go-mode-hook '+my/setup-lsp-ui-mode))
+
+(after! rustic
+    ;; fixes problem with rust
+    (setq lsp-signature-auto-activate nil)
+
+    ;; configs
+    (setq rustic-lsp-server 'rust-analyzer)
+    (setq rustic-format-trigger 'on-save)
+    (setq rustic-format-on-save t))
 
 (after! magit
     (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
@@ -351,7 +354,7 @@ T - tag prefix
     (define-key magit-status-mode-map [remap magit-mode-bury-buffer] nil))
 
 (after! evil-org
-  (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
+    (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! org
     ;; hook
@@ -382,9 +385,9 @@ T - tag prefix
 
     ;; more settings
     (setq
-        org-clock-persist-file (concat jv/dotfiles-path "/.emacs.d/.cache/org-clock-save.el")
-        org-id-locations-file (concat jv/dotfiles-path "/.emacs.d/.cache/.org-id-locations")
-        org-publish-timestamp-directory (concat jv/dotfiles-path "/.emacs.d/.cache/.org-timestamps/")
+        org-clock-persist-file (expand-file-name ".emacs.d/.cache/org-clock-save.el" jv/dotfiles-path)
+        org-id-locations-file (expand-file-name ".emacs.d/.cache/.org-id-locations" jv/dotfiles-path)
+        org-publish-timestamp-directory (expand-file-name ".emacs.d/.cache/.org-timestamps/" jv/dotfiles-path)
         org-log-done t
         org-startup-with-inline-images t
         org-image-actual-width nil
@@ -444,7 +447,7 @@ T - tag prefix
                    ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
     ;; organizer directory
-    (setq org-directory (concat jv/dropbox-path "/Personal/org/"))
+    (setq org-directory (expand-file-name "Personal/org/" jv/dropbox-path))
     (setq org-default-notes-file (concat org-directory "inbox.org"))
     (setq jv/org-bookmarks-file (concat org-directory "bookmarks.org"))
 
@@ -495,12 +498,6 @@ T - tag prefix
     ;; refiling
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                         (org-agenda-files :maxlevel . 9)))))
-
-;; Bootstrap everything
-(load! "+packages")
-(load! "+ui")
-(load! "+config")
-(load! "+bindings")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

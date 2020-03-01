@@ -1,7 +1,0 @@
--std=c++17
--Wall
--Wextra
--Wshadow
--pedantic
--I/usr/local/opt/llvm/include/
--I/usr/local/opt/llvm/include/c++/v1/

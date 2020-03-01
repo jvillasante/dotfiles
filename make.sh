@@ -106,16 +106,22 @@ install_emacs () {
 install_zsh
 install_emacs
 
-common_files=".emacs.d .oh-my-zsh .oh-my-zsh.d"
-files="bin .spacemacs.d .doom.d .offlineimaprc .offlineimap.py .msmtprc .percol.d .ccls .ycm_extra_conf.py .clang_complete .clang-format .clang-tidy .bashrc .editorconfig .gitconfig .jsbeautifyrc .jshintrc .profile .tmux.conf .tmux_light.conf .tmux_dark.conf .zshenv .zshrc .sbclrc .rustfmt.toml"
-
-echo ">> Linking common files..."
-for file in $common_files; do
+echo ">> Linking global files..."
+global_files=".emacs.d .oh-my-zsh"
+for file in $global_files; do
     unlink ~/$file
     ln -s $dir/$file ~/
 done
 
-echo ">> Linking files..."
+echo ">> Linking common files..."
+common_files=".doom.d .oh-my-zsh.d .percol.d bin .profile .bashrc .clang-tidy .clang_complete .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .tmux_light.conf .tmux_dark.conf .sbclrc .rustfmt.toml .ycm_extra_conf.py  "
+for file in $common_files; do
+    unlink ~/$file
+    ln -s $dir/Common/$file ~/
+done
+
+echo ">> Linking other files..."
+files=".spacemacs.d .ccls .clang-format .gitconfig .tmux.conf .zshenv .zshrc "
 for file in $files; do
     unlink ~/$file
 

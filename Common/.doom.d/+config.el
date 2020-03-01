@@ -3,6 +3,7 @@
 (cond
     (IS-MAC
         (setq
+            jv/home-path (file-truename "~")
             jv/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
             jv/software-path (file-truename "~/Workspace/Software")
             jv/dropbox-path (file-truename "~/Dropbox")
@@ -19,6 +20,7 @@
         (add-to-list 'default-frame-alist '(ns-appearance . dark)))
     (IS-LINUX
         (setq
+            jv/home-path (file-truename "~")
             jv/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
             jv/software-path (file-truename "~/Workspace/Software")
             jv/dropbox-path (file-truename "~/Dropbox")
