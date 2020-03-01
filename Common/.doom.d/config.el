@@ -3,10 +3,8 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+(load! "+early-init.el")
 (load! "+packages")
-(load! "+ui")
-(load! "+config")
-(load! "+bindings")
 
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
@@ -498,6 +496,10 @@ T - tag prefix
     ;; refiling
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                         (org-agenda-files :maxlevel . 9)))))
+
+(load! "+ui")
+(load! "+config")
+(load! "+bindings")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

@@ -3,14 +3,6 @@
 (cond
     (IS-MAC
         (setq
-            +my/home-path (file-truename "~")
-            +my/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
-            +my/software-path (file-truename "~/Workspace/Software")
-            +my/dropbox-path (file-truename "~/Dropbox")
-            +my/zsh-path "/usr/local/bin/zsh"
-            +my/clang-path "/usr/local/opt/llvm/bin/clang")
-
-        (setq
             browse-url-browser-function 'browse-url-generic
             engine/browser-function 'browse-url-generic
             browse-url-generic-program "open")
@@ -19,14 +11,6 @@
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (add-to-list 'default-frame-alist '(ns-appearance . dark)))
     (IS-LINUX
-        (setq
-            +my/home-path (file-truename "~")
-            +my/dotfiles-path (file-truename "~/Workspace/Others/dotfiles")
-            +my/software-path (file-truename "~/Workspace/Software")
-            +my/dropbox-path (file-truename "~/Dropbox")
-            +my/zsh-path "/usr/bin/zsh"
-            +my/clang-path "/usr/bin/clang")
-
         (executable-find "firefox")))
 
 ;; Start maximized
@@ -37,12 +21,8 @@
     show-trailing-whitespace nil
     line-spacing 1)
 
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
+;; Some default configs
 (setq
-    user-full-name "Julio C. Villasante"
-    user-mail-address "jvillasantegomez@gmail.com"
-
     major-mode 'text-mode
     use-dialog-box nil
     vc-follow-symlinks t
