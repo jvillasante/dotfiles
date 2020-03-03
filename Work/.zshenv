@@ -12,6 +12,11 @@ if [ -d "$HOME/bin" ]; then
     export PATH="$PATH:$HOME/bin"
 fi
 
+# Ubuntu snap
+if [ -d "/snap/bin" ]; then
+    export PATH="$PATH:/snap/bin"
+fi
+
 # llvm
 if [ -d "/usr/local/opt/llvm/bin" ]; then
     export PATH="/usr/local/opt/llvm/bin:$PATH"
