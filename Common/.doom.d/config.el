@@ -4,7 +4,6 @@
 ;; sync' after modifying this file!
 
 (load! "+early-init.el")
-(load! "+packages")
 
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
@@ -334,8 +333,9 @@ T - tag prefix
 
     ;; configs
     (setq rustic-lsp-server 'rust-analyzer)
-    (setq rustic-format-trigger 'on-save)
-    (setq rustic-format-on-save t))
+    ;; (setq rustic-format-trigger 'on-save)
+    ;; (setq rustic-format-on-save t)
+    )
 
 (after! magit
     (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
@@ -496,6 +496,16 @@ T - tag prefix
     ;; refiling
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                         (org-agenda-files :maxlevel . 9)))))
+
+(use-package! pinentry
+    :init
+    (setq epa-pinentry-mode 'loopback))
+
+(use-package! crux
+    :bind (("C-c o" . crux-open-with)))
+
+(use-package! visual-regexp
+    :commands (vr/query-replace vr/replace))
 
 (load! "+ui")
 (load! "+config")
