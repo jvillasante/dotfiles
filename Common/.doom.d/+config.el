@@ -132,6 +132,8 @@
 (add-hook 'makefile-mode-hook 'whitespace-mode)
 ;; (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
 ;; (remove-hook 'rust-mode-hook 'adaptive-wrap-prefix-mode)
+(add-hook 'compilation-finish-functions '+my/bury-compile-buffer-if-successful)
+;; (remove-hook 'compilation-finish-functions '+my/bury-compile-buffer-if-successful)
 (add-hook! 'markdown-mode-hook
     (progn
         (toggle-word-wrap nil)

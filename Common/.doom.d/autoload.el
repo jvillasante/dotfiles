@@ -124,8 +124,6 @@ at least the fill column. Place the point after the comment box. http://irreal.o
                 ;; (switch-to-prev-buffer (get-buffer-window buf) 'kill)
                 (delete-windows-on buf))
             buffer)))
-(add-hook 'compilation-finish-functions '+my/bury-compile-buffer-if-successful)
-;; (remove-hook 'compilation-finish-functions '+my/bury-compile-buffer-if-successful)
 
 ;;;###autoload
 (defun +my/elfeed-mark-all-as-read ()
