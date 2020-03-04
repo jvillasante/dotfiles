@@ -7,8 +7,6 @@
 (package! dired-quick-sort)
 (package! ibuffer-vc)
 
-;; (package! ag)
-;; (package! rg)
 (package! sr-speedbar)
 (package! pinentry)
 (package! crux)
