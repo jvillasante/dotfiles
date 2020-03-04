@@ -297,7 +297,7 @@ T - tag prefix
 
 (after! lsp-ui
     (setq
-        lsp-ui-sideline-enable t
+        lsp-ui-sideline-enable nil
         lsp-ui-sideline-show-symbol nil
         lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-show-code-actions nil
@@ -307,10 +307,11 @@ T - tag prefix
 
 (after! rustic
     ;; fixes problem with rust
-    (setq lsp-signature-auto-activate nil)
+    ;; (setq lsp-signature-auto-activate nil)
 
     ;; configs
-    (setq rustic-lsp-server 'rust-analyzer))
+    ;; (setq rustic-lsp-server 'rust-analyzer)
+    (setq rustic-lsp-server 'rls))
 
 (after! magit
     (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
