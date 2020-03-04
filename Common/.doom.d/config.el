@@ -143,8 +143,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
     (add-hook 'prog-mode-hook 'flyspell-lazy-mode))
 
 (after! flycheck
-    (setq-default
-        flycheck-popup-tip-mode nil
+    (setq
         flycheck-check-syntax-automatically '(save mode-enable)))
 
 (after! company
@@ -290,34 +289,22 @@ T - tag prefix
     (setq slime-net-coding-system 'utf-8-unix))
 
 (after! lsp-mode
-    (setq lsp-auto-guess-root nil)
-    (setq lsp-enable-file-watchers nil)
-
-    (defun +my/setup-lsp-mode ()
-        (setq lsp-enable-file-watchers nil)
-        (setq lsp-restart 'auto-restart)
-        (setq lsp-remap-xref-keybindings nil)
-        (setq lsp-enable-on-type-formatting nil)
-        (setq lsp-navigation 'both))
-
-    (add-hook 'c-mode-hook '+my/setup-lsp-mode)
-    (add-hook 'c++-mode-hook '+my/setup-lsp-mode)
-    (add-hook 'rust-mode-hook '+my/setup-lsp-mode)
-    (add-hook 'go-mode-hook '+my/setup-lsp-mode))
+    (setq
+        lsp-auto-guess-root nil
+        lsp-enable-file-watchers nil
+        lsp-enable-file-watchers nil
+        lsp-restart 'auto-restart
+        lsp-enable-on-type-formatting nil))
 
 (after! lsp-ui
-    (defun +my/setup-lsp-ui-mode ()
-        (setq lsp-ui-doc-enable nil)
-        (setq lsp-ui-doc-include-signature nil)
-        (setq lsp-ui-sideline-enable nil)
-        (setq lsp-ui-sideline-show-symbol nil)
-        (setq lsp-ui-sideline-ignore-dupliate nil))
-
-    ;; setup lsp ui
-    (add-hook 'c-mode-hook '+my/setup-lsp-ui-mode)
-    (add-hook 'c++-mode-hook '+my/setup-lsp-ui-mode)
-    (add-hook 'rust-mode-hook '+my/setup-lsp-ui-mode)
-    (add-hook 'go-mode-hook '+my/setup-lsp-ui-mode))
+    (setq
+        lsp-ui-sideline-enable nil
+        lsp-ui-sideline-show-symbol nil
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-code-actions nil
+        lsp-ui-peek-enable nil
+        lsp-ui-imenu-enable nil
+        lsp-ui-doc-enable nil))
 
 (after! rustic
     ;; fixes problem with rust
