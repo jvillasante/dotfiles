@@ -25,7 +25,8 @@
 
 (after! projectile
     (setq projectile-require-project-root t)
-    (add-to-list 'projectile-project-root-files-bottom-up ".projectile")
+    ;; (add-to-list 'projectile-project-root-files-bottom-up ".projectile")
+    (setq projectile-project-root-files-bottom-up '(".projectile" ".git" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs"))
 
     (setq projectile-sort-order 'recentf)
 
@@ -97,6 +98,7 @@
              "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
              "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
              "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+             "^\\.cproject$" "^\\.project$" "^\\.projectile$"
              "\\.egg\-info$"))
 
     ;; Hydra for neotree
