@@ -144,7 +144,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
 
 (after! flycheck
     (setq-default
-        +flycheck-on-escape nil
+        flycheck-popup-tip-mode nil
         flycheck-check-syntax-automatically '(save mode-enable)))
 
 (after! company
@@ -289,14 +289,6 @@ T - tag prefix
     (setq slime-default-lisp 'sbcl)
     (setq slime-net-coding-system 'utf-8-unix))
 
-(after! lsp
-    (setq lsp-enable-snippet nil)
-
-    ;; These take up a lot of space on my big font size
-    (setq lsp-ui-sideline-show-code-actions nil
-        lsp-ui-sideline-show-diagnostics nil
-        lsp-signature-render-all nil))
-
 (after! lsp-mode
     (setq lsp-auto-guess-root nil)
     (setq lsp-enable-file-watchers nil)
@@ -332,10 +324,7 @@ T - tag prefix
     (setq lsp-signature-auto-activate nil)
 
     ;; configs
-    (setq rustic-lsp-server 'rust-analyzer)
-    ;; (setq rustic-format-trigger 'on-save)
-    ;; (setq rustic-format-on-save t)
-    )
+    (setq rustic-lsp-server 'rust-analyzer))
 
 (after! magit
     (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)

@@ -156,4 +156,12 @@
 ;; Workaround for terminal buffer scroll
 (setq term-char-mode-point-at-process-mark nil)
 
+;; ???
 (show-paren-mode 1)
+
+;; popup rules
+;; (set-popup-rules!
+;;   '((\"^ \\*\" :slot 1 :vslot -1 :size #'+popup-shrink-to-fit)
+;;     (\"^\\*\"  :slot 1 :vslot -1 :select t))
+;;   '((\"^\\*Completions\" :slot -1 :vslot -2 :ttl 0)
+;;     (\"^\\*Compil\\(?:ation\\|e-Log\\)\" :size 0.3 :ttl 0 :quit t)))"
