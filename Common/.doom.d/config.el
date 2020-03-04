@@ -27,9 +27,7 @@
     (setq projectile-require-project-root t)
     (add-to-list 'projectile-project-root-files-bottom-up ".projectile")
 
-    (setq projectile-sort-order 'recentf
-        projectile-cache-file (expand-file-name ".emacs.d/.cache/projectile.cache" +my/dotfiles-path)
-        projectile-known-projects-file (expand-file-name ".emacs.d/.cache/projectile-bookmarks.eld" +my/dotfiles-path))
+    (setq projectile-sort-order 'recentf)
 
     (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".emacs.d" +my/dotfiles-path))
     (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".rustup" +my/home-path)))
