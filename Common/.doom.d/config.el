@@ -293,12 +293,11 @@ T - tag prefix
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
         lsp-enable-file-watchers nil
-        lsp-restart 'auto-restart
         lsp-enable-on-type-formatting nil))
 
 (after! lsp-ui
     (setq
-        lsp-ui-sideline-enable nil
+        lsp-ui-sideline-enable t
         lsp-ui-sideline-show-symbol nil
         lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-show-code-actions nil
