@@ -47,8 +47,7 @@
             (:when (featurep! :ui neotree)
                 :desc "Open neotree"    :n "n" #'neotree-toggle
                 ;; :desc "Open neotree"    :n "n" #'+neotree/open
-                ;; :desc "File in neotree" :n "N" #'+neotree/find-this-file
-                )
+                :desc "File in neotree" :n "N" #'+neotree/find-this-file)
             (:when (featurep! :ui treemacs)
                 :desc "Toggle treemacs"  :n "n" #'+treemacs/toggle
                 :desc "File in treemacs" :n "N" #'+treemacs/find-file))

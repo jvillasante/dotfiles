@@ -308,6 +308,9 @@ T - tag prefix
     ;; fixes problem with rust
     ;; (setq lsp-signature-auto-activate nil)
 
+    (sp-local-pair 'rustic-mode "<" ">")
+    (sp-local-pair 'rustic-mode "'" "'" :actions nil)
+
     ;; configs
     ;; (setq rustic-lsp-server 'rust-analyzer)
     (setq rustic-lsp-server 'rls))
