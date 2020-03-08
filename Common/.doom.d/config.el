@@ -308,8 +308,9 @@ T - tag prefix
     ;; fixes problem with rust
     ;; (setq lsp-signature-auto-activate nil)
 
-    (sp-local-pair 'rustic-mode "<" ">")
-    (sp-local-pair 'rustic-mode "'" "'" :actions nil)
+    ;; (sp-local-pair 'rustic-mode "|" "|") ;; closures, can interefere bitwise operators
+    ;; (sp-local-pair 'rustic-mode "<" ">") ;; messes with comparison operator
+    (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
 
     ;; configs
     ;; (setq rustic-lsp-server 'rust-analyzer)
