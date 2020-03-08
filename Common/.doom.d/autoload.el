@@ -1,75 +1,38 @@
 ;;;  -*- lexical-binding: t; -*-
 
 ;;;###autoload
-(defun +my/better-font()
-    "Changing font to better."
-    (interactive)
-    ;; english font
-    (if (display-graphic-p)
-        (progn
-            (set-face-attribute 'default nil :font (format   "%s:pixelsize=%d" "Source Code Pro" 17)) ;; 11 13 17 19 23
-            ;; chinese font
-            (dolist (charset '(kana han symbol cjk-misc bopomofo))
-                (set-fontset-font (frame-parameter nil 'font)
-                    charset
-                    (font-spec :family "WenQuanYi Micro Hei Mono" :size 20)))))) ;; 14 16 20 22 28
+(defun +my/keyboard-quit-context+ ()
+  "Quit current context.
 
-;;;###autoload
-(defun +my--support-format-p()
-    (and (featurep! :editor format)
-        (memq major-mode '(c-mode c++-mode emacs-lisp-mode java-mode python-mode))))
-
-;;;###autoload
-(defun +my/indent-buffer()
-    "Indent the currently visited buffer."
-    (interactive)
-    (indent-region (point-min) (point-max)))
-
-;;;###autoload
-(defun +my/rename-this-file-and-buffer (new-name)
-    "Rename both current buffer and file it's visiting to NEW_NAME"
-    (interactive "sNew name: ")
-    (let ((name (buffer-name))
-             (filename (buffer-file-name)))
-        (unless filename
-            (error "Buffer '%s' is not visiting a file" name))
-        (progn
-            (when (file-exists-p filename)
-                (rename-file filename new-name 1))
-            (set-visited-file-name new-name)
-            (rename-buffer new-name))))
-
-;;;###autoload
-(defun +my--replace-pairs(content pairs &optional to-direction)
-    "replace pairs in `content'"
-    (when (or (not to-direction) (string= to-direction "auto"))
-        (setq to-direction
-            (if (catch 'break
-                    (mapc
-                        (lambda (pair)
-                            (if (string-match (aref pair 0) content)
-                                (throw 'break t))) pairs)
-                    nil)
-                "positive"
-                "negative")))
-    (with-temp-buffer
-        (insert content)
-        (mapc
-            (lambda (pair)
-                (goto-char (point-min))
-                (while (search-forward-regexp (elt pair 0) nil "noerrro")
-                    (replace-match (elt pair 1))))
-            (cond
-                ((string= to-direction "positive")
-                    pairs)
-                ((string= to-direction "negative")
-                    (mapcar
-                        (lambda(pair)
-                            (vector (elt pattern 1) (elt pattern 0))) pairs))
-                (t
-                    (user-error "Your 3rd argument %s is invalid" to-direction))))
-        (buffer-string)))
-
+This function is a combination of `keyboard-quit' and
+`keyboard-escape-quit' with some parts omitted and some custom
+behavior added."
+  (interactive)
+  (cond ((region-active-p)
+         ;; Avoid adding the region to the window selection.
+         (setq saved-region-selection nil)
+         (let (select-active-regions)
+           (deactivate-mark)))
+        ((eq last-command 'mode-exited) nil)
+        (current-prefix-arg
+         nil)
+        (defining-kbd-macro
+          (message
+           (substitute-command-keys
+            "Quit is ignored during macro defintion, use \\[kmacro-end-macro] if you want to stop macro definition"))
+          (cancel-kbd-macro-events))
+        ((active-minibuffer-window)
+         (when (get-buffer-window "*Completions*")
+           ;; hide completions first so point stays in active window when
+           ;; outside the minibuffer
+           (minibuffer-hide-completions))
+         (abort-recursive-edit))
+        (t
+         (when completion-in-region-mode
+           (completion-in-region-mode -1))
+         (let ((debug-on-quit nil))
+           (signal 'quit nil)))))
+(global-set-key [remap keyboard-quit] #'+my/keyboard-quit-context+)
 
 ;;;###autoload
 (defun +my/dos2unix ()
@@ -146,40 +109,3 @@ at least the fill column. Place the point after the comment box. http://irreal.o
     (elfeed-db-save)
     (quit-window))
 
-;;;###autoload
-(defun +my/neotree-collapse ()
-  "Collapse a neotree node."
-  (interactive)
-  (let ((node (neo-buffer--get-filename-current-line)))
-    (when node
-      (when (file-directory-p node)
-        (neo-buffer--set-expand node nil)
-        (neo-buffer--refresh t))
-      (when neo-auto-indent-point
-        (neo-point-auto-indent)))))
-
-;;;###autoload
-(defun +my/neotree-collapse-or-up ()
-  "Collapse an expanded directory node or go to the parent node."
-  (interactive)
-  (let ((node (neo-buffer--get-filename-current-line)))
-    (when node
-      (if (file-directory-p node)
-          (if (neo-buffer--expanded-node-p node)
-              (spacemacs/neotree-collapse)
-            (neotree-select-up-node))
-        (neotree-select-up-node)))))
-
-;;;###autoload
-(defun +my/neotree-find-project-root ()
-  (interactive)
-  (if (neo-global--window-exists-p)
-      (neotree-hide)
-    (let ((origin-buffer-file-name (buffer-file-name)))
-      (neotree-find (projectile-project-root))
-      (neotree-find origin-buffer-file-name))))
-
-;;;###autoload
-(defun +my/neotree-maybe-attach-window ()
-  (when (get-buffer-window (neo-global--get-buffer))
-    (neo-global--attach)))
