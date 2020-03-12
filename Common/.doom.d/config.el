@@ -288,6 +288,8 @@ T - tag prefix
     (setq slime-net-coding-system 'utf-8-unix))
 
 (after! lsp-mode
+    (setq lsp-rust-server 'rust-analyzer)
+
     (setq
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
@@ -313,8 +315,7 @@ T - tag prefix
     (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
 
     ;; configs
-    ;; (setq rustic-lsp-server 'rust-analyzer)
-    (setq rustic-lsp-server 'rls))
+    (setq rustic-lsp-server 'rust-analyzer))
 
 (after! magit
     (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
