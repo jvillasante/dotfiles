@@ -60,84 +60,6 @@
     (smartparens-global-mode 1)
     (show-paren-mode t))
 
-(after! neotree
-    (defadvice neo-buffer--get-nodes
-        (after neo-buffer--get-nodes-new-sorter activate)
-        (setq ad-return-value
-            (let ((nodes ad-return-value)
-                     (comparator (lambda (s1 s2) (string< (downcase s1)
-                                                     (downcase s2)))))
-                (apply 'cons (mapcar (lambda (x) (sort (apply x (list nodes))
-                                                     comparator))
-                                 '(car cdr))))))
-
-    (setq neo-theme 'ascii
-        neo-window-width 32
-        neo-create-file-auto-open t
-        neo-banner-message "Press ? for neotree help"
-        neo-show-updir-line nil
-        neo-mode-line-type 'neotree
-        neo-smart-open t
-        ;; neo-dont-be-alone t
-        ;; neo-persist-show nil
-        neo-show-hidden-files t
-        neo-auto-indent-point t
-        ;; neo-modern-sidebar t
-        neo-vc-integration nil
-        ;; doom-neotree-enable-variable-pitch nil
-        neo-autorefresh nil)
-
-    (when (eq 'darwin system-type)
-        (setq neo-default-system-application "open"))
-
-    (setq neo-hidden-regexp-list
-        '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
-             "^\\.\\(DS_Store\\|python\\-version\\)"
-             "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
-             "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-             "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
-             "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-             "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-             "\\.egg\-info$"))
-
-    ;; Hydra for neotree
-    (after! hydra
-        (defhydra +my/hydra-neotree (:hint nil :color pink)
-            "
-Navigation^^^^             Actions^^         Visual actions/config^^^
-───────^^^^─────────────── ───────^^──────── ───────^^^────────────────
-[_L_]   next sibling^^     [_c_] create      [_=_]   shrink/enlarge
-[_H_]   previous sibling^^ [_C_] copy        [_|_]   vertical split
-[_J_]   goto child^^       [_d_] delete      [_-_]   horizontal split
-[_K_]   goto parent^^      [_r_] rename      [_gr_]  refresh^
-[_l_]   open/expand^^      [_R_] change root [_s_]   hidden:^^^ %s(if neo-buffer--show-hidden-file-p \"on\" \"off\")
-[_h_]   up/collapse^^      ^^                ^^^
-[_j_]   line down^^        ^^                ^^^
-[_k_]   line up^^          ^^                ^^
-[_'_]   quick look         ^^                ^^
-^^^                        ^^^^              [_?_]   close hints
-"
-            ("=" neotree-stretch-toggle)
-            ("|" neotree-enter-vertical-split)
-            ("-" neotree-enter-horizontal-split)
-            ("?" nil :exit t)
-            ("'" neotree-quick-look)
-            ("c" neotree-create-node)
-            ("C" neotree-copy-node)
-            ("d" neotree-delete-node)
-            ("gr" neotree-refresh)
-            ("h" +my/neotree-collapse-or-up)
-            ("H" neotree-select-previous-sibling-node)
-            ("j" neotree-next-line)
-            ("J" neotree-select-down-node)
-            ("k" neotree-previous-line)
-            ("K" neotree-select-up-node)
-            ("l" +my/neotree-expand-or-open)
-            ("L" neotree-select-next-sibling-node)
-            ("r" neotree-rename-node)
-            ("R" neotree-change-root)
-            ("s" neotree-hidden-file-toggle))))
-
 (after! flyspell-lazy
     (add-hook 'prog-mode-hook 'flyspell-lazy-mode))
 
@@ -155,7 +77,8 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
         company-show-numbers nil))
 
 (after! company-lsp
-  (setq company-lsp-async t
+    (setq
+        company-lsp-async t
         company-lsp-cache-candidates 'auto
         company-lsp-enable-snippet t
         company-lsp-enable-recompletion t))
@@ -170,6 +93,56 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
 
 (after! elisp-mode
     (remove-hook 'emacs-lisp-mode-hook #'+emacs-lisp-extend-imenu-h))
+
+(after! common-lisp
+    (setq inferior-lisp-program "/usr/local/bin/sbcl")
+
+    (setq slime-lisp-implementations
+        `((ccl ("~/.cim/bin/ccl-1.9") :coding-system utf-8-unix)
+             (alisp ("/usr/local/bin/alisp") :coding-system utf-8-unix)
+             (ecl ("/usr/local/bin/ecl"))  ; :coding-system utf-8-unix)
+             (cmucl ("/usr/local/bin/cmucl") :coding-system utf-8-unix)
+             (sbcl ("/usr/local/bin/sbcl" "+R" "-l" "~/.sbclrc") :coding-system utf-8-unix)
+             (abcl ("~/.cim/bin/abcl-1.3.1" "-XX:MaxPermSize=256m" "-Dfile.encoding=UTF-8") :coding-system utf-8-unix)
+             (clisp ("/usr/local/bin/clisp") :coding-system utf-8-unix)))
+
+    (setq slime-default-lisp 'sbcl)
+    (setq slime-net-coding-system 'utf-8-unix))
+
+(setq +lsp-company-backend
+    '(company-lsp :with company-yasnippet))
+
+(after! lsp-mode
+    ;; (setq lsp-rust-server 'rls)
+    (setq lsp-rust-server 'rust-analyzer)
+
+    (setq
+        lsp-auto-guess-root nil
+        lsp-enable-file-watchers nil
+        lsp-enable-file-watchers nil
+        lsp-enable-on-type-formatting nil))
+
+(after! lsp-ui
+    (setq
+        lsp-ui-sideline-enable nil
+        lsp-ui-sideline-show-symbol nil
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-code-actions nil
+        lsp-ui-peek-enable nil
+        lsp-ui-imenu-enable nil
+        lsp-ui-doc-enable nil))
+
+(after! rustic
+    ;; fixes problem with rust
+    (setq lsp-signature-auto-activate nil)
+
+    ;; (sp-local-pair 'rustic-mode "|" "|") ;; closures, can interefere bitwise operators
+    ;; (sp-local-pair 'rustic-mode "<" ">") ;; messes with comparison operator
+    (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
+
+    ;; configs
+    ;; (setq rustic-lsp-server 'rls)
+    (setq rustic-lsp-server 'rust-analyzer))
 
 (after! deft
     (setq
@@ -190,6 +163,20 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
 
 (after! elfeed-org
     (setq rmh-elfeed-org-files (list (expand-file-name "Personal/elfeed/elfeed.org" +my/dropbox-path))))
+
+(after! magit
+    (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+    (setq-default git-magit-status-fullscreen t)
+    (setq magit-completing-read-function 'magit-builtin-completing-read
+        magit-push-always-verify nil)
+
+    (setq
+        +magit-hub-features t
+        git-commit-summary-max-length 80
+        vc-handled-backends (delq 'Git vc-handled-backends))
+
+    ;; Temporary workaround for +magit/quit hang with lots of buffers
+    (define-key magit-status-mode-map [remap magit-mode-bury-buffer] nil))
 
 (after! dired
     ;; mark symlinks
@@ -271,74 +258,90 @@ T - tag prefix
             ("z" diredp-compress-this-file)
             ("Z" dired-do-compress)
             ("q" nil)
-            ("." nil :color blue)))
-    )
+            ("." nil :color blue))))
 
 (after! dired-quick-sort
     (dired-quick-sort-setup)
     (define-key dired-mode-map "s" 'hydra-dired-quick-sort/body))
 
-(after! common-lisp
-    (setq inferior-lisp-program "/usr/local/bin/sbcl")
+(after! neotree
+    (defadvice neo-buffer--get-nodes
+        (after neo-buffer--get-nodes-new-sorter activate)
+        (setq ad-return-value
+            (let ((nodes ad-return-value)
+                     (comparator (lambda (s1 s2) (string< (downcase s1)
+                                                     (downcase s2)))))
+                (apply 'cons (mapcar (lambda (x) (sort (apply x (list nodes))
+                                                     comparator))
+                                 '(car cdr))))))
 
-    (setq slime-lisp-implementations
-        `((ccl ("~/.cim/bin/ccl-1.9") :coding-system utf-8-unix)
-             (alisp ("/usr/local/bin/alisp") :coding-system utf-8-unix)
-             (ecl ("/usr/local/bin/ecl"))  ; :coding-system utf-8-unix)
-             (cmucl ("/usr/local/bin/cmucl") :coding-system utf-8-unix)
-             (sbcl ("/usr/local/bin/sbcl" "+R" "-l" "~/.sbclrc") :coding-system utf-8-unix)
-             (abcl ("~/.cim/bin/abcl-1.3.1" "-XX:MaxPermSize=256m" "-Dfile.encoding=UTF-8") :coding-system utf-8-unix)
-             (clisp ("/usr/local/bin/clisp") :coding-system utf-8-unix)))
+    (setq neo-theme 'ascii
+        neo-window-width 32
+        neo-create-file-auto-open t
+        neo-banner-message "Press ? for neotree help"
+        neo-show-updir-line nil
+        neo-mode-line-type 'neotree
+        neo-smart-open t
+        ;; neo-dont-be-alone t
+        ;; neo-persist-show nil
+        neo-show-hidden-files t
+        neo-auto-indent-point t
+        ;; neo-modern-sidebar t
+        neo-vc-integration nil
+        ;; doom-neotree-enable-variable-pitch nil
+        neo-autorefresh nil)
 
-    (setq slime-default-lisp 'sbcl)
-    (setq slime-net-coding-system 'utf-8-unix))
+    (when (eq 'darwin system-type)
+        (setq neo-default-system-application "open"))
 
-(after! lsp-mode
-    (setq lsp-rust-server 'rls)
-    ;; (setq lsp-rust-server 'rust-analyzer)
+    (setq neo-hidden-regexp-list
+        '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
+             "^\\.\\(DS_Store\\|python\\-version\\)"
+             "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
+             "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+             "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
+             "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+             "^\\.cproject$" "^\\.project$" "^\\.projectile$"
+             "\\.egg\-info$"))
 
-    (setq
-        lsp-auto-guess-root nil
-        lsp-enable-file-watchers nil
-        lsp-enable-file-watchers nil
-        lsp-enable-on-type-formatting nil))
+    ;; Hydra for neotree
+    (after! hydra
+        (defhydra +my/hydra-neotree (:hint nil :color pink)
+            "
+Navigation^^^^             Actions^^         Visual actions/config^^^
+───────^^^^─────────────── ───────^^──────── ───────^^^────────────────
+[_L_]   next sibling^^     [_c_] create      [_=_]   shrink/enlarge
+[_H_]   previous sibling^^ [_C_] copy        [_|_]   vertical split
+[_J_]   goto child^^       [_d_] delete      [_-_]   horizontal split
+[_K_]   goto parent^^      [_r_] rename      [_gr_]  refresh^
+[_l_]   open/expand^^      [_R_] change root [_s_]   hidden:^^^ %s(if neo-buffer--show-hidden-file-p \"on\" \"off\")
+[_h_]   up/collapse^^      ^^                ^^^
+[_j_]   line down^^        ^^                ^^^
+[_k_]   line up^^          ^^                ^^
+[_'_]   quick look         ^^                ^^
+^^^                        ^^^^              [_?_]   close hints
+"
+            ("=" neotree-stretch-toggle)
+            ("|" neotree-enter-vertical-split)
+            ("-" neotree-enter-horizontal-split)
+            ("?" nil :exit t)
+            ("'" neotree-quick-look)
+            ("c" neotree-create-node)
+            ("C" neotree-copy-node)
+            ("d" neotree-delete-node)
+            ("gr" neotree-refresh)
+            ("h" +my/neotree-collapse-or-up)
+            ("H" neotree-select-previous-sibling-node)
+            ("j" neotree-next-line)
+            ("J" neotree-select-down-node)
+            ("k" neotree-previous-line)
+            ("K" neotree-select-up-node)
+            ("l" +my/neotree-expand-or-open)
+            ("L" neotree-select-next-sibling-node)
+            ("r" neotree-rename-node)
+            ("R" neotree-change-root)
+            ("s" neotree-hidden-file-toggle))))
 
-(after! lsp-ui
-    (setq
-        lsp-ui-sideline-enable nil
-        lsp-ui-sideline-show-symbol nil
-        lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-show-code-actions nil
-        lsp-ui-peek-enable nil
-        lsp-ui-imenu-enable nil
-        lsp-ui-doc-enable nil))
-
-(after! rustic
-    ;; fixes problem with rust
-    ;; (setq lsp-signature-auto-activate nil)
-
-    ;; (sp-local-pair 'rustic-mode "|" "|") ;; closures, can interefere bitwise operators
-    ;; (sp-local-pair 'rustic-mode "<" ">") ;; messes with comparison operator
-    (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
-
-    ;; configs
-    (setq rustic-lsp-server 'rls)
-    ;; (setq rustic-lsp-server 'rust-analyzer)
-    )
-
-(after! magit
-    (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
-    (setq-default git-magit-status-fullscreen t)
-    (setq magit-completing-read-function 'magit-builtin-completing-read
-        magit-push-always-verify nil)
-
-    (setq
-        +magit-hub-features t
-        git-commit-summary-max-length 80
-        vc-handled-backends (delq 'Git vc-handled-backends))
-
-    ;; Temporary workaround for +magit/quit hang with lots of buffers
-    (define-key magit-status-mode-map [remap magit-mode-bury-buffer] nil))
 
 (after! evil-org
     (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
