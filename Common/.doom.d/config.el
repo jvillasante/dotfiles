@@ -300,7 +300,7 @@ T - tag prefix
              "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
              "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
              "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
-             "\\.gcda$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+             "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
              "^\\.cproject$" "^\\.project$" "^\\.projectile$"
              "\\.egg\-info$"))
 
