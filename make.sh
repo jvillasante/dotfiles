@@ -5,14 +5,15 @@
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
 
-CURRENT_ENV="$1"
+CURRENT_ENV="UNSUPPORTED"
 find_current_env() {
-    case "$CURRENT_ENV" in
-        "home")
+    host=$(hostname)
+    case "$host" in
+        "Julios-MacBook-Pro.local")
             {
                 CURRENT_ENV="HOME"
             } ;;
-        "work")
+        "jvillasante-Latitude-7480")
             {
                 CURRENT_ENV="WORK"
             } ;;
@@ -24,7 +25,7 @@ find_current_env() {
     esac
 }
 
-CURRENT_OS="OSX"
+CURRENT_OS="UNSUPPORTED"
 find_current_os() {
     platform=$(uname)
     case "$platform" in
