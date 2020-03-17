@@ -76,13 +76,6 @@
         company-minimum-prefix-length 2
         company-show-numbers nil))
 
-(after! company-lsp
-    (setq
-        company-lsp-async t
-        company-lsp-cache-candidates 'auto
-        company-lsp-enable-snippet t
-        company-lsp-enable-recompletion t))
-
 (after! ws-butler
     (setq ws-butler-global-exempt-modes
         (append ws-butler-global-exempt-modes
@@ -109,12 +102,9 @@
     (setq slime-default-lisp 'sbcl)
     (setq slime-net-coding-system 'utf-8-unix))
 
-(setq +lsp-company-backend
-    '(company-lsp :with company-yasnippet))
-
 (after! lsp-mode
-    ;; (setq lsp-rust-server 'rls)
-    (setq lsp-rust-server 'rust-analyzer)
+    (setq lsp-rust-server 'rls)
+    ;; (setq lsp-rust-server 'rust-analyzer)
 
     (setq
         lsp-auto-guess-root nil
@@ -133,16 +123,17 @@
         lsp-ui-doc-enable nil))
 
 (after! rustic
-    ;; fixes problem with rust
-    (setq lsp-signature-auto-activate nil)
+    ;; fixes problem with rust-analyzer
+    ;; (setq lsp-signature-auto-activate nil)
 
     ;; (sp-local-pair 'rustic-mode "|" "|") ;; closures, can interefere bitwise operators
     ;; (sp-local-pair 'rustic-mode "<" ">") ;; messes with comparison operator
     (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
 
     ;; configs
-    ;; (setq rustic-lsp-server 'rls)
-    (setq rustic-lsp-server 'rust-analyzer))
+    ;; (setq rustic-lsp-server 'rust-analyzer)
+    (setq rustic-lsp-server 'rls)
+    )
 
 (after! deft
     (setq
@@ -263,6 +254,13 @@ T - tag prefix
 (after! dired-quick-sort
     (dired-quick-sort-setup)
     (define-key dired-mode-map "s" 'hydra-dired-quick-sort/body))
+
+(after! treemacs
+  (set-popup-rule! "^ \\*Treemacs"
+    :side 'left
+    :size 0.30
+    :quit nil
+    :ttl 0))
 
 (after! neotree
     (defadvice neo-buffer--get-nodes

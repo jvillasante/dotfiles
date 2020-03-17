@@ -15,6 +15,7 @@
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (pushnew! default-frame-alist '(undecorated . t) '(fullscreen . maximized))
 
 ;; Minibuffer setup
 (setq-hook! 'minibuffer-setup-hook
