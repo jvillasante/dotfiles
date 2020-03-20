@@ -10,7 +10,9 @@
 (after! dash (dash-enable-font-lock))
 
 ;; theme
-(setq doom-theme 'doom-solarized-light)
+;; (setq doom-theme 'doom-solarized-light)
+(load-theme 'modus-operandi t)          ; Light theme
+;; (load-theme 'modus-vivendi t)        ; Dark theme
 
 (after! doom-themes
     (setq

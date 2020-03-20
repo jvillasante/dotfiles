@@ -109,18 +109,20 @@
     (setq
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
-        lsp-enable-file-watchers nil
         lsp-enable-on-type-formatting nil))
 
 (after! lsp-ui
-    (setq
-        lsp-ui-sideline-enable nil
-        lsp-ui-sideline-show-symbol nil
-        lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-show-code-actions nil
-        lsp-ui-peek-enable nil
-        lsp-ui-imenu-enable nil
-        lsp-ui-doc-enable nil))
+    (setq lsp-ui-sideline-enable nil)
+
+    ;; (setq
+    ;;     lsp-ui-sideline-enable nil
+    ;;     lsp-ui-sideline-show-symbol nil
+    ;;     lsp-ui-sideline-show-hover nil
+    ;;     lsp-ui-sideline-show-code-actions nil
+    ;;     lsp-ui-peek-enable nil
+    ;;     lsp-ui-imenu-enable nil
+    ;;     lsp-ui-doc-enable nil)
+    )
 
 (after! rustic
     ;; fixes problem with rust-analyzer
@@ -339,7 +341,6 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
             ("r" neotree-rename-node)
             ("R" neotree-change-root)
             ("s" neotree-hidden-file-toggle))))
-
 
 (after! evil-org
     (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))

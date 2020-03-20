@@ -3,6 +3,9 @@
 
 (disable-packages! glsl-mode cuda-mode opencl-mode latex-preview-pane org-ref nose anaconda-mode)
 
+(package! modus-operandi-theme)
+(package! modus-vivendi-theme)
+
 (package! ivy-prescient)
 (package! dired-quick-sort)
 (package! ibuffer-vc)
