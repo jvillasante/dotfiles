@@ -112,17 +112,7 @@
         lsp-enable-on-type-formatting nil))
 
 (after! lsp-ui
-    (setq lsp-ui-sideline-enable nil)
-
-    ;; (setq
-    ;;     lsp-ui-sideline-enable nil
-    ;;     lsp-ui-sideline-show-symbol nil
-    ;;     lsp-ui-sideline-show-hover nil
-    ;;     lsp-ui-sideline-show-code-actions nil
-    ;;     lsp-ui-peek-enable nil
-    ;;     lsp-ui-imenu-enable nil
-    ;;     lsp-ui-doc-enable nil)
-    )
+    (setq lsp-ui-sideline-enable nil))
 
 (after! rustic
     ;; fixes problem with rust-analyzer
@@ -134,8 +124,7 @@
 
     ;; configs
     ;; (setq rustic-lsp-server 'rust-analyzer)
-    (setq rustic-lsp-server 'rls)
-    )
+    (setq rustic-lsp-server 'rls))
 
 (after! deft
     (setq
@@ -258,11 +247,11 @@ T - tag prefix
     (define-key dired-mode-map "s" 'hydra-dired-quick-sort/body))
 
 (after! treemacs
-  (set-popup-rule! "^ \\*Treemacs"
-    :side 'left
-    :size 0.30
-    :quit nil
-    :ttl 0))
+    (set-popup-rule! "^ \\*Treemacs"
+        :side 'left
+        :size 0.30
+        :quit nil
+        :ttl 0))
 
 (after! neotree
     (defadvice neo-buffer--get-nodes
@@ -343,7 +332,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
             ("s" neotree-hidden-file-toggle))))
 
 (after! evil-org
-    (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
+    (setq org-tab-first-hook (delete '+org-cycle-only-current-subtree-h org-tab-first-hook)))
 
 (after! org
     ;; hook

@@ -31,16 +31,19 @@
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     (:leader
+        ;;;; Applications
         (:prefix ("a" . "application")
             :desc "Elfeed Rss Reader" :n "f" #'elfeed
             ;; :desc "Elfeed Rss Reader" :n "r" #'+my/elfeed-load-db-and-open
             :desc "Deft"              :n "n" #'deft)
 
+        ;;;; Buffers
         (:prefix "b"
             :desc "Rename buffer" :n "R" #'rename-buffer
             :desc "Kill buffer"   :n "d" #'kill-this-buffer ; consistency with `SPC w d'
             :desc "Ibuffer"       :n "I" #'ibuffer)
 
+        ;;;; Open
         (:prefix "o"
             :desc "Dired" :n "d" #'dired
             :desc "Scratch Buffer" :n "s" #'doom/open-scratch-buffer
@@ -52,14 +55,17 @@
                 :desc "Toggle treemacs"  :n "n" #'+treemacs/toggle
                 :desc "File in treemacs" :n "N" #'+treemacs/find-file))
 
+        ;;;; Windows
         (:prefix "w"
             :desc "Popup raise"    :n "p" #'+popup/raise
             :desc "Maximize frame" :n "M" #'toggle-frame-maximized
             :desc "Delete window"  :n "d" #'evil-quit)
 
+        ;;; Files
         (:prefix ("f" . "file")
             :desc "Find git file" :n "g" #'counsel-git)
 
+        ;;;; Doom
         (:prefix ("d" . "doom")
             :desc "Dashboard"                 :n  "d" #'+doom-dashboard/open
             :desc "Recent files"              :n  "f" #'recentf-open-files
@@ -80,6 +86,7 @@
             :desc "Toggle frame fullscreen"   :n  "F" #'toggle-frame-fullscreen
             :desc "Toggle modal edition mode" :n  "m" #'modalka-global-mode)
 
+        ;;;; Code
         (:prefix ("c" . "code")
             :desc "Compile"                     :n "c" #'compile
             :desc "Make"                        :n "m" #'+make/run
@@ -108,6 +115,75 @@
             (:prefix ("u" . "menu")
                 :desc "Show"                    :n "m" #'lsp-ui-imenu
                 :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))
+
+        ;;;; Search
+        (:prefix "s"
+            :desc "Search directory"             "d" #'+ivy/project-search-from-cwd
+            :desc "Search directory (all files)" "D" (lambda! (+ivy/project-search-from-cwd t))
+            :desc "Search project"               "p" #'+ivy/project-search
+            :desc "Search project (all files)"   "P" (lambda! (+ivy/project-search t)))
+
+        ;;;; Quit
+        (:prefix "q"
+            :desc "Restart Emacs"                "r" #'doom/restart
+            :desc "Restart & restore Emacs"      "R" #'doom/restart-and-restore
+            :desc "Save buffers and kill server" "Q" #'save-buffers-kill-emacs)
+
+        ;;;; Hydra
+        (:leader
+            (:when (featurep! :ui hydra)
+                (:prefix "w"
+                    :desc "Interactive menu"    "w" #'+hydra/window-nav/body)
+                (:prefix ("z" . "zoom")
+                    :desc "Text"                "t" #'+hydra/text-zoom/body)))
+
+        ;;;; Isearch
+        (:after isearch
+            (:map isearch-mode-map
+                [return] #'+isearch-exit-start-of-match
+                "RET"    #'+isearch-exit-start-of-match
+                "C-RET"  #'isearch-exit))
+
+        ;;;; Ivy
+        (:after ivy
+            (:map ivy-minibuffer-map
+                [return] #'ivy-alt-done
+                "RET"    #'ivy-alt-done))
+
+        ;;;; LSP UI
+        (:after lsp-ui
+            (:map lsp-ui-mode-map
+                [remap xref-find-definitions] #'lsp-ui-peek-find-definitions
+                [remap xref-find-references] #'lsp-ui-peek-find-references))
+
+        ;;;; Company
+        (:after company
+            (:map company-active-map
+                [tab] nil
+                "TAB" nil))
+
+        ;;;; Yasnippet
+        (:after yasnippet
+            (:map yas-keymap
+                [tab] #'yas-next-field
+                "TAB" #'yas-next-field))
+
+        ;;;; Flycheck
+        (:after flycheck
+            (:map flycheck-mode-map
+                "M-n" #'flycheck-next-error
+                "M-p" #'flycheck-previous-error))
+
+        ;;;; Languages
+        ;;;;; Rust
+        (:after rustic
+            (:map rustic-mode-map
+                :localleader
+                (:prefix ("r" . "Rustic")
+                    :desc "Clippy pretty"     "C" #'rustic-cargo-clippy
+                    :desc "Popup"             "r" #'rustic-popup
+                    :desc "Format everything" "f" #'rustic-cargo-fmt
+                    :desc "Cargo-outdated"    "u" #'rustic-cargo-outdated)))
         )
 
     (:after ivy
