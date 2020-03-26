@@ -22,6 +22,9 @@
     show-trailing-whitespace nil
     line-spacing 1)
 
+;; No more 'Starting new Ispell process aspell with default dictionary...done'
+(advice-add #'ispell-init-process :around #'doom-shut-up-a)
+
 ;; Some default configs
 (setq
     major-mode 'text-mode

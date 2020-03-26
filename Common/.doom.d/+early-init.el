@@ -2,7 +2,8 @@
 
 (setq
     user-full-name "Julio C. Villasante"
-    user-mail-address "jvillasantegomez@gmail.com")
+    user-mail-address "jvillasantegomez@gmail.com"
+    user-login-name "jvillasante")
 
 (setq
     +my/home-path (file-truename "~")

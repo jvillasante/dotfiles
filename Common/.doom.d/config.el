@@ -5,6 +5,10 @@
 
 (load! "+early-init.el")
 
+(when noninteractive
+    (after! undo-tree
+        (global-undo-tree-mode -1)))
+
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
