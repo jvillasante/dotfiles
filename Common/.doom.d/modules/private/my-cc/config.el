@@ -21,6 +21,7 @@
     (sp-with-modes '(c-mode c++-mode)
         ;; messes with std::cout << ...
         ;; (sp-local-pair "<" ">")
+        (sp-local-pair "<" ">" :actions nil)
 
         ;; when you press RET, the curly braces automatically add another newline
         (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))

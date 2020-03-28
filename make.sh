@@ -115,7 +115,7 @@ for file in $global_files; do
 done
 
 echo ">> Linking common files..."
-common_files=".doom.d .oh-my-zsh.d .percol.d bin .profile .bashrc .clang-tidy .clang_complete .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .tmux_light.conf .tmux_dark.conf .sbclrc .rustfmt.toml .ycm_extra_conf.py  "
+common_files=".doom.d .oh-my-zsh.d .percol.d bin .profile .bashrc compile_flags.txt .clang-tidy .clang_complete .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .tmux_light.conf .tmux_dark.conf .sbclrc .rustfmt.toml .ycm_extra_conf.py  "
 for file in $common_files; do
     unlink ~/$file
     ln -s $dir/Common/$file ~/

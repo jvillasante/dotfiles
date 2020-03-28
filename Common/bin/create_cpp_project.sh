@@ -56,18 +56,19 @@ if [ ! -d $2 ]; then
   fi
 
   cp ~/.editorconfig $2/
+  check $?
 
   cp ~/.clang-format $2/
   check $?
 
-  # cp ~/.clang_complete.py $2/
-  # check $?
-
-  # cp ~/.ycm_extra_conf.py $2/
-  # check $?
-
-  cp ~/.ccls $2/
+  cp ~/compile_flags.txt $2/
   check $?
+
+  cp ~/.clang-tidy $2/
+  check $?
+
+  # cp ~/.ccls $2/
+  # check $?
 
   echo ">>> Done!"
   exit 0
