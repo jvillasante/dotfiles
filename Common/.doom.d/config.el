@@ -110,6 +110,9 @@
     (setq lsp-rust-server 'rls)
     ;; (setq lsp-rust-server 'rust-analyzer)
 
+    (setq lsp-clients-clangd-args
+        '("--j=4" "--log=error" "--clang-tidy"))
+
     (setq
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
