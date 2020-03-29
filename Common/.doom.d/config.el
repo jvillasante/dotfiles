@@ -107,16 +107,18 @@
     (setq slime-net-coding-system 'utf-8-unix))
 
 (after! lsp-mode
-    (setq lsp-rust-server 'rls)
-    ;; (setq lsp-rust-server 'rust-analyzer)
-
-    (setq lsp-clients-clangd-args
-        '("--j=4" "--log=error" "--clang-tidy"))
-
     (setq
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
-        lsp-enable-on-type-formatting nil))
+        lsp-enable-on-type-formatting nil)
+
+    ;; Rust
+    (setq lsp-rust-server 'rls)
+    ;; (setq lsp-rust-server 'rust-analyzer)
+
+    ;; C++
+    (setq lsp-clients-clangd-args
+        '("--j=4" "--log=error" "--clang-tidy")))
 
 (after! lsp-ui
     (setq lsp-ui-sideline-enable nil))
@@ -254,11 +256,7 @@ T - tag prefix
     (define-key dired-mode-map "s" 'hydra-dired-quick-sort/body))
 
 (after! treemacs
-    (set-popup-rule! "^ \\*Treemacs"
-        :side 'left
-        :size 0.30
-        :quit nil
-        :ttl 0))
+    )
 
 (after! neotree
     (defadvice neo-buffer--get-nodes
