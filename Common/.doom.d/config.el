@@ -113,8 +113,8 @@
         lsp-enable-on-type-formatting nil)
 
     ;; Rust
-    (setq lsp-rust-server 'rls)
-    ;; (setq lsp-rust-server 'rust-analyzer)
+    ;; (setq lsp-rust-server 'rls)
+    (setq lsp-rust-server 'rust-analyzer)
 
     ;; C++
     (setq lsp-clients-clangd-args
@@ -132,8 +132,8 @@
     (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
 
     ;; configs
-    ;; (setq rustic-lsp-server 'rust-analyzer)
-    (setq rustic-lsp-server 'rls))
+    ;; (setq rustic-lsp-server 'rls)
+    (setq rustic-lsp-server 'rust-analyzer))
 
 (after! deft
     (setq
