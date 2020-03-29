@@ -5,65 +5,22 @@
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
 
-CURRENT_ENV="UNSUPPORTED"
-find_current_env() {
-    host=$(hostname)
-    case "$host" in
-        "Julios-MacBook-Pro.local")
-            {
-                CURRENT_ENV="HOME"
-            } ;;
-        "jvillasante-Latitude-7480")
-            {
-                CURRENT_ENV="WORK"
-            } ;;
-        *)
-            {
-                echo ">> Unsupported ENV: '$CURRENT_ENV'. <home|work> only allowed, exiting!!!"
-                exit
-            } ;;
-    esac
-}
+. $(dirname "$0")/Common/bin/common.sh
 
-CURRENT_OS="UNSUPPORTED"
-find_current_os() {
-    platform=$(uname)
-    case "$platform" in
-        "Darwin")
-            {
-                CURRENT_OS="OSX"
-            } ;;
-        "Linux")
-            {
-                CURRENT_OS="LINUX"
-            } ;;
-        *)
-            {
-                echo ">> Unsupported OS: '$platform', exiting!!!"
-                exit
-            } ;;
-    esac
-}
-
-find_current_env
-find_current_os
-
-if [[ $CURRENT_ENV == "HOME" ]]; then
-    dir=~/Workspace/Others/dotfiles         # dotfiles directory
-elif [[ $CURRENT_ENV == "WORK" ]]; then
-    dir=~/Workspace/Others/dotfiles         # dotfiles directory
-fi
+CURRENT_ENV=$(find_env)
+CURRENT_OS=$(find_os)
+DOTFILES_DIR=$(find_dotfiles)
 
 echo "===================================================================================="
-echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS' at '$dir'."
+echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS' at '$DOTFILES_DIR'."
 
 install_zsh () {
     # Test to see if zshell is installed.  If it is:
     if [[ $CURRENT_OS == "LINUX" ]]; then
         if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
             # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-            if [[ ! -d $dir/.oh-my-zsh/ ]]; then
-                git clone http://github.com/robbyrussell/oh-my-zsh.git $dir/.oh-my-zsh
+            if [[ ! -d $DOTFILES_DIR/.oh-my-zsh/ ]]; then
+                git clone http://github.com/robbyrussell/oh-my-zsh.git $DOTFILES_DIR/.oh-my-zsh
             fi
 
             # Set the default shell to zsh if it isn't currently set to zsh
@@ -78,8 +35,8 @@ install_zsh () {
     elif [[ $CURRENT_OS == "OSX" ]]; then
         if [ -f /usr/local/bin/zsh -o -f /usr/bin/zsh ]; then
             # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-            if [[ ! -d $dir/.oh-my-zsh/ ]]; then
-                git clone http://github.com/robbyrussell/oh-my-zsh.git $dir/.oh-my-zsh
+            if [[ ! -d $DOTFILES_DIR/.oh-my-zsh/ ]]; then
+                git clone http://github.com/robbyrussell/oh-my-zsh.git $DOTFILES_DIR/.oh-my-zsh
             fi
 
             echo ">> Remember to set the default shell to zsh if it isn't already         "
@@ -92,12 +49,12 @@ install_zsh () {
 # CURRENT_EMACS_DISTRO="SPACEMACS"
 CURRENT_EMACS_DISTRO="DOOM_EMACS"
 install_emacs () {
-    if [[ ! -d $dir/.emacs.d/ ]]; then
+    if [[ ! -d $DOTFILES_DIR/.emacs.d/ ]]; then
         if [[ $CURRENT_EMACS_DISTRO == "SPACEMACS" ]]; then
-            git clone -b develop --single-branch git@github.com:syl20bnr/spacemacs.git $dir/.emacs.d
+            git clone -b develop --single-branch git@github.com:syl20bnr/spacemacs.git $DOTFILES_DIR/.emacs.d
         elif [[ $CURRENT_EMACS_DISTRO == "DOOM_EMACS" ]]; then
-            git clone -b develop --single-branch git@github.com:hlissner/doom-emacs.git $dir/.emacs.d
-            $dir/.emacs.d/bin/doom install
+            git clone -b develop --single-branch git@github.com:hlissner/doom-emacs.git $DOTFILES_DIR/.emacs.d
+            $DOTFILES_DIR/.emacs.d/bin/doom install
         else
             echo "Set CURRENT_EMACS_DISTRO!"
         fi
@@ -111,25 +68,25 @@ echo ">> Linking global files..."
 global_files=".emacs.d .oh-my-zsh"
 for file in $global_files; do
     unlink ~/$file
-    ln -s $dir/$file ~/
+    ln -s $DOTFILES_DIR/$file ~/
 done
 
 echo ">> Linking common files..."
-common_files=".doom.d .oh-my-zsh.d .percol.d bin .profile .bashrc compile_flags.txt .clang-tidy .clang_complete .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .tmux_light.conf .tmux_dark.conf .sbclrc .rustfmt.toml .ycm_extra_conf.py  "
+common_files=".doom.d .oh-my-zsh.d .percol.d bin .profile .bashrc .clang-tidy .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .tmux_light.conf .tmux_dark.conf .sbclrc .rustfmt.toml .ycm_extra_conf.py"
 for file in $common_files; do
     unlink ~/$file
-    ln -s $dir/Common/$file ~/
+    ln -s $DOTFILES_DIR/Common/$file ~/
 done
 
 echo ">> Linking other files..."
-files=".spacemacs.d .ccls .clang-format .gitconfig .tmux.conf .zshenv .zshrc "
+files=".spacemacs.d .ccls .clang-format .gitconfig .tmux.conf .zshenv .zshrc"
 for file in $files; do
     unlink ~/$file
 
     if [[ $CURRENT_ENV == "HOME" ]]; then
-        ln -s $dir/Home/$file ~/
+        ln -s $DOTFILES_DIR/Home/$file ~/
     elif [[ $CURRENT_ENV == "WORK" ]]; then
-        ln -s $dir/Work/$file ~/
+        ln -s $DOTFILES_DIR/Work/$file ~/
     fi
 done
 

@@ -1,8 +1,7 @@
 #!/bin/sh
 
-#
-# Functions
-#
+. $(dirname "$0")/common.sh
+
 show_usage() {
   echo "Usage:"
   echo "    ./create_cpp_project.sh        -> show this message"
@@ -10,22 +9,16 @@ show_usage() {
   echo ""
 }
 
-check() {
-  if [ $1 -ne 0 ]; then
-    echo ""
-    echo ">>> This is an error, do something else... We don't know what's wrong here!!!"
-    echo ""
-    exit $1
-  fi
-}
-
 #
 # Run baby, run!
 #
+
 if [ -z "$1" ] || [ -z "$2" ] ; then
   show_usage
   exit 1
 fi
+
+DOTFILES_DIR=$(find_dotfiles)
 
 BUILD_SYSTEM=undefined
 if [ "$1" = make ]; then
@@ -61,13 +54,13 @@ if [ ! -d $2 ]; then
   cp ~/.clang-format $2/
   check $?
 
-  cp ~/compile_flags.txt $2/
+  cp $DOTFILES_DIR/Common/compile_flags.txt $2/
   check $?
 
   cp ~/.clang-tidy $2/
   check $?
 
-  # cp ~/.ccls $2/
+  # cp $DOTFILES_DIR/Common/.ccls $2/
   # check $?
 
   echo ">>> Done!"
