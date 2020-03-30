@@ -38,13 +38,13 @@
             :desc "Deft"              :n "n" #'deft)
 
         ;;;; Buffers
-        (:prefix "b"
+        (:prefix ("b" . "buffers")
             :desc "Rename buffer" :n "R" #'rename-buffer
             :desc "Kill buffer"   :n "d" #'kill-this-buffer ; consistency with `SPC w d'
             :desc "Ibuffer"       :n "I" #'ibuffer)
 
         ;;;; Open
-        (:prefix "o"
+        (:prefix ("o" . "open")
             :desc "Dired" :n "d" #'dired
             :desc "Scratch Buffer" :n "s" #'doom/open-scratch-buffer
             (:when (featurep! :ui neotree)
@@ -56,7 +56,7 @@
                 :desc "File in treemacs" :n "N" #'+treemacs/find-file))
 
         ;;;; Windows
-        (:prefix "w"
+        (:prefix ("w" . "windows")
             :desc "Popup raise"    :n "p" #'+popup/raise
             :desc "Maximize frame" :n "M" #'toggle-frame-maximized
             :desc "Delete window"  :n "d" #'evil-quit)
@@ -117,14 +117,14 @@
                 :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))
 
         ;;;; Search
-        (:prefix "s"
+        (:prefix ("s" . "search")
             :desc "Search directory"             "d" #'+ivy/project-search-from-cwd
             :desc "Search directory (all files)" "D" (lambda! (+ivy/project-search-from-cwd t))
             :desc "Search project"               "p" #'+ivy/project-search
             :desc "Search project (all files)"   "P" (lambda! (+ivy/project-search t)))
 
         ;;;; Quit
-        (:prefix "q"
+        (:prefix ("q" . "quit")
             :desc "Restart Emacs"                "r" #'doom/restart
             :desc "Restart & restore Emacs"      "R" #'doom/restart-and-restore
             :desc "Save buffers and kill server" "Q" #'save-buffers-kill-emacs)
