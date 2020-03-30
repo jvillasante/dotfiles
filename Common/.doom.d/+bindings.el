@@ -32,19 +32,19 @@
 
     (:leader
         ;;;; Applications
-        (:prefix ("a" . "application")
+        (:prefix ("a" . "Application")
             :desc "Elfeed Rss Reader" :n "f" #'elfeed
             ;; :desc "Elfeed Rss Reader" :n "r" #'+my/elfeed-load-db-and-open
             :desc "Deft"              :n "n" #'deft)
 
         ;;;; Buffers
-        (:prefix ("b" . "buffers")
+        (:prefix ("b" . "Buffers")
             :desc "Rename buffer" :n "R" #'rename-buffer
             :desc "Kill buffer"   :n "d" #'kill-this-buffer ; consistency with `SPC w d'
             :desc "Ibuffer"       :n "I" #'ibuffer)
 
         ;;;; Open
-        (:prefix ("o" . "open")
+        (:prefix ("o" . "Open")
             :desc "Dired" :n "d" #'dired
             :desc "Scratch Buffer" :n "s" #'doom/open-scratch-buffer
             (:when (featurep! :ui neotree)
@@ -56,17 +56,17 @@
                 :desc "File in treemacs" :n "N" #'+treemacs/find-file))
 
         ;;;; Windows
-        (:prefix ("w" . "windows")
+        (:prefix ("w" . "Windows")
             :desc "Popup raise"    :n "p" #'+popup/raise
             :desc "Maximize frame" :n "M" #'toggle-frame-maximized
             :desc "Delete window"  :n "d" #'evil-quit)
 
         ;;; Files
-        (:prefix ("f" . "file")
+        (:prefix ("f" . "File")
             :desc "Find git file" :n "g" #'counsel-git)
 
         ;;;; Doom
-        (:prefix ("d" . "doom")
+        (:prefix ("d" . "Doom")
             :desc "Dashboard"                 :n  "d" #'+doom-dashboard/open
             :desc "Recent files"              :n  "f" #'recentf-open-files
             :desc "Popup other"               :n  "o" #'+popup/other
@@ -87,7 +87,7 @@
             :desc "Toggle modal edition mode" :n  "m" #'modalka-global-mode)
 
         ;;;; Code
-        (:prefix ("c" . "code")
+        (:prefix ("c" . "Code")
             :desc "Compile"                     :n "c" #'compile
             :desc "Make"                        :n "m" #'+make/run
             :desc "Jump to definition"          :n "d" #'+lookup/definition
@@ -117,14 +117,14 @@
                 :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))
 
         ;;;; Search
-        (:prefix ("s" . "search")
+        (:prefix ("s" . "Search")
             :desc "Search directory"             "d" #'+ivy/project-search-from-cwd
             :desc "Search directory (all files)" "D" (lambda! (+ivy/project-search-from-cwd t))
             :desc "Search project"               "p" #'+ivy/project-search
             :desc "Search project (all files)"   "P" (lambda! (+ivy/project-search t)))
 
         ;;;; Quit
-        (:prefix ("q" . "quit")
+        (:prefix ("q" . "Quit")
             :desc "Restart Emacs"                "r" #'doom/restart
             :desc "Restart & restore Emacs"      "R" #'doom/restart-and-restore
             :desc "Save buffers and kill server" "Q" #'save-buffers-kill-emacs)
