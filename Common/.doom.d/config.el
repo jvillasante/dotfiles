@@ -120,16 +120,13 @@
     (setq lsp-ui-sideline-enable nil))
 
 (after! rustic
-    ;; fixes problem with rust-analyzer
-    ;; (setq lsp-signature-auto-activate nil)
-
     ;; (sp-local-pair 'rustic-mode "|" "|") ;; closures, can interefere bitwise operators
     ;; (sp-local-pair 'rustic-mode "<" ">") ;; messes with comparison operator
     (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
 
     ;; configs
-    ;; (setq rustic-lsp-server 'rls)
-    (setq rustic-lsp-server 'rust-analyzer))
+    ;; (setq rustic-lsp-server 'rust-analyzer)
+    (setq rustic-lsp-server 'rls))
 
 (after! deft
     (setq
