@@ -28,13 +28,10 @@
     (push ".+\\.mp3$" recentf-exclude))
 
 (after! projectile
-    (setq projectile-require-project-root t)
-    (setq projectile-project-root-files-bottom-up '(".projectile" ".git" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs"))
+    ;; (setq projectile-require-project-root t)
+    ;; (setq projectile-project-root-files-bottom-up '(".projectile" ".git" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs"))
 
-    (setq projectile-sort-order 'recentf)
-
-    (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".emacs.d" +my/dotfiles-path))
-    (add-to-list 'projectile-globally-ignored-directories (expand-file-name ".rustup" +my/home-path)))
+    (setq projectile-sort-order 'recentf))
 
 (after! ivy
     (setq ivy-display-style nil
@@ -107,6 +104,11 @@
     (setq slime-net-coding-system 'utf-8-unix))
 
 (after! lsp-mode
+    (setq
+        ;; lsp-eldoc-render-all t
+        lsp-signature-auto-activate t
+        lsp-signature-doc-lines 1)
+
     (setq
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
