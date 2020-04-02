@@ -28,8 +28,8 @@
     (push ".+\\.mp3$" recentf-exclude))
 
 (after! projectile
-    ;; (setq projectile-require-project-root t)
-    ;; (setq projectile-project-root-files-bottom-up '(".projectile" ".git" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs"))
+    (setq projectile-require-project-root t)
+    (setq projectile-project-root-files-bottom-up '(".projectile" ".git"))
 
     (setq projectile-sort-order 'recentf))
 
