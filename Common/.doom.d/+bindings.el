@@ -156,18 +156,6 @@
                 [remap xref-find-definitions] #'lsp-ui-peek-find-definitions
                 [remap xref-find-references] #'lsp-ui-peek-find-references))
 
-        ;;;; Company
-        (:after company
-            (:map company-active-map
-                [tab] nil
-                "TAB" nil))
-
-        ;;;; Yasnippet
-        (:after yasnippet
-            (:map yas-keymap
-                [tab] #'yas-next-field
-                "TAB" #'yas-next-field))
-
         ;;;; Flycheck
         (:after flycheck
             (:map flycheck-mode-map
