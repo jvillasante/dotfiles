@@ -117,7 +117,7 @@ This function should only modify configuration layer settings."
              neotree
              pass
              (elfeed :variables
-                 rmh-elfeed-org-files (list (concat jv/dropbox-path "/Personal/elfeed/elfeed.org")))
+                 rmh-elfeed-org-files (list (concat jv/dropbox-path "/Apps/elfeed/elfeed.org")))
 
              ;; private layers
              jv

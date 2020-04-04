@@ -83,7 +83,7 @@
                        ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
         ;; organizer directory
-        (setq org-directory (concat jv/dropbox-path "/Personal/org/"))
+        (setq org-directory (concat jv/dropbox-path "/Apps/org/"))
         (setq org-default-notes-file (concat org-directory "inbox.org"))
         (setq jv/org-bookmarks-file (concat org-directory "bookmarks.org"))
 

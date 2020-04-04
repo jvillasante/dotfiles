@@ -116,7 +116,7 @@
 
     ;; C++
     (setq lsp-clients-clangd-args
-        '("--j=4" "--log=error" "--clang-tidy")))
+        '("--j=4" "--log=error" "--background-index" "--header-insertion=never" "--clang-tidy")))
 
 (after! lsp-ui
     (setq lsp-ui-sideline-enable nil))
@@ -132,7 +132,7 @@
 
 (after! deft
     (setq
-        deft-directory (expand-file-name "Personal/org/notes" +my/dropbox-path)
+        deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
         deft-recursive t
@@ -145,10 +145,10 @@
         deft-auto-save-interval 0))
 
 (after! elfeed
-    (setq elfeed-db-directory (expand-file-name "Personal/elfeed/elfeed_db" +my/dropbox-path)))
+    (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path)))
 
 (after! elfeed-org
-    (setq rmh-elfeed-org-files (list (expand-file-name "Personal/elfeed/elfeed.org" +my/dropbox-path))))
+    (setq rmh-elfeed-org-files (list (expand-file-name "Apps/elfeed/elfeed.org" +my/dropbox-path))))
 
 (after! magit
     (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
@@ -425,7 +425,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
                    ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
     ;; organizer directory
-    (setq org-directory (expand-file-name "Personal/org/" +my/dropbox-path))
+    (setq org-directory (expand-file-name "Apps/org/" +my/dropbox-path))
     (setq org-default-notes-file (concat org-directory "inbox.org"))
     (setq +my/org-bookmarks-file (concat org-directory "bookmarks.org"))
 

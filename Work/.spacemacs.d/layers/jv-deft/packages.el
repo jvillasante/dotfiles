@@ -4,7 +4,7 @@
 
 (defun jv-deft/post-init-deft ()
     (setq
-        deft-directory (concat jv/dropbox-path "/Personal/org/notes")
+        deft-directory (concat jv/dropbox-path "/Apps/org/notes")
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
         deft-recursive t
