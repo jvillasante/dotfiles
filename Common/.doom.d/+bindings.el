@@ -196,7 +196,10 @@
         (:map neotree-mode-map
             :desc "Neotree Hydra" :n "?" #'+my/hydra-neotree/body))
 
-    ;; (:after elfeed
-    ;;     (:map elfeed-search-mode-map
-    ;;         :desc "Elfeed Quit" :n "q" #'+my/elfeed-save-db-and-bury))
+    (:after elfeed
+        (:map elfeed-search-mode-map
+            :desc "Elfeed mark read"      :n "r" #'elfeed-search-untag-all-unread
+            :desc "Elfeed mark unread"    :n "u" #'elfeed-search-tag-all-unread
+            :desc "Elfed open in browser" :n "b" #'elfeed-search-browse-url
+            :desc "Elfeed quit"           :n "q" #'elfeed-kill-buffer))
     )

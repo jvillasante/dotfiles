@@ -145,6 +145,7 @@
         deft-auto-save-interval 0))
 
 (after! elfeed
+    (setq elfeed-search-filter "@6-months-ago +unread")
     (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path)))
 
 (after! elfeed-org

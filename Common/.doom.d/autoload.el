@@ -93,19 +93,3 @@ at least the fill column. Place the point after the comment box. http://irreal.o
     (interactive)
     (mark-whole-buffer)
     (elfeed-search-untag-all-unread))
-
-;;;###autoload
-(defun +my/elfeed-load-db-and-open ()
-    "Wrapper to load the elfeed db from disk before opening"
-    (interactive)
-    (elfeed-db-load)
-    (elfeed)
-    (elfeed-search-update--force))
-
-;;;###autoload
-(defun +my/elfeed-save-db-and-bury ()
-    "Wrapper to save the elfeed db to disk before burying buffer"
-    (interactive)
-    (elfeed-db-save)
-    (quit-window))
-
