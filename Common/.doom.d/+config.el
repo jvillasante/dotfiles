@@ -42,7 +42,7 @@
     scroll-margin 3
 
     ;; use space to indent by default
-    indent-tabs-mode nil
+    ;; indent-tabs-mode nil
 
     ;; set appearance of a tab that is represented by 4 spaces
     evil-shift-width 4
