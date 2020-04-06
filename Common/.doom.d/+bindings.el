@@ -199,8 +199,8 @@
     (:after elfeed
         (:map elfeed-search-mode-map
             :desc "Elfeed update"         :n "gr" #'elfeed-update
-            :desc "Elfeed mark read"      :n "r" #'elfeed-search-untag-all-unread
-            :desc "Elfeed mark unread"    :n "u" #'elfeed-search-tag-all-unread
-            :desc "Elfed open in browser" :n "b" #'elfeed-search-browse-url
-            :desc "Elfeed quit"           :n "q" #'elfeed-kill-buffer))
+            :desc "Elfeed mark read"      :n "r"  #'elfeed-search-untag-all-unread
+            :desc "Elfeed mark unread"    :n "u"  #'elfeed-search-tag-all-unread
+            :desc "Elfed open in browser" :n "b"  #'elfeed-search-browse-url
+            :desc "Elfeed quit"           :n "q"  #'elfeed-kill-buffer))
     )
