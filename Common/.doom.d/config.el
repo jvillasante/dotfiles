@@ -116,7 +116,7 @@
 
     ;; C++
     (setq lsp-clients-clangd-args
-        '("--j=4" "--log=error" "--background-index" "--header-insertion=never" "--clang-tidy")))
+        '("--j=4" "--log=error" "--background-index" "--header-insertion=never" "--completion-style=detailed" "--clang-tidy")))
 
 (after! lsp-ui
     (setq lsp-ui-sideline-enable nil))
