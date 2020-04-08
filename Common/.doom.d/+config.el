@@ -98,6 +98,9 @@
 (setq process-coding-system-alist
     (cons '("grep" utf-8 . utf-8) process-coding-system-alist))
 
+;; no whitespace-mode, just enabled for makefiles
+(advice-add #'doom-highlight-non-default-indentation-h :override #'ignore)
+
 ;; ???
 (global-auto-revert-mode t)
 
@@ -132,12 +135,11 @@
     (lambda ()
         (set-fill-column 110)
         (flyspell-prog-mode)))
-(add-hook 'text-mode-hook 'turn-on-flyspell)
-(add-hook 'makefile-mode-hook 'whitespace-mode)
-;; (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
-;; (remove-hook 'rust-mode-hook 'adaptive-wrap-prefix-mode)
-(add-hook 'compilation-finish-functions '+my/bury-compile-buffer-if-successful)
-;; (remove-hook 'compilation-finish-functions '+my/bury-compile-buffer-if-successful)
+(add-hook 'text-mode-hook #'turn-on-flyspell)
+(add-hook 'phyton-mode-hook #'whitespace-mode)
+(add-hook 'makefile-mode-hook #'whitespace-mode)
+(add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
+;; (remove-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 (add-hook! 'markdown-mode-hook
     (progn
         (toggle-word-wrap nil)
