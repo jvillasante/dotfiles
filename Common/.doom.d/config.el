@@ -106,6 +106,7 @@
 (after! lsp-mode
     (setq
         ;; lsp-eldoc-render-all t
+        ;; lsp-signature-render-documentation
         lsp-signature-auto-activate t
         lsp-signature-doc-lines 1)
 
