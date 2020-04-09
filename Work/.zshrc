@@ -82,7 +82,6 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 #
 
 alias ls='ls -AlFh --color'
-alias vi=vim                         # vi is now vim
 alias em="emacsclient -c -a emacs"   # opens the GUI with alternate non-daemon
 alias emt="emacsclient -t"           # used to be "emacs -nw"
 alias semt="sudo emacsclient -t"     # used to be "sudo emacs -nw"
@@ -98,6 +97,12 @@ alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -p
 if type gpg2 >/dev/null 2>/dev/null; then
     alias gpg='gpg2'
 fi
+
+# vim
+if type nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+fi
+alias vi=vim
 
 #
 # Mac Stuff

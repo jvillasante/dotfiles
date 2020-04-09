@@ -128,8 +128,10 @@
     (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
 
     ;; configs
-    ;; (setq rustic-lsp-server 'rust-analyzer)
-    (setq rustic-lsp-server 'rls))
+    (setq
+        ;; rustic-lsp-server 'rls
+        rustic-lsp-server 'rust-analyzer
+        rustic-lsp-client 'lsp-mode))
 
 (after! deft
     (setq

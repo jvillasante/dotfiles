@@ -20,3 +20,6 @@
         (setq
             +my/zsh-path "/usr/bin/zsh"
             +my/clang-path "/usr/bin/clang")))
+
+;; (when (string= (system-name) "your.ubuntu.host")
+;;   (color-theme-initialize))
