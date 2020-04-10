@@ -9,6 +9,9 @@
     (after! undo-tree
         (global-undo-tree-mode -1)))
 
+(after! dash-docs
+    (setq dash-docs-browser-func #'browse-url))
+
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
