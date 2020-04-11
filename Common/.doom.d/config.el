@@ -125,7 +125,11 @@
         '("--j=4" "--log=error" "--background-index" "--header-insertion=never" "--completion-style=detailed" "--clang-tidy")))
 
 (after! lsp-ui
-    (setq lsp-ui-sideline-enable nil))
+    (setq
+        lsp-ui-peek-enable t
+        lsp-ui-peek-list-width 60
+        lsp-ui-peek-peek-height 25
+        lsp-ui-sideline-enable nil))
 
 (after! rustic
     ;; (sp-local-pair 'rustic-mode "|" "|") ;; closures, can interefere bitwise operators

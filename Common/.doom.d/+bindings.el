@@ -100,6 +100,7 @@
             :desc "Delete trailing newlines"    :n "W" #'doom/delete-trailing-newlines
             :desc "List errors"                 :n "x" #'flycheck-list-errors
             :desc "Describe thing at point"     :n "t" #'lsp-describe-thing-at-point
+            :desc "Lookup dash documentation"   :n "s" #'+lookup:dash
             (:prefix ("g" . "Go to")
                 :desc "Implementation"          :n "i" #'lsp-goto-implementation
                 :desc "Definition"              :n "d" #'lsp-goto-type-definition

@@ -4,14 +4,18 @@
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
 
-(defun +my/c-mode-common-hook ()
-    (setq
-        c-default-style "stroustrup"
-        c-basic-offset 4
-        c-basic-indent 4)
-    (c-set-offset 'substatement-open 0))
-(add-hook 'c-mode-common-hook '+my/c-mode-common-hook)
+(add-hook 'c-mode-common-hook
+    (lambda ()
+        (c-set-offset 'substatement-open 0)
+        (c-set-offset 'innamespace 0) ;; Do not indent namespaces.
+        (c-set-offset 'arglist-intro '+) ;; indent function args properly
+        (c-set-offset 'arglist-cont-nonempty '+)
+        (c-toggle-hungry-state 1)          ;; use hungry delete.
+        (auto-fill-mode 1)                 ;; auto fill comments
+        (setq c-basic-offset tab-width)
+        (setq c-default-style "stroustrup")))
 
 (defvar +my/cpp-default-mode-for-headers 'c++-mode
     "Default mode to open header files. Can be `c-mode' or `c++-mode'.")
