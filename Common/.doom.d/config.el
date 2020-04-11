@@ -108,14 +108,12 @@
 
 (after! lsp-mode
     (setq
-        ;; lsp-eldoc-render-all t
-        ;; lsp-signature-render-documentation
+        lsp-eldoc-render-all t
+        lsp-signature-render-documentation t
         lsp-signature-auto-activate t
         lsp-signature-doc-lines 1)
 
     (setq
-        lsp-enable-snippet nil
-        lsp-auto-configure t
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
         lsp-enable-on-type-formatting nil)
