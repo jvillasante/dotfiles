@@ -20,9 +20,9 @@ if ask "Do you want to upgrade emacs?"; then
     check $?
 fi
 
-if ask "Do you want to update emacs?"; then
-    ~/.emacs.d/bin/doom update
-    check $?
+if ask "Do you want to sync emacs?"; then
+    # ~/.emacs.d/bin/doom update
+    # check $?
 
     ~/.emacs.d/bin/doom sync
     check $?
