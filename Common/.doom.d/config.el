@@ -108,7 +108,7 @@
 
 (after! lsp-mode
     (setq
-        lsp-eldoc-render-all t
+        ;; lsp-eldoc-render-all t
         lsp-signature-render-documentation t
         lsp-signature-auto-activate t
         lsp-signature-doc-lines 1)
@@ -487,10 +487,6 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
     ;; refiling
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                         (org-agenda-files :maxlevel . 9)))))
-
-(use-package! pinentry
-    :init
-    (setq epa-pinentry-mode 'loopback))
 
 (use-package! crux
     :bind (("C-c o" . crux-open-with)))

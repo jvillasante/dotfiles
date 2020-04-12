@@ -194,8 +194,8 @@
     ;;literate
     (default
         +bindings
-        +snippets
-        +evil-commands
+        ;; +snippets
+        ;; +evil-commands
         +smartparens)
 
     ;; My Private modules

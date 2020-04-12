@@ -1,17 +1,15 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
-(disable-packages! glsl-mode cuda-mode opencl-mode latex-preview-pane org-ref nose anaconda-mode)
-
 (package! modus-operandi-theme)
 (package! modus-vivendi-theme)
+(package! solaire-mode :disable t)
 
 (package! ivy-prescient)
 (package! dired-quick-sort)
 (package! ibuffer-vc)
 
 (package! sr-speedbar)
-(package! pinentry)
 (package! crux)
 (package! visual-regexp)
 
