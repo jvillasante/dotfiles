@@ -24,13 +24,13 @@ if hash rust-analyzer 2>/dev/null; then
     if ask "Do you want to update rust-analyzer?"; then
         CURRENT_ENV=$(find_env)
         RUST_ANALYZER_DIR="NOT_FOUND"
-        if [[ $CURRENT_ENV == "HOME" ]]; then
+        if [ $CURRENT_ENV = "HOME" ]; then
             RUST_ANALYZER_DIR=~/Workspace/Software/rust/rust-analyzer 
-        elif [[ $CURRENT_ENV == "WORK" ]]; then
+        elif [ $CURRENT_ENV = "WORK" ]; then
             RUST_ANALYZER_DIR=~/Workspace/Software/rust/rust-analyzer
         fi
 
-        if [[ -d $RUST_ANALYZER_DIR ]]; then
+        if [ -d $RUST_ANALYZER_DIR ]; then
             (cd $RUST_ANALYZER_DIR && git pull && cargo xtask install --server)
         fi
     fi

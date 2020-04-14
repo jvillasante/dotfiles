@@ -57,9 +57,9 @@ find_os() {
 find_dotfiles() {
     local DOTFILES_DIR="NOT_FOUND"
     local CURRENT_ENV=$(find_env)
-    if [[ $CURRENT_ENV == "HOME" ]]; then
+    if [ $CURRENT_ENV = "HOME" ]; then
         DOTFILES_DIR=~/Workspace/Others/dotfiles     # dotfiles directory
-    elif [[ $CURRENT_ENV == "WORK" ]]; then
+    elif [ $CURRENT_ENV = "WORK" ]; then
         DOTFILES_DIR=~/Workspace/Others/dotfiles     # dotfiles directory
     fi
     echo "$DOTFILES_DIR"

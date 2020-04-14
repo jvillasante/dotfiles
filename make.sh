@@ -16,15 +16,15 @@ echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS' at '$DOTFILES_DIR'."
 
 install_zsh () {
     # Test to see if zshell is installed.  If it is:
-    if [[ $CURRENT_OS == "LINUX" ]]; then
+    if [ $CURRENT_OS = "LINUX" ]; then
         if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
             # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-            if [[ ! -d $DOTFILES_DIR/.oh-my-zsh/ ]]; then
+            if [ ! -d $DOTFILES_DIR/.oh-my-zsh/ ]; then
                 git clone http://github.com/robbyrussell/oh-my-zsh.git $DOTFILES_DIR/.oh-my-zsh
             fi
 
             # Set the default shell to zsh if it isn't currently set to zsh
-            if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
+            if [ ! $(echo $SHELL) = $(which zsh) ]; then
                 chsh -s $(which zsh)
             fi
         else
@@ -32,10 +32,10 @@ install_zsh () {
             sudo apt-get install zsh
             install_zsh
         fi
-    elif [[ $CURRENT_OS == "OSX" ]]; then
+    elif [ $CURRENT_OS = "OSX" ]; then
         if [ -f /usr/local/bin/zsh -o -f /usr/bin/zsh ]; then
             # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-            if [[ ! -d $DOTFILES_DIR/.oh-my-zsh/ ]]; then
+            if [ ! -d $DOTFILES_DIR/.oh-my-zsh/ ]; then
                 git clone http://github.com/robbyrussell/oh-my-zsh.git $DOTFILES_DIR/.oh-my-zsh
             fi
 
@@ -49,10 +49,10 @@ install_zsh () {
 # CURRENT_EMACS_DISTRO="SPACEMACS"
 CURRENT_EMACS_DISTRO="DOOM_EMACS"
 install_emacs () {
-    if [[ ! -d $DOTFILES_DIR/.emacs.d/ ]]; then
-        if [[ $CURRENT_EMACS_DISTRO == "SPACEMACS" ]]; then
+    if [ ! -d $DOTFILES_DIR/.emacs.d/ ]; then
+        if [ $CURRENT_EMACS_DISTRO = "SPACEMACS" ]; then
             git clone -b develop --single-branch git@github.com:syl20bnr/spacemacs.git $DOTFILES_DIR/.emacs.d
-        elif [[ $CURRENT_EMACS_DISTRO == "DOOM_EMACS" ]]; then
+        elif [ $CURRENT_EMACS_DISTRO = "DOOM_EMACS" ]; then
             git clone -b develop --single-branch git@github.com:hlissner/doom-emacs.git $DOTFILES_DIR/.emacs.d
             $DOTFILES_DIR/.emacs.d/bin/doom install
         else
@@ -83,9 +83,9 @@ files=".spacemacs.d .ccls .clang-format .gitconfig .tmux.conf .zshenv .zshrc"
 for file in $files; do
     unlink ~/$file
 
-    if [[ $CURRENT_ENV == "HOME" ]]; then
+    if [ $CURRENT_ENV = "HOME" ]; then
         ln -s $DOTFILES_DIR/Home/$file ~/
-    elif [[ $CURRENT_ENV == "WORK" ]]; then
+    elif [ $CURRENT_ENV = "WORK" ]; then
         ln -s $DOTFILES_DIR/Work/$file ~/
     fi
 done
