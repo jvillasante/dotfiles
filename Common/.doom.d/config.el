@@ -9,6 +9,9 @@
     (after! undo-tree
         (global-undo-tree-mode -1)))
 
+(after! evil
+  (setq evil-want-fine-undo t))
+
 (after! dash-docs
     (setq dash-docs-browser-func #'browse-url))
 
@@ -31,10 +34,15 @@
     (push ".+\\.mp3$" recentf-exclude))
 
 (after! projectile
-    (setq projectile-require-project-root t)
-    (setq projectile-project-root-files-bottom-up '(".projectile" ".git"))
+    (defun +my/projectile-ignore-project-p (project-root)
+        (string-match-p "/\\.emacs\\.d/\\.local/straight/repos" project-root))
 
-    (setq projectile-sort-order 'recentf))
+    (setq
+        projectile-require-project-root t
+        projectile-project-root-files-bottom-up '(".projectile" ".git")
+        projectile-sort-order 'recentf
+        projectile-indexing-method 'hybrid
+        projectile-ignored-project-function #'+my/projectile-ignore-project-p))
 
 (after! ivy
     (setq ivy-display-style nil
@@ -343,7 +351,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
             ("s" neotree-hidden-file-toggle))))
 
 (after! evil-org
-    (setq org-tab-first-hook (delete '+org-cycle-only-current-subtree-h org-tab-first-hook)))
+  (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! org
     ;; hook
