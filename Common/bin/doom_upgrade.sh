@@ -2,7 +2,7 @@
 
 . $(dirname "$0")/common.sh
 
-if ask "Do you want to upgrade emacs?"; then
+if ask "Do you want to upgrade doom?"; then
     DOTFILES_DIR=$(find_dotfiles)
     ${DOTFILES_DIR}/make.sh
     check $?
