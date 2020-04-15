@@ -370,6 +370,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
     (setq org-agenda-window-setup (quote current-window)) ;; open agenda in current window
     (setq org-startup-indented t)
     (setq org-indent-mode t)
+    (setq org-startup-folded t)
     (setq org-list-description-max-indent 5) ;; set maximum indentation for description lists
     (setq org-adapt-indentation nil) ;; prevent demoting heading also shifting text inside sections
     (setq org-cycle-separator-lines 2)
