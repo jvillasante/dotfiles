@@ -1,56 +1,56 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; email/mu4e/config.el
 
-;; call EWW to display HTML messages
-(defun +my/view-in-eww (msg)
-    (eww-browse-url (concat "file://" (mu4e~write-body-to-html msg))))
-
-;; search for sender
-(defun +my/search-for-sender (msg)
-    "Search for messages sent by the sender of the message at point."
-    (mu4e-headers-search
-        (concat "from:" (cdar (mu4e-message-field msg :from)))))
-
-;; Show number of recipients
-(defun +my/show-number-of-recipients (msg)
-    "Display the number of recipients for the message at point."
-    (message "Number of recipients: %d"
-        (+ (length (mu4e-message-field msg :to))
-            (length (mu4e-message-field msg :cc)))))
-
-(defun +my/mu4e-message-maildir-matches (msg rx)
-    (when rx
-        (if (listp rx)
-            ;; If rx is a list, try each one for a match
-            (or (+my/mu4e-message-maildir-matches msg (car rx))
-                (+my/mu4e-message-maildir-matches msg (cdr rx)))
-            ;; Not a list, check rx
-            (string-match rx (mu4e-message-field msg :maildir)))))
-
-;; Choose account label to feed msmtp -a option based on From header
-;; in Message buffer; This function must be added to
-;; message-send-mail-hook for on-the-fly change of From address before
-;; sending message since message-send-mail-hook is processed right
-;; before sending message.
-(defun +my/choose-msmtp-account ()
-    (if (message-mail-p)
-        (save-excursion
-            (let*
-                ((from (save-restriction
-                           (message-narrow-to-headers)
-                           (message-fetch-field "from")))
-                    (account
-                        (cond
-                            ((string-match "jvillasantegomez@gmail.com" from) "gmail")
-                            ((string-match "julio.villasante@icloud.com" from) "iCloud"))))
-                (setq message-sendmail-extra-arguments (list '"-a" account))))))
-
 (use-package! mu4e
     :commands mu4e mu4e-compose-new
-    :init
+    :config
     (require 'mu4e-contrib)
     (require 'org-mu4e)
     (require 'gnus-dired)
+
+    ;; call EWW to display HTML messages
+    (defun +my/view-in-eww (msg)
+        (eww-browse-url (concat "file://" (mu4e~write-body-to-html msg))))
+
+    ;; search for sender
+    (defun +my/search-for-sender (msg)
+        "Search for messages sent by the sender of the message at point."
+        (mu4e-headers-search
+            (concat "from:" (cdar (mu4e-message-field msg :from)))))
+
+    ;; Show number of recipients
+    (defun +my/show-number-of-recipients (msg)
+        "Display the number of recipients for the message at point."
+        (message "Number of recipients: %d"
+            (+ (length (mu4e-message-field msg :to))
+                (length (mu4e-message-field msg :cc)))))
+
+    (defun +my/mu4e-message-maildir-matches (msg rx)
+        (when rx
+            (if (listp rx)
+                ;; If rx is a list, try each one for a match
+                (or (+my/mu4e-message-maildir-matches msg (car rx))
+                    (+my/mu4e-message-maildir-matches msg (cdr rx)))
+                ;; Not a list, check rx
+                (string-match rx (mu4e-message-field msg :maildir)))))
+
+    ;; Choose account label to feed msmtp -a option based on From header
+    ;; in Message buffer; This function must be added to
+    ;; message-send-mail-hook for on-the-fly change of From address before
+    ;; sending message since message-send-mail-hook is processed right
+    ;; before sending message.
+    (defun +my/choose-msmtp-account ()
+        (if (message-mail-p)
+            (save-excursion
+                (let*
+                    ((from (save-restriction
+                               (message-narrow-to-headers)
+                               (message-fetch-field "from")))
+                        (account
+                            (cond
+                                ((string-match "jvillasantegomez@gmail.com" from) "gmail")
+                                ((string-match "julio.villasante@icloud.com" from) "iCloud"))))
+                    (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
     ;; Common Configs
     (setq
@@ -96,6 +96,7 @@
         mu4e-compose-signature-auto-include t
         mu4e-headers-include-related t
         mu4e-confirm-quit nil
+        mu4e-compose-format-flowed t ; visual-line-mode + auto-fill upon sending
         mu4e-compose-dont-reply-to-self t
         mu4e-compose-keep-self-cc nil
         mu4e-headers-auto-update t
@@ -105,8 +106,11 @@
         message-citation-line-format "On %a %d %b %Y at %R, %f wrote:\n"
         message-citation-line-function 'message-insert-formatted-citation-line
         mu4e-headers-results-limit 250
-        mu4e-completing-read-function 'completing-read
         mu4e-context-policy 'pick-first
+        mu4e-completing-read-function
+        (cond ((featurep! :completion ivy) #'ivy-completing-read)
+            ((featurep! :completion helm) #'completing-read)
+            (t #'ido-completing-read))
         ;; mu4e-index-cleanup nil      ;; don't do a full cleanup check
         ;; mu4e-index-lazy-check t     ;; don't consider up-to-date dirs
         )
@@ -233,17 +237,12 @@
                               ("date:7d..now" "Last 7 days" ?w)
                               ("mime:image/*" "Messages with images" ?p)
                               ("size:5M..500M" "Big messages" ?b)))
-    ;; (add-to-list 'mu4e-bookmarks
-    ;;     (make-mu4e-bookmark
-    ;;         :name "Inbox"
-    ;;         :query "\\\\Inbox"
-    ;;         :key ?i))
+
     (add-to-list 'mu4e-bookmarks
         (make-mu4e-bookmark
             :name "All Inboxes"
             :query "maildir:/jvillasantegomez@gmail.com/INBOX OR maildir:/julio.villasante@icloud.com/INBOX"
             :key ?i))
-
 
     ;; mu4e - attachment
     (defun gnus-dired-mail-buffers ()
@@ -261,6 +260,13 @@
 
     ;; make shr/eww readable with dark themes
     (setq shr-color-visible-luminance-min 80)
+
+    (map! :localleader
+        :map mu4e-compose-mode-map
+        :desc "send and exit" "s" #'message-send-and-exit
+        :desc "kill buffer"   "d" #'message-kill-buffer
+        :desc "save draft"    "S" #'message-dont-send
+        :desc "attach"        "a" #'mail-add-attachment)
 
     ;; mu4e-alert
     (with-eval-after-load 'mu4e-alert
