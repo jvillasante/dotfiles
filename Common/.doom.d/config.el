@@ -269,9 +269,6 @@ T - tag prefix
     (dired-quick-sort-setup)
     (define-key dired-mode-map "s" 'hydra-dired-quick-sort/body))
 
-(after! treemacs
-    )
-
 (after! neotree
     (defadvice neo-buffer--get-nodes
         (after neo-buffer--get-nodes-new-sorter activate)
@@ -299,7 +296,7 @@ T - tag prefix
         ;; doom-neotree-enable-variable-pitch nil
         neo-autorefresh nil)
 
-    (when (eq 'darwin system-type)
+    (if IS-MAC
         (setq neo-default-system-application "open"))
 
     (setq neo-hidden-regexp-list

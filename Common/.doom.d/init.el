@@ -102,7 +102,8 @@
     (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
     lsp
-    macos             ; MacOS-specific commands
+    (:if IS-MAC
+        macos)        ; MacOS-specific commands
     magit             ; a git porcelain for Emacs
     make              ; run make tasks from Emacs
     pass              ; password manager for nerds
@@ -201,5 +202,6 @@
     :private
     ;; my-postframe
     my-eshell
-    my-mu4e
+    (:when (string= (system-name) "Julios-MacBook-Pro.local")
+        my-mu4e)
     my-cc)
