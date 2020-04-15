@@ -1,54 +1,56 @@
-(defconst jv-mu4e-packages
-    '(mu4e))
+;; -*- no-byte-compile: t; -*-
+;;; email/mu4e/config.el
 
-(defun jv-mu4e/post-init-mu4e ()
+;; call EWW to display HTML messages
+(defun +my/view-in-eww (msg)
+    (eww-browse-url (concat "file://" (mu4e~write-body-to-html msg))))
+
+;; search for sender
+(defun +my/search-for-sender (msg)
+    "Search for messages sent by the sender of the message at point."
+    (mu4e-headers-search
+        (concat "from:" (cdar (mu4e-message-field msg :from)))))
+
+;; Show number of recipients
+(defun +my/show-number-of-recipients (msg)
+    "Display the number of recipients for the message at point."
+    (message "Number of recipients: %d"
+        (+ (length (mu4e-message-field msg :to))
+            (length (mu4e-message-field msg :cc)))))
+
+(defun +my/mu4e-message-maildir-matches (msg rx)
+    (when rx
+        (if (listp rx)
+            ;; If rx is a list, try each one for a match
+            (or (+my/mu4e-message-maildir-matches msg (car rx))
+                (+my/mu4e-message-maildir-matches msg (cdr rx)))
+            ;; Not a list, check rx
+            (string-match rx (mu4e-message-field msg :maildir)))))
+
+;; Choose account label to feed msmtp -a option based on From header
+;; in Message buffer; This function must be added to
+;; message-send-mail-hook for on-the-fly change of From address before
+;; sending message since message-send-mail-hook is processed right
+;; before sending message.
+(defun +my/choose-msmtp-account ()
+    (if (message-mail-p)
+        (save-excursion
+            (let*
+                ((from (save-restriction
+                           (message-narrow-to-headers)
+                           (message-fetch-field "from")))
+                    (account
+                        (cond
+                            ((string-match "jvillasantegomez@gmail.com" from) "gmail")
+                            ((string-match "julio.villasante@icloud.com" from) "iCloud"))))
+                (setq message-sendmail-extra-arguments (list '"-a" account))))))
+
+(use-package! mu4e
+    :commands mu4e mu4e-compose-new
+    :init
     (require 'mu4e-contrib)
     (require 'org-mu4e)
     (require 'gnus-dired)
-
-    ;; call EWW to display HTML messages
-    (defun jv/view-in-eww (msg)
-        (eww-browse-url (concat "file://" (mu4e~write-body-to-html msg))))
-
-    ;; search for sender
-    (defun jv/search-for-sender (msg)
-        "Search for messages sent by the sender of the message at point."
-        (mu4e-headers-search
-            (concat "from:" (cdar (mu4e-message-field msg :from)))))
-
-    ;; Show number of recipients
-    (defun jv/show-number-of-recipients (msg)
-        "Display the number of recipients for the message at point."
-        (message "Number of recipients: %d"
-            (+ (length (mu4e-message-field msg :to))
-                (length (mu4e-message-field msg :cc)))))
-
-    (defun jv/mu4e-message-maildir-matches (msg rx)
-        (when rx
-            (if (listp rx)
-                ;; If rx is a list, try each one for a match
-                (or (jv/mu4e-message-maildir-matches msg (car rx))
-                    (jv/mu4e-message-maildir-matches msg (cdr rx)))
-                ;; Not a list, check rx
-                (string-match rx (mu4e-message-field msg :maildir)))))
-
-    ;; Choose account label to feed msmtp -a option based on From header
-    ;; in Message buffer; This function must be added to
-    ;; message-send-mail-hook for on-the-fly change of From address before
-    ;; sending message since message-send-mail-hook is processed right
-    ;; before sending message.
-    (defun jv/choose-msmtp-account ()
-        (if (message-mail-p)
-            (save-excursion
-                (let*
-                    ((from (save-restriction
-                               (message-narrow-to-headers)
-                               (message-fetch-field "from")))
-                        (account
-                            (cond
-                                ((string-match "jvillasantegomez@gmail.com" from) "gmail")
-                                ((string-match "julio.villasante@icloud.com" from) "iCloud"))))
-                    (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
     ;; Common Configs
     (setq
@@ -79,6 +81,7 @@
         mu4e-get-mail-command "offlineimap -o"
         mu4e-update-interval 300
         mu4e-view-show-images t
+        message-kill-buffer-on-exit t
         ;; mu4e-use-fancy-chars t
         ;; mu4e-view-prefer-html t
         ;; mu4e-html2text-command 'mu4e-shr2text
@@ -111,16 +114,16 @@
     ;; simple compose signature
     (setq mu4e-compose-signature
         (concat
-            "Kind Regards,\n"
+            "Regards,\n"
             "Julio C. Villasante\n"
             "--\n"
             "Sent from GNU Emacs\n"))
 
     ;; Actions
     (add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser) t)
-    (add-to-list 'mu4e-view-actions '("Eww view" . jv/view-in-eww) t)
-    (add-to-list 'mu4e-view-actions '("xsearch for sender" . jv/search-for-sender) t)
-    (add-to-list 'mu4e-headers-actions '("Number of recipients" . jv/show-number-of-recipients) t)
+    (add-to-list 'mu4e-view-actions '("Eww view" . +my/view-in-eww) t)
+    (add-to-list 'mu4e-view-actions '("xsearch for sender" . +my/search-for-sender) t)
+    (add-to-list 'mu4e-headers-actions '("Number of recipients" . +my/show-number-of-recipients) t)
 
     ;; This hook correctly modifies the \Inbox and \Starred flags on email when they are marked.
     ;; Without it refiling (archiving) and flagging (starring) email won't properly result in
@@ -190,7 +193,7 @@
                 :enter-func (lambda () (mu4e-message "Switch to the Gmail context"))
                 :match-func (lambda (msg)
                                 (when msg
-                                    (jv/mu4e-message-maildir-matches msg "^/gmail")))
+                                    (+my/mu4e-message-maildir-matches msg "^/gmail")))
                 :leave-func (lambda () (mu4e-clear-caches))
                 :vars '((user-mail-address     . "jvillasantegomez@gmail.com")
                            (user-full-name        . "Julio C. Villasante")
@@ -203,7 +206,7 @@
                   :enter-func (lambda () (mu4e-message "Switch to the iCloud context"))
                   :match-func (lambda (msg)
                                   (when msg
-                                      (jv/mu4e-message-maildir-matches msg "^/icloud")))
+                                      (+my/mu4e-message-maildir-matches msg "^/icloud")))
                   :leave-func (lambda () (mu4e-clear-caches))
                   :vars '((user-mail-address     . "julio.villasante@icloud.com")
                              (user-full-name        . "Julio C. Villasante")
@@ -221,7 +224,7 @@
 
     ;; Use the correct account context when sending mail based on the from header.
     (setq message-sendmail-envelope-from 'header)
-    (add-hook 'message-send-mail-hook 'jv/choose-msmtp-account)
+    (add-hook 'message-send-mail-hook '+my/choose-msmtp-account)
 
     ;; Bookmarks for common searches that I use.
     (setq mu4e-bookmarks '(("\\\\Inbox" "Inbox" ?i)
@@ -266,5 +269,4 @@
                 "flag:unread"
                 " AND NOT flag:trashed"
                 " AND maildir:"
-                "\"/Inbox\"")))
-    )
+                "\"/Inbox\""))))

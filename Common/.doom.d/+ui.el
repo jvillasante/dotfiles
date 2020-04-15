@@ -37,6 +37,9 @@
 
 ;; modeline
 (after! doom-modeline
+    ;; show workspace name on the modeline
+    (setq doom-modeline-persp-name t)
+
     ;; How tall the mode-line should be. It's only respected in GUI.
     ;; If the actual char height is larger, it respects the actual height.
     (setq doom-modeline-height 20)

@@ -33,8 +33,8 @@
     (:leader
         ;;;; Applications
         (:prefix ("a" . "Application")
+            :desc "Email"             :n "m" #'mu4e
             :desc "Elfeed Rss Reader" :n "f" #'elfeed
-            ;; :desc "Elfeed Rss Reader" :n "r" #'+my/elfeed-load-db-and-open
             :desc "Deft"              :n "n" #'deft)
 
         ;;;; Buffers
