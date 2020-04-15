@@ -55,7 +55,19 @@
     ;; Common Configs
     (setq
         ;; UI symbols
-        ;; mu4e-use-fancy-chars t
+        mu4e-use-fancy-chars t
+        mu4e-headers-draft-mark     '("D" . "")
+        mu4e-headers-flagged-mark   '("F" . "")
+        mu4e-headers-new-mark       '("N" . "")
+        mu4e-headers-passed-mark    '("P" . "˃")
+        mu4e-headers-replied-mark   '("R" . "")
+        mu4e-headers-seen-mark      '("S" . "")
+        mu4e-headers-trashed-mark   '("T" . "")
+        mu4e-headers-attach-mark    '("a" . "")
+        mu4e-headers-encrypted-mark '("x" . "")
+        mu4e-headers-signed-mark    '("s" . "")
+        mu4e-headers-unread-mark    '("u" . "")
+        ;;
         ;; mu4e-headers-attach-mark '("" . "")
         ;; mu4e-headers-encrypted-mark '("" . "")
         ;; mu4e-headers-flagged-mark '("+" . "⚑")
@@ -82,7 +94,6 @@
         mu4e-update-interval 300
         mu4e-view-show-images t
         message-kill-buffer-on-exit t
-        ;; mu4e-use-fancy-chars t
         ;; mu4e-view-prefer-html t
         ;; mu4e-html2text-command 'mu4e-shr2text
         ;; mu4e-html2text-command "html2text -utf8 -nobs -width 72"
@@ -96,7 +107,6 @@
         mu4e-compose-signature-auto-include t
         mu4e-headers-include-related t
         mu4e-confirm-quit nil
-        mu4e-compose-format-flowed t ; visual-line-mode + auto-fill upon sending
         mu4e-compose-dont-reply-to-self t
         mu4e-compose-keep-self-cc nil
         mu4e-headers-auto-update t
@@ -150,13 +160,6 @@
     ;; From Ben Maughan: Get some Org functionality in compose buffer
     (add-hook 'message-mode-hook 'turn-on-orgtbl)
     (add-hook 'message-mode-hook 'turn-on-orgstruct++)
-
-    ;; If you use the mu4e-shr2text, it might be useful to emulate some of the shr key bindings
-    (add-hook 'mu4e-view-mode-hook
-        (lambda()
-            ;; try to emulate some of the eww key-bindings
-            (local-set-key (kbd "<tab>") 'shr-next-link)
-            (local-set-key (kbd "<backtab>") 'shr-previous-link)))
 
     ;; mu4e - gpg
     ;; When composing an e-mail, C-c C-e s to sign your message then C-c C-e e to encrypt.
@@ -258,21 +261,9 @@
     (setq gnus-dired-mail-mode 'mu4e-user-agent)
     (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
-    ;; make shr/eww readable with dark themes
-    (setq shr-color-visible-luminance-min 80)
-
     (map! :localleader
         :map mu4e-compose-mode-map
         :desc "send and exit" "s" #'message-send-and-exit
         :desc "kill buffer"   "d" #'message-kill-buffer
         :desc "save draft"    "S" #'message-dont-send
-        :desc "attach"        "a" #'mail-add-attachment)
-
-    ;; mu4e-alert
-    (with-eval-after-load 'mu4e-alert
-        (setq mu4e-alert-interesting-mail-query
-            (concat
-                "flag:unread"
-                " AND NOT flag:trashed"
-                " AND maildir:"
-                "\"/Inbox\""))))
+        :desc "attach"        "a" #'mail-add-attachment))
