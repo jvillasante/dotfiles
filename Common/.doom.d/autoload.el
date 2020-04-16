@@ -93,3 +93,13 @@ at least the fill column. Place the point after the comment box. http://irreal.o
     (interactive)
     (mark-whole-buffer)
     (elfeed-search-untag-all-unread))
+
+;;;###autoload
+(defun +my/current-minor-modes ()
+  "Return the list of minor modes enabled in the current buffer."
+  (interactive)
+  (delq nil
+	(mapcar (lambda (mode)
+		  (if (and (boundp mode) (symbol-value mode))
+		      mode))
+		minor-mode-list)))

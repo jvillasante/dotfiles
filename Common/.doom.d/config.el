@@ -361,7 +361,8 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
     (setq org-clock-line-re "^[    ]*CLOCK:")
 
     ;; To get the most out of themes
-    (setq org-fontify-whole-heading-line t
+    (setq
+        org-fontify-whole-heading-line t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t)
 
