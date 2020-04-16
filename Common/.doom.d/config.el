@@ -356,6 +356,9 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
         (lambda ()
             (set-fill-column 110)))
 
+    ;; doom fold level
+    (setq +org-initial-fold-level 1)
+
     ;; org problems
     (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
     (setq org-clock-line-re "^[    ]*CLOCK:")
