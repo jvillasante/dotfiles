@@ -77,7 +77,7 @@
 
 (after! flycheck
     (setq
-        flycheck-check-syntax-automatically '(save mode-enable)))
+        flycheck-indication-mode 'left-fringe))
 
 (after! company
     (add-hook 'after-init-hook 'global-company-mode)
