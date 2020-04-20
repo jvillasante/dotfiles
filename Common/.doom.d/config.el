@@ -448,6 +448,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
     ;; organizer directory
     (setq org-directory (expand-file-name "Apps/org/" +my/dropbox-path))
     (setq org-default-notes-file (concat org-directory "inbox.org"))
+    (setq +my/org-work-file (concat org-directory "work.org"))
     (setq +my/org-bookmarks-file (concat org-directory "bookmarks.org"))
 
     ;; agenda
@@ -476,24 +477,21 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
 
     ;; capture
     (setq org-capture-templates
-        (quote (("t" "todo" entry (file+headline org-default-notes-file "Tasks")
-                    ;; "* TODO %?\n%U\n%a\n")
-                    "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
-                   ("m" "meeting" entry (file+headline org-default-notes-file "Meetings")
+        (quote (
+                   ("t" "Personal Task" entry (file+headline org-default-notes-file "Tasks")
+                       "* TODO %?\nSCHEDULED: %U\n")
+                   ("w" "Work Task" entry (file+headline +my/org-work-file "Tasks")
+                       "* TODO %?\nSCHEDULED: %U\n")
+                   ("m" "Meeting" entry (file+headline org-default-notes-file "Meetings")
                        "* MEETING with %? :MEETING:\n%U")
-                   ("i" "idea" entry (file+headline org-default-notes-file "Ideas")
+                   ("i" "Idea" entry (file+headline org-default-notes-file "Ideas")
                        "* %? :IDEA:\n%U\n%a\n")
-                   ("n" "note" entry (file+headline org-default-notes-file "Notes")
+                   ("n" "Note" entry (file+headline org-default-notes-file "Notes")
                        "* %? :NOTE:\n%U\n%a\n")
                    ("b" "Bookmark" entry (file+headline +my/org-bookmarks-file "Bookmarks")
                        "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
-                   ("h" "habit" entry (file+headline org-default-notes-file "Habits")
-                       "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+                   )))
 
-    ;; pomodoro
-    ;; (add-hook 'org-pomodoro-finished-hook (lambda()
-    ;;                                           (org-journal-new-entry nil)))
-    ;;
     ;; refiling
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                         (org-agenda-files :maxlevel . 9)))))
