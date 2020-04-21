@@ -195,6 +195,7 @@
 
     (:after neotree
         (:map neotree-mode-map
+            :desc "Neotree Stretch" :n [tab] #'neotree-stretch-toggle
             :desc "Neotree Hydra" :n "?" #'+my/hydra-neotree/body))
 
     (:after elfeed
