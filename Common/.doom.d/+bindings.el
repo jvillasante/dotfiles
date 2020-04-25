@@ -101,6 +101,7 @@
             :desc "List errors"                 :n "x" #'flycheck-list-errors
             :desc "Describe thing at point"     :n "t" #'lsp-describe-thing-at-point
             :desc "Lookup dash documentation"   :n "s" #'+lookup:dash
+            :desc "Restart LSP Workspace"       :n "r" #'lsp-workspace-restart
             (:prefix ("g" . "Go to")
                 :desc "Implementation"          :n "i" #'lsp-goto-implementation
                 :desc "Definition"              :n "d" #'lsp-goto-type-definition
