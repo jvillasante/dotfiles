@@ -133,8 +133,6 @@
 (after! lsp-ui
     (setq
         lsp-ui-peek-enable t
-        lsp-ui-peek-list-width 60
-        lsp-ui-peek-peek-height 25
         lsp-ui-sideline-enable nil))
 
 (after! rustic
