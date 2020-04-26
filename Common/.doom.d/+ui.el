@@ -60,3 +60,4 @@
 ;;     (\"^\\*Compil\\(?:ation\\|e-Log\\)\" :size 0.3 :ttl 0 :quit t)))"
 (set-popup-rule! "^\\*Treemacs" :side 'left :size 0.30 :quit nil :ttl 0)
 (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0)
+(set-popup-rule! "^\\*compilation" :size 0.4 :quit t :ttl 0)
