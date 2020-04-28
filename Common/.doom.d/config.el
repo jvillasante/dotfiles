@@ -174,12 +174,12 @@
         magit-push-always-verify nil)
 
     (setq
-        +magit-hub-features t
         git-commit-summary-max-length 80
         vc-handled-backends (delq 'Git vc-handled-backends))
 
     ;; Temporary workaround for +magit/quit hang with lots of buffers
-    (define-key magit-status-mode-map [remap magit-mode-bury-buffer] nil))
+    ;; (define-key magit-status-mode-map [remap magit-mode-bury-buffer] nil)
+    )
 
 (after! dired
     ;; mark symlinks
