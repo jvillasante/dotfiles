@@ -5,7 +5,7 @@
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
 
-. $(dirname "$0")/Common/bin/common.sh
+. $(dirname "$0")/Common/.bin/common.sh
 
 CURRENT_ENV=$(find_env)
 CURRENT_OS=$(find_os)
@@ -72,7 +72,7 @@ for file in $global_files; do
 done
 
 echo ">> Linking common files in ~/home..."
-common_files=".doom.d .oh-my-zsh.d .percol.d bin .profile .bashrc .clang-tidy .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .tmux_light.conf .tmux_dark.conf .sbclrc .rustfmt.toml .ycm_extra_conf.py"
+common_files=".doom.d .oh-my-zsh.d .percol.d .bin .profile .bashrc .clang-tidy .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .tmux_light.conf .tmux_dark.conf .sbclrc .rustfmt.toml .ycm_extra_conf.py"
 for file in $common_files; do
     unlink ~/$file
     ln -s $DOTFILES_DIR/Common/$file ~/

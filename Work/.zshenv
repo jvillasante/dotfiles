@@ -8,8 +8,8 @@
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ]; then
-    export PATH="$PATH:$HOME/bin"
+if [ -d "$HOME/.bin" ]; then
+    export PATH="$PATH:$HOME/.bin"
 fi
 
 # Ubuntu snap

@@ -38,10 +38,10 @@ if [ ! -d $2 ]; then
 
   echo ">>> Copying project template to $2..."
   if [ $BUILD_SYSTEM = make ]; then
-    cp -a ~/bin/cpp_project_template_make/. $2/
+    cp -a ~/.bin/cpp_project_template_make/. $2/
     check $?
   elif [ $BUILD_SYSTEM = cmake ]; then
-    cp -a ~/bin/cpp_project_template_cmake/. $2/
+    cp -a ~/.bin/cpp_project_template_cmake/. $2/
     check $?
   else
     show_usage
