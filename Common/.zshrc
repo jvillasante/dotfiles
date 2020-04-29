@@ -81,11 +81,12 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 # For a full list of active aliases, run `alias`.
 #
 
-alias ls='ls -AlFh --color'
+alias ls='ls --color'
+alias ll='ls -AlFh --color'
 alias em="emacsclient -c -a emacs"   # opens the GUI with alternate non-daemon
 alias emt="emacsclient -t"           # used to be "emacs -nw"
 alias semt="sudo emacsclient -t"     # used to be "sudo emacs -nw"
-alias r="source ~/.zshrc"
+alias r="ranger"
 alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
 
 #git
@@ -109,7 +110,8 @@ alias vi=vim
 #
 if [[ "$(uname -s)" == "Darwin" ]]; then
     # use gls on mac
-    alias ls="/usr/local/bin/gls -AlFh --color"
+    alias ls="/usr/local/bin/gls --color"
+    alias ll='/usr/local/bin/gls -AlFh --color'
 
     # Toggle hidden files on mac
     alias show_hidden_files='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
