@@ -64,21 +64,25 @@ install_emacs () {
 install_zsh
 install_emacs
 
-echo ">> Linking global files..."
+echo ">> Linking global files in ~/home..."
 global_files=".emacs.d .oh-my-zsh"
 for file in $global_files; do
     unlink ~/$file
     ln -s $DOTFILES_DIR/$file ~/
 done
 
-echo ">> Linking common files..."
+echo ">> Linking common files in ~/home..."
 common_files=".doom.d .oh-my-zsh.d .percol.d bin .profile .bashrc .clang-tidy .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .tmux_light.conf .tmux_dark.conf .sbclrc .rustfmt.toml .ycm_extra_conf.py"
 for file in $common_files; do
     unlink ~/$file
     ln -s $DOTFILES_DIR/Common/$file ~/
 done
 
-echo ">> Linking other files..."
+echo ">> Linking alacritty in ~/config/alacritty..."
+unlink ~/.config/alacritty/alacritty.yml
+ln -s $DOTFILES_DIR/Common/alacritty.yml ~/.config/alacritty/alacritty.yml
+
+echo ">> Linking other files in ~/home..."
 files=".spacemacs.d .ccls .clang-format .gitconfig .tmux.conf .zshenv .zshrc"
 for file in $files; do
     unlink ~/$file
