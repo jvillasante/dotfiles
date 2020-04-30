@@ -116,6 +116,9 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
     # Toggle hidden files on mac
     alias show_hidden_files='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
     alias hide_hidden_files='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+
+    # Enable font smoothing
+    defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
 fi
 
 #
