@@ -65,24 +65,17 @@ install_zsh
 install_emacs
 
 echo ">> Linking global files in ~/home..."
-global_files=".emacs.d .oh-my-zsh"
-for file in $global_files; do
+files=".emacs.d .oh-my-zsh"
+for file in $files; do
     unlink ~/$file
     ln -s $DOTFILES_DIR/$file ~/
 done
 
 echo ">> Linking common files in ~/home..."
-common_files=".doom.d .oh-my-zsh.d .percol.d .bin .profile .bashrc .zshenv .zshrc .tmux.conf .tmux-macos.conf .tmux-linux.conf .clang-tidy .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .sbclrc .rustfmt.toml .ycm_extra_conf.py"
-for file in $common_files; do
+files=".doom.d .oh-my-zsh.d .percol.d .bin .profile .bashrc .zshenv .zshrc .tmux.conf .tmux-macos.conf .tmux-linux.conf .clang-tidy .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .msmtprc .sbclrc .rustfmt.toml .ycm_extra_conf.py"
+for file in $files; do
     unlink ~/$file
     ln -s $DOTFILES_DIR/Common/$file ~/
-done
-
-echo ">> Linking common files in ~/.config"
-common_files="alacritty ranger"
-for file in $common_files; do
-    unlink ~/.config/$file
-    ln -s $DOTFILES_DIR/Common/$file ~/.config
 done
 
 echo ">> Linking other files in ~/home..."
@@ -94,6 +87,25 @@ for file in $files; do
         ln -s $DOTFILES_DIR/Home/$file ~/
     elif [ $CURRENT_ENV = "WORK" ]; then
         ln -s $DOTFILES_DIR/Work/$file ~/
+    fi
+done
+
+echo ">> Linking common files in ~/.config"
+files=""
+for file in $files; do
+    unlink ~/.config/$file
+    ln -s $DOTFILES_DIR/Common/$file ~/.config
+done
+
+echo ">> Linking other files in ~/.config"
+files="alacritty"
+for file in $files; do
+    unlink ~/.config/$file
+
+    if [ $CURRENT_ENV = "HOME" ]; then
+        ln -s $DOTFILES_DIR/Home/$file ~/.config
+    elif [ $CURRENT_ENV = "WORK" ]; then
+        ln -s $DOTFILES_DIR/Work/$file ~/.config
     fi
 done
 
