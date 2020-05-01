@@ -45,10 +45,10 @@
 
         ;;;; Open
         (:prefix ("o" . "Open")
-            :desc "Dired" :n "d" #'dired
-            :desc "Scratch Buffer" :n "s" #'doom/open-scratch-buffer
+            :desc "Dired"  :n "d" #'dired
+            :desc "Ranger" :n "r" #'ranger
             (:when (featurep! :ui neotree)
-                :desc "Open neotree"    :n "n" #'neotree-toggle
+                :desc "Toogle neotree"  :n "n" #'neotree-toggle
                 :desc "File in neotree" :n "N" #'+neotree/find-this-file)
             (:when (featurep! :ui treemacs)
                 :desc "Toggle treemacs"  :n "n" #'+treemacs/toggle
