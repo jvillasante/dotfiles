@@ -305,45 +305,7 @@ T - tag prefix
              "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
              "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
              "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-             "\\.egg\-info$"))
-
-    ;; Hydra for neotree
-    (after! hydra
-        (defhydra +my/hydra-neotree (:hint nil :color pink)
-            "
-Navigation^^^^             Actions^^         Visual actions/config^^^
-───────^^^^─────────────── ───────^^──────── ───────^^^────────────────
-[_L_]   next sibling^^     [_c_] create      [_=_]   shrink/enlarge
-[_H_]   previous sibling^^ [_C_] copy        [_|_]   vertical split
-[_J_]   goto child^^       [_d_] delete      [_-_]   horizontal split
-[_K_]   goto parent^^      [_r_] rename      [_gr_]  refresh^
-[_l_]   open/expand^^      [_R_] change root [_s_]   hidden:^^^ %s(if neo-buffer--show-hidden-file-p \"on\" \"off\")
-[_h_]   up/collapse^^      ^^                ^^^
-[_j_]   line down^^        ^^                ^^^
-[_k_]   line up^^          ^^                ^^
-[_'_]   quick look         ^^                ^^
-^^^                        ^^^^              [_?_]   close hints
-"
-            ("=" neotree-stretch-toggle)
-            ("|" neotree-enter-vertical-split)
-            ("-" neotree-enter-horizontal-split)
-            ("?" nil :exit t)
-            ("'" neotree-quick-look)
-            ("c" neotree-create-node)
-            ("C" neotree-copy-node)
-            ("d" neotree-delete-node)
-            ("gr" neotree-refresh)
-            ("h" +my/neotree-collapse-or-up)
-            ("H" neotree-select-previous-sibling-node)
-            ("j" neotree-next-line)
-            ("J" neotree-select-down-node)
-            ("k" neotree-previous-line)
-            ("K" neotree-select-up-node)
-            ("l" +my/neotree-expand-or-open)
-            ("L" neotree-select-next-sibling-node)
-            ("r" neotree-rename-node)
-            ("R" neotree-change-root)
-            ("s" neotree-hidden-file-toggle))))
+             "\\.egg\-info$")))
 
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
