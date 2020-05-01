@@ -305,7 +305,34 @@ T - tag prefix
              "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
              "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
              "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-             "\\.egg\-info$")))
+             "\\.egg\-info$"))
+    )
+
+(after! treemacs
+    (setq treemacs-dotfiles-regex
+        (concat
+            "\\("   "^\\.\\(git\\|cache\\|tox\\|coverage\\)$" "\\)" "\\|"
+            "\\("   "^\\.\\(DS_Store\\|python\\-version\\)"   "\\)" "\\|"
+            "\\("   "^\\(htmlcov\\|node_modules\\)$"          "\\)" "\\|"
+            "\\("   "\\.elcs$"                                "\\)" "\\|"
+            "\\("   "^\\.coverage\\..*"                       "\\)" "\\|"
+            "\\("   "\\.ipynb.*$"                             "\\)" "\\|"
+            "\\("   "\\.py[cod]$"                             "\\)" "\\|"
+            "\\("   "~$" "^#.*#$"                             "\\)" "\\|"
+            "\\("   "^\\.#.*$"                                "\\)" "\\|"
+            "\\("   "^__pycache__$"                           "\\)" "\\|"
+            "\\("   "\\.gcda$"                                "\\)" "\\|"
+            "\\("   "\\.gcov$"                                "\\)" "\\|"
+            "\\("   "\\.gcno$"                                "\\)" "\\|"
+            "\\("   "\\.lo$"                                  "\\)" "\\|"
+            "\\("   "\\.o$"                                   "\\)" "\\|"
+            "\\("   "\\.so$"                                  "\\)" "\\|"
+            "\\("   "^\\.cproject$"                           "\\)" "\\|"
+            "\\("   "^\\.project$"                            "\\)" "\\|"
+            "\\("   "^\\.projectile$"                         "\\)" "\\|"
+            "\\("   "\\.egg\-info$"                           "\\)" "\\|"
+            "\\("   "^\\..+"                                  "\\)"))
+    )
 
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))

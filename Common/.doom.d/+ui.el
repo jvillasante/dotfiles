@@ -25,12 +25,11 @@
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
 
-    ;; for neotree users
-    (doom-themes-neotree-config)
-
-    ;; for treemacs users
-    ;; (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-    ;; (doom-themes-treemacs-config)
+    (when (featurep! :ui neotree)
+        (doom-themes-neotree-config))
+    (when (featurep! :ui treemacs)
+        ;; (setq doom-themes-treemacs-theme "doom-colors")
+        (doom-themes-treemacs-config))
 
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))
@@ -61,3 +60,4 @@
 (set-popup-rule! "^\\*Treemacs" :side 'left :size 0.30 :quit nil :ttl 0)
 (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*compilation" :size 0.4 :quit t :ttl 0)
+(set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
