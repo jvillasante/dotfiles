@@ -39,8 +39,8 @@
 
         ;;;; Buffers
         (:prefix ("b" . "Buffers")
-            :desc "Switch buffer"           :n "b" #'+ivy/switch-buffer
-            :desc "Switch workspace buffer" :n "B" #'+ivy/switch-workspace-buffer
+            ;; :desc "Switch buffer"           :n "b" #'+ivy/switch-buffer
+            ;; :desc "Switch workspace buffer" :n "B" #'+ivy/switch-workspace-buffer
             :desc "Rename buffer"           :n "R" #'rename-buffer
             :desc "Kill buffer"             :n "d" #'kill-this-buffer ; consistency with `SPC w d'
             :desc "Ibuffer"                 :n "I" #'ibuffer)
