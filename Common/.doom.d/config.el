@@ -126,6 +126,11 @@
         lsp-enable-file-watchers nil
         lsp-enable-on-type-formatting nil)
 
+    ;; Rust
+    (setq
+        ;; lsp-rust-server 'rls
+        lsp-rust-server 'rust-analyzer)
+
     ;; C++
     (setq lsp-clients-clangd-args
         '("--j=4" "--log=error" "--background-index" "--header-insertion=never" "--completion-style=detailed" "--clang-tidy")))
