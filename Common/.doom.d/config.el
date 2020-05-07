@@ -283,10 +283,10 @@ T - tag prefix
                                                      comparator))
                                  '(car cdr))))))
 
-    (setq neo-theme 'ascii
+    (setq
+        neo-theme 'ascii
         neo-window-width 32
         neo-create-file-auto-open t
-        neo-banner-message "Press ? for neotree help"
         neo-show-updir-line nil
         neo-mode-line-type 'neotree
         neo-smart-open t
