@@ -287,27 +287,35 @@ T - tag prefix
         neo-theme 'ascii
         neo-window-width 32
         neo-create-file-auto-open t
-        neo-show-updir-line nil
+        neo-show-updir-line t
         neo-mode-line-type 'neotree
         neo-smart-open t
-        ;; neo-dont-be-alone t
-        ;; neo-persist-show nil
         neo-show-hidden-files t
         neo-auto-indent-point t
-        ;; neo-modern-sidebar t
         neo-vc-integration nil
-        ;; doom-neotree-enable-variable-pitch nil
         neo-autorefresh nil)
 
     (if IS-MAC
         (setq neo-default-system-application "open"))
 
     (setq neo-hidden-regexp-list
-        '("^\\.\\(git\\|cache\\|tox\\|coverage\\)$"
+        '(;; vcs folders
+             "^\\.\\(?:git\\|hg\\|svn\\)$"
+             ;; compiled files
+             "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
+             ;; generated files, caches or local pkgs
+             "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+             ;; org-mode folders
+             "^\\.\\(?:sync\\|export\\|attach\\)$"
+             ;; temp files
+             "~$"
+             "^#.*#$"
+             ;; Others
+             "^\\.\\(cache\\|tox\\|coverage\\)$"
              "^\\.\\(DS_Store\\|python\\-version\\)"
-             "^\\(htmlcov\\|node_modules\\)$" "\\.elcs$"
+             "^\\(htmlcov\\)$" "\\.elcs$"
              "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-             "~$" "^#.*#$" "^\\.#.*$" "^__pycache__$"
+             "^\\.#.*$" "^__pycache__$"
              "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
              "^\\.cproject$" "^\\.project$" "^\\.projectile$"
              "\\.egg\-info$"))
