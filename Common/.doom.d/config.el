@@ -80,12 +80,8 @@
         flycheck-indication-mode 'left-fringe))
 
 (after! company
-    (add-hook 'after-init-hook 'global-company-mode)
-
     (setq
-        company-idle-delay 0.1
-        company-tooltip-limit 12
-        company-minimum-prefix-length 2
+        company-idle-delay 0.2
         company-show-numbers nil))
 
 (after! ws-butler

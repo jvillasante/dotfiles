@@ -5,8 +5,8 @@
 # Check if go is installed and perform updates
 if hash go 2>/dev/null; then
   if ask "Install common go packages?"; then
-    rm -rf $GOPATH/bin/*
-    rm -rf $GOPATH/pkg/*
+    # rm -rf $GOPATH/bin/*
+    # rm -rf $GOPATH/pkg/*
 
     # Go Layer
     GO111MODULE=on go get -v golang.org/x/tools/gopls@latest
