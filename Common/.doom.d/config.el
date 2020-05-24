@@ -114,7 +114,7 @@
     (setq
         ;; lsp-eldoc-render-all t
         lsp-signature-render-documentation t
-        lsp-signature-auto-activate t
+        ;; lsp-signature-auto-activate t
         lsp-signature-doc-lines 1)
 
     (setq
