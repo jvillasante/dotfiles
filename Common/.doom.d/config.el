@@ -113,8 +113,8 @@
 (after! lsp-mode
     (setq
         ;; lsp-eldoc-render-all t
-        lsp-signature-render-documentation t
-        ;; lsp-signature-auto-activate t
+        ;; lsp-signature-render-documentation t
+        lsp-signature-auto-activate t
         lsp-signature-doc-lines 1)
 
     (setq
@@ -124,7 +124,6 @@
 
     ;; Rust
     (setq
-        ;; lsp-rust-server 'rls
         lsp-rust-server 'rust-analyzer)
 
     ;; C++
@@ -139,11 +138,10 @@
 (after! rustic
     ;; (sp-local-pair 'rustic-mode "|" "|") ;; closures, can interefere bitwise operators
     ;; (sp-local-pair 'rustic-mode "<" ">") ;; messes with comparison operator
-    (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
+    ;; (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
 
     ;; configs
     (setq
-        ;; rustic-lsp-server 'rls
         rustic-lsp-server 'rust-analyzer
         rustic-lsp-client 'lsp-mode))
 
