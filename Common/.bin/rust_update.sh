@@ -19,20 +19,16 @@ echo ""
 echo "===================================================================================="
 echo ""
 
-# Check if rust-analyzer is installed and perform updates
-if hash rust-analyzer 2>/dev/null; then
-    if ask "Do you want to update rust-analyzer?"; then
-        CURRENT_ENV=$(find_env)
-        RUST_ANALYZER_DIR="NOT_FOUND"
-        if [ $CURRENT_ENV = "HOME" ]; then
-            RUST_ANALYZER_DIR=~/Workspace/Software/rust/rust-analyzer 
-        elif [ $CURRENT_ENV = "WORK" ]; then
-            RUST_ANALYZER_DIR=~/Workspace/Software/rust/rust-analyzer
-        fi
+if ask "Do you want to install/update rust-analyzer?"; then
+    CURRENT_ENV=$(find_env)
+    if [ $CURRENT_ENV = "HOME" ]; then
+        curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.bin/bin/rust-analyzer
+    elif [ $CURRENT_ENV = "WORK" ]; then
+        curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o ~/.bin/bin/rust-analyzer
+    fi
 
-        if [ -d $RUST_ANALYZER_DIR ]; then
-            (cd $RUST_ANALYZER_DIR && git pull && cargo xtask install --server)
-        fi
+    if hash ~/.bin/bin/rust-analyzer 2>/dev/null; then
+        chmod +x ~/.bin/bin/rust-analyzer
     fi
 fi
 
