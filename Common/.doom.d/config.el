@@ -128,7 +128,14 @@
 
     ;; C++
     (setq lsp-clients-clangd-args
-        '("--j=4" "--log=error" "--background-index" "--header-insertion=never" "--completion-style=detailed" "--clang-tidy")))
+        '("-j=2"
+             "--log=error"
+             "--background-index"
+             "--clang-tidy"
+             "--completion-style=detailed"
+             "--pch-storage=memory"
+             "--header-insertion=never"
+             "--header-insertion-decorators=0")))
 
 (after! lsp-ui
     (setq
