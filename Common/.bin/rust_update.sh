@@ -20,6 +20,10 @@ echo "==========================================================================
 echo ""
 
 if ask "Do you want to install/update rust-analyzer?"; then
+    if [ ! -d ~/.bin/bin/ ]; then
+        mkdir ~/.bin/bin/
+    fi
+
     CURRENT_ENV=$(find_env)
     if [ $CURRENT_ENV = "HOME" ]; then
         curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.bin/bin/rust-analyzer
