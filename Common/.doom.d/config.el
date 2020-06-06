@@ -158,7 +158,6 @@
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
         deft-recursive t
-        deft-text-mode 'org-mode
         deft-use-filename-as-title t
         deft-use-filter-string-for-filename t
         deft-file-naming-rules '((noslash . "-")
@@ -353,6 +352,9 @@ T - tag prefix
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! org
+    ;; crypt tags are special
+    (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+
     ;; hook
     (add-hook 'org-mode-hook
         (lambda ()
@@ -497,6 +499,12 @@ T - tag prefix
     ;; refiling
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                         (org-agenda-files :maxlevel . 9)))))
+
+;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
+(use-package! org-crypt
+    :after org
+    :init (org-crypt-use-before-save-magic)
+    :custom (org-crypt-key user-mail-address))
 
 (use-package! crux
     :bind (("C-c o" . crux-open-with)))

@@ -17,6 +17,10 @@
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 ;; (pushnew! default-frame-alist '(undecorated . t) '(fullscreen . maximized))
 
+;; encryption
+(require 'epa-file)
+(epa-file-enable)
+
 ;; Minibuffer setup
 (setq-hook! 'minibuffer-setup-hook
     show-trailing-whitespace nil
