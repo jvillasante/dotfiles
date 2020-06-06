@@ -147,7 +147,6 @@
     ;; (sp-local-pair 'rustic-mode "<" ">") ;; messes with comparison operator
     ;; (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
 
-    ;; configs
     (setq
         rustic-lsp-server 'rust-analyzer
         rustic-lsp-client 'lsp-mode))
@@ -173,18 +172,18 @@
     (setq rmh-elfeed-org-files (list (expand-file-name "Apps/elfeed/elfeed.org" +my/dropbox-path))))
 
 (after! magit
+    ;; Temporary workaround for +magit/quit hang with lots of buffers
+    ;; (define-key magit-status-mode-map [remap magit-mode-bury-buffer] nil)
+
     (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
     (setq-default git-magit-status-fullscreen t)
-    (setq magit-completing-read-function 'magit-builtin-completing-read
+    (setq
+        magit-completing-read-function 'magit-builtin-completing-read
         magit-push-always-verify nil)
 
     (setq
         git-commit-summary-max-length 80
-        vc-handled-backends (delq 'Git vc-handled-backends))
-
-    ;; Temporary workaround for +magit/quit hang with lots of buffers
-    ;; (define-key magit-status-mode-map [remap magit-mode-bury-buffer] nil)
-    )
+        vc-handled-backends (delq 'Git vc-handled-backends)))
 
 (after! dired
     ;; mark symlinks
@@ -318,8 +317,7 @@ T - tag prefix
              "^\\.#.*$" "^__pycache__$"
              "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
              "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-             "\\.egg\-info$"))
-    )
+             "\\.egg\-info$")))
 
 (after! treemacs
     (setq treemacs-dotfiles-regex
@@ -345,8 +343,7 @@ T - tag prefix
             "\\("   "^\\.project$"                            "\\)" "\\|"
             "\\("   "^\\.projectile$"                         "\\)" "\\|"
             "\\("   "\\.egg\-info$"                           "\\)" "\\|"
-            "\\("   "^\\..+"                                  "\\)"))
-    )
+            "\\("   "^\\..+"                                  "\\)")))
 
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
