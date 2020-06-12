@@ -349,9 +349,6 @@ T - tag prefix
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! org
-    ;; crypt tags are special
-    (setq org-tags-exclude-from-inheritance (quote ("crypt")))
-
     ;; hook
     (add-hook 'org-mode-hook
         (lambda ()
@@ -500,8 +497,9 @@ T - tag prefix
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt
     :after org
-    :init (org-crypt-use-before-save-magic)
-    :custom (org-crypt-key user-mail-address))
+    :init   (org-crypt-use-before-save-magic)
+    :custom (org-crypt-key user-mail-address)
+    :config (setq org-tags-exclude-from-inheritance (quote ("crypt"))))
 
 (use-package! crux
     :bind (("C-c o" . crux-open-with)))
