@@ -55,4 +55,4 @@
         (setq ccls-executable (expand-file-name "ccls/Release/ccls" +my/software-path)))
 
     (setq ccls-initialization-options
-        `(:cache (:directory ,(expand-file-name ".emacs.d/.cache/lsp-ccls" +my/dotfiles-path)))))
+        `(:cache (:directory ,(expand-file-name ".emacs.d/.local/.cache/lsp-ccls" +my/dotfiles-path)))))
