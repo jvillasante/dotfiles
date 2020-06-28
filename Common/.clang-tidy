@@ -1,2 +1,2 @@
-Checks:           '*'
-WarningsAsErrors: '*'
+Checks:           "cppcore*"
+WarningsAsErrors: "*"
