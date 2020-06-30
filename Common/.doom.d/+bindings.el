@@ -54,7 +54,7 @@
                 :desc "File in neotree" :n "N" #'+neotree/find-this-file)
             (:when (featurep! :ui treemacs)
                 :desc "Toggle treemacs"  :n "n" #'+treemacs/toggle
-                :desc "File in treemacs" :n "N" #'+treemacs-find-file))
+                :desc "File in treemacs" :n "N" #'treemacs-find-file))
 
         ;;;; Windows
         (:prefix ("w" . "Windows")
