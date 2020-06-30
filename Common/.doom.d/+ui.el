@@ -19,7 +19,7 @@
         doom-themes-enable-italic t)   ; if nil, italics is universally disabled
 
     (setq
-        doom-themes-neotree-enable-file-icons nil
+        doom-themes-neotree-file-icons nil
         doom-themes-neotree-file-icons nil)
 
     ;; Enable flashing mode-line on errors
