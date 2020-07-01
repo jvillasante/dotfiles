@@ -83,9 +83,9 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 alias ls='ls --color'
 alias ll='ls -AlFh --color'
-alias em="emacsclient -c -a emacs"   # opens the GUI with alternate non-daemon
-alias emt="emacsclient -t"           # used to be "emacs -nw"
-alias semt="sudo emacsclient -t"     # used to be "sudo emacs -nw"
+alias em="emacsclient -c -n -a ''"      # opens the GUI
+alias emt="emacsclient -t -a ''"        # used to be "emacs -nw"
+alias semt="sudo emacsclient -t -a ''"  # used to be "sudo emacs -nw"
 alias r="ranger"
 alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
 

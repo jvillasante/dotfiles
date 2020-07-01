@@ -272,22 +272,12 @@ T - tag prefix
     (define-key dired-mode-map "s" 'hydra-dired-quick-sort/body))
 
 (after! neotree
-    (defadvice neo-buffer--get-nodes
-        (after neo-buffer--get-nodes-new-sorter activate)
-        (setq ad-return-value
-            (let ((nodes ad-return-value)
-                     (comparator (lambda (s1 s2) (string< (downcase s1)
-                                                     (downcase s2)))))
-                (apply 'cons (mapcar (lambda (x) (sort (apply x (list nodes))
-                                                     comparator))
-                                 '(car cdr))))))
-
     (setq
+        doom-themes-neotree-file-icons nil
         neo-theme 'ascii
         neo-window-width 32
         neo-create-file-auto-open t
         neo-show-updir-line t
-        neo-mode-line-type 'neotree
         neo-smart-open t
         neo-show-hidden-files t
         neo-auto-indent-point t

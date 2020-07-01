@@ -15,12 +15,8 @@
 
 (after! doom-themes
     (setq
-        doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t)   ; if nil, italics is universally disabled
-
-    (setq
-        doom-themes-neotree-file-icons nil
-        doom-themes-neotree-file-icons nil)
+        doom-themes-enable-bold t     ; if nil, bold is universally disabled
+        doom-themes-enable-italic t)  ; if nil, italics is universally disabled
 
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
@@ -28,7 +24,6 @@
     (when (featurep! :ui neotree)
         (doom-themes-neotree-config))
     (when (featurep! :ui treemacs)
-        ;; (setq doom-themes-treemacs-theme "doom-colors")
         (doom-themes-treemacs-config))
 
     ;; Corrects (and improves) org-mode's native fontification.
