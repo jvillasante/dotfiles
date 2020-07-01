@@ -130,6 +130,7 @@
     (setq lsp-clients-clangd-args
         '("-j=2"
              "--log=error"
+             ;; "--compile-commands-dir=build"
              "--background-index"
              "--clang-tidy"
              "--completion-style=detailed"
