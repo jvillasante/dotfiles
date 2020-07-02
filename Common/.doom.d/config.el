@@ -127,7 +127,7 @@
         lsp-rust-server 'rust-analyzer)
 
     ;; C++
-    ;; (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
+    (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
     (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
     (setq lsp-clients-clangd-args
         '("-j=2"
