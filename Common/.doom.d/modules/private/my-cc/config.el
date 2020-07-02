@@ -39,8 +39,8 @@
             (progn
                 (setq-default flycheck-c/c++-clang-executable +my/clang-path)
                 (setq-default flycheck-clang-standard-library "libc++")
-                (setq-default flycheck-clang-language-standard "c++17")
-                (setq company-clang-arguments '("-std=c++17"))))))
+                (setq-default flycheck-clang-language-standard "c++20")
+                (setq company-clang-arguments '("-std=c++20"))))))
 
 (after! company
     (setq company-clang-executable +my/clang-path)
