@@ -1,8 +1,9 @@
-# key: mdoc
+# -*- mode: snippet; require-final-newline: nil -*-
 # name: method/function documentation comment
+# key: mdoc
 # --
 /**
- * $0func()
+ * ${0:func()}
  *
  * Description of the function.
  *
