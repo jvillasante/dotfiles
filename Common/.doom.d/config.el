@@ -142,14 +142,14 @@
 
 (after! lsp-ui
     (setq
+        lsp-ui-sideline-enable nil
         lsp-ui-peek-enable t
-        lsp-ui-sideline-enable nil))
+        lsp-ui-doc-enable nil)
+
+    (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+    (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))
 
 (after! rustic
-    ;; (sp-local-pair 'rustic-mode "|" "|") ;; closures, can interefere bitwise operators
-    ;; (sp-local-pair 'rustic-mode "<" ">") ;; messes with comparison operator
-    ;; (sp-local-pair 'rustic-mode "'" "'" :actions nil) ;; lifetime annotations
-
     (setq
         rustic-lsp-server 'rust-analyzer
         rustic-lsp-client 'lsp-mode))
