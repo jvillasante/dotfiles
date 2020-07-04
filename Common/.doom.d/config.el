@@ -150,9 +150,19 @@
     (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))
 
 (after! rustic
-    (setq
-        rustic-lsp-server 'rust-analyzer
-        rustic-lsp-client 'lsp-mode))
+    (setq rustic-lsp-server 'rust-analyzer)
+    (setq rustic-lsp-client 'lsp-mode)
+
+    ;; new ones - check how they work!
+    (setq lsp-rust-analyzer-cargo-watch-command "clippy")
+    (setq lsp-rust-analyzer-cargo-load-out-dirs-from-check t)
+    (setq lsp-rust-analyzer-proc-macro-enable t)
+    (setq lsp-rust-analyzer-display-chaining-hints t)
+    (setq lsp-rust-analyzer-display-parameter-hints t)
+    (setq lsp-rust-analyzer-server-display-inlay-hints t)
+    (setq lsp-rust-all-features t)
+    (setq lsp-rust-full-docs t)
+    (setq lsp-enable-semantic-highlighting t))
 
 (after! deft
     (setq
