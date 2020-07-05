@@ -12,9 +12,6 @@
 (after! evil
   (setq evil-want-fine-undo t))
 
-(after! dash-docs
-    (setq dash-docs-browser-func #'browse-url))
-
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
@@ -32,6 +29,9 @@
     (push "\\.?ido\\.last$" recentf-exclude)
     (push "^/nix/store/" recentf-exclude)
     (push ".+\\.mp3$" recentf-exclude))
+
+(after! dash-docs
+    (setq dash-docs-browser-func #'browse-url))
 
 (after! projectile
     (defun +my/projectile-ignore-project-p (project-root)
