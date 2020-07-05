@@ -131,7 +131,7 @@
 (add-hook 'term-mode-hook
     (lambda ()
         (setq term-buffer-maximum-size 10000)))
-(add-hook 'focus-out-hook
+(add-hook 'after-focus-change-function
     (lambda ()
         (save-some-buffers t)))
 (add-hook 'prog-mode-hook #'goto-address-mode) ;; Linkify links!
@@ -169,9 +169,5 @@
 ;; ???
 (show-paren-mode 1)
 
-;; popup rules
-;; (set-popup-rules!
-;;   '((\"^ \\*\" :slot 1 :vslot -1 :size #'+popup-shrink-to-fit)
-;;     (\"^\\*\"  :slot 1 :vslot -1 :select t))
-;;   '((\"^\\*Completions\" :slot -1 :vslot -2 :ttl 0)
-;;     (\"^\\*Compil\\(?:ation\\|e-Log\\)\" :size 0.3 :ttl 0 :quit t)))"
+;; Add online search engines for +lookup/online
+(add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
