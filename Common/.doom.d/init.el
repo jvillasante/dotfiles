@@ -77,9 +77,11 @@
 
     :term
     eshell            ; a consistent, cross-platform shell (WIP)
-    ;; shell             ; a terminal REPL for Emacs
-    ;; term              ; terminals in Emacs
-    vterm             ; another terminals in Emacs
+    ;; shell          ; a terminal REPL for Emacs
+    (:if IS-LINUX
+        term)         ; terminals in Emacs
+    (:if IS-MAC
+        vterm)        ; another terminals in Emacs
 
     :checkers
     (syntax              ; tasing you for every semicolon you forget
