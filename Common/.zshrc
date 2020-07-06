@@ -122,30 +122,6 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 fi
 
 #
-# Tmux
-#
-if type tmux >/dev/null 2>/dev/null; then
-    alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
-    alias tmuxsrc="tmux source-file ~/.tmux.conf"
-    alias tmuxkillall="tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}" # tmux kill all sessions
-
-    # Makes creating a new tmux session (with a specific name) easier
-    function tmuxopen() {
-        tmux attach -t $1
-    }
-
-    # Makes creating a new tmux session (with a specific name) easier
-    function tmuxnew() {
-        tmux new -s $1
-    }
-
-    # Makes deleting a tmux session easier
-    function tmuxkill() {
-        tmux kill-session -t $1
-    }
-fi
-
-#
 # vterm (https://github.com/akermu/emacs-libvterm)
 #
 vterm_printf(){
@@ -170,6 +146,30 @@ vterm_prompt_end() {
 }
 setopt PROMPT_SUBST
 PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
+
+#
+# Tmux
+#
+if type tmux >/dev/null 2>/dev/null; then
+    alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
+    alias tmuxsrc="tmux source-file ~/.tmux.conf"
+    alias tmuxkillall="tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}" # tmux kill all sessions
+
+    # Makes creating a new tmux session (with a specific name) easier
+    function tmuxopen() {
+        tmux attach -t $1
+    }
+
+    # Makes creating a new tmux session (with a specific name) easier
+    function tmuxnew() {
+        tmux new -s $1
+    }
+
+    # Makes deleting a tmux session easier
+    function tmuxkill() {
+        tmux kill-session -t $1
+    }
+fi
 
 #
 # percol

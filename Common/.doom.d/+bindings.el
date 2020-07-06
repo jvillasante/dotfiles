@@ -122,9 +122,9 @@
         ;;;; Search
         (:prefix ("s" . "Search")
             :desc "Search directory"             "d" #'+ivy/project-search-from-cwd
-            :desc "Search directory (all files)" "D" (lambda! (+ivy/project-search-from-cwd t))
+            :desc "Search directory (all files)" "D" (cmd! (+ivy/project-search-from-cwd t))
             :desc "Search project"               "p" #'+ivy/project-search
-            :desc "Search project (all files)"   "P" (lambda! (+ivy/project-search t)))
+            :desc "Search project (all files)"   "P" (cmd! (+ivy/project-search t)))
 
         ;;;; Quit
         (:prefix ("q" . "Quit")

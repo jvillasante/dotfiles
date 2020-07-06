@@ -131,9 +131,6 @@
 (add-hook 'term-mode-hook
     (lambda ()
         (setq term-buffer-maximum-size 10000)))
-(add-hook 'after-focus-change-function
-    (lambda ()
-        (save-some-buffers t)))
 (add-hook 'prog-mode-hook #'goto-address-mode) ;; Linkify links!
 (add-hook 'prog-mode-hook
     (lambda ()
