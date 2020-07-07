@@ -11,6 +11,7 @@
 
 ;; theme
 ;; (setq doom-theme 'doom-solarized-light)
+;; (setq doom-theme 'modus-vivendi)
 (setq doom-theme 'modus-operandi)
 
 (after! doom-themes
