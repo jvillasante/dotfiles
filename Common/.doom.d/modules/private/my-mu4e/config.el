@@ -89,16 +89,10 @@
 
         mail-user-agent 'mu4e-user-agent
         mu4e-mu-binary "/usr/local/bin/mu"
-        mu4e-maildir "~/.Maildir"
         mu4e-get-mail-command "mbsync -a"
         mu4e-update-interval 300
         mu4e-view-show-images t
         message-kill-buffer-on-exit t
-        ;; mu4e-view-prefer-html t
-        ;; mu4e-html2text-command 'mu4e-shr2text
-        ;; mu4e-html2text-command "html2text -utf8 -nobs -width 72"
-        mu4e-html2text-command "w3m -dump -cols 80 -T text/html"
-        ;; mu4e-html2text-command "html2markdown --body-width=0 | sed \"s/&nbsp_place_holder;/ /g; /^$/d\""
         mu4e-headers-skip-duplicates t
         mu4e-headers-full-search t
         mu4e-attachment-dir "~/Downloads"
@@ -117,13 +111,23 @@
         message-citation-line-function 'message-insert-formatted-citation-line
         mu4e-headers-results-limit 250
         mu4e-context-policy 'pick-first
+        mu4e-index-cleanup nil
+        mu4e-index-lazy-check t
+        mu4e-change-filenames-when-moving t
         mu4e-completing-read-function
         (cond ((featurep! :completion ivy) #'ivy-completing-read)
             ((featurep! :completion helm) #'completing-read)
-            (t #'ido-completing-read))
-        ;; mu4e-index-cleanup nil      ;; don't do a full cleanup check
-        ;; mu4e-index-lazy-check t     ;; don't consider up-to-date dirs
-        )
+            (t #'ido-completing-read)))
+
+    ;; convert html emails properly
+    ;; Possible options:
+    ;;   - html2text -utf8 -width 72
+    ;;   - textutil -stdin -format html -convert txt -stdout
+    ;;   - html2markdown | grep -v '&nbsp_place_holder;' (Requires html2text pypi)
+    ;;   - w3m -dump -cols 80 -T text/html
+    ;;   - w3m -dump -T text/html -cols 72
+    ;;   - view in browser (provided below)
+    (setq mu4e-html2text-command "w3m -dump -T text/html -cols 72")
 
     ;; simple compose signature
     (setq mu4e-compose-signature
@@ -142,11 +146,18 @@
     ;; This hook correctly modifies the \Inbox and \Starred flags on email when they are marked.
     ;; Without it refiling (archiving) and flagging (starring) email won't properly result in
     ;; the corresponding gmail action.
-    (add-hook 'mu4e-mark-execute-pre-hook
-        (lambda (mark msg)
-            (cond ((member mark '(refile trash)) (mu4e-action-retag-message msg "-\\Inbox"))
-                ((equal mark 'flag) (mu4e-action-retag-message msg "\\Starred"))
-                ((equal mark 'unflag) (mu4e-action-retag-message msg "-\\Starred")))))
+    ;; (add-hook 'mu4e-mark-execute-pre-hook
+    ;;     (lambda (mark msg)
+    ;;         (cond ((member mark '(refile trash)) (mu4e-action-retag-message msg "-\\Inbox"))
+    ;;             ((equal mark 'flag) (mu4e-action-retag-message msg "\\Starred"))
+    ;;             ((equal mark 'unflag) (mu4e-action-retag-message msg "-\\Starred")))))
+    (add-hook! 'mu4e-mark-execute-pre-hook
+      (defun +mu4e-gmail-fix-flags-h (mark msg)
+        (pcase mark
+          (`trash  (mu4e-action-retag-message msg "-\\Inbox,+\\Trash,-\\Draft"))
+          (`refile (mu4e-action-retag-message msg "-\\Inbox"))
+          (`flag   (mu4e-action-retag-message msg "+\\Starred"))
+          (`unflag (mu4e-action-retag-message msg "-\\Starred")))))
 
     ;; compose and view mode hook
     (add-hook 'mu4e-compose-mode-hook
@@ -173,10 +184,6 @@
         mu4e-headers-date-format "%m/%d/%Y"
         mu4e-headers-time-format "%H:%M:%S")
 
-    ;; show full addresses in view message (instead of just names)
-    ;; toggle per name with M-RET
-    (setq mu4e-view-show-addresses 't)
-
     ;; store link to message if in header view, not to header query
     (setq org-mu4e-link-query-in-headers-mode nil)
 
@@ -191,7 +198,6 @@
 
     ;; Trim the number of fields shown in the email view. This is customizable. See mu4e-view.el for a full list.
     (setq mu4e-view-fields '(:from :to :cc :bcc :subject :date :tags :attachments :flags :maildir))
-    (setq mu4e-view-show-addresses t)
 
     ;; This sets up my two different context for my gmail and iCloud emails.
     (setq mu4e-contexts
@@ -234,8 +240,7 @@
     (add-hook 'message-send-mail-hook '+my/choose-msmtp-account)
 
     ;; Bookmarks for common searches that I use.
-    (setq mu4e-bookmarks '(("\\\\Inbox" "Inbox" ?i)
-                              ("flag:unread" "Unread messages" ?u)
+    (setq mu4e-bookmarks '(("flag:unread" "Unread messages" ?u)
                               ("date:today..now" "Today's messages" ?t)
                               ("date:7d..now" "Last 7 days" ?w)
                               ("mime:image/*" "Messages with images" ?p)
@@ -260,6 +265,10 @@
             (nreverse buffers)))
     (setq gnus-dired-mail-mode 'mu4e-user-agent)
     (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+
+    ;; use imagemagick, if available
+    (when (fboundp 'imagemagick-register-types)
+        (imagemagick-register-types))
 
     (map! :localleader
         :map mu4e-compose-mode-map
