@@ -10,7 +10,6 @@ localrepository = Gmail-Local
 remoterepository = Gmail-Remote
 # autorefresh = 5
 # quick = 10
-# postsynchook = mu index --maildir ~/Mail
 
 [Repository Gmail-Local]
 type = Maildir
@@ -32,7 +31,6 @@ localrepository = iCloud-Local
 remoterepository = iCloud-Remote
 # autorefresh = 5
 # quick = 10
-# postsynchook = mu index --maildir ~/Mail
 
 [Repository iCloud-Local]
 type = Maildir

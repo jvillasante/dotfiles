@@ -89,8 +89,8 @@
 
         mail-user-agent 'mu4e-user-agent
         mu4e-mu-binary "/usr/local/bin/mu"
-        mu4e-maildir "~/.Mail"
-        mu4e-get-mail-command "offlineimap -o"
+        mu4e-maildir "~/.Maildir"
+        mu4e-get-mail-command "mbsync -a"
         mu4e-update-interval 300
         mu4e-view-show-images t
         message-kill-buffer-on-exit t
@@ -204,10 +204,10 @@
                 :leave-func (lambda () (mu4e-clear-caches))
                 :vars '((user-mail-address     . "jvillasantegomez@gmail.com")
                            (user-full-name        . "Julio C. Villasante")
-                           (mu4e-sent-folder      . "/jvillasantegomez@gmail.com/[Gmail].Sent Mail")
-                           (mu4e-drafts-folder    . "/jvillasantegomez@gmail.com/[Gmail].Drafts")
-                           (mu4e-trash-folder     . "/jvillasantegomez@gmail.com/[Gmail].Trash")
-                           (mu4e-refile-folder    . "/jvillasantegomez@gmail.com/[Gmail].All Mail")))
+                           (mu4e-sent-folder      . "/gmail/Sent")
+                           (mu4e-drafts-folder    . "/gmail/Drafts")
+                           (mu4e-trash-folder     . "/gmail/Trash")
+                           (mu4e-refile-folder    . "/gmail/Archive")))
              ,(make-mu4e-context
                   :name "iCloud"
                   :enter-func (lambda () (mu4e-message "Switch to the iCloud context"))
@@ -217,10 +217,10 @@
                   :leave-func (lambda () (mu4e-clear-caches))
                   :vars '((user-mail-address     . "julio.villasante@icloud.com")
                              (user-full-name        . "Julio C. Villasante")
-                             (mu4e-sent-folder      . "/julio.villasante@icloud.com/Sent Messages")
-                             (mu4e-drafts-folder    . "/julio.villasante@icloud.com/Drafts")
-                             (mu4e-trash-folder     . "/julio.villasante@icloud.com/Junk")
-                             (mu4e-refile-folder    . "/julio.villasante@icloud.com/Archive")))))
+                             (mu4e-sent-folder      . "/icloud/Sent Messages")
+                             (mu4e-drafts-folder    . "/icloud/Drafts")
+                             (mu4e-trash-folder     . "/icloud/Junk")
+                             (mu4e-refile-folder    . "/icloud/Archive")))))
 
     ;; Configure sending mail.
     (setq
@@ -244,7 +244,7 @@
     (add-to-list 'mu4e-bookmarks
         (make-mu4e-bookmark
             :name "All Inboxes"
-            :query "maildir:/jvillasantegomez@gmail.com/INBOX OR maildir:/julio.villasante@icloud.com/INBOX"
+            :query "maildir:/gmail/Inbox OR maildir:/icloud/Inbox"
             :key ?i))
 
     ;; mu4e - attachment

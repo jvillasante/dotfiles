@@ -1,0 +1,84 @@
+#
+# Defaults
+#
+Create Both
+Expunge Both
+SyncState *
+
+#
+# Apple iCloud
+#
+IMAPAccount icloud
+Host imap.mail.me.com
+User julio.villasante@me.com
+AuthMechs LOGIN
+SSLType IMAPS
+SSLVersions TLSv1
+PassCmd "security find-generic-password -a julio.villasante@icloud.com -s imap.mail.me.com -w"
+
+IMAPStore icloud-remote
+Account icloud
+
+MaildirStore icloud-local
+Path ~/.Maildir/icloud/
+Inbox ~/.Maildir/icloud/Inbox
+Trash trash
+
+Channel icloud-folders
+Master :icloud-remote:
+Slave :icloud-local:
+Patterns "INBOX" "Drafts" "Arch*" "Sent*" "Trash" "Junk" "Deleted*"
+
+Group icloud
+Channel icloud-folders
+
+#
+# Google GMail
+#
+IMAPAccount gmail
+Host imap.gmail.com
+User jvillasantegomez@gmail.com
+PassCmd "security find-generic-password -a jvillasantegomez@gmail.com -s imap.gmail.com -w"
+AuthMechs PLAIN
+SSLType IMAPS
+CertificateFile /usr/local/etc/openssl/cert.pem
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Path ~/.Maildir/gmail/
+Inbox ~/.Maildir/gmail/Inbox
+
+Channel gmail-inbox
+Master :gmail-remote:
+Slave :gmail-local:
+Patterns "INBOX" "Arch*"
+
+Channel gmail-starred
+Master :gmail-remote:"[Gmail]/Starred"
+Slave :gmail-local:Starred
+
+Channel gmail-drafts
+Master :gmail-remote:"[Gmail]/Drafts"
+Slave :gmail-local:Drafts
+
+Channel gmail-sent
+Master :gmail-remote:"[Gmail]/Sent Mail"
+Slave :gmail-local:Sent
+
+Channel gmail-trash
+Master :gmail-remote:"[Gmail]/Trash"
+Slave :gmail-local:Trash
+
+Channel gmail-archive
+Master :gmail-remote:"[Gmail]/All Mail"
+Slave :gmail-local:Archive
+
+Group gmail
+Channel gmail-inbox
+Channel gmail-starred
+Channel gmail-drafts
+Channel gmail-sent
+Channel gmail-trash
+Channel gmail-archive
