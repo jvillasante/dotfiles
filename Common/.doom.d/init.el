@@ -76,7 +76,7 @@
     vc                ; version-control and Emacs, sitting in a tree
 
     :term
-    eshell          ; a consistent, cross-platform shell (WIP)
+    ;; eshell       ; a consistent, cross-platform shell (WIP)
     ;; shell        ; a terminal REPL for Emacs
     ;; term         ; terminals in Emacs
     vterm        ; another terminals in Emacs
@@ -96,7 +96,8 @@
     ;;docker
     editorconfig      ; let someone else argue about tabs vs spaces
     ;;ein               ; tame Jupyter notebooks with emacs
-    (eval +overlay)     ; run code, run (also, repls)
+    (eval             ; run code, run (also, repls)
+        +overlay)
     ;;gist              ; interacting with github gists
     (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
@@ -201,7 +202,7 @@
     ;; My Private modules
     :private
     ;; my-postframe
-    my-eshell
-    (:when (string= (system-name) "Julios-MacBook-Pro.local")
-        my-mu4e)
+    ;; my-eshell
+    ;; (:when (string= (system-name) "Julios-MacBook-Pro.local")
+    ;;     my-mu4e)
     my-cc)
