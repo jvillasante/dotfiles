@@ -112,9 +112,9 @@
                 :desc "Implementation"          :n "i" #'lsp-ui-peek-find-implementation
                 :desc "Definition"              :n "d" #'lsp-ui-peek-find-definitions
                 :desc "Reference"               :n "r" #'lsp-ui-peek-find-references)
-            (:prefix ("l" . "Lens")
-                :desc "Show"                    :n "l" #'lsp-lens-show
-                :desc "Hide"                    :n "q" #'lsp-lens-hide)
+            ;; (:prefix ("l" . "Lens")
+            ;;     :desc "Show"                    :n "l" #'lsp-lens-show
+            ;;     :desc "Hide"                    :n "q" #'lsp-lens-hide)
             (:prefix ("u" . "menu")
                 :desc "Show"                    :n "m" #'lsp-ui-imenu
                 :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))
