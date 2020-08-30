@@ -4,13 +4,11 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-namespace testing {
-namespace internal {
+namespace testing::internal {
 // enum GTestColor { COLOR_DEFAULT, COLOR_RED, COLOR_GREEN, COLOR_YELLOW };
-
 extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
-} // namespace internal
-} // namespace testing
+} // namespace testing::internal
+
 #define PRINTF(...)                                                                                \
     do {                                                                                           \
         testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[      OUT>] ");         \
@@ -18,11 +16,16 @@ extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
     } while (0)
 
 // C++ stream interface
-class TestCout : public std::stringstream {
+class test_gcout : public std::stringstream {
 public:
-    ~TestCout() { PRINTF("%s", str().c_str()); }
+    test_gcout() = default;
+    test_gcout(test_gcout const&) = delete;
+    test_gcout(test_gcout&&) = delete;
+    test_gcout& operator=(test_gcout const&) = delete;
+    test_gcout& operator=(test_gcout&&) = delete;
+    ~test_gcout() override { PRINTF("%s", str().c_str()); }
 };
 
-#define GCOUT TestCout()
+#define GCOUT test_gcout()
 
 #endif /* GTEST_COUT_H */

@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <type_traits>
 #include <utility>
-#include <cassert>
 
 #include "ostream_joiner.hpp"
 
@@ -21,15 +20,19 @@ std::ostream& operator<<(std::ostream& os, const std::pair<First, Second>& p) {
 } // namespace std
 
 namespace print {
-void line(const char c = '=', const std::size_t s = 80) { std::cout << std::string(s, c) << '\n'; }
-
-void line(std::string_view header, const char c = '=', const std::size_t s = 80) {
-    assert(header.size() < s);
-
-    std::cout << "===" << header << std::string(s - header.size() - 3, c) << '\n';
+inline void line(const char c = '=', const std::size_t s = 80) {
+    std::cout << std::string(s, c) << '\n';
 }
 
-void new_line() { std::cout << '\n'; }
+inline void line(std::string_view header, const char c = '=', const std::size_t s = 80) {
+    if (header.size() < s) {
+        std::cout << "===" << header << std::string(s - header.size() - 3, c) << '\n';
+    } else {
+        std::cout << header << '\n';
+    }
+}
+
+inline void new_line() { std::cout << '\n'; }
 
 template <typename Iterator>
 void collection(std::string_view header, Iterator begin, Iterator end,
@@ -68,7 +71,6 @@ void vector_inline(std::string_view header, std::vector<T>& vec, std::ostream& o
     out << "  Size:     " << vec.size() << '\n';
     out << "  Capacity: " << vec.capacity() << '\n';
 }
-
 } // namespace print
 
 #endif /* PRINT_H */
