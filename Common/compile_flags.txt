@@ -8,4 +8,4 @@
 -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include
 -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks
 -I.
--Iinclude
+-I./include
