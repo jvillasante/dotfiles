@@ -21,8 +21,6 @@
 (defvar +my/cpp-default-mode-for-headers 'c++-mode
     "Default mode to open header files. Can be `c-mode' or `c++-mode'.")
 
-;; (spacemacs|define-jump-handlers c++-mode)
-
 (after! smartparens
     (sp-with-modes '(c-mode c++-mode)
         ;; messes with std::cout << ...
