@@ -297,8 +297,8 @@ T - tag prefix
         neo-vc-integration nil
         neo-autorefresh nil)
 
-    (if IS-MAC
-        (setq neo-default-system-application "open"))
+    ;; (if IS-MAC
+    ;;     (setq neo-default-system-application "open"))
 
     (setq neo-hidden-regexp-list
         '(;; vcs folders
