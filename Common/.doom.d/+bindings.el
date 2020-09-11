@@ -196,6 +196,10 @@
         (:map dired-mode-map
             :desc "Dired Hydra" :n "." #'+my/hydra-dired/body))
 
+    (:after org
+        (:map org-mode-map
+            :desc "Org Hydra" :n "." #'+my/hydra-org/body))
+
     (:after neotree
         (:map neotree-mode-map
             :desc "Neotree Stretch" :n [tab] #'neotree-stretch-toggle))
