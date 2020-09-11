@@ -3,7 +3,7 @@
 (after! hydra
     ;; Hydra for dired
     (after! dired
-        (defhydra +my/hydra-dired (:hint nil :color pink)
+        (defhydra +my/hydra-dired (:hint nil :color red)
             "
 _+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
 _C_opy             _O_ view other   _U_nmark all       _)_ omit-mode      _$_ hide-subdir    C-x C-q : edit
@@ -54,6 +54,7 @@ T - tag prefix
             ("q" nil)
             ("." nil :color blue)))
 
+    ;; Hydra for org
     (after! org
         (defhydra +my/hydra-org (:color red :columns 3)
             "Org Mode Movements"
@@ -63,4 +64,43 @@ T - tag prefix
             ("P" org-backward-heading-same-level "prev heading at same level")
             ("u" outline-up-heading "up heading")
             ("g" org-goto "goto" :exit t)))
+
+    ;; Hydra for neotree
+    (after! neotree
+        (defhydra +my/hydra-neotree (:hint nil :color red)
+            "
+Navigation^^^^             Actions^^         Visual actions/config^^^
+───────^^^^─────────────── ───────^^──────── ───────^^^────────────────
+[_L_]   next sibling^^     [_c_] create      [_TAB_] shrink/enlarge
+[_H_]   previous sibling^^ [_C_] copy        [_|_]   vertical split
+[_J_]   goto child^^       [_d_] delete      [_-_]   horizontal split
+[_K_]   goto parent^^      [_r_] rename      [_gr_]  refresh^
+[_l_]   open/expand^^      [_R_] change root [_s_]   hidden:^^^ %s(if neo-buffer--show-hidden-file-p \"on\" \"off\")
+[_h_]   up/collapse^^      ^^                ^^^
+[_j_]   line down^^        ^^                ^^^
+[_k_]   line up^^          ^^                ^^
+[_'_]   quick look         ^^                ^^
+[_RET_] open               ^^^^              [_?_]   close hints
+"
+            ("RET" +neotree/expand-or-open)
+            ("TAB" neotree-stretch-toggle)
+            ("|" neotree-enter-vertical-split)
+            ("-" neotree-enter-horizontal-split)
+            ("?" nil :exit t)
+            ("'" neotree-quick-look)
+            ("c" neotree-create-node)
+            ("C" neotree-copy-node)
+            ("d" neotree-delete-node)
+            ("gr" neotree-refresh)
+            ("h" +neotree/collapse-or-up)
+            ("H" neotree-select-previous-sibling-node)
+            ("j" neotree-next-line)
+            ("J" neotree-select-down-node)
+            ("k" neotree-previous-line)
+            ("K" neotree-select-up-node)
+            ("l" +neotree/expand-or-open)
+            ("L" neotree-select-next-sibling-node)
+            ("r" neotree-rename-node)
+            ("R" neotree-change-root)
+            ("s" neotree-hidden-file-toggle)))
     )
