@@ -10,7 +10,7 @@
         (global-undo-tree-mode -1)))
 
 (after! evil
-  (setq evil-want-fine-undo t))
+    (setq evil-want-fine-undo t))
 
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
@@ -34,18 +34,20 @@
     (setq dash-docs-browser-func #'browse-url))
 
 (after! projectile
-    (defun +my/projectile-ignore-project-p (project-root)
-        (string-match-p "/\\.emacs\\.d/\\.local/straight/repos" project-root))
-
     (setq
         projectile-require-project-root t
         projectile-project-root-files-bottom-up '(".projectile" ".git")
         projectile-sort-order 'recentf
         projectile-indexing-method 'hybrid
-        projectile-ignored-project-function #'+my/projectile-ignore-project-p))
+        projectile-ignored-projects '("~/" "/tmp" "~/.emacs.d/.local/straight/repos/"))
+
+    (defun projectile-ignored-project-function (filepath)
+        "Return t if FILEPATH is within any of `projectile-ignored-projects'"
+        (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects))))
 
 (after! ivy
-    (setq ivy-display-style nil
+    (setq
+        ivy-display-style nil
         ivy-count-format "(%d/%d) "
         ivy-use-selectable-prompt t    ; much better than C-M-j
         ivy-use-virtual-buffers t      ; to make ivy-views appear on the buffers list
@@ -53,6 +55,10 @@
         ivy-initial-inputs-alist nil   ; remove initial ^ input.
         ivy-extra-directories nil      ; remove . and .. directory. (default value: ("../" "./"))
         ivy-height 10)
+
+    ;; While in an ivy mini-buffer C-o shows a list of all possible actions one may take.
+    ;; By default this is #'ivy-read-action-by-key however a better interface to this is using Hydra.
+    (setq ivy-read-action-function #'ivy-hydra-read-action)
 
     (setq ivy-display-functions-alist
         '((counsel-irony . ivy-display-function-overlay)
@@ -72,8 +78,9 @@
     (smartparens-global-mode 1)
     (show-paren-mode t))
 
-(after! flyspell-lazy
-    (add-hook 'prog-mode-hook 'flyspell-lazy-mode))
+(after! flyspell
+    (require 'flyspell-lazy)
+    (flyspell-lazy-mode 1))
 
 (after! flycheck
     (setq
@@ -225,7 +232,7 @@
     ;; auto-revert dired buffers if file changed on disk
     (setq dired-auto-revert-buffer t)
 
-    ; dired loads on project switch
+                                        ; dired loads on project switch
     (setq projectile-switch-project-action 'projectile-dired))
 
 (after! dired-quick-sort
@@ -293,7 +300,7 @@
             "\\("   "^\\..+"                                  "\\)")))
 
 (after! evil-org
-  (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
+    (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! org
     ;; hook

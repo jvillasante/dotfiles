@@ -5,6 +5,7 @@
 (package! modus-vivendi-theme)
 (package! solaire-mode :disable t)
 
+(package! flyspell-lazy)
 (package! ivy-prescient)
 (package! dired-quick-sort)
 (package! ibuffer-vc)

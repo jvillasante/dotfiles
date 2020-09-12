@@ -5,9 +5,8 @@
         (setq
             browse-url-browser-function 'browse-url-generic
             engine/browser-function 'browse-url-generic
-            browse-url-generic-program "open")
-
-        (setq ns-use-thin-smoothing t)
+            browse-url-generic-program "open"
+            ns-use-thin-smoothing t)
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (add-to-list 'default-frame-alist '(ns-appearance . dark)))
     (IS-LINUX
@@ -41,19 +40,14 @@
     split-width-threshold 160          ; Split verticaly by default
     evil-cross-lines t                 ; Make horizontal movement cross lines
     frame-title-format "%f"
-
-    ;; scroll
     scroll-margin 3
-
-    ;; use space to indent by default
-    indent-tabs-mode nil
+    uniquify-buffer-name-style 'forward   ; Uniquify buffer names
+    indent-tabs-mode nil                  ; use space to indent by default
 
     ;; set appearance of a tab that is represented by 4 spaces
     evil-shift-width 4
     tab-width 4
-
-    ;; show those ugly tabs
-    highlight-tabs t
+    highlight-tabs t  ; show those ugly tabs
 
     ;; Whitespace settings
     show-trailing-whitespace t
