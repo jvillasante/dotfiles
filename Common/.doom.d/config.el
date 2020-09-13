@@ -122,12 +122,11 @@
         lsp-eldoc-render-all nil
         lsp-signature-render-documentation nil
         lsp-signature-auto-activate nil
-        lsp-signature-doc-lines 1)
-
-    (setq
+        lsp-signature-doc-lines 1
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
-        lsp-enable-on-type-formatting nil)
+        lsp-enable-on-type-formatting nil
+        lsp-headerline-breadcrumb-enable t)
 
     ;; Rust
     (setq
@@ -139,6 +138,7 @@
     (setq lsp-clients-clangd-args
         '("-j=2"
              "--log=error"
+             ;; "--log=info"
              ;; "--compile-commands-dir=build"
              "--background-index"
              "--clang-tidy"
