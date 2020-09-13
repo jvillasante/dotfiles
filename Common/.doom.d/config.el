@@ -168,8 +168,7 @@
     (setq lsp-rust-analyzer-display-parameter-hints t)
     (setq lsp-rust-analyzer-server-display-inlay-hints t)
     (setq lsp-rust-all-features t)
-    (setq lsp-rust-full-docs t)
-    (setq lsp-enable-semantic-highlighting t))
+    (setq lsp-rust-full-docs t))
 
 (after! deft
     (setq
