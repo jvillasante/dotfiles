@@ -125,8 +125,7 @@
         lsp-signature-doc-lines 1
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
-        lsp-enable-on-type-formatting nil
-        lsp-headerline-breadcrumb-enable t)
+        lsp-enable-on-type-formatting nil)
 
     ;; Rust
     (setq
