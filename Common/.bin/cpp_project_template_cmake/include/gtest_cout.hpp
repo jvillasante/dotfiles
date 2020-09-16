@@ -25,16 +25,16 @@
     } while (0)
 
 // C++ stream interface
-class test_gcout : public std::stringstream {
+class gtest_cout : public std::stringstream {
 public:
-    test_gcout() = default;
-    test_gcout(test_gcout const&) = delete;
-    test_gcout(test_gcout&&) = delete;
-    test_gcout& operator=(test_gcout const&) = delete;
-    test_gcout& operator=(test_gcout&&) = delete;
-    ~test_gcout() override { PRINTF("%s", str().c_str()); }
+    gtest_cout() = default;
+    gtest_cout(gtest_cout const&) = delete;
+    gtest_cout(gtest_cout&&) = delete;
+    gtest_cout& operator=(gtest_cout const&) = delete;
+    gtest_cout& operator=(gtest_cout&&) = delete;
+    ~gtest_cout() override { PRINTF("%s", str().c_str()); }
 };
 
-#define GCOUT test_gcout()
+#define GCOUT gtest_cout()
 
 #endif /* GTEST_COUT_H */
