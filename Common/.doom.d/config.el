@@ -234,8 +234,7 @@
     (setq projectile-switch-project-action 'projectile-dired))
 
 (after! dired-quick-sort
-    (dired-quick-sort-setup)
-    (define-key dired-mode-map "s" 'hydra-dired-quick-sort/body))
+    (dired-quick-sort-setup))
 
 (after! neotree
     (setq
@@ -243,7 +242,6 @@
         neo-window-width 32
         neo-create-file-auto-open t
         neo-show-updir-line t
-        neo-smart-open t
         neo-show-hidden-files t
         neo-auto-indent-point t
         neo-vc-integration nil
@@ -452,9 +450,6 @@
     :init   (org-crypt-use-before-save-magic)
     :custom (org-crypt-key user-mail-address)
     :config (setq org-tags-exclude-from-inheritance (quote ("crypt"))))
-
-(use-package! crux
-    :bind (("C-c o" . crux-open-with)))
 
 (use-package! visual-regexp
     :commands (vr/query-replace vr/replace))

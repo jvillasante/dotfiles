@@ -7,11 +7,8 @@
 
 (package! flyspell-lazy)
 (package! ivy-prescient)
-(package! dired-quick-sort)
 (package! ibuffer-vc)
-
-(package! sr-speedbar)
-(package! crux)
+(package! dired-quick-sort)
 (package! visual-regexp)
 
 ;;(package! pdf-tools :recipe (:host github :repo "fuxialexander/pdf-tools" :branch "add-mac-retina"))
