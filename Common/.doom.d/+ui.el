@@ -50,3 +50,4 @@
 (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*compilation" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
+(set-popup-rule! "^\\*osx-dictionary" :size 0.4 :quit t :ttl 0)
