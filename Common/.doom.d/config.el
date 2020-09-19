@@ -240,6 +240,7 @@
 (after! neotree
     (setq
         neo-theme 'ascii
+        neo-window-width 32
         neo-create-file-auto-open t
         neo-show-updir-line t
         neo-smart-open t
