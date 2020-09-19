@@ -71,7 +71,7 @@ T - tag prefix
             "
 Navigation^^^^             Actions^^         Visual actions/config^^^
 ───────^^^^─────────────── ───────^^──────── ───────^^^────────────────
-[_L_]   next sibling^^     [_c_] create      [_._] shrink/enlarge
+[_L_]   next sibling^^     [_c_] create      [_TAB_] shrink/enlarge
 [_H_]   previous sibling^^ [_C_] copy        [_|_]   vertical split
 [_J_]   goto child^^       [_d_] delete      [_-_]   horizontal split
 [_K_]   goto parent^^      [_r_] rename      [_gr_]  refresh^
@@ -83,7 +83,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
 [_RET_] open               ^^^^              [_?_]   close hints
 "
             ("RET" +neotree/expand-or-open)
-            ("." neotree-stretch-toggle)
+            ("TAB" neotree-stretch-toggle)
             ("|" neotree-enter-vertical-split)
             ("-" neotree-enter-horizontal-split)
             ("?" nil :exit t)
