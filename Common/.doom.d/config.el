@@ -39,7 +39,7 @@
         projectile-project-root-files-bottom-up '(".projectile" ".git")
         projectile-sort-order 'recentf
         projectile-indexing-method 'hybrid
-        projectile-ignored-projects '("~/" "/tmp" "~/.emacs.d/.local/straight/repos/"))
+        projectile-ignored-projects '("~/" "/tmp" "~/.emacs.d/" "~/.emacs.d/.local/straight/repos/"))
 
     (defun projectile-ignored-project-function (filepath)
         "Return t if FILEPATH is within any of `projectile-ignored-projects'"
@@ -299,11 +299,6 @@
     (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! org
-    ;; hook
-    (add-hook 'org-mode-hook
-        (lambda ()
-            (set-fill-column 110)))
-
     ;; doom fold level
     (setq +org-initial-fold-level 1)
 

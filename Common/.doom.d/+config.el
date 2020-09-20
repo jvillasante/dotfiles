@@ -133,7 +133,7 @@
 (add-hook 'text-mode-hook #'turn-on-flyspell)
 (add-hook 'phyton-mode-hook #'whitespace-mode)
 (add-hook 'makefile-mode-hook #'whitespace-mode)
-;; (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
+(add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 ;; (remove-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 (add-hook! 'markdown-mode-hook
     (progn
