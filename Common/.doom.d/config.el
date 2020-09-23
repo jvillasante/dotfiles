@@ -299,8 +299,8 @@
     (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! org
-    ;; doom fold level
-    (setq +org-initial-fold-level 1)
+    ;; org issue on MacOS
+    (setq org-startup-indented nil)
 
     ;; org problems
     (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
@@ -315,15 +315,11 @@
     ;; settings
     (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
     (setq org-agenda-window-setup (quote current-window)) ;; open agenda in current window
-    (setq org-startup-indented t)
-    (setq org-indent-mode t)
     (setq org-startup-folded t)
-    (setq org-list-description-max-indent 5) ;; set maximum indentation for description lists
     (setq org-adapt-indentation nil) ;; prevent demoting heading also shifting text inside sections
     (setq org-cycle-separator-lines 2)
     (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
     (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
-    (setq org-clock-idle-time 15)
 
     ;; more settings
     (setq
