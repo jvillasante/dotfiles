@@ -194,12 +194,12 @@
 
     (:after dired
         (:map dired-mode-map
-            :desc "Dired Hydra" :n "." #'+my/hydra-dired/body
+            :desc "Dired Hydra" :n "?" #'+my/hydra-dired/body
             :desc "Dired Quicksort Hydra" :n "s" #'hydra-dired-quick-sort/body))
 
     (:after org
         (:map org-mode-map
-            :desc "Org Hydra" :n "." #'+my/hydra-org/body))
+            :desc "Org Hydra" :n "?" #'+my/hydra-org/body))
 
     (:after neotree
         (:map neotree-mode-map
