@@ -240,6 +240,7 @@
     (setq
         neo-theme 'ascii
         neo-window-width 32
+        neo-smart-open t
         neo-create-file-auto-open t
         neo-show-updir-line t
         neo-show-hidden-files t
@@ -247,6 +248,10 @@
         neo-vc-integration nil
         neo-autorefresh nil)
 
+    ;; When running `projectile-switch-project`, `neotree` will change root automatically.
+    (setq projectile-switch-project-action 'neotree-projectile-action)
+
+    ;; Hidden files
     (setq neo-hidden-regexp-list
         '(;; vcs folders
              "^\\.\\(?:git\\|hg\\|svn\\)$"
