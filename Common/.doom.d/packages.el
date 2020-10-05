@@ -11,8 +11,7 @@
 (package! dired-quick-sort)
 (package! visual-regexp)
 
-;;(package! pdf-tools :recipe (:host github :repo "fuxialexander/pdf-tools" :branch "add-mac-retina"))
-;;(package! pdf-tools)
+;; I don't use it
 (package! ggtags :disable t)
 
 ;; testing out clangd
