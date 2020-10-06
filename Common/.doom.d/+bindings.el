@@ -178,20 +178,6 @@
                     :desc "Cargo-outdated"    "u" #'rustic-cargo-outdated)))
         )
 
-    (:after ivy
-        (:leader
-            (:prefix "/"
-                :desc "Find in project" :n "/" #'+ivy/project-search)))
-
-    (:after helm
-        (:leader
-            (:prefix "/"
-                :desc "Find in project" :n "/" #'+helm/project-search)))
-
-    (:after helm-files
-        (:map helm-find-files-map
-            :desc "Up one directory" :n "C-h" #'helm-find-files-up-one-level))
-
     (:after dired
         (:map dired-mode-map
             :desc "Dired Hydra" :n "?" #'+my/hydra-dired/body
