@@ -192,6 +192,10 @@
             :desc "Neotree Stretch" :n [tab] #'neotree-stretch-toggle
             :desc "Neotree Hydra" :n "?" #'+my/hydra-neotree/body))
 
+    (:after treemacs
+        (:map treemacs-mode-map
+            :desc "Current Project" :n [tab] #'treemacs-display-current-project-exclusively))
+
     (:after elfeed
         (:map elfeed-search-mode-map
             :desc "Elfeed update"         :n "gr" #'elfeed-update

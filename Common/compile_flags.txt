@@ -1,11 +1,11 @@
--std=c++17
+-std=c++20
 -Wall
 -Wextra
 -Werror
 -DDEBUG
 -isystem/usr/local/opt/llvm/bin/../include/c++/v1
--isystem/usr/local/Cellar/llvm/10.0.1_1/lib/clang/10.0.1/include
+-isystem/usr/local/Cellar/llvm/11.0.0/lib/clang/11.0.0/include
 -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include
 -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks
--I.
+-I./
 -I./include

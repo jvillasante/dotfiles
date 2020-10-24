@@ -1,1 +1,1 @@
-* CPP Project Template
+* CPP-20 Project Template
