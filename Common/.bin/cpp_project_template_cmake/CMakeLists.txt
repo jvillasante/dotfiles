@@ -74,14 +74,14 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 # add_executable(${PROJECT_NAME} executable_name.cpp)
 # target_link_libraries(${PROJECT_NAME} tbb)
 #
-###### This is how to copy a file to bin
+###### This is how to copy a file/directory to bin
 # add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-#                    COMMAND ${CMAKE_COMMAND} -E copy
-#                    ${PROJECT_SOURCE_DIR}/file.txt $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+#     COMMAND ${CMAKE_COMMAND} -E copy
+#     ${PROJECT_SOURCE_DIR}/file.txt $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 #
 # add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-#                    COMMAND ${CMAKE_COMMAND} -E copy
-#                    ${PROJECT_SOURCE_DIR}/file.txt ${CMAKE_CURRENT_BINARY_DIR})
+#     COMMAND ${CMAKE_COMMAND} -E copy_directory
+#     ${CMAKE_SOURCE_DIR}/dir $<TARGET_FILE_DIR:${PROJECT_NAME}>/dir)
 #
 ###### This is how to include our own includes
 # include_directories(${INCLUDE_PATH})
