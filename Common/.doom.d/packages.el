@@ -1,14 +1,21 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+;; ui
 (package! modus-operandi-theme)
 (package! modus-vivendi-theme)
 (package! solaire-mode :disable t)
 
+;; dired
+(package! dired-quick-sort)
+(package! dired-single)
+(package! dired-open)
+(package! dired-hide-dotfiles)
+
+;; others
 (package! flyspell-lazy)
 (package! ivy-prescient)
 (package! ibuffer-vc)
-(package! dired-quick-sort)
 (package! visual-regexp)
 
 ;; I don't use it

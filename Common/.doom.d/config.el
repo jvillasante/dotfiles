@@ -230,11 +230,15 @@
     ;; auto-revert dired buffers if file changed on disk
     (setq dired-auto-revert-buffer t)
 
-                                        ; dired loads on project switch
+    ;; dired loads on project switch
     (setq projectile-switch-project-action 'projectile-dired))
 
 (after! dired-quick-sort
     (dired-quick-sort-setup))
+
+;; (after! dired-open
+;;     (setq dired-open-extensions '(("png" . "feh")
+;;                                      ("mkv" . "mpv"))))
 
 (after! neotree
     (setq

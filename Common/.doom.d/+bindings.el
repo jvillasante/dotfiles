@@ -180,6 +180,9 @@
 
     (:after dired
         (:map dired-mode-map
+            :desc "Dired single up" :n "h" #'dired-single-up-directory
+            :desc "Dired single buffer" :n "l" #'dired-single-buffer
+            :desc "Dired hide dotfiles" :n "H" #'dired-hide-dotfiles-mode
             :desc "Dired Hydra" :n "?" #'+my/hydra-dired/body
             :desc "Dired Quicksort Hydra" :n "s" #'hydra-dired-quick-sort/body))
 
