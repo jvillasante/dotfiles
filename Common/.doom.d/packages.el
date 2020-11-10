@@ -17,6 +17,7 @@
 (package! ivy-prescient)
 (package! ibuffer-vc)
 (package! visual-regexp)
+(package! crux)
 
 ;; I don't use it
 (package! ggtags :disable t)
