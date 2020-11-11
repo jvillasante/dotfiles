@@ -8,6 +8,7 @@ if hash brew 2>/dev/null; then
     brew update
     brew upgrade
     brew upgrade --cask --greedy
+    mas upgrade
   else
     echo "Not updating brew."
   fi

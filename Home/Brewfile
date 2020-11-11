@@ -1,0 +1,86 @@
+# where to install homebrew-cask applications
+cask_args appdir: '/Applications'
+
+# set-up brew with taps
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
+tap "homebrew/services"
+tap "mas-cli/tap"
+tap "d12frosted/emacs-plus"
+
+# Brew
+brew "aspell"
+brew "autoconf"
+brew "automake"
+brew "bash-completion"
+brew "binutils"
+brew "sqlite"
+brew "ccache"
+brew "llvm"
+brew "clang-format"
+brew "cmake"
+brew "coreutils"
+brew "cppcheck"
+brew "curl"
+brew "doxygen"
+brew "editorconfig"
+brew "gnutls"
+brew "fd"
+brew "gcc"
+brew "git"
+brew "gnupg"
+brew "go"
+brew "graphviz"
+brew "hopenpgp-tools"
+brew "htop"
+brew "imagemagick"
+brew "mas"
+brew "mercurial"
+brew "neofetch"
+brew "neovim"
+brew "node"
+brew "tree"
+brew "pass"
+brew "percol"
+brew "pinentry-mac"
+brew "poppler"
+brew "ranger"
+brew "ripgrep"
+brew "telnet"
+brew "the_silver_searcher"
+brew "tmux"
+brew "wget"
+brew "ykpers"
+brew "ykman", link: false
+brew "zsh"
+brew "d12frosted/emacs-plus/emacs-plus@27", args: ["with-modern-icon"]
+
+# MAS - comes before 'cask' so a MAS version of an app takes precendence
+mas "Amphetamine", id: 937984704
+mas "Magnet", id: 441258766
+mas "Telegram", id: 747648890
+mas "WhatsApp", id: 1147396723
+
+# cask applications
+cask "alacritty"
+cask "alfred"
+cask "appcleaner"
+cask "dash"
+cask "discord"
+cask "dropbox"
+cask "firefox"
+cask "font-fira-mono"
+cask "font-source-code-pro"
+cask "gitter"
+cask "iterm2"
+cask "mactex"
+cask "shifty"
+cask "skype"
+cask "slack"
+cask "the-unarchiver"
+cask "transmission"
+cask "vlc"
+cask "wireshark"
