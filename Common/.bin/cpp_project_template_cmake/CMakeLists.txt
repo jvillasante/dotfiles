@@ -48,7 +48,7 @@ endif()
 ######################################################################################################################################
 
 set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
-set(LIBS_PATH "/Users/juliovillasante/Workspace/Software")
+set(LIBS_PATH "/Users/jvillasante/Workspace/Software")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")

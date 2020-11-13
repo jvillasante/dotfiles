@@ -29,5 +29,5 @@ gcc
 # Local Includes
 -I.
 -Iinclude
-# -I/Users/juliovillasante/Workspace/Software/gcc/googletest/googletest/include
-# -I/Users/juliovillasante/Workspace/Software/gcc/googletest/googlemock/include
+# -I/Users/jvillasante/Workspace/Software/gcc/googletest/googletest/include
+# -I/Users/jvillasante/Workspace/Software/gcc/googletest/googlemock/include
