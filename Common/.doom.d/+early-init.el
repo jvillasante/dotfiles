@@ -24,7 +24,8 @@
 ;; Use vterm system libraries
 ;; Ubuntu or Debian users: ~apt-get install libvterm-dev~
 ;; MacOS: ~brew install libvterm~
-(setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
+;; (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
+(setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes")
 
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")

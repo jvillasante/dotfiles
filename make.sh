@@ -98,7 +98,7 @@ for file in $files; do
 done
 
 echo ">> Linking other files in ~/home..."
-files=".spacemacs.d .ccls .clang-format .gitconfig"
+files=".ccls .clang-format .gitconfig"
 for file in $files; do
     unlink ~/$file
 
@@ -107,13 +107,6 @@ for file in $files; do
     elif [ $CURRENT_ENV = "WORK" ]; then
         ln -s $DOTFILES_DIR/Work/$file ~/
     fi
-done
-
-echo ">> Linking common files in ~/.config"
-files="nvim"
-for file in $files; do
-    unlink ~/.config/$file
-    ln -s $DOTFILES_DIR/Common/$file ~/.config
 done
 
 echo ">> Linking other files in ~/.config"
