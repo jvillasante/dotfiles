@@ -98,7 +98,7 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     # family: Source Code Pro
-    family: Fira Mono
+    family: DejaVu
     style: Regular
 
   # Bold font face
@@ -108,7 +108,7 @@ font:
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
     # family: Source Code Pro
-    family: Fira Mono
+    family: DejaVu
     style: Bold
 
   # Italic font face
@@ -118,7 +118,7 @@ font:
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
     # family: Source Code Pro
-    family: Fira Mono
+    family: DejaVu
     style: Italic
 
   # Bold italic font face
@@ -128,7 +128,7 @@ font:
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
     # family: Source Code Pro
-    family: Fira Mono
+    family: DejaVu
     style: Bold Italic
 
   # Point size
@@ -139,7 +139,6 @@ font:
   offset:
     x: 0
     y: 0
-
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
