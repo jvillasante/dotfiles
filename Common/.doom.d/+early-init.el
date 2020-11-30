@@ -15,17 +15,13 @@
     (IS-MAC
         (setq
             +my/zsh-path "/usr/local/bin/zsh"
-            +my/clang-path "/usr/local/opt/llvm/bin/clang"))
+            +my/clang-path "/usr/local/opt/llvm/bin/clang"
+            vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes"))
     (IS-LINUX
         (setq
             +my/zsh-path "/usr/bin/zsh"
-            +my/clang-path "/usr/bin/clang")))
-
-;; Use vterm system libraries
-;; Ubuntu or Debian users: ~apt-get install libvterm-dev~
-;; MacOS: ~brew install libvterm~
-;; (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
-(setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes")
+            +my/clang-path "/usr/bin/clang"
+            vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")))
 
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")
