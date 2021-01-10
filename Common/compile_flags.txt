@@ -4,8 +4,8 @@
 -Werror
 -DDEBUG
 -isystem/usr/local/opt/llvm/bin/../include/c++/v1
--isystem/usr/local/Cellar/llvm/11.0.0/lib/clang/11.0.0/include
--isystem/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include
--isystem/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks
+-isystem/usr/local/Cellar/llvm/11.0.0_1/lib/clang/11.0.0/include
+-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
+-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
 -I./
 -I./include
