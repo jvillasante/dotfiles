@@ -117,6 +117,9 @@
     (setq slime-default-lisp 'sbcl)
     (setq slime-net-coding-system 'utf-8-unix))
 
+(after! format
+    (setq +format-with-lsp nil))
+
 (after! lsp-mode
     (setq
         lsp-eldoc-render-all nil
