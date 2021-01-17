@@ -16,16 +16,14 @@ using tstringstream =
     std::basic_stringstream<CharT, std::char_traits<CharT>, std::allocator<CharT>>;
 // ----------
 
-template <typename CharT, typename Val,
-          typename = typename std::enable_if<std::is_arithmetic<Val>::value>::type>
-inline tstring<CharT> to_string(Val const val) {
+template <typename Val, typename = typename std::enable_if<std::is_arithmetic<Val>::value>::type>
+inline std::string to_string(Val const val) {
     return std::to_string(val);
 }
 
-template <typename CharT, typename Val,
-          typename = typename std::enable_if<!std::is_arithmetic<Val>::value>::type>
-inline tstring<CharT> to_string(Val const& val) {
-    return static_cast<tstringstream<CharT>>(tstringstream<CharT>() << val).str();
+template <typename Val, typename = typename std::enable_if<!std::is_arithmetic<Val>::value>::type>
+inline std::string to_string(Val const& val) {
+    return static_cast<std::ostringstream>(std::ostringstream{} << val).str();
 }
 // ----------
 
