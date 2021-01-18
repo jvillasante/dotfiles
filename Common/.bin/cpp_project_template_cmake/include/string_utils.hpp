@@ -23,7 +23,7 @@ inline std::string to_string(Val const val) {
 
 template <typename Val, typename = typename std::enable_if<!std::is_arithmetic<Val>::value>::type>
 inline std::string to_string(Val const& val) {
-    return static_cast<std::ostringstream>(std::ostringstream{} << val).str();
+    return static_cast<std::ostringstream const&>(std::ostringstream{} << val).str();
 }
 // ----------
 

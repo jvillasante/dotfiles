@@ -3,21 +3,6 @@
 
 #include <sstream>
 
-// Unfortunately this approach doesn't work any longer with modern versions of Google Test
-// testing::internal::ColoredPrintf isn't available any longer to the public since it has been
-// made static.
-//
-// namespace testing::internal {
-// enum GTestColor { COLOR_DEFAULT, COLOR_RED, COLOR_GREEN, COLOR_YELLOW };
-// extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
-// } // namespace testing::internal
-//
-// #define PRINTF(...)                                                                                \
-//     do {                                                                                           \
-//         testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[      OUT>] ");         \
-//         testing::internal::ColoredPrintf(testing::internal::COLOR_YELLOW, __VA_ARGS__);            \
-//     } while (0)
-
 #define PRINTF(...)                                                                                \
     do {                                                                                           \
         printf("%s", "[      OUT>] ");                                                             \
