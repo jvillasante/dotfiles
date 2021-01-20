@@ -49,6 +49,7 @@
         (:prefix ("o" . "Open")
             :desc "Dired"  :n "d" #'dired
             :desc "Ranger" :n "r" #'ranger
+            :desc "Pass"   :n "p" #'pass
             (:when (featurep! :ui neotree)
                 :desc "Toogle neotree"  :n "n" #'neotree-toggle
                 :desc "File in neotree" :n "N" #'+neotree/find-this-file)

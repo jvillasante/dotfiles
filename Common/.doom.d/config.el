@@ -319,6 +319,9 @@
 (after! evil-org
     (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
+(after! pass
+    (setq password-store-password-length 25))
+
 (after! org
     ;; doom fold level
     (setq +org-initial-fold-level 1)
