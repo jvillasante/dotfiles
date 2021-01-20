@@ -53,8 +53,8 @@
                 :desc "Toogle neotree"  :n "n" #'neotree-toggle
                 :desc "File in neotree" :n "N" #'+neotree/find-this-file)
             (:when (featurep! :ui treemacs)
-                ;; :desc "Toggle treemacs"  :n "n" #'+treemacs/toggle
-                :desc "Toggle treemacs"  :n "n" #'treemacs
+                ;; :desc "Toggle treemacs"  :n "n" #'treemacs
+                :desc "Toggle treemacs"  :n "n" #'+treemacs/toggle
                 :desc "File in treemacs" :n "N" #'treemacs-find-file))
 
         ;;;; Windows
