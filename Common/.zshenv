@@ -25,7 +25,11 @@ fi
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
     export CARGO_HOME="$HOME/.cargo"
-    export PATH="$CARGO_HOME/bin:$PATH"
+    if [ -f "$CARGO_HOME/env" ]; then
+        source "$CARGO_HOME/env"
+    else
+        export PATH="$CARGO_HOME/bin:$PATH"
+    fi
     export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 fi
 
@@ -58,3 +62,4 @@ fi
 
 # rlog
 # export RLOG_HOME="$HOME/Software/src/rlog-1.4"
+source "$HOME/.cargo/env"
