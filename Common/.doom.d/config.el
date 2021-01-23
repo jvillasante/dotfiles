@@ -166,9 +166,9 @@
     (setq lsp-rust-analyzer-cargo-watch-command "clippy")
     (setq lsp-rust-analyzer-cargo-load-out-dirs-from-check t)
     (setq lsp-rust-analyzer-proc-macro-enable t)
-    (setq lsp-rust-analyzer-display-chaining-hints t)
-    (setq lsp-rust-analyzer-display-parameter-hints t)
-    (setq lsp-rust-analyzer-server-display-inlay-hints t)
+    (setq lsp-rust-analyzer-display-chaining-hints nil)
+    (setq lsp-rust-analyzer-display-parameter-hints nil)
+    (setq lsp-rust-analyzer-server-display-inlay-hints nil)
     (setq lsp-rust-all-features t)
     (setq lsp-rust-full-docs t))
 
