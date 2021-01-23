@@ -178,7 +178,7 @@
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
         deft-recursive t
-        deft-use-filename-as-title t
+        deft-use-filename-as-title nil
         deft-use-filter-string-for-filename t
         deft-file-naming-rules '((noslash . "-")
                                     (nospace . "-")
