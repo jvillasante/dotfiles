@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.15)
 
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 set(CLANG_PREFIX "/usr/local/opt/llvm")
