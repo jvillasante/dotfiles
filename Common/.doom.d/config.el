@@ -135,10 +135,8 @@
         lsp-rust-server 'rust-analyzer)
 
     ;; C++
-    (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
-    (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
     (setq lsp-clients-clangd-args
-        '("-j=2"
+        '("-j=4"
              "--log=error"
              ;; "--log=info"
              ;; "--compile-commands-dir=build"
@@ -147,7 +145,10 @@
              "--completion-style=detailed"
              "--pch-storage=memory"
              "--header-insertion=never"
-             "--header-insertion-decorators=0")))
+             "--header-insertion-decorators=0"))
+    (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
+    (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
+    (after! lsp-clangd (set-lsp-priority! 'clangd 2)))
 
 (after! lsp-ui
     (setq
