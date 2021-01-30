@@ -62,4 +62,3 @@ fi
 
 # rlog
 # export RLOG_HOME="$HOME/Software/src/rlog-1.4"
-source "$HOME/.cargo/env"

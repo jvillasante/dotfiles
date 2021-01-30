@@ -87,10 +87,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 # target_link_libraries(${PROJECT_NAME} tbb)
 #
 # This is how to copy a file/directory to bin
+# file(COPY files DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+# file(COPY files/file.txt DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+# or ...
 # add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
 #     COMMAND ${CMAKE_COMMAND} -E copy
 #     ${PROJECT_SOURCE_DIR}/file.txt $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-#
 # add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
 #     COMMAND ${CMAKE_COMMAND} -E copy_directory
 #     ${CMAKE_SOURCE_DIR}/dir $<TARGET_FILE_DIR:${PROJECT_NAME}>/dir)
