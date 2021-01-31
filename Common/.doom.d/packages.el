@@ -12,6 +12,9 @@
 (package! dired-open)
 (package! dired-hide-dotfiles)
 
+;; tramp
+(package! counsel-tramp)
+
 ;; others
 (package! flyspell-lazy)
 (package! ivy-prescient)
