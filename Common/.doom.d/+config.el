@@ -63,9 +63,6 @@
 
     doc-view-continuous t
 
-    ;; tramp mode
-    tramp-default-method "ssh"
-
     ;; LaTeX
     font-latex-fontify-script nil
     TeX-newline-function 'reindent-then-newline-and-indent

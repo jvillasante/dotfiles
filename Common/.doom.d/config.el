@@ -12,6 +12,19 @@
 (after! evil
     (setq evil-want-fine-undo t))
 
+(after! tramp
+    (tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
+    (tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (tramp-password-prompt-regexp   ; Add verification code support.
+        (concat
+            "^.*"
+            (regexp-opt
+                '("passphrase" "Passphrase"
+                     "password" "Password"
+                     "Verification code")
+                t)
+            ".*:\0? *")))
+
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
