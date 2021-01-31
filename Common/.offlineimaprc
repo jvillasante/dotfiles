@@ -19,11 +19,11 @@ localfolders = ~/.Mail/jvillasantegomez@gmail.com
 type = Gmail
 remotehost = imap.gmail.com
 remoteuser = jvillasantegomez@gmail.com
-remotepasseval = get_keychain_pass(account="jvillasantegomez@gmail.com", server="imap.gmail.com")
+remotepasseval = get_keychain_pass(account="Offlineimap", server="jvillasantegomez@gmail.com")
 realdelete = no
 ssl = yes
 ssl_version=tls1_2
-sslcacertfile = /usr/local/etc/openssl/cert.pem
+sslcacertfile = /usr/local/etc/openssl@1.1/cert.pem
 folderfilter = lambda folder: folder not in ['[Gmail]/Important']
 
 [Account iCloud]
@@ -40,8 +40,8 @@ localfolders = ~/.Mail/julio.villasante@icloud.com
 type = IMAP
 remotehost = imap.mail.me.com
 remoteuser = julio.villasante@icloud.com
-remotepasseval = get_keychain_pass(account="julio.villasante@icloud.com", server="imap.mail.me.com")
+remotepasseval = get_keychain_pass(account="Offlineimap", server="julio.villasante@icloud.com")
 realdelete = no
 port = 993
 ssl = yes
-sslcacertfile = /usr/local/etc/openssl/cert.pem
+sslcacertfile = /usr/local/etc/openssl@1.1/cert.pem

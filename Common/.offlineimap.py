@@ -2,7 +2,6 @@
 
 # import json
 # import subprocess
-
 # def secure_string_for(account, service, value):
 #     # this relies on the macOS `security` tool
 #     # https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/security.1.html
@@ -11,7 +10,9 @@
 #                                                "-a", account,
 #                                                "-s", service,
 #                                                "-w"]).strip())[value]
-# security find-generic-password -a jvillasantegomez@gmail.com -s imap.gmail.com -g 
+# 
+# security find-generic-password -a Offlineimap -s jvillasantegomez@gmail.com -g
+# security find-generic-password -a Offlineimap -s julio.villasante@icloud.com -g
 
 import re, subprocess
 def get_keychain_pass(account=None, server=None):

@@ -14,7 +14,7 @@ User julio.villasante@me.com
 AuthMechs LOGIN
 SSLType IMAPS
 SSLVersions TLSv1
-PassCmd "security find-generic-password -a julio.villasante@icloud.com -s imap.mail.me.com -w"
+PassCmd "security find-generic-password -a Offlineimap -s julio.villasante@icloud.com -w"
 
 IMAPStore icloud-remote
 Account icloud
@@ -38,10 +38,14 @@ Channel icloud-folders
 IMAPAccount gmail
 Host imap.gmail.com
 User jvillasantegomez@gmail.com
-PassCmd "security find-generic-password -a jvillasantegomez@gmail.com -s imap.gmail.com -w"
+PassCmd "security find-generic-password -a Offlineimap -s jvillasantegomez@gmail.com -w"
 AuthMechs PLAIN
 SSLType IMAPS
-CertificateFile /usr/local/etc/openssl/cert.pem
+CertificateFile /usr/local/etc/openssl@1.1/cert.pem
+# Throttle mbsync so we don't go over gmail's quota: OVERQUOTA error would
+# eventually be returned otherwise. For more details see:
+# https://sourceforge.net/p/isync/mailman/message/35458365/
+PipelineDepth 50
 
 IMAPStore gmail-remote
 Account gmail

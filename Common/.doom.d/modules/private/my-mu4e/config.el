@@ -54,39 +54,6 @@
 
     ;; Common Configs
     (setq
-        ;; UI symbols
-        mu4e-use-fancy-chars t
-        mu4e-headers-draft-mark     '("D" . "")
-        mu4e-headers-flagged-mark   '("F" . "")
-        mu4e-headers-new-mark       '("N" . "")
-        mu4e-headers-passed-mark    '("P" . "˃")
-        mu4e-headers-replied-mark   '("R" . "")
-        mu4e-headers-seen-mark      '("S" . "")
-        mu4e-headers-trashed-mark   '("T" . "")
-        mu4e-headers-attach-mark    '("a" . "")
-        mu4e-headers-encrypted-mark '("x" . "")
-        mu4e-headers-signed-mark    '("s" . "")
-        mu4e-headers-unread-mark    '("u" . "")
-        ;;
-        ;; mu4e-headers-attach-mark '("" . "")
-        ;; mu4e-headers-encrypted-mark '("" . "")
-        ;; mu4e-headers-flagged-mark '("+" . "⚑")
-        ;; mu4e-headers-list-mark '("" . "")
-        ;; mu4e-headers-new-mark '("" . "")
-        ;; mu4e-headers-read-mark '("" . "")
-        ;; mu4e-headers-replied-mark '("" . "↩")
-        ;; mu4e-headers-seen-mark '("" . "")
-        ;; mu4e-headers-unseen-mark '("" . "")
-        ;; mu4e-headers-unread-mark '("" . "✱")
-        ;; mu4e-headers-signed-mark '("" . "")
-        ;; mu4e-headers-trashed-mark '("T" . "T")
-        ;; mu4e-headers-from-or-to-prefix '("" . "→ ")
-        ;; mu4e-headers-default-prefix '(" " . " ─")
-        ;; mu4e-headers-duplicate-prefix '("D" . "D")
-        ;; mu4e-headers-empty-parent-prefix '("X" . " X")
-        ;; mu4e-headers-first-child-prefix '("|" . "╰─")
-        ;; mu4e-headers-has-child-prefix '("+" . "╰┬")
-
         mail-user-agent 'mu4e-user-agent
         mu4e-mu-binary "/usr/local/bin/mu"
         mu4e-get-mail-command "mbsync -a"
@@ -132,9 +99,7 @@
     ;; simple compose signature
     (setq mu4e-compose-signature
         (concat
-            "Regards,\n"
             "Julio C. Villasante\n"
-            "--\n"
             "Sent from GNU Emacs\n"))
 
     ;; Actions
@@ -203,7 +168,7 @@
     (setq mu4e-contexts
         `( ,(make-mu4e-context
                 :name "gmail"
-                :enter-func (lambda () (mu4e-message "Switch to the Gmail context"))
+                :enter-func (lambda () (mu4e-message "Switch to Gmail"))
                 :match-func (lambda (msg)
                                 (when msg
                                     (+my/mu4e-message-maildir-matches msg "^/gmail")))
@@ -216,7 +181,7 @@
                            (mu4e-refile-folder    . "/gmail/Archive")))
              ,(make-mu4e-context
                   :name "iCloud"
-                  :enter-func (lambda () (mu4e-message "Switch to the iCloud context"))
+                  :enter-func (lambda () (mu4e-message "Switch to iCloud"))
                   :match-func (lambda (msg)
                                   (when msg
                                       (+my/mu4e-message-maildir-matches msg "^/icloud")))
