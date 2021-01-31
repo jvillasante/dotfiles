@@ -13,9 +13,9 @@
     (setq evil-want-fine-undo t))
 
 (after! tramp
-    (tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
-    (tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
-    (tramp-password-prompt-regexp   ; Add verification code support.
+    (setq tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
+    (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (setq tramp-password-prompt-regexp   ; Add verification code support.
         (concat
             "^.*"
             (regexp-opt
