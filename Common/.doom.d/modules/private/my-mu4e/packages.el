@@ -2,3 +2,4 @@
 ;;; email/mu4e/packages.el
 
 (package! mu4e)
+(package! org-mime)

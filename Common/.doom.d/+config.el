@@ -103,11 +103,13 @@
 (advice-remove #'newline-and-indent #'doom*newline-indent-and-continue-comments)
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-(setq display-time-world-list '(("UTC" "UTC")
-                                   ("America/New_York" "Tampa")
-                                   ("Europe/Ljubljana" "Slovenia")
-                                   ("Asia/Calcutta" "India")
-                                   ("America/Havana" "Havana")))
+(setq display-time-world-list
+    '(("UTC" "UTC")
+         ("America/New_York" "Tampa")
+         ("Europe/Ljubljana" "Slovenia")
+         ("Asia/Calcutta" "India")
+         ("America/Havana" "Havana")))
+(setq display-time-world-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; multiterm
 (setq multi-term-program +my/zsh-path)

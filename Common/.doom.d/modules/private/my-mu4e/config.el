@@ -66,6 +66,7 @@
         mu4e-sent-messages-behavior 'delete
         mu4e-hide-index-messages t
         mu4e-compose-signature-auto-include t
+        mu4e-compose-format-flowed t ;; Make sure plain text mails flow correctly for recipients
         mu4e-headers-include-related t
         mu4e-confirm-quit nil
         mu4e-compose-dont-reply-to-self t
@@ -205,11 +206,12 @@
     (add-hook 'message-send-mail-hook '+my/choose-msmtp-account)
 
     ;; Bookmarks for common searches that I use.
-    (setq mu4e-bookmarks '(("flag:unread" "Unread messages" ?u)
-                              ("date:today..now" "Today's messages" ?t)
-                              ("date:7d..now" "Last 7 days" ?w)
-                              ("mime:image/*" "Messages with images" ?p)
-                              ("size:5M..500M" "Big messages" ?b)))
+    (setq mu4e-bookmarks
+        '((:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key ?i)
+             (:name "Today's messages" :query "date:today..now" :key ?t)
+             (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key ?w)
+             (:name "Messages with images" :query "mime:image/*" :key ?p)
+             (:name "Big messages" :query "size:5M..500M" :key ?b)))
 
     (add-to-list 'mu4e-bookmarks
         (make-mu4e-bookmark
