@@ -1,11 +1,4 @@
 #
-# Defaults
-#
-Create Both
-Expunge Both
-SyncState *
-
-#
 # Apple iCloud
 #
 IMAPAccount icloud
@@ -20,69 +13,45 @@ IMAPStore icloud-remote
 Account icloud
 
 MaildirStore icloud-local
-Path ~/.Maildir/icloud/
-Inbox ~/.Maildir/icloud/Inbox
+Path ~/.Mail/julio.villasante@icloud.com/
+Inbox ~/.Mail/julio.villasante@icloud.com/Inbox
 Trash trash
 
 Channel icloud-folders
 Master :icloud-remote:
 Slave :icloud-local:
 Patterns "INBOX" "Drafts" "Arch*" "Sent*" "Trash" "Junk" "Deleted*"
+Create Both
+Expunge Both
+SyncState *
 
 Group icloud
 Channel icloud-folders
 
 #
-# Google GMail
+# Google Gmail
 #
 IMAPAccount gmail
 Host imap.gmail.com
 User jvillasantegomez@gmail.com
 PassCmd "security find-generic-password -a Offlineimap -s jvillasantegomez@gmail.com -w"
-AuthMechs PLAIN
+AuthMechs LOGIN
 SSLType IMAPS
 CertificateFile /usr/local/etc/openssl@1.1/cert.pem
-# Throttle mbsync so we don't go over gmail's quota: OVERQUOTA error would
-# eventually be returned otherwise. For more details see:
-# https://sourceforge.net/p/isync/mailman/message/35458365/
 PipelineDepth 50
 
 IMAPStore gmail-remote
 Account gmail
 
 MaildirStore gmail-local
-Path ~/.Maildir/gmail/
-Inbox ~/.Maildir/gmail/Inbox
+Subfolders Verbatim
+Path ~/.Mail/jvillasantegomez@gmail.com/
+Inbox ~/.Mail/jvillasantegomez@gmail.com/Inbox
 
-Channel gmail-inbox
+Channel gmail
 Master :gmail-remote:
 Slave :gmail-local:
-Patterns "INBOX" "Arch*"
-
-Channel gmail-starred
-Master :gmail-remote:"[Gmail]/Starred"
-Slave :gmail-local:Starred
-
-Channel gmail-drafts
-Master :gmail-remote:"[Gmail]/Drafts"
-Slave :gmail-local:Drafts
-
-Channel gmail-sent
-Master :gmail-remote:"[Gmail]/Sent Mail"
-Slave :gmail-local:Sent
-
-Channel gmail-trash
-Master :gmail-remote:"[Gmail]/Trash"
-Slave :gmail-local:Trash
-
-Channel gmail-archive
-Master :gmail-remote:"[Gmail]/All Mail"
-Slave :gmail-local:Archive
-
-Group gmail
-Channel gmail-inbox
-Channel gmail-starred
-Channel gmail-drafts
-Channel gmail-sent
-Channel gmail-trash
-Channel gmail-archive
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Trash" "[Gmail]/Drafts"
+Create Both
+SyncState *
+Sync All

@@ -49,7 +49,7 @@
                         (account
                             (cond
                                 ((string-match "jvillasantegomez@gmail.com" from) "gmail")
-                                ((string-match "julio.villasante@icloud.com" from) "iCloud"))))
+                                ((string-match "julio.villasante@icloud.com" from) "icloud"))))
                     (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
     ;; Common Configs
@@ -63,7 +63,6 @@
         mu4e-headers-skip-duplicates t
         mu4e-headers-full-search t
         mu4e-attachment-dir "~/Downloads"
-        mu4e-sent-messages-behavior 'delete
         mu4e-hide-index-messages t
         mu4e-compose-signature-auto-include t
         mu4e-compose-format-flowed t ;; Make sure plain text mails flow correctly for recipients
@@ -104,10 +103,11 @@
             "Sent from GNU Emacs\n"))
 
     ;; Actions
-    (add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser) t)
+    (add-to-list 'mu4e-view-actions '("Browser view" . mu4e-action-view-in-browser) t)
+    (add-to-list 'mu4e-view-actions '("XWidget view" . mu4e-action-view-with-xwidget) t)
     (add-to-list 'mu4e-view-actions '("Eww view" . +my/view-in-eww) t)
     (add-to-list 'mu4e-view-actions '("xsearch for sender" . +my/search-for-sender) t)
-    (add-to-list 'mu4e-headers-actions '("Number of recipients" . +my/show-number-of-recipients) t)
+    (add-to-list 'mu4e-headers-actions '("number of recipients" . +my/show-number-of-recipients) t)
 
     ;; This hook correctly modifies the \Inbox and \Starred flags on email when they are marked.
     ;; Without it refiling (archiving) and flagging (starring) email won't properly result in
@@ -117,13 +117,13 @@
     ;;         (cond ((member mark '(refile trash)) (mu4e-action-retag-message msg "-\\Inbox"))
     ;;             ((equal mark 'flag) (mu4e-action-retag-message msg "\\Starred"))
     ;;             ((equal mark 'unflag) (mu4e-action-retag-message msg "-\\Starred")))))
-    (add-hook! 'mu4e-mark-execute-pre-hook
-      (defun +mu4e-gmail-fix-flags-h (mark msg)
-        (pcase mark
-          (`trash  (mu4e-action-retag-message msg "-\\Inbox,+\\Trash,-\\Draft"))
-          (`refile (mu4e-action-retag-message msg "-\\Inbox"))
-          (`flag   (mu4e-action-retag-message msg "+\\Starred"))
-          (`unflag (mu4e-action-retag-message msg "-\\Starred")))))
+    ;; (add-hook! 'mu4e-mark-execute-pre-hook
+    ;;   (defun +mu4e-gmail-fix-flags-h (mark msg)
+    ;;     (pcase mark
+    ;;       (`trash  (mu4e-action-retag-message msg "-\\Inbox,+\\Trash,-\\Draft"))
+    ;;       (`refile (mu4e-action-retag-message msg "-\\Inbox"))
+    ;;       (`flag   (mu4e-action-retag-message msg "+\\Starred"))
+    ;;       (`unflag (mu4e-action-retag-message msg "-\\Starred")))))
 
     ;; compose and view mode hook
     (add-hook 'mu4e-compose-mode-hook
@@ -165,6 +165,11 @@
     ;; Trim the number of fields shown in the email view. This is customizable. See mu4e-view.el for a full list.
     (setq mu4e-view-fields '(:from :to :cc :bcc :subject :date :tags :attachments :flags :maildir))
 
+    (setq mu4e-sent-messages-behavior
+        (lambda ()
+            (if (string= (message-sendmail-envelope-from) "jvillasantegomez@gmail.com")
+                'delete 'sent)))
+
     ;; This sets up my two different context for my gmail and iCloud emails.
     (setq mu4e-contexts
         `( ,(make-mu4e-context
@@ -175,11 +180,11 @@
                                     (+my/mu4e-message-maildir-matches msg "^/gmail")))
                 :leave-func (lambda () (mu4e-clear-caches))
                 :vars '((user-mail-address     . "jvillasantegomez@gmail.com")
-                           (user-full-name        . "Julio C. Villasante")
-                           (mu4e-sent-folder      . "/gmail/Sent")
-                           (mu4e-drafts-folder    . "/gmail/Drafts")
-                           (mu4e-trash-folder     . "/gmail/Trash")
-                           (mu4e-refile-folder    . "/gmail/Archive")))
+                           (user-full-name     . "Julio C. Villasante")
+                           (mu4e-sent-folder   . "/jvillasantegomez@gmail.com/[Gmail]/Sent Mail")
+                           (mu4e-drafts-folder . "/jvillasantegomez@gmail.com/[Gmail]/Drafts")
+                           (mu4e-trash-folder  . "/jvillasantegomez@gmail.com/[Gmail]/Trash")
+                           (mu4e-refile-folder . "/jvillasantegomez@gmail.com/[Gmail]/All Mail")))
              ,(make-mu4e-context
                   :name "iCloud"
                   :enter-func (lambda () (mu4e-message "Switch to iCloud"))
@@ -188,11 +193,11 @@
                                       (+my/mu4e-message-maildir-matches msg "^/icloud")))
                   :leave-func (lambda () (mu4e-clear-caches))
                   :vars '((user-mail-address     . "julio.villasante@icloud.com")
-                             (user-full-name        . "Julio C. Villasante")
-                             (mu4e-sent-folder      . "/icloud/Sent Messages")
-                             (mu4e-drafts-folder    . "/icloud/Drafts")
-                             (mu4e-trash-folder     . "/icloud/Junk")
-                             (mu4e-refile-folder    . "/icloud/Archive")))))
+                             (user-full-name     . "Julio C. Villasante")
+                             (mu4e-sent-folder   . "/julio.villasante@icloud.com/Sent Messages")
+                             (mu4e-drafts-folder . "/julio.villasante@icloud.com/Drafts")
+                             (mu4e-trash-folder  . "/julio.villasante@icloud.com/Junk")
+                             (mu4e-refile-folder . "/julio.villasante@icloud.com/Archive")))))
 
     ;; Configure sending mail.
     (setq
@@ -207,17 +212,15 @@
 
     ;; Bookmarks for common searches that I use.
     (setq mu4e-bookmarks
-        '((:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key ?i)
+        '((:name "All Inboxes" :query "maildir:/jvillasantegomez@gmail.com/Inbox OR maildir:/julio.villasante@icloud.com/Inbox" :key ?i)
+             (:name "Gmail Inbox" :query "maildir:/jvillasantegomez@gmail.com/Inbox" :key ?g)
+             (:name "iCloud Inbox" :query "maildir:/julio.villasante@icloud.com/Inbox" :key ?c)
+             (:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key ?u)
+             (:name "Flagged messages" :query "flag:flagged AND NOT flag:trashed" :key ?f)
              (:name "Today's messages" :query "date:today..now" :key ?t)
              (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key ?w)
              (:name "Messages with images" :query "mime:image/*" :key ?p)
              (:name "Big messages" :query "size:5M..500M" :key ?b)))
-
-    (add-to-list 'mu4e-bookmarks
-        (make-mu4e-bookmark
-            :name "All Inboxes"
-            :query "maildir:/gmail/Inbox OR maildir:/icloud/Inbox"
-            :key ?i))
 
     ;; mu4e - attachment
     (defun gnus-dired-mail-buffers ()
