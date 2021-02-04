@@ -268,7 +268,7 @@
         neo-theme 'ascii
         neo-window-width 32
         neo-smart-open t
-        neo-create-file-auto-open t
+        neo-create-file-auto-open nil
         neo-show-updir-line t
         neo-show-hidden-files t
         neo-auto-indent-point t
