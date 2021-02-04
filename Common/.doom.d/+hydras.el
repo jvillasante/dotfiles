@@ -76,7 +76,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
 [_J_]   goto child^^       [_d_] delete      [_-_]   horizontal split
 [_K_]   goto parent^^      [_r_] rename      [_gr_]  refresh^
 [_l_]   open/expand^^      [_R_] change root [_s_]   hidden:^^^ %s(if neo-buffer--show-hidden-file-p \"on\" \"off\")
-[_h_]   up/collapse^^      ^^                ^^^
+[_h_]   up/collapse^^      [_f_] find        ^^^
 [_j_]   line down^^        ^^                ^^^
 [_k_]   line up^^          ^^                ^^
 [_'_]   quick look         ^^                ^^
@@ -102,5 +102,6 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
             ("L" neotree-select-next-sibling-node)
             ("r" neotree-rename-node)
             ("R" neotree-change-root)
+            ("f" neotree-find)
             ("s" neotree-hidden-file-toggle)))
     )
