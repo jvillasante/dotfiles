@@ -23,9 +23,8 @@
 (package! crux)
 
 ;; I don't use it
+(package! irony :disable t)
 (package! ggtags :disable t)
-
-;; testing out clangd
 (package! ccls :disable t)
 
 ;; To install a package with Doom you must declare them here, run 'doom sync' on
