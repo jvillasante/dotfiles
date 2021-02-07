@@ -48,7 +48,7 @@
         ;;;; Open
         (:prefix ("o" . "Open")
             :desc "Dired"  :n "d" #'dired
-            :desc "Ranger" :n "r" #'ranger
+            ;; :desc "Ranger" :n "r" #'ranger
             :desc "Pass"   :n "p" #'pass
             ;; :desc "Tramp"  :n "t" #'counsel-tramp
             (:when (featurep! :ui neotree)
