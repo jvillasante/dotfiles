@@ -2,6 +2,9 @@
 
 . $(dirname "$0")/common.sh
 
+# Check developer tools
+xcode-select --install
+
 # Check if brew is installed and perform maintainance
 if hash brew 2>/dev/null; then
   if ask "Do you want to update brew?"; then
