@@ -4,6 +4,7 @@
 
 # Check developer tools
 xcode-select --install
+echo ""
 
 # Check if brew is installed and perform maintainance
 if hash brew 2>/dev/null; then
