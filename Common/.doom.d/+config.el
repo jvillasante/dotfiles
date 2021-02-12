@@ -7,6 +7,7 @@
             engine/browser-function 'browse-url-generic
             browse-url-generic-program "open"
             ns-use-thin-smoothing t)
+        (add-hook 'ns-system-appearance-change-functions #'+my/apply-theme)
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (add-to-list 'default-frame-alist '(ns-appearance . dark)))
     (IS-LINUX

@@ -1,6 +1,14 @@
 ;;;  -*- lexical-binding: t; -*-
 
 ;;;###autoload
+(defun +my/apply-theme (appearance)
+  "Load theme, taking current system APPEARANCE into consideration."
+  (mapc #'disable-theme custom-enabled-themes)
+  (pcase appearance
+    ('light (load-theme 'modus-operandi t))
+    ('dark (load-theme 'modus-vivendi t))))
+
+;;;###autoload
 (defun +my/dos2unix ()
     "Replace DOS eolns CR LF with Unix eolns CR"
     (interactive)
