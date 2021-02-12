@@ -12,6 +12,10 @@ find_env() {
             {
                 CURRENT_ENV="HOME"
             } ;;
+        "Julios-MBP")
+            {
+                CURRENT_ENV="HOME"
+            } ;;
         "jvillasante-Latitude-7480")
             {
                 CURRENT_ENV="WORK"
@@ -19,7 +23,7 @@ find_env() {
         *)
             {
                 echo ">> Unsupported ENV: '$HOST', exiting..."
-                exit
+                exit 1
             } ;;
     esac
     echo "$CURRENT_ENV"
@@ -44,7 +48,7 @@ find_os() {
         *)
             {
                 echo ">> Unsupported OS: '$PLATFORM', exiting..."
-                exit
+                exit 1
             } ;;
     esac
     echo "$CURRENT_OS"
@@ -111,6 +115,5 @@ ask() {
       Y*|y*) return 0 ;;
       N*|n*) return 1 ;;
     esac
-
   done
 }
