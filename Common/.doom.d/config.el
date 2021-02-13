@@ -143,6 +143,7 @@
         lsp-signature-doc-lines 1
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
+        lsp-enable-indentation nil
         lsp-enable-on-type-formatting nil)
 
     ;; Rust
