@@ -7,7 +7,6 @@
             engine/browser-function 'browse-url-generic
             browse-url-generic-program "open"
             ns-use-thin-smoothing t)
-        (add-hook 'ns-system-appearance-change-functions #'+my/apply-theme)
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (add-to-list 'default-frame-alist '(ns-appearance . dark)))
     (IS-LINUX
@@ -29,7 +28,21 @@
 ;; No more 'Starting new Ispell process aspell with default dictionary...done'
 (advice-add #'ispell-init-process :around #'doom-shut-up-a)
 
-;; Some default configs
+;;
+;; Some default
+;;
+
+(setq-default
+    delete-by-moving-to-trash t      ; Delete files to trash
+    window-combination-resize t      ; take new window space from all other windows (not just current)
+    x-stretch-cursor t)              ; Stretch cursor to the glyph width
+
+(setq undo-limit 80000000            ; Raise undo-limit to 80Mb
+    evil-want-fine-undo t            ; By default while in insert all changes are one big blob. Be more granular
+    auto-save-default t)             ; Nobody likes to loose work, I certainly don't
+
+(global-subword-mode 1)              ; Iterate through CamelCase words
+
 (setq
     major-mode 'text-mode
     use-dialog-box nil

@@ -26,6 +26,7 @@
             ".*:\0? *")))
 
 (after! yasnippet
+    (setq yas-triggers-in-field t)
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
 (after! recentf
@@ -100,9 +101,10 @@
         flycheck-indication-mode 'left-fringe))
 
 (after! company
-    (setq
-        company-idle-delay 0.2
-        company-show-numbers nil))
+    (setq company-idle-delay 0.5
+        company-minimum-prefix-length 2)
+    (setq company-show-numbers t)
+    (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
 
 (after! ws-butler
     (setq ws-butler-global-exempt-modes
@@ -202,6 +204,16 @@
 
 (after! elfeed-org
     (setq rmh-elfeed-org-files (list (expand-file-name "Apps/elfeed/elfeed.org" +my/dropbox-path))))
+
+(after! elfeed-search
+  (set-evil-initial-state! 'elfeed-search-mode 'normal))
+
+(after! elfeed-show-mode
+  (set-evil-initial-state! 'elfeed-show-mode   'normal))
+
+(after! evil-snipe
+  (push 'elfeed-show-mode   evil-snipe-disabled-modes)
+  (push 'elfeed-search-mode evil-snipe-disabled-modes))
 
 (after! magit
     ;; Have magit-status go full screen and quit to previous configuration.
