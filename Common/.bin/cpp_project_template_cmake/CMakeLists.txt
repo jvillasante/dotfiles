@@ -30,7 +30,7 @@ endif()
 
 # Project name
 project(
-  modern-cpp-challenge
+  project-name
   VERSION 0.0.1
   LANGUAGES C CXX)
 
@@ -97,11 +97,20 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 #     COMMAND ${CMAKE_COMMAND} -E copy_directory
 #     ${CMAKE_SOURCE_DIR}/dir $<TARGET_FILE_DIR:${PROJECT_NAME}>/dir)
 #
+# This is how to add definitions (define preprocessor macros)
+# target_compile_definitions(my_target PRIVATE FOO=1 BAR=1)
+#
 # This is how to include our own includes
 # include_directories(${INCLUDE_PATH})
 #
 # This is how to include directories of 3rd party libraries
 # include_directories(${LIBS_PATH}/path/to/include)
+#
+# This is how to include and link against libraries (curl example)
+# include_directories(${LIBS_PATH}/curl/include)
+# link_directories(${LIBS_PATH}/curl/lib/.libs)
+# add_executable(${PROGRAM_NAME} main.cpp)
+# target_link_libraries(${PROGRAM_NAME} PRIVATE curl)
 #
 # Libraries and executables
 # add_library(your-static-library STATIC
@@ -119,7 +128,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 #     PRIVATE
 #         your-static-library
 #         your-shared-library)
-#
 # ~~~
 # ##############################################################################
 
