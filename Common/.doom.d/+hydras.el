@@ -51,6 +51,7 @@ T - tag prefix
             ("Y" dired-do-relsymlink)
             ("z" diredp-compress-this-file)
             ("Z" dired-do-compress)
+            ("C-c o" crux-open-with)
             ("q" nil)
             ("." nil :color blue)))
 

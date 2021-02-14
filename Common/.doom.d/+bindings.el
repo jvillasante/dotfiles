@@ -21,10 +21,8 @@
     "C-x b"     #'switch-to-buffer
     "C-x B"     #'persp-switch-to-buffer
 
-    "M-l"       #'pyim-convert-string-at-point
-    "C-;"       #'pyim-delete-word-from-personal-buffer
-
     "C-c C-y"   #'company-yasnippet
+    "C-c o"     #'crux-open-with
 
     ;; ;;;  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Doom
