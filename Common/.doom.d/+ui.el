@@ -48,6 +48,12 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
+(dolist (mode '(org-mode-hook
+                   vterm-mode-hook
+                   term-mode-hook
+                   shell-mode-hook
+                   eshell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; popup rules
 (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0)
