@@ -54,3 +54,8 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+#
+# fzf (Using zsh atm)
+#
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash

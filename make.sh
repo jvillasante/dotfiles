@@ -91,7 +91,7 @@ for file in $files; do
 done
 
 echo ">> Linking common files in ~/home..."
-files=".doom.d .oh-my-zsh.d .percol.d .bin .profile .bashrc .zshenv .zshrc .tmux.conf .tmux-macos.conf .tmux-linux.conf .clang-tidy .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .mbsyncrc .msmtprc .sbclrc .rustfmt.toml .ycm_extra_conf.py"
+files=".doom.d .oh-my-zsh.d .fzf.zsh .fzf.bash .percol.d .bin .profile .bashrc .zshenv .zshrc .tmux.conf .tmux-macos.conf .tmux-linux.conf .clang-tidy .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .mbsyncrc .msmtprc .sbclrc .rustfmt.toml .ycm_extra_conf.py"
 for file in $files; do
     unlink ~/$file
     ln -s $DOTFILES_DIR/Common/$file ~/

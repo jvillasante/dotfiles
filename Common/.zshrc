@@ -176,72 +176,116 @@ fi
 #
 # percol
 #
-if type percol >/dev/null 2>/dev/null; then
-    function exists { which $1 &> /dev/null }
+# if type percol >/dev/null 2>/dev/null; then
+#     function exists { which $1 &> /dev/null }
+#
+#     # history search (C-r)
+#     if exists percol; then
+#         function percol_select_history() {
+#             local tac
+#             exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+#             BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+#             CURSOR=$#BUFFER         # move cursor
+#             zle -R -c               # refresh
+#         }
+#
+#         zle -N percol_select_history
+#         bindkey '^R' percol_select_history
+#     fi
+#
+#     # interactive pgrep
+#     function ppgrep() {
+#         if [[ $1 == "" ]]; then
+#             PERCOL=percol
+#         else
+#             PERCOL="percol --query $1"
+#         fi
+#         ps aux | eval $PERCOL | awk '{ print $2 }'
+#     }
+#
+#     #interactive pkill
+#     function ppkill() {
+#         if [[ $1 =~ "^-" ]]; then
+#             QUERY=""            # options only
+#         else
+#             QUERY=$1            # with a query
+#             [[ $# > 0 ]] && shift
+#         fi
+#         ppgrep $QUERY | xargs kill $*
+#     }
+#
+#     # switch to a project
+#     function ppproj() {
+#         cd $(find ~/Workspace/Projects/ -maxdepth 2 -type d | percol)
+#     }
+#
+#     # change to an arbitrary subdirectory
+#     function ppcd() {
+#         cd $(find . -type d | percol)
+#     }
+#
+#     # fuzzy match current directory contents
+#     function ppfuzz() {
+#         search_term=$1
+#         find . -wholename \*$search_term\* -not -path './.*/*' | percol
+#     }
+#
+#     # switch between git branches
+#     function ppcheckout() {
+#         git checkout $(git branch | cut -c 3- | percol)
+#     }
+#
+#     # find and edit file containing a specific word
+#     function ppvim() {
+#         vim $(ag -l $1 | percol)
+#     }
+#
+#     # run a command from the history
+#     function pphist() {
+#         $(history | cut -c8- | sort -u | percol)
+#     }
+# fi
 
-    # history search (C-r)
-    if exists percol; then
-        function percol_select_history() {
-            local tac
-            exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-            BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-            CURSOR=$#BUFFER         # move cursor
-            zle -R -c               # refresh
-        }
+#
+# fzf
+#
+if type fzf >/dev/null 2>/dev/null; then
+    [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-        zle -N percol_select_history
-        bindkey '^R' percol_select_history
-    fi
+    # Use ~~ as the trigger sequence instead of the default **
+    # export FZF_COMPLETION_TRIGGER='~~'
 
-    # interactive pgrep
-    function ppgrep() {
-        if [[ $1 == "" ]]; then
-            PERCOL=percol
-        else
-            PERCOL="percol --query $1"
-        fi
-        ps aux | eval $PERCOL | awk '{ print $2 }'
+    # Options to fzf command
+    export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
+    export FZF_COMPLETION_OPTS='--border --info=inline'
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+    # Use fd (https://github.com/sharkdp/fd) instead of the default find
+    # command for listing path candidates.
+    # - The first argument to the function ($1) is the base path to start traversal
+    # - See the source code (completion.{bash,zsh}) for the details.
+    _fzf_compgen_path() {
+        fd --hidden --follow --exclude ".git" . "$1"
     }
 
-    #interactive pkill
-    function ppkill() {
-        if [[ $1 =~ "^-" ]]; then
-            QUERY=""            # options only
-        else
-            QUERY=$1            # with a query
-            [[ $# > 0 ]] && shift
-        fi
-        ppgrep $QUERY | xargs kill $*
+    # Use fd to generate the list for directory completion
+    _fzf_compgen_dir() {
+        fd --type d --hidden --follow --exclude ".git" . "$1"
     }
 
-    # switch to a project
-    function ppproj() {
-        cd $(find ~/Workspace/Projects/ -maxdepth 2 -type d | percol)
-    }
+    # (EXPERIMENTAL) Advanced customization of fzf options via _fzf_comprun function
+    # - The first argument to the function is the name of the command.
+    # - You should make sure to pass the rest of the arguments to fzf.
+    _fzf_comprun() {
+        local command=$1
+        shift
 
-    # change to an arbitrary subdirectory
-    function ppcd() {
-        cd $(find . -type d | percol)
-    }
-
-    # fuzzy match current directory contents
-    function ppfuzz() {
-        search_term=$1
-        find . -wholename \*$search_term\* -not -path './.*/*' | percol
-    }
-
-    # switch between git branches
-    function ppcheckout() {
-        git checkout $(git branch | cut -c 3- | percol)
-    }
-
-    # find and edit file containing a specific word
-    function ppvim() {
-        vim $(ag -l $1 | percol)
-    }
-
-    # run a command from the history
-    function pphist() {
-        $(history | cut -c8- | sort -u | percol)
+        case "$command" in
+            cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+            export|unset) fzf "$@" --preview "eval 'echo \$'{}" ;;
+            ssh)          fzf "$@" --preview 'dig {}' ;;
+            *)            fzf "$@" ;;
+        esac
     }
 fi
