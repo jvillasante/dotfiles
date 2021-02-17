@@ -242,9 +242,14 @@ if type fzf >/dev/null 2>/dev/null; then
         git checkout $(git branch | cut -c 3- | fzf)
     }
 
-    # find and edit file containing a specific word
-    function fzv_vim() {
+    # find and edit file containing a specific word (vim)
+    function fzf_vim() {
         vim $(ag -l $1 | fzf)
+    }
+
+    # find and edit file containing a specific word (emacs)
+    function fzf_emacs() {
+        emt $(ag -l $1 | fzf)
     }
 
     # run a command from the history
