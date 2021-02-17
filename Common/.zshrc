@@ -158,93 +158,20 @@ if type tmux >/dev/null 2>/dev/null; then
     alias tmuxkillall="tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}" # tmux kill all sessions
 
     # Makes creating a new tmux session (with a specific name) easier
-    function tmuxopen() {
+    function tmux_open() {
         tmux attach -t $1
     }
 
     # Makes creating a new tmux session (with a specific name) easier
-    function tmuxnew() {
+    function tmux_new() {
         tmux new -s $1
     }
 
     # Makes deleting a tmux session easier
-    function tmuxkill() {
+    function tmux_kill() {
         tmux kill-session -t $1
     }
 fi
-
-#
-# percol
-#
-# if type percol >/dev/null 2>/dev/null; then
-#     function exists { which $1 &> /dev/null }
-#
-#     # history search (C-r)
-#     if exists percol; then
-#         function percol_select_history() {
-#             local tac
-#             exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-#             BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-#             CURSOR=$#BUFFER         # move cursor
-#             zle -R -c               # refresh
-#         }
-#
-#         zle -N percol_select_history
-#         bindkey '^R' percol_select_history
-#     fi
-#
-#     # interactive pgrep
-#     function ppgrep() {
-#         if [[ $1 == "" ]]; then
-#             PERCOL=percol
-#         else
-#             PERCOL="percol --query $1"
-#         fi
-#         ps aux | eval $PERCOL | awk '{ print $2 }'
-#     }
-#
-#     #interactive pkill
-#     function ppkill() {
-#         if [[ $1 =~ "^-" ]]; then
-#             QUERY=""            # options only
-#         else
-#             QUERY=$1            # with a query
-#             [[ $# > 0 ]] && shift
-#         fi
-#         ppgrep $QUERY | xargs kill $*
-#     }
-#
-#     # switch to a project
-#     function ppproj() {
-#         cd $(find ~/Workspace/Projects/ -maxdepth 2 -type d | percol)
-#     }
-#
-#     # change to an arbitrary subdirectory
-#     function ppcd() {
-#         cd $(find . -type d | percol)
-#     }
-#
-#     # fuzzy match current directory contents
-#     function ppfuzz() {
-#         search_term=$1
-#         find . -wholename \*$search_term\* -not -path './.*/*' | percol
-#     }
-#
-#     # switch between git branches
-#     function ppcheckout() {
-#         git checkout $(git branch | cut -c 3- | percol)
-#     }
-#
-#     # find and edit file containing a specific word
-#     function ppvim() {
-#         vim $(ag -l $1 | percol)
-#     }
-#
-#     # run a command from the history
-#     function pphist() {
-#         $(history | cut -c8- | sort -u | percol)
-#     }
-# fi
 
 #
 # fzf
@@ -256,7 +183,7 @@ if type fzf >/dev/null 2>/dev/null; then
     # export FZF_COMPLETION_TRIGGER='~~'
 
     # Options to fzf command
-    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --info=inline'
+    export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --border --info=inline'
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -273,18 +200,55 @@ if type fzf >/dev/null 2>/dev/null; then
         fd --type d --hidden --follow --exclude ".git" . "$1"
     }
 
-    # (EXPERIMENTAL) Advanced customization of fzf options via _fzf_comprun function
-    # - The first argument to the function is the name of the command.
-    # - You should make sure to pass the rest of the arguments to fzf.
-    _fzf_comprun() {
-        local command=$1
-        shift
+    # interactive pgrep
+    function fzf_grep() {
+        if [[ $1 == "" ]]; then
+            FZF=fzf
+        else
+            FZF="fzf --query $1"
+        fi
+        ps aux | eval $FZF | awk '{ print $2 }'
+    }
 
-        case "$command" in
-            cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
-            export|unset) fzf "$@" --preview "eval 'echo \$'{}" ;;
-            ssh)          fzf "$@" --preview 'dig {}' ;;
-            *)            fzf "$@" ;;
-        esac
+    # interactive pkill
+    function fzf_kill() {
+        if [[ $1 =~ "^-" ]]; then
+            QUERY=""            # options only
+        else
+            QUERY=$1            # with a query
+            [[ $# > 0 ]] && shift
+        fi
+        fzf_grep $QUERY | xargs kill $*
+    }
+
+    # switch to a project
+    function fzf_proj() {
+        cd $(find ~/Workspace/Code/ -maxdepth 2 -type d | fzf)
+    }
+
+    # change to an arbitrary subdirectory
+    function fzf_cd() {
+        cd $(find . -type d | fzf)
+    }
+
+    # fuzzy match current directory contents
+    function fzf_fuzz() {
+        search_term=$1
+        find . -wholename \*$search_term\* -not -path './.*/*' | fzf
+    }
+
+    # switch between git branches
+    function fzf_checkout() {
+        git checkout $(git branch | cut -c 3- | fzf)
+    }
+
+    # find and edit file containing a specific word
+    function fzv_vim() {
+        vim $(ag -l $1 | fzf)
+    }
+
+    # run a command from the history
+    function fzf_hist() {
+        $(history | cut -c8- | sort -u | fzf)
     }
 fi
