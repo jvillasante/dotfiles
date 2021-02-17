@@ -256,8 +256,7 @@ if type fzf >/dev/null 2>/dev/null; then
     # export FZF_COMPLETION_TRIGGER='~~'
 
     # Options to fzf command
-    export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
-    export FZF_COMPLETION_OPTS='--border --info=inline'
+    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --info=inline'
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
