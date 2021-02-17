@@ -200,60 +200,68 @@ if type fzf >/dev/null 2>/dev/null; then
         fd --type d --hidden --follow --exclude ".git" . "$1"
     }
 
-    # interactive pgrep
-    function fzf_grep() {
+    # interactive grep
+    function fgrep() {
         if [[ $1 == "" ]]; then
-            FZF=fzf
+            FZF_COMMAND=fzf
         else
-            FZF="fzf --query $1"
+            FZF_COMMAND="fzf --query $1"
         fi
-        ps aux | eval $FZF | awk '{ print $2 }'
+        ps aux | eval $FZF_COMMAND | awk '{ print $2 }'
     }
 
-    # interactive pkill
-    function fzf_kill() {
+    # interactive kill
+    function fkill() {
         if [[ $1 =~ "^-" ]]; then
             QUERY=""            # options only
         else
             QUERY=$1            # with a query
             [[ $# > 0 ]] && shift
         fi
-        fzf_grep $QUERY | xargs kill $*
+        fgrep $QUERY | xargs kill $*
     }
 
     # switch to a project
-    function fzf_proj() {
+    function fproj() {
         cd $(find ~/Workspace/Code/ -maxdepth 2 -type d | fzf)
     }
 
     # change to an arbitrary subdirectory
-    function fzf_cd() {
+    function fcd() {
         cd $(find . -type d | fzf)
     }
 
     # fuzzy match current directory contents
-    function fzf_fuzz() {
+    function ffuzz() {
         search_term=$1
         find . -wholename \*$search_term\* -not -path './.*/*' | fzf
     }
 
     # switch between git branches
-    function fzf_checkout() {
+    function fcheckout() {
         git checkout $(git branch | cut -c 3- | fzf)
     }
 
     # find and edit file containing a specific word (vim)
-    function fzf_vim() {
-        vim $(ag -l $1 | fzf)
+    function fvim() {
+        if [[ $# -eq 0 ]] ; then
+            echo 'no argument given'
+        else
+            vim $(ag -l $1 | fzf)
+        fi
     }
 
     # find and edit file containing a specific word (emacs)
-    function fzf_emacs() {
-        emt $(ag -l $1 | fzf)
+    function femacs() {
+        if [[ $# -eq 0 ]] ; then
+            echo 'no argument given'
+        else
+            emt $(ag -l $1 | fzf)
+        fi
     }
 
     # run a command from the history
-    function fzf_hist() {
+    function fhist() {
         $(history | cut -c8- | sort -u | fzf)
     }
 fi
