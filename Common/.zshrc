@@ -176,9 +176,8 @@ fi
 #
 # fzf
 #
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if type fzf >/dev/null 2>/dev/null; then
-    [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
     # Use ~~ as the trigger sequence instead of the default **
     # export FZF_COMPLETION_TRIGGER='~~'
 
