@@ -67,12 +67,15 @@ export TERM=xterm-256color
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
+export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
+alias ssh="TERM=xterm-256color ssh"
 export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
