@@ -35,7 +35,7 @@
 (setq-default
     delete-by-moving-to-trash t      ; Delete files to trash
     window-combination-resize t      ; take new window space from all other windows (not just current)
-    x-stretch-cursor t)              ; Stretch cursor to the glyph width
+    x-stretch-cursor nil)              ; Stretch cursor to the glyph width
 
 (setq undo-limit 80000000            ; Raise undo-limit to 80Mb
     evil-want-fine-undo t            ; By default while in insert all changes are one big blob. Be more granular
