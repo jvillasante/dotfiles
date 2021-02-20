@@ -44,8 +44,15 @@
     (push "^/nix/store/" recentf-exclude)
     (push ".+\\.mp3$" recentf-exclude))
 
-(after! dash-docs
-    (setq dash-docs-browser-func #'browse-url))
+    (setq dash-docs-browser-func #'xwidget-webkit-browse-url)
+    (setq counsel-dash-browser-func #'xwidget-webkit-browse-url)
+    (setq +lookup-open-url-fn #'xwidget-webkit-browse-url)
+
+(after! lookup
+    (setq
+        dash-docs-browser-func #'browse-url
+        counsel-dash-browser-func #'browse-url
+        +lookup-open-url-fn #'browse-url))
 
 (after! projectile
     (setq
