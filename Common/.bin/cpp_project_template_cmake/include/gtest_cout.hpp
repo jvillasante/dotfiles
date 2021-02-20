@@ -17,7 +17,7 @@ public:
     gtest_cout(gtest_cout&&) = delete;
     gtest_cout& operator=(gtest_cout const&) = delete;
     gtest_cout& operator=(gtest_cout&&) = delete;
-    ~gtest_cout() override { PRINTF("%s", str().c_str()); }
+    ~gtest_cout() override { PRINTF("%s", str().c_str()); } // NOLINT
 };
 
 #define GCOUT gtest_cout()
