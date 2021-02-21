@@ -33,7 +33,7 @@
 
 ;; modeline
 (after! doom-modeline
-    (setq doom-modeline-unicode-fallback t)
+    (setq doom-modeline-unicode-fallback nil)
     (setq doom-modeline-persp-name t)
     (setq doom-modeline-display-default-persp-name t)
     (setq doom-modeline-workspace-name t)
