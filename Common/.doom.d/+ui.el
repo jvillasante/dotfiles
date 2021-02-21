@@ -12,7 +12,6 @@
 ;; theme
 ;; (setq doom-theme 'modus-vivendi)
 (setq doom-theme 'modus-operandi)
-(delq! t custom-theme-load-path)
 ;; (when IS-MAC
 ;;     (add-hook 'ns-system-appearance-change-functions #'+my/apply-theme))
 
