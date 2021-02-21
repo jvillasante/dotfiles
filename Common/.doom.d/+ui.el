@@ -33,11 +33,6 @@
 
 ;; modeline
 (after! doom-modeline
-    (setq doom-modeline-unicode-fallback nil)
-    (setq doom-modeline-persp-name t)
-    (setq doom-modeline-display-default-persp-name t)
-    (setq doom-modeline-workspace-name t)
-
     ;; How tall the mode-line should be. It's only respected in GUI.
     ;; If the actual char height is larger, it respects the actual height.
     (setq doom-modeline-height 20)

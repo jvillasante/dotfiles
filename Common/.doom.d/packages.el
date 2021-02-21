@@ -2,9 +2,9 @@
 ;;; $DOOMDIR/packages.el
 
 ;; ui
+(package! solaire-mode :disable t)
 (package! modus-operandi-theme)
 (package! modus-vivendi-theme)
-(package! solaire-mode :disable t)
 
 ;; dired
 (package! dired-quick-sort)
