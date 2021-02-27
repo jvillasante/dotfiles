@@ -80,12 +80,9 @@
             :desc "Switch to scratch buffer"  :n  "S" #'doom/switch-to-scratch-buffer
             :desc "Sudo this file"            :n  "u" #'doom/sudo-this-file
             :desc "Sudo find file"            :n  "U" #'doom/sudo-find-file
-            :desc "Terminal open popup"       :n  "l" #'multi-term-dedicated-toggle
-            :desc "Terminal open"             :n  "L" #'multi-term
             :desc "Reload Private Config"     :n  "R" #'doom/reload
             :desc "Open Lisp REPL"            :n  ";" #'+eval/open-repl
-            :desc "Toggle frame fullscreen"   :n  "F" #'toggle-frame-fullscreen
-            :desc "Toggle modal edition mode" :n  "m" #'modalka-global-mode)
+            :desc "Toggle frame fullscreen"   :n  "F" #'toggle-frame-fullscreen)
 
         ;;;; Code
         (:prefix ("c" . "Code")
