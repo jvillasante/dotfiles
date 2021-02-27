@@ -82,8 +82,6 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-
 alias ls='ls --color'
 alias ll='ls -AlFh --color'
 alias em="emacsclient -c -n -a ''"      # opens the GUI
@@ -92,7 +90,7 @@ alias semt="sudo emacsclient -t -a ''"  # used to be "sudo emacs -nw"
 alias r="ranger"
 alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
 
-#git
+# git
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gl='git pull --prune'
 alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -pe 's/^[ \t]*//' | sed 's/ /\\\\ /g' | xargs git rm"
@@ -125,7 +123,19 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 fi
 
 #
-# vterm (https://github.com/akermu/emacs-libvterm)
+# Normalize `open` across Linux, macOS, and Windows.
+# 
+if [ ! $(uname -s) = 'Darwin' ]; then
+	if grep -q Microsoft /proc/version; then
+		# Ubuntu on Windows using the Linux subsystem
+		alias open='explorer.exe';
+	else
+		alias open='xdg-open';
+	fi
+fi
+
+#
+# emacs vterm (https://github.com/akermu/emacs-libvterm)
 #
 vterm_printf() {
     if [ -n "$TMUX" ]; then
