@@ -2,6 +2,12 @@
 
 . $(dirname "$0")/common.sh
 
+CURRENT_OS=$(find_os)
+if [ ! $CURRENT_OS = "OSX" ]; then
+    echo "$CURRENT_OS :: Not on MacOS"
+    exit 1
+fi
+
 # Check developer tools
 xcode-select --install
 echo ""

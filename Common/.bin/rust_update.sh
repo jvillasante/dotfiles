@@ -24,10 +24,10 @@ if ask "Do you want to install/update rust-analyzer?"; then
         mkdir ~/.bin/bin/
     fi
 
-    CURRENT_ENV=$(find_env)
-    if [ $CURRENT_ENV = "HOME" ]; then
+    CURRENT_OS=$(find_os)
+    if [ $CURRENT_OS = "OSX" ]; then
         curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.bin/bin/rust-analyzer
-    elif [ $CURRENT_ENV = "WORK" ]; then
+    elif [ $CURRENT_OS = "LINUX" ]; then
         curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o ~/.bin/bin/rust-analyzer
     fi
 

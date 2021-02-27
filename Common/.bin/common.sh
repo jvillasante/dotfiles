@@ -35,7 +35,7 @@ find_env() {
 #
 find_os() {
     local CURRENT_OS="UNSUPPORTED"
-    local PLATFORM=$(uname)
+    local PLATFORM=$(uname -s)
     case "$PLATFORM" in
         "Darwin")
             {
