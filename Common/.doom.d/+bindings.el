@@ -37,8 +37,8 @@
 
         ;;;; Buffers
         (:prefix ("b" . "Buffers")
-            ;; :desc "Switch buffer"           :n "b" #'+ivy/switch-buffer
-            ;; :desc "Switch workspace buffer" :n "B" #'+ivy/switch-workspace-buffer
+            :desc "Switch buffer"           :n "b" #'+ivy/switch-buffer
+            :desc "Switch workspace buffer" :n "B" #'+ivy/switch-workspace-buffer
             :desc "Rename buffer"           :n "R" #'rename-buffer
             :desc "Kill buffer"             :n "d" #'kill-this-buffer ; consistency with `SPC w d'
             :desc "Ibuffer"                 :n "I" #'ibuffer)
@@ -80,8 +80,6 @@
             :desc "Switch to scratch buffer"  :n  "S" #'doom/switch-to-scratch-buffer
             :desc "Sudo this file"            :n  "u" #'doom/sudo-this-file
             :desc "Sudo find file"            :n  "U" #'doom/sudo-find-file
-            :desc "Reload Private Config"     :n  "R" #'doom/reload
-            :desc "Open Lisp REPL"            :n  ";" #'+eval/open-repl
             :desc "Toggle frame fullscreen"   :n  "F" #'toggle-frame-fullscreen)
 
         ;;;; Code
