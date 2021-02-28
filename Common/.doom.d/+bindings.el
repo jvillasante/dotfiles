@@ -69,13 +69,14 @@
         ;;;; Doom
         (:prefix ("d" . "Doom")
             :desc "Dashboard"                 :n  "d" #'+doom-dashboard/open
+            :desc "Reload Private Config"     :n  "R" #'doom/reload
             :desc "Recent files"              :n  "f" #'recentf-open-files
             :desc "Popup other"               :n  "o" #'+popup/other
             :desc "Popup toggle"              :n  "t" #'+popup/toggle
             :desc "Popup close"               :n  "c" #'+popup/close
             :desc "Popup close all"           :n  "C" #'+popup/close-all
-            :desc "Popup raise"               :n  "r" #'+popup/raise
-            :desc "Popup restore"             :n  "R" #'+popup/restore
+            :desc "Popup raise"               :n  "p" #'+popup/raise
+            :desc "Popup restore"             :n  "P" #'+popup/restore
             :desc "Scratch buffer"            :n  "s" #'doom/open-scratch-buffer
             :desc "Switch to scratch buffer"  :n  "S" #'doom/switch-to-scratch-buffer
             :desc "Sudo this file"            :n  "u" #'doom/sudo-this-file
