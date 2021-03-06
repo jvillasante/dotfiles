@@ -89,16 +89,13 @@
             :desc "Make"                        :n "m" #'+make/run
             :desc "Jump to definition"          :n "d" #'+lookup/definition
             :desc "Jump to references"          :n "D" #'+lookup/references
-            :desc "Evaluate buffer/region"      :n "e" #'+eval/buffer-or-region
-            :desc "Evaluate & replace region"   :n "E" #'+eval:replace-region
-            :desc "Format buffer/region"        :n "f" #'+format/region-or-buffer
-            :desc "Open REPL"                   :n "r" #'+eval/open-repl-other-window
-            :desc "Delete trailing whitespace"  :n "w" #'delete-trailing-whitespace
-            :desc "Delete trailing newlines"    :n "W" #'doom/delete-trailing-newlines
-            :desc "List errors"                 :n "x" #'flycheck-list-errors
-            :desc "Describe thing at point"     :n "t" #'lsp-describe-thing-at-point
             :desc "Lookup dash documentation"   :n "s" #'+lookup:dash
-            :desc "Restart LSP Workspace"       :n "r" #'lsp-workspace-restart
+            :desc "Format buffer/region"        :n "f" #'+format/region-or-buffer
+            :desc "List errors"                 :n "e" #'flycheck-list-errors
+            :desc "Describe thing at point"     :n "t" #'lsp-describe-thing-at-point
+            :desc "LSP Rename"                  :n "r" #'lsp-rename
+            :desc "Restart LSP Workspace"       :n "q" #'lsp-workspace-restart
+            :desc "Shutdown LSP Workspace"      :n "Q" #'lsp-workspace-restart
             (:prefix ("g" . "Go to")
                 :desc "Implementation"          :n "i" #'lsp-goto-implementation
                 :desc "Definition"              :n "d" #'lsp-goto-type-definition
@@ -108,9 +105,9 @@
                 :desc "Implementation"          :n "i" #'lsp-ui-peek-find-implementation
                 :desc "Definition"              :n "d" #'lsp-ui-peek-find-definitions
                 :desc "Reference"               :n "r" #'lsp-ui-peek-find-references)
-            ;; (:prefix ("l" . "Lens")
-            ;;     :desc "Show"                    :n "l" #'lsp-lens-show
-            ;;     :desc "Hide"                    :n "q" #'lsp-lens-hide)
+            (:prefix ("l" . "Lens")
+                :desc "Show"                    :n "l" #'lsp-lens-show
+                :desc "Hide"                    :n "q" #'lsp-lens-hide)
             (:prefix ("u" . "menu")
                 :desc "Show"                    :n "m" #'lsp-ui-imenu
                 :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))

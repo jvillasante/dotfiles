@@ -39,6 +39,7 @@
     (push "~/\\.emacs\\.d/.local" recentf-exclude)
     (push "~/mail" recentf-exclude)
     (push "/var" recentf-exclude)
+    (push "/etc" recentf-exclude)
     (push "/usr" recentf-exclude)
     (push "\\.?ido\\.last$" recentf-exclude)
     (push "^/nix/store/" recentf-exclude)
@@ -59,11 +60,11 @@
 
     (setq projectile-ignored-project-function
         (lambda (project-root)
-            (file-remote-p project-root)
-            (string-prefix-p "/tmp/" project-root)
-            (string-prefix-p (expand-file-name ".emacs.d/" +my/home-path) project-root)
-            (string-prefix-p (expand-file-name ".cargo/" +my/home-path) project-root)
-            (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root))))
+            (or (file-remote-p project-root)
+                (string-prefix-p temporary-file-directory project-root)
+                (string-prefix-p (expand-file-name ".emacs.d/" +my/home-path) project-root)
+                (string-prefix-p (expand-file-name ".cargo/" +my/home-path) project-root)
+                (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root)))))
 
 (after! ivy
     (setq
@@ -143,9 +144,12 @@
 
 (after! lsp-mode
     (setq
+        lsp-restart 'ignore
+        lsp-enable-symbol-highlighting t
+        lsp-eldoc-enable-hover t
         lsp-eldoc-render-all nil
-        lsp-signature-render-documentation nil
-        lsp-signature-auto-activate nil
+        lsp-signature-render-documentation t
+        lsp-signature-auto-activate t
         lsp-signature-doc-lines 1
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
@@ -154,7 +158,8 @@
 
     ;; Rust
     (setq
-        lsp-rust-server 'rust-analyzer)
+        lsp-rust-server 'rust-analyzer
+        lsp-rust-analyzer-cargo-watch-command "clippy")
 
     ;; C++
     (setq lsp-clients-clangd-args
@@ -175,22 +180,30 @@
 (after! lsp-ui
     (setq
         lsp-ui-sideline-enable nil
-        lsp-ui-peek-enable nil
-        lsp-ui-doc-enable nil))
+        lsp-ui-sideline-show-diagnostics nil
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-code-actions nil)
+
+    (setq
+        lsp-ui-peek-enable t
+        lsp-ui-peek-show-directory t)
+
+    (setq
+        lsp-ui-doc-enable nil)
+
+    (setq
+        lsp-ui-imenu-enable t))
 
 (after! rustic
-    (setq rustic-lsp-server 'rust-analyzer)
-    (setq rustic-lsp-client 'lsp-mode)
-
-    ;; new ones - check how they work!
-    (setq lsp-rust-analyzer-cargo-watch-command "clippy")
-    (setq lsp-rust-analyzer-cargo-load-out-dirs-from-check t)
-    (setq lsp-rust-analyzer-proc-macro-enable t)
-    (setq lsp-rust-analyzer-display-chaining-hints nil)
-    (setq lsp-rust-analyzer-display-parameter-hints nil)
-    (setq lsp-rust-analyzer-server-display-inlay-hints nil)
-    (setq lsp-rust-all-features t)
-    (setq lsp-rust-full-docs t))
+    (setq rustic-format-on-save nil)
+    (setq
+        lsp-rust-analyzer-cargo-load-out-dirs-from-check t
+        lsp-rust-analyzer-proc-macro-enable t
+        lsp-rust-analyzer-display-chaining-hints nil
+        lsp-rust-analyzer-display-parameter-hints nil
+        lsp-rust-analyzer-server-display-inlay-hints nil
+        lsp-rust-all-features t
+        lsp-rust-full-docs t))
 
 (after! deft
     (setq

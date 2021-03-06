@@ -107,6 +107,9 @@
 (setq process-coding-system-alist
     (cons '("grep" utf-8 . utf-8) process-coding-system-alist))
 
+;; write over selected text on input... like all modern editors do
+(delete-selection-mode t)
+
 ;; no whitespace-mode, just enabled for makefiles
 (advice-add #'doom-highlight-non-default-indentation-h :override #'ignore)
 
