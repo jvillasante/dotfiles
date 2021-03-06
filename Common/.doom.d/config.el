@@ -55,12 +55,15 @@
         projectile-require-project-root t
         projectile-project-root-files-bottom-up '(".projectile" ".git")
         projectile-sort-order 'recentf
-        projectile-indexing-method 'hybrid
-        projectile-ignored-projects '("~/" "/tmp" "~/.cargo/" "~/.emacs.d/" "~/.emacs.d/.local/straight/repos/"))
+        projectile-indexing-method 'hybrid)
 
-    (defun projectile-ignored-project-function (filepath)
-        "Return t if FILEPATH is within any of `projectile-ignored-projects'"
-        (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects))))
+    (setq projectile-ignored-project-function
+        (lambda (project-root)
+            (file-remote-p project-root)
+            (string-prefix-p "/tmp/" project-root)
+            (string-prefix-p (expand-file-name ".emacs.d/" +my/home-path) project-root)
+            (string-prefix-p (expand-file-name ".cargo/" +my/home-path) project-root)
+            (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root))))
 
 (after! ivy
     (setq
