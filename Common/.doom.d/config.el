@@ -195,15 +195,7 @@
         lsp-ui-imenu-enable t))
 
 (after! rustic
-    (setq rustic-format-on-save nil)
-    (setq
-        lsp-rust-analyzer-cargo-load-out-dirs-from-check t
-        lsp-rust-analyzer-proc-macro-enable t
-        lsp-rust-analyzer-display-chaining-hints nil
-        lsp-rust-analyzer-display-parameter-hints nil
-        lsp-rust-analyzer-server-display-inlay-hints nil
-        lsp-rust-all-features t
-        lsp-rust-full-docs t))
+    (setq rustic-format-on-save nil))
 
 (after! deft
     (setq
