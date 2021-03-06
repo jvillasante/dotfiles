@@ -25,8 +25,12 @@
     show-trailing-whitespace nil
     line-spacing 1)
 
-;; No more 'Starting new Ispell process aspell with default dictionary...done'
+;; use aspell
 (advice-add #'ispell-init-process :around #'doom-shut-up-a)
+(add-to-list 'ispell-extra-args "--sug-mode=ultra")
+(setq
+    ispell-program-name "aspell"
+    ispell-dictionary "english")
 
 ;;
 ;; Some default
@@ -82,8 +86,6 @@
     TeX-newline-function 'reindent-then-newline-and-indent
 
     ;; other defaults
-    ispell-program-name "aspell"
-    ispell-dictionary "english"
     auto-window-vscroll nil
     sp-escape-quotes-after-insert nil
 
