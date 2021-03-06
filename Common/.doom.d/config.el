@@ -103,8 +103,7 @@
     (show-paren-mode t))
 
 (after! flyspell
-    (require 'flyspell-lazy)
-    (flyspell-lazy-mode 1))
+  (setq flyspell-lazy-idle-seconds 3))
 
 (after! flycheck
     (setq

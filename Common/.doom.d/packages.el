@@ -16,7 +16,6 @@
 (package! counsel-tramp)
 
 ;; others
-(package! flyspell-lazy)
 (package! ivy-prescient)
 (package! ibuffer-vc)
 (package! visual-regexp)

@@ -27,10 +27,6 @@
 
 ;; use aspell
 (advice-add #'ispell-init-process :around #'doom-shut-up-a)
-(add-to-list 'ispell-extra-args "--sug-mode=ultra")
-(setq
-    ispell-program-name "aspell"
-    ispell-dictionary "english")
 
 ;;
 ;; Some default
@@ -144,11 +140,6 @@
     (lambda ()
         (setq term-buffer-maximum-size 10000)))
 (add-hook 'prog-mode-hook #'goto-address-mode) ;; Linkify links!
-(add-hook 'prog-mode-hook
-    (lambda ()
-        (set-fill-column 110)
-        (flyspell-prog-mode)))
-(add-hook 'text-mode-hook #'turn-on-flyspell)
 (add-hook 'phyton-mode-hook #'whitespace-mode)
 (add-hook 'makefile-mode-hook #'whitespace-mode)
 (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
