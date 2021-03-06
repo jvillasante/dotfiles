@@ -13,6 +13,9 @@
 ;; (setq doom-theme 'modus-vivendi)
 (setq doom-theme 'modus-operandi)
 
+;; Do not modify neotree
+(remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)
+
 (after! doom-themes
     (setq
         doom-themes-enable-bold t     ; if nil, bold is universally disabled
@@ -20,11 +23,6 @@
 
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
-
-    (when (featurep! :ui neotree)
-        (doom-themes-neotree-config))
-    (when (featurep! :ui treemacs)
-        (doom-themes-treemacs-config))
 
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))

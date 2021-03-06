@@ -305,10 +305,10 @@
 (after! neotree
     (setq
         neo-theme 'ascii
-        neo-window-width 32
+        neo-window-width 34
         neo-smart-open t
         neo-create-file-auto-open nil
-        neo-show-updir-line t
+        neo-show-updir-line nil
         neo-show-hidden-files t
         neo-auto-indent-point t
         neo-vc-integration nil
