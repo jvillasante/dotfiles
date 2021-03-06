@@ -1,6 +1,14 @@
 ;;;  -*- lexical-binding: t; -*-
 
 ;;;###autoload
+(defun +my/switch-to-messages-buffer ()
+  "Stolen from spacemacs."
+  (interactive)
+  (with-current-buffer (messages-buffer)
+    (goto-char (point-max))
+    (switch-to-buffer (current-buffer))))
+
+;;;###autoload
 (defun +my/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)

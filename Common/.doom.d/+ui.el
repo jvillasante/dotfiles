@@ -12,8 +12,6 @@
 ;; theme
 ;; (setq doom-theme 'modus-vivendi)
 (setq doom-theme 'modus-operandi)
-;; (when IS-MAC
-;;     (add-hook 'ns-system-appearance-change-functions #'+my/apply-theme))
 
 (after! doom-themes
     (setq
@@ -33,13 +31,9 @@
 
 ;; modeline
 (after! doom-modeline
-    ;; How tall the mode-line should be. It's only respected in GUI.
-    ;; If the actual char height is larger, it respects the actual height.
-    (setq doom-modeline-height 20)
-
-    ;; Whether display icons in the mode-line. Respects `all-the-icons-color-icons'.
-    ;; While using the server mode in GUI, should set the value explicitly.
-    (setq doom-modeline-icon nil))
+    ;; (setq doom-modeline-icon nil))
+    (setq all-the-icons-scale-factor 0.8)
+    (advice-add #'doom-modeline--font-height :override (lambda () (frame-char-height))))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.

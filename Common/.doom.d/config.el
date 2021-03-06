@@ -4,6 +4,7 @@
 ;; sync' after modifying this file!
 
 (load! "+early-init.el")
+(load! "+ui")
 
 (when noninteractive
     (after! undo-tree
@@ -108,7 +109,8 @@
         flycheck-indication-mode 'left-fringe))
 
 (after! company
-    (setq company-idle-delay 0.2
+    (setq
+        company-idle-delay 0.2
         company-minimum-prefix-length 2)
     (setq company-show-numbers t)
     (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
@@ -142,14 +144,27 @@
 (after! format
     (setq +format-with-lsp nil))
 
+(cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
+    (-let* (((&hash "value") contents)
+               (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
+               (sig_group (if (s-equals? "```rust" (car (-third-item groups)))
+                              (-third-item groups)
+                              (car groups)))
+               (sig (--> sig_group
+                        (--drop-while (s-equals? "```rust" it) it)
+                        (--take-while (not (s-equals? "```" it)) it)
+                        (--map (s-trim it) it)
+                        (s-join " " it))))
+        (lsp--render-element (concat "```rust\n" sig "\n```"))))
+
 (after! lsp-mode
     (setq
         lsp-restart 'ignore
         lsp-enable-symbol-highlighting t
         lsp-eldoc-enable-hover t
         lsp-eldoc-render-all nil
-        lsp-signature-render-documentation t
-        lsp-signature-auto-activate t
+        lsp-signature-render-documentation nil
+        lsp-signature-auto-activate nil
         lsp-signature-doc-lines 1
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
@@ -195,7 +210,10 @@
         lsp-ui-imenu-enable t))
 
 (after! rustic
-    (setq rustic-format-on-save nil))
+    (setq
+        rustic-lsp-server 'rust-analyzer
+        rustic-format-on-save nil
+        rust-match-angle-brackets nil))
 
 (after! deft
     (setq
@@ -282,10 +300,6 @@
 
 (after! dired-quick-sort
     (dired-quick-sort-setup))
-
-;; (after! dired-open
-;;     (setq dired-open-extensions '(("png" . "feh")
-;;                                      ("mkv" . "mpv"))))
 
 (after! neotree
     (setq
@@ -508,7 +522,6 @@
 (use-package! visual-regexp
     :commands (vr/query-replace vr/replace))
 
-(load! "+ui")
 (load! "+config")
 (load! "+bindings")
 (load! "+hydras")
