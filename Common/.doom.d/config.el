@@ -113,9 +113,9 @@
 
 (after! company
     (setq
-        company-idle-delay 0.2
-        company-minimum-prefix-length 2)
-    (setq company-show-numbers t)
+        company-minimum-prefix-length 2
+        company-show-numbers t
+        company-idle-delay 0.2)
     (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
 
 (after! ws-butler
@@ -166,8 +166,8 @@
         lsp-enable-symbol-highlighting t
         lsp-eldoc-enable-hover t
         lsp-eldoc-render-all nil
-        lsp-signature-render-documentation nil
-        lsp-signature-auto-activate nil
+        lsp-signature-render-documentation t
+        lsp-signature-auto-activate t
         lsp-signature-doc-lines 1
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
