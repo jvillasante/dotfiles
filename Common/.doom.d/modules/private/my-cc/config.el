@@ -18,9 +18,6 @@
         (setq c-basic-offset tab-width)
         (setq c-default-style "stroustrup")))
 
-(defvar +my/cpp-default-mode-for-headers 'c++-mode
-    "Default mode to open header files. Can be `c-mode' or `c++-mode'.")
-
 (after! smartparens
     (sp-with-modes '(c-mode c++-mode)
         ;; messes with std::cout << ...
@@ -40,10 +37,6 @@
                 (setq-default flycheck-clang-standard-library "libc++")
                 (setq-default flycheck-clang-language-standard "c++20")
                 (setq company-clang-arguments '("-std=c++20"))))))
-
-(after! company
-    (setq company-clang-executable +my/clang-path)
-    (setq company-idle-delay 0))
 
 (use-package! modern-cpp-font-lock
     :config

@@ -1,8 +1,5 @@
 ;;; +bindings.el --- description -*- lexical-binding: t; -*-
 
-(define-key c-mode-map  [(tab)] 'company-complete)
-(define-key c++-mode-map  [(tab)] 'company-complete)
-
 (map!
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Defaults
@@ -196,4 +193,10 @@
             :desc "Elfeed mark unread"    :n "u"  #'elfeed-search-tag-all-unread
             :desc "Elfed open in browser" :n "b"  #'elfeed-search-browse-url
             :desc "Elfeed quit"           :n "q"  #'elfeed-kill-buffer))
+
+    (:after cc-mode
+        (:map c-mode-map
+            [tab] #'company-complete)
+        (:map c++-mode-map
+            [tab] #'company-complete))
     )
