@@ -523,6 +523,13 @@
 (use-package! visual-regexp
     :commands (vr/query-replace vr/replace))
 
+(use-package! super-save
+    :config
+    ;; this just defines when to trigger an auto-save (e.g. when you change focus out of the current window)
+    (setq super-save-triggers
+        '(ace-window evil-window-down evil-window-up evil-window-left evil-window-right +ivy/projectile-find-file +ivy/switch-workspace-buffer +ivy/switch-workspace-buffer-other-window))
+    (super-save-mode +1))
+
 (load! "+config")
 (load! "+bindings")
 (load! "+hydras")

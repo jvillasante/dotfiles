@@ -20,6 +20,7 @@
 (package! ibuffer-vc)
 (package! visual-regexp)
 (package! crux)
+(package! super-save)
 
 ;; I don't use it
 (package! irony :disable t)
