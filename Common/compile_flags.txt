@@ -2,6 +2,7 @@
 -Wall
 -Wextra
 -Werror
+-Wpedantic
 -DDEBUG
 -isystem/usr/local/opt/llvm/bin/../include/c++/v1
 -isystem/usr/local/Cellar/llvm/11.1.0/lib/clang/11.1.0/include
