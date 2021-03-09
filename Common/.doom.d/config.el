@@ -4,7 +4,6 @@
 ;; sync' after modifying this file!
 
 (load! "+early-init.el")
-(load! "+ui")
 
 (when noninteractive
     (after! undo-tree
@@ -532,6 +531,7 @@
         '(ace-window evil-window-down evil-window-up evil-window-left evil-window-right +ivy/projectile-find-file +ivy/switch-workspace-buffer +ivy/switch-workspace-buffer-other-window))
     (super-save-mode +1))
 
+(load! "+ui")
 (load! "+config")
 (load! "+bindings")
 (load! "+hydras")
