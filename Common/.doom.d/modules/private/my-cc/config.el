@@ -18,6 +18,9 @@
         (setq c-basic-offset tab-width)
         (setq c-default-style "stroustrup")))
 
+(after! company
+    (setq company-clang-executable +my/clang-path))
+
 (after! smartparens
     (sp-with-modes '(c-mode c++-mode)
         ;; messes with std::cout << ...

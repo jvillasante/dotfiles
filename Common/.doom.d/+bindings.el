@@ -194,9 +194,9 @@
             :desc "Elfed open in browser" :n "b"  #'elfeed-search-browse-url
             :desc "Elfeed quit"           :n "q"  #'elfeed-kill-buffer))
 
-    (:after cc-mode
-        (:map c-mode-map
-            [tab] #'company-complete)
-        (:map c++-mode-map
-            [tab] #'company-complete))
+    ;; (:after cc-mode
+    ;;     (:map c-mode-map
+    ;;         [tab] #'company-complete)
+    ;;     (:map c++-mode-map
+    ;;         [tab] #'company-complete))
     )

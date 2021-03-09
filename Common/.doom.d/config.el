@@ -113,7 +113,7 @@
 
 (after! company
     (setq
-        company-minimum-prefix-length 2
+        company-minimum-prefix-length 0
         company-show-numbers t
         company-idle-delay 0.2)
     (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
