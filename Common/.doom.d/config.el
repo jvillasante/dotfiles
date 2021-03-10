@@ -108,12 +108,12 @@
 
 (after! flycheck
     (setq
-        flycheck-indication-mode 'left-fringe))
+        flycheck-indication-mode 'left-fringe)
+    (add-hook 'post-command-hook #'flycheck-posframe-hide-posframe))
 
 (after! company
     (setq
         company-minimum-prefix-length 2
-        company-show-numbers t
         company-idle-delay 0.2)
     (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
 
@@ -165,8 +165,8 @@
         lsp-enable-symbol-highlighting t
         lsp-eldoc-enable-hover t
         lsp-eldoc-render-all nil
-        lsp-signature-render-documentation t
-        lsp-signature-auto-activate t
+        lsp-signature-render-documentation nil
+        lsp-signature-auto-activate nil
         lsp-signature-doc-lines 1
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
@@ -306,7 +306,7 @@
 (after! neotree
     (setq
         neo-theme 'ascii
-        neo-window-width 34
+        neo-window-width 36
         neo-smart-open t
         neo-create-file-auto-open nil
         neo-show-updir-line nil

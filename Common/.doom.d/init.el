@@ -22,7 +22,7 @@
 
     :completion
     ;; (company +childframe) ; the ultimate code completion backend
-    company
+    company             ; the ultimate code completion backend
     ;;helm              ; the *other* search engine for love and life
     ;;ido               ; the other *other* search engine...
     (ivy +fuzzy +prescient) ; a search engine for love and life
@@ -80,8 +80,7 @@
     vterm             ; the best terminal emulation in Emacs
 
     :checkers
-    ;; (syntax +childframe) ; tasing you for every semicolon you forget
-    syntax ; tasing you for every semicolon you forget
+    (syntax +childframe) ; tasing you for every semicolon you forget
     (spell +flyspell +aspell +everywhere) ; tasing you for misspelling mispelling
     ;;grammar           ; tasing grammar mistake every you make
 
