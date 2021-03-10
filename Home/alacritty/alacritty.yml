@@ -162,18 +162,48 @@ font:
 draw_bold_text_with_bright_colors: true
 
 schemes:
-  solarized_light: &light
-    # Default colors
+  modus_operandi: &modus-operandi
+    primary:
+        background: '0xffffff'
+        foreground: '0x000000'
+    cursor:
+        text: '0xffffff'
+        cursor: '0x000000'
+    normal:
+        black: '0x000000'
+        red: '0xa60000'
+        green: '0x006800'
+        yellow: '0x813e00'
+        blue: '0x0030a6'
+        magenta: '0x721045'
+        cyan: '0x00538b'
+        white: '0xeeeeee'
+    bright:
+        black: '0x555555'
+        red: '0x7f1010'
+        green: '0x104410'
+        yellow: '0x5f4400'
+        blue: '0x002f88'
+        magenta: '0x752f50'
+        cyan: '0x12506f'
+        white: '0xffffff'
+    dim:
+        black: '0x222222'
+        red: '0xb60000'
+        green: '0x006800'
+        yellow: '0x904200'
+        blue: '0x1111ee'
+        magenta: '0x7000e0'
+        cyan: '0x205b93'
+        white: '0xdddddd' 
+
+  solarized_light: &solarized-light
     primary:
         background: '#fdf6e3' # base3
         foreground: '#657b83' # base00
-
-    # Cursor colors
     cursor:
         text:   '#fdf6e3' # base3
         cursor: '#657b83' # base00
-
-    # Normal colors
     normal:
         black:   '#073642' # base02
         red:     '#dc322f' # red
@@ -183,8 +213,6 @@ schemes:
         magenta: '#d33682' # magenta
         cyan:    '#2aa198' # cyan
         white:   '#eee8d5' # base2
-
-    # Bright colors
     bright:
         black:   '#002b36' # base03
         red:     '#cb4b16' # orange
@@ -195,18 +223,13 @@ schemes:
         cyan:    '#93a1a1' # base1
         white:   '#fdf6e3' # base3
 
-  solarized_dark: &dark
-    # Default colors
+  solarized_dark: &solarized-dark
     primary:
         background: '#002b36' # base03
         foreground: '#839496' # base0
-
-    # Cursor colors
     cursor:
         text:   '#002b36' # base03
         cursor: '#839496' # base0
-
-    # Normal colors
     normal:
         black:   '#073642' # base02
         red:     '#dc322f' # red
@@ -216,8 +239,6 @@ schemes:
         magenta: '#d33682' # magenta
         cyan:    '#2aa198' # cyan
         white:   '#eee8d5' # base2
-
-    # Bright colors
     bright:
         black:   '#586e75' # base01
         red:     '#cb4b16' # orange
@@ -227,7 +248,7 @@ schemes:
         magenta: '#6c71c4' # violet
         cyan:    '#93a1a1' # base1
         white:   '#fdf6e3' # base3
-colors: *light
+colors: *modus-operandi
 
 # Visual Bell
 #
