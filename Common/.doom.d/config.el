@@ -114,8 +114,7 @@
 (after! company
     (setq
         company-minimum-prefix-length 2
-        company-idle-delay 0.2)
-    (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
+        company-idle-delay 0.2))
 
 (after! ws-butler
     (setq ws-butler-global-exempt-modes
