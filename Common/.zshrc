@@ -230,23 +230,12 @@ if type fzf >/dev/null 2>/dev/null; then
 
     # interactive grep
     function fgrep() {
-        if [[ $1 == "" ]]; then
-            FZF_COMMAND=fzf
-        else
-            FZF_COMMAND="fzf --query $1"
-        fi
-        ps aux | eval $FZF_COMMAND | awk '{ print $2 }'
+        ps aux | eval fzf | awk '{ print $2 }'
     }
 
     # interactive kill
     function fkill() {
-        if [[ $1 =~ "^-" ]]; then
-            QUERY=""            # options only
-        else
-            QUERY=$1            # with a query
-            [[ $# > 0 ]] && shift
-        fi
-        fgrep $QUERY | xargs kill $*
+        fgrep | xargs kill $*
     }
 
     # switch to a project
@@ -268,24 +257,6 @@ if type fzf >/dev/null 2>/dev/null; then
     # switch between git branches
     function fcheckout() {
         git checkout $(git branch | cut -c 3- | fzf)
-    }
-
-    # find and edit file containing a specific word (vim)
-    function fvim() {
-        if [[ $# -eq 0 ]] ; then
-            echo 'no argument given'
-        else
-            vim $(ag -l $1 | fzf)
-        fi
-    }
-
-    # find and edit file containing a specific word (emacs)
-    function femacs() {
-        if [[ $# -eq 0 ]] ; then
-            echo 'no argument given'
-        else
-            emt $(ag -l $1 | fzf)
-        fi
     }
 
     # run a command from the history
