@@ -27,7 +27,6 @@
         (native-comp-available-p))
     (progn
         (message "Native compilation is available")
-        (setq comp-deferred-compilation t)
         (setq comp-async-report-warnings-errors nil))
     (message "Native compilation is *not* available"))
 
