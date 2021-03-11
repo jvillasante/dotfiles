@@ -23,6 +23,18 @@
             +my/clang-path "/usr/bin/clang"
             vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")))
 
+(if (and (fboundp 'native-comp-available-p)
+        (native-comp-available-p))
+    (message "Native compilation is available")
+    (message "Native complation is *not* available"))
+
+;; (setq comp-deferred-compilation t)
+;; (setq comp-async-report-warnings-errors nil)
+
+(if (functionp 'json-serialize)
+    (message "Native JSON is available")
+    (message "Native JSON is *not* available"))
+
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")
 ;;   (color-theme-initialize))

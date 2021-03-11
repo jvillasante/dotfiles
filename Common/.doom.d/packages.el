@@ -1,8 +1,14 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+;; disabled packages
+(disable-packages!
+    solaire-mode
+    irony
+    ggtags
+    ccls)
+
 ;; ui
-(package! solaire-mode :disable t)
 (package! modus-operandi-theme)
 (package! modus-vivendi-theme)
 
@@ -25,11 +31,7 @@
 (package! visual-regexp)
 (package! crux)
 (package! super-save)
-
-;; I don't use it
-(package! irony :disable t)
-(package! ggtags :disable t)
-(package! ccls :disable t)
+;; (package! tldr)
 
 ;; To install a package with Doom you must declare them here, run 'doom sync' on
 ;; the command line, then restart Emacs for the changes to take effect.
