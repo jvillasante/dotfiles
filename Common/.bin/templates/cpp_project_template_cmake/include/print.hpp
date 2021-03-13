@@ -16,7 +16,7 @@
 namespace std {
 template <typename First, typename Second>
 std::ostream& operator<<(std::ostream& os, std::pair<First, Second> const& p) {
-    os << "(" << p.first << ", " << p.second << ")";
+    os << "(" << p.first << ':' << p.second << ")";
     return os;
 }
 } // namespace std
@@ -45,18 +45,23 @@ inline std::ostream& new_line(std::string_view new_line_char = "\n", std::ostrea
 }
 
 template <typename Iterator>
-std::ostream& collection(Iterator begin, Iterator end, std::ostream& os = std::cout) {
-    os << "[";
-    if (begin != end) {
-        std::copy(begin, end, utils::iterators::make_ostream_joiner(os, ", "));
-    }
-    os << "]";
+std::ostream& collection(Iterator begin, Iterator end, char const start_char = '[',
+                         char const end_char = ']', std::ostream& os = std::cout) {
+    os << start_char;
+    std::copy(begin, end, utils::iterators::make_ostream_joiner(os, ", "));
+    os << end_char << '\n';
     return os;
+}
+
+template <typename Collection>
+std::ostream& collection(Collection const& c, char const start_char = '[',
+                         char const end_char = ']', std::ostream& os = std::cout) {
+    return collection(std::cbegin(c), std::cend(c), start_char, end_char, os);
 }
 
 template <typename T>
 std::ostream& vector(std::vector<T> const& vec, std::ostream& os = std::cout) {
-    collection(std::cbegin(vec), std::cend(vec), os);
+    collection(std::cbegin(vec), std::cend(vec), '[', ']', os);
     os << "  Size:     " << vec.size() << '\n';
     os << "  Capacity: " << vec.capacity() << '\n';
     return os;

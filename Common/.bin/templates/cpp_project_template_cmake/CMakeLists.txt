@@ -57,78 +57,10 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   endif()
 endif()
 
-# ##############################################################################
-
 set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
 set(LIBS_PATH "/Users/jvillasante/Workspace/Software/clang")
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
-
-# ##############################################################################
-# ~~~
-# This is how to link with C++17 filesystem library
-# if(CMAKE_COMPILER_IS_GNUCXX)
-#   target_link_libraries(${PROJECT_NAME} stdc++fs)
-# elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-#   target_link_libraries(${PROJECT_NAME} c++fs)
-# endif()
-#
-# This is how to link threading libraries
-# find_package(Threads)
-# add_executable(${PROJECT_NAME} executable_name.cpp)
-# target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
-#
-# This is how to link TBB threading libraries
-# include("../../cmake/FindTBB.cmake")
-# find_package(TBB REQUIRED)
-# add_executable(${PROJECT_NAME} executable_name.cpp)
-# target_link_libraries(${PROJECT_NAME} tbb)
-#
-# This is how to copy a file/directory to bin
-# file(COPY files DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-# file(COPY files/file.txt DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-# or ...
-# add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy
-#     ${PROJECT_SOURCE_DIR}/file.txt $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-# add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy_directory
-#     ${CMAKE_SOURCE_DIR}/dir $<TARGET_FILE_DIR:${PROJECT_NAME}>/dir)
-#
-# This is how to add definitions (define preprocessor macros)
-# target_compile_definitions(my_target PRIVATE FOO=1 BAR=1)
-#
-# This is how to include our own includes
-# include_directories(${INCLUDE_PATH})
-#
-# This is how to include directories of 3rd party libraries
-# include_directories(${LIBS_PATH}/path/to/include)
-#
-# This is how to include and link against libraries (curl example)
-# include_directories(${LIBS_PATH}/curl/include)
-# link_directories(${LIBS_PATH}/curl/lib/.libs)
-# add_executable(${PROGRAM_NAME} main.cpp)
-# target_link_libraries(${PROGRAM_NAME} PRIVATE curl)
-#
-# Libraries and executables
-# add_library(your-static-library STATIC
-#     foo.hpp
-#     foo.cpp)
-#
-# add_library(your-shared-library SHARED
-#     bar.hpp
-#     bar.cpp)
-#
-# add_executable(your-executable
-#     main.cpp)
-#
-# target_link_libraries(your-executable
-#     PRIVATE
-#         your-static-library
-#         your-shared-library)
-# ~~~
-# ##############################################################################
 
 add_subdirectory(src/app)

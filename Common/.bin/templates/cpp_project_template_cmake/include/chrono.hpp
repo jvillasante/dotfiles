@@ -1,10 +1,10 @@
-#ifndef BENCHMARKING_H
-#define BENCHMARKING_H
+#ifndef CHRONO_H
+#define CHRONO_H
 
 #include <chrono>
 #include <functional>
 
-namespace utils::benchmarking {
+namespace utils::chrono::bench {
 //
 // Perf timer implementation to measure functions
 //
@@ -30,14 +30,12 @@ struct perf_timer {
     template <typename F, typename... Args>
     static Time duration(F&& f, Args&&... args) {
         auto start = Clock::now();
-
         std::invoke(std::forward<F>(f), std::forward<Args>(args)...);
-
         auto end = Clock::now();
 
         return std::chrono::duration_cast<Time>(end - start);
     }
 };
-} // namespace utils::benchmarking
+} // namespace utils::chrono::bench
 
-#endif /* BENCHMARKING_H */
+#endif /* CHRONO_H */

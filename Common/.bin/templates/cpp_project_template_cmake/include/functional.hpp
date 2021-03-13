@@ -4,27 +4,9 @@
 #include <map>
 #include <queue>
 #include <numeric>
+#include <functional>
 
 namespace utils::functional {
-namespace mutable_version {
-template <typename F, typename R>
-inline void mapf(F&& f, R& r) {
-    std::transform(std::begin(r), std::end(r), std::begin(r), std::forward<F>(f));
-}
-} // namespace mutable_version
-
-namespace variadic_function_template_version {
-template <typename F, typename T1, typename T2>
-inline auto foldl(F&& f, T1 arg1, T2 arg2) {
-    return f(arg1, arg2);
-}
-
-template <typename F, typename T, typename... Ts>
-inline auto foldl(F&& f, T&& head, Ts... rest) {
-    return f(head, foldl(std::forward<F>(f), rest...));
-}
-} // namespace variadic_function_template_version
-
 template <typename F, typename R>
 inline R mapf(F&& f, R r) {
     std::transform(std::begin(r), std::end(r), std::begin(r), std::forward<F>(f));
@@ -80,14 +62,35 @@ inline constexpr T foldl(F&& f, std::queue<T> q, T i) {
     return i;
 }
 
-template <typename F, typename G>
-inline auto compose(F&& f, G&& g) {
-    return [=](auto x) { return f(g(x)); };
+template <typename T>
+auto map(T const fn) {
+    return [=](auto const reduce_fn) {
+        return
+            [=](auto accumulator, auto const input) { return reduce_fn(accumulator, fn(input)); };
+    };
 }
 
-template <typename F, typename... R>
-inline auto compose(F&& f, R&&... r) {
-    return [=](auto x) { return f(compose(r...)(x)); };
+template <typename T>
+auto filter(T const predicate) {
+    return [=](auto const reduce_fn) {
+        return [=](auto accumulator, auto const input) {
+            return predicate(input) ? reduce_fn(accumulator, input) : accumulator;
+        };
+    };
+}
+
+template <typename T, typename... Ts>
+auto concat(T t, Ts... ts) {
+    if constexpr (sizeof...(ts) > 0) {
+        return [=](auto... parameters) { return t(concat(ts...)(parameters...)); };
+    } else {
+        return t;
+    }
+}
+
+template <typename A, typename B, typename F>
+auto combine(F binary_func, A a, B b) {
+    return [=](auto const param) { return binary_func(a(param), b(param)); };
 }
 } // namespace utils::functional
 

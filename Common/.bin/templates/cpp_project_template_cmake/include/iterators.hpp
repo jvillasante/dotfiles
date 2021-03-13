@@ -4,7 +4,7 @@
 #include <iterator>
 
 namespace utils::iterators {
-template <class Delim, class CharT = char, class Traits = std::char_traits<CharT>>
+template <typename Delim, typename CharT = char, typename Traits = std::char_traits<CharT>>
 class ostream_joiner {
 public:
     using char_type = CharT;
