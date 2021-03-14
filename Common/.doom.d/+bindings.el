@@ -31,14 +31,12 @@
     (:leader
         ;;;; Applications
         (:prefix ("a" . "Application")
-            :desc "Email"             :n "m" #'mu4e
+            ;; :desc "Email"             :n "m" #'mu4e
             :desc "Elfeed Rss Reader" :n "f" #'elfeed
             :desc "Deft"              :n "n" #'deft)
 
         ;;;; Buffers
         (:prefix ("b" . "Buffers")
-            ;; :desc "Switch buffer"            :n "b" #'+ivy/switch-buffer
-            ;; :desc "Switch workspace buffer"  :n "B" #'+ivy/switch-workspace-buffer
             :desc "Rename buffer"            :n "R" #'rename-buffer
             :desc "Kill buffer"              :n "d" #'kill-this-buffer ; consistency with `SPC w d'
             :desc "Ibuffer"                  :n "I" #'ibuffer)
@@ -46,9 +44,8 @@
         ;;;; Open
         (:prefix ("o" . "Open")
             :desc "Dired"  :n "d" #'dired
-            ;; :desc "Ranger" :n "r" #'ranger
             :desc "Pass"   :n "p" #'pass
-            ;; :desc "Tramp"  :n "t" #'counsel-tramp
+            :desc "Tramp"  :n "s" #'counsel-tramp
             (:when (featurep! :ui neotree)
                 :desc "Toogle neotree"  :n "n" #'neotree-toggle
                 :desc "File in neotree" :n "N" #'+neotree/find-this-file)
@@ -106,9 +103,6 @@
                 :desc "Implementation"          :n "i" #'lsp-ui-peek-find-implementation
                 :desc "Definition"              :n "d" #'lsp-ui-peek-find-definitions
                 :desc "Reference"               :n "r" #'lsp-ui-peek-find-references)
-            ;; (:prefix ("l" . "Lens")
-            ;;     :desc "Show"                    :n "l" #'lsp-lens-show
-            ;;     :desc "Hide"                    :n "q" #'lsp-lens-hide)
             (:prefix ("u" . "menu")
                 :desc "Show"                    :n "m" #'lsp-ui-imenu
                 :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))
