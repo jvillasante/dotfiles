@@ -26,7 +26,6 @@
             ".*:\0? *")))
 
 (after! yasnippet
-    (setq yas-triggers-in-field t)
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
 (after! recentf
