@@ -64,7 +64,8 @@
 
         ;;; Files
         (:prefix ("f" . "File")
-            :desc "Find git file" :n "g" #'counsel-git)
+            :desc "Find deft file" :n "d" #'deft-find-file
+            :desc "Find git file"  :n "g" #'counsel-git)
 
         ;;;; Doom
         (:prefix ("d" . "Doom")
