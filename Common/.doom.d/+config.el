@@ -51,7 +51,12 @@
     evil-want-fine-undo t            ; By default while in insert all changes are one big blob. Be more granular
     auto-save-default t)             ; Nobody likes to loose work, I certainly don't
 
-(global-subword-mode 1)              ; Iterate through CamelCase words
+;; (global-subword-mode 1)              ; Iterate through CamelCase words
+
+;; shell
+(setq-default
+    multi-term-program +my/zsh-path
+    shell-file-name +my/zsh-path)
 
 (setq
     major-mode 'text-mode
@@ -134,9 +139,6 @@
          ("Asia/Calcutta" "India")
          ("America/Havana" "Havana")))
 (setq display-time-world-time-format "%a, %d %b %I:%M %p %Z")
-
-;; multiterm
-(setq multi-term-program +my/zsh-path)
 
 ;; line spacing
 (setq-default line-spacing 0.1)
