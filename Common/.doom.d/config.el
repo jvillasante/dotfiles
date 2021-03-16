@@ -515,6 +515,24 @@
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                         (org-agenda-files :maxlevel . 9)))))
 
+(after! org-roam
+    (setq org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path))
+    (setq org-roam-dailies-directory (expand-file-name "Apps/org/roam/daily" +my/dropbox-path))
+    ;; (setq org-roam-db-location (expand-file-name "Apps/org/roam" +my/dropbox-path))
+
+    (setq org-roam-completion-everywhere t)
+    (setq org-roam-completion-system 'ivy)
+
+    (setq org-roam-capture-templates
+        '(("d" "default" plain #'org-roam-capture--get-point
+              :file-name "%<%Y-%m-%d>-${slug}"
+              :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n#+created: %u\n#+last_modified: %U\n%?"
+              :unnarrowed t :jump-to-captured t)
+             ("l" "clipboard" plain #'org-roam-capture--get-point "%i%a"
+                 :file-name "%<%Y%m%d%H%M%S>-${slug}"
+                 :head "#+title: ${title}\n#+created: %u\n#+last_modified: %U\n#+ROAM_TAGS: %? \n"
+                 :unnarrowed t :prepend t :jump-to-captured t))))
+
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt
     :after org

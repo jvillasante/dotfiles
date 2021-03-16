@@ -31,9 +31,9 @@
     (:leader
         ;;;; Applications
         (:prefix ("a" . "Application")
-            ;; :desc "Email"             :n "m" #'mu4e
-            :desc "Elfeed Rss Reader" :n "f" #'elfeed
-            :desc "Deft"              :n "n" #'deft)
+            :desc "Org Roam Find File" :n "r" #'org-roam-find-file
+            :desc "Elfeed Rss Reader"  :n "f" #'elfeed
+            :desc "Deft"               :n "n" #'deft)
 
         ;;;; Buffers
         (:prefix ("b" . "Buffers")
