@@ -249,10 +249,6 @@
               :file-name "${slug}"
               :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
               :unnarrowed t :jump-to-captured t)
-             ("p" "private" plain #'org-roam-capture--get-point
-                 :file-name "private/${slug}"
-                 :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
-                 :unnarrowed t :prepend t :jump-to-captured t)
              ("w" "work" plain #'org-roam-capture--get-point
                  :file-name "work/${slug}"
                  :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
