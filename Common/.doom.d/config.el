@@ -4,6 +4,10 @@
 ;; sync' after modifying this file!
 
 (load! "+early-init.el")
+(load! "+ui")
+(load! "+config")
+(load! "+bindings")
+(load! "+hydras")
 
 (when noninteractive
     (after! undo-tree
@@ -103,7 +107,7 @@
     (show-paren-mode t))
 
 (after! flyspell
-  (setq flyspell-lazy-idle-seconds 3))
+    (setq flyspell-lazy-idle-seconds 3))
 
 (after! flycheck
     (setq
@@ -231,6 +235,36 @@
                                     (case-fn . downcase))
         deft-auto-save-interval 0))
 
+(after! org-roam
+    (setq
+        org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
+        org-roam-dailies-directory (expand-file-name "Apps/org/roam/daily" +my/dropbox-path)
+        org-roam-db-gc-threshold most-positive-fixnum
+        org-roam-graph-exclude-matcher "private"
+        org-roam-tag-sources '(prop last-directory)
+        org-id-link-to-org-use-id t)
+
+    (setq org-roam-capture-templates
+        '(("d" "default" plain #'org-roam-capture--get-point
+              :file-name "${slug}"
+              :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
+              :unnarrowed t :jump-to-captured t)
+             ("p" "private" plain #'org-roam-capture--get-point
+                 :file-name "${slug}"
+                 :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
+                 :unnarrowed t :prepend t :jump-to-captured t)
+             ("w" "work" plain #'org-roam-capture--get-point
+                 :file-name "work/${slug}"
+                 :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
+                 :unnarrowed t :prepend t :jump-to-captured t)))
+
+    (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+              #'org-roam-capture--get-point
+              "* %?"
+              :file-name "daily/%<%Y-%m-%d>"
+              :head "#+title: %<%Y-%m-%d>\n\n"))))
+
 (after! elfeed
     (setq elfeed-search-filter "@6-months-ago +unread")
     (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path)))
@@ -239,14 +273,14 @@
     (setq rmh-elfeed-org-files (list (expand-file-name "Apps/elfeed/elfeed.org" +my/dropbox-path))))
 
 (after! elfeed-search
-  (set-evil-initial-state! 'elfeed-search-mode 'normal))
+    (set-evil-initial-state! 'elfeed-search-mode 'normal))
 
 (after! elfeed-show-mode
-  (set-evil-initial-state! 'elfeed-show-mode   'normal))
+    (set-evil-initial-state! 'elfeed-show-mode   'normal))
 
 (after! evil-snipe
-  (push 'elfeed-show-mode   evil-snipe-disabled-modes)
-  (push 'elfeed-search-mode evil-snipe-disabled-modes))
+    (push 'elfeed-show-mode   evil-snipe-disabled-modes)
+    (push 'elfeed-search-mode evil-snipe-disabled-modes))
 
 (after! magit
     ;; Have magit-status go full screen and quit to previous configuration.
@@ -307,7 +341,7 @@
 (after! neotree
     (setq
         neo-theme 'ascii
-        neo-window-width 36
+        neo-window-width 38
         neo-smart-open t
         neo-create-file-auto-open nil
         neo-show-updir-line nil
@@ -515,24 +549,6 @@
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                         (org-agenda-files :maxlevel . 9)))))
 
-(after! org-roam
-    (setq org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path))
-    (setq org-roam-dailies-directory (expand-file-name "Apps/org/roam/daily" +my/dropbox-path))
-    ;; (setq org-roam-db-location (expand-file-name "Apps/org/roam" +my/dropbox-path))
-
-    (setq org-roam-completion-everywhere t)
-    (setq org-roam-completion-system 'ivy)
-
-    (setq org-roam-capture-templates
-        '(("d" "default" plain #'org-roam-capture--get-point
-              :file-name "%<%Y-%m-%d>-${slug}"
-              :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n#+created: %u\n#+last_modified: %U\n%?"
-              :unnarrowed t :jump-to-captured t)
-             ("l" "clipboard" plain #'org-roam-capture--get-point "%i%a"
-                 :file-name "%<%Y%m%d%H%M%S>-${slug}"
-                 :head "#+title: ${title}\n#+created: %u\n#+last_modified: %U\n#+ROAM_TAGS: %? \n"
-                 :unnarrowed t :prepend t :jump-to-captured t))))
-
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt
     :after org
@@ -549,11 +565,6 @@
     (setq super-save-triggers
         '(ace-window evil-window-down evil-window-up evil-window-left evil-window-right +ivy/projectile-find-file +ivy/switch-workspace-buffer +ivy/switch-workspace-buffer-other-window))
     (super-save-mode +1))
-
-(load! "+ui")
-(load! "+config")
-(load! "+bindings")
-(load! "+hydras")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
