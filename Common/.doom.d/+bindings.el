@@ -31,7 +31,6 @@
     (:leader
         ;;;; Applications
         (:prefix ("a" . "Application")
-            :desc "Org Roam Find File" :n "r" #'org-roam-find-file
             :desc "Elfeed Rss Reader"  :n "f" #'elfeed
             :desc "Deft"               :n "n" #'deft)
 
