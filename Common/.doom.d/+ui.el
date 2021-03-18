@@ -10,8 +10,8 @@
 (after! dash (dash-enable-font-lock))
 
 ;; theme
-;; (setq doom-theme 'modus-vivendi)
-(setq doom-theme 'modus-operandi)
+(setq doom-theme 'modus-vivendi)
+;; (setq doom-theme 'modus-operandi)
 
 ;; Do not modify neotree
 (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)
