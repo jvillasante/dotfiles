@@ -151,6 +151,7 @@
 (after! format
     (setq +format-with-lsp nil))
 
+;; Rust hack!
 (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
     (-let* (((&hash "value") contents)
                (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
@@ -302,14 +303,12 @@
         vc-handled-backends (delq 'Git vc-handled-backends)))
 
 (after! dired
-    ;; mark symlinks
-    (setq dired-ls-F-marks-symlinks t)
-    ;; Never prompt for recursive copies of a directory
-    (setq dired-recursive-copies 'always)
-    ;; Never prompt for recursive deletes of a directory
-    (setq dired-recursive-deletes 'always)
-    ;; makes dired guess the target directory
-    (setq dired-dwim-target t)
+    (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
+    (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
+    (setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
+    (setq dired-dwim-target t) ;; makes dired guess the target directory
+    (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
+    (setq projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
 
     (let ((gls "/usr/local/bin/gls"))
         (if (file-exists-p gls) (setq insert-directory-program gls)))
@@ -323,13 +322,7 @@
     ;; default value for dired: "-al"
     (setq dired-listing-switches (if (eq system-type 'windows-nt)
                                      "-alh"
-                                     "-alhvF --group-directories-first"))
-
-    ;; auto-revert dired buffers if file changed on disk
-    (setq dired-auto-revert-buffer t)
-
-    ;; dired loads on project switch
-    (setq projectile-switch-project-action 'projectile-dired))
+                                     "-alhvF --group-directories-first")))
 
 (after! dired-quick-sort
     (dired-quick-sort-setup))
