@@ -2,8 +2,20 @@
 
 . $(dirname "$0")/common.sh
 
+dotfiles_pull() {
+    local DOTFILES_DIR=$(find_dotfiles)
+
+    git -C ${DOTFILES_DIR} status
+    check $?
+
+    if ask "Do you want to pull?"; then
+        git -C ${DOTFILES_DIR} pull
+        check #?
+    fi
+}
+
 dotfiles_sync() {
-    DOTFILES_DIR=$(find_dotfiles)
+    local DOTFILES_DIR=$(find_dotfiles)
     if [ ! -f ${DOTFILES_DIR}/make.sh ]; then
         echo "make script not present, exiting..."
         exit 1
@@ -37,14 +49,15 @@ doom_upgrade() {
 
 while true; do
     PS3="Choose an option: "
-    options=("Dotfiles Symlink" "Doom Sync" "Doom Upgrade" "Quit")
+    options=("Dotfiles Pull" "Dotfiles Sync" "Doom Sync" "Doom Upgrade" "Quit")
 
     select opt in "${options[@]}"; do
         case $REPLY in
-            1) dotfiles_sync; break ;;
-            2) doom_sync; break ;;
-            3) doom_upgrade; break ;;
-            4) break 2 ;;
+            1) dotfiles_pull; break ;;
+            2) dotfiles_sync; break ;;
+            3) doom_sync; break ;;
+            4) doom_upgrade; break ;;
+            5) break 2 ;;
             *) echo "Invalid option!" >&2
         esac
     done

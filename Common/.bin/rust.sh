@@ -17,7 +17,7 @@ update_rust_analyzer() {
         mkdir ${HOME}/.bin/bin/
     fi
 
-    CURRENT_OS=$(find_os)
+    local CURRENT_OS=$(find_os)
     if [ $CURRENT_OS = "OSX" ]; then
         curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ${HOME}/.bin/bin/rust-analyzer
     elif [ $CURRENT_OS = "LINUX" ]; then
