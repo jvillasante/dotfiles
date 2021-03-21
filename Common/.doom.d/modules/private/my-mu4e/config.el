@@ -84,8 +84,7 @@
             ((featurep! :completion helm) #'completing-read)
             (t #'ido-completing-read)))
 
-    ;; Use "P" to toggle threading
-    (setq mu4e-headers-show-threads nil)
+    ;; (setq mu4e-headers-show-threads nil)
 
     ;; convert html emails properly
     ;; Possible options:
