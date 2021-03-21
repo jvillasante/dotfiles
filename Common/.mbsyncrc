@@ -1,3 +1,11 @@
+# by default (CopyArrivalDate no), if you copy an old email from inbox to
+# Archive (e.g.) it will get the date of the copy assigned, instead of just
+# keeping its original date of arrival! That doesn't sound like a very good
+# default to me. Also see:
+# https://rakhim.org/fastmail-setup-with-emacs-mu4e-and-mbsync-on-macos/
+# https://wiki.archlinux.org/index.php/Isync#Emails_on_remote_server_have_the_wrong_date
+CopyArrivalDate yes
+
 #
 # Apple iCloud
 #

@@ -55,14 +55,14 @@
     ;; Common Configs
     (setq
         mail-user-agent 'mu4e-user-agent
-        mu4e-mu-binary "/usr/local/bin/mu"
+        mu4e-mu-binary +my/mu-path
         mu4e-get-mail-command "mbsync -a"
         mu4e-update-interval 300
         mu4e-view-show-images t
         message-kill-buffer-on-exit t
         mu4e-headers-skip-duplicates t
         mu4e-headers-full-search t
-        mu4e-attachment-dir "~/Downloads"
+        mu4e-attachment-dir (expand-file-name "~/Downloads" +my/home-path)
         mu4e-hide-index-messages t
         mu4e-compose-signature-auto-include t
         mu4e-compose-format-flowed t ;; Make sure plain text mails flow correctly for recipients
@@ -139,8 +139,8 @@
     (add-hook 'message-mode-hook 'turn-on-orgstruct++)
 
     ;; mu4e - gpg
-    ;; When composing an e-mail, C-c C-e s to sign your message then C-c C-e e to encrypt.
-    ;; When receiving a PGP encrypted e-mail: C-c C-e v to verify the signature, and C-c C-e d to decrypt.
+    ;; When composing an e-mail, `C-c C-e s' to sign your message then `C-c C-e e' to encrypt.
+    ;; When receiving a PGP encrypted e-mail: `C-c C-e v' to verify the signature, and `C-c C-e d' to decrypt.
     (add-hook 'mu4e-compose-mode-hook 'epa-mail-mode)
     (add-hook 'mu4e-view-mode-hook 'epa-mail-mode)
 
@@ -202,7 +202,7 @@
     ;; Configure sending mail.
     (setq
         message-send-mail-function 'message-send-mail-with-sendmail
-        sendmail-program "/usr/local/bin/msmtp"
+        sendmail-program +my/msmtp-path
         message-sendmail-f-is-evil 't
         user-full-name "Julio C. Villasante")
 

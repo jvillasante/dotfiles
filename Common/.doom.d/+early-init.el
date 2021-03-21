@@ -16,11 +16,15 @@
         (setq
             +my/zsh-path "/usr/local/bin/zsh"
             +my/clang-path "/usr/local/opt/llvm/bin/clang"
+            +my/mu-path "/usr/local/bin/mu"
+            +my/msmtp-path "/usr/local/bin/msmtp"
             vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes"))
     (IS-LINUX
         (setq
             +my/zsh-path "/usr/bin/zsh"
             +my/clang-path "/usr/bin/clang"
+            +my/mu-path "/usr/bin/mu"
+            +my/msmtp-path "/usr/bin/msmtp"
             vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")))
 
 (if (and (fboundp 'native-comp-available-p)
