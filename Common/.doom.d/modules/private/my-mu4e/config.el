@@ -62,7 +62,7 @@
         message-kill-buffer-on-exit t
         mu4e-headers-skip-duplicates t
         mu4e-headers-full-search t
-        mu4e-attachment-dir (expand-file-name "~/Downloads" +my/home-path)
+        mu4e-attachment-dir +my/downloads-path
         mu4e-hide-index-messages t
         mu4e-compose-signature-auto-include t
         mu4e-compose-format-flowed t ;; Make sure plain text mails flow correctly for recipients
@@ -78,13 +78,14 @@
         message-citation-line-function 'message-insert-formatted-citation-line
         mu4e-headers-results-limit 250
         mu4e-context-policy 'pick-first
-        mu4e-index-cleanup nil
-        mu4e-index-lazy-check t
         mu4e-change-filenames-when-moving t
         mu4e-completing-read-function
         (cond ((featurep! :completion ivy) #'ivy-completing-read)
             ((featurep! :completion helm) #'completing-read)
             (t #'ido-completing-read)))
+
+    ;; Use "P" to toggle threading
+    (setq mu4e-headers-show-threads nil)
 
     ;; convert html emails properly
     ;; Possible options:
@@ -93,56 +94,49 @@
     ;;   - html2markdown | grep -v '&nbsp_place_holder;' (Requires html2text pypi)
     ;;   - w3m -dump -cols 80 -T text/html
     ;;   - w3m -dump -T text/html -cols 72
+    ;;   - iconv -c -t utf-8 | pandoc -f html -t plain
+    ;;   - 'mu4e-shr2text
     ;;   - view in browser (provided below)
-    (setq mu4e-html2text-command "w3m -dump -T text/html -cols 72")
+    (setq mu4e-html2text-command 'mu4e-shr2text)
 
     ;; simple compose signature
-    (setq mu4e-compose-signature
-        (concat
-            "Julio C. Villasante\n"
-            "Sent from GNU Emacs\n"))
+    (setq mu4e-compose-signature "---\nJulio C. Villasante")
 
     ;; Actions
-    (add-to-list 'mu4e-view-actions '("Browser view" . mu4e-action-view-in-browser) t)
-    (add-to-list 'mu4e-view-actions '("XWidget view" . mu4e-action-view-with-xwidget) t)
-    (add-to-list 'mu4e-view-actions '("Eww view" . +my/view-in-eww) t)
+    (add-to-list 'mu4e-view-actions '("browser view" . mu4e-action-view-in-browser) t)
+    (add-to-list 'mu4e-view-actions '("xwidget view" . mu4e-action-view-with-xwidget) t)
+    (add-to-list 'mu4e-view-actions '("eww view" . +my/view-in-eww) t)
     (add-to-list 'mu4e-view-actions '("xsearch for sender" . +my/search-for-sender) t)
     (add-to-list 'mu4e-headers-actions '("number of recipients" . +my/show-number-of-recipients) t)
 
     ;; This hook correctly modifies the \Inbox and \Starred flags on email when they are marked.
     ;; Without it refiling (archiving) and flagging (starring) email won't properly result in
     ;; the corresponding gmail action.
-    ;; (add-hook 'mu4e-mark-execute-pre-hook
-    ;;     (lambda (mark msg)
-    ;;         (cond ((member mark '(refile trash)) (mu4e-action-retag-message msg "-\\Inbox"))
-    ;;             ((equal mark 'flag) (mu4e-action-retag-message msg "\\Starred"))
-    ;;             ((equal mark 'unflag) (mu4e-action-retag-message msg "-\\Starred")))))
-    ;; (add-hook! 'mu4e-mark-execute-pre-hook
-    ;;   (defun +mu4e-gmail-fix-flags-h (mark msg)
-    ;;     (pcase mark
-    ;;       (`trash  (mu4e-action-retag-message msg "-\\Inbox,+\\Trash,-\\Draft"))
-    ;;       (`refile (mu4e-action-retag-message msg "-\\Inbox"))
-    ;;       (`flag   (mu4e-action-retag-message msg "+\\Starred"))
-    ;;       (`unflag (mu4e-action-retag-message msg "-\\Starred")))))
+    (add-hook! 'mu4e-mark-execute-pre-hook
+        (lambda (mark msg)
+            (cond ((member mark '(refile trash)) (mu4e-action-retag-message msg "-\\Inbox"))
+                ((equal mark 'flag) (mu4e-action-retag-message msg "\\Starred"))
+                ((equal mark 'unflag) (mu4e-action-retag-message msg "-\\Starred")))))
 
     ;; compose and view mode hook
-    (add-hook 'mu4e-compose-mode-hook
+    (add-hook! 'mu4e-compose-mode-hook
         (lambda ()
             (flyspell-mode 1)
             (auto-fill-mode 0)
             (visual-line-mode 1)))
-    (add-hook 'mu4e-view-mode-hook
-        (lambda () (visual-line-mode 1)))
+    (add-hook! 'mu4e-view-mode-hook
+        (lambda ()
+            (visual-line-mode 1)))
 
     ;; From Ben Maughan: Get some Org functionality in compose buffer
-    (add-hook 'message-mode-hook 'turn-on-orgtbl)
-    (add-hook 'message-mode-hook 'turn-on-orgstruct++)
+    (add-hook! 'message-mode-hook 'turn-on-orgtbl)
+    (add-hook! 'message-mode-hook 'turn-on-orgstruct++)
 
     ;; mu4e - gpg
     ;; When composing an e-mail, `C-c C-e s' to sign your message then `C-c C-e e' to encrypt.
     ;; When receiving a PGP encrypted e-mail: `C-c C-e v' to verify the signature, and `C-c C-e d' to decrypt.
-    (add-hook 'mu4e-compose-mode-hook 'epa-mail-mode)
-    (add-hook 'mu4e-view-mode-hook 'epa-mail-mode)
+    (add-hook! 'mu4e-compose-mode-hook 'epa-mail-mode)
+    (add-hook! 'mu4e-view-mode-hook 'epa-mail-mode)
 
     ;; date formats
     (setq
@@ -165,11 +159,6 @@
     ;; Trim the number of fields shown in the email view. This is customizable. See mu4e-view.el for a full list.
     (setq mu4e-view-fields '(:from :to :cc :bcc :subject :date :tags :attachments :flags :maildir))
 
-    (setq mu4e-sent-messages-behavior
-        (lambda ()
-            (if (string= (message-sendmail-envelope-from) "jvillasantegomez@gmail.com")
-                'delete 'sent)))
-
     ;; This sets up my two different context for my gmail and iCloud emails.
     (setq mu4e-contexts
         `( ,(make-mu4e-context
@@ -179,11 +168,15 @@
                                 (when msg
                                     (+my/mu4e-message-maildir-matches msg "^/gmail")))
                 :leave-func (lambda () (mu4e-clear-caches))
-                :vars '((user-mail-address     . "jvillasantegomez@gmail.com")
-                           (user-full-name     . "Julio C. Villasante")
-                           (mu4e-sent-folder   . "/jvillasantegomez@gmail.com/[Gmail]/Sent Mail")
+                :vars '((user-mail-address . "jvillasantegomez@gmail.com")
+                           (user-full-name . "Julio C. Villasante")
+                           (mail-reply-to . "jvillasantegomez@gmail.com")
+                           (mu4e-sent-messages-behavior . delete)
+                           (mu4e-index-cleanup . nil)
+                           (mu4e-index-lazy-check . t)
+                           (mu4e-sent-folder . "/jvillasantegomez@gmail.com/[Gmail]/Sent Mail")
                            (mu4e-drafts-folder . "/jvillasantegomez@gmail.com/[Gmail]/Drafts")
-                           (mu4e-trash-folder  . "/jvillasantegomez@gmail.com/[Gmail]/Trash")
+                           (mu4e-trash-folder . "/jvillasantegomez@gmail.com/[Gmail]/Trash")
                            (mu4e-refile-folder . "/jvillasantegomez@gmail.com/[Gmail]/All Mail")))
              ,(make-mu4e-context
                   :name "iCloud"
@@ -192,11 +185,13 @@
                                   (when msg
                                       (+my/mu4e-message-maildir-matches msg "^/icloud")))
                   :leave-func (lambda () (mu4e-clear-caches))
-                  :vars '((user-mail-address     . "julio.villasante@icloud.com")
-                             (user-full-name     . "Julio C. Villasante")
-                             (mu4e-sent-folder   . "/julio.villasante@icloud.com/Sent Messages")
+                  :vars '((user-mail-address . "julio.villasante@icloud.com")
+                             (user-full-name . "Julio C. Villasante")
+                             (mail-reply-to . "jvillasantegomez@icloud.com")
+                             (mu4e-sent-messages-behavior . sent)
+                             (mu4e-sent-folder . "/julio.villasante@icloud.com/Sent Messages")
                              (mu4e-drafts-folder . "/julio.villasante@icloud.com/Drafts")
-                             (mu4e-trash-folder  . "/julio.villasante@icloud.com/Junk")
+                             (mu4e-trash-folder . "/julio.villasante@icloud.com/Junk")
                              (mu4e-refile-folder . "/julio.villasante@icloud.com/Archive")))))
 
     ;; Configure sending mail.
@@ -208,7 +203,7 @@
 
     ;; Use the correct account context when sending mail based on the from header.
     (setq message-sendmail-envelope-from 'header)
-    (add-hook 'message-send-mail-hook '+my/choose-msmtp-account)
+    (add-hook! 'message-send-mail-hook '+my/choose-msmtp-account)
 
     ;; Bookmarks for common searches that I use.
     (setq mu4e-bookmarks
@@ -234,7 +229,7 @@
                         (push (buffer-name buffer) buffers))))
             (nreverse buffers)))
     (setq gnus-dired-mail-mode 'mu4e-user-agent)
-    (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+    (add-hook! 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
     ;; use imagemagick, if available
     (when (fboundp 'imagemagick-register-types)

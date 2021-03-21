@@ -31,6 +31,7 @@
     (:leader
         ;;;; Applications
         (:prefix ("a" . "Application")
+            :desc "Mu4e"               :n "m" #'mu4e
             :desc "Elfeed Rss Reader"  :n "f" #'elfeed
             :desc "Deft"               :n "n" #'deft)
 
