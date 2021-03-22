@@ -194,7 +194,7 @@
     ;;(wanderlust +gmail)
 
     :app
-    everywhere          ; *leave* Emacs!? You must be joking.
+    ;;everywhere          ; *leave* Emacs!? You must be joking.
     ;;calendar
     ;;irc               ; how neckbeards socialize
     (rss                ; emacs as an RSS reader
