@@ -445,7 +445,7 @@
         org-imenu-depth 8)
 
     ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
-    (setq org-hide-emphasis-markers nil)
+    (setq org-hide-emphasis-markers t)
 
     ;; set up a font-lock substitution for list markers (- => •)
     (font-lock-add-keywords 'org-mode
