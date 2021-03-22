@@ -29,6 +29,12 @@
                 t)
             ".*:\0? *")))
 
+(after! emacs-everywhere
+    (setq emacs-everywhere-frame-parameters
+        `((name . "emacs-everywhere")
+             (width . 80)
+             (height . 20))))
+
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 

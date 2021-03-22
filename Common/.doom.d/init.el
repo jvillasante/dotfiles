@@ -21,10 +21,13 @@
     ;;layout            ; auie,ctsrnm is the superior home row
 
     :completion
-    company
+    (company            ; the ultimate code completion backend
+        -childframe)
     ;;helm              ; the *other* search engine for love and life
     ;;ido               ; the other *other* search engine...
-    (ivy +fuzzy +prescient) ; a search engine for love and life
+    (ivy                ; a search engine for love and life
+        -fuzzy
+        +prescient)
 
     :ui
     deft              ; notational velocity for Emacs
@@ -41,7 +44,9 @@
     nav-flash         ; blink cursor line after big motions
     neotree           ; a project drawer, like NERDTree for vim
     ophints           ; highlight the region an operation acts on
-    (popup +all +defaults)   ; tame sudden yet inevitable temporary windows
+    (popup            ; tame sudden yet inevitable temporary windows
+        +all
+        +defaults)
     ;;tabs              ; a tab bar for Emacs
     ;; treemacs          ; a project drawer, like neotree but cooler
     ;;unicode           ; extended unicode support for various languages
@@ -52,10 +57,12 @@
     ;;zen               ; distraction-free coding or writing
 
     :editor
-    (evil +everywhere); come to the dark side, we have cookies
+    (evil             ; come to the dark side, we have cookies
+        +everywhere)
     file-templates    ; auto-snippets for empty files
     fold              ; (nigh) universal code folding
-    (format +onsave)  ; automated prettiness
+    (format           ; automated prettiness
+        +onsave)
     ;;god               ; run Emacs commands without modifier keys
     ;;lispy             ; vim for lisp, for people who don't like vim
     multiple-cursors  ; editing in many places at once
@@ -69,7 +76,8 @@
     dired             ; making dired pretty [functional]
     electric          ; smarter, keyword-based electric-indent
     ibuffer         ; interactive buffer management
-    (undo +tree)    ; persistent, smarter undo for your inevitable mistakes
+    (undo           ; persistent, smarter undo for your inevitable mistakes
+        +tree)
     vc                ; version-control and Emacs, sitting in a tree
 
     :term
@@ -79,8 +87,12 @@
     vterm             ; the best terminal emulation in Emacs
 
     :checkers
-    (syntax +childframe) ; tasing you for every semicolon you forget
-    (spell +flyspell +aspell +everywhere) ; tasing you for misspelling mispelling
+    (syntax           ; tasing you for every semicolon you forget
+        +childframe)
+    (spell            ; tasing you for misspelling mispelling
+        +flyspell
+        +aspell
+        +everywhere)
     ;;grammar           ; tasing grammar mistake every you make
 
     :tools
@@ -90,10 +102,14 @@
     ;;docker
     editorconfig      ; let someone else argue about tabs vs spaces
     ;;ein               ; tame Jupyter notebooks with emacs
-    (eval +overlay)     ; run code, run (also, repls)
+    (eval               ; run code, run (also, repls)
+        +overlay)
     ;;gist              ; interacting with github gists
-    (lookup +dictionary +docsets)   ; navigate your code and its documentation
-    (lsp +peek)
+    (lookup             ; navigate your code and its documentation
+        +dictionary
+        +docsets)
+    (lsp
+        +peek)
     magit             ; a git porcelain for Emacs
     make              ; run make tasks from Emacs
     (pass +auth)      ; password manager for nerds
@@ -107,11 +123,13 @@
 
     :os
     (:if IS-MAC macos)  ; improve compatibility with macOS
-    (tty +osc)          ; improve the terminal Emacs experience
+    (tty                ; improve the terminal Emacs experience
+        +osc)
 
     :lang
     ;;agda              ; types of types of types of types...
-    (cc +lsp)               ; C/C++/Obj-C madness
+    (cc                 ; C/C++/Obj-C madness
+        +lsp)
     ;;clojure           ; java with a lisp
     ;;common-lisp       ; if you've seen one lisp, you've seen them all
     ;;coq               ; proofs-as-programs
@@ -128,7 +146,8 @@
     ;;fsharp            ; ML stands for Microsoft's Language
     ;;fstar             ; (dependent) types and (monadic) effects and Z3
     ;;gdscript          ; the language you waited for
-    (go +lsp)         ; the hipster dialect
+    (go                 ; the hipster dialect
+        +lsp)
     ;;(haskell +dante)  ; a language that's lazier than I am
     ;;hy                ; readability of scheme w/ speed of python
     ;;idris             ;
@@ -157,7 +176,8 @@
     rest              ; Emacs as a REST client
     ;;rst               ; ReST in peace
     ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-    (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+    (rust               ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+        +lsp)
     ;;scala             ; java, but good
     ;;scheme            ; a fully conniving family of lisps
     sh                ; she sells {ba,z,fi}sh shells on the C xor
@@ -174,10 +194,11 @@
     ;;(wanderlust +gmail)
 
     :app
-    ;; everywhere          ; *leave* Emacs!? You must be joking.
+    everywhere          ; *leave* Emacs!? You must be joking.
     ;;calendar
     ;;irc               ; how neckbeards socialize
-    (rss +org)        ; emacs as an RSS reader
+    (rss                ; emacs as an RSS reader
+        +org)
     ;;twitter           ; twitter client https://twitter.com/vnought
 
     :config

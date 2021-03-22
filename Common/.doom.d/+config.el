@@ -7,6 +7,9 @@
             engine/browser-function 'browse-url-generic
             browse-url-generic-program "open"
             ns-use-thin-smoothing t)
+        (setq mac-command-modifier    'meta
+            mac-option-modifier       'alt
+            mac-right-option-modifier 'alt)
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (add-to-list 'default-frame-alist '(ns-appearance . dark)))
     (IS-LINUX
