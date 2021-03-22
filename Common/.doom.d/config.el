@@ -445,7 +445,7 @@
         org-imenu-depth 8)
 
     ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
-    (setq org-hide-emphasis-markers t)
+    (setq org-hide-emphasis-markers nil)
 
     ;; set up a font-lock substitution for list markers (- => •)
     (font-lock-add-keywords 'org-mode
@@ -464,7 +464,6 @@
                    (nil (warn "Cannot find a Sans Serif Font."))))
               (base-font-color (face-foreground 'default nil 'default))
               (headline `(:inherit default :weight bold :foreground ,base-font-color)))
-
         (custom-theme-set-faces
             'user
             `(org-level-8        ((t (,@headline ,@variable-tuple))))
