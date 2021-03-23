@@ -40,6 +40,11 @@ if [ -d "$HOME/Workspace/Code/go" ]; then
     export PATH="$GOBIN:$PATH"
 fi
 
+# Zig
+if [ -d "$HOME/Workspace/Software/zig/zig" ]; then
+    export PATH="$HOME/Workspace/Software/zig/zig:$PATH"
+fi
+
 # Boost
 # export BOOST_ROOT="$HOME/Hacking/software/boost_1_68_0"
 # export BOOST_VERSION=1.68.0

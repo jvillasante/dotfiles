@@ -210,4 +210,5 @@
     ;; my-eshell
     (:when (string= (system-name) "Julios-MacBook-Pro.local")
         my-mu4e)
+    my-zig
     my-cc)

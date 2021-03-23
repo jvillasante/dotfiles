@@ -76,6 +76,7 @@
                 (string-prefix-p (expand-file-name ".bin/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".bin/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".oh-my-zsh/" +my/dotfiles-path) project-root)
+                (string-prefix-p (expand-file-name "Workspace/Software/zig/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".cargo/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root)))))
 
@@ -184,6 +185,14 @@
         lsp-enable-file-watchers nil
         lsp-enable-indentation nil
         lsp-enable-on-type-formatting nil)
+
+    ;; Zig
+    (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
+    (lsp-register-client
+        (make-lsp-client
+            :new-connection (lsp-stdio-connection "/Users/jvillasante/Workspace/Software/zig/zls/zig-cache/bin/zls")
+            :major-modes '(zig-mode)
+            :server-id 'zls))
 
     ;; Rust
     (setq

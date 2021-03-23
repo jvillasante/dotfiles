@@ -7,19 +7,12 @@
 
 namespace utils::threading {
 struct pcout : public std::stringstream {
-    pcout() = default;
-    pcout(pcout const&) = delete;
-    pcout(pcout&&) = delete;
-    pcout& operator=(pcout const&) = delete;
-    pcout& operator=(pcout&&) = delete;
+    static inline std::mutex mtx_;
     ~pcout() override {
         std::lock_guard<std::mutex> _{mtx_};
         std::cout << rdbuf();
         std::cout.flush();
     }
-
-private:
-    static inline std::mutex mtx_; // NOLINT
 };
 } // namespace utils::threading
 
