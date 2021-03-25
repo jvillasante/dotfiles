@@ -123,8 +123,10 @@
 
 (after! company
     (setq
+        company-idle-delay 0.1
+        company-tooltip-limit 10
         company-minimum-prefix-length 2
-        company-idle-delay 0.2)
+        company-tooltip-align-annotations t)
 
     ;; make aborting less annoying.
     (add-hook 'evil-normal-state-entry-hook #'company-abort))
@@ -557,7 +559,9 @@
     :after org
     :init   (org-crypt-use-before-save-magic)
     :custom (org-crypt-key user-mail-address)
-    :config (setq org-tags-exclude-from-inheritance (quote ("crypt"))))
+    :config
+    (setq org-crypt-disable-auto-save nil) ;; don't ask to disable auto-save
+    (setq org-tags-exclude-from-inheritance (quote ("crypt"))))
 
 (use-package! visual-regexp
     :commands (vr/query-replace vr/replace))

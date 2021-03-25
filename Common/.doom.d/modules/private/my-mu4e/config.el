@@ -57,8 +57,9 @@
         mail-user-agent 'mu4e-user-agent
         mu4e-mu-binary +my/mu-path
         mu4e-get-mail-command "mbsync -a"
-        mu4e-update-interval 300
+        mu4e-update-interval nil
         ;; mu4e-use-fancy-chars t
+        mm-discouraged-alternatives '("text/html" "text/richtext") ;; prefer text over html/ritchtext
         mu4e-view-show-images t
         message-kill-buffer-on-exit t
         mu4e-headers-skip-duplicates t
@@ -112,11 +113,11 @@
     ;; This hook correctly modifies the \Inbox and \Starred flags on email when they are marked.
     ;; Without it refiling (archiving) and flagging (starring) email won't properly result in
     ;; the corresponding gmail action.
-    (add-hook! 'mu4e-mark-execute-pre-hook
-        (lambda (mark msg)
-            (cond ((member mark '(refile trash)) (mu4e-action-retag-message msg "-\\Inbox"))
-                ((equal mark 'flag) (mu4e-action-retag-message msg "\\Starred"))
-                ((equal mark 'unflag) (mu4e-action-retag-message msg "-\\Starred")))))
+    ;; (add-hook! 'mu4e-mark-execute-pre-hook
+    ;;     (lambda (mark msg)
+    ;;         (cond ((member mark '(refile trash)) (mu4e-action-retag-message msg "-\\Inbox"))
+    ;;             ((equal mark 'flag) (mu4e-action-retag-message msg "\\Starred"))
+    ;;             ((equal mark 'unflag) (mu4e-action-retag-message msg "-\\Starred")))))
 
     ;; compose and view mode hook
     (add-hook! 'mu4e-compose-mode-hook
