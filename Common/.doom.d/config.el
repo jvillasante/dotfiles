@@ -262,14 +262,14 @@
         org-id-link-to-org-use-id t)
 
     (setq org-roam-capture-templates
-        '(("d" "default" plain #'org-roam-capture--get-point
-              :file-name "${slug}"
+        '(("p" "personal" plain #'org-roam-capture--get-point
+              :file-name "personal/${slug}"
               :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
               :unnarrowed t :jump-to-captured t)
              ("w" "work" plain #'org-roam-capture--get-point
                  :file-name "work/${slug}"
                  :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
-                 :unnarrowed t :prepend t :jump-to-captured t)))
+                 :unnarrowed t :jump-to-captured t)))
 
     (setq org-roam-dailies-capture-templates
         '(("d" "default" entry
