@@ -23,6 +23,7 @@
 
     "C-c C-y"   #'company-yasnippet
     "C-c o"     #'crux-open-with
+    "C-c u"     #'browse-url-at-point
 
     ;; ;;;  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Doom
