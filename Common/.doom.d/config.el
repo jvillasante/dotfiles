@@ -258,7 +258,6 @@
         org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
         org-roam-dailies-directory (expand-file-name "Apps/org/roam/daily" +my/dropbox-path)
         org-roam-db-gc-threshold most-positive-fixnum
-        org-roam-graph-exclude-matcher "private"
         org-roam-tag-sources '(prop last-directory)
         org-id-link-to-org-use-id t)
 
