@@ -49,5 +49,4 @@
 (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*osx-dictionary" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*Password-Store" :side 'left :size 0.4 :quit nil)
-(set-popup-rule! "^\\*Org Agenda" :side 'bottom :size 0.75 :select t :ttl nil)
-(set-popup-rule! "^CAPTURE.*\\.org$" :side 'bottom :size 0.80 :select t :ttl nil)
+(set-popup-rule! "^\\*ivy-occur" :size 0.4 :ttl 0 :quit nil)

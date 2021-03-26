@@ -4,10 +4,6 @@
 ;; sync' after modifying this file!
 
 (load! "+early-init.el")
-(load! "+ui")
-(load! "+config")
-(load! "+bindings")
-(load! "+hydras")
 
 (when noninteractive
     (after! undo-tree
@@ -281,7 +277,7 @@
     (set-evil-initial-state! 'elfeed-search-mode 'normal))
 
 (after! elfeed-show-mode
-    (set-evil-initial-state! 'elfeed-show-mode   'normal))
+    (set-evil-initial-state! 'elfeed-show-mode 'normal))
 
 (after! evil-snipe
     (push 'elfeed-show-mode   evil-snipe-disabled-modes)
@@ -563,6 +559,11 @@
     (setq super-save-triggers
         '(ace-window evil-window-down evil-window-up evil-window-left evil-window-right +ivy/projectile-find-file +ivy/switch-workspace-buffer +ivy/switch-workspace-buffer-other-window))
     (super-save-mode +1))
+
+(load! "+ui")
+(load! "+config")
+(load! "+bindings")
+(load! "+hydras")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
