@@ -1,27 +1,29 @@
 [user]
-	name = Julio C. Villasante
-	email = julio.c.villasante@nielsen.com
+    name = Julio C. Villasante
+    email = julio.c.villasante@nielsen.com
 [credential]
-	helper = cache --timeout=3600
+    helper = cache --timeout=3600
 [pull]
     rebase = false
 [push]
-	default = matching
+    default = matching
 [branch]
-	autosetuprebase = always
+    autosetuprebase = always
 [color]
-	ui = true
-	status = auto
-	branch = auto
+    ui = true
+    status = auto
+    branch = auto
 [core]
-	# editor = vim
-	autocrlf = false
-	safecrlf = true
+    autocrlf = false
+    safecrlf = true
 [merge]
-	tool = kdiff3
+    tool = kdiff3
 [alias]
-  hist = log --pretty=format:'%ad | %s%d [%an]' --graph --date=short
+    hist = log --pretty=format:'%ad | %s%d [%an]' --graph --date=short
+    oneline = log --oneline --decorate --all --graph
 [github]
-	user = jvillasante
-	password = p
-	oauth-token =
+    user = jvillasante
+    password = p
+    oauth-token =
+[fetch]
+    prune = true
