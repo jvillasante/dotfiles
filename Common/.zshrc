@@ -102,7 +102,7 @@ fi
 
 # vim
 if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
+    alias vim='nvim'
 fi
 alias vi=vim
 
@@ -110,16 +110,16 @@ alias vi=vim
 # Determine size of a file or total size of a directory
 # 
 function fs() {
-	if du -b /dev/null > /dev/null 2>&1; then
-		local arg=-sbh;
-	else
-		local arg=-sh;
-	fi
-	if [[ -n "$@" ]]; then
-		du $arg -- "$@";
-	else
-		du $arg .[^.]* ./*;
-	fi;
+    if du -b /dev/null > /dev/null 2>&1; then
+        local arg=-sbh;
+    else
+        local arg=-sh;
+    fi
+    if [[ -n "$@" ]]; then
+        du $arg -- "$@";
+    else
+        du $arg .[^.]* ./*;
+    fi;
 }
 
 #
@@ -142,12 +142,12 @@ fi
 # Normalize `open` across Linux, macOS, and Windows.
 # 
 if [ ! $(uname -s) = 'Darwin' ]; then
-	if grep -q Microsoft /proc/version; then
-		# Ubuntu on Windows using the Linux subsystem
-		alias open='explorer.exe';
-	else
-		alias open='xdg-open';
-	fi
+    if grep -q Microsoft /proc/version; then
+        # Ubuntu on Windows using the Linux subsystem
+        alias open='explorer.exe';
+    else
+        alias open='xdg-open';
+    fi
 fi
 
 #
@@ -179,30 +179,6 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 fi
 
 #
-# Tmux
-#
-if type tmux >/dev/null 2>/dev/null; then
-    alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
-    alias tmuxsrc="tmux source-file ~/.tmux.conf"
-    alias tmuxkillall="tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}" # tmux kill all sessions
-
-    # Makes creating a new tmux session (with a specific name) easier
-    function tmux_open() {
-        tmux attach -t $1
-    }
-
-    # Makes creating a new tmux session (with a specific name) easier
-    function tmux_new() {
-        tmux new -s $1
-    }
-
-    # Makes deleting a tmux session easier
-    function tmux_kill() {
-        tmux kill-session -t $1
-    }
-fi
-
-#
 # fzf
 #
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -228,15 +204,9 @@ if type fzf >/dev/null 2>/dev/null; then
         fd --type d --hidden --follow --exclude ".git" . "$1"
     }
 
-    # interactive grep
-    function fgrep() {
-        ps aux | eval fzf | awk '{ print $2 }'
-    }
-
-    # interactive kill
-    function fkill() {
-        fgrep | xargs kill $*
-    }
+    #
+    # General
+    # 
 
     # switch to a project
     function fproj() {
@@ -254,13 +224,140 @@ if type fzf >/dev/null 2>/dev/null; then
         find . -wholename \*$search_term\* -not -path './.*/*' | fzf
     }
 
-    # switch between git branches
-    function fcheckout() {
-        git checkout $(git branch | cut -c 3- | fzf)
-    }
-
     # run a command from the history
     function fhist() {
         $(history | cut -c8- | sort -u | fzf)
     }
+
+    #
+    # Processes
+    # 
+
+    # show process id - interactive grep
+    function fgrep() {
+        ps aux | eval fzf | awk '{ print $2 }'
+    }
+
+    # kill processes - list only the ones you can kill.
+    function fkill() {
+        local pid 
+        if [ "$UID" != "0" ]; then
+            pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+        else
+            pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+        fi  
+
+        if [ "x$pid" != "x" ]
+        then
+            echo $pid | xargs kill -${1:-9}
+        fi  
+    }
+
+    #
+    # Git
+    # 
+
+    # fbr - checkout git branch (including remote branches)
+    function fbr() {
+        local branches branch
+        branches=$(git branch --all | grep -v HEAD) &&
+            branch=$(echo "$branches" | fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+            git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+    }
+
+    # fco - checkout git branch/tag
+    function fco() {
+        local tags branches target
+        branches=$(
+            git --no-pager branch --all \
+                --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
+                | sed '/^$/d') || return
+        tags=$(git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
+        target=$(
+            (echo "$branches"; echo "$tags") |
+                fzf --no-hscroll --no-multi -n 2 \
+                    --ansi) || return
+        git checkout $(awk '{print $2}' <<<"$target" )
+    }
+
+    # fcoc - checkout git commit
+    function fcoc() {
+        local commits commit
+        commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+            commit=$(echo "$commits" | fzf --tac +s +m -e) &&
+            git checkout $(echo "$commit" | sed "s/ .*//")
+    }
+
+    # fshow - git commit browser
+    function fshow() {
+        git log --graph --color=always \
+            --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+            fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+                --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+    }
+
+    #
+    # Tmux
+    #
+    if type tmux >/dev/null 2>/dev/null; then
+        # ftm_session_new - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
+        # `ftm_session_new` will allow you to select your tmux session via fzf.
+        # `ftm_session_new irc` will attach to the irc session (if it exists), else it will create it.
+        function ftm_session_new() {
+            [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+            if [ $1 ]; then
+                tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+            fi
+            session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+        }
+
+        
+        # zsh; needs setopt re_match_pcre. You can, of course, adapt it to your own shell easily.
+        function ftm_session_kill() {
+            local sessions
+            sessions="$(tmux ls|fzf --exit-0 --multi)"  || return $?
+            local i
+            for i in "${(f@)sessions}"
+            do
+                [[ $i =~ '([^:]*):.*' ]] && {
+                    echo "Killing $match[1]"
+                    tmux kill-session -t "$match[1]"
+                }
+            done
+        }
+
+        # ftm_session_switch [FUZZY PATTERN] - Select selected tmux session
+        #   - Bypass fuzzy finder if there's only one match (--select-1)
+        #   - Exit if there's no match (--exit-0)
+        function ftm_session_switch() {
+            local session
+            session=$(tmux list-sessions -F "#{session_name}" | \
+                fzf --query="$1" --select-1 --exit-0) &&
+                tmux switch-client -t "$session"
+        }
+
+        # ftn_pane_switch - switch pane
+        function ftm_pane_switch() {
+            local panes current_window current_pane target target_window target_pane
+            panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
+            current_pane=$(tmux display-message -p '#I:#P')
+            current_window=$(tmux display-message -p '#I')
+
+            target=$(echo "$panes" | grep -v "$current_pane" | fzf +m --reverse) || return
+
+            target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
+            target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
+
+            if [[ $current_window -eq $target_window ]]; then
+                tmux select-pane -t ${target_window}.${target_pane}
+            else
+                tmux select-pane -t ${target_window}.${target_pane} &&
+                    tmux select-window -t $target_window
+            fi
+        }
+    fi
 fi
