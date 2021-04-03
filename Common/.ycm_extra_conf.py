@@ -41,8 +41,6 @@ flags = [
 # '-isystem', '/usr/include',
 # Local includes
 '-I', '.',
-'-I', '/Users/jvillasante/Hacking/software/googletest/googletest/include',
-'-I', '/Users/jvillasante/Hacking/software/googletest/googlemock/include',
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
