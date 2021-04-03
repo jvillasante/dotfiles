@@ -113,9 +113,7 @@
     (setq flyspell-lazy-idle-seconds 3))
 
 (after! flycheck
-    (setq
-        flycheck-indication-mode 'left-fringe)
-    (add-hook 'post-command-hook #'flycheck-posframe-hide-posframe))
+    (setq flycheck-indication-mode 'left-fringe))
 
 (after! company
     (setq
