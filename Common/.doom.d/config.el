@@ -185,7 +185,8 @@
     ;; Rust
     (setq
         lsp-rust-server 'rust-analyzer
-        lsp-rust-analyzer-cargo-watch-command "clippy")
+        lsp-rust-analyzer-cargo-watch-command "clippy"
+        lsp-rust-analyzer-server-display-inlay-hints nil)
 
     ;; C++
     (setq lsp-clients-clangd-args
@@ -212,6 +213,7 @@
 
     (setq
         lsp-ui-peek-enable t
+        lsp-ui-peek-always-show t
         lsp-ui-peek-show-directory t)
 
     (setq
@@ -223,8 +225,7 @@
 (after! rustic
     (setq
         rustic-lsp-server 'rust-analyzer
-        rustic-format-on-save nil
-        rust-match-angle-brackets nil))
+        rustic-format-on-save nil))
 
 (after! deft
     (setq
