@@ -66,7 +66,6 @@ at least the fill column. Place the point after the comment box. http://irreal.o
         (run-with-timer 2 nil
             (lambda (buf)
                 (bury-buffer buf)
-                ;; (switch-to-prev-buffer (get-buffer-window buf) 'kill)
                 (delete-windows-on buf))
             buffer)))
 
