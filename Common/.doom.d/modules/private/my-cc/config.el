@@ -21,17 +21,6 @@
 (after! company
     (setq company-clang-executable +my/clang-path))
 
-(after! smartparens
-    (sp-with-modes '(c-mode c++-mode)
-        ;; messes with std::cout << ...
-        ;; (sp-local-pair "<" ">")
-        (sp-local-pair "<" ">" :actions nil)
-
-        ;; when you press RET, the curly braces automatically add another newline
-        (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
-        (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
-                                                     ("* ||\n[i]" "RET")))))
-
 (after! cc-mode
     (add-hook 'c++-mode-hook
         (lambda ()

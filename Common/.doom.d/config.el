@@ -107,7 +107,18 @@
     (require 'smartparens-config)
     (show-smartparens-global-mode +1)
     (smartparens-global-mode 1)
-    (show-paren-mode t))
+    (show-paren-mode t)
+
+    (sp-with-modes '(c-mode c++-mode)
+        ;; (sp-local-pair "<" ">")
+        (sp-local-pair "<" ">" :actions nil)
+
+        ;; when you press RET, the curly braces automatically add another newline
+        (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+        (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC") ("* ||\n[i]" "RET"))))
+
+    (sp-with-modes '(rustic-mode)
+        (sp-local-pair "|" "|")))
 
 (after! flyspell
     (setq flyspell-lazy-idle-seconds 3))
