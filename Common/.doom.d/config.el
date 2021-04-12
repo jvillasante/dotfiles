@@ -415,6 +415,9 @@
     ;; doom fold level
     (setq +org-initial-fold-level 1)
 
+    ;; Latex previews in org-mode
+    (plist-put org-format-latex-options :background 'default)
+
     ;; org problems
     (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
     (setq org-clock-line-re "^[    ]*CLOCK:")
