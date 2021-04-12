@@ -48,7 +48,6 @@
 
 ;; modeline
 (after! doom-modeline
-    ;; (setq doom-modeline-icon nil)
     (setq all-the-icons-scale-factor 0.8)
     (advice-add #'doom-modeline--font-height :override (lambda () (frame-char-height))))
 
