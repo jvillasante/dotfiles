@@ -169,13 +169,11 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
     alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
 fi
 
-if [[ "$(uname -s)" == "Darwin" ]]; then
-    vterm_prompt_end() {
-        vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
-    }
-    setopt PROMPT_SUBST
-    PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
-fi
+vterm_prompt_end() {
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
+}
+setopt PROMPT_SUBST
+PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
 
 #
 # fzf
