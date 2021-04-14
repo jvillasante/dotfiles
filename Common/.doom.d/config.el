@@ -163,6 +163,10 @@
     (setq slime-net-coding-system 'utf-8-unix))
 
 (after! format
+    ;; Disable format on web stuff
+    (add-to-list '+format-on-save-enabled-modes 'web-mode 'append)
+
+    ;; Do now format with lsp, use `format` instead
     (setq +format-with-lsp nil))
 
 ;; Rust hack!
