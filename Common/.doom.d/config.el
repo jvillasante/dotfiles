@@ -134,7 +134,7 @@
         company-tooltip-align-annotations t)
 
     ;; make aborting less annoying.
-    (add-hook 'evil-normal-state-entry-hook #'company-abort))
+    (add-hook! evil-normal-state-entry #'company-abort))
 
 (after! ws-butler
     (setq ws-butler-global-exempt-modes

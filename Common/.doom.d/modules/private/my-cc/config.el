@@ -7,28 +7,25 @@
 (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
 
-(add-hook 'c-mode-common-hook
-    (lambda ()
-        (c-set-offset 'substatement-open 0)
-        (c-set-offset 'innamespace 0) ;; Do not indent namespaces.
-        (c-set-offset 'arglist-intro '+) ;; indent function args properly
-        (c-set-offset 'arglist-cont-nonempty '+)
-        (c-toggle-hungry-state 1)          ;; use hungry delete.
-        (auto-fill-mode 1)                 ;; auto fill comments
-        (setq c-basic-offset tab-width)
-        (setq c-default-style "stroustrup")))
+(add-hook! c-mode-common
+    (c-set-offset 'substatement-open 0)
+    (c-set-offset 'innamespace 0) ;; Do not indent namespaces.
+    (c-set-offset 'arglist-intro '+) ;; indent function args properly
+    (c-set-offset 'arglist-cont-nonempty '+)
+    (c-toggle-hungry-state 1)          ;; use hungry delete.
+    (setq c-basic-offset tab-width)
+    (setq c-default-style "stroustrup"))
 
 (after! company
     (setq company-clang-executable +my/clang-path))
 
 (after! cc-mode
-    (add-hook 'c++-mode-hook
-        (lambda ()
-            (progn
-                (setq-default flycheck-c/c++-clang-executable +my/clang-path)
-                (setq-default flycheck-clang-standard-library "libc++")
-                (setq-default flycheck-clang-language-standard "c++20")
-                (setq company-clang-arguments '("-std=c++20"))))))
+    (add-hook! c++-mode
+        (progn
+            (setq-default flycheck-c/c++-clang-executable +my/clang-path)
+            (setq-default flycheck-clang-standard-library "libc++")
+            (setq-default flycheck-clang-language-standard "c++20")
+            (setq company-clang-arguments '("-std=c++20")))))
 
 (use-package! modern-cpp-font-lock
     :config

@@ -158,24 +158,21 @@
     (funcall f proc (xterm-color-filter string)))
 (advice-add 'compilation-filter :around #'+my/advice-compilation-filter)
 
+;; comment auto-fill
+(defun +my/comment-auto-fill ()
+      (setq-local comment-auto-fill-only-comments t)
+      (auto-fill-mode 1))
+
 ;; Hooks
-(add-hook 'term-mode-hook
-    (lambda ()
-        (setq term-buffer-maximum-size 10000)))
-(add-hook 'prog-mode-hook #'goto-address-mode) ;; Linkify links!
-(add-hook 'phyton-mode-hook #'whitespace-mode)
-(add-hook 'makefile-mode-hook #'whitespace-mode)
+(add-hook! text-mode 'turn-on-auto-fill)
+(add-hook! prog-mode #'+my/comment-auto-fill)
+(add-hook! phyton-mode #'whitespace-mode)
+(add-hook! makefile-mode #'whitespace-mode)
 (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 ;; (remove-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
-(add-hook! 'markdown-mode-hook
-    (progn
-        (toggle-word-wrap nil)
-        (auto-fill-mode -1)))
-(add-hook 'ibuffer-hook
-    (lambda ()
-        (ibuffer-vc-set-filter-groups-by-vc-root)
-        (unless (eq ibuffer-sorting-mode 'alphabetic)
-            (ibuffer-do-sort-by-alphabetic))))
+(add-hook! markdown-mode
+    (toggle-word-wrap nil)
+    (auto-fill-mode -1))
 
 ;; No highligh persisten on evil search
 (setq evil-ex-search-persistent-highlight nil)
