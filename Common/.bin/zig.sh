@@ -18,18 +18,20 @@ update_zig() {
 }
 
 update_zls() {
-    local ZIG_PATH="$HOME/Workspace/Software/zig"
-    rm -rf $ZIG_PATH/zls/
-
-    # Do not work on MacOS
+    # Do not work on MacOS!
+    # local ZLS_PATH="$HOME/Workspace/Software/zig/zls"
+    # rm -rf $ZLS_PATH/*
+    #
     # local ZLS_URL="$1"
     # curl -L $ZLS_URL | tar -xJ --strip-components=1 -C $ZLS_PATH
+
+    local ZIG_PATH="$HOME/Workspace/Software/zig"
+    rm -rf $ZIG_PATH/zls/
 
     cd $ZIG_PATH
     git clone --recurse-submodules https://github.com/zigtools/zls
     cd zls
     zig build -Drelease-safe
-    # ./zig-cache/bin/zls config # Configure ZLS
 }
 
 while true; do
