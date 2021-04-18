@@ -197,6 +197,10 @@
         lsp-enable-indentation nil
         lsp-enable-on-type-formatting nil)
 
+    ;; Zig
+    (setq lsp-zig-zls-executable
+        (expand-file-name "zig/zls/zig-cache/bin/zls" +my/software-path))
+
     ;; Rust
     (setq
         lsp-rust-server 'rust-analyzer
