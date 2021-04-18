@@ -29,7 +29,7 @@ update_rust_analyzer() {
     fi
 }
 
-update_rust_and_analyzer( ) {
+update_rust_and_analyzer() {
     update_rust
     update_rust_analyzer
 }
