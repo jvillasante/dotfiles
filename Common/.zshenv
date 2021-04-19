@@ -30,6 +30,8 @@ if [ -d "$HOME/.cargo/bin" ]; then
     else
         export PATH="$CARGO_HOME/bin:$PATH"
     fi
+
+    export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib:$LD_LIBRARY_PATH"
     export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 fi
 
