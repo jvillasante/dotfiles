@@ -241,6 +241,32 @@
     (setq
         lsp-ui-imenu-enable t))
 
+(after! cc
+    (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
+
+    (c-set-offset 'substatement-open 0)
+    (c-set-offset 'innamespace 0) ;; Do not indent namespaces.
+    (c-set-offset 'arglist-intro '+) ;; indent function args properly
+    (c-set-offset 'arglist-cont-nonempty '+)
+    (c-toggle-hungry-state 1)          ;; use hungry delete.
+    (setq c-basic-offset tab-width)
+    (setq c-default-style "stroustrup")
+    (setq-default flycheck-c/c++-clang-executable +my/clang-path)
+    (setq-default flycheck-clang-standard-library "libc++")
+    (setq-default flycheck-clang-language-standard "c++20")
+
+    (after! ccls
+        (unless (executable-find "ccls")
+            (setq ccls-executable (expand-file-name "ccls/Release/ccls" +my/software-path)))
+
+        (setq ccls-initialization-options
+            `(:cache (:directory ,(expand-file-name ".emacs.d/.local/.cache/lsp-ccls" +my/dotfiles-path))))))
+
 (after! rustic
     (setq
         rustic-lsp-server 'rust-analyzer
