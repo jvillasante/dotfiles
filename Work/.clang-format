@@ -2,9 +2,13 @@ BasedOnStyle: LLVM
 
 ---
 Language: Cpp
-Standard: Cpp11
 
+# Things I like
+ColumnLimit: 120
 AlwaysBreakTemplateDeclarations: true
+
+# Force pointers to the type for C++.
+DerivePointerAlignment: false
 PointerAlignment: Left
 
 # Indent with 4 spaces
