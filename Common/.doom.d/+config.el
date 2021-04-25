@@ -164,7 +164,7 @@
       (auto-fill-mode 1))
 
 ;; Hooks
-(add-hook! text-mode 'turn-on-auto-fill)
+(add-hook! text-mode #'turn-on-auto-fill)
 (add-hook! prog-mode #'+my/comment-auto-fill)
 (add-hook! phyton-mode #'whitespace-mode)
 (add-hook! makefile-mode #'whitespace-mode)
