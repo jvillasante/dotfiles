@@ -7,6 +7,8 @@
 (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
 
+(c-set-offset 'innamespace 0)
+
 (setq
     c-default-style "stroustrup"
     c-basic-offset 4
