@@ -215,5 +215,6 @@
     ;; my-postframe
     ;; my-eshell
     my-cc
+    my-modus-themes-exporter
     (:when (string= (system-name) "Julios-MacBook-Pro.local")
         my-mu4e))

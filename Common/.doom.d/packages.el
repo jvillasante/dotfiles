@@ -12,10 +12,6 @@
 (package! modus-operandi-theme)
 (package! modus-vivendi-theme)
 
-;; export modus themes to alacritty and tmux
-(package! modus-exporter
-    :recipe (:type git :host github :repo "polaris64/modus-exporter" :files ("*.el" "exporters")))
-
 ;; dired
 (package! dired-quick-sort)
 (package! dired-single)
