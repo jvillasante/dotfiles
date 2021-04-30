@@ -1,14 +1,12 @@
 ;;; +ui.el -*- lexical-binding: t; -*-
 
 ;; font
-;; (setq doom-font (font-spec :family "Source Code Pro" :size 20))
-;; (setq doom-variable-pitch-font (font-spec :family "Source Code Pro"))
-;; (setq doom-unicode-font (font-spec :family "Source Code Pro"))
-;; (setq doom-big-font (font-spec :family "Source Code Pro" :size 40))
-(setq doom-font (font-spec :family "Hack" :size 20))
-(setq doom-variable-pitch-font (font-spec :family "Hack"))
-(setq doom-unicode-font (font-spec :family "Hack"))
-(setq doom-big-font (font-spec :family "Hack" :size 40))
+(setq
+    doom-font (font-spec :family "JetBrains Mono" :size 20)
+    doom-big-font (font-spec :family "JetBrains Mono" :size 40)
+    doom-variable-pitch-font (font-spec :family "Overpass" :size 24)
+    doom-unicode-font (font-spec :family "JuliaMono")
+    doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
 
 ;; Dash highlighting
 (after! dash (dash-enable-font-lock))
