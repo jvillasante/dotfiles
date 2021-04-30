@@ -97,7 +97,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Source Code Pro
+    family: Hack
     style: Regular
 
   # Bold font face
@@ -106,7 +106,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    family: Hack
     style: Bold
 
   # Italic font face
@@ -115,7 +115,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    family: Hack
     style: Italic
 
   # Bold italic font face
@@ -124,7 +124,7 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    family: Hack
     style: Bold Italic
 
   # Point size
@@ -184,9 +184,28 @@ schemes:
       magenta: "#5317ac"
       cyan: "#005a5f"
       white: "#ffffff"
-
-  # TODO
-  # modus_vivendi: &dark
+  modus_vivendi: &dark
+    primary:
+      background: "#000000"
+      foreground: "#ffffff"
+    normal:
+      black: "#000000"
+      red: "#ff8059"
+      green: "#44bc44"
+      yellow: "#eecc00"
+      blue: "#2fafff"
+      magenta: "#feacd0"
+      cyan: "#00d3d0"
+      white: "#bfbfbf"
+    bright:
+      black: "#595959"
+      red: "#f4923b"
+      green: "#70c900"
+      yellow: "#cfdf30"
+      blue: "#79a8ff"
+      magenta: "#b6a0ff"
+      cyan: "#6ae4b9"
+      white: "#ffffff"
 colors: *light
 
 # Visual Bell

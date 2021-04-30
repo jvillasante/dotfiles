@@ -2,19 +2,19 @@
 
 ;;;###autoload
 (defun +my/switch-to-messages-buffer ()
-  "Stolen from spacemacs."
-  (interactive)
-  (with-current-buffer (messages-buffer)
-    (goto-char (point-max))
-    (switch-to-buffer (current-buffer))))
+    "Stolen from spacemacs."
+    (interactive)
+    (with-current-buffer (messages-buffer)
+        (goto-char (point-max))
+        (switch-to-buffer (current-buffer))))
 
 ;;;###autoload
 (defun +my/apply-theme (appearance)
-  "Load theme, taking current system APPEARANCE into consideration."
-  (mapc #'disable-theme custom-enabled-themes)
-  (pcase appearance
-    ('light (load-theme 'modus-operandi t))
-    ('dark (load-theme 'modus-vivendi t))))
+    "Load theme, taking current system APPEARANCE into consideration."
+    (mapc #'disable-theme custom-enabled-themes)
+    (pcase appearance
+        ('light (load-theme 'modus-operandi t))
+        ('dark (load-theme 'modus-vivendi t))))
 
 ;;;###autoload
 (defun +my/dos2unix ()
@@ -42,7 +42,6 @@
     "Draw a box comment around the region but arrange for the region to extend to
 at least the fill column. Place the point after the comment box. http://irreal.org/blog/?p=374 "
     (interactive "r")
-
     (let ((e (copy-marker e t)))
         (goto-char b)
         (end-of-line)
@@ -77,10 +76,10 @@ at least the fill column. Place the point after the comment box. http://irreal.o
 
 ;;;###autoload
 (defun +my/current-minor-modes ()
-  "Return the list of minor modes enabled in the current buffer."
-  (interactive)
-  (delq nil
-	(mapcar (lambda (mode)
-		  (if (and (boundp mode) (symbol-value mode))
-		      mode))
-		minor-mode-list)))
+    "Return the list of minor modes enabled in the current buffer."
+    (interactive)
+    (delq nil
+        (mapcar (lambda (mode)
+                    (if (and (boundp mode) (symbol-value mode))
+                        mode))
+	    minor-mode-list)))

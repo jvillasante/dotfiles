@@ -1,10 +1,14 @@
 ;;; +ui.el -*- lexical-binding: t; -*-
 
 ;; font
-(setq doom-font (font-spec :family "Source Code Pro" :size 20))
-(setq doom-variable-pitch-font (font-spec :family "Source Code Pro"))
-(setq doom-unicode-font (font-spec :family "Source Code Pro"))
-(setq doom-big-font (font-spec :family "Source Code Pro" :size 40))
+;; (setq doom-font (font-spec :family "Source Code Pro" :size 20))
+;; (setq doom-variable-pitch-font (font-spec :family "Source Code Pro"))
+;; (setq doom-unicode-font (font-spec :family "Source Code Pro"))
+;; (setq doom-big-font (font-spec :family "Source Code Pro" :size 40))
+(setq doom-font (font-spec :family "Hack" :size 20))
+(setq doom-variable-pitch-font (font-spec :family "Hack"))
+(setq doom-unicode-font (font-spec :family "Hack"))
+(setq doom-big-font (font-spec :family "Hack" :size 40))
 
 ;; Dash highlighting
 (after! dash (dash-enable-font-lock))
@@ -72,3 +76,6 @@
 (set-popup-rule! "^\\*ivy-occur" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*cargo-test*" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*Racket REPL*" :size 0.4 :ttl 0 :quit nil)
+
+;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
+(load! "+ui-modus-exporter.el")
