@@ -3,7 +3,6 @@
 
 ;; disabled packages
 (disable-packages!
-    solaire-mode
     irony
     ggtags
     ccls)

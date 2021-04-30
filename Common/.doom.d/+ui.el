@@ -9,31 +9,19 @@
 ;; Dash highlighting
 (after! dash (dash-enable-font-lock))
 
-;; solaire-mode with modus themes
-;; (use-package! solaire-mode
-;;     :functions persp-load-state-from-file
-;;     :hook (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-;;               (minibuffer-setup . solaire-mode-in-minibuffer))
-;;     :init
-;;     (solaire-global-mode 1)
-;;     (advice-add #'persp-load-state-from-file :after #'solaire-mode-restore-persp-mode-buffers)
-;;     :config
-;;     (setq solaire-mode-remap-modeline nil)
-;;     (setq solaire-mode-auto-swap-bg t)
-;;     (setq solaire-mode-remap-line-numbers t)
-;;     (setq solaire-mode-themes-to-face-swap '("^modus-")))
-
 ;; solaire-mode does not works correctly with org-mode
-;; (after! mixed-pitch
-;;     (setq mixed-pitch-set-height t))
-;; (add-hook 'org-mode-hook #'solaire-mode-reset)
+(after! mixed-pitch
+    (setq mixed-pitch-set-height t))
+(add-hook 'org-mode-hook #'solaire-mode-reset)
 
 ;; Do not modify neotree
 (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)
 
 ;; theme
 ;; (setq doom-theme 'modus-vivendi)
-(setq doom-theme 'modus-operandi)
+;; (setq doom-theme 'modus-operandi)
+;; (setq doom-theme 'doom-one)
+(setq doom-theme 'doom-one-light)
 
 (after! doom-themes
     (setq
