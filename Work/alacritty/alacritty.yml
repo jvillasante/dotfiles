@@ -165,72 +165,29 @@ draw_bold_text_with_bright_colors: true
 schemes:
   modus_operandi: &light
     primary:
-      background: "0xffffff"
-      foreground: "0x000000"
-    cursor:
-      text: "0xffffff"
-      cursor: "0x000000"
+      background: "#ffffff"
+      foreground: "#000000"
     normal:
-      black: "0x000000"
-      red: "0xa60000"
-      green: "0x006800"
-      yellow: "0x813e00"
-      blue: "0x0030a6"
-      magenta: "0x721045"
-      cyan: "0x00538b"
-      white: "0xeeeeee"
+      black: "#000000"
+      red: "#a60000"
+      green: "#005e00"
+      yellow: "#813e00"
+      blue: "#0031a9"
+      magenta: "#721045"
+      cyan: "#00538b"
+      white: "#bfbfbf"
     bright:
-      black: "0x555555"
-      red: "0x7f1010"
-      green: "0x104410"
-      yellow: "0x5f4400"
-      blue: "0x002f88"
-      magenta: "0x752f50"
-      cyan: "0x12506f"
-      white: "0xffffff"
-    dim:
-      black: "0x222222"
-      red: "0xb60000"
-      green: "0x006800"
-      yellow: "0x904200"
-      blue: "0x1111ee"
-      magenta: "0x7000e0"
-      cyan: "0x205b93"
-      white: "0xdddddd"
-  modus_vivendi: &dark
-    primary:
-      background: "0x000000"
-      foreground: "0xffffff"
-    cursor:
-      text: "0x000000"
-      cursor: "0xffffff"
-    normal:
-      black: "0x000000"
-      red: "0xff8059"
-      green: "0x00fc50"
-      yellow: "0xeecc00"
-      blue: "0x29aeff"
-      magenta: "0xfeacd0"
-      cyan: "0x00d3d0"
-      white: "0xeeeeee"
-    bright:
-      black: "0x555555"
-      red: "0xffa0a0"
-      green: "0x88cf88"
-      yellow: "0xd2b580"
-      blue: "0x92baff"
-      magenta: "0xe0b2d6"
-      cyan: "0xa0bfdf"
-      white: "0xffffff"
-    dim:
-      black: "0x222222"
-      red: "0xfb6859"
-      green: "0x00fc50"
-      yellow: "0xffdd00"
-      blue: "0x00a2ff"
-      magenta: "0xff8bd4"
-      cyan: "0x30ffc0"
-      white: "0xdddddd"
+      black: "#595959"
+      red: "#972500"
+      green: "#315b00"
+      yellow: "#70480f"
+      blue: "#2544bb"
+      magenta: "#5317ac"
+      cyan: "#005a5f"
+      white: "#ffffff"
+
+  # TODO
+  # modus_vivendi: &dark
 colors: *light
 
 # Visual Bell
