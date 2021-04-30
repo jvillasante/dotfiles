@@ -26,8 +26,8 @@ Inbox ~/.Mail/julio.villasante@icloud.com/Inbox
 Trash trash
 
 Channel icloud-folders
-Master :icloud-remote:
-Slave :icloud-local:
+Far :icloud-remote:
+Near :icloud-local:
 Patterns "INBOX" "Drafts" "Arch*" "Sent*" "Trash" "Junk" "Deleted*"
 Create Both
 Expunge Both
@@ -57,8 +57,8 @@ Path ~/.Mail/jvillasantegomez@gmail.com/
 Inbox ~/.Mail/jvillasantegomez@gmail.com/Inbox
 
 Channel gmail
-Master :gmail-remote:
-Slave :gmail-local:
+Far :gmail-remote:
+Near :gmail-local:
 Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Trash" "[Gmail]/Drafts"
 Create Both
 SyncState *
