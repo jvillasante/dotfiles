@@ -10,7 +10,7 @@ dotfiles_pull() {
 
     if ask "Do you want to pull?"; then
         git -C ${DOTFILES_DIR} pull
-        check #?
+        check $?
     fi
 }
 
