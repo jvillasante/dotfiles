@@ -73,7 +73,7 @@ find_dotfiles() {
 # Check helper for return values
 #
 check() {
-    if [ $1 -ne 0 ]; then
+    if [ "$1" != 0 ]; then
         echo ""
         echo ">>> This is an error, do something else... We don't know what's wrong here!!!"
         echo ""
