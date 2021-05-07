@@ -165,6 +165,7 @@
 (after! format
     ;; Disable format on web stuff
     (add-to-list '+format-on-save-enabled-modes 'web-mode 'append)
+    (add-to-list '+format-on-save-enabled-modes 'gitignore-mode 'append)
 
     ;; Do now format with lsp, use `format` instead
     (setq +format-with-lsp nil))
