@@ -3,8 +3,11 @@
 .vim/bundle/
 .vim/.cache/
 backup/
-.DS_Store
 Home/.spacemacs.d/.spacemacs.env
 Work/.spacemacs.d/.spacemacs.env
 Common/.bin/bin/*
+.DS_Store
 *~
+.*~
+\#*
+.\#*

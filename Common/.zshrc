@@ -78,22 +78,23 @@ export LANGUAGE=en_US.UTF-8
 alias ssh="TERM=xterm-256color ssh"
 export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-alias ls='ls --color'
-alias ll='ls -AlFh --color'
+# emacs
 alias em="emacsclient -c -n -a ''"      # opens the GUI
 alias emt="emacsclient -t -a ''"        # used to be "emacs -nw"
 alias semt="sudo emacsclient -t -a ''"  # used to be "sudo emacs -nw"
-alias r="ranger"
-alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
 
 # git
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gl='git pull --prune'
 alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -pe 's/^[ \t]*//' | sed 's/ /\\\\ /g' | xargs git rm"
+
+# utils
+alias ls='ls --color'
+alias ll='ls -AlFh --color'
+alias cp="cp -iv"
+alias mv="mv -iv"
+alias tree="tree -a -I 'node_modules|.git'"
+alias ag='ag --hidden --ignore node_modules --ignore .git'
 
 # gpg is not gpg2 if installed
 if type gpg2 >/dev/null 2>/dev/null; then
@@ -119,7 +120,32 @@ function fs() {
         du $arg -- "$@";
     else
         du $arg .[^.]* ./*;
-    fi;
+    fi
+}
+
+#
+# Simple command line extract utility
+# 
+function extract() {
+    if [ -f "$1" ] ; then
+        case "$1" in
+            *.tar.bz2)   tar xjf "$1"     ;;
+            *.tar.gz)    tar xzf "$1"     ;;
+            *.tar.xz)    tar -xf "$1"     ;;
+            *.bz2)       bunzip2 "$1"     ;;
+            *.rar)       rar x "$1"       ;;
+            *.gz)        gunzip "$1"      ;;
+            *.tar)       tar xf "$1"      ;;
+            *.tbz2)      tar xjf "$1"     ;;
+            *.tgz)       tar xzf "$1"     ;;
+            *.zip)       unzip "$1"       ;;
+            *.Z)         uncompress "$1"  ;;
+            *.7z)        7z x "$1"    ;;
+            *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
 }
 
 #
