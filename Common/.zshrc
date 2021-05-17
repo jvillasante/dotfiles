@@ -108,47 +108,6 @@ fi
 alias vi=vim
 
 #
-# Determine size of a file or total size of a directory
-# 
-function fs() {
-    if du -b /dev/null > /dev/null 2>&1; then
-        local arg=-sbh;
-    else
-        local arg=-sh;
-    fi
-    if [[ -n "$@" ]]; then
-        du $arg -- "$@";
-    else
-        du $arg .[^.]* ./*;
-    fi
-}
-
-#
-# Simple command line extract utility
-# 
-function extract() {
-    if [ -f "$1" ] ; then
-        case "$1" in
-            *.tar.bz2)   tar xjf "$1"     ;;
-            *.tar.gz)    tar xzf "$1"     ;;
-            *.tar.xz)    tar -xf "$1"     ;;
-            *.bz2)       bunzip2 "$1"     ;;
-            *.rar)       rar x "$1"       ;;
-            *.gz)        gunzip "$1"      ;;
-            *.tar)       tar xf "$1"      ;;
-            *.tbz2)      tar xjf "$1"     ;;
-            *.tgz)       tar xzf "$1"     ;;
-            *.zip)       unzip "$1"       ;;
-            *.Z)         uncompress "$1"  ;;
-            *.7z)        7z x "$1"    ;;
-            *)           echo "'$1' cannot be extracted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
-    fi
-}
-
-#
 # Mac Stuff
 #
 if [[ "$(uname -s)" == "Darwin" ]]; then
@@ -327,7 +286,7 @@ FZF-EOF"
     # Tmux
     #
     if type tmux >/dev/null 2>/dev/null; then
-        # ftm_session_new - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
+        # `ftm_session_new` - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
         # `ftm_session_new` will allow you to select your tmux session via fzf.
         # `ftm_session_new irc` will attach to the irc session (if it exists), else it will create it.
         function ftm_session_new() {
