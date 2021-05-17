@@ -1,0 +1,4 @@
+#!/bin/bash
+
+emacsclient -t -a '' --frame-parameters="'(fullscreen . maximized)" \
+	--eval '(progn (dired "."))'

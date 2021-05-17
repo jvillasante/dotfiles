@@ -20,6 +20,13 @@ brew_update() {
     fi
 }
 
+brew_cleanup() {
+    if hash brew 2>/dev/null; then
+        echo "Running brew cleanup..."
+        brew cleanup -s
+    fi
+}
+
 brew_doctor() {
     if hash brew 2>/dev/null; then
         echo "Running brew doctor..."
@@ -28,17 +35,10 @@ brew_doctor() {
     fi
 }
 
-brew_cleanup() {
-    if hash brew 2>/dev/null; then
-        echo "Running brew cleanup..."
-        brew cleanup -s
-    fi
-}
-
 brew_all() {
     brew_update
-    brew_doctor
     brew_cleanup
+    brew_doctor
 }
 
 while true; do
@@ -48,8 +48,8 @@ while true; do
     select opt in "${options[@]}"; do
         case $REPLY in
             1) brew_update; break ;;
-            2) brew_doctor; break ;;
-            3) brew_cleanup; break ;;
+            2) brew_cleanup; break ;;
+            3) brew_doctor; break ;;
             4) brew_all; break ;;
             5) break 2 ;;
             *) echo "Invalid option!" >&2
