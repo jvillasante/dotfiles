@@ -214,6 +214,5 @@
     :private
     ;; my-postframe
     ;; my-eshell
-    (:when (string= (system-name) "Julios-MacBook-Pro.local")
-        my-mu4e)
+    ;; (:when (string= (system-name) "Julios-MacBook-Pro.local") my-mu4e)
     my-cc)

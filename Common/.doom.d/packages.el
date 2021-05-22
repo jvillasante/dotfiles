@@ -27,7 +27,7 @@
 (package! visual-regexp)
 (package! crux)
 (package! super-save)
-;; (package! tldr)
+(package! tldr)
 
 ;; To install a package with Doom you must declare them here, run 'doom sync' on
 ;; the command line, then restart Emacs for the changes to take effect.

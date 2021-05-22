@@ -89,8 +89,8 @@ alias gl='git pull --prune'
 alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -pe 's/^[ \t]*//' | sed 's/ /\\\\ /g' | xargs git rm"
 
 # utils
-alias ls='ls --color'
-alias ll='ls -AlFh --color'
+alias ls='exa --color=always'
+alias ll='exa -agFlh --color=always'
 alias cp="cp -iv"
 alias mv="mv -iv"
 alias tree="tree -a -I 'node_modules|.git'"
@@ -111,10 +111,6 @@ alias vi=vim
 # Mac Stuff
 #
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    # use gls on mac
-    alias ls="/usr/local/bin/gls --color"
-    alias ll='/usr/local/bin/gls -AlFh --color'
-
     # Toggle hidden files on mac
     alias show_hidden_files='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
     alias hide_hidden_files='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
@@ -163,7 +159,11 @@ PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
 #
 # fzf
 #
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -n "${commands[fzf-share]}" ]; then
+  source "$(fzf-share)/key-bindings.zsh"
+  source "$(fzf-share)/completion.zsh"
+fi
+
 if type fzf >/dev/null 2>/dev/null; then
     # Use ~~ as the trigger sequence instead of the default **
     # export FZF_COMPLETION_TRIGGER='~~'

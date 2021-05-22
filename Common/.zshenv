@@ -13,7 +13,7 @@ if [ -d "$HOME/.bin/bin" ]; then
 fi
 
 # Nix package manager
-if [ -e /Users/jvillasante/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/jvillasante/.nix-profile/etc/profile.d/nix.sh; fi
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
 
 # Ubuntu snap
 if [ -d "/snap/bin" ]; then
