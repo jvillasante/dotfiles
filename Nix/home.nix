@@ -53,7 +53,6 @@ let
   darwinPackages = with pkgs; [ binutils coreutils ];
   commonPackages = with pkgs; [
     ag
-    # alacritty
     aspell
     aspellDicts.en
     aspellDicts.en-computers
