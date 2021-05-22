@@ -89,8 +89,8 @@ alias gl='git pull --prune'
 alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -pe 's/^[ \t]*//' | sed 's/ /\\\\ /g' | xargs git rm"
 
 # utils
-alias ls='exa --color=always'
-alias ll='exa -agFlh --color=always'
+alias ls='exa --color=auto'
+alias ll='exa -agFlh --color=auto'
 alias cp="cp -iv"
 alias mv="mv -iv"
 alias tree="tree -a -I 'node_modules|.git'"
