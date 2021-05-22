@@ -3,19 +3,7 @@
 let
   inherit (builtins) currentSystem;
   inherit (lib.systems.elaborate { system = currentSystem; }) isLinux isDarwin;
-  wayland-packages = with pkgs; [
-    emacsPgtkGcc
-    firefox-wayland
-    grim
-    slurp
-    swaylock-fancy
-    wlsunset
-    wofi
-    xdg-desktop-portal-wlr
-  ];
   linuxPackages = with pkgs; [
-    anki
-    bemenu
     discord
     docker
     docker-compose
@@ -32,23 +20,14 @@ let
     mpv
     musescore
     networkmanager
-    nextcloud-client
-    nix-update
-    paper-icon-theme
     poppler_utils
     rhythmbox
     slack
     system-config-printer
-    tdesktop
     thunderbird
     tor-browser-bundle-bin
     transmission-gtk
-    ungoogled-chromium
     vlc
-    whois
-    wpa_supplicant
-    xorg.xkill
-    zoom-us
   ];
   darwinPackages = with pkgs; [ binutils coreutils ];
   commonPackages = with pkgs; [
