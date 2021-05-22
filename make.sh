@@ -91,14 +91,14 @@ for file in $files; do
 done
 
 echo ">> Linking common files in ~/home..."
-files=".doom.d .oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .tmux.conf .tmux-macos.conf .tmux-linux.conf .clang-tidy .editorconfig .jsbeautifyrc .jshintrc .offlineimaprc .offlineimap.py .mbsyncrc .msmtprc .sbclrc .rustfmt.toml .ycm_extra_conf.py"
+files=".doom.d .oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .tmux.conf .tmux-macos.conf .tmux-linux.conf .clang-tidy .editorconfig .mbsyncrc .msmtprc .sbclrc .rustfmt.toml"
 for file in $files; do
 	unlink ~/$file
 	ln -s $DOTFILES_DIR/Common/$file ~/
 done
 
 echo ">> Linking other files in ~/home..."
-files=".ccls .clang-format .fzf.zsh"
+files=".clang-format .fzf.zsh"
 for file in $files; do
 	unlink ~/$file
 
