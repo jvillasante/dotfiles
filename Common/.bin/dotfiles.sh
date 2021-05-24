@@ -54,6 +54,8 @@ homemanager_switch() {
 	fi
 
 	dotfiles_sync
+	nix-channel --update
+	check $?
 	home-manager switch
 	check $?
 }

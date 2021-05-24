@@ -21,7 +21,6 @@ let
       # mpv
       # musescore
       # networkmanager
-      # poppler_utils
       # rhythmbox
       # slack
       # system-config-printer

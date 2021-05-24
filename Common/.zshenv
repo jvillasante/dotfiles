@@ -13,7 +13,12 @@ if [ -d "$HOME/.bin/bin" ]; then
 fi
 
 # Nix package manager
-if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+	. $HOME/.nix-profile/etc/profile.d/nix.sh
+
+	# TODO: Maybe we don't need this in the future (see home-manager installation instructions)
+	. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+fi
 
 # Ubuntu snap
 if [ -d "/snap/bin" ]; then
