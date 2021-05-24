@@ -3,32 +3,33 @@
 let
   inherit (builtins) currentSystem;
   inherit (lib.systems.elaborate { system = currentSystem; }) isLinux isDarwin;
-  linuxPackages = with pkgs; [
-    discord
-    docker
-    docker-compose
-    dragon-drop
-    evince
-    exfat
-    feh
-    gnome3.cheese
-    gnumake
-    gnupg
-    killall
-    libreoffice
-    lightlocker
-    mpv
-    musescore
-    networkmanager
-    poppler_utils
-    rhythmbox
-    slack
-    system-config-printer
-    thunderbird
-    tor-browser-bundle-bin
-    transmission-gtk
-    vlc
-  ];
+  linuxPackages = with pkgs;
+    [
+      # discord
+      # docker
+      # docker-compose
+      # dragon-drop
+      # evince
+      # exfat
+      # feh
+      # gnome3.cheese
+      # gnumake
+      # gnupg
+      # killall
+      # libreoffice
+      # lightlocker
+      # mpv
+      # musescore
+      # networkmanager
+      # poppler_utils
+      # rhythmbox
+      # slack
+      # system-config-printer
+      # thunderbird
+      # tor-browser-bundle-bin
+      # transmission-gtk
+      # vlc
+    ];
   darwinPackages = with pkgs; [ binutils coreutils ];
   commonPackages = with pkgs; [
     ag
