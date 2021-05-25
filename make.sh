@@ -102,8 +102,8 @@ files=".clang-format .fzf.zsh"
 for file in $files; do
 	unlink ~/$file
 
-	if [ $CURRENT_ENV = "HOME" ]; then
-		ln -s $DOTFILES_DIR/Home/$file ~/
+	if [ $CURRENT_ENV = "PERSONAL" ]; then
+		ln -s $DOTFILES_DIR/Personal/$file ~/
 	elif [ $CURRENT_ENV = "WORK" ]; then
 		ln -s $DOTFILES_DIR/Work/$file ~/
 	fi
@@ -118,8 +118,8 @@ files="alacritty git"
 for file in $files; do
 	unlink ~/.config/$file
 
-	if [ $CURRENT_ENV = "HOME" ]; then
-		ln -s $DOTFILES_DIR/Home/$file ~/.config
+	if [ $CURRENT_ENV = "PERSONAL" ]; then
+		ln -s $DOTFILES_DIR/Personal/$file ~/.config
 	elif [ $CURRENT_ENV = "WORK" ]; then
 		ln -s $DOTFILES_DIR/Work/$file ~/.config
 	fi

@@ -1,10 +1,5 @@
 .oh-my-zsh
 .emacs.d*
-.vim/bundle/
-.vim/.cache/
-backup/
-Home/.spacemacs.d/.spacemacs.env
-Work/.spacemacs.d/.spacemacs.env
 Common/.bin/bin/rust-analyzer
 .DS_Store
 *~

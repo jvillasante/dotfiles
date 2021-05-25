@@ -10,12 +10,12 @@ find_env() {
 	case "$HOST" in
 	"Julios-MacBook-Pro.local")
 		{
-			CURRENT_ENV="HOME"
+			CURRENT_ENV="PERSONAL"
 		}
 		;;
 	"Julios-MBP")
 		{
-			CURRENT_ENV="HOME"
+			CURRENT_ENV="PERSONAL"
 		}
 		;;
 	"jvillasante-Latitude-7480")
@@ -68,7 +68,7 @@ find_os() {
 find_dotfiles() {
 	local DOTFILES_DIR="NOT_FOUND"
 	local CURRENT_ENV=$(find_env)
-	if [ $CURRENT_ENV = "HOME" ]; then
+	if [ $CURRENT_ENV = "PERSONAL" ]; then
 		DOTFILES_DIR=${HOME}/Workspace/Others/dotfiles # dotfiles directory
 	elif [ $CURRENT_ENV = "WORK" ]; then
 		DOTFILES_DIR=${HOME}/Workspace/Others/dotfiles # dotfiles directory
