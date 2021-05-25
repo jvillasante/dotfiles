@@ -47,6 +47,9 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
 
+# history control
+HISTCONTROL=ignoredups:ignorespace
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -89,8 +92,8 @@ alias gl='git pull --prune'
 alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -pe 's/^[ \t]*//' | sed 's/ /\\\\ /g' | xargs git rm"
 
 # utils
-alias ls='exa --color=auto'
-alias ll='exa -agFlh --color=auto'
+alias ls='exa --group-directories-first --color=auto'
+alias ll='exa -agFlh --group-directories-first --color=auto'
 alias cp="cp -iv"
 alias mv="mv -iv"
 alias tree="tree -a -I 'node_modules|.git'"

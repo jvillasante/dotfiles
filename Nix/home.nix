@@ -5,6 +5,7 @@ let
   inherit (lib.systems.elaborate { system = currentSystem; }) isLinux isDarwin;
   linuxPackages = with pkgs;
     [
+      nyxt
       # discord
       # docker
       # docker-compose

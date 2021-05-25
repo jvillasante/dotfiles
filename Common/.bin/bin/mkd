@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# creates a directory and cds into it
+function mkd() {
+	mkdir -p "$@" && cd "$@"
+}
