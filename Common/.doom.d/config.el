@@ -214,8 +214,6 @@
     (setq lsp-clients-clangd-args
         '("-j=4"
              "--log=error"
-             ;; "--log=info"
-             ;; "--compile-commands-dir=build"
              "--background-index"
              "--clang-tidy"
              "--completion-style=detailed"
