@@ -51,6 +51,7 @@ let
     fzf
     gd
     gnumake
+    go
     graphviz
     htop
     isync
@@ -60,6 +61,8 @@ let
     neofetch
     neovim
     nixfmt
+    nodejs
+    nodePackages.prettier
     pandoc
     poppler
     ranger
@@ -80,6 +83,7 @@ let
     wget
     wordnet
     youtube-dl
+    zig
     zip
     zlib
   ];
