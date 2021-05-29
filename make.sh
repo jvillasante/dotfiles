@@ -26,6 +26,7 @@ install_zsh() {
 			# Set the default shell to zsh if it isn't currently set to zsh
 			if [ ! $(echo $SHELL) = $(which zsh) ]; then
 				chsh -s $(which zsh)
+			    echo ">> Your need to re-login :(                                        "
 			fi
 		else
 			# If zsh isn't installed, If the platform is Linux, try an apt-get to install zsh and then recurse
@@ -46,24 +47,6 @@ install_zsh() {
 	fi
 }
 
-# CURRENT_VIM_DISTRO="vim"
-CURRENT_VIM_DISTRO="nvim"
-install_vimplug() {
-	if [ $CURRENT_VIM_DISTRO = "nvim" ]; then
-		if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
-			curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-				https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-		fi
-	elif [ $CURRENT_VIM_DISTRO = "vim" ]; then
-		if [ ! -f ~/.vim/autoload/plug.vim ]; then
-			curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-				https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-		fi
-	else
-		echo "Set CURRENT_VIM_DISTRO!"
-	fi
-}
-
 # CURRENT_EMACS_DISTRO="SPACEMACS"
 CURRENT_EMACS_DISTRO="DOOM_EMACS"
 install_emacs() {
@@ -80,7 +63,6 @@ install_emacs() {
 }
 
 install_zsh
-install_vimplug
 install_emacs
 
 echo ">> Linking global files in ~/home..."

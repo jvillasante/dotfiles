@@ -17,7 +17,9 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
 	. $HOME/.nix-profile/etc/profile.d/nix.sh
 
 	# TODO: Maybe we don't need this in the future (see home-manager installation instructions)
-	. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    if [ -e $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]; then
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    fi
 fi
 
 # Ubuntu snap
