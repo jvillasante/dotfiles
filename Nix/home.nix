@@ -83,7 +83,7 @@ let
     wget
     wordnet
     youtube-dl
-    zig
+    # zig
     zip
     zlib
   ];
