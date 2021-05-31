@@ -34,6 +34,24 @@ update_zls() {
 	zig build -Drelease-safe
 }
 
+do_update_zig() {
+	local CURRENT_OS=$(find_os)
+	if [ $CURRENT_OS = "OSX" ]; then
+		update_zig "https://ziglang.org/builds/zig-macos-x86_64-0.8.0-dev.1981+fbda9991f.tar.xz"
+	elif [ $CURRENT_OS = "LINUX" ]; then
+		update_zig "https://ziglang.org/builds/zig-linux-x86_64-0.8.0-dev.2713+57cf9f7ea.tar.xz"
+	fi
+}
+
+do_update_zls() {
+	local CURRENT_OS=$(find_os)
+	if [ $CURRENT_OS = "OSX" ]; then
+		update_zls "https://github.com/zigtools/zls/releases/download/0.1.0/x86_64-macos.tar.xz"
+	elif [ $CURRENT_OS = "LINUX" ]; then
+		update_zls "https://github.com/zigtools/zls/releases/download/0.1.0/x86_64-linux.tar.xz"
+	fi
+}
+
 while true; do
 	PS3="Choose an option: "
 	options=("Update Zig" "Update Zls" "Quit")
@@ -41,11 +59,11 @@ while true; do
 	select opt in "${options[@]}"; do
 		case $REPLY in
 		1)
-			update_zig "https://ziglang.org/builds/zig-macos-x86_64-0.8.0-dev.1981+fbda9991f.tar.xz"
+			do_update_zig
 			break
 			;;
 		2)
-			update_zls "https://github.com/zigtools/zls/releases/download/0.1.0/x86_64-macos.tar.xz"
+			do_update_zls
 			break
 			;;
 		3) break 2 ;;
