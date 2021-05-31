@@ -427,10 +427,6 @@
     ;; Latex previews in org-mode
     (plist-put org-format-latex-options :background 'default)
 
-    ;; org problems
-    (setq org-planning-line-re "^[    ]*\\(\\(?:CLOSED\\|DEADLINE\\|SCHEDULED\\):\\)")
-    (setq org-clock-line-re "^[    ]*CLOCK:")
-
     ;; To get the most out of themes
     (setq
         org-fontify-whole-heading-line t
@@ -443,41 +439,24 @@
     (setq org-startup-indented t)
     (setq org-indent-mode t)
     (setq org-startup-folded t)
-    (setq org-list-description-max-indent 5) ;; set maximum indentation for description lists
     (setq org-adapt-indentation nil) ;; prevent demoting heading also shifting text inside sections
     (setq org-cycle-separator-lines 2)
     (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
     (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
-    (setq org-clock-idle-time 15)
-
-    ;; more settings
-    (setq
-        org-clock-persist-file (expand-file-name ".emacs.d/.cache/org-clock-save.el" +my/dotfiles-path)
-        org-id-locations-file (expand-file-name ".emacs.d/.cache/.org-id-locations" +my/dotfiles-path)
-        org-publish-timestamp-directory (expand-file-name ".emacs.d/.cache/.org-timestamps/" +my/dotfiles-path)
-        org-log-done t
-        org-startup-with-inline-images t
-        org-image-actual-width nil
-        org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        ;; this is consistent with the value of
-        ;; `helm-org-headings-max-depth'.
-        org-imenu-depth 8)
-
-    ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
-    (setq org-hide-emphasis-markers t)
-
-    ;; set up a font-lock substitution for list markers (- => •)
-    (font-lock-add-keywords 'org-mode
-        '(("^ *\\([-]\\) "
-              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+    (setq org-log-done t)
+    (setq org-startup-with-inline-images t)
+    (setq org-image-actual-width nil)
+    (setq org-src-fontify-natively t)
+    (setq org-src-tab-acts-natively t)
+    (setq org-imenu-depth 8)
+    (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
 
     ;; set up a nice proportional font, in different sizes, for the headlines.
     ;; the fonts listed will be tried in sequence, and the first one found will be used.
     (let* ((variable-tuple
                (cond
-                   ((x-list-fonts   "Source Code Pro") '(:font   "Source Code Pro"))
-                   ((x-list-fonts   "Source Sans Pro") '(:font   "Source Sans Pro"))
+                   ((x-list-fonts   "JetBrains Mono") '(:font   "JetBrains Mono"))
+                   ((x-list-fonts   "Source Code Pro") '(:font   "Source Pro Pro"))
                    ((x-list-fonts   "Lucida Grande")   '(:font   "Lucida Grande"))
                    ((x-list-fonts   "Verdana")         '(:font   "Verdana"))
                    ((x-family-fonts "Sans Serif")      '(:family "Sans Serif"))
@@ -523,7 +502,6 @@
     (setq org-agenda-skip-scheduled-if-done t)
     (setq org-agenda-skip-deadline-if-done t)
 
-    ;; tags
     ;; Tags with fast selection keys
     (setq org-tag-alist (quote
                             ((:startgroup)
