@@ -26,7 +26,7 @@ install_zsh() {
 			# Set the default shell to zsh if it isn't currently set to zsh
 			if [ ! $(echo $SHELL) = $(which zsh) ]; then
 				chsh -s $(which zsh)
-			    echo ">> Your need to re-login :(                                        "
+				echo ">> Your need to re-login :(                                        "
 			fi
 		else
 			# If zsh isn't installed, If the platform is Linux, try an apt-get to install zsh and then recurse
@@ -80,7 +80,7 @@ for file in $files; do
 done
 
 echo ">> Linking other files in ~/home..."
-files=".clang-format .fzf.zsh"
+files=".clang-format"
 for file in $files; do
 	unlink ~/$file
 
