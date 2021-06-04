@@ -6,6 +6,7 @@ Language: Cpp
 # Things I like
 ColumnLimit: 120
 AlwaysBreakTemplateDeclarations: true
+Cpp11BracedListStyle: true
 
 # Force pointers to the type for C++.
 DerivePointerAlignment: false
