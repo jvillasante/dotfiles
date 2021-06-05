@@ -45,6 +45,7 @@ let
     cmake
     cppcheck
     curl
+    dig
     dos2unix
     doxygen
     exa
