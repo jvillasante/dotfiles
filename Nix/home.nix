@@ -30,7 +30,7 @@ let
     # transmission-gtk
     # vlc
   ];
-  darwinPackages = with pkgs; [ binutils coreutils ];
+  darwinPackages = with pkgs; [ coreutils ];
   commonPackages = with pkgs; [
     ag
     aspell
@@ -41,6 +41,7 @@ let
     autoconf
     automake
     bat
+    binutils
     cmake
     cppcheck
     curl
