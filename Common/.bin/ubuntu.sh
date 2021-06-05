@@ -10,7 +10,7 @@ fi
 
 ubuntu_update() {
 	if hash apt 2>/dev/null; then
-		sudo apt update && sudo apt upgrade && sudo apt dist-upgrade
+		sudo apt update && sudo apt upgrade && sudo apt full-upgrade
 		check $?
 	fi
 }
