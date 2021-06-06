@@ -7,12 +7,13 @@
 
 . $(dirname "$0")/Common/.bin/common.sh
 
+CURRENT_SHELL=$(find_current_shell)
 CURRENT_ENV=$(find_env)
 CURRENT_OS=$(find_os)
 DOTFILES_DIR=$(find_dotfiles)
 
 echo "===================================================================================="
-echo ">> Running for '$CURRENT_ENV' on '$CURRENT_OS' at '$DOTFILES_DIR'."
+echo ">> Running ($CURRENT_SHELL) for '$CURRENT_ENV' on '$CURRENT_OS' at '$DOTFILES_DIR'."
 
 install_zsh() {
     # Test to see if zshell is installed.  If it is:
