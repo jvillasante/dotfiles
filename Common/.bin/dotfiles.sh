@@ -47,22 +47,9 @@ doom_upgrade() {
 	check $?
 }
 
-homemanager_switch() {
-	if [ ! -f ${HOME}/.nix-profile/bin/home-manager ]; then
-		echo "home-manager script not present, exiting..."
-		exit 1
-	fi
-
-	dotfiles_sync
-	nix-channel --update
-	check $?
-	home-manager switch
-	check $?
-}
-
 while true; do
 	PS3="Choose an option: "
-	options=("Dotfiles Pull" "Dotfiles Sync" "Home-Manager Switch" "Doom Sync" "Doom Upgrade" "Quit")
+	options=("Dotfiles Pull" "Dotfiles Sync" "Doom Sync" "Doom Upgrade" "Quit")
 
 	select opt in "${options[@]}"; do
 		case $REPLY in
@@ -75,18 +62,14 @@ while true; do
 			break
 			;;
 		3)
-			homemanager_switch
-			break
-			;;
-		4)
 			doom_sync
 			break
 			;;
-		5)
+		4)
 			doom_upgrade
 			break
 			;;
-		6) break 2 ;;
+		5) break 2 ;;
 		*) echo "Invalid option!" >&2 ;;
 		esac
 	done

@@ -9,52 +9,42 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.bin/bin" ]; then
-	export PATH="$PATH:$HOME/.bin/bin"
-fi
-
-# Nix package manager (TODO: REMOVE THIS!!!)
-if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
-	. $HOME/.nix-profile/etc/profile.d/nix.sh
-
-	# TODO: Maybe we don't need this in the future (see home-manager installation instructions)
-	if [ -e $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]; then
-		. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-	fi
+    export PATH="$PATH:$HOME/.bin/bin"
 fi
 
 # Ubuntu snap
 if [ -d "/snap/bin" ]; then
-	export PATH="$PATH:/snap/bin"
+    export PATH="$PATH:/snap/bin"
 fi
 
 # llvm
 if [ -d "/usr/local/opt/llvm/bin" ]; then
-	export PATH="/usr/local/opt/llvm/bin:$PATH"
+    export PATH="/usr/local/opt/llvm/bin:$PATH"
 fi
 
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
-	export CARGO_HOME="$HOME/.cargo"
-	if [ -f "$CARGO_HOME/env" ]; then
-		source "$CARGO_HOME/env"
-	else
-		export PATH="$CARGO_HOME/bin:$PATH"
-	fi
+    export CARGO_HOME="$HOME/.cargo"
+    if [ -f "$CARGO_HOME/env" ]; then
+        source "$CARGO_HOME/env"
+    else
+        export PATH="$CARGO_HOME/bin:$PATH"
+    fi
 
-	export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib:$LD_LIBRARY_PATH"
-	export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+    export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib:$LD_LIBRARY_PATH"
+    export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 fi
 
 # Go
 if [ -d "$HOME/Workspace/Code/go" ]; then
-	export GOPATH=$HOME/Workspace/Code/go
-	export GOBIN=$GOPATH/bin
-	export PATH="$GOBIN:$PATH"
+    export GOPATH=$HOME/Workspace/Code/go
+    export GOBIN=$GOPATH/bin
+    export PATH="$GOBIN:$PATH"
 fi
 
 # Zig
 if [ -d "$HOME/Workspace/Software/zig/zig" ]; then
-	export PATH="$HOME/Workspace/Software/zig/zig:$PATH"
+    export PATH="$HOME/Workspace/Software/zig/zig:$PATH"
 fi
 
 # Boost
