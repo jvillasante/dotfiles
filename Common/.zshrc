@@ -92,12 +92,18 @@ alias gl='git pull --prune'
 alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -pe 's/^[ \t]*//' | sed 's/ /\\\\ /g' | xargs git rm"
 
 # utils
-alias ls='exa --group-directories-first --color=auto'
-alias ll='exa -agFlh --group-directories-first --color=auto'
+alias ls='ls --color'
+alias ll='ls -AlFh --color'
 alias cp="cp -iv"
 alias mv="mv -iv"
 alias tree="tree -a -I 'node_modules|.git'"
 alias ag='ag --hidden --ignore node_modules --ignore .git'
+
+# exa
+if type exa >/dev/null 2>/dev/null; then
+    alias ls='exa --group-directories-first --color=auto'
+    alias ll='exa -agFlh --group-directories-first --color=auto'
+fi
 
 # gpg is not gpg2 if installed
 if type gpg2 >/dev/null 2>/dev/null; then
@@ -162,10 +168,7 @@ PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
 #
 # fzf
 #
-if [ -n "${commands[fzf-share]}" ]; then
-  source "$(fzf-share)/key-bindings.zsh"
-  source "$(fzf-share)/completion.zsh"
-fi
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 if type fzf >/dev/null 2>/dev/null; then
     # Use ~~ as the trigger sequence instead of the default **
