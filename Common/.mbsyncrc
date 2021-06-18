@@ -11,30 +11,31 @@ CopyArrivalDate yes
 #
 IMAPAccount icloud
 Host imap.mail.me.com
-User julio.villasante@me.com
-AuthMechs LOGIN
-SSLType IMAPS
-SSLVersions TLSv1
+User julio.villasante@icloud.com
 PassCmd "security find-generic-password -a Offlineimap -s julio.villasante@icloud.com -w"
+Port 993
+SSLType IMAPS
+SSLVersions TLSv1.2
+AuthMechs PLAIN
+SystemCertificates no
+CertificateFile ~/.maildir/certificates/Certificates.pem
 
 IMAPStore icloud-remote
 Account icloud
 
 MaildirStore icloud-local
-Path ~/.Mail/julio.villasante@icloud.com/
-Inbox ~/.Mail/julio.villasante@icloud.com/Inbox
-Trash trash
+SubFolders Verbatim
+Path ~/.maildir/julio.villasante@icloud.com/
+Inbox ~/.maildir/julio.villasante@icloud.com/INBOX
 
-Channel icloud-folders
+Channel icloud
 Far :icloud-remote:
 Near :icloud-local:
-Patterns "INBOX" "Drafts" "Arch*" "Sent*" "Trash" "Junk" "Deleted*"
-Create Both
+Patterns *
+Create Near
+Sync All
 Expunge Both
 SyncState *
-
-Group icloud
-Channel icloud-folders
 
 #
 # Google Gmail
@@ -43,23 +44,26 @@ IMAPAccount gmail
 Host imap.gmail.com
 User jvillasantegomez@gmail.com
 PassCmd "security find-generic-password -a Offlineimap -s jvillasantegomez@gmail.com -w"
-AuthMechs LOGIN
+Port 993
 SSLType IMAPS
-CertificateFile /usr/local/etc/openssl@1.1/cert.pem
-PipelineDepth 50
+SSLVersions TLSv1.2
+AuthMechs PLAIN
+SystemCertificates no
+CertificateFile ~/.maildir/certificates/Certificates.pem
 
 IMAPStore gmail-remote
 Account gmail
 
 MaildirStore gmail-local
-Subfolders Verbatim
-Path ~/.Mail/jvillasantegomez@gmail.com/
-Inbox ~/.Mail/jvillasantegomez@gmail.com/Inbox
+SubFolders Verbatim
+Path ~/.maildir/jvillasantegomez@gmail.com/
+Inbox ~/.maildir/jvillasantegomez@gmail.com/INBOX
 
 Channel gmail
 Far :gmail-remote:
 Near :gmail-local:
-Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Trash" "[Gmail]/Drafts"
-Create Both
-SyncState *
+Patterns *
+Create Near
 Sync All
+Expunge Both
+SyncState *

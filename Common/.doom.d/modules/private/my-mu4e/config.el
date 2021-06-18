@@ -1,6 +1,7 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; email/mu4e/config.el
 
+;; https://macowners.club/posts/email-emacs-mu4e-macos/
 (use-package! mu4e
     :commands mu4e mu4e-compose-new
     :config
@@ -52,19 +53,37 @@
                                 ((string-match "julio.villasante@icloud.com" from) "icloud"))))
                     (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
+    ;; Multiple Email Signatures
+    (defun +my/mu4e-choose-signature ()
+        "Insert one of a number of sigs"
+        (interactive)
+        (let ((message-signature
+                  (mu4e-read-option "Signature:"
+                      '(("formal" .
+                            (concat
+                                "Julio C. Villasante\n"
+                                "Sr. Software Engineer at Nielsen\n"))
+                           ("informal" .
+                               "Julio\n")))))
+            (message-insert-signature)))
+
+    ;; Adds cc and bcc to compose mail
+    (defun +my/add-cc-and-bcc ()
+        (save-excursion (message-add-header "Cc:\n"))
+        (save-excursion (message-add-header "Bcc:\n")))
+
     ;; Common Configs
     (setq
         mail-user-agent 'mu4e-user-agent
-        mu4e-mu-binary +my/mu-path
-        mu4e-get-mail-command "mbsync -a"
+        mu4e-mu-binary (executable-find "mu")
+        mu4e-get-mail-command (concat (executable-find "mbsync") " -a")
         mu4e-update-interval nil
-        ;; mu4e-use-fancy-chars t
         mm-discouraged-alternatives '("text/html" "text/richtext") ;; prefer text over html/ritchtext
         mu4e-view-show-images t
         message-kill-buffer-on-exit t
         mu4e-headers-skip-duplicates t
         mu4e-headers-full-search t
-        mu4e-attachment-dir +my/downloads-path
+        mu4e-attachment-dir (expand-file-name "Downloads" "~/")
         mu4e-hide-index-messages t
         mu4e-compose-signature-auto-include t
         mu4e-compose-format-flowed t ;; Make sure plain text mails flow correctly for recipients
@@ -80,13 +99,38 @@
         message-citation-line-function 'message-insert-formatted-citation-line
         mu4e-headers-results-limit 250
         mu4e-context-policy 'pick-first
+        mu4e-compose-context-policy 'ask
         mu4e-change-filenames-when-moving t
         mu4e-completing-read-function
+        ;; mu4e-use-fancy-chars t
+        ;; mu4e-headers-show-threads nil
         (cond ((featurep! :completion ivy) #'ivy-completing-read)
             ((featurep! :completion helm) #'completing-read)
             (t #'ido-completing-read)))
 
-    ;; (setq mu4e-headers-show-threads nil)
+    ;; list of your email adresses:
+    (setq mu4e-user-mail-address-list
+        '("julio.villasante@icloud.com"
+             "jvillasantegomez@gmail.com"))
+
+    ;; check your ~/.maildir to see how the subdirectories are called
+    (setq mu4e-maildir-shortcuts
+        '(("maildir:/julio.villasante@icloud.com/INBOX" . ?i)
+             ("maildir:/julio.villasante@icloud.com/Sent Messages" . ?I)
+             ("maildir:/jvillasantegomez@gmail.com/INBOX" . ?g)
+             ("maildir/jvillasantegomez@gmail.com/[Gmail]/Sent Mail" . ?G)))
+
+    ;; Bookmarks for common searches that I use.
+    (setq mu4e-bookmarks
+        '((:name "All Inboxes" :query "maildir:/jvillasantegomez@gmail.com/Inbox OR maildir:/julio.villasante@icloud.com/Inbox" :key ?I)
+             (:name "Gmail Inbox" :query "maildir:/jvillasantegomez@gmail.com/Inbox" :key ?g)
+             (:name "iCloud Inbox" :query "maildir:/julio.villasante@icloud.com/Inbox" :key ?i)
+             (:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key ?u)
+             (:name "Flagged messages" :query "flag:flagged AND NOT flag:trashed" :key ?f)
+             (:name "Today's messages" :query "date:today..now" :key ?t)
+             (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key ?w)
+             (:name "Messages with images" :query "mime:image/*" :key ?p)
+             (:name "Big messages" :query "size:5M..500M" :key ?b)))
 
     ;; convert html emails properly
     ;; Possible options:
@@ -99,9 +143,6 @@
     ;;   - 'mu4e-shr2text
     ;;   - view in browser (provided below)
     (setq mu4e-html2text-command 'mu4e-shr2text)
-
-    ;; simple compose signature
-    (setq mu4e-compose-signature "---\nJulio C. Villasante")
 
     ;; Actions
     (add-to-list 'mu4e-view-actions '("browser view" . mu4e-action-view-in-browser) t)
@@ -125,13 +166,9 @@
             (flyspell-mode 1)
             (auto-fill-mode 0)
             (visual-line-mode 1)))
-    (add-hook! 'mu4e-view-mode-hook
-        (lambda ()
-            (visual-line-mode 1)))
-
-    ;; From Ben Maughan: Get some Org functionality in compose buffer
-    (add-hook! 'message-mode-hook 'turn-on-orgtbl)
-    (add-hook! 'message-mode-hook 'turn-on-orgstruct++)
+    (add-hook 'mu4e-compose-mode-hook #'+my/add-cc-and-bcc)
+    (add-hook 'mu4e-compose-mode-hook (lambda () (local-set-key (kbd "C-c C-w") #'+my/mu4e-choose-signature)))
+    (add-hook! 'mu4e-view-mode-hook (lambda () (visual-line-mode 1)))
 
     ;; mu4e - gpg
     ;; When composing an e-mail, `C-c C-e s' to sign your message then `C-c C-e e' to encrypt.
@@ -198,25 +235,13 @@
     ;; Configure sending mail.
     (setq
         message-send-mail-function 'message-send-mail-with-sendmail
-        sendmail-program +my/msmtp-path
+        sendmail-program (executable-find "msmtp")
         message-sendmail-f-is-evil 't
         user-full-name "Julio C. Villasante")
 
     ;; Use the correct account context when sending mail based on the from header.
     (setq message-sendmail-envelope-from 'header)
     (add-hook! 'message-send-mail-hook '+my/choose-msmtp-account)
-
-    ;; Bookmarks for common searches that I use.
-    (setq mu4e-bookmarks
-        '((:name "All Inboxes" :query "maildir:/jvillasantegomez@gmail.com/Inbox OR maildir:/julio.villasante@icloud.com/Inbox" :key ?i)
-             (:name "Gmail Inbox" :query "maildir:/jvillasantegomez@gmail.com/Inbox" :key ?g)
-             (:name "iCloud Inbox" :query "maildir:/julio.villasante@icloud.com/Inbox" :key ?c)
-             (:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key ?u)
-             (:name "Flagged messages" :query "flag:flagged AND NOT flag:trashed" :key ?f)
-             (:name "Today's messages" :query "date:today..now" :key ?t)
-             (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key ?w)
-             (:name "Messages with images" :query "mime:image/*" :key ?p)
-             (:name "Big messages" :query "size:5M..500M" :key ?b)))
 
     ;; mu4e - attachment
     (defun gnus-dired-mail-buffers ()
