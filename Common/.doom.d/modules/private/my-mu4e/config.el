@@ -2,6 +2,7 @@
 ;;; email/mu4e/config.el
 
 ;; https://macowners.club/posts/email-emacs-mu4e-macos/
+;; https://github.com/danielfleischer/mu4easy
 (use-package! mu4e
     :commands mu4e mu4e-compose-new
     :config
