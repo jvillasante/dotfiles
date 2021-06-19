@@ -73,6 +73,66 @@
         (save-excursion (message-add-header "Cc:\n"))
         (save-excursion (message-add-header "Bcc:\n")))
 
+    ;; ;; Trash without trashed flag
+    ;; (setf (alist-get 'trash mu4e-marks)
+    ;;     '(:char ("d" . "▼")
+    ;;          :prompt "dtrash"
+    ;;          :dyn-target (lambda (target msg) (mu4e-get-trash-folder msg))
+    ;;          ;; Here's the main difference to the regular trash mark, no +T
+    ;;          ;; before -N so the message is not marked as IMAP-deleted:
+    ;;          :action (lambda (docid msg target)
+    ;;                      (mu4e~proc-move docid
+    ;;                          (mu4e~mark-check-target target) "+S-u-N"))))
+
+    ;; ;; Refile-dwim - depends on provider
+    ;; (setq +my/refile-dwim
+    ;;     '(:char ("r" . "▶")
+    ;;          :prompt "refile"
+    ;;          :dyn-target (lambda (target msg) (mu4e-get-refile-folder msg))
+    ;;          :action (lambda (docid msg target)
+    ;;                      (let ((maildir (mu4e-message-field msg :maildir)))
+    ;;                          (if (string-match-p "Google\\|Gmail" maildir)
+    ;;                              (mu4e~proc-remove docid)
+    ;;                              (mu4e~proc-move docid (mu4e~mark-check-target target) "+S-u-N"))))))
+    ;; (setf (alist-get 'refile mu4e-marks) +my/refile-dwim)
+
+    ;; This hook correctly modifies gmail flags on emails when they are marked.
+    ;; Without it, refiling (archiving), trashing, and flagging (starring) email
+    ;; won't properly result in the corresponding gmail action, since the marks
+    ;; are ineffectual otherwise.
+    ;; (add-hook! 'mu4e-mark-execute-pre-hook
+    ;;   (defun +mu4e-gmail-fix-flags-h (mark msg)
+    ;;     (pcase mark
+    ;;       (`trash  (mu4e-action-retag-message msg "-\\Inbox,+\\Trash,-\\Draft"))
+    ;;       (`refile (mu4e-action-retag-message msg "-\\Inbox"))
+    ;;       (`flag   (mu4e-action-retag-message msg "+\\Starred"))
+    ;;       (`unflag (mu4e-action-retag-message msg "-\\Starred")))
+    ;;       ))
+    ;;
+    ;; This hook correctly modifies the \Inbox and \Starred flags on email when they are marked.
+    ;; Without it refiling (archiving) and flagging (starring) email won't properly result in
+    ;; the corresponding gmail action.
+    ;; (add-hook! 'mu4e-mark-execute-pre-hook
+    ;;     (lambda (mark msg)
+    ;;         (cond ((member mark '(refile trash)) (mu4e-action-retag-message msg "-\\Inbox"))
+    ;;             ((equal mark 'flag) (mu4e-action-retag-message msg "\\Starred"))
+    ;;             ((equal mark 'unflag) (mu4e-action-retag-message msg "-\\Starred")))))
+    ;; (add-hook 'mu4e-mark-execute-pre-hook
+    ;;     (lambda(mark msg)
+    ;;         (let* ((ctx (mu4e-context-current))
+    ;;                   (name (if ctx (mu4e-context-name ctx))))
+    ;;             (when name
+    ;;                 (cond
+    ;;                     ((string= name "gmail")
+    ;;                         (mu4e-message "Executing mu4e-mark-execute-pre-hook on gmail")
+    ;;                         (pcase mark
+    ;;                             (`trash  (mu4e-action-retag-message msg "-\\Inbox,+\\Trash,-\\Draft"))
+    ;;                             (`refile (mu4e-action-retag-message msg "-\\Inbox"))
+    ;;                             (`flag   (mu4e-action-retag-message msg "+\\Starred"))
+    ;;                             (`unflag (mu4e-action-retag-message msg "-\\Starred"))))
+    ;;                     ((string= name "iCloud")
+    ;;                         (mu4e-message "Executing mu4e-mark-execute-pre-hook on iCloud")))))))
+
     ;; Common Configs
     (setq
         mail-user-agent 'mu4e-user-agent
@@ -116,9 +176,9 @@
 
     ;; check your ~/.maildir to see how the subdirectories are called
     (setq mu4e-maildir-shortcuts
-        '(("maildir:/julio.villasante@icloud.com/INBOX" . ?i)
+        '(("maildir:/julio.villasante@icloud.com/Inbox" . ?i)
              ("maildir:/julio.villasante@icloud.com/Sent Messages" . ?I)
-             ("maildir:/jvillasantegomez@gmail.com/INBOX" . ?g)
+             ("maildir:/jvillasantegomez@gmail.com/Inbox" . ?g)
              ("maildir/jvillasantegomez@gmail.com/[Gmail]/Sent Mail" . ?G)))
 
     ;; Bookmarks for common searches that I use.
@@ -151,15 +211,6 @@
     (add-to-list 'mu4e-view-actions '("eww view" . +my/view-in-eww) t)
     (add-to-list 'mu4e-view-actions '("xsearch for sender" . +my/search-for-sender) t)
     (add-to-list 'mu4e-headers-actions '("number of recipients" . +my/show-number-of-recipients) t)
-
-    ;; This hook correctly modifies the \Inbox and \Starred flags on email when they are marked.
-    ;; Without it refiling (archiving) and flagging (starring) email won't properly result in
-    ;; the corresponding gmail action.
-    ;; (add-hook! 'mu4e-mark-execute-pre-hook
-    ;;     (lambda (mark msg)
-    ;;         (cond ((member mark '(refile trash)) (mu4e-action-retag-message msg "-\\Inbox"))
-    ;;             ((equal mark 'flag) (mu4e-action-retag-message msg "\\Starred"))
-    ;;             ((equal mark 'unflag) (mu4e-action-retag-message msg "-\\Starred")))))
 
     ;; compose and view mode hook
     (add-hook! 'mu4e-compose-mode-hook
@@ -203,10 +254,10 @@
         `( ,(make-mu4e-context
                 :name "gmail"
                 :enter-func (lambda () (mu4e-message "Switch to Gmail"))
+                :leave-func (lambda () (mu4e-clear-caches))
                 :match-func (lambda (msg)
                                 (when msg
                                     (+my/mu4e-message-maildir-matches msg "^/gmail")))
-                :leave-func (lambda () (mu4e-clear-caches))
                 :vars '((user-mail-address . "jvillasantegomez@gmail.com")
                            (user-full-name . "Julio C. Villasante")
                            (mail-reply-to . "jvillasantegomez@gmail.com")
@@ -220,10 +271,10 @@
              ,(make-mu4e-context
                   :name "iCloud"
                   :enter-func (lambda () (mu4e-message "Switch to iCloud"))
+                  :leave-func (lambda () (mu4e-clear-caches))
                   :match-func (lambda (msg)
                                   (when msg
                                       (+my/mu4e-message-maildir-matches msg "^/icloud")))
-                  :leave-func (lambda () (mu4e-clear-caches))
                   :vars '((user-mail-address . "julio.villasante@icloud.com")
                              (user-full-name . "Julio C. Villasante")
                              (mail-reply-to . "jvillasantegomez@icloud.com")

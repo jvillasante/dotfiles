@@ -26,7 +26,7 @@ Account icloud
 MaildirStore icloud-local
 SubFolders Verbatim
 Path ~/.maildir/julio.villasante@icloud.com/
-Inbox ~/.maildir/julio.villasante@icloud.com/INBOX
+Inbox ~/.maildir/julio.villasante@icloud.com/Inbox
 
 Channel icloud
 Far :icloud-remote:
@@ -50,6 +50,7 @@ SSLVersions TLSv1.2
 AuthMechs PLAIN
 SystemCertificates no
 CertificateFile ~/.maildir/certificates/Certificates.pem
+PipelineDepth 50
 
 IMAPStore gmail-remote
 Account gmail
@@ -57,7 +58,7 @@ Account gmail
 MaildirStore gmail-local
 SubFolders Verbatim
 Path ~/.maildir/jvillasantegomez@gmail.com/
-Inbox ~/.maildir/jvillasantegomez@gmail.com/INBOX
+Inbox ~/.maildir/jvillasantegomez@gmail.com/Inbox
 
 Channel gmail
 Far :gmail-remote:
