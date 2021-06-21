@@ -298,53 +298,6 @@
 (after! elfeed-show-mode
     (set-evil-initial-state! 'elfeed-show-mode 'normal))
 
-(after! mu4e
-    ;; https://github.com/danielfleischer/mu4easy
-    ;; https://macowners.club/posts/email-emacs-mu4e-macos/
-    (setq
-        ;; Variables
-        +mu4e-backend 'mbsync
-        mu4e-use-fancy-chars nil
-
-        ;; Send Mail
-        sendmail-program (executable-find "msmtp")
-        send-mail-function #'smtpmail-send-it
-        message-sendmail-f-is-evil t
-        message-sendmail-extra-arguments '("--read-envelope-from")
-        message-send-mail-function #'message-send-mail-with-sendmail)
-
-    ;; Bookmarks for common searches that I use.
-    (setq mu4e-bookmarks
-        '((:name "All Inboxes" :query "maildir:/jvillasantegomez@gmail.com/Inbox OR maildir:/julio.villasante@icloud.com/Inbox" :key ?I)
-             (:name "Gmail Inbox" :query "maildir:/jvillasantegomez@gmail.com/Inbox" :key ?g)
-             (:name "iCloud Inbox" :query "maildir:/julio.villasante@icloud.com/Inbox" :key ?i)
-             (:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key ?u)
-             (:name "Flagged messages" :query "flag:flagged AND NOT flag:trashed" :key ?f)
-             (:name "Today's messages" :query "date:today..now" :key ?t)
-             (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key ?w)
-             (:name "Messages with images" :query "mime:image/*" :key ?p)
-             (:name "Big messages" :query "size:5M..500M" :key ?b)))
-    (add-to-list 'mu4e-view-actions '("xview in widget" . mu4e-action-view-with-xwidget) t)
-
-    (set-email-account! "Gmail"
-        '((mu4e-sent-folder          . "/jvillasantegomez@gmail.com/[Gmail]/Sent Mail")
-             (mu4e-drafts-folder     . "/jvillasantegomez@gmail.com/[Gmail]/Drafts")
-             (mu4e-trash-folder      . "/jvillasantegomez@gmail.com/[Gmail]/Trash")
-             (mu4e-refile-folder     . "/jvillasantegomez@gmail.com/[Gmail]/All Mail")
-             (smtpmail-smtp-user     . "jvillasantegomez@gmail.com")
-             (mu4e-compose-signature . "Julio C. Villasante\n"))
-        t)
-
-    (set-email-account! "iCloud"
-        '((mu4e-sent-folder          . "/julio.villasante@icloud.com/Sent Messages")
-             (mu4e-drafts-folder     . "/julio.villasante@icloud.com/Drafts")
-             (mu4e-trash-folder      . "/julio.villasante@icloud.com/Deleted Messages")
-             (mu4e-refile-folder     . "/julio.villasante@icloud.com/Archive")
-             (smtpmail-smtp-user     . "julio.villasante@icloud.com")
-             (mu4e-compose-signature . "Julio C. Villasante\n"))
-        nil)
-    )
-
 (after! evil-snipe
     (push 'elfeed-show-mode   evil-snipe-disabled-modes)
     (push 'elfeed-search-mode evil-snipe-disabled-modes))

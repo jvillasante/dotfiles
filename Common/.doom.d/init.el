@@ -194,7 +194,6 @@
         +lsp)
 
     :email
-    (:if (executable-find "mu") (mu4e +org +gmail))
     ;;(mu4e +gmail)
     ;;notmuch
     ;;(wanderlust +gmail)

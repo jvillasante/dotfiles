@@ -74,7 +74,7 @@ for file in $files; do
 done
 
 echo ">> Linking common files in ~/home..."
-files=".doom.d .oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .tmux.conf .tmux-macos.conf .tmux-linux.conf .clang-tidy .editorconfig .mbsyncrc .msmtprc .sbclrc .rustfmt.toml"
+files=".doom.d .oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .tmux.conf .tmux-macos.conf .tmux-linux.conf .clang-tidy .editorconfig .sbclrc .rustfmt.toml"
 for file in $files; do
     unlink ~/$file
     ln -s $DOTFILES_DIR/Common/$file ~/
