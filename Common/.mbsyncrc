@@ -7,37 +7,6 @@
 CopyArrivalDate yes
 
 #
-# Apple iCloud
-#
-IMAPAccount icloud
-Host imap.mail.me.com
-User julio.villasante@icloud.com
-PassCmd "security find-generic-password -a Offlineimap -s julio.villasante@icloud.com -w"
-Port 993
-SSLType IMAPS
-SSLVersions TLSv1.2
-AuthMechs PLAIN
-SystemCertificates no
-CertificateFile ~/.maildir/certificates/Certificates.pem
-
-IMAPStore icloud-remote
-Account icloud
-
-MaildirStore icloud-local
-SubFolders Verbatim
-Path ~/.maildir/julio.villasante@icloud.com/
-Inbox ~/.maildir/julio.villasante@icloud.com/Inbox
-
-Channel icloud
-Far :icloud-remote:
-Near :icloud-local:
-Patterns *
-Create Near
-Sync All
-Expunge Both
-SyncState *
-
-#
 # Google Gmail
 #
 IMAPAccount gmail
@@ -68,3 +37,35 @@ Create Near
 Sync All
 Expunge Both
 SyncState *
+
+#
+# Apple iCloud
+#
+IMAPAccount icloud
+Host imap.mail.me.com
+User julio.villasante@icloud.com
+PassCmd "security find-generic-password -a Offlineimap -s julio.villasante@icloud.com -w"
+Port 993
+SSLType IMAPS
+SSLVersions TLSv1.2
+AuthMechs PLAIN
+SystemCertificates no
+CertificateFile ~/.maildir/certificates/Certificates.pem
+
+IMAPStore icloud-remote
+Account icloud
+
+MaildirStore icloud-local
+SubFolders Verbatim
+Path ~/.maildir/julio.villasante@icloud.com/
+Inbox ~/.maildir/julio.villasante@icloud.com/Inbox
+
+Channel icloud
+Far :icloud-remote:
+Near :icloud-local:
+Patterns *
+Create Near
+Sync All
+Expunge Both
+SyncState *
+

@@ -194,6 +194,7 @@
         +lsp)
 
     :email
+    (:if (executable-find "mu") (mu4e +org +gmail))
     ;;(mu4e +gmail)
     ;;notmuch
     ;;(wanderlust +gmail)
@@ -214,5 +215,4 @@
     :private
     ;; my-postframe
     ;; my-eshell
-    ;; (:when (string= (system-name) "Julios-MacBook-Pro.local") my-mu4e)
     my-cc)
