@@ -19,9 +19,11 @@ update_rust_analyzer() {
 
 	local CURRENT_OS=$(find_os)
 	if [ $CURRENT_OS = "OSX" ]; then
-		curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ${HOME}/.bin/bin/rust-analyzer
+        curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-apple-darwin.gz \
+            | gunzip -c - > ${HOME}/.bin/bin/rust-analyzer
 	elif [ $CURRENT_OS = "LINUX" ]; then
-		curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o ${HOME}/.bin/bin/rust-analyzer
+        curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz \
+            | gunzip -c - > ${HOME}/.bin/bin/rust-analyzer
 	fi
 
 	if hash ${HOME}/.bin/bin/rust-analyzer 2>/dev/null; then
