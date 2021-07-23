@@ -9,8 +9,7 @@
     ccls)
 
 ;; ui
-(package! modus-operandi-theme)
-(package! modus-vivendi-theme)
+(package! modus-themes)
 
 ;; dired
 (package! dired-quick-sort)
