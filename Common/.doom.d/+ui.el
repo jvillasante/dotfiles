@@ -67,14 +67,14 @@
 
 ;; popup rules
 (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0)
-(set-popup-rule! "^\\*compilation" :size 0.4 :quit t :ttl 0)
+(set-popup-rule! "^\\*compilation" :size 0.6 :quit t :ttl 0)
 (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
-(set-popup-rule! "^\\*osx-dictionary" :size 0.4 :quit t :ttl 0)
+(set-popup-rule! "^\\*osx-dictionary" :size 0.6 :quit t :ttl 0)
 (set-popup-rule! "^\\*Password-Store" :side 'left :size 0.4 :quit nil)
 (set-popup-rule! "^\\*ivy-occur" :size 0.4 :ttl 0 :quit nil)
-(set-popup-rule! "^\\*cargo-test*" :size 0.4 :ttl 0 :quit nil)
+(set-popup-rule! "^\\*cargo-test*" :size 0.6 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*Racket REPL*" :size 0.4 :ttl 0 :quit nil)
-(set-popup-rule! "^\\*tldr*" :size 0.4 :ttl 0 :quit nil)
+(set-popup-rule! "^\\*tldr*" :size 0.6 :ttl 0 :quit nil)
 
 ;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
 (load! "+ui-modus-exporter.el")
