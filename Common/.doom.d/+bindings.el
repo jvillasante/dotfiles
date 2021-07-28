@@ -30,12 +30,6 @@
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     (:leader
-        ;;;; Applications
-        (:prefix ("a" . "Application")
-            :desc "Mu4e"               :n "m" #'mu4e
-            :desc "Elfeed Rss Reader"  :n "f" #'elfeed
-            :desc "Deft"               :n "n" #'deft)
-
         ;;;; Buffers
         (:prefix ("b" . "Buffers")
             :desc "Rename buffer"            :n "R" #'rename-buffer
@@ -52,7 +46,11 @@
                 :desc "File in neotree" :n "N" #'+neotree/find-this-file)
             (:when (featurep! :ui treemacs)
                 :desc "Initialize or toggle treemacs"      :n "n" #'treemacs
-                :desc "Doom initialize or toggle treemacs" :n "N" #'+treemacs/toggle))
+                :desc "Doom initialize or toggle treemacs" :n "N" #'+treemacs/toggle)
+            (:prefix ("a" . "Application")
+                :desc "Mu4e"               :n "m" #'mu4e
+                :desc "Elfeed Rss Reader"  :n "f" #'elfeed
+                :desc "Deft"               :n "n" #'deft))
 
         ;;;; Windows
         (:prefix ("w" . "Windows")
@@ -110,10 +108,16 @@
 
         ;;;; Search
         (:prefix ("s" . "Search")
-            :desc "Search directory"             "d" #'+ivy/project-search-from-cwd
-            :desc "Search directory (all files)" "D" (cmd! (+ivy/project-search-from-cwd t))
-            :desc "Search project"               "p" #'+ivy/project-search
-            :desc "Search project (all files)"   "P" (cmd! (+ivy/project-search t)))
+            (:when (featurep! :completion ivy)
+                :desc "Search directory"             "d" #'+ivy/project-search-from-cwd
+                :desc "Search directory (all files)" "D" (cmd! (+ivy/project-search-from-cwd t))
+                :desc "Search project"               "p" #'+ivy/project-search
+                :desc "Search project (all files)"   "P" (cmd! (+ivy/project-search t)))
+            (:when (featurep! :completion vertico)
+                :desc "Search directory"             "d" #'+vertico/project-search-from-cwd
+                :desc "Search directory (all files)" "D" (cmd! (+vertico/project-search-from-cwd t))
+                :desc "Search project"               "p" #'+vertico/project-search
+                :desc "Search project (all files)"   "P" (cmd! (+vertico/project-search t))))
 
         ;;;; Quit
         (:prefix ("q" . "Quit")

@@ -21,7 +21,6 @@
 (package! counsel-tramp)
 
 ;; others
-(package! ivy-prescient)
 (package! ibuffer-vc)
 (package! visual-regexp)
 (package! crux)

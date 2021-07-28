@@ -52,8 +52,6 @@
 
 (after! lookup
     (setq
-        dash-docs-browser-func #'browse-url
-        counsel-dash-browser-func #'browse-url
         +lookup-open-url-fn #'browse-url))
 
 (after! projectile
@@ -247,44 +245,6 @@
         rustic-lsp-server 'rust-analyzer
         rustic-format-on-save nil))
 
-(after! deft
-    (setq
-        deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
-        deft-extensions '("org" "md" "txt")
-        deft-default-extension "org"
-        deft-recursive t
-        deft-use-filename-as-title nil
-        deft-use-filter-string-for-filename t
-        deft-file-naming-rules '((noslash . "-")
-                                    (nospace . "-")
-                                    (case-fn . downcase))
-        deft-auto-save-interval 0))
-
-(after! org-roam
-    (setq
-        org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
-        org-roam-dailies-directory (expand-file-name "Apps/org/roam/daily" +my/dropbox-path)
-        org-roam-db-gc-threshold most-positive-fixnum
-        org-roam-tag-sources '(prop last-directory)
-        org-id-link-to-org-use-id t)
-
-    (setq org-roam-capture-templates
-        '(("p" "personal" plain #'org-roam-capture--get-point
-              :file-name "personal/${slug}"
-              :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
-              :unnarrowed t :jump-to-captured t)
-             ("w" "work" plain #'org-roam-capture--get-point
-                 :file-name "work/${slug}"
-                 :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
-                 :unnarrowed t :jump-to-captured t)))
-
-    (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry
-              #'org-roam-capture--get-point
-              "* %?"
-              :file-name "daily/%<%Y-%m-%d>"
-              :head "#+title: %<%Y-%m-%d>\n\n"))))
-
 (after! elfeed
     (setq elfeed-search-filter "@6-months-ago +unread")
     (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path)))
@@ -414,11 +374,48 @@
             "\\("   "\\.egg\-info$"                           "\\)" "\\|"
             "\\("   "^\\..+"                                  "\\)")))
 
+(after! pass
+    (setq password-store-password-length 25))
+
 (after! evil-org
     (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
-(after! pass
-    (setq password-store-password-length 25))
+(after! deft
+    (setq
+        deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
+        deft-extensions '("org" "md" "txt")
+        deft-default-extension "org"
+        deft-recursive t
+        deft-use-filename-as-title nil
+        deft-use-filter-string-for-filename t
+        deft-file-naming-rules '((noslash . "-")
+                                    (nospace . "-")
+                                    (case-fn . downcase))
+        deft-auto-save-interval 0))
+
+(after! org-roam
+    (setq
+        org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
+        org-roam-dailies-directory (expand-file-name "Apps/org/roam/daily" +my/dropbox-path)
+        org-roam-completion-everywhere t)
+
+    ;; (setq org-roam-capture-templates
+    ;;     '(("p" "personal" plain #'org-roam-capture--get-point
+    ;;           :file-name "personal/${slug}"
+    ;;           :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
+    ;;           :unnarrowed t :jump-to-captured t)
+    ;;          ("w" "work" plain #'org-roam-capture--get-point
+    ;;              :file-name "work/${slug}"
+    ;;              :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
+    ;;              :unnarrowed t :jump-to-captured t)))
+
+    ;; (setq org-roam-dailies-capture-templates
+    ;;     '(("d" "default" entry
+    ;;           #'org-roam-capture--get-point
+    ;;           "* %?"
+    ;;           :file-name "daily/%<%Y-%m-%d>"
+    ;;           :head "#+title: %<%Y-%m-%d>\n\n")))
+    )
 
 (after! org
     ;; doom fold level
@@ -552,15 +549,6 @@
 
 (use-package! visual-regexp
     :commands (vr/query-replace vr/replace))
-
-(use-package! super-save
-    :config
-    ;; this just defines when to trigger an auto-save (e.g. when you change focus out of the current window)
-    (setq super-save-triggers
-        '(ace-window evil-window-down evil-window-up evil-window-left
-             evil-window-right +ivy/projectile-find-file +ivy/switch-workspace-buffer
-             +ivy/switch-workspace-buffer-other-window))
-    (super-save-mode +1))
 
 (load! "+ui")
 (load! "+config")
