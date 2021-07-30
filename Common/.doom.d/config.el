@@ -424,8 +424,8 @@
     )
 
 (after! org
-    ;; doom fold level
-    (setq +org-initial-fold-level 1)
+    ;; org directory
+    (setq org-directory (expand-file-name "Apps/org/" +my/dropbox-path))
 
     ;; Latex previews in org-mode
     (plist-put org-format-latex-options :background 'default)
@@ -438,7 +438,6 @@
 
     ;; settings
     (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
-    (setq org-agenda-window-setup (quote current-window)) ;; open agenda in current window
     (setq org-startup-indented t)
     (setq org-indent-mode t)
     (setq org-startup-folded t)
@@ -477,72 +476,7 @@
             `(org-level-2        ((t (,@headline ,@variable-tuple :height 1.15))))
             `(org-level-1        ((t (,@headline ,@variable-tuple :height 1.25))))
             `(org-headline-done  ((t (,@headline ,@variable-tuple :strike-through t))))
-            `(org-document-title ((t (,@headline ,@variable-tuple :height 1.30 :underline nil))))))
-
-    ;; todos
-    (setq org-todo-keywords
-        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-                   (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MIGRATED(m@/!)" "PHONE" "MEETING"))))
-
-    (setq org-todo-state-tags-triggers
-        (quote (("CANCELLED" ("CANCELLED" . t))
-                   ("WAITING" ("WAITING" . t))
-                   ("MIGRATED" ("MIGRATED" . t))
-                   ("HOLD" ("WAITING") ("HOLD" . t))
-                   (done ("WAITING") ("HOLD"))
-                   ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-                   ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-                   ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
-
-    ;; organizer directory
-    (setq org-directory (expand-file-name "Apps/org/" +my/dropbox-path))
-    (setq org-default-notes-file (concat org-directory "inbox.org"))
-    (setq +my/org-work-file (concat org-directory "work.org"))
-    (setq +my/org-bookmarks-file (concat org-directory "bookmarks.org"))
-
-    ;; agenda
-    (setq org-agenda-files (list org-directory))
-    (setq org-agenda-skip-scheduled-if-done t)
-    (setq org-agenda-skip-deadline-if-done t)
-
-    ;; Tags with fast selection keys
-    (setq org-tag-alist (quote
-                            ((:startgroup)
-                                ("@errand" . ?e)
-                                ("@office" . ?o)
-                                ("@home" . ?H)
-                                (:endgroup)
-                                ("WAITING" . ?w)
-                                ("MIGRATED" . ?M)
-                                ("HOLD" . ?h)
-                                ("IDEA" . ?i)
-                                ("PERSONAL" . ?P)
-                                ("DRAFT" . ?D)
-                                ("WORK" . ?W)
-                                ("NOTE" . ?n)
-                                ("CANCELLED" . ?c)
-                                ("FLAGGED" . ??))))
-
-    ;; capture
-    (setq org-capture-templates
-        (quote (
-                   ("t" "Personal Task" entry (file+headline org-default-notes-file "Tasks")
-                       "* TODO %?\nSCHEDULED: %U\n")
-                   ("w" "Work Task" entry (file+headline +my/org-work-file "Tasks")
-                       "* TODO %?\nSCHEDULED: %U\n")
-                   ("m" "Meeting" entry (file+headline org-default-notes-file "Meetings")
-                       "* MEETING with %? :MEETING:\n%U")
-                   ("i" "Idea" entry (file+headline org-default-notes-file "Ideas")
-                       "* %? :IDEA:\n%U\n%a\n")
-                   ("n" "Note" entry (file+headline org-default-notes-file "Notes")
-                       "* %? :NOTE:\n%U\n%a\n")
-                   ("b" "Bookmark" entry (file+headline +my/org-bookmarks-file "Bookmarks")
-                       "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
-                   )))
-
-    ;; refiling
-    (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                        (org-agenda-files :maxlevel . 9)))))
+            `(org-document-title ((t (,@headline ,@variable-tuple :height 1.30 :underline nil)))))))
 
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt
