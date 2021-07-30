@@ -40,7 +40,6 @@
         (:prefix ("o" . "Open")
             :desc "Dired"  :n "d" #'dired
             :desc "Pass"   :n "p" #'pass
-            :desc "Tramp"  :n "s" #'counsel-tramp
             (:when (featurep! :ui neotree)
                 :desc "Toogle neotree"  :n "n" #'neotree-toggle
                 :desc "File in neotree" :n "N" #'+neotree/find-this-file)
@@ -60,8 +59,7 @@
 
         ;;; Files
         (:prefix ("f" . "File")
-            :desc "Find deft file" :n "d" #'deft-find-file
-            :desc "Find git file"  :n "g" #'counsel-git)
+            :desc "Find deft file" :n "d" #'deft-find-file)
 
         ;;;; Doom
         (:prefix ("d" . "Doom")

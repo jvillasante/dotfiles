@@ -17,9 +17,6 @@
 (package! dired-open)
 (package! dired-hide-dotfiles)
 
-;; tramp
-(package! counsel-tramp)
-
 ;; others
 (package! ibuffer-vc)
 (package! visual-regexp)
