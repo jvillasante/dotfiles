@@ -400,6 +400,12 @@
         org-roam-completion-everywhere t)
 
     ;; (setq org-roam-capture-templates
+    ;;     '(("d" "default" plain "%?"
+    ;;           :if-new (file+head "${slug}.org"
+    ;;                       "#+TITLE: ${title}\n#+DATE: %T\n")
+    ;;           :unnarrowed t)))
+
+    ;; (setq org-roam-capture-templates
     ;;     '(("p" "personal" plain #'org-roam-capture--get-point
     ;;           :file-name "personal/${slug}"
     ;;           :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
