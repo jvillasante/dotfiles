@@ -11,6 +11,9 @@
     +my/software-path (expand-file-name "Workspace/Software/" +my/home-path)
     +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
 
+;; org-directory needs to be set early
+(setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
+
 (cond
     (IS-MAC
         (setq

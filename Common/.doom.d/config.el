@@ -397,36 +397,9 @@
     (setq
         org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
         org-roam-dailies-directory (expand-file-name "Apps/org/roam/daily" +my/dropbox-path)
-        org-roam-completion-everywhere t)
-
-    ;; (setq org-roam-capture-templates
-    ;;     '(("d" "default" plain "%?"
-    ;;           :if-new (file+head "${slug}.org"
-    ;;                       "#+TITLE: ${title}\n#+DATE: %T\n")
-    ;;           :unnarrowed t)))
-
-    ;; (setq org-roam-capture-templates
-    ;;     '(("p" "personal" plain #'org-roam-capture--get-point
-    ;;           :file-name "personal/${slug}"
-    ;;           :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
-    ;;           :unnarrowed t :jump-to-captured t)
-    ;;          ("w" "work" plain #'org-roam-capture--get-point
-    ;;              :file-name "work/${slug}"
-    ;;              :head "#+title: ${title}\n#+ROAM_TAGS: %^{org-roam-tags}\n\n%?"
-    ;;              :unnarrowed t :jump-to-captured t)))
-
-    ;; (setq org-roam-dailies-capture-templates
-    ;;     '(("d" "default" entry
-    ;;           #'org-roam-capture--get-point
-    ;;           "* %?"
-    ;;           :file-name "daily/%<%Y-%m-%d>"
-    ;;           :head "#+title: %<%Y-%m-%d>\n\n")))
-    )
+        org-roam-completion-everywhere t))
 
 (after! org
-    ;; org directory
-    (setq org-directory (expand-file-name "Apps/org/" +my/dropbox-path))
-
     ;; Latex previews in org-mode
     (plist-put org-format-latex-options :background 'default)
 
