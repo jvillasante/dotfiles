@@ -216,4 +216,5 @@
     :private
     ;; my-postframe
     ;; my-eshell
+    my-mu4e
     my-cc)
