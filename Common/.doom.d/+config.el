@@ -26,7 +26,11 @@
 
 ;; encryption
 (require 'epa-file)
-(epa-file-enable)
+(progn
+    (epa-file-enable)
+    (setq
+        epa-file-select-keys nil
+        epa-file-cache-passphrase-for-symmetric-encryption t))
 
 ;; Minibuffer setup
 (setq-hook! 'minibuffer-setup-hook
