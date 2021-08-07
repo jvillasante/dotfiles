@@ -210,11 +210,12 @@
 
     ;; C++
     (setq lsp-clients-clangd-args
-        '("-j=4"
+        '("-j=2"
              "--log=error"
              "--background-index"
              "--clang-tidy"
-             "--completion-style=detailed"
+             "--cross-file-rename"
+             "--completion-style=bundled"
              "--pch-storage=memory"
              "--header-insertion=never"
              "--header-insertion-decorators=0"))
