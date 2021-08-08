@@ -263,6 +263,16 @@
     (push 'elfeed-show-mode   evil-snipe-disabled-modes)
     (push 'elfeed-search-mode evil-snipe-disabled-modes))
 
+(after! ediff
+    (defun +my/ediff-copy-both-to-C ()
+        (interactive)
+        (ediff-copy-diff ediff-current-difference nil 'C nil
+            (concat
+                (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+    (defun +my/add-d-to-ediff-mode-map () (define-key ediff-mode-map "C" '+my/ediff-copy-both-to-C))
+    (add-hook 'ediff-keymap-setup-hook '+my/add-d-to-ediff-mode-map))
+
 (after! magit
     ;; Have magit-status go full screen and quit to previous configuration.
     ;; Taken from http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
