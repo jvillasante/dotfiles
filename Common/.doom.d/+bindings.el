@@ -32,9 +32,9 @@
     (:leader
         ;;;; Buffers
         (:prefix ("b" . "Buffers")
-            :desc "Rename buffer"            :n "R" #'rename-buffer
-            :desc "Kill buffer"              :n "d" #'kill-this-buffer ; consistency with `SPC w d'
-            :desc "Ibuffer"                  :n "I" #'ibuffer)
+            :desc "Rename buffer" :n "R" #'rename-buffer
+            :desc "Kill buffer"   :n "d" #'kill-this-buffer ; consistency with `SPC w d'
+            :desc "Ibuffer"       :n "I" #'ibuffer)
 
         ;;;; Open
         (:prefix ("o" . "Open")
@@ -103,19 +103,6 @@
             (:prefix ("u" . "menu")
                 :desc "Show"                    :n "m" #'lsp-ui-imenu
                 :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))
-
-        ;;;; Search
-        (:prefix ("s" . "Search")
-            (:when (featurep! :completion ivy)
-                :desc "Search directory"             "d" #'+ivy/project-search-from-cwd
-                :desc "Search directory (all files)" "D" (cmd! (+ivy/project-search-from-cwd t))
-                :desc "Search project"               "p" #'+ivy/project-search
-                :desc "Search project (all files)"   "P" (cmd! (+ivy/project-search t)))
-            (:when (featurep! :completion vertico)
-                :desc "Search directory"             "d" #'+vertico/project-search-from-cwd
-                :desc "Search directory (all files)" "D" (cmd! (+vertico/project-search-from-cwd t))
-                :desc "Search project"               "p" #'+vertico/project-search
-                :desc "Search project (all files)"   "P" (cmd! (+vertico/project-search t))))
 
         ;;;; Quit
         (:prefix ("q" . "Quit")
