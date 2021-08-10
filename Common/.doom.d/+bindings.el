@@ -5,22 +5,6 @@
     ;; Defaults
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-    "M-s-<right>" #'other-frame
-    "M-s-<left>"  #'other-frame
-
-    "s-<up>"    #'windmove-up
-    "s-<right>" #'windmove-right
-    "s-<left>"  #'windmove-left
-    "s-<down>"  #'windmove-down
-
-    "C-s"       #'swiper-isearch
-    "C-r"       #'swiper-isearch-backward
-    "C-S-s"     #'isearch-forward
-    "C-x k"     #'ido-kill-buffer
-    "C-x K"     #'doom/kill-this-buffer-in-all-windows
-    "C-x b"     #'switch-to-buffer
-    "C-x B"     #'persp-switch-to-buffer
-
     "C-c C-y"   #'company-yasnippet
     "C-c o"     #'crux-open-with
     "C-c u"     #'browse-url-at-point
