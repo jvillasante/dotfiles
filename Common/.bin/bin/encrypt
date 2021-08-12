@@ -1,0 +1,68 @@
+#!/bin/bash
+
+#
+# Encrypts file or directory using gpg
+# A file will be encrypted as follows:
+#     Symmetric:  <file>.f.gpg
+#     Asymmetric: <file>.f.asc
+# A directory will be encrypted as follows:
+#     Symmetric:  <directory>.g.gpg
+#     Asymmetric: <directory>.g.asc
+#
+
+. $(dirname "$0")/../common.sh
+if [ "$#" -ne 2 ]; then
+    echo "Illegal number of arguments"
+    echo "Usage: encrypt <file|folder> <symmetric|asymmetric>"
+    exit 1
+fi
+
+function do_encrypt() {
+    if [[ -d $1 ]]; then
+        echo "Encrypting $1 with $2 encryption"
+    elif [[ -f $1 ]]; then
+        echo "Encrypting $1 with $2 encryption"
+    else
+        echo "$1 is not a file or directory, exiting..."
+        exit 1
+    fi
+
+    local file_to_encrypt=$1
+    local file_encrypted=$1.f
+    if [[ -d $1 ]]; then
+        tar czf $1.tar.gz $1
+        check $?
+
+        file_to_encrypt=$1.tar.gz
+        file_encrypted=$1.d
+    fi
+
+    if [ $2 = "symmetric" ]; then
+        gpg --symmetric --cipher-algo AES256 -o $file_encrypted.gpg $file_to_encrypt
+        check $?
+
+        rm -f $file_to_encrypt
+        check $?
+
+        rm -rf $1
+        check $?
+
+        echo "Encrypted $1 to $file_encrypted.gpg"
+    elif [ $2 = "asymmetric" ]; then
+        gpg --encrypt --sign --armor -r jvillasantegomez@gmail.com -o $file_encrypted.asc $file_to_encrypt
+        check $?
+
+        rm -f $file_to_encrypt
+        check $?
+
+        rm -rf $1
+        check $?
+
+        echo "Encrypted $1 to $file_encrypted.asc"
+    else
+        echo "Invalid argument $2, exiting..."
+        exit 1
+    fi
+}
+
+time (do_encrypt $1 $2)

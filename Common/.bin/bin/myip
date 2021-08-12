@@ -1,6 +1,9 @@
 #!/bin/bash
 
+#
 # Echos your local or WAN IP
+#
+
 if [[ $1 == -w ]]; then
     wan=1
     shift

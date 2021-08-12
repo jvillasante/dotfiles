@@ -1,0 +1,101 @@
+#!/bin/bash
+
+#
+# Decrypts file or directory using gpg (previously encrypted with `encrypt`)
+# An encrypted file is expected as follows:
+#     Symmetric:  <file>.f.gpg
+#     Asymmetric: <file>.f.asc
+# An encrypted directory is expected as follows:
+#     Symmetric:  <directory>.g.gpg
+#     Asymmetric: <directory>.g.asc
+#
+
+. $(dirname "$0")/../common.sh
+if [ "$#" -ne 1 ]; then
+    echo "Illegal number of arguments"
+    echo "Usage: decrypt <file.[gpg|asc]>"
+    exit
+fi
+
+function decrypt_dir() {
+    echo "Decrypting $1"
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.f.asc)
+                { # Asymmetric (file)
+                    local p=$(echo $1 | sed -e 's/\.f.asc$//')
+
+                    gpg --decrypt -o $p $1
+                    check $?
+
+                    rm -rf $1
+                    check $?
+
+                    echo "Decrypted $1 to $p"
+                }
+                ;;
+            *.d.asc)
+                { # Asymmetric (directory)
+                    local p=$(echo $1 | sed -e 's/\.d.asc$//')
+
+                    gpg --decrypt -o $p.tar.gz $1
+                    check $?
+
+                    tar xzf $p.tar.gz
+                    check $?
+
+                    rm -f $p.tar.gz
+                    check $?
+
+                    rm -rf $1
+                    check $?
+
+                    echo "Decrypted $1 to $p"
+                }
+                ;;
+            *.f.gpg)
+                { # Symmetric (file)
+                    local p=$(echo $1 | sed -e 's/\.f.gpg$//')
+
+                    gpg --decrypt -o $p $1
+                    check $?
+
+                    rm -rf $1
+                    check $?
+
+                    echo "Decrypted $1 to $p"
+                }
+                ;;
+            *.d.gpg)
+                { # Symmetric (directory)
+                    local p=$(echo $1 | sed -e 's/\.d.gpg$//')
+
+                    gpg --decrypt -o $p.tar.gz $1
+                    check $?
+
+                    tar xzf $p.tar.gz
+                    check $?
+
+                    rm -f $p.tar.gz
+                    check $?
+
+                    rm -rf $1
+                    check $?
+
+                    echo "Decrypted $1 to $p"
+                }
+                ;;
+            *)
+                {
+                    echo ">> Unknown extension on $1, exiting..."
+                    exit 1
+                }
+                ;;
+        esac
+    else
+        echo "'$1' is not a valid file, exiting..."
+        exit 1
+    fi
+}
+
+time (decrypt_dir $1)
