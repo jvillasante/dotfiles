@@ -169,7 +169,6 @@ PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
 # fzf
 #
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 if type fzf >/dev/null 2>/dev/null; then
     # Use ~~ as the trigger sequence instead of the default **
     # export FZF_COMPLETION_TRIGGER='~~'
