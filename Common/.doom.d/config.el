@@ -408,13 +408,7 @@
     (setq
         org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
         org-roam-dailies-directory (expand-file-name "Apps/org/roam/daily" +my/dropbox-path)
-        org-roam-completion-everywhere t)
-
-    (org-roam-capture-templates
-        '(("d" "default" plain
-              "%?"
-              :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-              :unnarrowed t))))
+        org-roam-completion-everywhere t))
 
 (after! org
     ;; Latex previews in org-mode
