@@ -1,13 +1,8 @@
 #!/bin/bash
 
 #
-# Decrypts file or directory using gpg (previously encrypted with `encrypt`)
-# An encrypted file is expected as follows:
-#     Symmetric:  <file>.f.gpg
-#     Asymmetric: <file>.f.asc
-# An encrypted directory is expected as follows:
-#     Symmetric:  <directory>.g.gpg
-#     Asymmetric: <directory>.g.asc
+# Decrypts file using gpg (previously encrypted with `encrypt`)
+# $1 is expected to have the form "*.tar.gz.gpg" or "*.tar.gz.asc"
 #
 
 . $(dirname "$0")/../common.sh
@@ -17,72 +12,36 @@ if [ "$#" -ne 1 ]; then
     exit
 fi
 
-function decrypt_dir() {
+function do_decrypt() {
+    local p=$(basename "$1" | cut -d. -f1)
+
+    gpg --decrypt -o $p.tar.gz $1
+    check $?
+
+    tar xzf $p.tar.gz
+    check $?
+
+    rm -f $p.tar.gz
+    check $?
+
+    rm -rf $1
+    check $?
+
+    echo "Decrypted $1 to $p"
+}
+
+function decrypt_to_dir() {
     echo "Decrypting $1"
     if [ -f "$1" ]; then
         case "$1" in
-            *.f.asc)
-                { # Asymmetric (file)
-                    local p=$(echo $1 | sed -e 's/\.f.asc$//')
-
-                    gpg --decrypt -o $p $1
-                    check $?
-
-                    rm -rf $1
-                    check $?
-
-                    echo "Decrypted $1 to $p"
+            *.tar.gz.asc)
+                { # Asymmetric
+                    do_decrypt $1
                 }
                 ;;
-            *.d.asc)
-                { # Asymmetric (directory)
-                    local p=$(echo $1 | sed -e 's/\.d.asc$//')
-
-                    gpg --decrypt -o $p.tar.gz $1
-                    check $?
-
-                    tar xzf $p.tar.gz
-                    check $?
-
-                    rm -f $p.tar.gz
-                    check $?
-
-                    rm -rf $1
-                    check $?
-
-                    echo "Decrypted $1 to $p"
-                }
-                ;;
-            *.f.gpg)
-                { # Symmetric (file)
-                    local p=$(echo $1 | sed -e 's/\.f.gpg$//')
-
-                    gpg --decrypt -o $p $1
-                    check $?
-
-                    rm -rf $1
-                    check $?
-
-                    echo "Decrypted $1 to $p"
-                }
-                ;;
-            *.d.gpg)
-                { # Symmetric (directory)
-                    local p=$(echo $1 | sed -e 's/\.d.gpg$//')
-
-                    gpg --decrypt -o $p.tar.gz $1
-                    check $?
-
-                    tar xzf $p.tar.gz
-                    check $?
-
-                    rm -f $p.tar.gz
-                    check $?
-
-                    rm -rf $1
-                    check $?
-
-                    echo "Decrypted $1 to $p"
+            *.tar.gz.gpg)
+                { # Symmetric
+                    do_decrypt $1
                 }
                 ;;
             *)
@@ -98,4 +57,4 @@ function decrypt_dir() {
     fi
 }
 
-time (decrypt_dir $1)
+time (decrypt_to_dir $1)

@@ -1,13 +1,9 @@
 #!/bin/bash
 
 #
-# Encrypts file or directory using gpg
-# A file will be encrypted as follows:
-#     Symmetric:  <file>.f.gpg
-#     Asymmetric: <file>.f.asc
-# A directory will be encrypted as follows:
-#     Symmetric:  <directory>.g.gpg
-#     Asymmetric: <directory>.g.asc
+# Encrypts file or directory using gpg symmetric or asymmetric encryption
+# The output is on the form "*.tar.gz.gpg" or "*.tar.gz.asc"
+# Files are moved into a directory of the same basename first
 #
 
 . $(dirname "$0")/../common.sh
@@ -27,42 +23,44 @@ function do_encrypt() {
         exit 1
     fi
 
-    local file_to_encrypt=$1
-    local file_encrypted=$1.f
-    if [[ -d $1 ]]; then
-        tar czf $1.tar.gz $1
+    local file_name=$1
+    local file_to_encrypt=$1.tar.gz
+    if [[ -f $1 ]]; then
+        file_name=$(basename "$1" | cut -d. -f1)
         check $?
 
-        file_to_encrypt=$1.tar.gz
-        file_encrypted=$1.d
+        mkdir -p $file_name
+        check $?
+
+        mv $1 $file_name
+        check $?
+
+        file_to_encrypt=$file_name.tar.gz
     fi
 
+    tar czf $file_to_encrypt $file_name
+    check $?
+
     if [ $2 = "symmetric" ]; then
-        gpg --symmetric --cipher-algo AES256 -o $file_encrypted.gpg $file_to_encrypt
+        gpg --symmetric --cipher-algo AES256 -o $file_to_encrypt.gpg $file_to_encrypt
         check $?
 
-        rm -f $file_to_encrypt
-        check $?
-
-        rm -rf $1
-        check $?
-
-        echo "Encrypted $1 to $file_encrypted.gpg"
+        echo "Encrypted $1 to $file_to_encrypt.gpg"
     elif [ $2 = "asymmetric" ]; then
-        gpg --encrypt --sign --armor -r jvillasantegomez@gmail.com -o $file_encrypted.asc $file_to_encrypt
+        gpg --encrypt --sign --armor -r jvillasantegomez@gmail.com -o $file_to_encrypt.asc $file_to_encrypt
         check $?
 
-        rm -f $file_to_encrypt
-        check $?
-
-        rm -rf $1
-        check $?
-
-        echo "Encrypted $1 to $file_encrypted.asc"
+        echo "Encrypted $1 to $file_to_encrypt.asc"
     else
         echo "Invalid argument $2, exiting..."
         exit 1
     fi
+
+    rm -f $file_to_encrypt
+    check $?
+
+    rm -rf $file_name
+    check $?
 }
 
 time (do_encrypt $1 $2)
