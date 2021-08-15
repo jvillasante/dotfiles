@@ -6,7 +6,7 @@
 # Files are moved into a directory of the same basename first
 #
 
-. $(dirname "$0")/../common.sh
+. "$(dirname "$0")/../common.sh"
 if [ "$#" -ne 2 ]; then
     echo "Illegal number of arguments"
     echo "Usage: encrypt <file|folder> <symmetric|asymmetric>"
@@ -14,40 +14,40 @@ if [ "$#" -ne 2 ]; then
 fi
 
 function do_encrypt() {
-    if [[ -d $1 ]]; then
+    if [[ -d "$1" ]]; then
         echo "Encrypting $1 with $2 encryption"
-    elif [[ -f $1 ]]; then
+    elif [[ -f "$1" ]]; then
         echo "Encrypting $1 with $2 encryption"
     else
         echo "$1 is not a file or directory, exiting..."
         exit 1
     fi
 
-    local file_name=$1
-    local file_to_encrypt=$1.tar.gz
-    if [[ -f $1 ]]; then
+    local file_name="$1"
+    local file_to_encrypt="$1.tar.gz"
+    if [[ -f "$1" ]]; then
         file_name=$(basename "$1" | cut -d. -f1)
         check $?
 
-        mkdir -p $file_name
+        mkdir -p "$file_name"
         check $?
 
-        mv $1 $file_name
+        mv "$1" "$file_name"
         check $?
 
-        file_to_encrypt=$file_name.tar.gz
+        file_to_encrypt="$file_name.tar.gz"
     fi
 
-    tar czf $file_to_encrypt $file_name
+    tar czf "$file_to_encrypt" "$file_name"
     check $?
 
-    if [ $2 = "symmetric" ]; then
-        gpg --symmetric --cipher-algo AES256 -o $file_to_encrypt.gpg $file_to_encrypt
+    if [ "$2" = "symmetric" ]; then
+        gpg --symmetric --cipher-algo AES256 -o "$file_to_encrypt.gpg" "$file_to_encrypt"
         check $?
 
         echo "Encrypted $1 to $file_to_encrypt.gpg"
-    elif [ $2 = "asymmetric" ]; then
-        gpg --encrypt --sign --armor -r jvillasantegomez@gmail.com -o $file_to_encrypt.asc $file_to_encrypt
+    elif [ "$2" = "asymmetric" ]; then
+        gpg --encrypt --sign --armor -r jvillasantegomez@gmail.com -o "$file_to_encrypt.asc" "$file_to_encrypt"
         check $?
 
         echo "Encrypted $1 to $file_to_encrypt.asc"
@@ -56,11 +56,11 @@ function do_encrypt() {
         exit 1
     fi
 
-    rm -f $file_to_encrypt
+    rm -f "$file_to_encrypt"
     check $?
 
-    rm -rf $file_name
+    rm -rf "$file_name"
     check $?
 }
 
-time (do_encrypt $1 $2)
+time (do_encrypt "$1" "$2")

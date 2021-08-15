@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. $(dirname "$0")/common.sh
+. "$(dirname "$0")/common.sh"
 
 install_common_go_packages() {
     if hash go 2>/dev/null; then
@@ -41,12 +41,12 @@ install_other_go_packages() {
 }
 
 cleanup_go_binaries() {
-    if [ -d ${GOPATH}/bin ]; then
-        sudo rm -rf $GOPATH/bin
+    if [ -d "${GOPATH}/bin" ]; then
+        sudo rm -rf "$GOPATH/bin"
     fi
 
-    if [ -d ${GOPATH}/pkg ]; then
-        sudo rm -rf $GOPATH/pkg
+    if [ -d "${GOPATH}/pkg" ]; then
+        sudo rm -rf "$GOPATH/pkg"
     fi
 }
 
@@ -69,7 +69,7 @@ while true; do
                 break
                 ;;
             4) break 2 ;;
-            *) echo "Invalid option!" >&2 ;;
+            *) echo "Invalid option 'opt'" >&2 ;;
         esac
     done
 

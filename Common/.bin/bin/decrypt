@@ -5,7 +5,7 @@
 # $1 is expected to have the form "*.tar.gz.gpg" or "*.tar.gz.asc"
 #
 
-. $(dirname "$0")/../common.sh
+. "$(dirname "$0")/../common.sh"
 if [ "$#" -ne 1 ]; then
     echo "Illegal number of arguments"
     echo "Usage: decrypt <file.[gpg|asc]>"
@@ -15,16 +15,16 @@ fi
 function do_decrypt() {
     local p=$(basename "$1" | cut -d. -f1)
 
-    gpg --decrypt -o $p.tar.gz $1
+    gpg --decrypt -o "$p.tar.gz" "$1"
     check $?
 
-    tar xzf $p.tar.gz
+    tar xzf "$p.tar.gz"
     check $?
 
-    rm -f $p.tar.gz
+    rm -f "$p.tar.gz"
     check $?
 
-    rm -rf $1
+    rm -rf "$1"
     check $?
 
     echo "Decrypted $1 to $p"
@@ -36,12 +36,12 @@ function decrypt_to_dir() {
         case "$1" in
             *.tar.gz.asc)
                 { # Asymmetric
-                    do_decrypt $1
+                    do_decrypt "$1"
                 }
                 ;;
             *.tar.gz.gpg)
                 { # Symmetric
-                    do_decrypt $1
+                    do_decrypt "$1"
                 }
                 ;;
             *)
@@ -57,4 +57,4 @@ function decrypt_to_dir() {
     fi
 }
 
-time (decrypt_to_dir $1)
+time (decrypt_to_dir "$1")

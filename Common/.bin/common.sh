@@ -6,7 +6,7 @@
 #
 find_current_shell() {
     local CURRENT_SHELL="unknown"
-    if [[ -n ${ZSH_VERSION} ]] && [[ ! -z ${ZSH_VERSION} ]]; then
+    if [[ -n ${ZSH_VERSION} ]]; then
         CURRENT_SHELL="zsh $ZSH_VERSION"
     elif [[ -n $BASH_VERSION ]]; then
         CURRENT_SHELL="bash $BASH_VERSION"
@@ -20,7 +20,7 @@ find_current_shell() {
 #
 find_env() {
     local CURRENT_ENV="UNSUPPORTED"
-    local HOST=$(hostname)
+    local HOST="$(hostname)"
     case "$HOST" in
         "Julios-MacBook-Pro.local")
             {
@@ -53,7 +53,7 @@ find_env() {
 #
 find_os() {
     local CURRENT_OS="UNSUPPORTED"
-    local PLATFORM=$(uname -s)
+    local PLATFORM="$(uname -s)"
     case "$PLATFORM" in
         "Darwin")
             {
@@ -81,11 +81,11 @@ find_os() {
 #
 find_dotfiles() {
     local DOTFILES_DIR="NOT_FOUND"
-    local CURRENT_ENV=$(find_env)
-    if [ $CURRENT_ENV = "PERSONAL" ]; then
-        DOTFILES_DIR=${HOME}/Workspace/Others/dotfiles # dotfiles directory
-    elif [ $CURRENT_ENV = "WORK" ]; then
-        DOTFILES_DIR=${HOME}/Workspace/Others/dotfiles # dotfiles directory
+    local CURRENT_ENV="$(find_env)"
+    if [ "$CURRENT_ENV" = "PERSONAL" ]; then
+        DOTFILES_DIR="${HOME}/Workspace/Others/dotfiles" # dotfiles directory
+    elif [ "$CURRENT_ENV" = "WORK" ]; then
+        DOTFILES_DIR="${HOME}/Workspace/Others/dotfiles" # dotfiles directory
     fi
     echo "$DOTFILES_DIR"
 }
@@ -94,11 +94,11 @@ find_dotfiles() {
 # Check helper for return values
 #
 check() {
-    if [ $1 -ne 0 ]; then
+    if [ "$1" -ne 0 ]; then
         echo ""
         echo ">>> This is an error, do something else... We don't know what's wrong here!!!"
         echo ""
-        exit $1
+        exit "$1"
     fi
 }
 
@@ -124,7 +124,7 @@ ask() {
         echo "$1 [$prompt] "
 
         # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
-        read reply </dev/tty
+        read -r reply </dev/tty
 
         # Default?
         if [ -z "$reply" ]; then
