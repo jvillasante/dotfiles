@@ -14,6 +14,11 @@
 ;; org-directory needs to be set early
 (setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 
+(cond (IS-MAC
+          (setq
+              mac-command-modifier 'meta
+              mac-option-modifier 'alt
+              mac-right-option-modifier 'alt)))
 (cond
     (IS-MAC
         (setq
