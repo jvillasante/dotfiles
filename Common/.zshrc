@@ -96,7 +96,7 @@ alias ls='ls --color'
 alias ll='ls -AlFh --color'
 alias cp="cp -iv"
 alias mv="mv -iv"
-alias tree="tree -a -I 'node_modules|.git'"
+alias tree="tree --dirsfirst -a -I 'node_modules|.git'"
 alias ag='ag --hidden --ignore node_modules --ignore .git'
 
 # exa
