@@ -200,7 +200,7 @@
 
     ;; Zig
     (setq lsp-zig-zls-executable
-        (expand-file-name "zig/zls/zig-cache/bin/zls" +my/software-path))
+        (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
 
     ;; Rust
     (setq
