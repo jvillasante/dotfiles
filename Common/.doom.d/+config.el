@@ -66,6 +66,11 @@
     multi-term-program +my/zsh-path
     shell-file-name +my/zsh-path)
 
+;; frame title
+(setq frame-title-format
+    '("%b@" (:eval (or (file-remote-p default-directory 'host) system-name)) " — Emacs"))
+
+;; defaults
 (setq
     major-mode 'text-mode
     use-dialog-box nil
@@ -75,7 +80,6 @@
     truncate-partial-width-windows nil ; for vertically-split windows
     split-width-threshold 160          ; Split verticaly by default
     evil-cross-lines t                 ; Make horizontal movement cross lines
-    frame-title-format "%f"
     scroll-margin 3
     uniquify-buffer-name-style 'forward   ; Uniquify buffer names
     indent-tabs-mode nil                  ; use space to indent by default
