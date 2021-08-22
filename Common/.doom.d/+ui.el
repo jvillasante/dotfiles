@@ -31,8 +31,20 @@
 
 ;; modeline
 (after! doom-modeline
-    (setq all-the-icons-scale-factor 0.8)
-    (advice-add #'doom-modeline--font-height :override (lambda () (frame-char-height))))
+    (setq doom-modeline-icon nil))
+
+;; no icons on dashboard
+(after! all-the-icons
+    (defun my/disable-all-the-icons (&rest args)
+        nil)
+
+    (dolist (fn '(all-the-icons-octicon
+                     all-the-icons-material
+                     all-the-icons-faicon
+                     all-the-icons-fileicon
+                     all-the-icons-wicon
+                     all-the-icons-alltheicon))
+        (advice-add fn :override #'my/disable-all-the-icons)))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
