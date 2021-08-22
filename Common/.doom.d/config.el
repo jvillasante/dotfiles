@@ -116,7 +116,7 @@
         (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC") ("* ||\n[i]" "RET"))))
 
     (sp-with-modes '(rustic-mode)
-        (sp-local-pair "|" "|")))
+        (sp-local-pair "|" "|" :actions nil)))
 
 (after! flyspell
     (setq flyspell-lazy-idle-seconds 3))
