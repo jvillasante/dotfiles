@@ -92,7 +92,14 @@ for file in $files; do
     fi
 done
 
-echo ">> Linking other files in $HOME/.config"
+echo ">> Linking common files in $HOME/.config..."
+files="ranger"
+for file in $files; do
+    unlink "$HOME/.config/$file"
+    ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
+done
+
+echo ">> Linking other files in $HOME/.config..."
 files="alacritty git"
 for file in $files; do
     unlink "$HOME/.config/$file"
