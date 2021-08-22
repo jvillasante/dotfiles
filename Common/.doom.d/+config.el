@@ -4,7 +4,6 @@
     (IS-MAC
         (setq
             browse-url-browser-function 'browse-url-generic
-            engine/browser-function 'browse-url-generic
             browse-url-generic-program "open"
             ns-use-thin-smoothing t)
         (setq

@@ -4,12 +4,17 @@
 ;; disabled packages
 (disable-packages!
     solaire-mode
+    doom-modeline
     irony
     ggtags
     ccls)
 
-;; ui
+;; theme
 (package! modus-themes)
+
+;; modeline
+(package! awesome-tray
+    :recipe (:host github :repo "manateelazycat/awesome-tray"))
 
 ;; dired
 (package! dired-quick-sort)

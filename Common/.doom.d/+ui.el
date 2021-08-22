@@ -30,10 +30,12 @@
     (doom-themes-org-config))
 
 ;; modeline
-(after! doom-modeline
-    (setq doom-modeline-icon nil))
+(setq-default mode-line-format nil)
+(require 'awesome-tray)
+(awesome-tray-mode 1)
+(setq awesome-tray-active-modules '("mode-name" "location"))
 
-;; no icons on dashboard
+;; no icons
 (after! all-the-icons
     (defun my/disable-all-the-icons (&rest args)
         nil)
