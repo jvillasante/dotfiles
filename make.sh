@@ -16,12 +16,12 @@ echo "==========================================================================
 echo ">> Running ($CURRENT_SHELL) for '$CURRENT_ENV' on '$CURRENT_OS' at '$DOTFILES_DIR'."
 
 install_zsh() {
-    # Test to see if zshell is installed.  If it is:
+    # Test to see if zshell is installed. If it is:
     if [ "$CURRENT_OS" = "LINUX" ]; then
         if [ -f /bin/zsh ] || [ -f /usr/bin/zsh ]; then
             # Clone my oh-my-zsh repository from GitHub only if it isn't already present
             if [ ! -d "$DOTFILES_DIR/.oh-my-zsh/" ]; then
-                git clone http://github.com/robbyrussell/oh-my-zsh.git "$DOTFILES_DIR/.oh-my-zsh"
+                git clone https://github.com/ohmyzsh/ohmyzsh.git "$DOTFILES_DIR/.oh-my-zsh"
             fi
 
             # Set the default shell to zsh if it isn't currently set to zsh
@@ -38,7 +38,7 @@ install_zsh() {
         if [ -f /usr/local/bin/zsh ] || [ -f /usr/bin/zsh ]; then
             # Clone my oh-my-zsh repository from GitHub only if it isn't already present
             if [ ! -d "$DOTFILES_DIR/.oh-my-zsh/" ]; then
-                git clone http://github.com/robbyrussell/oh-my-zsh.git "$DOTFILES_DIR/.oh-my-zsh"
+                git clone https://github.com/ohmyzsh/ohmyzsh.git "$DOTFILES_DIR/.oh-my-zsh"
             fi
 
             echo ">> Remember to set the default shell to zsh if it isn't already         "
