@@ -1,5 +1,4 @@
 ---
-Checks:            '*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-modernize-use-trailing-return-type,-llvm-*,-llvmlibc*,-*magic-numbers*,-hicpp-signed-bitwise,-cert-dcl21-cpp,-readability-avoid-const-params-in-decls'
-WarningsAsErrors:  '*'
-HeaderFilterRegex: '*,-*vulkan*,-*SDL*'
+Checks:            '*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-modernize-use-trailing-return-type,-llvm*'
+HeaderFilterRegex: 'src.*'
 FormatStyle:       none
