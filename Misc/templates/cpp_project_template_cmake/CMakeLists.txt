@@ -4,13 +4,9 @@ cmake_minimum_required(VERSION 3.15)
 set(CLANG_PREFIX "/usr/local/opt/llvm")
 set(CMAKE_C_COMPILER "${CLANG_PREFIX}/bin/clang")
 set(CMAKE_CXX_COMPILER "${CLANG_PREFIX}/bin/clang++")
-
-# ~~~
-# set(GCC_PREFIX "/usr/local/opt/gcc")
-# set(CMAKE_C_COMPILER "${GCC_PREFIX}/bin/gcc-9")
-# set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-9")
+# set(GCC_PREFIX "/usr/local/opt/gcc") set(CMAKE_C_COMPILER
+# "${GCC_PREFIX}/bin/gcc-9") set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-9")
 # THIS HAS TO COME BEFORE THE PROJECT LINE
-# ~~~
 
 # Specify default build type if none provided (before project() command)
 if(NOT CMAKE_BUILD_TYPE)

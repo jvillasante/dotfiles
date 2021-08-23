@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . "$(dirname "$0")/common.sh"
+CURRENT_ENV=$(find_env)
 
 create_project() {
     read -r -p "Enter project name: " PROJECT_NAME
@@ -14,9 +15,9 @@ create_project() {
 
         echo ">>> Copying project template to $PROJECT_PATH..."
         if [ "$1" = make ]; then
-            cp -a "${HOME}/.bin/templates/cpp_project_template_make/." "$PROJECT_PATH/"
+            cp -a "${DOTFILES_DIR}/Misc/templates/cpp_project_template_make/." "$PROJECT_PATH/"
         else
-            cp -a "${HOME}/.bin/templates/cpp_project_template_cmake/." "$PROJECT_PATH/"
+            cp -a "${DOTFILES_DIR}/Misc/templates/cpp_project_template_cmake/." "$PROJECT_PATH/"
         fi
         check $?
 
@@ -25,15 +26,18 @@ create_project() {
         check $?
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
-        cp "${HOME}/.clang-format" "$PROJECT_PATH/"
-        check $?
+        if [ "$CURRENT_ENV" = "PERSONAL" ]; then
+            cp "${DOTFILES_DIR}/Personal/.clang-format" "$PROJECT_PATH/"
+        elif [ "$CURRENT_ENV" = "WORK" ]; then
+            cp "${DOTFILES_DIR}/Work/.clang-format" "$PROJECT_PATH/"
+        fi
 
         echo ">>> Copying compile_flags.txt to $PROJECT_PATH..."
-        cp "${DOTFILES_DIR}/Common/compile_flags.txt" "$PROJECT_PATH/"
+        cp "${DOTFILES_DIR}/Misc/compile_flags.txt" "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .clang-tidy to $PROJECT_PATH..."
-        cp "${HOME}/.clang-tidy" "$PROJECT_PATH/"
+        cp "${DOTFILES_DIR}/Misc/.clang-tidy" "$PROJECT_PATH/"
         check $?
     else
         echo ">>> $PROJECT_PATH already exists."

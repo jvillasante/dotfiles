@@ -74,14 +74,14 @@ for file in $files; do
 done
 
 echo ">> Linking common files in $HOME..."
-files=".doom.d .oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .tmux.conf .tmux-macos.conf .tmux-linux.conf .clang-tidy .editorconfig .sbclrc .rustfmt.toml .stylelint.rc"
+files=".doom.d .oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .editorconfig .sbclrc"
 for file in $files; do
     unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
 done
 
 echo ">> Linking other files in $HOME..."
-files=".clang-format .fzf.zsh"
+files=".fzf.zsh"
 for file in $files; do
     unlink "$HOME/$file"
 
@@ -93,7 +93,7 @@ for file in $files; do
 done
 
 echo ">> Linking common files in $HOME/.config..."
-files="ranger"
+files="tmux ranger"
 for file in $files; do
     unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"

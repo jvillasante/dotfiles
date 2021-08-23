@@ -69,7 +69,7 @@ create_project() {
         check $?
 
         echo ">>> Copying project template to $PROJECT_PATH..."
-        cp -a "${HOME}/.bin/templates/rust_project_template/." "$PROJECT_PATH/"
+        cp -a "${DOTFILES_DIR}/Misc/templates/rust_project_template_make/." "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .editorconfig to $PROJECT_PATH..."
@@ -77,7 +77,7 @@ create_project() {
         check $?
 
         echo ">>> Copying .rustfmt.toml to $PROJECT_PATH..."
-        cp "${HOME}/.rustfmt.toml" "$PROJECT_PATH/"
+        cp "${DOTFILES_DIR}/Misc/.rustfmt.toml" "$PROJECT_PATH/"
         check $?
     else
         echo ">>> $PROJECT_PATH already exists."
