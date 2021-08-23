@@ -24,7 +24,7 @@
         (:prefix ("o" . "Open")
             :desc "Dired Jump" :n "d" #'dired-jump
             :desc "Dired"      :n "D" #'dired
-            :desc "Pass"       :n "p" #'pass
+            ;; :desc "Pass"       :n "p" #'pass
             :desc "iElm"       :n "i" #'ielm
             (:when (featurep! :ui neotree)
                 :desc "Toogle neotree"  :n "n" #'neotree-toggle
