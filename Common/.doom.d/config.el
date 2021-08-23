@@ -215,7 +215,7 @@
              "--background-index"
              "--clang-tidy"
              "--cross-file-rename"
-             "--completion-style=bundled"
+             "--completion-style=detailed"
              "--pch-storage=memory"
              "--header-insertion=never"
              "--header-insertion-decorators=0"))
