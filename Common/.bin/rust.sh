@@ -58,37 +58,11 @@ update_global_packages() {
     fi
 }
 
-create_project() {
-    read -r -p "Enter project name: " PROJECT_NAME
-    local DOTFILES_DIR="$(find_dotfiles)"
-    local PROJECT_PATH="$HOME/Workspace/Code/rust/$PROJECT_NAME"
-
-    if [ ! -d "$PROJECT_PATH" ]; then
-        echo ">>> $PROJECT_PATH does not exists, creating it..."
-        mkdir -p "$PROJECT_PATH"
-        check $?
-
-        echo ">>> Copying project template to $PROJECT_PATH..."
-        cp -a "${DOTFILES_DIR}/Misc/templates/rust_project_template_make/." "$PROJECT_PATH/"
-        check $?
-
-        echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "${HOME}/.editorconfig" "$PROJECT_PATH/"
-        check $?
-
-        echo ">>> Copying .rustfmt.toml to $PROJECT_PATH..."
-        cp "${DOTFILES_DIR}/Misc/.rustfmt.toml" "$PROJECT_PATH/"
-        check $?
-    else
-        echo ">>> $PROJECT_PATH already exists."
-    fi
-}
-
 while true; do
     PS3="Choose an option: "
     options=("Update Rust" "Update Rust Analyzer" "Update Rust and Rust Analyzer"
         "Show Global Packages Installed" "Update Global Packages Installed"
-        "Create Rust Project" "Quit")
+        "Quit")
 
     select opt in "${options[@]}"; do
         case $REPLY in
@@ -112,11 +86,7 @@ while true; do
                 update_global_packages
                 break
                 ;;
-            6)
-                create_project
-                break
-                ;;
-            7) break 2 ;;
+            6) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
