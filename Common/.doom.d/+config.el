@@ -67,8 +67,20 @@
     shell-file-name +my/zsh-path)
 
 ;; frame title
-(setq frame-title-format
-    '("%b@" (:eval (or (file-remote-p default-directory 'host) system-name)) " — Emacs"))
+(setq-default frame-title-format
+    '(:eval
+         (format "%s@%s: %s %s"
+             (or (file-remote-p default-directory 'user)
+                 user-real-login-name)
+             (or (file-remote-p default-directory 'host)
+                 system-name)
+             (buffer-name)
+             (cond
+                 (buffer-file-truename
+                     (concat "(" buffer-file-truename ")"))
+                 (dired-directory
+                     (concat "{" dired-directory "}"))
+                 (t "[no file]")))))
 
 ;; defaults
 (setq
