@@ -3,23 +3,93 @@
 #
 # Simple command line extract utility
 #
+# if [ -f "$1" ]; then
+#     case "$1" in
+#         *.tar.bz2) tar xjf "$1" ;;
+#         *.tar.gz) tar xzf "$1" ;;
+#         *.tar.xz) tar -xf "$1" ;;
+#         *.bz2) bunzip2 "$1" ;;
+#         *.rar) unrar x "$1" ;;
+#         *.gz) gunzip "$1" ;;
+#         *.tar) tar xf "$1" ;;
+#         *.tbz2) tar xjf "$1" ;;
+#         *.tgz) tar xzf "$1" ;;
+#         *.zip) unzip "$1" ;;
+#         *.Z) uncompress "$1" ;;
+#         *.7z) 7z x "$1" ;;
+#         *) echo "'$1' cannot be extracted via extract()" ;;
+#     esac
+# else
+#     echo "'$1' is not a valid file"
+# fi
 
-if [ -f "$1" ]; then
-    case "$1" in
-        *.tar.bz2) tar xjf "$1" ;;
-        *.tar.gz) tar xzf "$1" ;;
-        *.tar.xz) tar -xf "$1" ;;
-        *.bz2) bunzip2 "$1" ;;
-        *.rar) rar x "$1" ;;
-        *.gz) gunzip "$1" ;;
-        *.tar) tar xf "$1" ;;
-        *.tbz2) tar xjf "$1" ;;
-        *.tgz) tar xzf "$1" ;;
-        *.zip) unzip "$1" ;;
-        *.Z) uncompress "$1" ;;
-        *.7z) 7z x "$1" ;;
-        *) echo "'$1' cannot be extracted via extract()" ;;
+# Extract the archive $1 to a directory $2 with the program $3. If the
+# archive contains a single top-level directory, that directory
+# becomes $2. Otherwise $2 contains all the files at the root of the
+# archive.
+extract() (
+    set -e
+    archive=$1
+    case "$archive" in
+        -) : ;;                     # read from stdin
+        /*) : ;;                    # already an absolute path
+        *) archive=$PWD/$archive ;; # make absolute path
     esac
-else
-    echo "'$1' is not a valid file"
-fi
+    target=$2
+    program=$3
+    if [ -e "$target" ]; then
+        echo >&2 "Target $target already exists, aborting."
+        return 3
+    fi
+    case "$target" in
+        /*) parent=${target%/*} ;;
+        */[!/]*) parent=$PWD/${target%/*} ;;
+        *) parent=$PWD ;;
+    esac
+    temp=$(TMPDIR="$parent" mktemp -d)
+    (cd "$temp" && $program "$archive")
+    root=
+    for member in "$temp/"* "$temp/".*; do
+        case "$member" in */. | */..) continue ;; esac
+        if [ -n "$root" ] || ! [ -d "$member" ]; then
+            root=$temp # There are multiple files or there is a non-directory
+            break
+        fi
+        root="$member"
+    done
+    if [ -z "$root" ]; then
+        # Empty archive
+        root=$temp
+    fi
+    mv -v -- "$root" "$target"
+    if [ "$root" != "$temp" ]; then
+        rmdir "$temp"
+    fi
+)
+
+# Extract the archive $1.
+process() {
+    dir=${1%.*}
+    case "$1" in
+        *.rar | *.RAR) program="unrar x" ;;
+        *.tar | *.tgz | *.tbz2) program="tar -xf" ;;
+        *.tar.gz | *.tar.bz2 | *.tar.xz)
+            program="tar -xf"
+            dir=${dir%.*}
+            ;;
+        *.zip | *.ZIP) program="unzip" ;;
+        *)
+            echo >&2 "$0: $1: unsupported archive type"
+            exit 4
+            ;;
+    esac
+    if [ -d "$dir" ]; then
+        echo >&2 "$0: $dir: directory already exists"
+        exit 1
+    fi
+    extract "$1" "$dir" "$program"
+}
+
+for x in "$@"; do
+    process "$x"
+done
