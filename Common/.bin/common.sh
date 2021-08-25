@@ -37,6 +37,16 @@ find_env() {
                 CURRENT_ENV="WORK"
             }
             ;;
+        "Fedora-Latitude.local")
+            {
+                CURRENT_ENV="WORK"
+            }
+            ;;
+        "fedora")
+            {
+                CURRENT_ENV="WORK"
+            }
+            ;;
         *)
             {
                 echo ">> Unsupported ENV: '$HOST', exiting..."

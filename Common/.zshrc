@@ -179,6 +179,7 @@ if type fzf >/dev/null 2>/dev/null; then
 
     # Options to fzf command
     export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --border --info=inline'
+    # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 

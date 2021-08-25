@@ -1,7 +1,7 @@
 # Auto-completion
 # ---------------
-source "/usr/share/doc/fzf/examples/completion.zsh"
+# source "/etc/bash_completion.d/fzf"
 
 # Key bindings
 # ------------
-source "/usr/share/doc/fzf/examples/key-bindings.zsh"
+[ -f /usr/share/fzf/shell/key-bindings.zsh ] && source /usr/share/fzf/shell/key-bindings.zsh

@@ -70,6 +70,7 @@
 (set-popup-rule! "^\\*tldr*" :size 0.6 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*compilation" :size 0.8 :quit t :ttl 0)
 (set-popup-rule! "^\\*doom:scratch*" :size 0.8 :ttl 0 :quit nil)
+(set-popup-rule! "^\\*doom:vterm-popup" :size 0.6 :ttl 0 :quit nil)
 
 ;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
 (load! "+ui-modus-exporter.el")
