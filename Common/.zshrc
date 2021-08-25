@@ -133,15 +133,11 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 fi
 
 #
-# Normalize `open` across Linux, macOS, and Windows.
+# Linux Stuff
 # 
-if [ ! $(uname -s) = 'Darwin' ]; then
-    if grep -q Microsoft /proc/version; then
-        # Ubuntu on Windows using the Linux subsystem
-        alias open='explorer.exe';
-    else
-        alias open='xdg-open';
-    fi
+if [ $(uname -s) = 'Linux' ]; then
+    alias open='xdg-open';
+    alias alacritty='env WINIT_UNIX_BACKEND=x11 alacritty'
 fi
 
 #
