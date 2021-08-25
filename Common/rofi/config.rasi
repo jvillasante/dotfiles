@@ -1,3 +1,5 @@
 configuration {
-    theme: "solarized";
+    modi: "window,drun,run,ssh,combi";
+    show-icons: true;
+    theme: "Arc";
 }
