@@ -10,7 +10,10 @@ fi
 
 fedora_update() {
     if hash dnf 2>/dev/null; then
-        sudo dnf check-update && sudo dnf upgrade && sudo dnf distro-sync
+        sudo dnf -y upgrade --refresh
+        check $?
+
+        sudo dnf -y distro-sync
         check $?
     fi
 }
