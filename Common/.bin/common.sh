@@ -32,17 +32,7 @@ find_env() {
                 CURRENT_ENV="PERSONAL"
             }
             ;;
-        "jvillasante-Latitude-7480")
-            {
-                CURRENT_ENV="WORK"
-            }
-            ;;
-        "Fedora-Latitude.local")
-            {
-                CURRENT_ENV="WORK"
-            }
-            ;;
-        "fedora")
+        "fedora-latitude-7480")
             {
                 CURRENT_ENV="WORK"
             }
