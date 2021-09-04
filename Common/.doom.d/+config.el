@@ -12,7 +12,8 @@
             mac-option-modifier       'alt
             mac-right-option-modifier 'alt)
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-        (add-to-list 'default-frame-alist '(ns-appearance . dark)))
+        (add-to-list 'default-frame-alist '(ns-appearance . dark))
+        (setq ns-use-proxy-icon nil))
     (IS-LINUX
         (executable-find "firefox")))
 
@@ -22,6 +23,22 @@
 
 ;; disable risky local variables warning
 (advice-add 'risky-local-variable-p :override #'ignore)
+
+;; frame title
+(setq-default frame-title-format
+    '(:eval
+         (format "%s@%s: %s"
+             (or (file-remote-p default-directory 'user)
+                 user-real-login-name)
+             (or (file-remote-p default-directory 'host)
+                 system-name)
+             (cond
+                 (buffer-file-truename
+                     (concat buffer-file-truename))
+                 (dired-directory
+                     (concat dired-directory))
+                 (t "[no file]")))))
+
 
 ;; encryption
 (require 'epa-file)
@@ -65,21 +82,6 @@
 (setq-default
     multi-term-program +my/zsh-path
     shell-file-name +my/zsh-path)
-
-;; frame title
-(setq-default frame-title-format
-    '(:eval
-         (format "%s@%s: %s"
-             (or (file-remote-p default-directory 'user)
-                 user-real-login-name)
-             (or (file-remote-p default-directory 'host)
-                 system-name)
-             (cond
-                 (buffer-file-truename
-                     (concat buffer-file-truename))
-                 (dired-directory
-                     (concat dired-directory))
-                 (t "[no file]")))))
 
 ;; defaults
 (setq
