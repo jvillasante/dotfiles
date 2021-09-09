@@ -254,6 +254,7 @@
     (setq rmh-elfeed-org-files (list (expand-file-name "Apps/elfeed/elfeed.org" +my/dropbox-path))))
 
 (after! elfeed-search
+    (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
     (set-evil-initial-state! 'elfeed-search-mode 'normal))
 
 (after! elfeed-show-mode

@@ -59,18 +59,19 @@
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; popup rules
+(set-popup-rule! "^\\*doom:scratch*" :size 0.4 :ttl 0 :quit nil)
+(set-popup-rule! "^\\*doom:vterm-popup" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
-(set-popup-rule! "^\\*osx-dictionary" :size 0.6 :quit t :ttl 0)
 (set-popup-rule! "^\\*Password-Store" :side 'left :size 0.4 :quit nil)
 (set-popup-rule! "^\\*ivy-occur" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*Embark Export" :size 0.4 :ttl 0 :quit nil)
-(set-popup-rule! "^\\*cargo-test*" :size 0.6 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*Racket REPL*" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*tldr*" :size 0.6 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*compilation" :size 0.6 :quit t :ttl 0)
-(set-popup-rule! "^\\*doom:scratch*" :size 0.6 :ttl 0 :quit nil)
-(set-popup-rule! "^\\*doom:vterm-popup" :size 0.4 :ttl 0 :quit nil)
+(set-popup-rule! "^\\*cargo-*" :size 0.6 :ttl 0 :quit nil)
+(set-popup-rule! "^\\*rustic-*" :size 0.6 :ttl 0 :quit nil)
+(set-popup-rule! "^\\*osx-dictionary" :size 0.6 :quit t :ttl 0)
 
 ;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
 (load! "+ui-modus-exporter.el")
