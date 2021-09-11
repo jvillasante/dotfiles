@@ -1,0 +1,47 @@
+cmake_minimum_required(VERSION 3.15)
+
+# THIS HAS TO COME BEFORE THE PROJECT LINE
+set(GCC_PREFIX "/usr/local/opt/gcc")
+set(CMAKE_C_COMPILER "${GCC_PREFIX}/bin/gcc-11")
+set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-11")
+# THIS HAS TO COME BEFORE THE PROJECT LINE
+
+# Specify default build type if none provided (before project() command)
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE
+      Release
+      CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
+endif()
+
+# For generators with multiple configurations (like VS), only allow Debug and
+# Release
+if(CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_CONFIGURATION_TYPES
+      "Debug;Release"
+      CACHE STRING "Limited configurations" FORCE)
+  mark_as_advanced(CMAKE_CONFIGURATION_TYPES)
+endif()
+
+# Project name
+project(
+  project-name
+  VERSION 0.0.1
+  LANGUAGES C CXX)
+
+# Compiler options
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_FLAGS_COMMON "-std=c++20 -Wall -Wextra -Werror -Wpedantic")
+set(CMAKE_CXX_FLAGS_DEBUG
+    "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_COMMON} -DDEBUG -g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE
+    "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON} -O3")
+
+set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
+set(LIBS_PATH "$ENV{HOME}/Workspace/Software/gcc")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
+
+add_subdirectory(src/app)

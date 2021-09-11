@@ -1,0 +1,15 @@
+-std=c++20
+-Wall
+-Wextra
+-Werror
+-Wpedantic
+-DDEBUG
+-isystem/usr/local/Cellar/gcc/11.2.0/lib/gcc/11/gcc/x86_64-apple-darwin20/11.2.0/../../../../../../include/c++/11.2.0
+-isystem/usr/local/Cellar/gcc/11.2.0/lib/gcc/11/gcc/x86_64-apple-darwin20/11.2.0/../../../../../../include/c++/11.2.0/x86_64-apple-darwin20
+-isystem/usr/local/Cellar/gcc/11.2.0/lib/gcc/11/gcc/x86_64-apple-darwin20/11.2.0/../../../../../../include/c++/11.2.0/backward
+-isystem/usr/local/Cellar/gcc/11.2.0/lib/gcc/11/gcc/x86_64-apple-darwin20/11.2.0/include
+-isystem/usr/local/Cellar/gcc/11.2.0/lib/gcc/11/gcc/x86_64-apple-darwin20/11.2.0/include-fixed
+-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
+-isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
+-I./
+-I./include
