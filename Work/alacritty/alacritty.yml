@@ -288,9 +288,11 @@ live_config_reload: true
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
 shell:
-  program: /usr/bin/zsh
+  program: /usr/local/bin/zsh
   args:
-    - --login
+    - -l
+    - -c
+    - "tmux attach || tmux"
 
 # Startup directory
 #
