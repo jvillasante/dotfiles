@@ -11,8 +11,7 @@
             mac-command-modifier      'meta
             mac-option-modifier       'alt
             mac-right-option-modifier 'alt)
-        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-        (setq ns-use-proxy-icon nil))
+        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
     (IS-LINUX
         (executable-find "firefox")))
 
@@ -37,7 +36,6 @@
                  (dired-directory
                      (concat dired-directory))
                  (t "[no file]")))))
-
 
 ;; encryption
 (require 'epa-file)
