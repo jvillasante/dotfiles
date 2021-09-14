@@ -185,8 +185,7 @@
         +lsp)
     ;;scala             ; java, but good
     ;;scheme            ; a fully conniving family of lisps
-    (sh                ; she sells {ba,z,fi}sh shells on the C xor
-        +lsp)
+    sh                 ; she sells {ba,z,fi}sh shells on the C xor
     ;;sml
     ;;solidity          ; do you need a blockchain? No.
     ;;swift             ; who asked for emoji variables?
