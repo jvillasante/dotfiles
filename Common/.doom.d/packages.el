@@ -3,7 +3,7 @@
 
 ;; disabled packages
 (disable-packages!
-    solaire-mode
+    ;; solaire-mode
     doom-modeline
     irony
     ggtags
