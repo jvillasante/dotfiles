@@ -21,7 +21,6 @@
             +my/clang-path "/usr/local/opt/llvm/bin/clang"
             +my/mu-path "/usr/local/bin/mu"
             +my/msmtp-path "/usr/local/bin/msmtp"
-            +my/org-latex-pdf-process '("/Library/TeX/texbin/latexmk -pdflatex='/Library/TeX/texbin/pdflatex -interaction nonstopmode' -pdf -bibtex -f %f")
             vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))
     (IS-LINUX
         (setq
@@ -29,7 +28,6 @@
             +my/clang-path "/usr/bin/clang"
             +my/mu-path "/usr/bin/mu"
             +my/msmtp-path "/usr/bin/msmtp"
-            +my/org-latex-pdf-process '("TODO")
             vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=no")))
 
 (if (and (fboundp 'native-comp-available-p)
