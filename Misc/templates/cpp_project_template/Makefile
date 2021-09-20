@@ -4,9 +4,6 @@ clean:
 	rm -rf bin/*
 	rm -rf build/*
 
-all: debug
-	bin/app
-
 debug:
 	cmake -E make_directory "build" && \
     cmake -S . -B "build" -G Ninja -DCMAKE_BUILD_TYPE=Debug && \
