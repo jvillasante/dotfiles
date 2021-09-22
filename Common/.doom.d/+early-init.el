@@ -11,6 +11,7 @@
 
 (cond
     (IS-MAC
+        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (setq
             +my/zsh-path "/usr/local/bin/zsh"
             +my/clang-path "/usr/local/opt/llvm/bin/clang"
@@ -21,12 +22,12 @@
             browse-url-browser-function 'browse-url-generic
             browse-url-generic-program "open")
         (setq
+            ns-use-proxy-icon         nil
             ns-use-thin-smoothing     t
             ns-alternate-modifier     nil
             mac-command-modifier      'meta
             mac-option-modifier       'alt
-            mac-right-option-modifier 'alt)
-        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
+            mac-right-option-modifier 'alt))
     (IS-LINUX
         (executable-find "firefox")
         (setq
