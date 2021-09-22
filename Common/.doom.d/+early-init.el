@@ -3,16 +3,11 @@
 (setq
     user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
-    user-login-name "jvillasante")
-
-(setq
+    user-login-name "jvillasante"
     +my/home-path (expand-file-name "~/")
     +my/dotfiles-path (expand-file-name "Workspace/Others/dotfiles/" +my/home-path)
     +my/software-path (expand-file-name "Workspace/Software/" +my/home-path)
     +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
-
-;; org-directory needs to be set early
-(setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 
 (cond
     (IS-MAC
@@ -21,8 +16,19 @@
             +my/clang-path "/usr/local/opt/llvm/bin/clang"
             +my/mu-path "/usr/local/bin/mu"
             +my/msmtp-path "/usr/local/bin/msmtp"
-            vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))
+            vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
+        (setq
+            browse-url-browser-function 'browse-url-generic
+            browse-url-generic-program "open")
+        (setq
+            ns-use-thin-smoothing     t
+            ns-alternate-modifier     nil
+            mac-command-modifier      'meta
+            mac-option-modifier       'alt
+            mac-right-option-modifier 'alt)
+        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
     (IS-LINUX
+        (executable-find "firefox")
         (setq
             +my/zsh-path "/usr/bin/zsh"
             +my/clang-path "/usr/bin/clang"
@@ -30,16 +36,11 @@
             +my/msmtp-path "/usr/bin/msmtp"
             vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=no")))
 
-(if (and (fboundp 'native-comp-available-p)
-        (native-comp-available-p))
-    (progn
-        (message "Native compilation is available")
-        (setq comp-async-report-warnings-errors nil))
-    (message "Native compilation is *not* available"))
+;; Start maximized
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
-(if (functionp 'json-serialize)
-    (message "Native JSON is available")
-    (message "Native JSON is *not* available"))
+;; org-directory needs to be set early
+(setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")

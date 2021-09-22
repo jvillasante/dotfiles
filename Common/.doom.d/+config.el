@@ -1,24 +1,5 @@
 ;;; +config.el -*- lexical-binding: t; -*-
 
-(cond
-    (IS-MAC
-        (setq
-            browse-url-browser-function 'browse-url-generic
-            browse-url-generic-program "open"
-            ns-use-thin-smoothing t)
-        (setq
-            ns-alternate-modifier     nil
-            mac-command-modifier      'meta
-            mac-option-modifier       'alt
-            mac-right-option-modifier 'alt)
-        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
-    (IS-LINUX
-        (executable-find "firefox")))
-
-;; Start maximized
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-;; (pushnew! default-frame-alist '(undecorated . t) '(fullscreen . maximized))
-
 ;; disable risky local variables warning
 (advice-add 'risky-local-variable-p :override #'ignore)
 
