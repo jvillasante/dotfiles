@@ -65,6 +65,7 @@
         (lambda (project-root)
             (or (file-remote-p project-root)
                 (string-prefix-p temporary-file-directory project-root)
+                (string-prefix-p (expand-file-name ".password-store/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.d/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.d/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".bin/" +my/home-path) project-root)
