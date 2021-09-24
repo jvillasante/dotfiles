@@ -5,9 +5,18 @@ CURRENT_ENV=$(find_env)
 
 create_cpp_project_clang() {
     read -r -p "Enter project name: " PROJECT_NAME
-    local DOTFILES_DIR="$(find_dotfiles)"
-    local PROJECT_PATH="$HOME/Workspace/Code/cpp/$PROJECT_NAME"
+    read -r -p "Enter project path (default to ~/Workspace/Code/cpp/): " PROJECT_PATH
+    if [ -z "$PROJECT_PATH" ]; then
+        PROJECT_PATH="$HOME/Workspace/Code/cpp/$PROJECT_NAME"
+    else
+        if [ ! -d "$PROJECT_PATH" ]; then
+            echo ">>> $PROJECT_PATH does not exists, exiting..."
+            exit 1
+        fi
+        PROJECT_PATH="$PROJECT_PATH/$PROJECT_NAME"
+    fi
 
+    local DOTFILES_DIR="$(find_dotfiles)"
     if [ ! -d "$PROJECT_PATH" ]; then
         echo ">>> $PROJECT_PATH does not exists, creating it..."
         mkdir -p "$PROJECT_PATH"
@@ -46,9 +55,18 @@ create_cpp_project_clang() {
 
 create_cpp_project_gcc() {
     read -r -p "Enter project name: " PROJECT_NAME
-    local DOTFILES_DIR="$(find_dotfiles)"
-    local PROJECT_PATH="$HOME/Workspace/Code/cpp/$PROJECT_NAME"
+    read -r -p "Enter project path (default to ~/Workspace/Code/cpp/): " PROJECT_PATH
+    if [ -z "$PROJECT_PATH" ]; then
+        PROJECT_PATH="$HOME/Workspace/Code/cpp/$PROJECT_NAME"
+    else
+        if [ ! -d "$PROJECT_PATH" ]; then
+            echo ">>> $PROJECT_PATH does not exists, exiting..."
+            exit 1
+        fi
+        PROJECT_PATH="$PROJECT_PATH/$PROJECT_NAME"
+    fi
 
+    local DOTFILES_DIR="$(find_dotfiles)"
     if [ ! -d "$PROJECT_PATH" ]; then
         echo ">>> $PROJECT_PATH does not exists, creating it..."
         mkdir -p "$PROJECT_PATH"
@@ -87,9 +105,18 @@ create_cpp_project_gcc() {
 
 create_rust_project() {
     read -r -p "Enter project name: " PROJECT_NAME
-    local DOTFILES_DIR="$(find_dotfiles)"
-    local PROJECT_PATH="$HOME/Workspace/Code/rust/$PROJECT_NAME"
+    read -r -p "Enter project path (default to ~/Workspace/Code/rust/): " PROJECT_PATH
+    if [ -z "$PROJECT_PATH" ]; then
+        PROJECT_PATH="$HOME/Workspace/Code/rust/$PROJECT_NAME"
+    else
+        if [ ! -d "$PROJECT_PATH" ]; then
+            echo ">>> $PROJECT_PATH does not exists, exiting..."
+            exit 1
+        fi
+        PROJECT_PATH="$PROJECT_PATH/$PROJECT_NAME"
+    fi
 
+    local DOTFILES_DIR="$(find_dotfiles)"
     if [ ! -d "$PROJECT_PATH" ]; then
         echo ">>> $PROJECT_PATH does not exists, creating it..."
         mkdir -p "$PROJECT_PATH"
@@ -113,9 +140,18 @@ create_rust_project() {
 
 create_sfml_project() {
     read -r -p "Enter project name: " PROJECT_NAME
-    local DOTFILES_DIR="$(find_dotfiles)"
-    local PROJECT_PATH="$HOME/Workspace/Code/games/sfml/$PROJECT_NAME"
+    read -r -p "Enter project path (default to ~/Workspace/Code/games/sfml/): " PROJECT_PATH
+    if [ -z "$PROJECT_PATH" ]; then
+        PROJECT_PATH="$HOME/Workspace/Code/games/sfml/$PROJECT_NAME"
+    else
+        if [ ! -d "$PROJECT_PATH" ]; then
+            echo ">>> $PROJECT_PATH does not exists, exiting..."
+            exit 1
+        fi
+        PROJECT_PATH="$PROJECT_PATH/$PROJECT_NAME"
+    fi
 
+    local DOTFILES_DIR="$(find_dotfiles)"
     if [ ! -d "$PROJECT_PATH" ]; then
         echo ">>> $PROJECT_PATH does not exists, creating it..."
         mkdir -p "$PROJECT_PATH"
