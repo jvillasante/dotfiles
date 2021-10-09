@@ -8,6 +8,13 @@ if [ ! "$CURRENT_OS" = "LINUX" ]; then
     exit 1
 fi
 
+fedora_check_update() {
+    if hash dnf 2>/dev/null; then
+        sudo dnf check-update
+        check $?
+    fi
+}
+
 fedora_update() {
     if hash dnf 2>/dev/null; then
         sudo dnf -y upgrade --refresh
@@ -25,30 +32,30 @@ fedora_cleanup() {
     fi
 }
 
-fedora_all() {
-    fedora_update
-    fedora_cleanup
-}
-
 while true; do
     PS3="Choose an option: "
-    options=("Fedora update" "Fedora cleanup" "Fedora all" "Quit")
+    options=("Fedora check-update" "Fedora update" "Fedora cleanup" "Fedora update-cleanup" "Quit")
 
     select opt in "${options[@]}"; do
         case $REPLY in
             1)
-                fedora_update
+                fedora_check_update
                 break
                 ;;
             2)
-                fedora_cleanup
+                fedora_update
                 break
                 ;;
             3)
-                fedora_all
+                fedora_cleanup
                 break
                 ;;
-            4) break 2 ;;
+            4)
+                fedora_update
+                fedora_cleanup
+                break
+                ;;
+            5) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
