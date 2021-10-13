@@ -2,7 +2,7 @@
 
 . "$(dirname "$0")/../common.sh"
 CURRENT_OS="$(find_os)"
-UNRAR_CMD="unrar -x"
+UNRAR_CMD="unrar x"
 if [ "$CURRENT_OS" = "OSX" ]; then
     UNRAR_CMD="unar"
 fi
