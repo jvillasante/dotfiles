@@ -37,7 +37,7 @@
 
 ;; no icons
 (after! all-the-icons
-    (defun my/disable-all-the-icons (&rest args)
+    (defun +jv/disable-all-the-icons (&rest)
         nil)
 
     (dolist (fn '(all-the-icons-octicon
@@ -46,7 +46,7 @@
                      all-the-icons-fileicon
                      all-the-icons-wicon
                      all-the-icons-alltheicon))
-        (advice-add fn :override #'my/disable-all-the-icons)))
+        (advice-add fn :override #'+jv/disable-all-the-icons)))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
