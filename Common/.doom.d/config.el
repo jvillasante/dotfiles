@@ -56,6 +56,7 @@
 
 (after! projectile
     (setq
+        projectile-switch-project-action 'projectile-dired
         projectile-require-project-root t
         projectile-project-root-files-bottom-up '(".projectile" ".git")
         projectile-sort-order 'recentf

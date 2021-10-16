@@ -37,7 +37,7 @@
 
 ;; no icons
 (after! all-the-icons
-    (defun +jv/disable-all-the-icons (&rest)
+    (defun +jv/disable-all-the-icons (&rest _)
         nil)
 
     (dolist (fn '(all-the-icons-octicon
