@@ -468,11 +468,12 @@
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt
     :after org
-    :init   (org-crypt-use-before-save-magic)
-    :custom (org-crypt-key user-mail-address)
     :config
+    (org-crypt-use-before-save-magic)
     (setq org-crypt-disable-auto-save nil) ;; don't ask to disable auto-save
-    (setq org-tags-exclude-from-inheritance (quote ("crypt"))))
+    (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+    :custom
+    (org-crypt-key user-mail-address))
 
 (use-package! visual-regexp
     :commands (vr/query-replace vr/replace))
