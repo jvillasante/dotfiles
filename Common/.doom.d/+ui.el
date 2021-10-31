@@ -30,6 +30,7 @@
     (doom-themes-org-config))
 
 ;; modeline
+(setq mode-line-format nil)
 (setq-default mode-line-format nil)
 (require 'awesome-tray)
 (awesome-tray-mode 1)
