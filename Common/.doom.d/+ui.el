@@ -32,9 +32,11 @@
 ;; modeline
 (setq mode-line-format nil)
 (setq-default mode-line-format nil)
-(require 'awesome-tray)
-(awesome-tray-mode 1)
-(setq awesome-tray-active-modules '("mode-name" "location"))
+(use-package! awesome-tray
+    :init
+    (awesome-tray-mode 1)
+    :config
+    (setq awesome-tray-active-modules '("mode-name" "location")))
 
 ;; no icons
 (after! all-the-icons
