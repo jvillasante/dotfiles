@@ -101,7 +101,8 @@ alias ls='ls --color'
 alias ll='ls -AlFh --color'
 alias cp="cp -iv"
 alias mv="mv -iv"
-alias pcp="rsync -r --progress"
+# alias pcp="rsync -arX --progress" # Linux
+alias pcp="rsync -arE --progress" # MacOS
 alias tree="tree --dirsfirst -a -I 'node_modules|.git'"
 alias ag='ag --hidden --ignore node_modules --ignore .git'
 
