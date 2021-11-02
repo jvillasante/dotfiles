@@ -91,6 +91,7 @@ cask "font-jetbrains-mono"
 cask "font-juliamono"
 cask "font-overpass"
 cask "font-source-code-pro", args: { appdir: "/Applications" }
+cask "docker"
 cask "mactex"
 cask "mullvadvpn"
 cask "skype", args: { appdir: "/Applications" }
