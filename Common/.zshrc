@@ -99,8 +99,8 @@ alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -p
 # utils
 alias ls='ls --color'
 alias ll='ls -AlFh --color'
-alias cp="cp -iv"
-alias mv="mv -iv"
+# alias cp="cp -iv"
+# alias mv="mv -iv"
 alias tree="tree --dirsfirst -a -I 'node_modules|.git'"
 alias ag='ag --hidden --ignore node_modules --ignore .git'
 
