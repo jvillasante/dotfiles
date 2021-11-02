@@ -5,7 +5,7 @@
     user-mail-address "jvillasantegomez@gmail.com"
     user-login-name "jvillasante"
     +my/home-path (expand-file-name "~/")
-    +my/dotfiles-path (expand-file-name "Workspace/Others/dotfiles/" +my/home-path)
+    +my/dotfiles-path (expand-file-name "Workspace/Personal/dotfiles/" +my/home-path)
     +my/software-path (expand-file-name "Workspace/Software/" +my/home-path)
     +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
 

@@ -131,6 +131,11 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 
     # Enable font smoothing
     defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
+
+    # Symlink workspace volume
+    if [ ! -d "~/Workspace" ]; then
+        ln -nfs /Volumes/Workspace/ ~/Workspace
+    fi
 fi
 
 #
@@ -198,8 +203,11 @@ if type fzf >/dev/null 2>/dev/null; then
     # 
 
     # switch to a project
-    function fproj() {
-        cd $(find ~/Workspace/Code/ -maxdepth 2 -type d | fzf)
+    function pproj() {
+        cd $(find ~/Workspace/Personal/ -maxdepth 2 -type d | fzf)
+    }
+    function wproj() {
+        cd $(find ~/Workspace/Work/ -maxdepth 2 -type d | fzf)
     }
 
     # change to an arbitrary subdirectory

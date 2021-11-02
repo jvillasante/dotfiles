@@ -5,9 +5,9 @@ CURRENT_ENV=$(find_env)
 
 create_cpp_project_clang() {
     read -r -p "Enter project name: " PROJECT_NAME
-    read -r -p "Enter project path (default to ~/Workspace/Code/cpp/): " PROJECT_PATH
+    read -r -p "Enter project path (default to ~/Workspace/Personal/cpp/): " PROJECT_PATH
     if [ -z "$PROJECT_PATH" ]; then
-        PROJECT_PATH="$HOME/Workspace/Code/cpp/$PROJECT_NAME"
+        PROJECT_PATH="$HOME/Workspace/Personal/cpp/$PROJECT_NAME"
     else
         if [ ! -d "$PROJECT_PATH" ]; then
             echo ">>> $PROJECT_PATH does not exists, exiting..."
@@ -55,9 +55,9 @@ create_cpp_project_clang() {
 
 create_cpp_project_gcc() {
     read -r -p "Enter project name: " PROJECT_NAME
-    read -r -p "Enter project path (default to ~/Workspace/Code/cpp/): " PROJECT_PATH
+    read -r -p "Enter project path (default to ~/Workspace/Personal/cpp/): " PROJECT_PATH
     if [ -z "$PROJECT_PATH" ]; then
-        PROJECT_PATH="$HOME/Workspace/Code/cpp/$PROJECT_NAME"
+        PROJECT_PATH="$HOME/Workspace/Personal/cpp/$PROJECT_NAME"
     else
         if [ ! -d "$PROJECT_PATH" ]; then
             echo ">>> $PROJECT_PATH does not exists, exiting..."
@@ -105,9 +105,9 @@ create_cpp_project_gcc() {
 
 create_rust_project() {
     read -r -p "Enter project name: " PROJECT_NAME
-    read -r -p "Enter project path (default to ~/Workspace/Code/rust/): " PROJECT_PATH
+    read -r -p "Enter project path (default to ~/Workspace/Personal/rust/): " PROJECT_PATH
     if [ -z "$PROJECT_PATH" ]; then
-        PROJECT_PATH="$HOME/Workspace/Code/rust/$PROJECT_NAME"
+        PROJECT_PATH="$HOME/Workspace/Personal/rust/$PROJECT_NAME"
     else
         if [ ! -d "$PROJECT_PATH" ]; then
             echo ">>> $PROJECT_PATH does not exists, exiting..."
@@ -140,9 +140,9 @@ create_rust_project() {
 
 create_sfml_project() {
     read -r -p "Enter project name: " PROJECT_NAME
-    read -r -p "Enter project path (default to ~/Workspace/Code/games/sfml/): " PROJECT_PATH
+    read -r -p "Enter project path (default to ~/Workspace/Personal/games/sfml/): " PROJECT_PATH
     if [ -z "$PROJECT_PATH" ]; then
-        PROJECT_PATH="$HOME/Workspace/Code/games/sfml/$PROJECT_NAME"
+        PROJECT_PATH="$HOME/Workspace/Personal/games/sfml/$PROJECT_NAME"
     else
         if [ ! -d "$PROJECT_PATH" ]; then
             echo ">>> $PROJECT_PATH does not exists, exiting..."

@@ -83,9 +83,9 @@ find_dotfiles() {
     local DOTFILES_DIR="NOT_FOUND"
     local CURRENT_ENV="$(find_env)"
     if [ "$CURRENT_ENV" = "PERSONAL" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Others/dotfiles" # dotfiles directory
+        DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
     elif [ "$CURRENT_ENV" = "WORK" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Others/dotfiles" # dotfiles directory
+        DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
     fi
     echo "$DOTFILES_DIR"
 }
