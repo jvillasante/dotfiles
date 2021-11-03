@@ -1,7 +1,7 @@
 #!/bin/bash
 
 . "$(dirname "$0")/common.sh"
-CURRENT_ENV=$(find_env)
+CURRENT_HOST=$(find_host)
 
 create_cpp_project_clang() {
     read -r -p "Enter project name: " PROJECT_NAME
@@ -31,10 +31,8 @@ create_cpp_project_clang() {
         check $?
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
-        if [ "$CURRENT_ENV" = "PERSONAL" ]; then
-            cp "${DOTFILES_DIR}/Personal/.clang-format" "$PROJECT_PATH/"
-        elif [ "$CURRENT_ENV" = "WORK" ]; then
-            cp "${DOTFILES_DIR}/Work/.clang-format" "$PROJECT_PATH/"
+        if [ -d "$(DOTFILES_DIR)/Hosts/$CURRENT_HOST" ]; then
+            cp "${DOTFILES_DIR}/Hosts/$CURRENT_HOST/.clang-format" "$PROJECT_PATH/"
         fi
 
         echo ">>> Copying CMakeLists.txt to $PROJECT_PATH..."
@@ -81,10 +79,8 @@ create_cpp_project_gcc() {
         check $?
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
-        if [ "$CURRENT_ENV" = "PERSONAL" ]; then
-            cp "${DOTFILES_DIR}/Personal/.clang-format" "$PROJECT_PATH/"
-        elif [ "$CURRENT_ENV" = "WORK" ]; then
-            cp "${DOTFILES_DIR}/Work/.clang-format" "$PROJECT_PATH/"
+        if [ -d "$(DOTFILES_DIR)/Hosts/$CURRENT_HOST" ]; then
+            cp "${DOTFILES_DIR}/Hosts/$CURRENT_HOST/.clang-format" "$PROJECT_PATH/"
         fi
 
         echo ">>> Copying CMakeLists.txt to $PROJECT_PATH..."
@@ -166,10 +162,8 @@ create_sfml_project() {
         check $?
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
-        if [ "$CURRENT_ENV" = "PERSONAL" ]; then
-            cp "${DOTFILES_DIR}/Personal/.clang-format" "$PROJECT_PATH/"
-        elif [ "$CURRENT_ENV" = "WORK" ]; then
-            cp "${DOTFILES_DIR}/Work/.clang-format" "$PROJECT_PATH/"
+        if [ -d "$(DOTFILES_DIR)/Hosts/$CURRENT_HOST" ]; then
+            cp "${DOTFILES_DIR}/Hosts/$CURRENT_HOST/.clang-format" "$PROJECT_PATH/"
         fi
     else
         echo ">>> $PROJECT_PATH already exists."

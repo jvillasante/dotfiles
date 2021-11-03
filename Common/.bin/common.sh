@@ -15,31 +15,31 @@ find_current_shell() {
 }
 
 #
-# Find current environment based on `hostname`
-# Call it like: CURRENT_ENV=$(find_env)
+# Find current host based on `hostname`
+# Call it like: CURRENT_HOST=$(find_host)
 #
-find_env() {
-    local CURRENT_ENV="UNSUPPORTED"
+find_host() {
+    local CURRENT_HOST="UNSUPPORTED"
     local HOST="$(hostname)"
     case "$HOST" in
         "Julios-MacBook-Pro.local")
             {
-                CURRENT_ENV="PERSONAL"
+                CURRENT_HOST="$HOST"
             }
             ;;
         "fedora-latitude-7480")
             {
-                CURRENT_ENV="WORK"
+                CURRENT_HOST="$HOST"
             }
             ;;
         *)
             {
-                echo ">> Unsupported ENV: '$HOST', exiting..."
+                echo ">> Unsupported HOST: '$HOST', exiting..."
                 exit 1
             }
             ;;
     esac
-    echo "$CURRENT_ENV"
+    echo "$CURRENT_HOST"
 }
 
 #
@@ -71,15 +71,15 @@ find_os() {
 }
 
 #
-# Find current dotfiles directory based on current env
+# Find current dotfiles directory based on current host
 # Call it like: DOTFILES_DIR=$(find_dotfiles)
 #
 find_dotfiles() {
     local DOTFILES_DIR="NOT_FOUND"
-    local CURRENT_ENV="$(find_env)"
-    if [ "$CURRENT_ENV" = "PERSONAL" ]; then
+    local CURRENT_HOST="$(find_host)"
+    if [ "$CURRENT_HOST" = "Julios-MacBook-Pro.local" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_ENV" = "WORK" ]; then
+    elif [ "$CURRENT_HOST" = "fedora-latitude-7480" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
     fi
     echo "$DOTFILES_DIR"

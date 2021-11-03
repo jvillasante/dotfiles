@@ -8,12 +8,12 @@
 . "$(dirname "$0")/Common/.bin/common.sh"
 
 CURRENT_SHELL=$(find_current_shell)
-CURRENT_ENV=$(find_env)
+CURRENT_HOST=$(find_host)
 CURRENT_OS=$(find_os)
 DOTFILES_DIR=$(find_dotfiles)
 
 echo "===================================================================================="
-echo ">> Running ($CURRENT_SHELL) for '$CURRENT_ENV' on '$CURRENT_OS' at '$DOTFILES_DIR'."
+echo ">> Running ($CURRENT_SHELL) for '$CURRENT_HOST' on '$CURRENT_OS' at '$DOTFILES_DIR'."
 
 install_zsh() {
     # Test to see if zshell is installed. If it is:
@@ -85,10 +85,11 @@ files=".fzf.zsh"
 for file in $files; do
     unlink "$HOME/$file"
 
-    if [ "$CURRENT_ENV" = "PERSONAL" ]; then
-        ln -s "$DOTFILES_DIR/Personal/$file" "$HOME/"
-    elif [ "$CURRENT_ENV" = "WORK" ]; then
-        ln -s "$DOTFILES_DIR/Work/$file" "$HOME/"
+    if [ -d "$DOTFILES_DIR/Hosts/$CURRENT_HOST/" ]; then
+        ln -s "$DOTFILES_DIR/Hosts/$CURRENT_HOST/$file" "$HOME/"
+    else
+        echo ">> $DOTFILES_DIR/Hosts/$CURRENT_HOST does not exits, exiting..."
+        exit 1
     fi
 done
 
@@ -104,10 +105,11 @@ files="alacritty git"
 for file in $files; do
     unlink "$HOME/.config/$file"
 
-    if [ "$CURRENT_ENV" = "PERSONAL" ]; then
-        ln -s "$DOTFILES_DIR/Personal/$file" "$HOME/.config"
-    elif [ "$CURRENT_ENV" = "WORK" ]; then
-        ln -s "$DOTFILES_DIR/Work/$file" "$HOME/.config"
+    if [ -d "$DOTFILES_DIR/Hosts/$CURRENT_HOST/" ]; then
+        ln -s "$DOTFILES_DIR/Hosts/$CURRENT_HOST/$file" "$HOME/.config"
+    else
+        echo ">> $DOTFILES_DIR/Hosts/$CURRENT_HOST does not exits, exiting..."
+        exit 1
     fi
 done
 
