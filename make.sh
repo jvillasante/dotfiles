@@ -35,7 +35,7 @@ install_zsh() {
             install_zsh
         fi
     elif [ "$CURRENT_OS" = "OSX" ]; then
-        if [ -f /usr/local/bin/zsh ] || [ -f /usr/bin/zsh ]; then
+        if [ -f /bin/zsh ] || [ -f /usr/local/bin/zsh ] || [ -f /usr/bin/zsh ]; then
             # Clone my oh-my-zsh repository from GitHub only if it isn't already present
             if [ ! -d "$DOTFILES_DIR/.oh-my-zsh/" ]; then
                 git clone https://github.com/ohmyzsh/ohmyzsh.git "$DOTFILES_DIR/.oh-my-zsh"
