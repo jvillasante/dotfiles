@@ -13,7 +13,7 @@
     (IS-MAC
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (setq
-            +my/zsh-path "/bin/zsh"
+            +my/zsh-path "/usr/local/bin/zsh"
             +my/clang-path "/usr/local/opt/llvm/bin/clang"
             +my/mu-path "/usr/local/bin/mu"
             +my/msmtp-path "/usr/local/bin/msmtp"
