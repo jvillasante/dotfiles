@@ -27,11 +27,6 @@ find_env() {
                 CURRENT_ENV="PERSONAL"
             }
             ;;
-        "Julios-MBP")
-            {
-                CURRENT_ENV="PERSONAL"
-            }
-            ;;
         "fedora-latitude-7480")
             {
                 CURRENT_ENV="WORK"
