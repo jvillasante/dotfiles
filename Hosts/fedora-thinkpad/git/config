@@ -1,0 +1,29 @@
+[user]
+    name = Julio C. Villasante
+    email = jvillasantegomez@gmail.com
+[credential]
+    helper = cache --timeout=3600
+[pull]
+    rebase = false
+[push]
+    default = matching
+[branch]
+    autosetuprebase = always
+[color]
+    ui = true
+    status = auto
+    branch = auto
+[core]
+    autocrlf = false
+    safecrlf = true
+[merge]
+    tool = kdiff3
+[alias]
+    hist = log --pretty=format:'%ad | %s%d [%an]' --graph --date=short
+    oneline = log --oneline --decorate --all --graph
+[github]
+    user = jvillasante
+    password = p
+    oauth-token =
+[fetch]
+    prune = true
