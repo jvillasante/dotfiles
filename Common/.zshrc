@@ -144,6 +144,11 @@ fi
 if [ $(uname -s) = 'Linux' ]; then
     alias open='xdg-open';
     alias alacritty='env WINIT_UNIX_BACKEND=x11 alacritty'
+
+    # Known bug with gpg on Fedora
+    function gpg_pcscd_restart() {
+        sudo systemctl restart pcscd
+    }
 fi
 
 #
