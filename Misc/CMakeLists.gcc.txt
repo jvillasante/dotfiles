@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 
 # THIS HAS TO COME BEFORE THE PROJECT LINE
-set(GCC_PREFIX "/usr/local/opt/gcc")
-set(CMAKE_C_COMPILER "${GCC_PREFIX}/bin/gcc-11")
-set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/bin/g++-11")
+set(GCC_PREFIX "/usr/bin")
+set(CMAKE_C_COMPILER "${GCC_PREFIX}/gcc")
+set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/g++")
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 
 # Specify default build type if none provided (before project() command)
