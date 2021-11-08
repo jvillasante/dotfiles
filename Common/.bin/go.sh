@@ -69,7 +69,7 @@ while true; do
                 break
                 ;;
             4) break 2 ;;
-            *) echo "Invalid option 'opt'" >&2 ;;
+            *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
 
