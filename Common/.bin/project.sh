@@ -23,28 +23,28 @@ create_cpp_project_clang() {
         check $?
 
         echo ">>> Copying project template to $PROJECT_PATH..."
-        cp -a "${DOTFILES_DIR}/Misc/templates/cpp_project_template/." "$PROJECT_PATH/"
+        cp -a "$DOTFILES_DIR/Misc/templates/cpp_project_template/." "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "${HOME}/.editorconfig" "$PROJECT_PATH/"
+        cp "$HOME/.editorconfig" "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
-        if [ -d "$(DOTFILES_DIR)/Hosts/$CURRENT_HOST" ]; then
-            cp "${DOTFILES_DIR}/Hosts/$CURRENT_HOST/.clang-format" "$PROJECT_PATH/"
+        if [ -d "$DOTFILES_DIR/Hosts/$CURRENT_HOST" ]; then
+            cp "$DOTFILES_DIR/Hosts/$CURRENT_HOST/.clang-format" "$PROJECT_PATH/"
         fi
 
         echo ">>> Copying CMakeLists.txt to $PROJECT_PATH..."
-        cp "${DOTFILES_DIR}/Misc/CMakeLists.clang.txt" "$PROJECT_PATH/CMakeLists.txt"
+        cp "$DOTFILES_DIR/Misc/CMakeLists.clang.txt" "$PROJECT_PATH/CMakeLists.txt"
         check $?
 
         echo ">>> Copying compile_flags.txt to $PROJECT_PATH..."
-        cp "${DOTFILES_DIR}/Misc/compile_flags.clang.txt" "$PROJECT_PATH/compile_flags.txt"
+        cp "$DOTFILES_DIR/Misc/compile_flags.clang.txt" "$PROJECT_PATH/compile_flags.txt"
         check $?
 
         echo ">>> Copying .clang-tidy to $PROJECT_PATH..."
-        cp "${DOTFILES_DIR}/Misc/.clang-tidy" "$PROJECT_PATH/"
+        cp "$DOTFILES_DIR/Misc/.clang-tidy" "$PROJECT_PATH/"
         check $?
     else
         echo ">>> $PROJECT_PATH already exists."
@@ -71,28 +71,28 @@ create_cpp_project_gcc() {
         check $?
 
         echo ">>> Copying project template to $PROJECT_PATH..."
-        cp -a "${DOTFILES_DIR}/Misc/templates/cpp_project_template/." "$PROJECT_PATH/"
+        cp -a "$DOTFILES_DIR/Misc/templates/cpp_project_template/." "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "${HOME}/.editorconfig" "$PROJECT_PATH/"
+        cp "$HOME/.editorconfig" "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
-        if [ -d "$(DOTFILES_DIR)/Hosts/$CURRENT_HOST" ]; then
-            cp "${DOTFILES_DIR}/Hosts/$CURRENT_HOST/.clang-format" "$PROJECT_PATH/"
+        if [ -d "$DOTFILES_DIR/Hosts/$CURRENT_HOST" ]; then
+            cp "$DOTFILES_DIR/Hosts/$CURRENT_HOST/.clang-format" "$PROJECT_PATH/"
         fi
 
         echo ">>> Copying CMakeLists.txt to $PROJECT_PATH..."
-        cp "${DOTFILES_DIR}/Misc/CMakeLists.gcc.txt" "$PROJECT_PATH/CMakeLists.txt"
+        cp "$DOTFILES_DIR/Misc/CMakeLists.gcc.txt" "$PROJECT_PATH/CMakeLists.txt"
         check $?
 
         echo ">>> Copying compile_flags.txt to $PROJECT_PATH..."
-        cp "${DOTFILES_DIR}/Misc/compile_flags.gcc.txt" "$PROJECT_PATH/compile_flags.txt"
+        cp "$DOTFILES_DIR/Misc/compile_flags.gcc.txt" "$PROJECT_PATH/compile_flags.txt"
         check $?
 
         echo ">>> Copying .clang-tidy to $PROJECT_PATH..."
-        cp "${DOTFILES_DIR}/Misc/.clang-tidy" "$PROJECT_PATH/"
+        cp "$DOTFILES_DIR/Misc/.clang-tidy" "$PROJECT_PATH/"
         check $?
     else
         echo ">>> $PROJECT_PATH already exists."
@@ -119,15 +119,15 @@ create_rust_project() {
         check $?
 
         echo ">>> Copying project template to $PROJECT_PATH..."
-        cp -a "${DOTFILES_DIR}/Misc/templates/rust_project_template/." "$PROJECT_PATH/"
+        cp -a "$DOTFILES_DIR/Misc/templates/rust_project_template/." "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "${HOME}/.editorconfig" "$PROJECT_PATH/"
+        cp "$HOME/.editorconfig" "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .rustfmt.toml to $PROJECT_PATH..."
-        cp "${DOTFILES_DIR}/Misc/.rustfmt.toml" "$PROJECT_PATH/"
+        cp "$DOTFILES_DIR/Misc/.rustfmt.toml" "$PROJECT_PATH/"
         check $?
     else
         echo ">>> $PROJECT_PATH already exists."
@@ -154,16 +154,16 @@ create_sfml_project() {
         check $?
 
         echo ">>> Copying project template to $PROJECT_PATH..."
-        cp -a "${DOTFILES_DIR}/Misc/templates/sfml_project_template/." "$PROJECT_PATH/"
+        cp -a "$DOTFILES_DIR/Misc/templates/sfml_project_template/." "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "${HOME}/.editorconfig" "$PROJECT_PATH/"
+        cp "$HOME/.editorconfig" "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
-        if [ -d "$(DOTFILES_DIR)/Hosts/$CURRENT_HOST" ]; then
-            cp "${DOTFILES_DIR}/Hosts/$CURRENT_HOST/.clang-format" "$PROJECT_PATH/"
+        if [ -d "$DOTFILES_DIR/Hosts/$CURRENT_HOST" ]; then
+            cp "$DOTFILES_DIR/Hosts/$CURRENT_HOST/.clang-format" "$PROJECT_PATH/"
         fi
     else
         echo ">>> $PROJECT_PATH already exists."
