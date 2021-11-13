@@ -37,6 +37,11 @@ find_host() {
                 CURRENT_HOST="$HOST"
             }
             ;;
+        "popos-thinkpad")
+            {
+                CURRENT_HOST="$HOST"
+            }
+            ;;
         *)
             {
                 echo ">> Unsupported HOST: '$HOST', exiting..."
@@ -87,6 +92,8 @@ find_dotfiles() {
     elif [ "$CURRENT_HOST" = "fedora-latitude-7480" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-thinkpad" ]; then
+        DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
+    elif [ "$CURRENT_HOST" = "popos-thinkpad" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
     fi
     echo "$DOTFILES_DIR"

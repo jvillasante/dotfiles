@@ -1,0 +1,22 @@
+BasedOnStyle: LLVM
+
+---
+Language: Cpp
+
+# Things I like
+ColumnLimit: 120
+AlwaysBreakTemplateDeclarations: true
+Cpp11BracedListStyle: true
+
+# Force pointers to the type for C++.
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# Indent with 4 spaces
+IndentWidth: 4
+AccessModifierOffset: -4
+
+# Disable formatting options which may break tests.
+SortIncludes: false
+ReflowComments: false
+---
