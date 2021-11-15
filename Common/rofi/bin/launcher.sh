@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-rofi -show combi
+rofi -show combi -combi-modi "window,drun" -modi combi
