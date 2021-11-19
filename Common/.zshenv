@@ -41,8 +41,8 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 # Go
-if [ -d "$HOME/Workspace/Personal/go" ]; then
-    export GOPATH=$HOME/Workspace/Personal/go
+if [ -d "$HOME/Workspace/Private/Projects/go" ]; then
+    export GOPATH=$HOME/Workspace/Private/Projects/go
     export GOBIN=$GOPATH/bin
     export PATH="$GOBIN:$PATH"
 fi

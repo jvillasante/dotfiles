@@ -210,10 +210,10 @@ if type fzf >/dev/null 2>/dev/null; then
 
     # switch to a project
     function pproj() {
-        cd $(find ~/Workspace/Personal/ -maxdepth 2 -type d | fzf)
+        cd $(find ~/Workspace/Private/Projects/ -maxdepth 2 -type d | fzf)
     }
     function wproj() {
-        cd $(find ~/Workspace/Work/ -maxdepth 2 -type d | fzf)
+        cd $(find ~/Workspace/Work/Projects/ -maxdepth 2 -type d | fzf)
     }
 
     # change to an arbitrary subdirectory

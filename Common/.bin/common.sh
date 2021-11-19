@@ -88,13 +88,13 @@ find_dotfiles() {
     local DOTFILES_DIR="NOT_FOUND"
     local CURRENT_HOST="$(find_host)"
     if [ "$CURRENT_HOST" = "Julios-MacBook-Pro.local" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
+        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-latitude-7480" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
+        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-thinkpad" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
+        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "popos-thinkpad" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
+        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     fi
     echo "$DOTFILES_DIR"
 }
