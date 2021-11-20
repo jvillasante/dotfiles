@@ -29,7 +29,6 @@
             mac-option-modifier       'alt
             mac-right-option-modifier 'alt))
     (IS-LINUX
-        (executable-find "firefox")
         (setq
             +my/zsh-path "/usr/bin/zsh"
             +my/clang-path "/usr/bin/clang"
