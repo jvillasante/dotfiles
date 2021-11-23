@@ -32,12 +32,7 @@ find_host() {
                 CURRENT_HOST="$HOST"
             }
             ;;
-        "fedora-thinkpad")
-            {
-                CURRENT_HOST="$HOST"
-            }
-            ;;
-        "popos-thinkpad")
+        "fedora-xps")
             {
                 CURRENT_HOST="$HOST"
             }
@@ -91,9 +86,7 @@ find_dotfiles() {
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-latitude-7480" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_HOST" = "fedora-thinkpad" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_HOST" = "popos-thinkpad" ]; then
+    elif [ "$CURRENT_HOST" = "fedora-xps" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     fi
     echo "$DOTFILES_DIR"
