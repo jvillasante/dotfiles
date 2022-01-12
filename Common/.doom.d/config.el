@@ -212,7 +212,8 @@
 
     ;; C++
     (setq lsp-clients-clangd-args
-        '("-j=2"
+        '("-j=4"
+             "--malloc-trim"
              "--log=error"
              "--background-index"
              "--clang-tidy"
