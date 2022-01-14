@@ -208,6 +208,7 @@
     (setq
         lsp-rust-server 'rust-analyzer
         lsp-rust-analyzer-cargo-watch-command "clippy"
+        lsp-rust-analyzer-inlay-hints-mode nil
         lsp-rust-analyzer-server-display-inlay-hints nil)
 
     ;; C++
