@@ -107,18 +107,19 @@
     url-queue-timeout 30)
 
 ;; Default Encoding
-(set-charset-priority 'unicode)
+(prefer-coding-system 'utf-8)
 (setq locale-coding-system 'utf-8)
-(prefer-coding-system 'utf-8-unix)
+(set-charset-priority 'unicode)
+(set-language-environment "UTF-8")
 (set-locale-environment "en_US.UTF-8")
-(set-default-coding-systems 'utf-8-unix)
-(set-selection-coding-system 'utf-8-unix)
-(set-buffer-file-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8)
+(set-selection-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8)
 (set-clipboard-coding-system 'utf-8) ; included by set-selection-coding-system
 (set-keyboard-coding-system 'utf-8) ; configured by prefer-coding-system
 (set-terminal-coding-system 'utf-8) ; configured by prefer-coding-system
-(setq buffer-file-coding-system 'utf-8) ; utf-8-unix
-(setq save-buffer-coding-system 'utf-8-unix) ; nil
+(setq buffer-file-coding-system 'utf-8) ; utf-8
+(setq save-buffer-coding-system 'utf-8) ; nil
 (setq process-coding-system-alist
     (cons '("grep" utf-8 . utf-8) process-coding-system-alist))
 
