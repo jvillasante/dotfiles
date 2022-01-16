@@ -400,6 +400,7 @@
         deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
+        deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n"
         deft-recursive t
         deft-use-filename-as-title nil
         deft-use-filter-string-for-filename t
