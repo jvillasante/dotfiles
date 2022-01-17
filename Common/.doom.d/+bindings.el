@@ -1,18 +1,33 @@
 ;;; +bindings.el --- description -*- lexical-binding: t; -*-
 
+(defun +jv/org-capture-inbox ()
+     (interactive)
+     (call-interactively 'org-store-link)
+     (org-capture nil "i"))
+(defun +jv/org-capture-notes()
+     (interactive)
+     (call-interactively 'org-store-link)
+     (org-capture nil "n"))
+
 (map!
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Defaults
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
     "C-c C-y"   #'company-yasnippet
     "C-c o"     #'crux-open-with
     "C-c u"     #'browse-url-at-point
 
+    ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Org Capture (GTD)
+    ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    "C-c c" #'org-capture
+    "C-c a" #'org-agenda
+    "C-c i" #'+jv/org-capture-inbox
+    "C-c n" #'+jv/org-capture-notes
+
     ;; ;;;  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Doom
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
     (:leader
         ;;;; Buffers
         (:prefix ("b" . "Buffers")

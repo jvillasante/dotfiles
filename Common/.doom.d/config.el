@@ -440,6 +440,16 @@
     (setq org-imenu-depth 8)
     (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
 
+    ;; Org Capture
+    (setq org-agenda-hide-tags-regexp ".") ;; ask the agenda to hide any tag (.) that may be present.
+    (setq org-capture-templates            ;; set our capture templates
+        `(("i" "Inbox" entry  (file "inbox.org")
+              ,(concat "* TODO %?\n"
+                   "/Entered on/ %U"))
+             ("n" "Note" entry  (file "notes.org")
+                 ,(concat "* Note (%a)\n"
+                      "/Entered on/ %U\n" "\n" "%?"))))
+
     ;; set up a nice proportional font, in different sizes, for the headlines.
     ;; the fonts listed will be tried in sequence, and the first one found will be used.
     (when (display-graphic-p)

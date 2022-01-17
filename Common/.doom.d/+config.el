@@ -129,7 +129,7 @@
 ;; no whitespace-mode, just enabled for makefiles
 (advice-add #'doom-highlight-non-default-indentation-h :override #'ignore)
 
-;; ???
+;; auto revert mode; automatically update a buffer if a file changes on disk
 (global-auto-revert-mode t)
 
 ;; remove doom advice, I don't need deal with comments when newline

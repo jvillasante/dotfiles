@@ -41,6 +41,7 @@
 
 ;; org-directory needs to be set early
 (setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
+(setq org-agenda-files (list "inbox.org" "notes.org" "archive.org"))
 
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")
