@@ -64,6 +64,7 @@
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; popup rules
+(set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4 :quit nil :select t :autosave nil)
 (set-popup-rule! "^\\*doom:scratch*" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*doom:vterm-popup" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0)
