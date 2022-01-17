@@ -397,11 +397,10 @@
 
 (after! deft
     (setq
-        deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
+        deft-directory (expand-file-name "Apps/org" +my/dropbox-path)
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
-        deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n"
-        deft-recursive t
+        deft-recursive nil
         deft-use-filename-as-title nil
         deft-use-filter-string-for-filename t
         deft-file-naming-rules '((noslash . "-")
@@ -412,7 +411,6 @@
 (after! org-roam
     (setq
         org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
-        org-roam-dailies-directory (expand-file-name "Apps/org/roam/daily" +my/dropbox-path)
         org-roam-completion-everywhere t))
 
 (after! org
