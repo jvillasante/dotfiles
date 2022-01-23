@@ -13,7 +13,8 @@ if [ "$#" -ne 1 ]; then
 fi
 
 function do_decrypt() {
-    local p=$(basename "$1" | cut -d. -f1)
+    local p
+    p=$(basename "$1" | cut -d. -f1)
 
     gpg --decrypt -o "$p.tar.gz" "$1"
     check $?

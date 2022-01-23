@@ -16,7 +16,8 @@ create_cpp_project_clang() {
         PROJECT_PATH="$PROJECT_PATH/$PROJECT_NAME"
     fi
 
-    local DOTFILES_DIR="$(find_dotfiles)"
+    local DOTFILES_DIR
+    DOTFILES_DIR="$(find_dotfiles)"
     if [ ! -d "$PROJECT_PATH" ]; then
         echo ">>> $PROJECT_PATH does not exists, creating it..."
         mkdir -p "$PROJECT_PATH"
@@ -64,7 +65,8 @@ create_cpp_project_gcc() {
         PROJECT_PATH="$PROJECT_PATH/$PROJECT_NAME"
     fi
 
-    local DOTFILES_DIR="$(find_dotfiles)"
+    local DOTFILES_DIR
+    DOTFILES_DIR="$(find_dotfiles)"
     if [ ! -d "$PROJECT_PATH" ]; then
         echo ">>> $PROJECT_PATH does not exists, creating it..."
         mkdir -p "$PROJECT_PATH"
@@ -112,7 +114,8 @@ create_rust_project() {
         PROJECT_PATH="$PROJECT_PATH/$PROJECT_NAME"
     fi
 
-    local DOTFILES_DIR="$(find_dotfiles)"
+    local DOTFILES_DIR
+    DOTFILES_DIR="$(find_dotfiles)"
     if [ ! -d "$PROJECT_PATH" ]; then
         echo ">>> $PROJECT_PATH does not exists, creating it..."
         mkdir -p "$PROJECT_PATH"
@@ -147,7 +150,8 @@ create_sfml_project() {
         PROJECT_PATH="$PROJECT_PATH/$PROJECT_NAME"
     fi
 
-    local DOTFILES_DIR="$(find_dotfiles)"
+    local DOTFILES_DIR
+    DOTFILES_DIR="$(find_dotfiles)"
     if [ ! -d "$PROJECT_PATH" ]; then
         echo ">>> $PROJECT_PATH does not exists, creating it..."
         mkdir -p "$PROJECT_PATH"

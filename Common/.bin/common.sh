@@ -5,7 +5,8 @@
 # Call it like: CURRENT_SHELL=$(find_current_shell)
 #
 find_current_shell() {
-    local CURRENT_SHELL="unknown"
+    local CURRENT_SHELL
+    CURRENT_SHELL="unknown"
     if [[ -n ${ZSH_VERSION} ]]; then
         CURRENT_SHELL="zsh $ZSH_VERSION"
     elif [[ -n $BASH_VERSION ]]; then
@@ -19,8 +20,9 @@ find_current_shell() {
 # Call it like: CURRENT_HOST=$(find_host)
 #
 find_host() {
-    local CURRENT_HOST="UNSUPPORTED"
-    local HOST="$(hostname)"
+    local CURRENT_HOST HOST
+    CURRENT_HOST="UNSUPPORTED"
+    HOST="$(hostname)"
     case "$HOST" in
         "Julios-MacBook-Pro.local")
             {
@@ -32,7 +34,12 @@ find_host() {
                 CURRENT_HOST="$HOST"
             }
             ;;
-        "fedora-xps")
+        "fedora-xps-9710")
+            {
+                CURRENT_HOST="$HOST"
+            }
+            ;;
+        "fedora-xps-9510")
             {
                 CURRENT_HOST="$HOST"
             }
@@ -52,8 +59,9 @@ find_host() {
 # Call it like: CURRENT_OS=$(find_os)
 #
 find_os() {
-    local CURRENT_OS="UNSUPPORTED"
-    local PLATFORM="$(uname -s)"
+    local CURRENT_OS PLATFORM
+    CURRENT_OS="UNSUPPORTED"
+    PLATFORM="$(uname -s)"
     case "$PLATFORM" in
         "Darwin")
             {
@@ -80,13 +88,16 @@ find_os() {
 # Call it like: DOTFILES_DIR=$(find_dotfiles)
 #
 find_dotfiles() {
-    local DOTFILES_DIR="NOT_FOUND"
-    local CURRENT_HOST="$(find_host)"
+    local DOTFILES_DIR CURRENT_HOST
+    DOTFILES_DIR="NOT_FOUND"
+    CURRENT_HOST="$(find_host)"
     if [ "$CURRENT_HOST" = "Julios-MacBook-Pro.local" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-latitude-7480" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_HOST" = "fedora-xps" ]; then
+    elif [ "$CURRENT_HOST" = "fedora-xps-9710" ]; then
+        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
+    elif [ "$CURRENT_HOST" = "fedora-xps-9510" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     fi
     echo "$DOTFILES_DIR"

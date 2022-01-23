@@ -3,7 +3,8 @@
 . "$(dirname "$0")/common.sh"
 
 dotfiles_pull() {
-    local DOTFILES_DIR="$(find_dotfiles)"
+    local DOTFILES_DIR
+    DOTFILES_DIR="$(find_dotfiles)"
 
     git -C "${DOTFILES_DIR}" status
     check $?
@@ -15,7 +16,8 @@ dotfiles_pull() {
 }
 
 dotfiles_sync() {
-    local DOTFILES_DIR="$(find_dotfiles)"
+    local DOTFILES_DIR
+    DOTFILES_DIR="$(find_dotfiles)"
     if [ ! -f "${DOTFILES_DIR}/make.sh" ]; then
         echo "make script not present, exiting..."
         exit 1
