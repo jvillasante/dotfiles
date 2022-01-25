@@ -1,13 +1,13 @@
 ;;; +bindings.el --- description -*- lexical-binding: t; -*-
 
 (defun +jv/org-capture-inbox ()
-     (interactive)
-     (call-interactively 'org-store-link)
-     (org-capture nil "i"))
+    (interactive)
+    (call-interactively 'org-store-link)
+    (org-capture nil "i"))
 (defun +jv/org-capture-notes()
-     (interactive)
-     (call-interactively 'org-store-link)
-     (org-capture nil "n"))
+    (interactive)
+    (call-interactively 'org-store-link)
+    (org-capture nil "n"))
 
 (map!
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
