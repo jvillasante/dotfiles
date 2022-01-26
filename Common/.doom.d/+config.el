@@ -23,8 +23,9 @@
 (progn
     (epa-file-enable)
     (setq
-        epa-file-select-keys nil
-        epa-file-cache-passphrase-for-symmetric-encryption t))
+        epa-file-encrypt-to user-mail-address
+        epa-file-select-keys 'silent
+        epa-file-cache-passphrase-for-symmetric-encryption nil))
 
 ;; Minibuffer setup
 (setq-hook! 'minibuffer-setup-hook
