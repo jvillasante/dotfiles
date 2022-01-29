@@ -1,0 +1,105 @@
+#!/bin/bash
+
+#
+# Backups and restore folders using `rsync` command.
+# It also create some needed default folders.
+#
+
+. "$(dirname "$0")/../common.sh"
+
+function init() {
+    if [ -z "$1" ] || [ ! -d "$1" ]; then
+        echo "Illegal arguments ($1 must exist and be a directory)"
+        echo "  Usage: ./backup init <Home Folder>"
+        echo "    e.g: ./backup init $HOME"
+        exit 1
+    fi
+
+    if ask "Creating default folders on $1, continue?"; then
+        mkdir -p "$1/Workspace/Software/clang"
+        mkdir -p "$1/Workspace/Software/gcc"
+        mkdir -p "$1/Workspace/Software/system"
+        mkdir -p "$1/Workspace/Software/work"
+        mkdir -p "$1/Workspace/Software/zig"
+    else
+        echo "Aborted by user..."
+    fi
+}
+
+function backup() {
+    if [ -z "$1" ] || [ ! -d "$1" ]; then
+        echo "Illegal arguments ($1 must exists and be a directory)"
+        echo "  Usage: ./backup backup <Home Folder> <USB Folder>"
+        echo "    e.g: ./backup backup $HOME/ /run/media/$USER/NAME_OR_UUID_BACKUP_DRIVE/$USER/"
+        exit 1
+    fi
+
+    if [ -z "$2" ] || [ ! -d "$2" ]; then
+        echo "Illegal arguments ($2 must exists and be a directory)"
+        echo "  Usage: ./backup backup <Home Folder> <USB Folder>"
+        echo "    e.g: ./backup backup $HOME/ /run/media/$USER/NAME_OR_UUID_BACKUP_DRIVE/$USER/"
+        exit 1
+    fi
+
+    if [[ $1 == */ ]] && [[ $2 == */ ]]; then # * is used for pattern matching
+        if ask "Backing up $1 to $2, continue?"; then
+            rsync -uazh --quiet --safe-links --delete \
+                --include={'/.config','/.config/BraveSoftware/***'} \
+                --include={'/Desktop/***','/Documents/***','/Downloads/***','/Music/***','/Pictures/***','/Videos/***'} \
+                --include={'/Workspace','/Workspace/Books/***','/Workspace/Private/***','/Workspace/Work/***'} \
+                --include={'/Workspace/Public','/Workspace/Public/Projects/***'} \
+                --exclude='*' "$1" "$2"
+        else
+            echo "Aborted by user..."
+        fi
+    else
+        echo "Either $1 or $2 does not end with '/', exiting..."
+    fi
+}
+
+function restore() {
+    if [ -z "$1" ] || [ ! -d "$1" ]; then
+        echo "Illegal arguments ($1 must exists and be a directory)"
+        echo "  Usage: ./backup restore <Home Folder> <USB Folder>"
+        echo "    e.g: ./backup restore $HOME/ /run/media/$USER/NAME_OR_UUID_BACKUP_DRIVE/$USER/"
+        exit 1
+    fi
+
+    if [ -z "$2" ] || [ ! -d "$2" ]; then
+        echo "Illegal arguments ($2 must exists and be a directory)"
+        echo "  Usage: ./backup restore <Home Folder> <USB Folder>"
+        echo "    e.g: ./backup restore $HOME/ /run/media/$USER/NAME_OR_UUID_BACKUP_DRIVE/$USER/"
+        exit 1
+    fi
+
+    if [[ $1 == */ ]] && [[ $2 == */ ]]; then # * is used for pattern matching
+        if ask "Restoring $2 to $1, continue?"; then
+            rsync -uazh --quiet "$2" "$1"
+        else
+            echo "Aborted by user..."
+        fi
+    else
+        echo "Either $1 or $2 does not end with '/', exiting..."
+    fi
+}
+
+if [ "$#" -eq 0 ]; then
+    echo "Illegal number of arguments (at least 1 expected)"
+    echo "Usage: backup <init|backup|restore> ..."
+    exit 1
+fi
+
+function process() {
+    if [ "$1" = "init" ]; then
+        init "$2"
+    elif [ "$1" = "backup" ]; then
+        backup "$2" "$3"
+    elif [ "$1" = "restore" ]; then
+        restore"$2" "$3"
+    else
+        echo "Illegal argument"
+        echo "Usage: backup <init|backup|restore ..."
+    fi
+}
+
+time (process "$1" "$2" "$3")
