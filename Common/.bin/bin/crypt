@@ -1,0 +1,138 @@
+#!/bin/bash
+
+#
+# Encryption:
+#   Encrypts file or directory using gpg symmetric or asymmetric encryption The output is on the form "*.tar.gz.gpg"
+#   (symmetric) or "*.tar.gz.asc" (asymmetric). Files are moved into a directory of the same basename first.
+#
+# Decryption:
+#   Decrypts file using gpg (previously encrypted with `encrypt`) expects and argument with the form "*.tar.gz.gpg"
+#   (symmetric) or "*.tar.gz.asc (asymmetric)"
+#
+
+. "$(dirname "$0")/../common.sh"
+
+function encrypt() {
+    if [ -z "$1" ] || [ "$1" != "symmetric" ] && [ "$1" != "asymmetric" ]; then
+        echo "Illegal arguments ($1 must exist and be either 'symmetric' or 'asymmetric')"
+        echo "  Usage: ./crypt encrypt <symmetric|asymmetric> <file|folder>"
+        exit 1
+    fi
+
+    if [ -z "$2" ] || [ ! -f "$2" ] && [ ! -d "$2" ]; then
+        echo "Illegal arguments ($2 must exist and be either a file or directory)"
+        echo "  Usage: ./crypt encrypt <symmetric|asymmetric> <file|folder>"
+        exit 1
+    fi
+
+    echo "Encrypting $2 with $1 encryption..."
+    local file_name="$2"
+    local file_to_encrypt="$2.tar.gz"
+    if [[ -f "$2" ]]; then
+        file_name=$(basename "$2" | cut -d. -f1)
+        check $?
+
+        mkdir -p "$file_name"
+        check $?
+
+        mv "$2" "$file_name"
+        check $?
+
+        file_to_encrypt="$file_name.tar.gz"
+    fi
+
+    tar czf "$file_to_encrypt" "$file_name"
+    check $?
+
+    if [ "$1" = "symmetric" ]; then
+        gpg --symmetric --cipher-algo AES256 -o "$file_to_encrypt.gpg" "$file_to_encrypt"
+        check $?
+
+        echo "Encrypted $2 to $file_to_encrypt.gpg ($1)"
+    elif [ "$1" = "asymmetric" ]; then
+        gpg --encrypt --sign --armor -r jvillasantegomez@gmail.com -o "$file_to_encrypt.asc" "$file_to_encrypt"
+        check $?
+
+        echo "Encrypted $2 to $file_to_encrypt.asc ($1)"
+    else
+        echo "Invalid argument $2, exiting..."
+        exit 1
+    fi
+
+    rm -f "$file_to_encrypt"
+    check $?
+
+    rm -rf "$file_name"
+    check $?
+}
+
+function do_decrypt() {
+    local p
+    p=$(basename "$1" | cut -d. -f1)
+
+    gpg --decrypt -o "$p.tar.gz" "$1"
+    check $?
+
+    tar xzf "$p.tar.gz"
+    check $?
+
+    rm -f "$p.tar.gz"
+    check $?
+
+    rm -rf "$1"
+    check $?
+
+    echo "Decrypted $1 to $p"
+}
+
+function decrypt() {
+    if [ -z "$1" ] || [ ! -f "$1" ]; then
+        echo "Illegal arguments ($1 must exist and be a file)"
+        echo "  Usage: ./crypt decrypt <filename.tar.gz.[gpg|asc]>"
+        exit 1
+    fi
+
+    echo "Decrypting $1..."
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.gz.asc)
+                { # Asymmetric
+                    do_decrypt "$1"
+                }
+                ;;
+            *.tar.gz.gpg)
+                { # Symmetric
+                    do_decrypt "$1"
+                }
+                ;;
+            *)
+                {
+                    echo ">> Unknown extension on $1, exiting..."
+                    exit 1
+                }
+                ;;
+        esac
+    else
+        echo "'$1' is not a valid file, exiting..."
+        exit 1
+    fi
+}
+
+if [ "$#" -eq 0 ]; then
+    echo "Illegal number of arguments (at least 1 expected)"
+    echo "Usage: ./crypt <encrypt|decrypt> ..."
+    exit 1
+fi
+
+function process() {
+    if [ "$1" = "encrypt" ]; then
+        encrypt "$2" "$3"
+    elif [ "$1" = "decrypt" ]; then
+        decrypt "$2"
+    else
+        echo "Illegal argument"
+        echo "Usage: ./crypt <encrypt|decrypt>..."
+    fi
+}
+
+time (process "$1" "$2" "$3")

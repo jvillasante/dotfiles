@@ -16,6 +16,7 @@ function init() {
     fi
 
     if ask "Creating default folders on $1, continue?"; then
+        echo "Creating default folders on $1..."
         mkdir -p "$1/Workspace/Software/clang"
         mkdir -p "$1/Workspace/Software/gcc"
         mkdir -p "$1/Workspace/Software/system"
@@ -43,6 +44,7 @@ function backup() {
 
     if [[ $1 == */ ]] && [[ $2 == */ ]]; then # * is used for pattern matching
         if ask "Backing up $1 to $2, continue?"; then
+            echo "Backing up $1 to $2..."
             rsync -uazh --quiet --safe-links --delete \
                 --include={'/.config','/.config/BraveSoftware/***'} \
                 --include={'/Desktop/***','/Documents/***','/Downloads/***','/Music/***','/Pictures/***','/Videos/***'} \
@@ -74,6 +76,7 @@ function restore() {
 
     if [[ $1 == */ ]] && [[ $2 == */ ]]; then # * is used for pattern matching
         if ask "Restoring $2 to $1, continue?"; then
+            echo "Restoring $2 to $1..."
             rsync -uazh --quiet "$2" "$1"
         else
             echo "Aborted by user..."
@@ -85,7 +88,7 @@ function restore() {
 
 if [ "$#" -eq 0 ]; then
     echo "Illegal number of arguments (at least 1 expected)"
-    echo "Usage: backup <init|backup|restore> ..."
+    echo "Usage: ./backup <init|backup|restore> ..."
     exit 1
 fi
 
@@ -98,7 +101,7 @@ function process() {
         restore"$2" "$3"
     else
         echo "Illegal argument"
-        echo "Usage: backup <init|backup|restore ..."
+        echo "Usage: ./backup <init|backup|restore ..."
     fi
 }
 
