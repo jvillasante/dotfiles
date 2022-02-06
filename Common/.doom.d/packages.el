@@ -16,6 +16,10 @@
 (package! awesome-tray
     :recipe (:host github :repo "manateelazycat/awesome-tray"))
 
+;; rmsbolt (A supercharged implementation of the godbolt compiler-explorer for Emacs.)
+(package! rmsbolt
+    :recipe (:files (:defaults "starters") :host gitlab :repo "jgkamat/rmsbolt"))
+
 ;; dired
 (package! dired-quick-sort)
 (package! dired-single)
