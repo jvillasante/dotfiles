@@ -5,7 +5,7 @@
 # definitions/synonyms.
 #
 # Requires: aspell, fzf
-# Usage: spell mispeling
+# Usage: spell misspelling
 # Example: dict $(spell mispeling)
 
 result=$(echo "$@" | aspell -a | tail -n-2)
