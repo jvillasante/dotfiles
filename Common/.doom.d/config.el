@@ -121,7 +121,10 @@
         (sp-local-pair "|" "|" :actions nil)))
 
 (after! flyspell
-    (setq flyspell-lazy-idle-seconds 3))
+    (setq flyspell-lazy-idle-seconds 2)) ; default is 2
+
+(after! spell-fu
+  (setq spell-fu-idle-delay 0.5))  ; default is 0.25
 
 (after! flycheck
     (setq flycheck-indication-mode 'left-fringe))

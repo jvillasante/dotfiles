@@ -33,7 +33,7 @@
         (:prefix ("b" . "Buffers")
             :desc "Rename buffer" :n "R" #'rename-buffer
             :desc "Kill buffer"   :n "d" #'kill-this-buffer ; consistency with `SPC w d'
-            :desc "Ibuffer"       :n "I" #'ibuffer)
+            :desc "Ibuffer"       :n "I" #'+ibuffer/open-for-current-workspace)
 
         ;;;; Open
         (:prefix ("o" . "Open")
