@@ -49,6 +49,17 @@ doom_upgrade() {
     check $?
 }
 
+doom_build() {
+    if [ ! -f "${HOME}/.emacs.d/bin/doom" ]; then
+        echo "doom script not present, exiting..."
+        exit 1
+    fi
+
+    dotfiles_sync
+    "${HOME}/.emacs.d/bin/doom" -y build -f
+    check $?
+}
+
 doom_doctor() {
     if [ ! -f "${HOME}/.emacs.d/bin/doom" ]; then
         echo "doom script not present, exiting..."
@@ -62,7 +73,7 @@ doom_doctor() {
 
 while true; do
     PS3="Choose an option: "
-    options=("Dotfiles Pull" "Dotfiles Sync" "Doom Sync" "Doom Upgrade" "Doom Doctor" "Quit")
+    options=("Dotfiles Pull" "Dotfiles Sync" "Doom Sync" "Doom Upgrade" "Doom Build" "Doom Doctor" "Quit")
 
     select opt in "${options[@]}"; do
         case $REPLY in
@@ -83,10 +94,14 @@ while true; do
                 break
                 ;;
             5)
+                doom_build
+                break
+                ;;
+            6)
                 doom_doctor
                 break
                 ;;
-            6) break 2 ;;
+            7) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
