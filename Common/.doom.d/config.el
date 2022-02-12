@@ -28,8 +28,18 @@
 (after! emacs-everywhere
     (setq emacs-everywhere-frame-parameters
         `((name . "emacs-everywhere")
-             (width . 80)
-             (height . 20))))
+             (width . 120)
+             (height . 20)))
+
+    ;; Semi-center it over the target window, rather than at the cursor position
+    ;; (which could be anywhere).
+    (defadvice! center-emacs-everywhere-in-origin-window (frame window-info)
+        :override #'emacs-everywhere-set-frame-position
+        (cl-destructuring-bind (x y width height)
+            (emacs-everywhere-window-geometry window-info)
+            (set-frame-position frame
+                (+ x (/ width 2) (- (/ width 2)))
+                (+ y (/ height 2))))))
 
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
@@ -291,14 +301,6 @@
         (delete-other-windows))
     (defadvice magit-quit-window (after magit-restore-screen activate)
         (jump-to-register :magit-fullscreen))
-
-    ;; Taken from: https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
-    ;; (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
-    ;; (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
-    ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
-    ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
-    ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
-    ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent
 
     (setq
         git-commit-summary-max-length 80

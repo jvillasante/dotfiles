@@ -39,6 +39,9 @@
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
+;; Prevents some cases of Emacs flickering
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+
 ;; org-directory needs to be set early
 (setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 

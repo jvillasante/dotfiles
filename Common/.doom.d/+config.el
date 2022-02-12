@@ -35,7 +35,7 @@
 ;; use aspell
 (advice-add #'ispell-init-process :around #'doom-shut-up-a)
 
-;; Don't Autosave files with default Emacs package (we'll use super-save package instead)
+;; Don't autosave files with default Emacs package (we'll use super-save package instead)
 (setq auto-save-default nil)
 
 ;;
