@@ -7,7 +7,8 @@
     +my/home-path (expand-file-name "~/")
     +my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" +my/home-path)
     +my/software-path (expand-file-name "Workspace/Software/" +my/home-path)
-    +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
+    +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path)
+    +my/splash-path (expand-file-name "Misc/splash/emacs-logo.png" +my/dotfiles-path))
 
 (cond
     (IS-MAC

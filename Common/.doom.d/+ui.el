@@ -17,7 +17,7 @@
 (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)
 
 ;; dashboard
-(setq fancy-splash-image (expand-file-name "Workspace/Public/dotfiles/Misc/splash.png" +my/home-path))
+(setq fancy-splash-image +my/splash-path)
 
 ;; theme
 ;; (setq doom-theme 'modus-vivendi)
