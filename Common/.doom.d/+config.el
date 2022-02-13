@@ -32,8 +32,9 @@
     show-trailing-whitespace nil
     line-spacing 1)
 
-;; use aspell
+;; aspell
 (advice-add #'ispell-init-process :around #'doom-shut-up-a)
+(setq ispell-dictionary "en_US") ;; default dictionary
 
 ;; Don't autosave files with default Emacs package (we'll use super-save package instead)
 (setq auto-save-default nil)

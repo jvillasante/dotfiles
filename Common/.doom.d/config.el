@@ -134,7 +134,10 @@
     (setq flyspell-lazy-idle-seconds 2)) ; default is 2
 
 (after! spell-fu
-  (setq spell-fu-idle-delay 0.5))  ; default is 0.25
+    (setq spell-fu-idle-delay 0.5) ; default is 0.25
+    (add-hook! 'spell-fu-mode-hook
+        (lambda ()
+            (spell-fu-dictionary-add (spell-fu-get-ispell "es")))))
 
 (after! flycheck
     (setq flycheck-indication-mode 'left-fringe))
