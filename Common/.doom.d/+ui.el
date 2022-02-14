@@ -67,7 +67,6 @@
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; popup rules
-(set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4 :quit nil :select t :autosave nil)
 (set-popup-rule! "^\\*doom:scratch*" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*doom:vterm-popup" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0)
@@ -82,6 +81,7 @@
 (set-popup-rule! "^\\*rustic-*" :size 0.6 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*osx-dictionary" :size 0.6 :quit t :ttl 0)
 (set-popup-rule! "^\\*Password-Store" :side 'left :size 0.65 :quit nil)
+(set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.6 :quit nil :select t :autosave nil)
 
 ;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
 (load! "+ui-modus-exporter.el")

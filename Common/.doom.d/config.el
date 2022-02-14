@@ -405,7 +405,7 @@
 
 (after! deft
     (setq
-        deft-directory (expand-file-name "Apps/org" +my/dropbox-path)
+        deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
         deft-recursive nil
@@ -451,10 +451,10 @@
     ;; Org Capture
     (setq org-agenda-hide-tags-regexp ".") ;; ask the agenda to hide any tag (.) that may be present.
     (setq org-capture-templates            ;; set our capture templates
-        `(("i" "Inbox" entry  (file "inbox.org")
+        `(("i" "Inbox" entry (file "inbox.org")
               ,(concat "* TODO %?\n"
                    "/Entered on/ %U"))
-             ("n" "Note" entry  (file "notes.org")
+             ("n" "Note" entry (file "notes.org")
                  ,(concat "* Note (%a)\n"
                       "/Entered on/ %U\n" "\n" "%?"))))
 
