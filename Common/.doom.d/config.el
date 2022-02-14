@@ -448,7 +448,13 @@
     (setq org-imenu-depth 8)
     (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
 
-    ;; Org Capture
+    ;; Show the daily agenda by default.
+    (setq org-agenda-span 'day)
+    (setq org-agenda-prefix-format
+        '((agenda . " %i %-12:c%?-12t% s")
+             (todo   . " ")
+             (tags   . " %i %-12:c")
+             (search . " %i %-12:c")))
     (setq org-agenda-hide-tags-regexp ".") ;; ask the agenda to hide any tag (.) that may be present.
     (setq org-capture-templates            ;; set our capture templates
         `(("i" "Inbox" entry (file "inbox.org")
