@@ -29,17 +29,7 @@
     (setq emacs-everywhere-frame-parameters
         `((name . "emacs-everywhere")
              (width . 120)
-             (height . 20)))
-
-    ;; Semi-center it over the target window, rather than at the cursor position
-    ;; (which could be anywhere).
-    (defadvice! center-emacs-everywhere-in-origin-window (frame window-info)
-        :override #'emacs-everywhere-set-frame-position
-        (cl-destructuring-bind (x y width height)
-            (emacs-everywhere-window-geometry window-info)
-            (set-frame-position frame
-                (+ x (/ width 2) (- (/ width 2)))
-                (+ y (/ height 2))))))
+             (height . 20))))
 
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
