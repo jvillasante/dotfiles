@@ -69,8 +69,8 @@ umask 0022
 
 # Exports
 export ALTERNATE_EDITOR=""
-export VISUAL="emacsclient -c -n -a ''"   # $VISUAL opens in GUI with non-daemon as alternate
-export EDITOR="emacsclient -t -a ''"  # $EDITOR should open in terminal
+export VISUAL="emacsclient -c -n -a ''"  # $VISUAL opens in GUI with non-daemon as alternate
+export EDITOR="emacsclient -t -a ''"     # $EDITOR should open in terminal
 export TERM=xterm-256color
 
 source $ZSH/oh-my-zsh.sh
