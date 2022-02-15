@@ -107,6 +107,11 @@
                 :desc "Show"                    :n "m" #'lsp-ui-imenu
                 :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))
 
+        ;;; Notes
+        (:prefix ("n" . "Notes")
+            :desc "Open deft" :n "D" #'deft
+            :desc "Find deft file" :n "d" #'deft-find-file)
+
         ;;;; Quit
         (:prefix ("q" . "Quit")
             :desc "Restart Emacs"                "r" #'doom/restart
