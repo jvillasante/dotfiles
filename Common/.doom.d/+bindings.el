@@ -64,10 +64,6 @@
             :desc "Maximize frame" :n "M" #'toggle-frame-maximized
             :desc "Delete window"  :n "d" #'evil-quit)
 
-        ;;; Files
-        (:prefix ("f" . "File")
-            :desc "Find deft file" :n "d" #'deft-find-file)
-
         ;;;; Doom
         (:prefix ("d" . "Doom")
             :desc "Dashboard"                 :n  "d" #'+doom-dashboard/open
