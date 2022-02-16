@@ -87,7 +87,7 @@
             :desc "Make"                        :n "m" #'+make/run
             :desc "Jump to definition"          :n "d" #'+lookup/definition
             :desc "Jump to references"          :n "D" #'+lookup/references
-            :desc "Lookup dash documentation"   :n "s" #'+lookup:dash
+            :desc "Lookup zeal documentation"   :n "z" #'zeal-at-point
             :desc "Format buffer/region"        :n "f" #'+format/region-or-buffer
             :desc "List errors"                 :n "e" #'flycheck-list-errors
             :desc "Describe thing at point"     :n "t" #'lsp-describe-thing-at-point
