@@ -175,7 +175,13 @@
     (toggle-word-wrap nil)
     (auto-fill-mode -1))
 
-;; No highligh persisten on evil search
+;; switch to `dashboard` on new frames
+(when (daemonp)
+    (add-hook! 'server-after-make-frame-hook
+        (unless (string-match-p "\\*draft\\|\\*stdin\\|emacs-everywhere" (buffer-name))
+            (switch-to-buffer +doom-dashboard-name))))
+
+;; No highlight persistence on evil search
 (setq evil-ex-search-persistent-highlight nil)
 
 ;; Make movement keys work like they should
