@@ -22,6 +22,9 @@
 ;; theme
 ;; (setq doom-theme 'modus-vivendi)
 (setq doom-theme 'modus-operandi)
+(remove-hook 'window-setup-hook #'doom-init-theme-h)
+(add-hook 'after-init-hook #'doom-init-theme-h 'append)
+(delq! t custom-theme-load-path)
 
 (after! doom-themes
     (setq
