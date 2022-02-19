@@ -41,6 +41,7 @@
     :init
     (awesome-tray-mode 1)
     :config
+    (fset 'awesome-tray-get-frame-width 'frame-width) ;; monkey patch `awesome-tray-get-frame-width`
     (setq awesome-tray-active-modules '("mode-name" "location")))
 
 ;; no icons
