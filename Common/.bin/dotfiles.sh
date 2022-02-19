@@ -71,9 +71,15 @@ doom_doctor() {
     check $?
 }
 
+emacs_service_restart() {
+    printf "\nRestarting emacs service..."
+    systemctl --user restart emacs
+    check $?
+}
+
 while true; do
     PS3="Choose an option: "
-    options=("Dotfiles Pull" "Dotfiles Sync" "Doom Sync" "Doom Upgrade" "Doom Build" "Doom Doctor" "Quit")
+    options=("Dotfiles Pull" "Dotfiles Sync" "Doom Sync" "Doom Upgrade" "Doom Build" "Doom Doctor" "Emacs Service Restart" "Quit")
 
     select opt in "${options[@]}"; do
         case $REPLY in
@@ -87,10 +93,12 @@ while true; do
                 ;;
             3)
                 doom_sync
+                emacs_service_restart
                 break
                 ;;
             4)
                 doom_upgrade
+                emacs_service_restart
                 break
                 ;;
             5)
@@ -101,7 +109,11 @@ while true; do
                 doom_doctor
                 break
                 ;;
-            7) break 2 ;;
+            7)
+                emacs_service_restart
+                break
+                ;;
+            8) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done

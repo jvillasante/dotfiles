@@ -120,5 +120,12 @@ for file in $files; do
     ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"
 done
 
+echo ">> Linking desktop application files in $HOME/.local/share/applications..."
+files="emacsclient.desktop"
+for file in $files; do
+    unlink "$HOME/.local/share/applications/$file"
+    ln -s "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
+done
+
 echo ">> All Done!"
 echo "===================================================================================="

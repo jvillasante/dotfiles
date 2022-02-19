@@ -12,6 +12,9 @@
 (after! evil
     (setq evil-want-fine-undo t))
 
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+
 (after! tramp
     (setq tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
