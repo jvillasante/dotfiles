@@ -50,6 +50,12 @@
 (setq mode-line-format nil)
 (setq-default mode-line-format nil)
 
+;; switch to `dashboard` on new frames
+(when (daemonp)
+    (add-hook! 'server-after-make-frame-hook
+        (unless (string-match-p "\\*draft\\|\\*stdin\\|emacs-everywhere" (buffer-name))
+            (switch-to-buffer +doom-dashboard-name))))
+
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")
 ;;   (color-theme-initialize))
