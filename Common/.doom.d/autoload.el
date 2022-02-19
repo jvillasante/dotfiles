@@ -69,12 +69,6 @@ at least the fill column. Place the point after the comment box. http://irreal.o
             buffer)))
 
 ;;;###autoload
-(defun +my/elfeed-mark-all-as-read ()
-    (interactive)
-    (mark-whole-buffer)
-    (elfeed-search-untag-all-unread))
-
-;;;###autoload
 (defun +my/current-minor-modes ()
     "Return the list of minor modes enabled in the current buffer."
     (interactive)

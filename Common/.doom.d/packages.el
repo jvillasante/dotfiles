@@ -5,6 +5,7 @@
 (disable-packages!
     solaire-mode
     doom-modeline
+    elfeed-goodies
     irony
     ggtags
     ccls)
