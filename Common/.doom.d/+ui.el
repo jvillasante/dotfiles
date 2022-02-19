@@ -35,8 +35,6 @@
     (doom-themes-org-config))
 
 ;; modeline
-(setq mode-line-format nil)
-(setq-default mode-line-format nil)
 (use-package! awesome-tray
     :init
     (awesome-tray-mode 1)

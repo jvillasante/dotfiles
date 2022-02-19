@@ -412,6 +412,33 @@
         org-roam-completion-everywhere t))
 
 (after! org
+    (defun +my/org-custom-faces ()
+        "Set up a nice proportional font, in different sizes, for the headlines.
+        The fonts listed will be tried in sequence, and the first one found will be used."
+        (when (display-graphic-p)
+            (let* ((variable-tuple
+                       (cond
+                           ((x-list-fonts   "JetBrains Mono")  '(:font   "JetBrains Mono"))
+                           ((x-list-fonts   "Source Code Pro") '(:font   "Source Pro Pro"))
+                           ((x-list-fonts   "Lucida Grande")   '(:font   "Lucida Grande"))
+                           ((x-list-fonts   "Verdana")         '(:font   "Verdana"))
+                           ((x-family-fonts "Sans Serif")      '(:family "Sans Serif"))
+                           (nil (warn "Cannot find a Sans Serif Font."))))
+                      (base-font-color (face-foreground 'default nil 'default))
+                      (headline `(:inherit default :weight bold :foreground ,base-font-color)))
+                (custom-theme-set-faces
+                    'user
+                    `(org-level-8        ((t (,@headline ,@variable-tuple))))
+                    `(org-level-7        ((t (,@headline ,@variable-tuple))))
+                    `(org-level-6        ((t (,@headline ,@variable-tuple))))
+                    `(org-level-5        ((t (,@headline ,@variable-tuple))))
+                    `(org-level-4        ((t (,@headline ,@variable-tuple :height 1.05))))
+                    `(org-level-3        ((t (,@headline ,@variable-tuple :height 1.05))))
+                    `(org-level-2        ((t (,@headline ,@variable-tuple :height 1.15))))
+                    `(org-level-1        ((t (,@headline ,@variable-tuple :height 1.25))))
+                    `(org-headline-done  ((t (,@headline ,@variable-tuple :strike-through t))))
+                    `(org-document-title ((t (,@headline ,@variable-tuple :height 1.30 :underline nil))))))))
+
     ;; Latex previews in org-mode
     (plist-put org-format-latex-options :background 'default)
 
@@ -454,31 +481,12 @@
                  ,(concat "* Note (%a)\n"
                       "/Entered on/ %U\n" "\n" "%?"))))
 
-    ;; set up a nice proportional font, in different sizes, for the headlines.
-    ;; the fonts listed will be tried in sequence, and the first one found will be used.
-    (when (display-graphic-p)
-        (let* ((variable-tuple
-                   (cond
-                       ((x-list-fonts   "JetBrains Mono")  '(:font   "JetBrains Mono"))
-                       ((x-list-fonts   "Source Code Pro") '(:font   "Source Pro Pro"))
-                       ((x-list-fonts   "Lucida Grande")   '(:font   "Lucida Grande"))
-                       ((x-list-fonts   "Verdana")         '(:font   "Verdana"))
-                       ((x-family-fonts "Sans Serif")      '(:family "Sans Serif"))
-                       (nil (warn "Cannot find a Sans Serif Font."))))
-                  (base-font-color (face-foreground 'default nil 'default))
-                  (headline `(:inherit default :weight bold :foreground ,base-font-color)))
-            (custom-theme-set-faces
-                'user
-                `(org-level-8        ((t (,@headline ,@variable-tuple))))
-                `(org-level-7        ((t (,@headline ,@variable-tuple))))
-                `(org-level-6        ((t (,@headline ,@variable-tuple))))
-                `(org-level-5        ((t (,@headline ,@variable-tuple))))
-                `(org-level-4        ((t (,@headline ,@variable-tuple :height 1.05))))
-                `(org-level-3        ((t (,@headline ,@variable-tuple :height 1.05))))
-                `(org-level-2        ((t (,@headline ,@variable-tuple :height 1.15))))
-                `(org-level-1        ((t (,@headline ,@variable-tuple :height 1.25))))
-                `(org-headline-done  ((t (,@headline ,@variable-tuple :strike-through t))))
-                `(org-document-title ((t (,@headline ,@variable-tuple :height 1.30 :underline nil))))))))
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+            (lambda (frame)
+                (with-selected-frame frame
+                    (+my/org-custom-faces))))
+        (+my/org-custom-faces)))
 
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt

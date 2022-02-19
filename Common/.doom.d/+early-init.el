@@ -46,6 +46,10 @@
 ;; org-directory needs to be set early
 (setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 
+;; no mode-line
+(setq mode-line-format nil)
+(setq-default mode-line-format nil)
+
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")
 ;;   (color-theme-initialize))

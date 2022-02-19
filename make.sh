@@ -113,5 +113,12 @@ for file in $files; do
     fi
 done
 
+echo ">> Linking systemd user files in $HOME/.config/systemd/user..."
+files="emacs.service"
+for file in $files; do
+    unlink "$HOME/.config/systemd/user/$file"
+    ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"
+done
+
 echo ">> All Done!"
 echo "===================================================================================="
