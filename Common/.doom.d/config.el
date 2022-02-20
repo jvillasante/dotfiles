@@ -431,13 +431,13 @@
                       (headline `(:inherit default :weight bold :foreground ,base-font-color)))
                 (custom-theme-set-faces
                     'user
-                    `(org-level-8        ((t (,@headline ,@variable-tuple))))
-                    `(org-level-7        ((t (,@headline ,@variable-tuple))))
-                    `(org-level-6        ((t (,@headline ,@variable-tuple))))
-                    `(org-level-5        ((t (,@headline ,@variable-tuple))))
-                    `(org-level-4        ((t (,@headline ,@variable-tuple :height 1.05))))
-                    `(org-level-3        ((t (,@headline ,@variable-tuple :height 1.05))))
-                    `(org-level-2        ((t (,@headline ,@variable-tuple :height 1.15))))
+                    `(org-level-8        ((t (,@headline ,@variable-tuple :height 1.04))))
+                    `(org-level-7        ((t (,@headline ,@variable-tuple :height 1.07))))
+                    `(org-level-6        ((t (,@headline ,@variable-tuple :height 1.10))))
+                    `(org-level-5        ((t (,@headline ,@variable-tuple :height 1.13))))
+                    `(org-level-4        ((t (,@headline ,@variable-tuple :height 1.16))))
+                    `(org-level-3        ((t (,@headline ,@variable-tuple :height 1.19))))
+                    `(org-level-2        ((t (,@headline ,@variable-tuple :height 1.22))))
                     `(org-level-1        ((t (,@headline ,@variable-tuple :height 1.25))))
                     `(org-headline-done  ((t (,@headline ,@variable-tuple :strike-through t))))
                     `(org-document-title ((t (,@headline ,@variable-tuple :height 1.30 :underline nil))))))))
@@ -454,9 +454,7 @@
     ;; settings
     (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
     (setq org-startup-indented t)
-    (setq org-indent-mode t)
     (setq org-startup-folded t)
-    (setq org-adapt-indentation nil) ;; prevent demoting heading also shifting text inside sections
     (setq org-cycle-separator-lines 2)
     (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
     (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
@@ -467,6 +465,11 @@
     (setq org-src-tab-acts-natively t)
     (setq org-imenu-depth 8)
     (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
+    (setq
+        org-indent-mode t
+        org-adapt-indentation nil ;; prevent demoting heading also shifting text inside sections
+        org-src-preserve-indentation nil
+        org-edit-src-content-indentation 2)
 
     ;; Show the daily agenda by default.
     (setq org-agenda-span 'day)
