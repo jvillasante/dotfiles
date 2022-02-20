@@ -73,7 +73,7 @@ doom_doctor() {
 
 emacs_service_restart() {
     printf "\nRestarting emacs service..."
-    systemctl --user restart emacs
+    systemctl --user --no-block restart emacs
     check $?
 }
 
