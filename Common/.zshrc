@@ -370,19 +370,17 @@ FZF-EOF"
     #
     if type pass >/dev/null 2>/dev/null; then
         function fpass() {
-            DIR=$(pwd)
+            local DIR=$(pwd)
             cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}"
-            PASSFILE=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
+            local PASSFILE=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
             cd ${DIR}
 
             if [ ! -z "$PASSFILE" ]; then
-                ACTIONS="Copy Password\nView File\nEdit File\nQuit"
-                ACTION=$(echo "${ACTIONS}" \
-                    | fzf --height 10 --border --header "Pass file ${PASSFILE}")
+                local ACTIONS="Copy Password\nView File\nEdit File\nQuit"
+                local ACTION=$(echo "${ACTIONS}" | fzf --header "Pass file ${PASSFILE}")
                 case ${ACTION} in
                     "Copy Password")
-                        pass --clip "${PASSFILE}" 1>/dev/null
-                        echo "Copied Password to clipboard (clear in 45 seconds)"
+                        pass --clip "${PASSFILE}"
                         ;;
                     "View File")
                         pass "${PASSFILE}"
