@@ -260,6 +260,9 @@
         rustic-format-on-save nil))
 
 (after! elfeed
+    (setq elfeed-search-title-min-width 60)
+    (setq elfeed-search-title-max-width 100)
+    (setq elfeed-search-trailing-width 0)
     (setq elfeed-search-filter "@6-months-ago +unread")
     (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path)))
 
