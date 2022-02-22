@@ -212,6 +212,7 @@ if type fzf >/dev/null 2>/dev/null; then
     function pproj() {
         cd $(find ~/Workspace/Private/Projects/ -maxdepth 2 -type d | fzf)
     }
+
     function wproj() {
         cd $(find ~/Workspace/Work/Projects/ -maxdepth 2 -type d | fzf)
     }
@@ -368,7 +369,7 @@ FZF-EOF"
     # Pass
     #
     if type pass >/dev/null 2>/dev/null; then
-        function fuzzy-pass() {
+        function fpass() {
             DIR=$(pwd)
             cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}"
             PASSFILE=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
@@ -394,7 +395,5 @@ FZF-EOF"
                 esac
             fi
         }
-
-        alias fpass=fuzzy-pass
     fi
 fi
