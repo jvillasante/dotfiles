@@ -377,20 +377,23 @@ FZF-EOF"
 
             if [ ! -z "$PASSFILE" ]; then
                 local ACTIONS="Copy Password\nView File\nEdit File\nQuit"
-                local ACTION=$(echo "${ACTIONS}" | fzf --header "Pass file ${PASSFILE}")
-                case ${ACTION} in
-                    "Copy Password")
-                        pass --clip "${PASSFILE}"
-                        ;;
-                    "View File")
-                        pass "${PASSFILE}"
-                        ;;
-                    "Edit File")
-                        pass edit "${PASSFILE}"
-                        ;;
-                    "Quit") ;;
-                    *) ;;
-                esac
+                local CONTINUE=true
+                while ${CONTINUE}; do
+                    local ACTION=$(echo "${ACTIONS}" | fzf --height 10 --border --header "Pass file ${PASSFILE}")
+                    case ${ACTION} in
+                        "Copy Password")
+                            pass --clip "${PASSFILE}"
+                            ;;
+                        "View File")
+                            pass "${PASSFILE}"
+                            ;;
+                        "Edit File")
+                            pass edit "${PASSFILE}"
+                            ;;
+                        "Quit") CONTINUE=false ;;
+                        *) CONTINUE=false ;;
+                    esac
+                done
             fi
         }
     fi
