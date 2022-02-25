@@ -30,18 +30,11 @@ while true; do
         case $REPLY in
             1)
                 update_zls
+                hr
                 break
                 ;;
             2) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
-
-    echo ""
-
-    if ask "Are we done?"; then
-        break
-    else
-        echo ""
-    fi
 done

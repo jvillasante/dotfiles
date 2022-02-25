@@ -56,34 +56,31 @@ while true; do
         case $REPLY in
             1)
                 brew_update
+                hr
                 break
                 ;;
             2)
                 brew_cleanup
+                hr
                 break
                 ;;
             3)
                 brew_doctor
+                hr
                 break
                 ;;
             4)
                 brew_all
+                hr
                 break
                 ;;
             5)
                 brew_reinstall_all
+                hr
                 break
                 ;;
             6) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
-
-    echo ""
-
-    if ask "Are we done?"; then
-        break
-    else
-        echo ""
-    fi
 done

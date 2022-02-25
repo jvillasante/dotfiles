@@ -72,7 +72,6 @@ doom_doctor() {
 }
 
 emacs_service_restart() {
-    printf "\nRestarting emacs service..."
     systemctl --user --no-block restart emacs
     check $?
 }
@@ -85,44 +84,41 @@ while true; do
         case $REPLY in
             1)
                 dotfiles_pull
+                hr
                 break
                 ;;
             2)
                 dotfiles_sync
+                hr
                 break
                 ;;
             3)
                 doom_sync
-                emacs_service_restart
+                hr
                 break
                 ;;
             4)
                 doom_upgrade
-                emacs_service_restart
+                hr
                 break
                 ;;
             5)
                 doom_build
+                hr
                 break
                 ;;
             6)
                 doom_doctor
+                hr
                 break
                 ;;
             7)
                 emacs_service_restart
+                hr
                 break
                 ;;
             8) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
-
-    echo ""
-
-    if ask "Are we done?"; then
-        break
-    else
-        echo ""
-    fi
 done

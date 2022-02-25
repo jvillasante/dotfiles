@@ -58,26 +58,21 @@ while true; do
         case $REPLY in
             1)
                 install_common_go_packages
+                hr
                 break
                 ;;
             2)
                 install_other_go_packages
+                hr
                 break
                 ;;
             3)
                 cleanup_go_binaries
+                hr
                 break
                 ;;
             4) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
-
-    echo ""
-
-    if ask "Are we done?"; then
-        break
-    else
-        echo ""
-    fi
 done

@@ -69,34 +69,33 @@ while true; do
         case $REPLY in
             1)
                 update_rust
+                hr
                 break
                 ;;
             2)
                 update_rust_analyzer
+                hr
                 break
                 ;;
             3)
                 update_rust_and_analyzer
+                hr
                 break
                 ;;
             4)
                 show_global_packages
+                # printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+                # echo ""
+                hr
                 break
                 ;;
             5)
                 update_global_packages
+                hr
                 break
                 ;;
             6) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
-
-    echo ""
-
-    if ask "Are we done?"; then
-        break
-    else
-        echo ""
-    fi
 done

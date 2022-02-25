@@ -35,26 +35,21 @@ while true; do
         case $REPLY in
             1)
                 ubuntu_update
+                hr
                 break
                 ;;
             2)
                 ubuntu_cleanup
+                hr
                 break
                 ;;
             3)
                 ubuntu_all
+                hr
                 break
                 ;;
             4) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
-
-    echo ""
-
-    if ask "Are we done?"; then
-        break
-    else
-        echo ""
-    fi
 done

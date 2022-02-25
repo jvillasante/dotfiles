@@ -40,31 +40,27 @@ while true; do
         case $REPLY in
             1)
                 fedora_check_update
+                hr
                 break
                 ;;
             2)
                 fedora_update
+                hr
                 break
                 ;;
             3)
                 fedora_cleanup
+                hr
                 break
                 ;;
             4)
                 fedora_update
                 fedora_cleanup
+                hr
                 break
                 ;;
             5) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
-
-    echo ""
-
-    if ask "Are we done?"; then
-        break
-    else
-        echo ""
-    fi
 done

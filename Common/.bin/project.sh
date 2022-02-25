@@ -182,30 +182,26 @@ while true; do
         case $REPLY in
             1)
                 create_cpp_project_clang
+                hr
                 break
                 ;;
             2)
                 create_cpp_project_gcc
+                hr
                 break
                 ;;
             3)
                 create_rust_project
+                hr
                 break
                 ;;
             4)
                 create_sfml_project
+                hr
                 break
                 ;;
             5) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
-
-    echo ""
-
-    if ask "Are we done?"; then
-        break
-    else
-        echo ""
-    fi
 done
