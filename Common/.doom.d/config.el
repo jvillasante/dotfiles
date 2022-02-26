@@ -498,6 +498,7 @@
     (org-crypt-use-before-save-magic)
     (setq org-crypt-disable-auto-save nil) ;; don't ask to disable auto-save
     (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+    (setq org-crypt-key nil)
     :custom
     (org-crypt-key user-mail-address))
 
