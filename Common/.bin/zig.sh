@@ -47,6 +47,8 @@ update_zls() {
         cd "$ZLS_DIR" || exit 1
         zig build -Drelease-safe
         check $?
+    else
+        echo "zig is not on your path, try sourcing '.zshenv' or just restart this terminal"
     fi
 }
 
