@@ -38,15 +38,32 @@
     (doom-themes-org-config))
 
 ;; modeline
-(after! doom-modeline
-    (setq doom-modeline-persp-name t)
-    (setq doom-modeline-display-default-persp-name t)
-    (setq doom-modeline-workspace-name t)
-    (setq doom-modeline-icon nil)
-    (setq doom-modeline-height 1)
-    (custom-set-faces!
-      '(mode-line :family "Source Code Pro" :height 0.9)
-      '(mode-line-inactive :family "Source Code Pro" :height 0.9)))
+(use-package! mini-modeline
+    :config
+    (setq mode-line-position (list "%l:%c %p"))
+    (setq mode-line-modes (list "%m"))
+    (setq mini-modeline-enhance-visual t)
+    (setq mini-modeline-display-gui-line nil)
+    (setq mini-modeline-l-format nil)
+    (setq mini-modeline-r-format
+        '("%e"
+             mode-line-front-space
+             mode-line-position
+             " "
+             mode-line-client
+             mode-line-modified
+             mode-line-remote
+             " "
+             mode-line-modes
+             mode-line-misc-info))
+
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+            (lambda (frame)
+                (with-selected-frame frame
+                    (if (window-system frame)
+                        (mini-modeline-mode 1)))))
+        (mini-modeline-mode 1)))
 
 ;; no icons
 (after! all-the-icons

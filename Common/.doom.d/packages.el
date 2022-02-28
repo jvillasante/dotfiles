@@ -4,6 +4,7 @@
 ;; disabled packages
 (disable-packages!
     solaire-mode
+    doom-modeline
     elfeed-goodies
     irony
     ggtags
@@ -11,6 +12,9 @@
 
 ;; theme
 (package! modus-themes)
+
+;; modeline
+(package! mini-modeline)
 
 ;; rmsbolt (A supercharged implementation of the godbolt compiler-explorer for Emacs.)
 (package! rmsbolt
