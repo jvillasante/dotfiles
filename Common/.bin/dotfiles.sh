@@ -94,16 +94,19 @@ while true; do
                 ;;
             3)
                 doom_sync
+                emacs_service_restart
                 hr
                 break
                 ;;
             4)
                 doom_upgrade
+                emacs_service_restart
                 hr
                 break
                 ;;
             5)
                 doom_build
+                emacs_service_restart
                 hr
                 break
                 ;;
