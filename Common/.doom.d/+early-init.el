@@ -46,9 +46,8 @@
 ;; org-directory needs to be set early
 (setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 
-;; no mode-line
-(setq mode-line-format nil)
-(setq-default mode-line-format nil)
+;; Don’t compact font caches during GC.
+(setq inhibit-compacting-font-caches t)
 
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")

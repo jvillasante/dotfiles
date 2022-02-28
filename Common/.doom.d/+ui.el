@@ -38,18 +38,20 @@
     (doom-themes-org-config))
 
 ;; modeline
-(use-package! awesome-tray
-    :init
-    (awesome-tray-mode 1)
-    :config
-    (fset 'awesome-tray-get-frame-width 'frame-width) ;; monkey patch `awesome-tray-get-frame-width`
-    (setq awesome-tray-active-modules '("mode-name" "location")))
+(after! doom-modeline
+    (setq doom-modeline-persp-name t)
+    (setq doom-modeline-display-default-persp-name t)
+    (setq doom-modeline-workspace-name t)
+    (setq doom-modeline-icon nil)
+    (setq doom-modeline-height 1)
+    (custom-set-faces!
+      '(mode-line :family "Source Code Pro" :height 0.9)
+      '(mode-line-inactive :family "Source Code Pro" :height 0.9)))
 
 ;; no icons
 (after! all-the-icons
     (defun +jv/disable-all-the-icons (&rest _)
         nil)
-
     (dolist (fn '(all-the-icons-octicon
                      all-the-icons-material
                      all-the-icons-faicon

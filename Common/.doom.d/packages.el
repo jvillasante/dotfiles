@@ -4,7 +4,6 @@
 ;; disabled packages
 (disable-packages!
     solaire-mode
-    doom-modeline
     elfeed-goodies
     irony
     ggtags
@@ -12,10 +11,6 @@
 
 ;; theme
 (package! modus-themes)
-
-;; modeline
-(package! awesome-tray
-    :recipe (:host github :repo "manateelazycat/awesome-tray"))
 
 ;; rmsbolt (A supercharged implementation of the godbolt compiler-explorer for Emacs.)
 (package! rmsbolt
