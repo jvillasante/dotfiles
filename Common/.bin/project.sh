@@ -133,9 +133,15 @@ create_rust_project() {
         cp "$DOTFILES_DIR/Misc/.rustfmt.toml" "$PROJECT_PATH/"
         check $?
 
+        cd "$PROJECT_PATH" && check $?
+
+        echo ">>> Initializing 'git' in $PROJECT_PATH..."
+        git init
+        check $?
+
         echo ">>> Creating 'app' in $PROJECT_PATH..."
-        cd "$PROJECT_PATH" || exit 1
         cargo new --bin app
+        check $?
     else
         echo ">>> $PROJECT_PATH already exists."
     fi
