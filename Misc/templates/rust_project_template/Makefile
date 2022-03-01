@@ -5,8 +5,8 @@ CLIPPY  = cargo clippy
 RUN     = cargo run
 TEST    = cargo test
 DOC     = cargo doc
-CURRENT = src/app
-ALL     = src/app
+CURRENT = app
+ALL     = app
 
 clean_all:
 	$(foreach project,$(ALL),cd $(project) && ${CLEAN} && cd -;)

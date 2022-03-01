@@ -132,6 +132,10 @@ create_rust_project() {
         echo ">>> Copying .rustfmt.toml to $PROJECT_PATH..."
         cp "$DOTFILES_DIR/Misc/.rustfmt.toml" "$PROJECT_PATH/"
         check $?
+
+        echo ">>> Creating 'app' in $PROJECT_PATH..."
+        cd "$PROJECT_PATH" || exit 1
+        cargo new --bin app
     else
         echo ">>> $PROJECT_PATH already exists."
     fi
