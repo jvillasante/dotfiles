@@ -50,12 +50,11 @@
              mode-line-front-space
              mode-line-position
              " "
-             mode-line-client
-             mode-line-modified
-             mode-line-remote
+             mode-line-client        ; Identifies frames created by emacsclient
+             mode-line-modified      ; Modified and read-only status
+             mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
              " "
-             mode-line-modes
-             mode-line-misc-info))
+             mode-line-modes))
 
     (if (daemonp)
         (add-hook 'after-make-frame-functions
