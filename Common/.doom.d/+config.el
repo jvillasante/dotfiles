@@ -171,8 +171,7 @@
 (add-hook! prog-mode #'+my/comment-auto-fill)
 (add-hook! phyton-mode #'whitespace-mode)
 (add-hook! makefile-mode #'whitespace-mode)
-(add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
-;; (remove-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
+;; (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 (add-hook! markdown-mode
     (toggle-word-wrap nil)
     (auto-fill-mode -1))
