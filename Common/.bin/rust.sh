@@ -13,31 +13,48 @@ update_rust() {
 }
 
 update_rust_analyzer() {
-    if [ ! -d "${HOME}/.bin/bin/" ]; then
-        mkdir "${HOME}/.bin/bin/"
+    if [ ! -d "${CARGO_HOME:-~/.cargo}/bin" ]; then
+        echo ">>> cargo is not installed, exiting..."
+        exit 1
     fi
 
     local CURRENT_OS
     CURRENT_OS="$(find_os)"
     if [ "$CURRENT_OS" = "OSX" ]; then
-        curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-apple-darwin.gz |
-            gunzip -c - >"${HOME}/.bin/bin/rust-analyzer"
+        curl -LsSf https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-apple-darwin.gz |
+            gunzip -c - >"${CARGO_HOME:-~/.cargo}/bin/rust-analyzer"
     elif [ "$CURRENT_OS" = "LINUX" ]; then
-        curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz |
-            gunzip -c - >"${HOME}/.bin/bin/rust-analyzer"
+        curl -LsSf https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz |
+            gunzip -c - >"${CARGO_HOME:-~/.cargo}/bin/rust-analyzer"
     fi
 
-    if hash "${HOME}/.bin/bin/rust-analyzer" 2>/dev/null; then
-        chmod +x "${HOME}/.bin/bin/rust-analyzer"
+    if hash "${CARGO_HOME:-~/.cargo}/bin/rust-analyzer" 2>/dev/null; then
+        chmod +x "${CARGO_HOME:-~/.cargo}/bin/rust-analyzer"
     else
-        echo ">>> ${HOME}/.bin/bin/rust-analyzer does not exit, exiting..."
+        echo ">>> ${CARGO_HOME:-~/.cargo}/bin/rust-analyzer does not exit, exiting..."
         exit 1
     fi
 }
 
-update_rust_and_analyzer() {
+update_nextest() {
+    if [ ! -d "${CARGO_HOME:-~/.cargo}/bin" ]; then
+        echo ">>> cargo is not installed, exiting..."
+        exit 1
+    fi
+
+    local CURRENT_OS
+    CURRENT_OS="$(find_os)"
+    if [ "$CURRENT_OS" = "OSX" ]; then
+        curl -LsSf https://get.nexte.st/latest/mac | tar zxf - -C "${CARGO_HOME:-~/.cargo}/bin"
+    elif [ "$CURRENT_OS" = "LINUX" ]; then
+        curl -LsSf https://get.nexte.st/latest/linux | tar zxf - -C "${CARGO_HOME:-~/.cargo}/bin"
+    fi
+}
+
+update_all() {
     update_rust
     update_rust_analyzer
+    update_nextest
 }
 
 show_global_packages() {
@@ -61,7 +78,7 @@ update_global_packages() {
 
 while true; do
     PS3="Choose an option: "
-    options=("Update Rust" "Update Rust Analyzer" "Update Rust and Rust Analyzer"
+    options=("Update Rust" "Update Rust Analyzer" "Update Nextest" "Update Rust, Rust Analyzer and Nextest"
         "Show Global Packages Installed" "Update Global Packages Installed"
         "Quit")
 
@@ -78,23 +95,26 @@ while true; do
                 break
                 ;;
             3)
-                update_rust_and_analyzer
+                update_nextest
                 hr
                 break
                 ;;
             4)
-                show_global_packages
-                # printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
-                # echo ""
+                update_all
                 hr
                 break
                 ;;
             5)
+                show_global_packages
+                hr
+                break
+                ;;
+            6)
                 update_global_packages
                 hr
                 break
                 ;;
-            6) break 2 ;;
+            7) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done

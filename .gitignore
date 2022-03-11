@@ -1,6 +1,5 @@
 .oh-my-zsh
 .emacs.d*
-Common/.bin/bin/rust-analyzer
 .DS_Store
 *~
 .*~
