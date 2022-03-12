@@ -1,0 +1,218 @@
+#
+# Skim
+#
+if type sk >/dev/null 2>/dev/null; then
+    #
+    # Config
+    #
+
+    [ -f /usr/share/zsh/site-functions/_sk ] && source /usr/share/zsh/site-functions/_sk || echo "No skim completions found"
+    [ -f /usr/share/skim/shell/key-bindings.zsh ] && source /usr/share/skim/shell/key-bindings.zsh || echo "No skim key-bindings found"
+    export SKIM_DEFAULT_COMMAND="fd --type f || rg --files || find ."
+    export SKIM_DEFAULT_OPTIONS="\
+        --color=light \
+        --reverse \
+        --inline-info \
+        --no-multi \
+        --cycle \
+        --height ${SKIM_TMUX_HEIGHT:-40%} \
+        --tiebreak=index \
+        --preview-window=:hidden \
+        --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -L 2 -a -C {} | less || echo {} 2> /dev/null | head -200))' \
+        --bind '?:toggle-preview'
+  "
+
+    #
+    # General
+    #
+
+    # switch to a project
+    function sk_proj() {
+        cd $(find ~/Workspace/Private/Projects/ -maxdepth 2 -type d | sk)
+    }
+
+    function sk_wproj() {
+        cd $(find ~/Workspace/Work/Projects/ -maxdepth 2 -type d | sk)
+    }
+
+    # change to an arbitrary subdirectory
+    function sk_cd() {
+        cd $(find . -type d | sk)
+    }
+
+    # fuzzy match current directory contents
+    function sk_fuzz() {
+        search_term=$1
+        find . -wholename \*$search_term\* -not -path './.*/*' | sk
+    }
+
+    # run a command from the history
+    function sk_hist() {
+        $(history | cut -c8- | sort -u | sk)
+    }
+
+    #
+    # Processes
+    #
+
+    # show process id - interactive grep
+    function sk_pgrep() {
+        ps aux | eval sk | awk '{ print $2 }'
+    }
+
+    # kill processes - list only the ones you can kill.
+    function sk_pkill() {
+        local pid
+        if [ "$UID" != "0" ]; then
+            pid=$(ps -f -u $UID | sed 1d | sk -m | awk '{print $2}')
+        else
+            pid=$(ps -ef | sed 1d | fk -m | awk '{print $2}')
+        fi
+
+        if [ "x$pid" != "x" ]
+        then
+            echo $pid | xargs kill -${1:-9}
+        fi
+    }
+
+    #
+    # Git
+    #
+
+    # checkout git branch (including remote branches)
+    function sk_git_branch() {
+        local branches branch
+        branches=$(git branch --all | grep -v HEAD) &&
+            branch=$(echo "$branches" | sk -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+            git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+    }
+
+    # checkout git branch/tag
+    function sk_git_checkout() {
+        local tags branches target
+        branches=$(
+            git --no-pager branch --all \
+                --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
+                | sed '/^$/d') || return
+        tags=$(git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
+        target=$(
+            (echo "$branches"; echo "$tags") |
+                sk --no-hscroll --no-multi -n 2 \
+                    --ansi) || return
+        git checkout $(awk '{print $2}' <<<"$target" )
+    }
+
+    # checkout git commit
+    function sk_git_checkout_commit() {
+        local commits commit
+        commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+            commit=$(echo "$commits" | sk) && git checkout $(echo "$commit" | sed "s/ .*//")
+    }
+
+    # git commit browser
+    function sk_git_commits() {
+        git log --graph --color=always \
+            --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+            sk --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+                --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+    }
+
+    #
+    # Pass
+    #
+    #
+    if type pass >/dev/null 2>/dev/null; then
+        function sk_pass() {
+            local DIR=$(pwd)
+            cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}"
+            local PASSFILE=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | sk)
+            cd ${DIR}
+
+            if [ ! -z "$PASSFILE" ]; then
+                local ACTIONS="Copy Password\nView File\nEdit File\nQuit"
+                local CONTINUE=true
+                while ${CONTINUE}; do
+                    local ACTION=$(echo "${ACTIONS}" | sk --height 10 --border --header "Pass file ${PASSFILE}")
+                    case ${ACTION} in
+                        "Copy Password")
+                            pass --clip "${PASSFILE}"
+                            ;;
+                        "View File")
+                            pass "${PASSFILE}"
+                            ;;
+                        "Edit File")
+                            pass edit "${PASSFILE}"
+                            ;;
+                        "Quit") CONTINUE=false ;;
+                        *) CONTINUE=false ;;
+                    esac
+                done
+            fi
+        }
+    fi
+
+    #
+    # Tmux
+    #
+
+    if type tmux >/dev/null 2>/dev/null; then
+        # `sk_tmux_session_new` - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
+        # `sk_tmux_session_new` will allow you to select your tmux session via skim.
+        # `sk_tmux_session_new irc` will attach to the irc session (if it exists), else it will create it.
+        function sk_tmux_session_new() {
+            [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+            if [ $1 ]; then
+                tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+            fi
+            session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | sk --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+        }
+
+
+        # zsh; needs setopt re_match_pcre. You can, of course, adapt it to your own shell easily.
+        function sk_tmux_session_kill() {
+            local sessions
+            sessions="$(tmux ls | sk --exit-0 --multi)"  || return $?
+            local i
+            for i in "${(f@)sessions}"
+            do
+                [[ $i =~ '([^:]*):.*' ]] && {
+                    echo "Killing $match[1]"
+                    tmux kill-session -t "$match[1]"
+                }
+            done
+        }
+
+        # sk_tmux_session_switch [FUZZY PATTERN] - Select selected tmux session
+        #   - Bypass fuzzy finder if there's only one match (--select-1)
+        #   - Exit if there's no match (--exit-0)
+        function sk_tmux_session_switch() {
+            local session
+            session=$(tmux list-sessions -F "#{session_name}" | \
+                sk --query="$1" --select-1 --exit-0) &&
+                tmux switch-client -t "$session"
+        }
+
+        # sk_tmux_pane_switch - switch pane
+        function sk_tmux_pane_switch() {
+            local panes current_window current_pane target target_window target_pane
+            panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
+            current_pane=$(tmux display-message -p '#I:#P')
+            current_window=$(tmux display-message -p '#I')
+
+            target=$(echo "$panes" | grep -v "$current_pane" | sk --reverse) || return
+            target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
+            target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
+
+            if [[ $current_window -eq $target_window ]]; then
+                tmux select-pane -t ${target_window}.${target_pane}
+            else
+                tmux select-pane -t ${target_window}.${target_pane} &&
+                    tmux select-window -t $target_window
+            fi
+        }
+    fi
+fi

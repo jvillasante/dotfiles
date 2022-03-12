@@ -94,7 +94,7 @@ for file in $files; do
 done
 
 echo ">> Linking common files in $HOME/.config..."
-files="tmux ranger rofi nvim psd i3"
+files="shell tmux ranger rofi nvim psd i3"
 for file in $files; do
     unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
