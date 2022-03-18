@@ -49,6 +49,9 @@
 ;; Don’t compact font caches during GC.
 (setq inhibit-compacting-font-caches t)
 
+(setq langtool-language-tool-jar
+    (expand-file-name "system/LanguageTool-5.6-stable/languagetool-commandline.jar" +my/software-path))
+
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")
 ;;   (color-theme-initialize))
