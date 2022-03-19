@@ -209,6 +209,4 @@
     (default +bindings +smartparens)
 
     :private
-    ;; my-postframe
-    ;; my-eshell
     my-cc)
