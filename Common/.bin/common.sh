@@ -175,7 +175,7 @@ hr() {
 #    github_latest arkenfox user.js "${HOME}/Downloads"
 #    check $?
 #
-github_latest() {
+github_latest_release() {
     local GITHUB_ORGANIZATION
     local GITHUB_REPO
     local OUTPUT

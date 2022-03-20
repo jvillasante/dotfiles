@@ -21,7 +21,7 @@ update_usersjs() {
     rm -rf /tmp/arkenfox-user.js-*
 
     # Get latest and update
-    github_latest arkenfox user.js /tmp
+    github_latest_release arkenfox user.js /tmp
     check $?
 
     cp -f /tmp/arkenfox-user.js-*/prefsCleaner.sh "${FIREFOX_PROFILE_DIR}"
