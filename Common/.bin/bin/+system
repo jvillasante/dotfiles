@@ -1,0 +1,65 @@
+#!/bin/bash
+
+. "$(dirname "$0")/../common.sh"
+
+while true; do
+    PS3="Choose an option: "
+    options=("Color Test" "Dotfiles" "Fedora" "Firefox" "Go" "Rust" "Zig" "Create Project" "Ubuntu" "MacOS" "Quit")
+
+    select opt in "${options[@]}"; do
+        case $REPLY in
+            1)
+                sh "${HOME}/.bin/color_test.sh"
+                hr
+                break
+                ;;
+            2)
+                sh "${HOME}/.bin/dotfiles.sh"
+                hr
+                break
+                ;;
+            3)
+                sh "${HOME}/.bin/fedora.sh"
+                hr
+                break
+                ;;
+            4)
+                sh "${HOME}/.bin/firefox.sh"
+                hr
+                break
+                ;;
+            5)
+                sh "${HOME}/.bin/go.sh"
+                hr
+                break
+                ;;
+            6)
+                sh "${HOME}/.bin/rust.sh"
+                hr
+                break
+                ;;
+            7)
+                sh "${HOME}/.bin/zig.sh"
+                hr
+                break
+                ;;
+            8)
+                sh "${HOME}/.bin/project.sh"
+                hr
+                break
+                ;;
+            9)
+                sh "${HOME}/.bin/ubuntu.sh"
+                hr
+                break
+                ;;
+            10)
+                sh "${HOME}/.bin/mac.sh"
+                hr
+                break
+                ;;
+            11) break 2 ;;
+            *) echo "Invalid option '$opt'" >&2 ;;
+        esac
+    done
+done
