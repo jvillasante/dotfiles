@@ -45,6 +45,12 @@ user_pref("network.cookie.lifetimePolicy", 0);
 
 /* 2811: keep history on shutdown ***/
 user_pref("privacy.clearOnShutdown.history", false);
+
+/* 4520: enable WebGL (Web Graphics Library) ***/
+user_pref("webgl.disabled", false);
+
+/* END: internal custom pref to test for syntax errors ***/
+user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
 
     sh "${FIREFOX_PROFILE_DIR}"/updater.sh
