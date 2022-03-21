@@ -1,7 +1,7 @@
 #!/bin/bash
 
 . "$(dirname "$0")/common.sh"
-FIREFOX_PROFILE_DIR="${HOME}/.mozilla/firefox/csl5g7gp.default-release"
+FIREFOX_PROFILE_DIR="${HOME}/.mozilla/firefox/4dnd6yts.default-release"
 
 #
 # https://github.com/arkenfox/user.js
@@ -39,9 +39,6 @@ user_pref("keyword.enabled", true);
 
 /* 4504: re-enable RFP letterboxing [FF67+] ***/
 user_pref("privacy.resistFingerprinting.letterboxing", false);
-
-/* 2801: do not delete cookies and site data on exit ***/
-user_pref("network.cookie.lifetimePolicy", 0);
 
 /* 2811: keep history on shutdown ***/
 user_pref("privacy.clearOnShutdown.history", false);
