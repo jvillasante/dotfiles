@@ -34,17 +34,41 @@ update_usersjs() {
     check $?
 
     cat >"${FIREFOX_PROFILE_DIR}/user-overrides.js" <<ENDOFFILE
-/* 0801: re-enable location bar using search ***/
-user_pref("keyword.enabled", true);
+// Re-enables 'about:home' page for startup landing page and new tabs.
+/* 0102 */ user_pref("browser.startup.page", 1);
+/* 0103 */ user_pref("browser.startup.homepage", "about:home");
+/* 0104 */ user_pref("browser.newtabpage.enabled", true);
+           user_pref("browser.newtab.preload", true);
 
-/* 4504: re-enable RFP letterboxing [FF67+] ***/
-user_pref("privacy.resistFingerprinting.letterboxing", false);
+// Disable RFP letterboxing (Dont like those huge margins)
+/* 4503 */ user_pref("privacy.resistFingerprinting.letterboxing", false);
 
-/* 2811: keep history on shutdown ***/
+// Re-enables URL usages as a search bar.
+/* 0801 */ user_pref("keyword.enabled", true);
+
+// Don't delete cookies and site data on exit
+/* 2801 */ user_pref("network.cookie.lifetimePolicy", 0);
+
+/* 2811 */
+// Don't throw away HTTP basic authentication sessions on Firefox shutdown.
+user_pref("privacy.clearOnShutdown.sessions", false);
+// Don't throw away history on Firefox shutdown.
 user_pref("privacy.clearOnShutdown.history", false);
 
-/* 4520: enable WebGL (Web Graphics Library) ***/
-user_pref("webgl.disabled", false);
+// Re-enables WebGL.
+/* 4520 */ user_pref("webgl.disabled", false);
+
+/* 9000 */
+// Disables Pocket extension.
+user_pref("extensions.pocket.enabled", false);
+
+// Sets Quad9's DoH resolver as TRR.
+// From <https://quad9.net/doh-quad9-dns-servers/#UsingDoHwithQuad9DNSServers-Firefox>
+// ... and <https://wiki.mozilla.org/Trusted_Recursive_Resolver>.
+user_pref("network.trr.mode", 2);
+user_pref("network.trr.custom_uri", "Quad9");
+user_pref("network.trr.uri", "https://dns.quad9.net:5053/dns-query");
+user_pref("network.trr.bootstrapAddress", "9.9.9.9");
 
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
