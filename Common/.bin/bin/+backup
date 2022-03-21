@@ -46,7 +46,7 @@ function backup() {
         if ask "Backing up $1 to $2, continue?"; then
             echo "Backing up $1 to $2..."
             rsync -uazh --quiet --safe-links --delete \
-                --include={'/.config','/.config/BraveSoftware/***'} \
+                --include={'/.config','/.config/BraveSoftware','/.config/BraveSoftware/Brave-Browser-backup/***'} \
                 --include={'/Desktop/***','/Documents/***','/Downloads/***','/Music/***','/Pictures/***','/Videos/***'} \
                 --include={'/Workspace','/Workspace/Books/***','/Workspace/Private/***','/Workspace/Work/***'} \
                 --include={'/Workspace/Public','/Workspace/Public/Projects/***'} \
