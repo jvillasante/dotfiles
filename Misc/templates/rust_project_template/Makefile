@@ -3,8 +3,9 @@ CHECK   = cargo check
 BUILD   = cargo build
 CLIPPY  = cargo clippy
 RUN     = cargo run
-TEST    = cargo test
+TEST    = cargo nextest run
 DOC     = cargo doc
+ARGS    =
 CURRENT = app
 ALL     = app
 
@@ -39,10 +40,10 @@ build_release:
 	cd ${CURRENT} && ${BUILD} --release
 
 run:
-	cd ${CURRENT} && ${RUN}
+	cd ${CURRENT} && ${RUN} ${ARGS}
 
 run_release:
-	cd ${CURRENT} && ${RUN} --release
+	cd ${CURRENT} && ${RUN} --release ${ARGS}
 
 test_all:
 	$(foreach project,$(ALL),cd $(project) && ${TEST} && cd -;)
