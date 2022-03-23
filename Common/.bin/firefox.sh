@@ -1,7 +1,6 @@
 #!/bin/bash
 
 . "$(dirname "$0")/common.sh"
-FIREFOX_PROFILE_DIR="${HOME}/.mozilla/firefox/4dnd6yts.default-release"
 
 #
 # https://github.com/arkenfox/user.js
@@ -12,8 +11,17 @@ update_usersjs() {
         exit 1
     fi
 
-    if [ ! -d "${FIREFOX_PROFILE_DIR}" ]; then
-        echo ">>> Firefox profile (${FIREFOX_PROFILE_DIR}) does not exits, please verify with 'about:support'."
+    local PROFILE
+    PROFILE=$(cat "$HOME/.mozilla/firefox/profiles.ini" | sed -n -e 's/^.*Default=//p' | head -n 1)
+    if [[ ! "$PROFILE" =~ ^.*\.arkenfox$ ]]; then
+        echo "Invalid profile '$PROFILE', shoule be called '*******.arkenfox', exiting..."
+        exit 1
+    else
+        PROFILE="${HOME}/.mozilla/firefox/$PROFILE"
+    fi
+
+    if [ ! -d "${PROFILE}" ]; then
+        echo ">>> Firefox profile (${PROFILE}) does not exits, please verify with 'about:support'."
         exit 1
     fi
 
@@ -24,16 +32,16 @@ update_usersjs() {
     github_latest_release arkenfox user.js /tmp
     check $?
 
-    cp -f /tmp/arkenfox-user.js-*/prefsCleaner.sh "${FIREFOX_PROFILE_DIR}"
+    cp -f /tmp/arkenfox-user.js-*/prefsCleaner.sh "${PROFILE}"
     check $?
 
-    cp -f /tmp/arkenfox-user.js-*/updater.sh "${FIREFOX_PROFILE_DIR}"
+    cp -f /tmp/arkenfox-user.js-*/updater.sh "${PROFILE}"
     check $?
 
-    cp -f /tmp/arkenfox-user.js-*/user.js "${FIREFOX_PROFILE_DIR}"
+    cp -f /tmp/arkenfox-user.js-*/user.js "${PROFILE}"
     check $?
 
-    cat >"${FIREFOX_PROFILE_DIR}/user-overrides.js" <<ENDOFFILE
+    cat >"${PROFILE}/user-overrides.js" <<ENDOFFILE
 // Re-enables 'about:home' page for startup landing page and new tabs.
 /* 0102 */ user_pref("browser.startup.page", 1);
 /* 0103 */ user_pref("browser.startup.homepage", "about:home");
@@ -74,10 +82,10 @@ user_pref("network.trr.bootstrapAddress", "9.9.9.9");
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
 
-    sh "${FIREFOX_PROFILE_DIR}"/updater.sh
+    sh "${PROFILE}"/updater.sh
     check $?
 
-    sh "${FIREFOX_PROFILE_DIR}"/prefsCleaner.sh
+    sh "${PROFILE}"/prefsCleaner.sh
     check $?
 }
 
