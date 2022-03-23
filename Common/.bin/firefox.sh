@@ -67,14 +67,6 @@ user_pref("privacy.clearOnShutdown.history", false);
 // Disables Pocket extension.
 user_pref("extensions.pocket.enabled", false);
 
-// Sets Quad9's DoH resolver as TRR.
-// From <https://quad9.net/doh-quad9-dns-servers/#UsingDoHwithQuad9DNSServers-Firefox>
-// ... and <https://wiki.mozilla.org/Trusted_Recursive_Resolver>.
-user_pref("network.trr.mode", 2);
-user_pref("network.trr.custom_uri", "Quad9");
-user_pref("network.trr.uri", "https://dns.quad9.net:5053/dns-query");
-user_pref("network.trr.bootstrapAddress", "9.9.9.9");
-
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
