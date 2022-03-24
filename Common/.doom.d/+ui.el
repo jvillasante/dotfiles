@@ -26,6 +26,10 @@
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
 (delq! t custom-theme-load-path)
 
+(after! solaire-mode
+    (solaire-global-mode 1)
+    (setq solaire-mode-remap-line-numbers t))
+
 (after! doom-themes
     (setq
         doom-themes-enable-bold t     ; if nil, bold is universally disabled
