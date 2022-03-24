@@ -1,10 +1,10 @@
-# Inserts a blank line between shell prompts
-add_newline = true
+# Do not insert a blank line between shell prompts
+add_newline = false
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character] # The name of the module we are configuring is "character"
-success_symbol = "[λ](bold green)" # The "success_symbol" segment is being set to "λ" with the color "bold green"
+# Replace the "❯" symbol in the prompt with "λ"
+[character]
+success_symbol = "[λ](bold green)"
 
-# Disable the package module, hiding it from the prompt completely
+# Do not disable the package module, hiding it from the prompt completely
 [package]
-# disabled = true
+disabled = false
