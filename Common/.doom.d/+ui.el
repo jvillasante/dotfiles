@@ -11,7 +11,8 @@
     doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
 
 ;; Dash highlighting
-(after! dash (dash-enable-font-lock))
+(after! dash
+    (global-dash-fontify-mode))
 
 ;; Do not modify neotree
 (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)
