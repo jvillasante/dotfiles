@@ -2,6 +2,7 @@
 .emacs.d*
 .DS_Store
 Common/psd/.psd.conf
+Common/nushell/history.txt
 *~
 .*~
 \#*
