@@ -10,7 +10,7 @@ if type sk >/dev/null 2>/dev/null; then
     [ -f /usr/share/skim/shell/key-bindings.zsh ] && source /usr/share/skim/shell/key-bindings.zsh || echo "No skim key-bindings found"
     export SKIM_DEFAULT_COMMAND="fd --type f || rg --files || find ."
     export SKIM_DEFAULT_OPTIONS="\
-        --color=light \
+        --color=dark \
         --reverse \
         --inline-info \
         --no-multi \

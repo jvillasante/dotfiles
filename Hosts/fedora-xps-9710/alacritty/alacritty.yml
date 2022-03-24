@@ -207,7 +207,7 @@ schemes:
       magenta: "#b6a0ff"
       cyan: "#6ae4b9"
       white: "#ffffff"
-colors: *light
+colors: *dark
 
 # Visual Bell
 #
