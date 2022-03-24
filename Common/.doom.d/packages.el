@@ -17,8 +17,10 @@
 (package! mini-modeline)
 
 ;; rmsbolt (A supercharged implementation of the godbolt compiler-explorer for Emacs.)
-(package! rmsbolt
-    :recipe (:files (:defaults "starters") :host gitlab :repo "jgkamat/rmsbolt"))
+(package! rmsbolt :recipe
+    (:host gitlab
+        :repo "jgkamat/rmsbolt"
+        :files (:defaults "starters")))
 
 ;; dired
 (package! dired-quick-sort)
