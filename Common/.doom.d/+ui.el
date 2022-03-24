@@ -26,17 +26,6 @@
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
 (delq! t custom-theme-load-path)
 
-(after! doom-themes
-    (setq
-        doom-themes-enable-bold t     ; if nil, bold is universally disabled
-        doom-themes-enable-italic t)  ; if nil, italics is universally disabled
-
-    ;; Enable flashing mode-line on errors
-    (doom-themes-visual-bell-config)
-
-    ;; Corrects (and improves) org-mode's native fontification.
-    (doom-themes-org-config))
-
 ;; modeline
 (use-package! mini-modeline
     :config
