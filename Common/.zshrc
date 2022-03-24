@@ -111,6 +111,11 @@ if type exa >/dev/null 2>/dev/null; then
     alias ll='exa -agFlh --group-directories-first --color=auto'
 fi
 
+# ripgrep
+if type rg >/dev/null 2>/dev/null; then
+    alias grep='rg --color=auto'
+fi
+
 # gpg is not gpg2 if installed
 if type gpg2 >/dev/null 2>/dev/null; then
     alias gpg='gpg2'
