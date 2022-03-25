@@ -4,6 +4,7 @@ BUILD   = cargo build
 CLIPPY  = cargo clippy
 RUN     = cargo run
 TEST    = cargo nextest run
+# TEST    = cargo nextest run --success-output=final
 DOC     = cargo doc
 ARGS    =
 CURRENT = app
