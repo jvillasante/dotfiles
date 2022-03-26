@@ -131,6 +131,11 @@ if type nvim > /dev/null 2>&1; then
 fi
 alias vi=vim
 
+# surf: these options are very opinionated, disabling images, javascript, etc.
+if type surf > /dev/null 2>&1; then
+	alias surf="surf -giKMnps"
+fi
+
 #
 # Mac Stuff
 #
