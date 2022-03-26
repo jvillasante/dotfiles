@@ -28,6 +28,11 @@ function init() {
 }
 
 function backup() {
+    if pgrep -x brave >/dev/null; then
+        echo ">>> Brave Browser is running. Close it and try again..."
+        exit 1
+    fi
+
     if [ -z "$1" ] || [ ! -d "$1" ]; then
         echo "Illegal arguments ($1 must exists and be a directory)"
         echo "  Usage: ./backup backup <Home Folder> <USB Folder>"
@@ -44,6 +49,10 @@ function backup() {
 
     if [[ $1 == */ ]] && [[ $2 == */ ]]; then # * is used for pattern matching
         if ask "Backing up $1 to $2, continue?"; then
+            echo "Restarting psd.service to create a new Brave Browser backup..."
+            systemctl --user restart psd.service
+            sleep 1
+
             echo "Backing up $1 to $2..."
             rsync -uazh --quiet --safe-links --delete \
                 --include={'/.config','/.config/BraveSoftware','/.config/BraveSoftware/Brave-Browser-backup/***'} \
@@ -60,6 +69,11 @@ function backup() {
 }
 
 function restore() {
+    if pgrep -x brave >/dev/null; then
+        echo ">>> Brave Browser is running. Close it and try again..."
+        exit 1
+    fi
+
     if [ -z "$1" ] || [ ! -d "$1" ]; then
         echo "Illegal arguments ($1 must exists and be a directory)"
         echo "  Usage: ./backup restore <Home Folder> <USB Folder>"
@@ -76,8 +90,27 @@ function restore() {
 
     if [[ $1 == */ ]] && [[ $2 == */ ]]; then # * is used for pattern matching
         if ask "Restoring $2 to $1, continue?"; then
+            echo "Stopping psd.service to execute the restore..."
+            systemctl --user stop psd.service
+            sleep 1
+
             echo "Restoring $2 to $1..."
             rsync -uazh --quiet "$2" "$1"
+
+            echo "Restoring Brave Browser backup..."
+            if [ -d "${HOME}/.config/BraveSoftware" ]; then
+                if [ -d "${HOME}/.config/BraveSoftware/Brave-Browser" ]; then
+                    rm -rf "{HOME}/.config/BraveSoftware/Brave-Browser"
+                fi
+
+                if [ -d "${HOME}/.config/BraveSoftware/Brave-Browser-backup" ]; then
+                    mv "${HOME}/.config/BraveSoftware/Brave-Browser-backup" "${HOME}/.config/BraveSoftware/Brave-Browser"
+                fi
+            fi
+
+            echo "Starting psd.service..."
+            systemctl --user start psd.service
+            sleep 1
         else
             echo "Aborted by user..."
         fi
@@ -105,4 +138,4 @@ function process() {
     fi
 }
 
-time (process "$1" "$2" "$3")
+process "$1" "$2" "$3"
