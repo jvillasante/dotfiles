@@ -40,7 +40,7 @@
              mode-line-front-space
              mode-line-position
              " "
-             mode-line-client        ; Identifies frames created by emacsclient
+             ;; mode-line-client        ; Identifies frames created by emacsclient
              mode-line-mule-info	 ; Information on character sets, encodings, and other human-language details
              mode-line-modified      ; Modified and read-only status
              mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
