@@ -92,11 +92,6 @@ alias em="emacsclient -c -n -a ''"      # opens the GUI
 alias emt="emacsclient -t -a ''"        # used to be "emacs -nw"
 alias semt="sudo emacsclient -t -a ''"  # used to be "sudo emacs -nw"
 
-# git
-alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-alias gl='git pull --prune'
-alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -pe 's/^[ \t]*//' | sed 's/ /\\\\ /g' | xargs git rm"
-
 # utils
 alias ls='ls --color'
 alias ll='ls -AlFh --color'
@@ -113,7 +108,7 @@ fi
 
 # ripgrep
 if type rg >/dev/null 2>/dev/null; then
-    alias grep='rg --color=auto'
+    alias grep='rg -S --color=auto'
 fi
 
 if type bat >/dev/null 2>/dev/null; then
@@ -135,6 +130,11 @@ alias vi=vim
 if type surf > /dev/null 2>&1; then
 	alias surf="surf -giKMnps"
 fi
+
+# git
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias gl='git pull --prune'
+alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | perl -pe 's/^[ \t]*//' | sed 's/ /\\\\ /g' | xargs git rm"
 
 #
 # Mac Stuff
