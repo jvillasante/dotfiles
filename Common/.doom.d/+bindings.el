@@ -67,7 +67,7 @@
                 :desc "File in neotree" :n "N" #'+neotree/find-this-file)
             (:when (featurep! :ui treemacs)
                 :desc "Initialize or toggle treemacs"      :n "n" #'treemacs
-                :desc "Doom initialize or toggle treemacs" :n "N" #'treemacs-find-file)
+                :desc "Doom initialize or toggle treemacs" :n "N" #'+treemacs/toggle)
             (:prefix ("a" . "Application")
                 :desc "Mu4e"               :n "m" #'mu4e
                 :desc "Elfeed Rss Reader"  :n "f" #'elfeed
