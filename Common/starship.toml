@@ -2,9 +2,9 @@
 add_newline = false
 
 format = """
-[┌─| ](bold green)$all\
-[└─](bold green)$character"""
+[┌─| ](dimmed green)$all\
+[└─](dimmed green)$character"""
 
 [character]
-success_symbol = "[λ](bold green)"
-error_symbol = "[✗](bold red)"
+success_symbol = "[|](dimmed green)"
+error_symbol = "[✗](dimmed red)"
