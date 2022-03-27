@@ -49,6 +49,7 @@
 ;; Don’t compact font caches during GC.
 (setq inhibit-compacting-font-caches t)
 
+;; Set the path of the langtool jar
 (setq langtool-language-tool-jar
     (expand-file-name "system/LanguageTool-5.6-stable/languagetool-commandline.jar" +my/software-path))
 
