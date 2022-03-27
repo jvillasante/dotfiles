@@ -29,6 +29,9 @@
             ".*:\0? *")))
 
 (after! emacs-everywhere
+    (remove-hook 'emacs-everywhere-init-hooks #'org-mode)
+    (add-hook 'emacs-everywhere-init-hooks #'markdown-mode)
+
     (setq emacs-everywhere-frame-parameters
         `((name . "emacs-everywhere")
              (width . 120)
