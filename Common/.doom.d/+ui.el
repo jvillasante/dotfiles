@@ -28,32 +28,18 @@
 (delq! t custom-theme-load-path)
 
 ;; modeline
-(use-package! mini-modeline
-    :config
-    (setq mode-line-position (list "%l:%c %p"))
-    (setq mode-line-modes (list "%m"))
-    (setq mini-modeline-enhance-visual t)
-    (setq mini-modeline-display-gui-line nil)
-    (setq mini-modeline-l-format nil)
-    (setq mini-modeline-r-format
-        '("%e"
-             mode-line-front-space
-             mode-line-position
-             " "
-             ;; mode-line-client        ; Identifies frames created by emacsclient
-             mode-line-mule-info	 ; Information on character sets, encodings, and other human-language details
-             mode-line-modified      ; Modified and read-only status
-             mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
-             " "
-             mode-line-modes))
-
+(use-package! awesome-tray
+    :init
     (if (daemonp)
         (add-hook 'after-make-frame-functions
             (lambda (frame)
                 (with-selected-frame frame
                     (if (window-system frame)
-                        (mini-modeline-mode 1)))))
-        (mini-modeline-mode 1)))
+                        (awesome-tray-mode 1)))))
+        (awesome-tray-mode 1))
+    :config
+    (fset 'awesome-tray-get-frame-width 'frame-width)
+    (setq awesome-tray-active-modules '("location" "mode-name")))
 
 ;; no icons
 (after! all-the-icons

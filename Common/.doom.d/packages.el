@@ -15,7 +15,8 @@
 (package! modus-themes)
 
 ;; modeline
-(package! mini-modeline)
+(package! awesome-tray
+    :recipe (:host github :repo "manateelazycat/awesome-tray"))
 
 ;; rmsbolt (A supercharged implementation of the godbolt compiler-explorer for Emacs.)
 (package! rmsbolt :recipe
