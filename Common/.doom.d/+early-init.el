@@ -52,14 +52,6 @@
 (setq langtool-language-tool-jar
     (expand-file-name "system/LanguageTool-5.6-stable/languagetool-commandline.jar" +my/software-path))
 
-(defun greedily-do-daemon-setup ()
-  (require 'org))
-(when (daemonp)
-    (add-hook 'emacs-startup-hook #'greedily-do-daemon-setup)
-    (add-hook! 'server-after-make-frame-hook
-        (unless (string-match-p "\\*draft\\|\\*stdin\\|emacs-everywhere" (buffer-name))
-            (switch-to-buffer +doom-dashboard-name))))
-
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")
 ;;   (color-theme-initialize))
