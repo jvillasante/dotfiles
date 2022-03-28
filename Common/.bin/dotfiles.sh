@@ -27,30 +27,6 @@ dotfiles_sync() {
     check $?
 }
 
-dotfiles_perform() {
-    while true; do
-        PS3="Choose an option: "
-        options=("Dotfiles Pull" "Dotfiles Sync" "Quit")
-
-        select opt in "${options[@]}"; do
-            case $REPLY in
-                1)
-                    dotfiles_pull
-                    hr
-                    break
-                    ;;
-                2)
-                    dotfiles_sync
-                    hr
-                    break
-                    ;;
-                3) break 2 ;;
-                *) echo "Invalid option '$opt'" >&2 ;;
-            esac
-        done
-    done
-}
-
 doom_help() {
     if [ ! -f "${HOME}/.emacs.d/bin/doom" ]; then
         echo "doom script not present, exiting..."
@@ -67,6 +43,7 @@ doom_sync() {
         exit 1
     fi
 
+    dotfiles_sync
     "${HOME}/.emacs.d/bin/doom" -y sync
     check $?
 }
@@ -77,6 +54,7 @@ doom_upgrade() {
         exit 1
     fi
 
+    dotfiles_sync
     "${HOME}/.emacs.d/bin/doom" -y upgrade
     check $?
 }
@@ -111,50 +89,6 @@ doom_doctor() {
     check $?
 }
 
-doom_perform() {
-    while true; do
-        PS3="Choose an option: "
-        options=("Help" "Sync" "Upgrade" "Purge" "Build" "Doctor" "Quit")
-
-        select opt in "${options[@]}"; do
-            case $REPLY in
-                1)
-                    doom_help
-                    hr
-                    break
-                    ;;
-                2)
-                    doom_sync
-                    hr
-                    break
-                    ;;
-                3)
-                    doom_upgrade
-                    hr
-                    break
-                    ;;
-                4)
-                    doom_purge
-                    hr
-                    break
-                    ;;
-                5)
-                    doom_build
-                    hr
-                    break
-                    ;;
-                6)
-                    doom_doctor
-                    hr
-                    break
-                    ;;
-                7) break 2 ;;
-                *) echo "Invalid option '$opt'" >&2 ;;
-            esac
-        done
-    done
-}
-
 emacs_service_restart() {
     systemctl --user --no-block restart emacs
     check $?
@@ -162,26 +96,56 @@ emacs_service_restart() {
 
 while true; do
     PS3="Choose an option: "
-    options=("Dotfiles" "Doom" "Emacs Service Restart" "Quit")
+    options=("Dotfiles Pull" "Dotfiles Sync" "Doom Help" "Doom Sync" "Doom Upgrade" "Doom Purge" "Doom Build" "Doom Doctor" "Emacs Service Restart" "Quit")
 
     select opt in "${options[@]}"; do
         case $REPLY in
             1)
-                dotfiles_perform
+                dotfiles_pull
                 hr
                 break
                 ;;
             2)
-                doom_perform
+                dotfiles_sync
                 hr
                 break
                 ;;
             3)
+                doom_help
+                hr
+                break
+                ;;
+            4)
+                doom_sync
+                hr
+                break
+                ;;
+            5)
+                doom_upgrade
+                hr
+                break
+                ;;
+            6)
+                doom_purge
+                hr
+                break
+                ;;
+            7)
+                doom_build
+                hr
+                break
+                ;;
+            8)
+                doom_doctor
+                hr
+                break
+                ;;
+            9)
                 emacs_service_restart
                 hr
                 break
                 ;;
-            4) break 2 ;;
+            10) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
