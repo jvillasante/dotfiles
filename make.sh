@@ -55,8 +55,11 @@ install_emacs() {
         if [ "$CURRENT_EMACS_DISTRO" = "SPACEMACS" ]; then
             git clone -b develop --single-branch git@github.com:syl20bnr/spacemacs.git "$DOTFILES_DIR/.emacs.d"
         elif [ "$CURRENT_EMACS_DISTRO" = "DOOM_EMACS" ]; then
-            git clone -b develop --single-branch git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.d"
+            git clone --depth 1 git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.d"
             "$DOTFILES_DIR/.emacs.d/bin/doom" install
+
+            # git clone -b develop --single-branch git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.d"
+            # "$DOTFILES_DIR/.emacs.d/bin/doom" install
         else
             echo "Set CURRENT_EMACS_DISTRO!"
         fi
