@@ -331,6 +331,16 @@
 (after! dired-quick-sort
     (dired-quick-sort-setup))
 
+(use-package! pdf-tools
+    :init
+    (defun +my/config-pdf ()
+        (if (eq (modus-themes--current-theme) 'modus-vivendi)
+            (pdf-view-midnight-minor-mode 1)
+            (pdf-view-midnight-minor-mode -1)))
+    (add-hook! 'pdf-view-mode-hook '+my/config-pdf)
+    :config
+    (pdf-tools-install))
+
 (after! neotree
     (setq
         neo-theme 'ascii
