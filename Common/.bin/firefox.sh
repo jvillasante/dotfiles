@@ -45,27 +45,33 @@ update_usersjs_arkenfox() {
 /* 0104 */ user_pref("browser.newtabpage.enabled", true);
            user_pref("browser.newtab.preload", true);
 
-// Disable RFP letterboxing (Dont like those huge margins)
-/* 4503 */ user_pref("privacy.resistFingerprinting.letterboxing", false);
+// RFP is not for me
+/* 4501 */ user_pref("privacy.resistFingerprinting", false);
+/* 4504 */ user_pref("privacy.resistFingerprinting.letterboxing", false);
+/* 4520 */ user_pref("webgl.disabled", false);
 
 // Re-enables URL usages as a search bar.
 /* 0801 */ user_pref("keyword.enabled", true);
 
+// Override when to send a cross-origin referer (0=always)
+/* 1601 */ user_pref("network.http.referer.XOriginPolicy", 0);
+
+// Enable live search suggestions
+/* 0804 */ user_pref("browser.search.suggest.enabled", true);
+           user_pref("browser.urlbar.suggest.searches", true);
+
+// Disable saving passwords
+/* 5003 */ user_pref("signon.rememberSignons", false);
+
 // Don't delete cookies and site data on exit
 /* 2801 */ user_pref("network.cookie.lifetimePolicy", 0);
 
-/* 2811 */
-// Don't throw away HTTP basic authentication sessions on Firefox shutdown.
-user_pref("privacy.clearOnShutdown.sessions", false);
-// Don't throw away history on Firefox shutdown.
-user_pref("privacy.clearOnShutdown.history", false);
+// Don't throw away HTTP basic authentication sessions and history on Firefox shutdown.
+/* 2811 */ user_pref("privacy.clearOnShutdown.sessions", false);
+           user_pref("privacy.clearOnShutdown.history", false);
 
-// Re-enables WebGL.
-/* 4520 */ user_pref("webgl.disabled", false);
-
-/* 9000 */
 // Disables Pocket extension.
-user_pref("extensions.pocket.enabled", false);
+/* 9000 */ user_pref("extensions.pocket.enabled", false);
 
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
