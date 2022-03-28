@@ -1,10 +1,5 @@
 # Do not insert a blank line between shell prompts
 add_newline = false
 
-format = """
-[┌─| ](dimmed green)$all\
-[└─](dimmed green)$character"""
-
 [character]
-success_symbol = "[|](dimmed green)"
-error_symbol = "[✗](dimmed red)"
+error_symbol = "[✗](bold red)"
