@@ -72,6 +72,8 @@ install_emacs() {
         echo ">>> Unknown emacs distro '$CURRENT_EMACS_DISTRO', exiting..."
         exit 1
     fi
+
+    echo ">>> Using Emacs Distro: $CURRENT_EMACS_DISTRO"
 }
 
 install_zsh

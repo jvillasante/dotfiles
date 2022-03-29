@@ -2,11 +2,9 @@
 
 (defun +jv/org-capture-inbox ()
     (interactive)
-    (call-interactively 'org-store-link)
     (org-capture nil "i"))
 (defun +jv/org-capture-notes()
     (interactive)
-    (call-interactively 'org-store-link)
     (org-capture nil "n"))
 
 (map!
