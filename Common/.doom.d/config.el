@@ -140,6 +140,7 @@
             (spell-fu-dictionary-add (spell-fu-get-ispell "es")))))
 
 (after! flycheck
+    (setq flycheck-temp-prefix "flycheck_tmp")
     (setq flycheck-indication-mode 'left-fringe))
 
 (after! company

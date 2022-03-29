@@ -5,6 +5,7 @@
 Common/psd/.psd.conf
 Common/nushell/history.txt
 .DS_Store
+*flycheck_tmp_*
 *~
 .*~
 \#*
