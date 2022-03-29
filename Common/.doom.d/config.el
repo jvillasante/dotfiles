@@ -379,12 +379,42 @@
              "\\.egg\-info$")))
 
 (after! treemacs
+    (setq treemacs-no-png-images t)
+
     (defvar treemacs-file-ignore-extensions '()
         "File extension which `treemacs-ignore-filter' will ensure are ignored")
     (defvar treemacs-file-ignore-globs '()
         "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
     (defvar treemacs-file-ignore-regexps '()
         "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
+    (setq treemacs-file-ignore-extensions
+        '(;; LaTeX
+             "aux"
+             "ptc"
+             "fdb_latexmk"
+             "fls"
+             "synctex.gz"
+             "toc"
+             ;; LaTeX - glossary
+             "glg"
+             "glo"
+             "gls"
+             "glsdefs"
+             "ist"
+             "acn"
+             "acr"
+             "alg"
+             ;; LaTeX - pgfplots
+             "mw"
+             ;; LaTeX - pdfx
+             "pdfa.xmpi"))
+    (setq treemacs-file-ignore-globs
+        '(;; LaTeX
+             "*/_minted-*"
+             ;; AucTeX
+             "*/.auctex-auto"
+             "*/_region_.log"
+             "*/_region_.tex"))
     (defun treemacs-file-ignore-generate-regexps ()
         "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
         (setq treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
@@ -396,34 +426,6 @@
                 (dolist (regexp treemacs-file-ignore-regexps ignore-file)
                     (setq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
     (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
-(setq treemacs-file-ignore-extensions
-    '(;; LaTeX
-         "aux"
-         "ptc"
-         "fdb_latexmk"
-         "fls"
-         "synctex.gz"
-         "toc"
-         ;; LaTeX - glossary
-         "glg"
-         "glo"
-         "gls"
-         "glsdefs"
-         "ist"
-         "acn"
-         "acr"
-         "alg"
-         ;; LaTeX - pgfplots
-         "mw"
-         ;; LaTeX - pdfx
-         "pdfa.xmpi"))
-(setq treemacs-file-ignore-globs
-    '(;; LaTeX
-         "*/_minted-*"
-         ;; AucTeX
-         "*/.auctex-auto"
-         "*/_region_.log"
-         "*/_region_.tex"))
 
 (after! pass
     (setq password-store-password-length 25))
