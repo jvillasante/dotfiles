@@ -47,21 +47,30 @@ install_zsh() {
     fi
 }
 
-# CURRENT_EMACS_DISTRO="SPACEMACS"
 CURRENT_EMACS_DISTRO="DOOM_EMACS"
+# CURRENT_EMACS_DISTRO="PRELUDE"
 install_emacs() {
-    if [ ! -d "$DOTFILES_DIR/.emacs.d/" ]; then
-        if [ "$CURRENT_EMACS_DISTRO" = "SPACEMACS" ]; then
-            git clone -b develop --single-branch git@github.com:syl20bnr/spacemacs.git "$DOTFILES_DIR/.emacs.d"
-        elif [ "$CURRENT_EMACS_DISTRO" = "DOOM_EMACS" ]; then
-            git clone --depth 1 git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.d"
-            "$DOTFILES_DIR/.emacs.d/bin/doom" install
+    if [ "$CURRENT_EMACS_DISTRO" = "DOOM_EMACS" ]; then
+        if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
+            git clone --depth 1 git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom"
+            check $?
 
-            # git clone -b develop --single-branch git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.d"
-            # "$DOTFILES_DIR/.emacs.d/bin/doom" install
-        else
-            echo ">>> Set CURRENT_EMACS_DISTRO!"
+            "$DOTFILES_DIR/.emacs.doom/bin/doom" install
         fi
+
+        rm -rf "$DOTFILES_DIR/.emacs.d"
+        ln -s "$DOTFILES_DIR/.emacs.doom" "$DOTFILES_DIR/.emacs.d"
+    elif [ "$CURRENT_EMACS_DISTRO" = "PRELUDE" ]; then
+        if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
+            git clone git@github.com:bbatsov/prelude.git "$DOTFILES_DIR/.emacs.prelude"
+            check $?
+        fi
+
+        rm -rf "$DOTFILES_DIR/.emacs.d"
+        ln -s "$DOTFILES_DIR/.emacs.prelude" "$DOTFILES_DIR/.emacs.d"
+    else
+        echo ">>> Unknown emacs distro '$CURRENT_EMACS_DISTRO', exiting..."
+        exit 1
     fi
 }
 

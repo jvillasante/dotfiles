@@ -1,8 +1,10 @@
+.emacs.d
+.emacs.doom
+.emacs.prelude
 .oh-my-zsh
-.emacs.d*
-.DS_Store
 Common/psd/.psd.conf
 Common/nushell/history.txt
+.DS_Store
 *~
 .*~
 \#*
