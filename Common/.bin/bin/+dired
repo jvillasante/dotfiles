@@ -1,8 +1,0 @@
-#!/bin/bash
-
-#
-# Opens a terminal emacs with dired on the current directory
-#
-
-emacsclient -t -a '' --frame-parameters="'(fullscreen . maximized)" \
-    --eval '(progn (dired "."))'

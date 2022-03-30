@@ -88,9 +88,16 @@ alias ssh="TERM=xterm-256color ssh"
 export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # emacs
-alias em="emacsclient -c -n -a ''"      # opens the GUI
-alias emt="emacsclient -t -a ''"        # used to be "emacs -nw"
-alias semt="sudo emacsclient -t -a ''"  # used to be "sudo emacs -nw"
+if type emacs >/dev/null 2>/dev/null; then
+    alias em="emacsclient -c -n -a ''"      # opens the GUI
+    alias emt="emacsclient -t -a ''"        # used to be "emacs -nw"
+    alias semt="sudo emacsclient -t -a ''"  # used to be "sudo emacs -nw"
+
+    e()      { emacsclient -t "$@" }
+    ediff()  { emacsclient -t -a '' --eval "(ediff-files \"$1\" \"$2\")"; }
+    edired() { emacsclient -t -a '' --eval "(progn (dired \".\"))"; }
+    ekill()  { emacsclient --eval '(kill-emacs)'; }
+fi
 
 # utils
 alias ls='ls --color'
