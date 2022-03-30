@@ -4,7 +4,7 @@
 # correct word. This output can be piped to something like `dict` to find
 # definitions/synonyms.
 #
-# Requires: aspell, fzf
+# Requires: aspell, skim
 # Usage: spell misspelling
 # Example: dict $(spell mispeling)
 
