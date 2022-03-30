@@ -73,6 +73,9 @@ update_usersjs_arkenfox() {
 // Disables Pocket extension.
 /* 9000 */ user_pref("extensions.pocket.enabled", false);
 
+// Personal, make tabbar height smaller
+user_pref("browser.uidensity", 1);
+
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
