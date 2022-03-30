@@ -477,8 +477,7 @@
                     `(org-level-3        ((t (,@headline ,@variable-tuple :height 1.19))))
                     `(org-level-2        ((t (,@headline ,@variable-tuple :height 1.22))))
                     `(org-level-1        ((t (,@headline ,@variable-tuple :height 1.25))))
-                    `(org-headline-done  ((t (,@headline ,@variable-tuple :strike-through t))))
-                    `(org-document-title ((t (,@headline ,@variable-tuple :height 1.30 :underline nil))))))))
+                    `(org-document-title ((t (,@headline ,@variable-tuple :height 1.25 :underline nil))))))))
 
     ;; Latex previews in org-mode
     (plist-put org-format-latex-options :background 'default)
