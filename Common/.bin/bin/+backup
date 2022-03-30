@@ -7,6 +7,18 @@
 
 . "$(dirname "$0")/../common.sh"
 
+function firefox_profile() {
+    local PROFILE
+    PROFILE=$(cat "$HOME/.mozilla/firefox/profiles.ini" | sed -n -e 's/^.*Default=//p' | head -n 1)
+    if [[ ! "$PROFILE" =~ ^.*\.personal$ ]]; then
+        PROFILE=""
+    else
+        PROFILE="${HOME}/.mozilla/firefox/$PROFILE"
+    fi
+
+    echo "$PROFILE"
+}
+
 function init() {
     if [ -z "$1" ] || [ ! -d "$1" ]; then
         echo "Illegal arguments ($1 must exist and be a directory)"
@@ -33,6 +45,11 @@ function backup() {
         exit 1
     fi
 
+    if pgrep -x firefox >/dev/null; then
+        echo ">>> Firefox is running. Close it and try again..."
+        exit 1
+    fi
+
     if [ -z "$1" ] || [ ! -d "$1" ]; then
         echo "Illegal arguments ($1 must exists and be a directory)"
         echo "  Usage: ./backup backup <Home Folder> <USB Folder>"
@@ -49,13 +66,14 @@ function backup() {
 
     if [[ $1 == */ ]] && [[ $2 == */ ]]; then # * is used for pattern matching
         if ask "Backing up $1 to $2, continue?"; then
-            echo "Restarting psd.service to create a new Brave Browser backup..."
+            echo "Restarting psd.service to create a new browser backups..."
             systemctl --user restart psd.service
             sleep 1
 
             echo "Backing up $1 to $2..."
             rsync -uazh --quiet --safe-links --delete \
                 --include={'/.config','/.config/BraveSoftware','/.config/BraveSoftware/Brave-Browser-backup/***'} \
+                --include={'/.mozilla','/.mozilla/firefox','/.mozilla/firefox/installs.ini','/.mozilla/firefox/profiles.ini','/.mozilla/firefox/*.personal-backup/***'} \
                 --include={'/Desktop/***','/Documents/***','/Downloads/***','/Music/***','/Pictures/***','/Videos/***'} \
                 --include={'/Workspace','/Workspace/Books/***','/Workspace/Private/***','/Workspace/Work/***'} \
                 --include={'/Workspace/Public','/Workspace/Public/Projects/***'} \
@@ -71,6 +89,11 @@ function backup() {
 function restore() {
     if pgrep -x brave >/dev/null; then
         echo ">>> Brave Browser is running. Close it and try again..."
+        exit 1
+    fi
+
+    if pgrep -x firefox >/dev/null; then
+        echo ">>> Firefox is running. Close it and try again..."
         exit 1
     fi
 
@@ -94,8 +117,24 @@ function restore() {
             systemctl --user stop psd.service
             sleep 1
 
+            rm -rf "{HOME}/.mozilla"
+            rm -rf "{HOME}/.config/BraveSoftware"
+
             echo "Restoring $2 to $1..."
             rsync -uazh --quiet "$2" "$1"
+
+            echo "Restoring Firefox Browser backup..."
+            local FIREFOX_PROFILE
+            FIREFOX_PROFILE=$(firefox_profile)
+            if [ -z "${FIREFOX_PROFILE}" ]; then
+                echo ">>> Didn't found Firefox profile, skipping Firefox restore..."
+            else
+                if [ -d "${HOME}/.mozilla" ]; then
+                    if [ -d "${HOME}/.mozilla/firefox" ]; then
+                        mv "${HOME}/.mozilla/firefox/${FIREFOX_PROFILE}-backup" "${HOME}/.mozilla/firefox/${FIREFOX_PROFILE}"
+                    fi
+                fi
+            fi
 
             echo "Restoring Brave Browser backup..."
             if [ -d "${HOME}/.config/BraveSoftware" ]; then
