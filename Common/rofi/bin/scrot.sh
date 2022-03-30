@@ -11,12 +11,12 @@ options="$option0\n$option1\n$option2"
 selected="$(echo -e "$options" | rofi -lines 3 -dmenu -p "scrot")"
 case $selected in
     $option0)
-        mkdir -p ~/Pictures/scrots/ && cd ~/Pictures/scrots/ && sleep 1 && scrot
+        scrot -d 1 -F ~/Pictures/scrots/'%F-%H%M%S_$wx$h_screen.png'
         ;;
     $option1)
-        mkdir -p ~/Pictures/scrots/ && cd ~/Pictures/scrots/ && scrot -s
+        scrot -s -f -F ~/Pictures/scrots/'%F-%H%M%S_$wx$h_area.png'
         ;;
     $option2)
-        mkdir -p ~/Pictures/scrots/ && cd ~/Pictures/scrots/ && sleep 1 && scrot -u
+        scrot -d 1 -u -F ~/Pictures/scrots/'%F-%H%M%S_$wx$h_window.png'
         ;;
 esac
