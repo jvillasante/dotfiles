@@ -461,10 +461,11 @@
                        (cond
                            ((x-list-fonts   "Source Code Pro") '(:font   "Source Code Pro"))
                            ((x-list-fonts   "JetBrains Mono")  '(:font   "JetBrains Mono"))
+                           ((x-list-fonts   "Source Sans Pro") '(:font   "Source Sans Pro"))
                            ((x-list-fonts   "Lucida Grande")   '(:font   "Lucida Grande"))
                            ((x-list-fonts   "Verdana")         '(:font   "Verdana"))
                            ((x-family-fonts "Sans Serif")      '(:family "Sans Serif"))
-                           (nil (warn "Cannot find a Sans Serif Font."))))
+                           (nil (warn "Cannot find Font."))))
                       (base-font-color (face-foreground 'default nil 'default))
                       (headline `(:inherit default :weight bold :foreground ,base-font-color)))
                 (custom-theme-set-faces
@@ -477,6 +478,7 @@
                     `(org-level-3        ((t (,@headline ,@variable-tuple :height 1.19))))
                     `(org-level-2        ((t (,@headline ,@variable-tuple :height 1.22))))
                     `(org-level-1        ((t (,@headline ,@variable-tuple :height 1.25))))
+                    `(org-headline-done  ((t (,@headline ,@variable-tuple :strike-through t))))
                     `(org-document-title ((t (,@headline ,@variable-tuple :height 1.25 :underline nil))))))))
 
     ;; Latex previews in org-mode
