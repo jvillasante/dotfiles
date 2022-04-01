@@ -87,7 +87,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME..."
-files=".doom.d .oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .editorconfig .sbclrc"
+files=".oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .editorconfig .sbclrc"
 for file in $files; do
     unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
@@ -107,7 +107,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME/.config..."
-files="shell tmux ranger rofi nvim psd i3 nushell starship.toml"
+files="doom shell tmux ranger rofi nvim psd i3 nushell starship.toml"
 for file in $files; do
     unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"

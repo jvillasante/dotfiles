@@ -4,6 +4,7 @@
 .oh-my-zsh
 Common/psd/.psd.conf
 Common/nushell/history.txt
+Common/.bin/panama.sh
 .DS_Store
 *flycheck_tmp_*
 *~
