@@ -55,9 +55,21 @@
 (setq
     undo-limit 80000000               ; Raise undo-limit to 80Mb
     suggest-key-bindings nil          ; very annoying
-    evil-want-fine-undo t             ; By default while in insert all changes are one big blob. Be more granular
     auto-save-default t               ; Nobody likes to loose work, I certainly don't
     password-cache-expiry nil)        ; I can trust my computers ... can't I?
+
+;; evil stuff
+(when (featurep! :editor evil)
+    (setq evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
+    (setq evil-cross-lines t)    ;; Make horizontal movement cross lines
+    (setq evil-shift-width 4)    ;; evil shift width
+    (setq evil-ex-search-persistent-highlight nil) ;; No highlight persistence on evil search
+
+    ;; Make movement keys work like they should
+    (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+    (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+    (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+    (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line))
 
 ;; shell
 (setq-default
@@ -73,13 +85,11 @@
     truncate-lines t                   ; Don't fold lines
     truncate-partial-width-windows nil ; for vertically-split windows
     split-width-threshold 160          ; Split verticaly by default
-    evil-cross-lines t                 ; Make horizontal movement cross lines
     scroll-margin 3
     uniquify-buffer-name-style 'forward   ; Uniquify buffer names
     indent-tabs-mode nil                  ; use space to indent by default
 
     ;; set appearance of a tab that is represented by 4 spaces
-    evil-shift-width 4
     tab-width 4
     highlight-tabs t  ; show those ugly tabs
 
@@ -174,15 +184,6 @@
 (add-hook! markdown-mode
     (toggle-word-wrap nil)
     (auto-fill-mode -1))
-
-;; No highlight persistence on evil search
-(setq evil-ex-search-persistent-highlight nil)
-
-;; Make movement keys work like they should
-(define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
-(define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-(define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
-(define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
 
 ;; Workaround for terminal buffer scroll
 (setq term-char-mode-point-at-process-mark nil)

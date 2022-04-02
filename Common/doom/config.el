@@ -150,8 +150,9 @@
         company-minimum-prefix-length 2
         company-tooltip-align-annotations t)
 
-    ;; make aborting less annoying.
-    (add-hook! evil-normal-state-entry #'company-abort))
+    (when (featurep! :editor evil)
+        ;; make aborting less annoying.
+        (add-hook! evil-normal-state-entry #'company-abort)))
 
 (after! ws-butler
     (setq ws-butler-global-exempt-modes
@@ -274,10 +275,12 @@
 
 (after! elfeed-search
     (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
-    (set-evil-initial-state! 'elfeed-search-mode 'normal))
+    (when (featurep! :editor evil)
+        (set-evil-initial-state! 'elfeed-search-mode 'normal)))
 
 (after! elfeed-show-mode
-    (set-evil-initial-state! 'elfeed-show-mode 'normal))
+    (when (featurep! :editor evil)
+        (set-evil-initial-state! 'elfeed-show-mode 'normal)))
 
 (after! evil-snipe
     (push 'elfeed-show-mode   evil-snipe-disabled-modes)
