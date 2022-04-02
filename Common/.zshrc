@@ -119,7 +119,8 @@ if type rg >/dev/null 2>/dev/null; then
 fi
 
 if type bat >/dev/null 2>/dev/null; then
-    alias cat='bat'
+    alias bat='bat --theme ansi'
+    # alias cat='bat --theme ansi'
 fi
 
 # gpg is not gpg2 if installed
