@@ -10,9 +10,9 @@ ZSH_CUSTOM=$HOME/.oh-my-zsh.d
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 # ZSH_THEME="jv-custom"
-# eval "$(starship init zsh)" # Using starship theme
+eval "$(starship init zsh)" # Using starship theme
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -57,9 +57,9 @@ HISTCONTROL=ignoredups:ignorespace
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    plugins=(vi-mode git common-aliases osx)
+    plugins=(git common-aliases osx)
 else
-    plugins=(vi-mode git common-aliases)
+    plugins=(git common-aliases)
 fi
 
 # User configuration
