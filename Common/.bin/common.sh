@@ -44,6 +44,11 @@ find_host() {
                 CURRENT_HOST="$HOST"
             }
             ;;
+        "ubuntuvb")
+            {
+                CURRENT_HOST="$HOST"
+            }
+            ;;
         *)
             {
                 echo ">> Unsupported HOST: '$HOST', exiting..."
@@ -99,6 +104,8 @@ find_dotfiles() {
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-xps-9510" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
+    elif [ "$CURRENT_HOST" = "ubuntuvb" ]; then
+        DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
     fi
     echo "$DOTFILES_DIR"
 }
