@@ -75,6 +75,8 @@
                 (string-prefix-p (expand-file-name ".password-store/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.d/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.d/" +my/dotfiles-path) project-root)
+                (string-prefix-p (expand-file-name ".emacs.doom/" +my/dotfiles-path) project-root)
+                (string-prefix-p (expand-file-name ".emacs.prelude/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".bin/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".bin/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".oh-my-zsh/" +my/dotfiles-path) project-root)
