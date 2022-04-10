@@ -91,10 +91,11 @@
 (set-popup-rule! "^\\*cargo-*" :size 0.6 :ttl 0 :quit t)
 (set-popup-rule! "^\\*rustic-*" :size 0.6 :ttl 0 :quit t)
 (set-popup-rule! "^\\*osx-dictionary" :size 0.6 :quit t :ttl 0)
-(set-popup-rule! "^\\*Password-Store" :side 'left :size 0.65 :quit nil)
+(set-popup-rule! "^\\*Password-Store" :side 'left :size 0.6 :quit nil)
 (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.6 :quit nil :select t :autosave nil)
 (set-popup-rule! "^\\*info*" :size 0.6 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*test reference" :size 0.6 :ttl 0 :quit t)
+(set-popup-rule! "^\\*Man" :size 0.6 :quit t :select t)
 
 ;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
 (load! "+ui-modus-exporter.el")
