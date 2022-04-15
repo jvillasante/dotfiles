@@ -1,6 +1,6 @@
 ;;; modus-themes-exporter.el --- Help port the active Modus theme to external applications -*- lexical-binding:t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
@@ -46,14 +46,20 @@
 ;;; Code:
 
 (require 'modus-themes)
+(require 'dom)
+(require 'seq)
 
 (defvar modus-themes-exporter-templates-alist
-  '(("alacritty" . modus-themes-exporter-alacritty)
-    ("urxvt"     . modus-themes-exporter-urxvt)
-    ("vim"       . modus-themes-exporter-vim)
-    ("xcolors"   . modus-themes-exporter-xcolors)
-    ("xfce"      . modus-themes-exporter-xfce)
-    ("xterm"     . modus-themes-exporter-xterm)))
+  '(("alacritty"        . modus-themes-exporter-alacritty)
+    ("iterm2"           . modus-themes-exporter-iterm2)
+    ("urxvt"            . modus-themes-exporter-urxvt)
+    ("vim"              . modus-themes-exporter-vim)
+    ("windows-terminal" . modus-themes-exporter-windows-terminal)
+    ("xcolors"          . modus-themes-exporter-xcolors)
+    ("xfce"             . modus-themes-exporter-xfce)
+    ("xterm"            . modus-themes-exporter-xterm)))
+
+;;;; Generic Xcolors template
 
 (defun modus-themes-exporter-xcolors ()
   "Template for generic Xcolors."
@@ -83,6 +89,8 @@
          "*color14: " cyan-alt-other "\n"
          "*color15: " "#ffffff" "\n")))))
 
+;;;; XTerm template
+
 (defun modus-themes-exporter-xterm ()
   "Template for XTerm."
   (modus-themes-with-colors
@@ -110,6 +118,8 @@
          "xterm*color13: " magenta-alt-other "\n"
          "xterm*color14: " cyan-alt-other "\n"
          "xterm*color15: " "#ffffff" "\n")))))
+
+;;;; Alacritty template
 
 (defun modus-themes-exporter-alacritty ()
   "Template for Alacritty."
@@ -143,6 +153,8 @@
          "    cyan:    '" cyan-alt-other "'" "\n"
          "    white:   '#ffffff'" "\n")))))
 
+;;;; URxvt template
+
 (defun modus-themes-exporter-urxvt ()
   "Template for URxvt (Rxvt-unicode)."
   (modus-themes-with-colors
@@ -173,6 +185,8 @@
          "URxvt*color14: " cyan-alt-other "\n"
          "URxvt*color15: " "#ffffff" "\n")))))
 
+;;;; Xfce terminal template
+
 (defun modus-themes-exporter-xfce ()
   "Template for Xfce terminal."
   (modus-themes-with-colors
@@ -192,6 +206,41 @@
 "TabActivityColor=" magenta-alt "\n"
 "ColorSelectionBackground=" bg-region "\n"
 "ColorSelection=" fg-main "\n")))))
+
+;;;; Windows terminal template
+
+(defun modus-themes-exporter-windows-terminal ()
+  "Template for Windows Terminal."
+  (modus-themes-with-colors
+    (let ((theme-name (format "%s" (car custom-enabled-themes))))
+      (with-temp-buffer
+        (concat
+         "// Theme: " theme-name "\n"
+         "// Description: Windows Terminal port of " theme-name " (Modus themes for Emacs)" "\n"
+         "// Author: Protesilaos Stavrou, <https://protesilaos.com>" "\n"
+         "\"name\": \"" theme-name "\",\n"
+         "\"background\": \"" bg-main "\",\n"
+         "\"foreground\": \"" fg-main "\",\n"
+         "\"cursorColor\": \"" fg-main "\",\n"
+         "\"selectionBackground\": \"" bg-region "\",\n"
+         "\"black\": \"#000000\",\n"
+         "\"red\": \"" red "\",\n"
+         "\"green\": \"" green "\",\n"
+         "\"yellow\": \"" yellow "\",\n"
+         "\"blue\": \"" blue "\",\n"
+         "\"purple\": \"" magenta "\",\n"
+         "\"cyan\": \"" cyan "\",\n"
+         "\"white\": \"#bfbfbf\",\n"
+         "\"brightBlack\": \"#595959\",\n"
+         "\"brightRed\": \"" red-alt "\",\n"
+         "\"brightGreen\": \"" green-alt "\",\n"
+         "\"brightYellow\": \"" yellow-alt "\",\n"
+         "\"brightBlue\": \"" blue-alt "\",\n"
+         "\"brightPurple\": \"" magenta-alt-other "\",\n"
+         "\"brightCyan\": \"" cyan-alt-other "\",\n"
+         "\"brightWhite\": \"#ffffff\"\n")))))
+
+;;;; Vim template
 
 ;; Please skip this.  I only wrote it as an attempt to participate in
 ;; the contest for the ugliest concat ever imagined...  Seriously
@@ -464,6 +513,103 @@
 "hi SyntasticErrorSing guifg=" bg-main " guibg=" fg-lang-error " ctermfg=" termcolbg " ctermbg=1" "\n"
 "hi SyntasticWarningSign guifg=" bg-main " guibg=" fg-lang-warning " ctermfg=" termcolbg " ctermbg=3" "\n")))))
 
+;;;; iterm template
+
+(defun modus-themes-exporter--iterm2-color-component (color component)
+  "Generate a string value for the COMPONENT of the specified COLOR.
+
+The COLOR is a string in a form #RRGGBB.  The component is one of: 'red, 'green, or 'blue."
+  (number-to-string
+   (/ (string-to-number (pcase component
+                          ('red (substring color 1 3))
+                          ('green (substring color 3 5))
+                          ('blue (substring color 5 7)))
+                        16)
+      255.0)))
+
+(defun modus-themes-exporter--iterm2-color-name (name)
+  "Generate a DOM key entry for the specified NAME."
+  `(key nil ,name))
+
+(defun modus-themes-exporter--iterm2-color-dict (color &optional alpha)
+  "Generate a DOM dict entry entry for the specified COLOR and optional ALPHA.
+The COLOR is a string in a form of #RRGGBB.  The ALPHA is a number."
+  `(dict nil
+         (key nil "Alpha Component")
+         (real nil ,(number-to-string (or alpha 1)))
+         (key nil "Blue Component")
+         (real nil ,(modus-themes-exporter--iterm2-color-component color 'blue))
+         (key nil "Color Space")
+         (string nil "sRGB")
+         (key nil "Green Component")
+         (real nil ,(modus-themes-exporter--iterm2-color-component color 'green))
+         (key nil "Red Component")
+         (real nil ,(modus-themes-exporter--iterm2-color-component color 'red))))
+
+(defun modus-themes-exporter--iterm2-dict (colors-defs)
+  "Generate a string representation of COLORS-DEFS alist for iTerm2 colors.
+
+Each item in COLORS-DEFS is in a form of (NAME . VALUE), where NAME is one of
+the iTerm 2 color names and VALUE either is a color string in a form of #RRGGBB,
+or is a list of color string in a from of #RRGGBB and an alpha value."
+  (with-temp-buffer
+    (dom-print
+     `(dict nil
+            ,@(apply 'cl-concatenate
+                     'list
+                     (mapcar (lambda (color-name)
+                               (list (modus-themes-exporter--iterm2-color-name (car color-name))
+                                     (apply 'modus-themes-exporter--iterm2-color-dict (pcase (cdr color-name)
+                                                                                        ((and (pred listp) args) args)
+                                                                                        (arg (list arg))))))
+                             colors-defs)))
+     t t)
+    (buffer-string)))
+
+(defun modus-themes-exporter-iterm2 ()
+  "Template for iTerm2."
+  (modus-themes-with-colors
+    (let ((theme-name (format "%s" (car custom-enabled-themes))))
+      (with-temp-buffer
+        (concat
+         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+         "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
+         "<!-- Theme: " theme-name "-->\n"
+         "<!-- Description: iTerm2 port of " theme-name " (Modus themes for Emacs)" "-->\n"
+         "<!-- Author: Przemek Kryger" "-->\n"
+         "<plist version=\"1.0\">\n"
+         (modus-themes-exporter--iterm2-dict
+          `(("Ansi 0 Color" . "#000000")
+            ("Ansi 1 Color" . ,red)
+            ("Ansi 2 Color" . ,green)
+            ("Ansi 3 Color" . ,yellow)
+            ("Ansi 4 Color" . ,blue)
+            ("Ansi 5 Color" . ,magenta)
+            ("Ansi 6 Color" . ,cyan)
+            ("Ansi 7 Color" . "#bfbfbf")
+            ("Ansi 8 Color" . "#595959")
+            ("Ansi 9 Color" . ,red-alt)
+            ("Ansi 10 Color" . ,green-alt)
+            ("Ansi 11 Color" . ,yellow-alt)
+            ("Ansi 12 Color" . ,blue-alt)
+            ("Ansi 13 Color" . ,magenta-alt-other)
+            ("Ansi 14 Color" . ,cyan-alt-other)
+            ("Ansi 15 Color" . "#ffffff")
+            ("Background Color" . ,bg-main)
+            ("Badge Color" . (,red-alt 0.75))
+            ("Bold Color" . ,fg-main)
+            ("Cursor Color" . ,fg-main)
+            ("Cursor Guide Color" . (,bg-hl-line 0.8))
+            ("Cursor Text Color" . ,bg-main)
+            ("Foreground Color" . ,fg-main)
+            ("Link Color" . ,blue-alt)
+            ("Selected Text Color" . ,fg-main)
+            ("Selection Color" . ,bg-region)))
+         "\n"
+         "</plist>" "\n")))))
+
+;;;; Export command
+
 (defvar modus-themes-exporter-template-hist '()
   "History of inputs for templates.")
 
@@ -522,4 +668,5 @@ file."
       (kill-new fn)
       (message "Saved to kill-ring port of %s for %s" current-theme template)))))
 
+(provide 'modus-themes-exporter)
 ;;; modus-themes-exporter.el ends here
