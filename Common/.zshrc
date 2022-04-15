@@ -5,7 +5,8 @@ export ZSH=$HOME/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME=""
+eval "$(starship init zsh)"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -62,9 +63,9 @@ ZSH_CUSTOM=$HOME/.oh-my-zsh.d
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    plugins=(vi-mode git common-aliases osx)
+    plugins=(vi-mode git osx)
 else
-    plugins=(vi-mode git common-aliases)
+    plugins=(vi-mode git )
 fi
 
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true # omz vi-mode plugin
