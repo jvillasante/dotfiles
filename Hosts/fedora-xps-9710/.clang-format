@@ -7,6 +7,7 @@ Language: Cpp
 ColumnLimit: 120
 AlwaysBreakTemplateDeclarations: true
 Cpp11BracedListStyle: true
+AllowShortIfStatementsOnASingleLine: WithoutElse
 
 # Force pointers to the type for C++.
 DerivePointerAlignment: false
