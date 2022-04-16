@@ -29,5 +29,5 @@
 
 # Others
 .DS_Store
-bin/
-build/
+/bin
+/build
