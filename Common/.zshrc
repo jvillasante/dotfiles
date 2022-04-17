@@ -97,7 +97,6 @@ if type emacs >/dev/null 2>/dev/null; then
     alias emt="emacsclient -t -a ''"        # used to be "emacs -nw"
     alias semt="sudo emacsclient -t -a ''"  # used to be "sudo emacs -nw"
 
-    e()      { emacsclient -t "$@" }
     ediff()  { emacsclient -t -a '' --eval "(ediff-files \"$1\" \"$2\")"; }
     edired() { emacsclient -t -a '' --eval "(progn (dired \".\"))"; }
     ekill()  { emacsclient --eval '(kill-emacs)'; }
