@@ -16,7 +16,7 @@
                      (concat buffer-file-truename))
                  (dired-directory
                      (concat dired-directory))
-                 (t "[no file]")))))
+                 (t (buffer-name))))))
 
 ;; encryption
 (require 'epa-file)
