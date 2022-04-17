@@ -30,6 +30,14 @@
 ;; modeline
 (use-package! mini-modeline
     :init
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+            (lambda (frame)
+                (with-selected-frame frame
+                    (if (window-system frame)
+                        (mini-modeline-mode 1)))))
+        (mini-modeline-mode 1))
+    :config
     (setq mode-line-position (list "%l:%c %p"))
     (setq mode-line-modes (list "%m"))
     (setq mini-modeline-enhance-visual t)
@@ -46,15 +54,7 @@
              mode-line-modified      ; Modified and read-only status
              mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
              " "
-             mode-line-modes))
-
-    :config
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-            (lambda (frame)
-                (with-selected-frame frame
-                    (mini-modeline-mode 1))))
-        (mini-modeline-mode 1)))
+             mode-line-modes)))
 
 ;; no icons
 (after! all-the-icons
