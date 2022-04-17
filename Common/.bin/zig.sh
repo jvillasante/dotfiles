@@ -14,8 +14,8 @@ update_zig() {
     fi
     mkdir "$ZIG_ZIG_DIR"
 
-    # Get tarball from here: https://ziglang.org/download/
-    local ZIG_TAR_LOCATION="https://ziglang.org/builds/zig-linux-x86_64-0.10.0-dev.1009+4d658f83e.tar.xz"
+    # Get lastest tarball from here: https://ziglang.org/download/
+    local ZIG_TAR_LOCATION="https://ziglang.org/builds/zig-linux-x86_64-0.10.0-dev.1862+a7c05c06b.tar.xz"
     local ZIG_TAR_FILE
     ZIG_TAR_FILE="$(basename $ZIG_TAR_LOCATION)"
 
