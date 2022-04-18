@@ -1,7 +1,8 @@
 /.emacs.d
-/.emacs.doom
-/.emacs.prelude
-/.oh-my-zsh
+/.emacs.doom/
+/.emacs.prelude/
+/.oh-my-zsh/
+/Common/nvim/plugin/
 /Common/psd/.psd.conf
 /Common/nushell/history.txt
 /Common/.bin/panama.sh
