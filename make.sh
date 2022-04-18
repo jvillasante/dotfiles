@@ -76,8 +76,14 @@ install_emacs() {
     echo ">>> Using Emacs Distro: $CURRENT_EMACS_DISTRO"
 }
 
+install_vim() {
+    # TODO: Try to install nvim here if it is not installed already
+    echo "Installing vim..."
+}
+
 install_zsh
 install_emacs
+install_vim
 
 echo ">>> Linking global files in $HOME"
 files=".emacs.d .oh-my-zsh"
