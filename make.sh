@@ -83,7 +83,7 @@ install_vim() {
 
 install_zsh
 install_emacs
-install_vim
+# install_vim
 
 echo ">>> Linking global files in $HOME"
 files=".emacs.d .oh-my-zsh"
