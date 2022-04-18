@@ -232,7 +232,7 @@
 
     ;; C++
     (setq lsp-clients-clangd-args
-        '("-j=4"
+        '("-j=8"
              "--malloc-trim"
              "--log=error"
              "--background-index"
