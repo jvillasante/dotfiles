@@ -96,29 +96,15 @@
 
         ;;;; Code
         (:prefix ("c" . "Code")
-            :desc "Compile"                     :n "c" #'compile
-            :desc "Make"                        :n "m" #'+make/run
-            :desc "Jump to definition"          :n "d" #'+lookup/definition
-            :desc "Jump to references"          :n "D" #'+lookup/references
-            :desc "Lookup zeal documentation"   :n "z" #'zeal-at-point
-            :desc "Format buffer/region"        :n "f" #'+format/region-or-buffer
-            :desc "List errors"                 :n "e" #'flycheck-list-errors
-            :desc "Describe thing at point"     :n "t" #'lsp-describe-thing-at-point
-            :desc "LSP Rename"                  :n "r" #'lsp-rename
-            :desc "Restart LSP Workspace"       :n "q" #'lsp-workspace-restart
-            :desc "Shutdown LSP Workspace"      :n "Q" #'lsp-workspace-shutdown
-            (:prefix ("g" . "Go to")
-                :desc "Implementation"          :n "i" #'lsp-goto-implementation
-                :desc "Definition"              :n "d" #'lsp-goto-type-definition
-                :desc "Find Definition"         :n "D" #'lsp-find-definition
-                :desc "Find References"         :n "r" #'lsp-find-references)
-            (:prefix ("p" . "Peek")
-                :desc "Implementation"          :n "i" #'lsp-ui-peek-find-implementation
-                :desc "Definition"              :n "d" #'lsp-ui-peek-find-definitions
-                :desc "Reference"               :n "r" #'lsp-ui-peek-find-references)
+            :desc "Make run"                  :n "m" #'+make/run
+            :desc "Make run last"             :n "M" #'+make/run-last
+            :desc "Lookup zeal documentation" :n "z" #'zeal-at-point
+            :desc "Flycheck list errors"      :n "X" #'flycheck-list-errors
+            :desc "Restart LSP Workspace"     :n "q" #'lsp-workspace-restart
+            :desc "Shutdown LSP Workspace"    :n "Q" #'lsp-workspace-shutdown
             (:prefix ("u" . "menu")
-                :desc "Show"                    :n "m" #'lsp-ui-imenu
-                :desc "Hide"                    :n "q" #'lsp-ui-imenu--kill))
+                :desc "Show"                  :n "m" #'lsp-ui-imenu
+                :desc "Hide"                  :n "q" #'lsp-ui-imenu--kill))
 
         ;;; Notes
         (:prefix ("n" . "Notes")

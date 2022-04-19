@@ -253,9 +253,9 @@
         lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-show-code-actions nil)
 
-    (setq lsp-ui-peek-enable nil
-        lsp-ui-peek-always-show nil
-        lsp-ui-peek-show-directory nil)
+    (setq lsp-ui-peek-enable t
+        lsp-ui-peek-always-show t
+        lsp-ui-peek-show-directory t)
 
     (setq lsp-ui-doc-enable t)
     (setq lsp-ui-imenu-enable t))
