@@ -160,13 +160,16 @@ font:
   # use_thin_strokes: false
 
 # If `true`, bold text is drawn using the bright color variants.
-draw_bold_text_with_bright_colors: false
+draw_bold_text_with_bright_colors: true
 
 schemes:
   modus_operandi: &light
     primary:
       background: "#ffffff"
       foreground: "#000000"
+    cursor:
+      text: "#ffffff"
+      cursor: "#000000"
     normal:
       black: "#000000"
       red: "#a60000"
@@ -265,7 +268,7 @@ cursor:
   # the style of the active value of the normal cursor.
   #
   # See `cursor.style` for available options.
-  #vi_mode_style: None
+  vi_mode_style: None
 
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.
