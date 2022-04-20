@@ -85,8 +85,6 @@ install_tmuxifier() {
     if [ ! -d "$DOTFILES_DIR/.tmuxifier" ]; then
         git clone --depth 1 git@github.com:jimeh/tmuxifier.git "$DOTFILES_DIR/.tmuxifier"
         check $?
-    else
-        git -C "${DOTFILES_DIR}/.tmuxifier" pull >/dev/null
     fi
 }
 
