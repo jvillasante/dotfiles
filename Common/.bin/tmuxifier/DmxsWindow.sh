@@ -1,3 +1,5 @@
+#!/bin/sh
+
 NAME=Dmxs
 if tmux list-windows -F '#W' | grep -q "^$NAME\$"; then
     echo "Tmux window '$NAME' already exists."

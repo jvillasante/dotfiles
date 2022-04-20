@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 printf "          "
 for b in 0 1 2 3 4 5 6 7; do printf "  4${b}m "; done

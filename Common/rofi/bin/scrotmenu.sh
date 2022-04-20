@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # options to be displayed
 option0="Screen"
