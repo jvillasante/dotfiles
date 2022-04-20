@@ -2,6 +2,7 @@
 /.emacs.doom/
 /.emacs.prelude/
 /.oh-my-zsh/
+/.tmuxifier/
 /Common/nvim/plugin/
 /Common/psd/.psd.conf
 /Common/nushell/history.txt

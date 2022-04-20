@@ -81,12 +81,24 @@ install_vim() {
     echo "Installing vim..."
 }
 
+install_tmuxifier() {
+    if [ ! -d "$DOTFILES_DIR/.tmuxifier" ]; then
+        git clone --depth 1 git@github.com:jimeh/tmuxifier.git "$DOTFILES_DIR/.tmuxifier"
+        check $?
+    else
+        cd "${DOTFILES_DIR}/.tmuxifier" || exit 1
+        git pull >/dev/null 2>/dev/null
+        cd - || exit 1
+    fi
+}
+
 install_zsh
 install_emacs
 # install_vim
+install_tmuxifier
 
 echo ">>> Linking global files in $HOME"
-files=".emacs.d .oh-my-zsh"
+files=".emacs.d .oh-my-zsh .tmuxifier"
 for file in $files; do
     unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/$file" "$HOME/"

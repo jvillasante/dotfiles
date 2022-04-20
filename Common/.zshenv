@@ -51,3 +51,9 @@ fi
 if [ -d "$HOME/Workspace/Software/zig/zig" ]; then
     export PATH="$HOME/Workspace/Software/zig/zig:$PATH"
 fi
+
+# Tmuxifier
+if [ -d "$HOME/.tmuxifier" ]; then
+    export PATH="$HOME/.tmuxifier/bin:$PATH"
+    eval "$(tmuxifier init -)"
+fi
