@@ -78,7 +78,7 @@ install_emacs() {
 
 install_vim() {
     # TODO: Try to install nvim here if it is not installed already
-    echo "Installing vim..."
+    echo "Installing vim... (TODO)"
 }
 
 install_tmuxifier() {
@@ -92,7 +92,7 @@ install_tmuxifier() {
 
 install_zsh
 install_emacs
-# install_vim
+install_vim
 install_tmuxifier
 
 echo ">>> Linking global files in $HOME"
