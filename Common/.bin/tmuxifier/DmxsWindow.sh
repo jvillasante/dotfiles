@@ -1,8 +1,9 @@
 #!/bin/sh
 
-NAME=Dmxs
-if tmux list-windows -F '#W' | grep -q "^$NAME\$"; then
-    echo "Tmux window '$NAME' already exists."
+WINDOW_NAME=Dmxs
+if tmux list-windows -F '#W' | grep -q "^$WINDOW_NAME\$"; then
+    select_window $WINDOW_NAME
+    select_pane 2
 else
     # Set window root path. Default is `$session_root`.
     # Must be called before `new_window`.
@@ -10,7 +11,7 @@ else
 
     # Create new window. If no argument is given, window name will be based on
     # layout file name.
-    new_window "$NAME"
+    new_window "$WINDOW_NAME"
 
     # Split window into panes.
     split_v 80
