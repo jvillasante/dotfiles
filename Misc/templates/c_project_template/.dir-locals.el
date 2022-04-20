@@ -3,6 +3,3 @@
 
 ((nil .
       ((compile-command . "make -j debug"))))
-
-((c++-mode .
-           ((flycheck-clang-language-standard . "c++20"))))
