@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 id=$(xinput list | grep -i "Wireless Mouse" | cut -d'=' -f2 | cut -d'[' -f1)
 echo "Mouse ID $id"

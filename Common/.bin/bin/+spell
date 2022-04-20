@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Find the correct spelling of a word. Uses (and requires) `fzf` to select the
 # correct word. This output can be piped to something like `dict` to find

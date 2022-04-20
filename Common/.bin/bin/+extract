@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 . "$(dirname "$0")/../common.sh"
 CURRENT_OS="$(find_os)"

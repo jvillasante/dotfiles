@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 WINDOW_NAME=Dmxs
 if tmux list-windows -F '#W' | grep -q "^$WINDOW_NAME\$"; then
