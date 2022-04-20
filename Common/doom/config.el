@@ -42,6 +42,7 @@
 
 (after! recentf
     (push (list (expand-file-name ".emacs.d/" +my/dropbox-path)) recentf-exclude)
+    (push (list (expand-file-name ".tmuxifier/" +my/dropbox-path)) recentf-exclude)
     (push #'+org-is-agenda-file recentf-exclude)
     (push "~/.mail" recentf-exclude)
     (push "\\.git" recentf-exclude)
@@ -77,6 +78,7 @@
                 (string-prefix-p (expand-file-name ".emacs.d/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.doom/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.prelude/" +my/dotfiles-path) project-root)
+                (string-prefix-p (expand-file-name ".tmuxifier/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".bin/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".bin/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".oh-my-zsh/" +my/dotfiles-path) project-root)
