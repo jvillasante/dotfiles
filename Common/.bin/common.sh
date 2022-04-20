@@ -29,22 +29,12 @@ find_host() {
                 CURRENT_HOST="$HOST"
             }
             ;;
-        "fedora-latitude-7480")
-            {
-                CURRENT_HOST="$HOST"
-            }
-            ;;
         "fedora-xps-9710")
             {
                 CURRENT_HOST="$HOST"
             }
             ;;
         "fedora-xps-9510")
-            {
-                CURRENT_HOST="$HOST"
-            }
-            ;;
-        "ubuntuvb")
             {
                 CURRENT_HOST="$HOST"
             }
@@ -98,14 +88,10 @@ find_dotfiles() {
     CURRENT_HOST="$(find_host)"
     if [ "$CURRENT_HOST" = "Julios-MacBook-Pro.local" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_HOST" = "fedora-latitude-7480" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-xps-9710" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-xps-9510" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_HOST" = "ubuntuvb" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Personal/dotfiles" # dotfiles directory
     fi
     echo "$DOTFILES_DIR"
 }
