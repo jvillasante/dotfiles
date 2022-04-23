@@ -57,8 +57,3 @@ if [ -d "$HOME/.tmuxifier" ]; then
     export PATH="$HOME/.tmuxifier/bin:$PATH"
     eval "$(tmuxifier init -)"
 fi
-
-# Cling
-if [ -d "$HOME/Workspace/Software/system/cling/cling/bin" ]; then
-    export PATH="$HOME/Workspace/Software/system/cling/cling/bin:$PATH"
-fi
