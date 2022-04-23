@@ -34,14 +34,15 @@
     (setq mode-line-modes (list "%m"))
     (setq mini-modeline-enhance-visual t)
     (setq mini-modeline-display-gui-line nil)
-    (setq mini-modeline-echo-duration 5)
+    (setq mini-modeline-echo-duration 10)
+    (setq mini-modeline-right-padding 1)
     (setq mini-modeline-l-format nil)
     (setq mini-modeline-r-format
         '("%e"
              mode-line-front-space
              mode-line-position
              " "
-             mode-line-mule-info	 ; Information on character sets, encodings, and other human-language details
+             mode-line-mule-info     ; Information on character sets, encodings, and other human-language details
              mode-line-client        ; Identifies frames created by emacsclient
              mode-line-modified      ; Modified and read-only status
              mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
