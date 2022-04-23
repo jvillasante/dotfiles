@@ -4,8 +4,8 @@
 ;; disabled packages
 (disable-packages!
     doom-themes
-    solaire-mode
     doom-modeline
+    solaire-mode
     elfeed-goodies
     irony
     ggtags

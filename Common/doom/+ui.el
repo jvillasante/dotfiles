@@ -53,7 +53,8 @@
         (add-hook 'after-make-frame-functions
             (lambda (frame)
                 (with-selected-frame frame
-                    (mini-modeline-mode t))))
+                    (if (window-system frame)
+                        (mini-modeline-mode t)))))
         (mini-modeline-mode t)))
 
 ;; no icons

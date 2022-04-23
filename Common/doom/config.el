@@ -537,7 +537,8 @@
         (add-hook 'after-make-frame-functions
             (lambda (frame)
                 (with-selected-frame frame
-                    (+my/org-custom-faces))))
+                    (if (window-system frame)
+                        (+my/org-custom-faces)))))
         (+my/org-custom-faces)))
 
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
