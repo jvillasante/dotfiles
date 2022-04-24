@@ -96,64 +96,62 @@ install_tmuxifier
 echo ">>> Linking global files in $HOME"
 files=".emacs.d .oh-my-zsh .tmuxifier"
 for file in $files; do
-    if [ -f "$DOTFILES_DIR/$file" ]; then
-        unlink "$HOME/$file"
-        ln -s "$DOTFILES_DIR/$file" "$HOME/"
-    fi
+    unlink "$HOME/$file"
+    ln -s "$DOTFILES_DIR/$file" "$HOME/"
 done
 
 echo ">>> Linking common files in $HOME..."
 files=".oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .editorconfig .sbclrc"
 for file in $files; do
-    if [ -f "$DOTFILES_DIR/Common/$file" ]; then
-        unlink "$HOME/$file"
-        ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
-    fi
+    unlink "$HOME/$file"
+    ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
 done
 
 echo ">>> Linking other files in $HOME..."
-files=""
+files=".fzf.zsh"
 for file in $files; do
-    if [ -f "$DOTFILES_DIR/Hosts/$CURRENT_HOST/$file" ]; then
-        unlink "$HOME/$file"
+    unlink "$HOME/$file"
+
+    if [ -d "$DOTFILES_DIR/Hosts/$CURRENT_HOST/" ]; then
         ln -s "$DOTFILES_DIR/Hosts/$CURRENT_HOST/$file" "$HOME/"
+    else
+        echo ">>> $DOTFILES_DIR/Hosts/$CURRENT_HOST does not exits, exiting..."
+        exit 1
     fi
 done
 
 echo ">>> Linking common files in $HOME/.config..."
 files="doom shell tmux ranger rofi nvim psd i3 nushell starship.toml"
 for file in $files; do
-    if [ -f "$DOTFILES_DIR/Common/$file" ]; then
-        unlink "$HOME/.config/$file"
-        ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
-    fi
+    unlink "$HOME/.config/$file"
+    ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
 done
 
 echo ">>> Linking other files in $HOME/.config..."
 files="alacritty git"
 for file in $files; do
-    if [ -f "$DOTFILES_DIR/Hosts/$CURRENT_HOST/$file" ]; then
-        unlink "$HOME/.config/$file"
+    unlink "$HOME/.config/$file"
+
+    if [ -d "$DOTFILES_DIR/Hosts/$CURRENT_HOST/" ]; then
         ln -s "$DOTFILES_DIR/Hosts/$CURRENT_HOST/$file" "$HOME/.config"
+    else
+        echo ">>> $DOTFILES_DIR/Hosts/$CURRENT_HOST does not exits, exiting..."
+        exit 1
     fi
 done
 
 echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."
 files="emacs.service"
 for file in $files; do
-    if [ -f "$DOTFILES_DIR/Common/systemd/user/$file" ]; then
-        unlink "$HOME/.config/systemd/user/$file"
-        ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"
-    fi
+    unlink "$HOME/.config/systemd/user/$file"
+    ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"
 done
 
 echo ">>> Linking desktop application files in $HOME/.local/share/applications..."
 files="emacs.desktop emacsclient.desktop"
 for file in $files; do
-    if [ -f "$DOTFILES_DIR/Common/applications/$file" ]; then
-        unlink "$HOME/.local/share/applications/$file"
-        ln -s "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
-    fi
+    unlink "$HOME/.local/share/applications/$file"
+    ln -s "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
 done
 
 echo ">>> All Done!"
