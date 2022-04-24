@@ -4,10 +4,10 @@
 -Werror
 -Wpedantic
 -DDEBUG
--isystem/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11
--isystem/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux
--isystem/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward
--isystem/usr/lib/gcc/x86_64-redhat-linux/11/include
+-isystem/usr/lib/gcc/x86_64-redhat-linux/12/../../../../include/c++/12
+-isystem/usr/lib/gcc/x86_64-redhat-linux/12/../../../../include/c++/12/x86_64-redhat-linux
+-isystem/usr/lib/gcc/x86_64-redhat-linux/12/../../../../include/c++/12/backward
+-isystem/usr/lib/gcc/x86_64-redhat-linux/12/include
 -isystem/usr/local/include
 -isystem/usr/include
 -I./
