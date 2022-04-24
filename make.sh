@@ -148,7 +148,7 @@ for file in $files; do
 done
 
 echo ">>> Linking desktop application files in $HOME/.local/share/applications..."
-files="emacsclient.desktop"
+files="emacs.desktop emacsclient.desktop"
 for file in $files; do
     if [ -f "$DOTFILES_DIR/Common/applications/$file" ]; then
         unlink "$HOME/.local/share/applications/$file"
