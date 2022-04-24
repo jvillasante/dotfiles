@@ -190,7 +190,7 @@
     (:after sokoban
         (:map sokoban-mode-map
             :desc "Sokoban move left"  :n "h" #'sokoban-move-left
-            :desc "Sokoban move down"  :n "j"  #'sokoban-move-down
-            :desc "Sokoban move up"    :n "k"  #'sokoban-move-up
-            :desc "Sokoban move right" :n "l"  #'sokoban-move-right))
+            :desc "Sokoban move down"  :n "j" #'sokoban-move-down
+            :desc "Sokoban move up"    :n "k" #'sokoban-move-up
+            :desc "Sokoban move right" :n "l" #'sokoban-move-right))
     )
