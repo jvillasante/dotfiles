@@ -97,6 +97,7 @@
 (set-popup-rule! "^\\*info*" :size 0.6 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*test reference" :size 0.6 :ttl 0 :quit t)
 (set-popup-rule! "^\\*Man" :size 0.6 :quit t :select t)
+(set-popup-rule! "^\\*xwidget-webkit*" :size 0.8 :quit t :select t)
 
 ;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
 (load! "+ui-modus-exporter.el")

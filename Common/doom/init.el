@@ -107,6 +107,7 @@
         +overlay)
     ;;gist              ; interacting with github gists
     (lookup             ; navigate your code and its documentation
+        +docsets
         +dictionary)
     lsp
     magit             ; a git porcelain for Emacs
