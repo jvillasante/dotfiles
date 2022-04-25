@@ -58,7 +58,7 @@ function backup_home() {
         --exclude 're:/vendor/' \
         --exclude 're:/node_modules/' \
         \
-        ::'{hostname}-{now}' \
+        ::'{hostname}_{now}' \
         /home/"$USER"/
 
     backup_exit=$?
@@ -66,13 +66,13 @@ function backup_home() {
     info "Pruning repository"
 
     # Use the `prune` subcommand to maintain 7 daily, 4 weekly and 6 monthly
-    # archives of THIS machine. The '{hostname}-' prefix is very important to
+    # archives of THIS machine. The '{hostname}_' prefix is very important to
     # limit prune's operation to this machine's archives and not apply to
     # other machines' archives also:
 
     borg prune \
         --list \
-        --prefix '{hostname}-' \
+        --prefix '{hostname}_' \
         --show-rc \
         --keep-daily 7 \
         --keep-weekly 4 \
@@ -104,6 +104,15 @@ function backup_firefox() {
     info() { printf "\n%s %s\n\n" "$(date)" "$*" >&2; }
     trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
 
+    if pgrep -x firefox >/dev/null; then
+        info "Firefox is running. Close it and try again..."
+        exit 1
+    fi
+
+    info "Restarting psd.service to create a new browser backups..."
+    systemctl --user restart psd.service
+    sleep 1
+
     info "Starting backup"
 
     # Backup the most important directories into an archive named after
@@ -117,7 +126,7 @@ function backup_firefox() {
         --show-rc \
         --compression lz4 \
         --exclude-caches \
-        ::'mozilla-{now}' \
+        ::'mozilla-{hostname}_{now}' \
         /home/"$USER"/.mozilla
 
     backup_exit=$?
@@ -125,7 +134,7 @@ function backup_firefox() {
     info "Pruning repository"
 
     # Use the `prune` subcommand to maintain 7 daily, 4 weekly and 6 monthly
-    # archives of THIS machine. The '{hostname}-' prefix is very important to
+    # archives of THIS machine. The 'mozilla-{hostname}_' prefix is very important to
     # limit prune's operation to this machine's archives and not apply to
     # other machines' archives also:
 
