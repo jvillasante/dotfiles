@@ -12,11 +12,11 @@ fi
 . "$(dirname "$0")/../common.sh"
 
 # derived information
-export BORG_CACHE_DIR=/home/"$USER"/.cache/borg/
+export BORG_CACHE_DIR=/home/"$USER"/.cache/borgbackup/
 
 # Setting this, so the repo does not need to be given on the commandline:
 # TODO: export BORG_REPO=ssh://username@example.com:2022/~/backup/main
-export BORG_REPO=/run/media/"$USER"/Toshiba/borg/
+export BORG_REPO=/run/media/"$USER"/Toshiba/borgbackup/
 
 # See the section "Passphrase notes" for more infos.
 export BORG_PASSPHRASE=$(pass Apps/borgbackup)
