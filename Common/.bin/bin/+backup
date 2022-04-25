@@ -55,6 +55,7 @@ function backup_home() {
         --exclude '/home/*/Virtualbox VMs*' \
         --exclude '/home/*/Dropbox' \
         --exclude '/home/*/Workspace/Public/' \
+        --exclude '/home/*/Workspace/Software/' \
         --exclude 're:/vendor/' \
         --exclude 're:/node_modules/' \
         \
