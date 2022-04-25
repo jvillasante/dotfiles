@@ -107,19 +107,6 @@ for file in $files; do
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
 done
 
-echo ">>> Linking other files in $HOME..."
-files=".fzf.zsh"
-for file in $files; do
-    unlink "$HOME/$file"
-
-    if [ -d "$DOTFILES_DIR/Hosts/$CURRENT_HOST/" ]; then
-        ln -s "$DOTFILES_DIR/Hosts/$CURRENT_HOST/$file" "$HOME/"
-    else
-        echo ">>> $DOTFILES_DIR/Hosts/$CURRENT_HOST does not exits, exiting..."
-        exit 1
-    fi
-done
-
 echo ">>> Linking common files in $HOME/.config..."
 files="doom shell tmux ranger rofi nvim psd i3 nushell starship.toml"
 for file in $files; do
