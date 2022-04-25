@@ -57,8 +57,8 @@
     (push "^/nix/store/" recentf-exclude)
     (push ".+\\.mp3$" recentf-exclude))
 
-;; (setq +lookup-open-url-fn #'browse-url)
-(setq +lookup-open-url-fn #'+lookup-xwidget-webkit-open-url-fn)
+(setq +lookup-open-url-fn #'browse-url)
+;; (setq +lookup-open-url-fn #'+lookup-xwidget-webkit-open-url-fn)
 (after! dash-docs
     (set-docsets! 'cc-mode "C")
     (set-docsets! 'js2-mode "JavaScript" "JQuery")
