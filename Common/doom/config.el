@@ -60,7 +60,8 @@
 (setq +lookup-open-url-fn #'browse-url)
 ;; (setq +lookup-open-url-fn #'+lookup-xwidget-webkit-open-url-fn)
 (after! dash-docs
-    (set-docsets! 'cc-mode "C")
+    (set-docsets! 'c-mode "C")
+    (set-docsets! 'c++-mode "C" "C++")
     (set-docsets! 'js2-mode "JavaScript" "JQuery")
     (set-docsets! 'nodejs-mode :remove "JQuery")
     (setq dash-docs-browser-func #'+lookup-xwidget-webkit-open-url-fn))
