@@ -9,6 +9,40 @@ if ! type borg >/dev/null 2>&1; then
     exit 1
 fi
 
+# Derived information
+export BORG_CACHE_DIR=/home/"$USER"/.cache/borgbackup/
+
+# Setting this, so the repo does not need to be given on the commandline:
+# export BORG_REPO=/run/media/"$USER"/Toshiba/borgbackup/
+export BORG_REPO=ssh://jvillasante@192.168.0.196/~/BorgBackup
+
+# See the section "Passphrase notes" for more infos.
+export BORG_PASSPHRASE=$(pass Apps/borgbackup | head -n 1)
+
+function usage() {
+    echo "Usage:"
+    echo "    $0 help:"
+    echo "        Show this help message"
+    echo "    $0 init:"
+    echo "        Init a new repo"
+    echo "    $0 list:"
+    echo "        List all archives in repo"
+    echo "    $0 info [ARCHIVE]:"
+    echo "        Information about entire repo or ARCHIVE (if present)"
+    echo "    $0 check:"
+    echo "        Check both repo and archives inside"
+    echo "    $0 create NAME"
+    echo "        Create archive NAME (home,firefox)"
+    echo "    $0 delete [ARCHIVE]:"
+    echo "        Delete entire repo or ARCHIVE (if present)"
+    echo "    $0 extract ARCHIVE:"
+    echo "        Extract ARCHIVE on the current directory"
+    # echo " $0 borg BACKUP [arbitrary borg command-line]"
+    echo
+    echo " e.g: $0 extract archive_2022-04-28T17:01:12"
+    exit "$1"
+}
+
 function firefox_profile() {
     local PROFILE
     PROFILE=$(cat "$HOME/.mozilla/firefox/profiles.ini" | sed -n -e 's/^.*Default=//p' | head -n 1)
@@ -157,41 +191,6 @@ function backup_firefox() {
     fi
 }
 
-# derived information
-export BORG_CACHE_DIR=/home/"$USER"/.cache/borgbackup/
-
-# Setting this, so the repo does not need to be given on the commandline:
-# TODO: export BORG_REPO=ssh://username@example.com:2022/~/backup/main
-export BORG_REPO=/run/media/"$USER"/Toshiba/borgbackup/
-# export BORG_REPO=ssh://jvillasante@192.168.0.196/~/BorgBackup
-
-# See the section "Passphrase notes" for more infos.
-export BORG_PASSPHRASE=$(pass Apps/borgbackup | head -n 1)
-
-function usage() {
-    echo "Usage:"
-    echo "    $0 help:"
-    echo "        Show this help message"
-    echo "    $0 init:"
-    echo "        Init a new repo"
-    echo "    $0 list:"
-    echo "        List all archives in repo"
-    echo "    $0 info [ARCHIVE]:"
-    echo "        Information about entire repo or ARCHIVE (if present)"
-    echo "    $0 check:"
-    echo "        Check both repo and archives inside"
-    echo "    $0 create NAME"
-    echo "        Create archive NAME (home,firefox)"
-    echo "    $0 delete [ARCHIVE]:"
-    echo "        Delete entire repo or ARCHIVE (if present)"
-    echo "    $0 extract ARCHIVE:"
-    echo "        Extract ARCHIVE on the current directory"
-    # echo " $0 borg BACKUP [arbitrary borg command-line]"
-    echo
-    echo " e.g: $0 extract archive_2022-04-28T17:01:12"
-    exit "$1"
-}
-
 nargs=$#
 cmd=${1-}
 rc=0
@@ -241,5 +240,4 @@ case $cmd in
         usage 64
         ;;
 esac
-
 exit $rc
