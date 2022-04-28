@@ -16,7 +16,8 @@ export BORG_CACHE_DIR=/home/"$USER"/.cache/borgbackup/
 
 # Setting this, so the repo does not need to be given on the commandline:
 # TODO: export BORG_REPO=ssh://username@example.com:2022/~/backup/main
-export BORG_REPO=/run/media/"$USER"/Toshiba/borgbackup/
+# export BORG_REPO=/run/media/"$USER"/Toshiba/borgbackup/
+export BORG_REPO=ssh://jvillasante@192.168.0.196/~/BorgBackup
 
 # See the section "Passphrase notes" for more infos.
 export BORG_PASSPHRASE=$(pass Apps/borgbackup | head -n 1)
@@ -31,6 +32,21 @@ function firefox_profile() {
     fi
 
     echo "$PROFILE"
+}
+
+function borg_init() {
+    borg init --encryption=repokey
+    check $?
+}
+
+function borg_list() {
+    borg list
+    check $?
+}
+
+function borg_check() {
+    borg check -v
+    check $?
 }
 
 function backup_home() {
@@ -56,8 +72,9 @@ function backup_home() {
         --exclude '/home/*/Dropbox' \
         --exclude '/home/*/Workspace/Public/' \
         --exclude '/home/*/Workspace/Software/' \
-        --exclude 're:/vendor/' \
-        --exclude 're:/node_modules/' \
+        --exclude 're:/*var/cache/' \
+        --exclude 're:/*vendor*/' \
+        --exclude 're:/*node_modules*/' \
         \
         ::'{hostname}_{now}' \
         /home/"$USER"/
@@ -168,56 +185,41 @@ function backup_firefox() {
     fi
 }
 
-function list_backups() {
-    if ! type borg >/dev/null 2>&1; then
-        echo "You need to install borg first, exiting..."
-        exit 1
-    fi
-
-    borg list
-    check $?
-}
-
-function check_backups() {
-    if ! type borg >/dev/null 2>&1; then
-        echo "You need to install borg first, exiting..."
-        exit 1
-    fi
-
-    borg check -v
-    check $?
-}
-
 # TODO: extract backup
 # TODO: remove backup
 
 while true; do
     PS3="Choose an option: "
-    options=("List Backups" "Check Backups" "Backup Home" "Backup Firefox" "Quit")
+    options=("Init Backup" "List Backups" "Check Backups" "Backup Home" "Backup Firefox" "Quit")
 
     select opt in "${options[@]}"; do
         case $REPLY in
             1)
-                list_backups
+                borg_init
                 hr
                 break
                 ;;
             2)
-                check_backups
+                borg_list
                 hr
                 break
                 ;;
             3)
-                backup_home
+                borg_check
                 hr
                 break
                 ;;
             4)
+                backup_home
+                hr
+                break
+                ;;
+            5)
                 backup_firefox
                 hr
                 break
                 ;;
-            5) break 2 ;;
+            6) break 2 ;;
             *) echo "Invalid option '$opt'" >&2 ;;
         esac
     done
