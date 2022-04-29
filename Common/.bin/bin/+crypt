@@ -13,19 +13,18 @@
 . "$(dirname "$0")/../common.sh"
 
 function encrypt() {
-    if [ -z "$1" ] || [ "$1" != "symmetric" ] && [ "$1" != "asymmetric" ]; then
-        echo "Illegal arguments ($1 must exist and be either 'symmetric' or 'asymmetric')"
-        echo "  Usage: ./crypt encrypt <symmetric|asymmetric> <file|folder>"
+    if [ -z "$1" ] || [ "$1" != "-s" ] && [ "$1" != "-a" ]; then
+        echo "Illegal arguments ($1 must exist and be either '-s (symmetric)' or '-a (asymmetric)')"
+        echo "  Usage: ./crypt -e [-s | -a] [file | directory]"
         exit 1
     fi
 
     if [ -z "$2" ] || [ ! -f "$2" ] && [ ! -d "$2" ]; then
         echo "Illegal arguments ($2 must exist and be either a file or directory)"
-        echo "  Usage: ./crypt encrypt <symmetric|asymmetric> <file|folder>"
+        echo "  Usage: ./crypt -e [-s | -a] [file | directory]"
         exit 1
     fi
 
-    echo "Encrypting $2 with $1 encryption..."
     local file_name="$2"
     local file_to_encrypt="$2.tar.gz"
     if [[ -f "$2" ]]; then
@@ -44,16 +43,16 @@ function encrypt() {
     tar czf "$file_to_encrypt" "$file_name"
     check $?
 
-    if [ "$1" = "symmetric" ]; then
+    if [ "$1" = "-s" ]; then
         gpg --symmetric --cipher-algo AES256 -o "$file_to_encrypt.gpg" "$file_to_encrypt"
         check $?
 
-        echo "Encrypted $2 to $file_to_encrypt.gpg ($1)"
-    elif [ "$1" = "asymmetric" ]; then
+        echo "Encrypted $2 to $file_to_encrypt.gpg (symmetric)"
+    elif [ "$1" = "-a" ]; then
         gpg --encrypt --sign --armor -r jvillasantegomez@gmail.com -o "$file_to_encrypt.asc" "$file_to_encrypt"
         check $?
 
-        echo "Encrypted $2 to $file_to_encrypt.asc ($1)"
+        echo "Encrypted $2 to $file_to_encrypt.asc (asymmetric)"
     else
         echo "Invalid argument $2, exiting..."
         exit 1
@@ -70,7 +69,7 @@ function do_decrypt() {
     local p
     p=$(basename "$1" | cut -d. -f1)
 
-    gpg --decrypt -o "$p.tar.gz" "$1"
+    gpg --decrypt -o "$p.tar.gz" "$1" >/dev/null 2>/dev/null
     check $?
 
     tar xzf "$p.tar.gz"
@@ -82,13 +81,13 @@ function do_decrypt() {
     rm -rf "$1"
     check $?
 
-    echo "Decrypted $1 to $p"
+    echo "Decrypted $1 to $p ($2)"
 }
 
 function decrypt() {
     if [ -z "$1" ] || [ ! -f "$1" ]; then
         echo "Illegal arguments ($1 must exist and be a file)"
-        echo "  Usage: ./crypt decrypt <filename.tar.gz.[gpg|asc]>"
+        echo "  Usage: ./crypt -d [filename.tar.gz.gpg (symmetric) | filename.tar.gz.asc (asymmetric)]"
         exit 1
     fi
 
@@ -97,41 +96,43 @@ function decrypt() {
         case "$1" in
             *.tar.gz.asc)
                 { # Asymmetric
-                    do_decrypt "$1"
+                    do_decrypt "$1" "asymmetric"
                 }
                 ;;
             *.tar.gz.gpg)
                 { # Symmetric
-                    do_decrypt "$1"
+                    do_decrypt "$1" "symmetric"
                 }
                 ;;
             *)
                 {
-                    echo ">> Unknown extension on $1, exiting..."
+                    echo "Illegal arguments ($1 must exist and be a file)"
+                    echo "  Usage: ./crypt -d [filename.tar.gz.gpg (symmetric) | filename.tar.gz.asc (asymmetric)]"
                     exit 1
                 }
                 ;;
         esac
     else
-        echo "'$1' is not a valid file, exiting..."
+        echo "Illegal arguments ($1 must exist and be a file)"
+        echo "  Usage: ./crypt -d [filename.tar.gz.gpg (symmetric) | filename.tar.gz.asc (asymmetric)]"
         exit 1
     fi
 }
 
 if [ "$#" -eq 0 ]; then
     echo "Illegal number of arguments (at least 1 expected)"
-    echo "Usage: ./crypt <encrypt|decrypt> ..."
+    echo "Usage: ./crypt [-e (encrypt) | -d (decrypt)] ..."
     exit 1
 fi
 
 function process() {
-    if [ "$1" = "encrypt" ]; then
+    if [ "$1" = "-e" ]; then
         encrypt "$2" "$3"
-    elif [ "$1" = "decrypt" ]; then
+    elif [ "$1" = "-d" ]; then
         decrypt "$2"
     else
         echo "Illegal argument"
-        echo "Usage: ./crypt <encrypt|decrypt>..."
+        echo "Usage: ./crypt [-e (encrypt) | -d (decrypt)]..."
     fi
 }
 
