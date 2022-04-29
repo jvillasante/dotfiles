@@ -1,0 +1,226 @@
+#!/bin/bash
+
+#
+# Backups and restore folders using `borg` command.
+#
+
+if ! type borg >/dev/null 2>&1; then
+    echo "You need to install borg first, exiting..."
+    exit 1
+fi
+
+# Derived information
+export BORG_CACHE_DIR=/home/"$USER"/.cache/borgbackup/
+
+# Setting this, so the repo does not need to be given on the commandline:
+# export BORG_REPO=/run/media/"$USER"/Toshiba/borgbackup/
+export BORG_REPO=ssh://synology-backup.lan/volume1/BorgBackup
+
+# See the section "Passphrase notes" for more infos.
+export BORG_PASSPHRASE=$(pass Apps/borgbackup | head -n 1)
+
+function usage() {
+    echo "Usage:"
+    echo "    $0 help:"
+    echo "        Show this help message"
+    echo "    $0 init:"
+    echo "        Initialize a new borg repo"
+    echo "    $0 list:"
+    echo "        List all borg archives in repo"
+    echo "    $0 info [ARCHIVE]:"
+    echo "        Information about entire borg repo or ARCHIVE (if present)"
+    echo "    $0 check:"
+    echo "        Check both borg repo and archives"
+    echo "    $0 create"
+    echo "        Create borg archive with format hostname_time in repo"
+    echo "    $0 delete [ARCHIVE]:"
+    echo "        Delete entire borg repo or ARCHIVE (if present)"
+    echo "    $0 extract ARCHIVE:"
+    echo "        Extract borg ARCHIVE on the current directory"
+    echo "    $0 borg [arbitrary borg command-line]"
+    echo "        Run arbitrary borg command"
+    echo
+    echo " e.g: $0 extract archive_2022-04-28T17:01:12"
+    exit "$1"
+}
+
+function do_borg_backup() {
+    # some helpers and error handling:
+    info() { printf "\n%s %s\n\n" "$(date)" "$*" >&2; }
+    trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
+
+    if pgrep -x firefox >/dev/null; then
+        info "Firefox is running. Close it and try again..."
+        exit 1
+    fi
+
+    if pgrep -x brave >/dev/null; then
+        echo ">>> Brave Browser is running. Close it and try again..."
+        exit 1
+    fi
+
+    info "Restarting psd.service to create a new browser backups..."
+    systemctl --user restart psd.service
+    sleep 1
+
+    info "Starting backup"
+
+    # Backup the most important directories into an archive named after
+    # the machine this script is currently running on
+    borg create \
+        --progress \
+        --stats \
+        --filter AME \
+        --list \
+        --show-rc \
+        --compression auto,lzma,6 \
+        --exclude-caches \
+        \
+        --exclude '/home/*/.bin' \
+        --exclude '/home/*/.cache' \
+        --exclude '/home/*/.ccache' \
+        --exclude '/home/*/.doom.d' \
+        --exclude '/home/*/.dropbox*' \
+        --exclude '/home/*/.emacs.d' \
+        --exclude '/home/*/.java' \
+        --exclude '/home/*/.local' \
+        --exclude '/home/*/.m2' \
+        --exclude '/home/*/.oh-my-zsh*' \
+        --exclude '/home/*/.pki' \
+        --exclude '/home/*/.tmuxifier' \
+        --exclude '/home/*/.var' \
+        --exclude '/home/*/.bash*' \
+        --exclude '/home/*/.editorconfig' \
+        --exclude '/home/*/.lesshst' \
+        --exclude '/home/*/.nvidia*' \
+        --exclude '/home/*/.profile' \
+        --exclude '/home/*/.sbclrc' \
+        --exclude '/home/*/.wget*' \
+        --exclude '/home/*/.zcompdump*' \
+        --exclude '/home/*/.*history*' \
+        --exclude '/home/*/.zsh*' \
+        --exclude '/home/*/.rustup' \
+        --exclude '/home/*/.cargo' \
+        --exclude '/home/*/.circleci' \
+        --exclude '/home/*/.cmake' \
+        --exclude '/home/*/.*-gyp' \
+        --exclude '/home/*/.fzf*' \
+        --exclude '/home/*/.hyperdrive' \
+        --exclude '/home/*/.ipfs*' \
+        --exclude '/home/*/.kube' \
+        --exclude '/home/*/.minikube' \
+        --exclude '/home/*/.npm' \
+        --exclude '/home/*/.nvm' \
+        --exclude '/home/*/.phpls' \
+        --exclude '/home/*/.pipewire-*' \
+        --exclude '/home/*/.PlayOnLinux' \
+        --exclude '/home/*/.pm2' \
+        --exclude '/home/*/.standard-c14-cache' \
+        --exclude '/home/*/.steam*' \
+        --exclude '/home/*/.step' \
+        --exclude '/home/*/.symfony' \
+        --exclude '/home/*/.vmware' \
+        --exclude '/home/*/.vscode-oss' \
+        --exclude '/home/*/.wine' \
+        --exclude '/home/*/.tmux/plugins' \
+        --exclude '/home/*/.vim/plugged' \
+        --exclude '/home/*/.mail' \
+        --exclude '/home/**/*.pyc' \
+        --exclude '/home/**/*.*~' \
+        --exclude '/home/**/.#*' \
+        \
+        --exclude '/home/*/VirtualBox VMs*' \
+        --exclude '/home/*/Virtualbox VMs*' \
+        --exclude '/home/*/Dropbox' \
+        --exclude '/home/*/Workspace/Public/' \
+        --exclude '/home/*/Workspace/Software/' \
+        \
+        --exclude 're:/*var/cache/' \
+        --exclude 're:/*vendor*/' \
+        --exclude 're:/*node_modules*/' \
+        \
+        ::'{hostname}_{utcnow:%Y-%m-%d_%H:%M:%S}' \
+        /home/"$USER"/
+
+    backup_exit=$?
+
+    info "Pruning repository"
+
+    # Use the `prune` subcommand to maintain 7 daily, 4 weekly and 6 monthly
+    # archives of THIS machine. The '{hostname}_' prefix is very important to
+    # limit prune's operation to this machine's archives and not apply to
+    # other machines' archives also:
+    borg prune \
+        --list \
+        --show-rc \
+        --prefix '{hostname}_' \
+        --keep-daily 7 \
+        --keep-weekly 4 \
+        --keep-monthly 6
+    prune_exit=$?
+
+    info "Compacting repository"
+
+    # actually free repo disk space by compacting segments
+    borg compact \
+        --show-rc
+    compact_exit=$?
+
+    # use highest exit code as global exit code
+    global_exit=$((backup_exit > prune_exit ? backup_exit : prune_exit))
+    global_exit=$((compact_exit > global_exit ? compact_exit : global_exit))
+
+    if [ ${global_exit} -eq 0 ]; then
+        info "Backup, Prune, and Compact finished successfully"
+    elif [ ${global_exit} -eq 1 ]; then
+        info "Backup, Prune, and/or Compact finished with warnings"
+    else
+        info "Backup, Prune, and/or Compact finished with errors"
+    fi
+}
+
+nargs=$#
+cmd=${1-}
+rc=0
+if [ "$#" -gt 0 ]; then shift; fi
+case $cmd in
+    init)
+        [ "$nargs" -gt 1 ] && usage 64
+        borg init --encryption=repokey || rc=$?
+        ;;
+    list)
+        [ "$nargs" -gt 1 ] && usage 64
+        borg list || rc=$?
+        ;;
+    check)
+        [ "$nargs" -gt 1 ] && usage 64
+        borg check -v || rc=$?
+        ;;
+    info)
+        [ "$nargs" -gt 2 ] && usage 64
+        borg info ::"$1" || rc=$?
+        ;;
+    create)
+        [ "$nargs" -gt 1 ] && usage 64
+        do_borg_backup
+        ;;
+    delete)
+        [ "$nargs" -gt 2 ] && usage 64
+        borg delete -s -p ::"$1" || rc=$?
+        ;;
+    extract)
+        [ "$nargs" -lt 2 ] && usage 64
+        borg extract -p ::"$1" || rc=$?
+        ;;
+    borg)
+        [ "$nargs" -lt 2 ] && usage 64
+        borg "$@" || rc=$?
+        ;;
+    help | --help | -h)
+        usage 0
+        ;;
+    *)
+        usage 64
+        ;;
+esac
+exit $rc
