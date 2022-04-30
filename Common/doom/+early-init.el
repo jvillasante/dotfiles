@@ -51,7 +51,7 @@
 
 ;; Set the path of the langtool jar
 (setq langtool-language-tool-jar
-    (expand-file-name "System/languagetool/languagetool-standalone/target/LanguageTool-5.8-SNAPSHOT/LanguageTool-5.8-SNAPSHOT/languagetool-commandline.jar" +my/software-path))
+    (expand-file-name "system/languagetool/languagetool-standalone/target/LanguageTool-5.8-SNAPSHOT/LanguageTool-5.8-SNAPSHOT/languagetool-commandline.jar" +my/software-path))
 
 ;;
 ;; (when (string= (system-name) "your.ubuntu.host")
