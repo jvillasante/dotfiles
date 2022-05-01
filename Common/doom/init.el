@@ -109,7 +109,8 @@
     (lookup             ; navigate your code and its documentation
         +docsets
         +dictionary)
-    lsp
+    (lsp
+        -eglot)
     magit             ; a git porcelain for Emacs
     make              ; run make tasks from Emacs
     (pass             ; password manager for nerds
