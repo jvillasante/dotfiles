@@ -1,7 +1,6 @@
 ;;; +early-init.el -*- lexical-binding: t; -*-
 
-(setq
-    user-full-name "Julio C. Villasante"
+(setq user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
     user-login-name "jvillasante"
     +my/home-path (expand-file-name "~/")
@@ -13,25 +12,23 @@
 (cond
     (IS-MAC
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-        (setq
-            +my/zsh-path "/usr/local/bin/zsh"
+        (setq browse-url-browser-function 'browse-url-generic
+            browse-url-generic-program "open")
+        (setq +my/zsh-path "/usr/local/bin/zsh"
             +my/clang-path "/usr/local/opt/llvm/bin/clang"
             +my/mu-path "/usr/local/bin/mu"
             +my/msmtp-path "/usr/local/bin/msmtp"
             vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
-        (setq
-            browse-url-browser-function 'browse-url-generic
-            browse-url-generic-program "open")
-        (setq
-            ns-use-proxy-icon         nil
+        (setq ns-use-proxy-icon         nil
             ns-use-thin-smoothing     t
             ns-alternate-modifier     nil
             mac-command-modifier      'meta
             mac-option-modifier       'alt
             mac-right-option-modifier 'alt))
     (IS-LINUX
-        (setq
-            +my/zsh-path "/usr/bin/zsh"
+        (setq browse-url-browser-function 'browse-url-generic
+            browse-url-generic-program "xdg-open")
+        (setq +my/zsh-path "/usr/bin/zsh"
             +my/clang-path "/usr/bin/clang"
             +my/mu-path "/usr/bin/mu"
             +my/msmtp-path "/usr/bin/msmtp"

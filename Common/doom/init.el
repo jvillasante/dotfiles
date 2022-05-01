@@ -200,7 +200,7 @@
     :app
     ;;calendar
     ;;emms
-    everywhere          ; *leave* Emacs!? You must be joking.
+    ;; everywhere          ; *leave* Emacs!? You must be joking.
     ;;irc               ; how neckbeards socialize
     (rss                ; emacs as an RSS reader
         +org)
