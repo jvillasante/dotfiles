@@ -32,7 +32,7 @@
             +my/clang-path "/usr/bin/clang"
             +my/mu-path "/usr/bin/mu"
             +my/msmtp-path "/usr/bin/msmtp"
-            vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=no")))
+            vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
