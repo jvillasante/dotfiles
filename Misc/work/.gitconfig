@@ -21,9 +21,5 @@
 [alias]
     hist = log --pretty=format:'%ad | %s%d [%an]' --graph --date=short
     oneline = log --oneline --decorate --all --graph
-[github]
-    user = jvillasante
-    password = p
-    oauth-token =
 [fetch]
     prune = true

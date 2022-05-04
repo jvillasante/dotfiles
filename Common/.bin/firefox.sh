@@ -13,7 +13,7 @@ update_usersjs_arkenfox() {
 
     local PROFILE
     PROFILE=$(cat "$HOME/.mozilla/firefox/profiles.ini" | sed -n -e 's/^.*Default=//p' | head -n 1)
-    if [[ ! "$PROFILE" =~ ^.*\.personal$ ]]; then
+    if [[ ! "$PROFILE" =~ ^.*\.[Pp]ersonal$ ]]; then
         echo ">>> Invalid profile '$PROFILE', should be called '*******.personal', exiting..."
         exit 1
     else
