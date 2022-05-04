@@ -1,6 +1,6 @@
 [user]
     name = Julio C. Villasante
-    email = jvillasantegomez@gmail.com
+    email = julio.c.villasante@nielsen.com
 [credential]
     helper = cache --timeout=3600
 [pull]
@@ -21,9 +21,5 @@
 [alias]
     hist = log --pretty=format:'%ad | %s%d [%an]' --graph --date=short
     oneline = log --oneline --decorate --all --graph
-[github]
-    user = jvillasante
-    password = p
-    oauth-token =
 [fetch]
     prune = true

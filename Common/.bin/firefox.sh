@@ -61,7 +61,7 @@ update_usersjs_arkenfox() {
            user_pref("browser.urlbar.suggest.searches", true);
 
 // Disable saving passwords
-/* 5003 */ user_pref("signon.rememberSignons", false);
+/* 5003 user_pref("signon.rememberSignons", false); */
 
 // Don't delete cookies and site data on exit
 /* 2801 */ user_pref("network.cookie.lifetimePolicy", 0);
