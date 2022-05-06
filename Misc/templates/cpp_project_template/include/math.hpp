@@ -1,25 +1,28 @@
 #ifndef MATH_H
 #define MATH_H
 
+#include <array>
 #include <cstdint>
 
 namespace utils::math {
-template <std::uint8_t N, typename input_t = std::uint32_t, typename sum_t = std::uint64_t>
+template <std::uint8_t N, typename input_t = std::uint32_t,
+          typename sum_t = std::uint64_t>
 class simple_moving_average {
 public:
-    input_t operator()(input_t const input) {
-        sum -= previous_inputs[index];
-        sum += input;
-        previous_inputs[index] = input;
-        if (++index == N)
-            index = 0;
-        return (sum + (N / 2)) / N;
+  input_t operator()(input_t const input) {
+    sum_ -= previous_inputs_[index_];
+    sum_ += input;
+    previous_inputs_[index_] = input;
+    if (++index_ == N) {
+      index_ = 0;
     }
+    return (sum_ + (N / 2)) / N;
+  }
 
 private:
-    std::uint8_t index = 0;
-    input_t previous_inputs[N] = {0};
-    sum_t sum = 0;
+  std::uint8_t index_ = 0;
+  std::array<input_t, N> previous_inputs_ = {0};
+  sum_t sum_ = 0;
 };
 } // namespace utils::math
 

@@ -267,6 +267,21 @@
     (setq lsp-ui-doc-enable t)
     (setq lsp-ui-imenu-enable t))
 
+(after! eglot
+    (add-to-list 'eglot-server-programs
+        `(c-mode c++-mode
+             . ("/usr/bin/clangd"
+                   "-j=4"
+                   "--malloc-trim"
+                   "--log=error"
+                   "--background-index"
+                   "--clang-tidy"
+                   "--cross-file-rename"
+                   "--completion-style=detailed"
+                   "--pch-storage=memory"
+                   "--header-insertion=never"
+                   "--header-insertion-decorators=0"))))
+
 (after! rustic
     (setq
         rustic-lsp-server 'rust-analyzer
