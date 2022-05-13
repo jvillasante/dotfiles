@@ -170,26 +170,21 @@
     (funcall f proc (xterm-color-filter string)))
 (advice-add 'compilation-filter :around #'+my/advice-compilation-filter)
 
-;; comment auto-fill
-(defun +my/comment-auto-fill ()
-      (setq-local comment-auto-fill-only-comments t)
-      (auto-fill-mode 1))
-
 ;; Hooks
-(add-hook! text-mode #'turn-on-auto-fill)
-(add-hook! prog-mode #'+my/comment-auto-fill)
 (add-hook! phyton-mode #'whitespace-mode)
 (add-hook! makefile-mode #'whitespace-mode)
-(add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
+;; (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 (add-hook! markdown-mode
-    (toggle-word-wrap nil)
-    (auto-fill-mode -1))
+    (toggle-word-wrap nil))
 
 ;; Workaround for terminal buffer scroll
 (setq term-char-mode-point-at-process-mark nil)
 
 ;; ???
-(show-paren-mode 1)
+(setq show-paren-mode 1)
+
+;; no auto-fill-mode
+(turn-off-auto-fill)
 
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
