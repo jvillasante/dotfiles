@@ -51,5 +51,5 @@
     (expand-file-name "system/languagetool/languagetool-standalone/target/LanguageTool-5.8-SNAPSHOT/LanguageTool-5.8-SNAPSHOT/languagetool-commandline.jar" +my/software-path))
 
 ;;
-;; (when (string= (system-name) "your.ubuntu.host")
+;; (when (string= (system-name) "your.fedora.host")
 ;;   (color-theme-initialize))
