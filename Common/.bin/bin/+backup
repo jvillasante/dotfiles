@@ -86,7 +86,6 @@ function do_borg_backup() {
         --exclude '/home/*/Workspace/Public/' \
         --exclude '/home/*/Workspace/Software/' \
         --exclude '/home/*/Workspace/Work/Firmware/' \
-        --exclude '/home/*/Workspace/Work/Projects/' \
         --exclude '/home/*/Workspace/Work/Software/' \
         --exclude 're:/*var/cache/' \
         --exclude 're:/*vendor*/' \
@@ -101,8 +100,6 @@ function do_borg_backup() {
         /home/"$USER"/Templates \
         /home/"$USER"/Videos \
         /home/"$USER"/Workspace \
-        /home/"$USER"/.ssh \
-        /home/"$USER"/.gnupg \
         /home/"$USER"/.mozilla \
         /home/"$USER"/.config/BraveSoftware
     backup_exit=$?
