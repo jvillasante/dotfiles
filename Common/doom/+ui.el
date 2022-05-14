@@ -3,7 +3,7 @@
 ;; font
 (setq
     default-font "Iosevka Term SS09"
-    default-font-size 16.0
+    default-font-size 16.5
     default-nice-size 14.0
     doom-font-increment 1
     doom-font (font-spec :family default-font :size default-font-size)
