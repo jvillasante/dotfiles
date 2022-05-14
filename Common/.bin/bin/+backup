@@ -79,6 +79,7 @@ function do_borg_backup() {
         --exclude '/home/**/*.pyc' \
         --exclude '/home/**/*.*~' \
         --exclude '/home/**/.#*' \
+        --exclude '/home/**/*.o' \
         --exclude '/home/**/.SynologyNAS' \
         --exclude '/home/*/VirtualBox VMs*' \
         --exclude '/home/*/Virtualbox VMs*' \
