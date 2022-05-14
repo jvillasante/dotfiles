@@ -21,23 +21,23 @@ export BORG_PASSPHRASE=$(pass Apps/borgbackup | head -n 1)
 
 function usage() {
     echo "Usage:"
-    echo "    $0 help:"
+    echo "    +backup help:"
     echo "        Show this help message"
-    echo "    $0 init:"
+    echo "    +backup init:"
     echo "        Initialize a new borg repo"
-    echo "    $0 list:"
+    echo "    +backup list:"
     echo "        List all borg archives in repo"
-    echo "    $0 info [ARCHIVE]:"
+    echo "    +backup info [ARCHIVE]:"
     echo "        Information about entire borg repo or ARCHIVE (if present)"
-    echo "    $0 check:"
+    echo "    +backup check:"
     echo "        Check both borg repo and archives"
-    echo "    $0 create"
+    echo "    +backup create"
     echo "        Create borg archive with format hostname_time in repo"
-    echo "    $0 delete [ARCHIVE]:"
+    echo "    +backup delete [ARCHIVE]:"
     echo "        Delete entire borg repo or ARCHIVE (if present)"
-    echo "    $0 extract ARCHIVE:"
+    echo "    +backup extract ARCHIVE:"
     echo "        Extract borg ARCHIVE on the current directory"
-    echo "    $0 borg [arbitrary borg command-line]"
+    echo "    +backup borg [arbitrary borg command-line]"
     echo "        Run arbitrary borg command"
     echo
     echo " e.g: $0 extract archive_2022-04-28T17:01:12"
@@ -76,77 +76,40 @@ function do_borg_backup() {
         --compression auto,lzma,6 \
         --exclude-caches \
         \
-        --exclude '/home/*/.bin' \
-        --exclude '/home/*/.cache' \
-        --exclude '/home/*/.ccache' \
-        --exclude '/home/*/.doom.d' \
-        --exclude '/home/*/.dropbox*' \
-        --exclude '/home/*/.emacs.d' \
-        --exclude '/home/*/.java' \
-        --exclude '/home/*/.local' \
-        --exclude '/home/*/.m2' \
-        --exclude '/home/*/.oh-my-zsh*' \
-        --exclude '/home/*/.pki' \
-        --exclude '/home/*/.tmuxifier' \
-        --exclude '/home/*/.var' \
-        --exclude '/home/*/.bash*' \
-        --exclude '/home/*/.editorconfig' \
-        --exclude '/home/*/.lesshst' \
-        --exclude '/home/*/.nvidia*' \
-        --exclude '/home/*/.profile' \
-        --exclude '/home/*/.sbclrc' \
-        --exclude '/home/*/.wget*' \
-        --exclude '/home/*/.zcompdump*' \
-        --exclude '/home/*/.*history*' \
-        --exclude '/home/*/.zsh*' \
-        --exclude '/home/*/.rustup' \
-        --exclude '/home/*/.cargo' \
-        --exclude '/home/*/.circleci' \
-        --exclude '/home/*/.cmake' \
-        --exclude '/home/*/.*-gyp' \
-        --exclude '/home/*/.fzf*' \
-        --exclude '/home/*/.hyperdrive' \
-        --exclude '/home/*/.ipfs*' \
-        --exclude '/home/*/.kube' \
-        --exclude '/home/*/.minikube' \
-        --exclude '/home/*/.npm' \
-        --exclude '/home/*/.nvm' \
-        --exclude '/home/*/.phpls' \
-        --exclude '/home/*/.pipewire-*' \
-        --exclude '/home/*/.PlayOnLinux' \
-        --exclude '/home/*/.pm2' \
-        --exclude '/home/*/.standard-c14-cache' \
-        --exclude '/home/*/.steam*' \
-        --exclude '/home/*/.step' \
-        --exclude '/home/*/.symfony' \
-        --exclude '/home/*/.vmware' \
-        --exclude '/home/*/.vscode-oss' \
-        --exclude '/home/*/.wine' \
-        --exclude '/home/*/.tmux/plugins' \
-        --exclude '/home/*/.vim/plugged' \
-        --exclude '/home/*/.mail' \
         --exclude '/home/**/*.pyc' \
         --exclude '/home/**/*.*~' \
         --exclude '/home/**/.#*' \
-        \
+        --exclude '/home/**/.SynologyNAS' \
         --exclude '/home/*/VirtualBox VMs*' \
         --exclude '/home/*/Virtualbox VMs*' \
         --exclude '/home/*/Dropbox' \
         --exclude '/home/*/Workspace/Public/' \
         --exclude '/home/*/Workspace/Software/' \
-        \
+        --exclude '/home/*/Workspace/Work/Firmware/' \
+        --exclude '/home/*/Workspace/Work/Projects/' \
+        --exclude '/home/*/Workspace/Work/Software/' \
         --exclude 're:/*var/cache/' \
         --exclude 're:/*vendor*/' \
         --exclude 're:/*node_modules*/' \
         \
-        ::'{hostname}_{utcnow:%Y-%m-%d_%H:%M:%S}' \
-        /home/"$USER"/
-
+        ::'{hostname}_{now}' \
+        /home/"$USER"/Desktop \
+        /home/"$USER"/Documents \
+        /home/"$USER"/Downloads \
+        /home/"$USER"/Music \
+        /home/"$USER"/Pictures \
+        /home/"$USER"/Templates \
+        /home/"$USER"/Videos \
+        /home/"$USER"/Workspace \
+        /home/"$USER"/.ssh \
+        /home/"$USER"/.gnupg \
+        /home/"$USER"/.mozilla \
+        /home/"$USER"/.config/BraveSoftware
     backup_exit=$?
 
     info "Pruning repository"
 
-    # Use the `prune` subcommand to maintain 7 daily, 4 weekly and 6 monthly
+    # Use the `prune` subcommand to maintain 1 daily, 2 weekly and 2 monthly
     # archives of THIS machine. The '{hostname}_' prefix is very important to
     # limit prune's operation to this machine's archives and not apply to
     # other machines' archives also:
@@ -154,16 +117,15 @@ function do_borg_backup() {
         --list \
         --show-rc \
         --prefix '{hostname}_' \
-        --keep-daily 7 \
-        --keep-weekly 4 \
-        --keep-monthly 6
+        --keep-daily 1 \
+        --keep-weekly 2 \
+        --keep-monthly 2
     prune_exit=$?
 
     info "Compacting repository"
 
     # actually free repo disk space by compacting segments
-    borg compact \
-        --show-rc
+    borg compact --show-rc
     compact_exit=$?
 
     # use highest exit code as global exit code
