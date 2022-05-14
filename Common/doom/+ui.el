@@ -2,13 +2,14 @@
 
 ;; font
 (setq
-    doom-font (font-spec :family "JetBrains Mono" :size 20)
-    doom-big-font (font-spec :family "JetBrains Mono" :size 40)
-    ;; doom-font (font-spec :family "Source Code Pro" :size 20)
-    ;; doom-big-font (font-spec :family "Source Code Pro" :size 40)
-    doom-variable-pitch-font (font-spec :family "Overpass" :size 24)
-    doom-unicode-font (font-spec :family "JuliaMono")
-    doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
+    default-font "Iosevka Term SS09"
+    default-font-size 16.0
+    default-nice-size 14.0
+    doom-font-increment 1
+    doom-font (font-spec :family default-font :size default-font-size)
+    doom-variable-pitch-font (font-spec :family "IBM Plex Sans Condensed" :size default-font-size)
+    doom-unicode-font (font-spec :family "IBM Plex Mono" :size default-font-size)
+    doom-serif-font (font-spec :family "IBM Plex Serif" :size default-nice-size))
 
 ;; Dash highlighting
 (after! dash
