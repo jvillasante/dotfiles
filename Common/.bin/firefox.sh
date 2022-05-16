@@ -77,7 +77,7 @@ update_usersjs_arkenfox() {
 user_pref("browser.uidensity", 1);
 
 // Personal, disable show menu on ALT press
-user_pref(ui.key.menuAccessKeyFocuses, false);
+user_pref("ui.key.menuAccessKeyFocuses", false);
 
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
