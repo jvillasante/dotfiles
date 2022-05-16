@@ -76,6 +76,9 @@ update_usersjs_arkenfox() {
 // Personal, make tabbar height smaller
 user_pref("browser.uidensity", 1);
 
+// Personal, disable show menu on ALT press
+user_pfre(ui.key.menuAccessKeyFocuses, false);
+
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
