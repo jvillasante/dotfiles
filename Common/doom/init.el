@@ -134,7 +134,7 @@
     (cc                 ; C/C++/Obj-C madness
         +lsp)
     ;;clojure           ; java with a lisp
-    common-lisp       ; if you've seen one lisp, you've seen them all
+    ;; common-lisp       ; if you've seen one lisp, you've seen them all
     ;;coq               ; proofs-as-programs
     ;;crystal           ; ruby at the speed of c
     ;;csharp            ; unity, .NET, and mono shenanigans
@@ -190,8 +190,7 @@
     ;;terra             ; Earth and Moon in alignment for performance.
     web               ; the tubes
     yaml              ; JSON, but readable
-    (zig               ; C, but simpler
-        +lsp)
+    (zig +lsp)        ; C, but simpler
 
     :email
     ;;(mu4e +gmail)
