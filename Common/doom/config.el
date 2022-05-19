@@ -487,6 +487,7 @@
         (when (display-graphic-p)
             (let* ((variable-tuple
                        (cond
+                           ((x-list-fonts "Iosevka Comfy")   '(:font   "Iosevka Comfy"))
                            ((x-list-fonts "Iosevka")         '(:font   "Iosevka"))
                            ((x-list-fonts "Source Code Pro") '(:font   "Source Code Pro"))
                            ((x-list-fonts "JetBrains Mono")  '(:font   "JetBrains Mono"))
