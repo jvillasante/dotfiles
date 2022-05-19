@@ -230,13 +230,6 @@
     (setq lsp-zig-zls-executable
         (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
 
-    ;; Rust
-    (setq
-        lsp-rust-server 'rust-analyzer
-        lsp-rust-analyzer-cargo-watch-command "clippy"
-        lsp-rust-analyzer-inlay-hints-mode nil
-        lsp-rust-analyzer-server-display-inlay-hints nil)
-
     ;; C++
     (setq lsp-clients-clangd-args
         '("-j=4"
@@ -289,7 +282,10 @@
 (after! rustic
     (setq
         rustic-lsp-server 'rust-analyzer
-        rustic-format-on-save nil))
+        rustic-format-on-save nil
+        lsp-rust-analyzer-cargo-watch-command "clippy"
+        lsp-rust-analyzer-inlay-hints-mode nil
+        lsp-rust-analyzer-server-display-inlay-hints nil))
 
 (after! elfeed
     (setq elfeed-search-title-min-width 60)
