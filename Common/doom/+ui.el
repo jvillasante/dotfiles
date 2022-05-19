@@ -2,7 +2,7 @@
 
 ;; font
 (setq
-    default-font "Iosevka Comfy"
+    default-font "Iosevka"
     default-font-size 16.5
     default-nice-size 14.0
     doom-font-increment 1
