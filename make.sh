@@ -78,7 +78,7 @@ install_emacs() {
 
 install_vim() {
     # TODO: Try to install nvim here if it is not installed already
-    echo "Installing vim... (TODO)"
+    echo ">>> Installing vim... (TODO)"
 }
 
 install_tmuxifier() {
