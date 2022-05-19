@@ -268,6 +268,9 @@
     (setq lsp-ui-imenu-enable t))
 
 (after! eglot
+    (setq eldoc-echo-area-use-multiline-p 1)
+    (setq eldoc-prefer-doc-buffer t)
+
     (add-to-list 'eglot-server-programs
         `(c-mode c++-mode
              . ("/usr/bin/clangd"

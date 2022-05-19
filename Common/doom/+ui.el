@@ -83,6 +83,7 @@
 (set-popup-rule! "^\\*doom:scratch*" :size 0.4 :ttl 0 :quit t)
 (set-popup-rule! "^\\*doom:vterm-popup" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0)
+(set-popup-rule! "^\\*eglot-.*$" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*ivy-occur" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*Embark Export" :size 0.4 :ttl 0 :quit nil)
