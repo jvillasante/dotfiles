@@ -268,11 +268,9 @@
     (setq lsp-ui-imenu-enable t))
 
 (after! eglot
-    (setq eldoc-echo-area-use-multiline-p 1)
-    (setq eldoc-prefer-doc-buffer t)
     (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
     (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
-
+    (setq eldoc-echo-area-use-multiline-p nil)
     (add-to-list 'eglot-server-programs
         `(rust-mode . ("rust-analyzer"))
         `(c-mode c++-mode
