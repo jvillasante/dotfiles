@@ -106,14 +106,16 @@ doom_doctor() {
     check $?
 }
 
-emacs_service_restart() {
-    systemctl --user --no-block restart emacs
-    check $?
+emacs_kill() {
+    if pgrep -x emacs >/dev/null; then
+        emacsclient -e "(kill-emacs)"
+        check $?
+    fi
 }
 
 while true; do
     PS3="Choose an option: "
-    options=("Tmuxifier Update" "Dotfiles Pull" "Dotfiles Sync" "Doom Help" "Doom Sync" "Doom Upgrade" "Doom Purge" "Doom Build" "Doom Doctor" "Emacs Service Restart" "Quit")
+    options=("Tmuxifier Update" "Dotfiles Pull" "Dotfiles Sync" "Doom Help" "Doom Sync" "Doom Upgrade" "Doom Purge" "Doom Build" "Doom Doctor" "Kill Emacs" "Quit")
 
     select opt in "${options[@]}"; do
         case $REPLY in
@@ -163,7 +165,7 @@ while true; do
                 break
                 ;;
             10)
-                emacs_service_restart
+                emacs_kill
                 hr
                 break
                 ;;
