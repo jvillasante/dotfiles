@@ -91,6 +91,7 @@
 
     ;; set appearance of a tab that is represented by 4 spaces
     tab-width 4
+    standard-indent 4
     highlight-tabs t  ; show those ugly tabs
 
     ;; Whitespace settings
