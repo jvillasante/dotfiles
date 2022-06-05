@@ -76,10 +76,12 @@ function do_borg_backup() {
         --compression auto,lzma,6 \
         --exclude-caches \
         \
+        --exclude '/home/**/.DS_Store' \
         --exclude '/home/**/*.pyc' \
         --exclude '/home/**/*.*~' \
         --exclude '/home/**/.#*' \
         --exclude '/home/**/*.o' \
+        --exclude '/home/**/*.rs.bk' \
         --exclude '/home/**/.SynologyNAS' \
         --exclude '/home/*/VirtualBox VMs*' \
         --exclude '/home/*/Virtualbox VMs*' \
@@ -90,6 +92,7 @@ function do_borg_backup() {
         --exclude '/home/*/Workspace/Work/Software/' \
         --exclude 're:/*var/cache/' \
         --exclude 're:/*vendor*/' \
+        --exclude 're:/*target*/' \
         --exclude 're:/*node_modules*/' \
         \
         ::'{hostname}_{now}' \
