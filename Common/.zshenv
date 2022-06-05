@@ -9,12 +9,12 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # set PATH so it includes .local bin if it exists
 if [ -d "$HOME/.local/bin" ]; then
-    export PATH="$PATH:$HOME/.local/bin"
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.bin/bin" ]; then
-    export PATH="$PATH:$HOME/.bin/bin"
+    export PATH="$HOME/.bin/bin:$PATH"
 fi
 
 # snap
