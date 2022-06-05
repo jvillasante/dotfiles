@@ -90,6 +90,8 @@ function do_borg_backup() {
         --exclude '/home/*/Workspace/Software/' \
         --exclude '/home/*/Workspace/Work/Firmware/' \
         --exclude '/home/*/Workspace/Work/Software/' \
+        --exclude '/home/*/Workspace/Private/Projects/cpp/**/bin/' \
+        --exclude '/home/*/Workspace/Private/Projects/cpp/**/build/' \
         --exclude 're:/*var/cache/' \
         --exclude 're:/*vendor*/' \
         --exclude 're:/*target*/' \
