@@ -190,10 +190,11 @@
     (setq slime-net-coding-system 'utf-8-unix))
 
 (after! format
-    (add-to-list '+format-on-save-enabled-modes 'text-mode 'append)
-    (add-to-list '+format-on-save-enabled-modes 'web-mode 'append)
-    (add-to-list '+format-on-save-enabled-modes 'gitignore-mode 'append)
-    (add-to-list '+format-on-save-enabled-modes 'makefile-gmake-mode 'append)
+    (setq +format-on-save-enabled-modes
+        '(not emacs-lisp-mode ; elisp's mechanisms are good enough
+             sql-mode         ; sqlformat is currently broken
+             tex-mode         ; latexindent is broken
+             latex-mode))
 
     ;; Do not format with lsp, use `format` instead
     (setq +format-with-lsp nil))
