@@ -35,10 +35,7 @@
 ;; Set further font and theme customizations
 (custom-set-variables
    '(rational-ui-default-font
-     '(:font "Iosevka" :weight normal :height 150)))
-
-(rational-package-install-package 'doom-themes)
-(load-theme 'doom-one t)
+     '(:font "Iosevka" :weight normal :height 160)))
 
 (rational-package-install-package 'modus-themes)
 (load-theme 'modus-operandi t)
