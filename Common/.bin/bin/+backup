@@ -21,23 +21,23 @@ export BORG_PASSPHRASE=$(pass Apps/borgbackup | head -n 1)
 
 function usage() {
     echo "Usage:"
-    echo "    +backup help:"
+    echo "    $0 help:"
     echo "        Show this help message"
-    echo "    +backup init:"
+    echo "    $0 init:"
     echo "        Initialize a new borg repo"
-    echo "    +backup list:"
+    echo "    $0 list:"
     echo "        List all borg archives in repo"
-    echo "    +backup info [ARCHIVE]:"
+    echo "    $0 info [ARCHIVE]:"
     echo "        Information about entire borg repo or ARCHIVE (if present)"
-    echo "    +backup check:"
+    echo "    $0 check:"
     echo "        Check both borg repo and archives"
-    echo "    +backup create"
+    echo "    $0 create"
     echo "        Create borg archive with format hostname_time in repo"
-    echo "    +backup delete [ARCHIVE]:"
+    echo "    $0 delete [ARCHIVE]:"
     echo "        Delete entire borg repo or ARCHIVE (if present)"
-    echo "    +backup extract ARCHIVE:"
+    echo "    $0 extract ARCHIVE:"
     echo "        Extract borg ARCHIVE on the current directory"
-    echo "    +backup borg [arbitrary borg command-line]"
+    echo "    $0 borg [arbitrary borg command-line]"
     echo "        Run arbitrary borg command"
     echo
     echo " e.g: $0 extract archive_2022-04-28T17:01:12"
@@ -90,6 +90,7 @@ function do_borg_backup() {
         --exclude '/home/*/Workspace/Software/' \
         --exclude '/home/*/Workspace/Work/Firmware/' \
         --exclude '/home/*/Workspace/Work/Software/' \
+        --exclude '/home/*/Workspace/Work/Projects/sm-ubuntu22-04' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/bin/' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/build/' \
         --exclude 're:/*var/cache/' \

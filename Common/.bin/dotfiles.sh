@@ -1,176 +1,121 @@
 #!/usr/bin/env bash
 
+#
+# This is how I manage my dotfiles
+#
+
 . "$(dirname "$0")/common.sh"
+DOTFILES_DIR="$(find_dotfiles)"
 
-tmuxifier_update() {
-    local DOTFILES_DIR
-    DOTFILES_DIR="$(find_dotfiles)"
+function usage() {
+    echo "Usage:"
+    echo "    $0 help:"
+    echo "        Show this help message"
+    echo "    $0 tmuxifier update:"
+    echo "        Update tmuxifier"
+    echo "    $0 dotfiles [pull|sync]:"
+    echo "        Update personal dotfiles (pull from remote or sync on local)"
+    echo "    $0 doom [arbitrary doom command]:"
+    echo "        Run arbitrary doom command"
+    echo "    $0 emacs kill"
+    echo "        Kill emacs daemon"
+    echo
+    echo " e.g: $0 doom -y sync"
+    exit "$1"
+}
 
-    if [ -d "$DOTFILES_DIR/.tmuxifier" ]; then
-        git -C "$DOTFILES_DIR/.tmuxifier" status
-        check $?
+function do_tmuxifier() {
+    case $1 in
+        update)
+            if [ -d "$DOTFILES_DIR/.tmuxifier" ]; then
+                git -C "$DOTFILES_DIR/.tmuxifier" status
+                check $?
 
-        if ask "Do you want to pull?"; then
-            git -C "${DOTFILES_DIR}/.tmuxifier" pull
+                if ask "Do you want to pull?"; then
+                    git -C "${DOTFILES_DIR}/.tmuxifier" pull
+                    check $?
+                fi
+            fi
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+}
+
+function do_dotfiles() {
+    case $1 in
+        pull)
+            if [ -d "$DOTFILES_DIR" ]; then
+                git -C "${DOTFILES_DIR}" status
+                check $?
+
+                if ask "Do you want to pull?"; then
+                    git -C "${DOTFILES_DIR}" pull
+                    check $?
+                fi
+            fi
+            ;;
+        sync)
+            if [ ! -f "${DOTFILES_DIR}/make.sh" ]; then
+                echo "make script not present, exiting..."
+                exit 1
+            fi
+
+            "${DOTFILES_DIR}/make.sh"
             check $?
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+}
+
+function do_emacs() {
+    case $1 in
+        kill)
+            if pgrep -x emacs >/dev/null; then
+                emacsclient -e "(kill-emacs)"
+                check $?
+            fi
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+}
+
+nargs=$#
+cmd=${1-}
+rc=0
+if [ "$#" -gt 0 ]; then shift; fi
+case $cmd in
+    tmuxifier)
+        [ "$nargs" -eq 2 ] || usage 1
+        do_tmuxifier "$@"
+        ;;
+    dotfiles)
+        [ "$nargs" -eq 2 ] || usage 1
+        do_dotfiles "$@"
+        ;;
+    doom)
+        [ "$nargs" -lt 2 ] && usage 1
+        if [ ! -f "${DOTFILES_DIR}/.emacs.doom/bin/doom" ]; then
+            echo "doom script not present, exiting..."
+            exit 1
+        else
+            "${DOTFILES_DIR}/.emacs.doom/bin/doom" "$@"
         fi
-    fi
-}
-
-dotfiles_pull() {
-    local DOTFILES_DIR
-    DOTFILES_DIR="$(find_dotfiles)"
-
-    if [ -d "$DOTFILES_DIR" ]; then
-        git -C "${DOTFILES_DIR}" status
-        check $?
-
-        if ask "Do you want to pull?"; then
-            git -C "${DOTFILES_DIR}" pull
-            check $?
-        fi
-    fi
-}
-
-dotfiles_sync() {
-    local DOTFILES_DIR
-    DOTFILES_DIR="$(find_dotfiles)"
-    if [ ! -f "${DOTFILES_DIR}/make.sh" ]; then
-        echo "make script not present, exiting..."
-        exit 1
-    fi
-
-    "${DOTFILES_DIR}/make.sh"
-    check $?
-}
-
-doom_help() {
-    if [ ! -f "${HOME}/.emacs.d/bin/doom" ]; then
-        echo "doom script not present, exiting..."
-        exit 1
-    fi
-
-    "${HOME}/.emacs.d/bin/doom" -y help
-    check $?
-}
-
-doom_sync() {
-    if [ ! -f "${HOME}/.emacs.d/bin/doom" ]; then
-        echo "doom script not present, exiting..."
-        exit 1
-    fi
-
-    dotfiles_sync
-    "${HOME}/.emacs.d/bin/doom" -y sync
-    check $?
-}
-
-doom_upgrade() {
-    if [ ! -f "${HOME}/.emacs.d/bin/doom" ]; then
-        echo "doom script not present, exiting..."
-        exit 1
-    fi
-
-    dotfiles_sync
-    "${HOME}/.emacs.d/bin/doom" -y upgrade
-    check $?
-}
-
-doom_purge() {
-    if [ ! -f "${HOME}/.emacs.d/bin/doom" ]; then
-        echo "doom script not present, exiting..."
-        exit 1
-    fi
-
-    "${HOME}/.emacs.d/bin/doom" -y purge -g
-    check $?
-}
-
-doom_build() {
-    if [ ! -f "${HOME}/.emacs.d/bin/doom" ]; then
-        echo "doom script not present, exiting..."
-        exit 1
-    fi
-
-    "${HOME}/.emacs.d/bin/doom" -y build
-    check $?
-}
-
-doom_doctor() {
-    if [ ! -f "${HOME}/.emacs.d/bin/doom" ]; then
-        echo "doom script not present, exiting..."
-        exit 1
-    fi
-
-    "${HOME}/.emacs.d/bin/doom" doctor
-    check $?
-}
-
-emacs_kill() {
-    if pgrep -x emacs >/dev/null; then
-        emacsclient -e "(kill-emacs)"
-        check $?
-    fi
-}
-
-while true; do
-    PS3="Choose an option: "
-    options=("Tmuxifier Update" "Dotfiles Pull" "Dotfiles Sync" "Doom Help" "Doom Sync" "Doom Upgrade" "Doom Purge" "Doom Build" "Doom Doctor" "Kill Emacs" "Quit")
-
-    select opt in "${options[@]}"; do
-        case $REPLY in
-            1)
-                tmuxifier_update
-                hr
-                break
-                ;;
-            2)
-                dotfiles_pull
-                hr
-                break
-                ;;
-            3)
-                dotfiles_sync
-                hr
-                break
-                ;;
-            4)
-                doom_help
-                hr
-                break
-                ;;
-            5)
-                doom_sync
-                hr
-                break
-                ;;
-            6)
-                doom_upgrade
-                hr
-                break
-                ;;
-            7)
-                doom_purge
-                hr
-                break
-                ;;
-            8)
-                doom_build
-                hr
-                break
-                ;;
-            9)
-                doom_doctor
-                hr
-                break
-                ;;
-            10)
-                emacs_kill
-                hr
-                break
-                ;;
-            11) break 2 ;;
-            *) echo "Invalid option '$opt'" >&2 ;;
-        esac
-    done
-done
+        ;;
+    emacs)
+        [ "$nargs" -eq 2 ] || usage 1
+        do_emacs "$@"
+        ;;
+    help | --help | -h)
+        usage 0
+        ;;
+    *)
+        usage 1
+        ;;
+esac
+exit $rc
