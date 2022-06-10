@@ -2,11 +2,14 @@
 /.emacs.d
 /.emacs.doom
 /.emacs.prelude
+/.emacs.rational
 /.oh-my-zsh
 /.tmuxifier
 /Common/nvim/plugin
 /Common/psd/.psd.conf
 /Common/nushell/history.txt
+/Common/rational-emacs/etc
+/Common/rational-emacs/var
 .DS_Store
 *flycheck_tmp_*
 *~
