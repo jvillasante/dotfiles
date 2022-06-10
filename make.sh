@@ -47,33 +47,29 @@ install_zsh() {
     fi
 }
 
-CURRENT_EMACS_DISTRO="DOOM_EMACS"
-# CURRENT_EMACS_DISTRO="PRELUDE"
 install_emacs() {
-    if [ "$CURRENT_EMACS_DISTRO" = "DOOM_EMACS" ]; then
-        if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
-            git clone --depth 1 git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom"
-            check $?
-
-            "$DOTFILES_DIR/.emacs.doom/bin/doom" install
-        fi
+    # Install Chemacs2
+    if [ ! -d "$DOTFILES_DIR/.emacs.chemacs2" ]; then
+        git clone git@github.com:plexus/chemacs2.git "$DOTFILES_DIR/.emacs.chemacs2"
+        check $?
 
         rm -rf "$DOTFILES_DIR/.emacs.d"
-        ln -s "$DOTFILES_DIR/.emacs.doom" "$DOTFILES_DIR/.emacs.d"
-    elif [ "$CURRENT_EMACS_DISTRO" = "PRELUDE" ]; then
-        if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
-            git clone git@github.com:bbatsov/prelude.git "$DOTFILES_DIR/.emacs.prelude"
-            check $?
-        fi
-
-        rm -rf "$DOTFILES_DIR/.emacs.d"
-        ln -s "$DOTFILES_DIR/.emacs.prelude" "$DOTFILES_DIR/.emacs.d"
-    else
-        echo ">>> Unknown emacs distro '$CURRENT_EMACS_DISTRO', exiting..."
-        exit 1
+        ln -s "$DOTFILES_DIR/.emacs.chemacs2" "$DOTFILES_DIR/.emacs.d"
     fi
 
-    echo ">>> Using Emacs Distro: $CURRENT_EMACS_DISTRO"
+    # Install Doom Emacs
+    if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
+        git clone --depth 1 git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom"
+        check $?
+
+        "$DOTFILES_DIR/.emacs.doom/bin/doom" install
+    fi
+
+    # Install Prelude
+    if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
+        git clone git@github.com:bbatsov/prelude.git "$DOTFILES_DIR/.emacs.prelude"
+        check $?
+    fi
 }
 
 install_vim() {
@@ -101,7 +97,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME..."
-files=".oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .editorconfig .sbclrc"
+files=".oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .editorconfig .emacs-profiles.el .sbclrc"
 for file in $files; do
     unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
