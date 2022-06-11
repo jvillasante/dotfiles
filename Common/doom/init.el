@@ -16,6 +16,7 @@
 
 (doom!
     :input
+    ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
     ;;chinese
     ;;japanese
     ;;layout            ; auie,ctsrnm is the superior home row
@@ -34,9 +35,8 @@
     deft              ; notational velocity for Emacs
     doom              ; what makes DOOM look the way it does
     doom-dashboard    ; a nifty splash screen for Emacs
-    doom-quit         ; DOOM quit-message prompts when you quit Emacs
+    ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
     (emoji +unicode)  ; :)
-    ;;fill-column       ; a `fill-column' indicator
     hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
     hydra
     ;;indent-guides     ; highlighted indent columns
@@ -60,7 +60,6 @@
 
     :editor
     (evil +everywhere) ; come to the dark side, we have cookies
-
     file-templates    ; auto-snippets for empty files
     fold              ; (nigh) universal code folding
     (format           ; automated prettiness
@@ -93,10 +92,11 @@
     (spell           ; tasing you for misspelling mispelling
         +aspell
         +everywhere)
-    grammar           ; tasing grammar mistake every you make
+    ;; grammar           ; tasing grammar mistake every you make
 
     :tools
     ;;ansible
+    ;;biblio            ; Writes a PhD for you (citation needed)
     ;;debugger          ; FIXME stepping through code, to help you add bugs
     ;;direnv
     (docker
@@ -140,6 +140,7 @@
     ;;csharp            ; unity, .NET, and mono shenanigans
     data              ; config/data formats
     ;;(dart +flutter)   ; paint ui and not much else
+    ;;dhall
     ;;elixir            ; erlang done right
     ;;elm               ; care for a cup of TEA?
     emacs-lisp        ; drown in parentheses
@@ -147,16 +148,18 @@
     ;;ess               ; emacs speaks statistics
     ;;factor
     ;;faust             ; dsp, but you get to keep your soul
+    ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
     ;;fsharp            ; ML stands for Microsoft's Language
     ;;fstar             ; (dependent) types and (monadic) effects and Z3
     ;;gdscript          ; the language you waited for
     ;; (go                 ; the hipster dialect
     ;;     +lsp)
+    ;;(graphql +lsp)    ; Give queries a REST
     ;;(haskell +dante)  ; a language that's lazier than I am
     ;;hy                ; readability of scheme w/ speed of python
     ;;idris             ;
     json              ; At least it ain't XML
-    ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
+    ;;(java +lsp) ; the poster child for carpal tunnel syndrome
     javascript        ; all(hope(abandon(ye(who(enter(here))))))
     ;;julia             ; a better, faster MATLAB
     ;;kotlin            ; a better, slicker Java(Script)
@@ -182,7 +185,7 @@
     (rust               ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
         +lsp)
     ;;scala             ; java, but good
-    ;;scheme            ; a fully conniving family of lisps
+    ;;(scheme +guile)   ; a fully conniving family of lisps
     sh                 ; she sells {ba,z,fi}sh shells on the C xor
     ;;sml
     ;;solidity          ; do you need a blockchain? No.
@@ -190,10 +193,10 @@
     ;;terra             ; Earth and Moon in alignment for performance.
     web               ; the tubes
     yaml              ; JSON, but readable
-    (zig +lsp)        ; C, but simpler
+    ;; (zig +lsp)        ; C, but simpler
 
     :email
-    ;;(mu4e +gmail)
+    ;;(mu4e +org +gmail)
     ;;notmuch
     ;;(wanderlust +gmail)
 
