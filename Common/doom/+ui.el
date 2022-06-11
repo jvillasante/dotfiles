@@ -2,14 +2,12 @@
 
 ;; font
 (setq
-    default-font "Iosevka"
-    default-font-size 16.0
-    default-nice-size 14.0
     doom-font-increment 1
-    doom-font (font-spec :family default-font :size default-font-size)
-    doom-variable-pitch-font (font-spec :family "IBM Plex Sans Condensed" :size default-font-size)
-    doom-unicode-font (font-spec :family "IBM Plex Mono" :size default-font-size)
-    doom-serif-font (font-spec :family "IBM Plex Serif" :size default-nice-size))
+    doom-font (font-spec :family "Iosevka" :size 16.0)
+    doom-big-font (font-spec :family "Iosevka" :size 18.0)
+    doom-variable-pitch-font (font-spec :family "IBM Plex Sans Condensed" :size 16.0)
+    doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16.0)
+    doom-serif-font (font-spec :family "IBM Plex Serif" :size 14.0))
 
 ;; Dash highlighting
 (after! dash

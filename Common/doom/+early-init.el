@@ -37,6 +37,9 @@
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
+;; Select and raise the frame, always
+(select-frame-set-input-focus (selected-frame))
+
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
