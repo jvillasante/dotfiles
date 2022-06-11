@@ -25,7 +25,7 @@
 (require 'rational-ui)          ; Better UI experience (modeline etc.)
 (require 'rational-windows)     ; Window management configuration
 (require 'rational-editing)     ; Whitspace trimming, auto parens etc.
-;(require 'rational-evil)        ; An `evil-mode` configuration
+;; (require 'rational-evil)        ; An `evil-mode` configuration
 (require 'rational-org)         ; org-appear, clickable hyperlinks etc.
 (require 'rational-project)     ; built-in alternative to projectile
 (require 'rational-speedbar)    ; built-in file-tree
@@ -34,8 +34,8 @@
 
 ;; Set further font and theme customizations
 (custom-set-variables
-   '(rational-ui-default-font
-     '(:font "Iosevka" :weight normal :height 160)))
+    '(rational-ui-default-font
+         '(:font "Iosevka" :weight normal :height 160)))
 
 (rational-package-install-package 'modus-themes)
 (load-theme 'modus-operandi t)
