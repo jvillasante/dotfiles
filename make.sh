@@ -59,10 +59,10 @@ install_emacs() {
 
     # Install Doom Emacs
     if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
-        git clone --depth 1 git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom"
+        git clone git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom"
         check $?
 
-        "$DOTFILES_DIR/.emacs.doom/bin/doom" install
+        "$DOTFILES_DIR"/.emacs.doom/bin/doom --doomdir "$DOTFILES_DIR"/Common/doom/ install
     fi
 
     # Install Rational Emacs
@@ -104,7 +104,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME/.config..."
-files="doom shell tmux ranger rofi nvim psd i3 nushell starship.toml"
+files="shell tmux ranger rofi nvim psd i3 nushell starship.toml"
 for file in $files; do
     unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
