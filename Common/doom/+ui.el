@@ -86,7 +86,6 @@
 (set-popup-rule! "^\\*eglot-.*$" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
 (set-popup-rule! "^\\*ivy-occur" :size 0.4 :ttl 0 :quit nil)
-(set-popup-rule! "^\\*Embark Export" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*Racket REPL*" :size 0.4 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*tldr*" :size 0.6 :ttl 0 :quit nil)
 (set-popup-rule! "^\\*compilation" :size 0.6 :quit t :ttl 0)
