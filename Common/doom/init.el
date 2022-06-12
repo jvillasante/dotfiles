@@ -22,8 +22,8 @@
     ;;layout            ; auie,ctsrnm is the superior home row
 
     :completion
-    (company            ; the ultimate code completion backend
-        -childframe)
+    (company -childframe)  ; the ultimate code completion backend
+
     ;;helm              ; the *other* search engine for love and life
     ;;ido               ; the other *other* search engine...
     ;; (ivy             ; a search engine for love and life
@@ -62,8 +62,8 @@
     (evil +everywhere) ; come to the dark side, we have cookies
     file-templates    ; auto-snippets for empty files
     fold              ; (nigh) universal code folding
-    (format           ; automated prettiness
-        +onsave)
+    (format +onsave)  ; automated prettiness
+
     ;;god               ; run Emacs commands without modifier keys
     ;;lispy             ; vim for lisp, for people who don't like vim
     multiple-cursors  ; editing in many places at once
@@ -77,8 +77,7 @@
     dired             ; making dired pretty [functional]
     electric          ; smarter, keyword-based electric-indent
     ibuffer         ; interactive buffer management
-    (undo           ; persistent, smarter undo for your inevitable mistakes
-        +tree)
+    (undo +tree)    ; persistent, smarter undo for your inevitable mistakes
     vc                ; version-control and Emacs, sitting in a tree
 
     :term
@@ -99,22 +98,19 @@
     ;;biblio            ; Writes a PhD for you (citation needed)
     ;;debugger          ; FIXME stepping through code, to help you add bugs
     ;;direnv
-    (docker
-        +lsp)
+    (docker +lsp)
     editorconfig      ; let someone else argue about tabs vs spaces
-    ;;ein               ; tame Jupyter notebooks with emacs
-    (eval               ; run code, run (also, repls)
-        +overlay)
+    ;;ein             ; tame Jupyter notebooks with emacs
+    (eval +overlay)   ; run code, run (also, repls)
+
     ;;gist              ; interacting with github gists
     (lookup             ; navigate your code and its documentation
         +docsets
         +dictionary)
-    (lsp
-        -eglot)
+    (lsp -eglot)
     magit             ; a git porcelain for Emacs
     make              ; run make tasks from Emacs
-    ;; (pass             ; password manager for nerds
-    ;;     +auth)
+    ;; (pass +auth)      ; password manager for nerds
     pdf               ; pdf enhancements
     ;;prodigy           ; FIXME managing external services & code builders
     ;;rgb               ; creating color strings
@@ -125,14 +121,12 @@
 
     :os
     (:if IS-MAC macos)  ; improve compatibility with macOS
-    (tty                ; improve the terminal Emacs experience
-        +osc)
+    (tty +osc)          ; improve the terminal Emacs experience
 
     :lang
     ;;agda              ; types of types of types of types...
     ;;beancount         ; mind the GAAP
-    (cc                 ; C/C++/Obj-C madness
-        +lsp)
+    (cc +lsp)           ; C/C++/Obj-C madness
     ;;clojure           ; java with a lisp
     ;; common-lisp       ; if you've seen one lisp, you've seen them all
     ;;coq               ; proofs-as-programs
@@ -182,8 +176,7 @@
     rest              ; Emacs as a REST client
     ;;rst               ; ReST in peace
     ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-    (rust               ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-        +lsp)
+    (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
     ;;scala             ; java, but good
     ;;(scheme +guile)   ; a fully conniving family of lisps
     sh                 ; she sells {ba,z,fi}sh shells on the C xor
@@ -203,10 +196,9 @@
     :app
     ;;calendar
     ;;emms
-    ;; everywhere          ; *leave* Emacs!? You must be joking.
+    ;; everywhere       ; *leave* Emacs!? You must be joking.
     ;;irc               ; how neckbeards socialize
-    (rss                ; emacs as an RSS reader
-        +org)
+    (rss +org)          ; emacs as an RSS reader
     ;;twitter           ; twitter client https://twitter.com/vnought
 
     :config

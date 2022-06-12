@@ -46,6 +46,9 @@
     ;; Doom
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (:leader
+        "o p" nil ;; <leader> o p is remapped to password store
+        "o P" nil ;; <leader> o P is not used
+
         ;;;; Buffers
         (:prefix ("b" . "Buffers")
             :desc "Rename buffer" :n "R" #'rename-buffer
@@ -56,7 +59,6 @@
         (:prefix ("o" . "Open")
             :desc "Dired Jump" :n "d" #'dired-jump
             :desc "Dired"      :n "D" #'dired
-            :desc "Pass"       :n "p" #'pass
             :desc "iElm"       :n "i" #'ielm
             :desc "Calc"       :n "c" #'calc
             :desc "Quick Calc" :n "C" #'quick-calc
@@ -66,6 +68,15 @@
             (:when (featurep! :ui treemacs)
                 :desc "Initialize or toggle treemacs"      :n "n" #'treemacs
                 :desc "Doom initialize or toggle treemacs" :n "N" #'+treemacs/toggle)
+            (:prefix ("p" . "Password Store")
+                :desc "Clear secret in the kill ring"             :n "C" #'password-store-clear
+                :desc "Add password for ENTRY into the kill ring" :n "c" #'password-store-copy
+                :desc "Add FIELD for ENTRY into the kill ring"    :n "f" #'password-store-copy-field
+                :desc "Edit password for ENTRY"                   :n "e" #'password-store-edit
+                :desc "Insert a new ENTRY containing PASSWORD"    :n "i" #'password-store-insert
+                :desc "Generate a new password for ENTRY"         :n "g" #'password-store-generate
+                :desc "Rename ENTRY to NEW-ENTRY"                 :n "r" #'password-store-rename
+                :desc "Remove existing password for ENTRY"        :n "R" #'password-store-remove)
             (:prefix ("a" . "Application")
                 :desc "Mu4e"               :n "m" #'mu4e
                 :desc "Elfeed Rss Reader"  :n "f" #'elfeed

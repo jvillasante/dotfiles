@@ -37,6 +37,7 @@
 (package! tldr)
 (package! zeal-at-point)
 (package! sokoban)
+(package! password-store)
 
 ;; To install a package with Doom you must declare them here, run 'doom sync' on
 ;; the command line, then restart Emacs for the changes to take effect.

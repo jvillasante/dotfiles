@@ -171,17 +171,10 @@
     (funcall f proc (xterm-color-filter string)))
 (advice-add 'compilation-filter :around #'+my/advice-compilation-filter)
 
-;; Hooks
-(add-hook! phyton-mode #'whitespace-mode)
-(add-hook! makefile-mode #'whitespace-mode)
-;; (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
-(add-hook! markdown-mode
-    (toggle-word-wrap nil))
-
 ;; Workaround for terminal buffer scroll
 (setq term-char-mode-point-at-process-mark nil)
 
-;; ???
+;; Toggle visualization of matching parens
 (setq show-paren-mode 1)
 
 ;; no auto-fill-mode
@@ -189,3 +182,9 @@
 
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
+
+;; Hooks
+(add-hook 'phyton-mode-hook #'whitespace-mode)
+(add-hook 'makefile-mode-hook #'whitespace-mode)
+(add-hook 'text-mode-hook #'visual-line-mode)
+;; (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
