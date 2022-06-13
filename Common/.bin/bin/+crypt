@@ -10,6 +10,24 @@
 #   (symmetric) or "*.tar.gz.asc (asymmetric)"
 #
 
+function usage() {
+    echo "Usage:"
+    echo "    $0 help:"
+    echo "        Show this help message"
+    echo "    $0 -e [-s | -a] [file | directory]:"
+    echo "        -e: encrypt the given *file* or *directory*"
+    echo "        -s: symmetric gpg encryption"
+    echo "        -a: asymmetric gpg encryption"
+    echo "    $0 -d [filename.tar.gz.gpg | filename.tar.gz.asc]:"
+    echo "        -d: decrypt the given file"
+    echo "        *.tar.gz.gpg: assumes file was encrypted with symmetric gpg encryption"
+    echo "        *.tar.gz.asc: assumes file was encrypted with asymmetric gpg encryption"
+    echo
+    echo " e.g: $0 -e -s /path/to/file/or/directory"
+    echo " e.g: $0 -d /path/to/file/or/directory.tar.gz.gpg"
+    exit "$1"
+}
+
 check() {
     if [ "$1" -ne 0 ]; then
         echo ""
@@ -126,21 +144,24 @@ function decrypt() {
     fi
 }
 
-if [ "$#" -eq 0 ]; then
-    echo "Illegal number of arguments (at least 1 expected)"
-    echo "Usage: ./crypt [-e (encrypt) | -d (decrypt)] ..."
-    exit 1
-fi
-
-function process() {
-    if [ "$1" = "-e" ]; then
-        encrypt "$2" "$3"
-    elif [ "$1" = "-d" ]; then
-        decrypt "$2"
-    else
-        echo "Illegal argument"
-        echo "Usage: ./crypt [-e (encrypt) | -d (decrypt)]..."
-    fi
-}
-
-time (process "$1" "$2" "$3")
+nargs=$#
+cmd=${1-}
+rc=0
+if [ "$#" -gt 0 ]; then shift; fi
+case $cmd in
+    -e)
+        [ "$nargs" -eq 3 ] || usage 1
+        time (encrypt "$@")
+        ;;
+    -d)
+        [ "$nargs" -eq 2 ] || usage 1
+        time (decrypt "$@")
+        ;;
+    help | --help | -h)
+        usage 0
+        ;;
+    *)
+        usage 1
+        ;;
+esac
+exit $rc

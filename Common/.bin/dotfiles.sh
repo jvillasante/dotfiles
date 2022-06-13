@@ -11,7 +11,7 @@ function usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
-    echo "    $0 tmuxifier update:"
+    echo "    $0 tmuxifier sync:"
     echo "        Update tmuxifier"
     echo "    $0 dotfiles [pull|sync]:"
     echo "        Update personal dotfiles (pull from remote or sync on local)"
@@ -22,25 +22,6 @@ function usage() {
     echo
     echo " e.g: $0 doom -y sync"
     exit "$1"
-}
-
-function do_tmuxifier() {
-    case $1 in
-        update)
-            if [ -d "$DOTFILES_DIR/.tmuxifier" ]; then
-                git -C "$DOTFILES_DIR/.tmuxifier" status
-                check $?
-
-                if ask "Do you want to pull?"; then
-                    git -C "${DOTFILES_DIR}/.tmuxifier" pull
-                    check $?
-                fi
-            fi
-            ;;
-        *)
-            usage 1
-            ;;
-    esac
 }
 
 function do_dotfiles() {
@@ -71,6 +52,25 @@ function do_dotfiles() {
     esac
 }
 
+function do_tmuxifier() {
+    case $1 in
+        sync)
+            if [ -d "$DOTFILES_DIR/.tmuxifier" ]; then
+                git -C "$DOTFILES_DIR/.tmuxifier" status
+                check $?
+
+                if ask "Do you want to pull?"; then
+                    git -C "${DOTFILES_DIR}/.tmuxifier" pull
+                    check $?
+                fi
+            fi
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+}
+
 function do_emacs() {
     case $1 in
         kill)
@@ -90,13 +90,13 @@ cmd=${1-}
 rc=0
 if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
-    tmuxifier)
-        [ "$nargs" -eq 2 ] || usage 1
-        do_tmuxifier "$@"
-        ;;
     dotfiles)
         [ "$nargs" -eq 2 ] || usage 1
         do_dotfiles "$@"
+        ;;
+    tmuxifier)
+        [ "$nargs" -eq 2 ] || usage 1
+        do_tmuxifier "$@"
         ;;
     doom)
         [ "$nargs" -lt 2 ] && usage 1
