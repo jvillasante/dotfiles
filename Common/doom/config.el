@@ -374,7 +374,7 @@
 (after! neotree
     (setq
         neo-theme 'ascii
-        neo-window-width 38
+        neo-window-width 42
         neo-smart-open t
         neo-create-file-auto-open nil
         neo-show-updir-line nil
