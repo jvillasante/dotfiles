@@ -57,12 +57,20 @@ install_emacs() {
         ln -s "$DOTFILES_DIR/.emacs.chemacs2" "$DOTFILES_DIR/.emacs.d"
     fi
 
-    # Install Doom Emacs
+    # Install Doom Emacs (Evil)
     if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
         git clone git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom"
         check $?
 
         "$DOTFILES_DIR"/.emacs.doom/bin/doom --doomdir "$DOTFILES_DIR"/Common/doom/ install
+    fi
+
+    # Install Doom Emacs (Vanilla)
+    if [ ! -d "$DOTFILES_DIR/.emacs.doom.vanilla" ]; then
+        git clone git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom.vanilla"
+        check $?
+
+        "$DOTFILES_DIR"/.emacs.doom.vanilla/bin/doom --doomdir "$DOTFILES_DIR"/Common/doom-vanilla/ install
     fi
 
     # Install Rational Emacs
