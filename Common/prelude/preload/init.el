@@ -1,4 +1,4 @@
-;;; personal/preload/01_init.el --- Prelude personal preload init -*- lexical-binding: t; -*-
+;;; personal/preload/init.el --- Prelude personal preload init -*- lexical-binding: t; -*-
 ;;;
 
 (defconst IS-MAC     (eq system-type 'darwin))
@@ -9,7 +9,6 @@
 (setq prelude-theme nil)
 (setq prelude-super-keybindings nil)
 (setq prelude-whitespace nil)
-(setq next-line-add-newlines t)
 
 (setq user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
