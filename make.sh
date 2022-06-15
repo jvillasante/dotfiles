@@ -73,6 +73,12 @@ install_emacs() {
         "$DOTFILES_DIR"/.emacs.doom.vanilla/bin/doom --doomdir "$DOTFILES_DIR"/Common/doom-vanilla/ install
     fi
 
+    # Install Prelude Emacs
+    if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
+        export PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" && curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+        check $?
+    fi
+
     # Install Rational Emacs
     if [ ! -d "$DOTFILES_DIR/.emacs.rational" ]; then
         git clone git@github.com:SystemCrafters/rational-emacs.git "$DOTFILES_DIR/.emacs.rational"

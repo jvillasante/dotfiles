@@ -104,5 +104,9 @@
 (global-set-key (kbd "C-x k") #'kill-this-buffer)
 (global-set-key (kbd "C-x K") #'kill-buffer)
 
+;; from Steve Yegge
+;; Bind `kill-region' to "C-x C-k" and "C-c C-k"
+;; Bind `backward-kill-word' to "C-w"
+
 ;; ;; https://emacs.stackexchange.com/questions/835/make-buffer-list-take-focus
 ;; (global-set-key [remap list-buffers] #'ibuffer)
