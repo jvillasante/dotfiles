@@ -1,8 +1,6 @@
 ;;; config.el --- Rational Emacs Main Config -*- lexical-binding: t; -*-
 ;;;
 
-(setq next-line-add-newlines t)
-
 (setq user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
     user-login-name "jvillasante"
@@ -37,21 +35,6 @@
             +my/msmtp-path "/usr/bin/msmtp"
             vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
 
-;; Start maximized
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-
-;; Select and raise the frame, always
-(select-frame-set-input-focus (selected-frame))
-
-;; Prevents some cases of Emacs flickering
-(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-
-;; org-directory needs to be set early
-(setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
-
-;; Don’t compact font caches during GC.
-(setq inhibit-compacting-font-caches t)
-
 ;;; rational modules
 ;;;
 (require 'rational-defaults)    ; Sensible default settings for Emacs
@@ -67,6 +50,39 @@
 (require 'rational-speedbar)    ; built-in file-tree
 ;; (require 'rational-screencast)  ; show current command and binding in modeline
 (require 'rational-compile)     ; automatically compile some emacs lisp files
+
+;; Some Defaults
+;;
+;; (setq next-line-add-newlines t) ; C-n inserts new line to avoid "end of buffer" errors
+(setq scroll-error-top-bottom 1)   ; allow pgup to move to the 1st line
+(setq help-window-select t)        ; https://emacs.stackexchange.com/q/21770
+(setq ring-bell-function 'ignore)  ; no flashing!
+
+;; Taken from https://github.com/Ergus/mini_dotemacs
+(setq-default auto-revert-verbose t         ; show message when file changes
+              auto-revert-avoid-polling t)  ; use save signal
+(global-auto-revert-mode t)                 ; Autoload files changed on disk
+(delete-selection-mode t)                   ; Replace selection with typing
+(save-place-mode 1)                         ; Remember point in files
+
+;; Start maximized
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
+;; Select and raise the frame, always
+(select-frame-set-input-focus (selected-frame))
+
+;; Prevents some cases of Emacs flickering
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+
+;; org-directory needs to be set early
+(setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
+
+;; Don’t compact font caches during GC.
+(setq inhibit-compacting-font-caches t)
+
+;; Auto-save on focus lost - https://www.emacswiki.org/emacs/AutoSave
+(defun +my/save-all() (interactive) (save-some-buffers t))
+(add-hook 'focus-out-hook 'save-all)
 
 ;; font
 (custom-set-variables
@@ -119,27 +135,47 @@
          "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
          "^\\.cproject$" "^\\.project$" "^\\.projectile$"
          "\\.egg\-info$"))
+(global-set-key (kbd "C-c n") 'neotree-toggle)
+
+;; crux - collection of ridiculously useful extensions for emacs
+;; https://github.com/bbatsov/crux
+;; https://superuser.com/a/1228716/45605
+(rational-package-install-package 'crux)
+(global-set-key [remap move-beginning-of-line] #'crux-move-beginning-of-line)
+(global-set-key (kbd "C-c d") #'crux-duplicate-current-line-or-region)
+(global-set-key (kbd "C-x C-r") 'crux-recentf-find-file)
+(global-set-key (kbd "C-c f") 'crux-cleanup-buffer-or-region)
+
+;; helpful - Prettier docs
+;; https://github.com/wilfred/helpful
+(rational-package-install-package 'helpful)
+(global-set-key (kbd "C-h f") #'helpful-callable)
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+(global-set-key (kbd "C-h o") #'helpful-symbol)
+(global-set-key (kbd "C-c C-d") #'helpful-at-point)
+(global-set-key (kbd "C-h F") #'helpful-function)
+(global-set-key (kbd "C-h C") #'helpful-command)
+
+;; expand-region - Expand region increases the selected region by semantic units
+;; https://github.com/magnars/expand-region.el
+(rational-package-install-package 'expand-region)
+(global-set-key (kbd "C-=") #'er/expand-region)
+(global-set-key (kbd "M-<up>") #'er/expand-region)
+(global-set-key (kbd "M-<down>") #'er/contract-region)
 
 ;; speed-type
 (rational-package-install-package 'speed-type)
 
-;; crux
-(rational-package-install-package 'crux)
-
-;; bindings
 ;;
+;; bindings
 
-;; get rid of `find-file-read-only' and replace it with something more useful
-(global-set-key (kbd "C-x C-r") 'crux-recentf-find-file)
+;; instead of `kill-buffer', which prompts for buffer name https://superuser.com/a/354878
+(global-set-key (kbd "C-x k") #'kill-this-buffer)
+(global-set-key (kbd "C-x K") #'kill-buffer)
 
-;; "C-c f" to `crux-cleanup-buffer-or-region'
-(global-set-key (kbd "C-c f") 'crux-cleanup-buffer-or-region)
-
-;; "C-c n" to `neotree-toggle'
-(global-set-key (kbd "C-c n") 'neotree-toggle)
-
-;; "C-x K" `kill-this-buffer'
-(global-set-key (kbd "C-x K") 'kill-this-buffer)
+;; https://emacs.stackexchange.com/questions/835/make-buffer-list-take-focus
+(global-set-key [remap list-buffers] #'ibuffer)
 
 ;; To not load `custom.el' after `config.el', uncomment this line.
 ;; (setq rational-load-custom-file nil)
