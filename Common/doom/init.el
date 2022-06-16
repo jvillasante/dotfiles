@@ -206,4 +206,5 @@
     (default +bindings +smartparens)
 
     :private
+    my-eshell
     my-cc)

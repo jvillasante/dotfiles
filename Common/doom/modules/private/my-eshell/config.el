@@ -170,7 +170,7 @@ more-helpful local prompt."
 
 (after! eshell
     (setq eshell-highlight-prompt nil)
-    (setq-default eshell-prompt-function #'eshell/eshell-local-prompt-function)
+    ;; (setq-default eshell-prompt-function #'eshell/eshell-local-prompt-function)
 
     (setq ;; eshell-buffer-shorthand t ...  Can't see Bug#19391
         eshell-scroll-to-bottom-on-input 'all

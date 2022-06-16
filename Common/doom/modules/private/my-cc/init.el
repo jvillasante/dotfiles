@@ -9,8 +9,7 @@
 
 (c-set-offset 'innamespace 0)
 
-(setq
-    c-default-style "stroustrup"
+(setq c-default-style "stroustrup"
     c-basic-offset 4
     indent-tabs-mode t)
 
