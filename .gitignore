@@ -5,6 +5,7 @@
 /.emacs.prelude
 /.emacs.rational
 /.oh-my-zsh
+/.oh-my-bash
 /.tmuxifier
 /Common/nvim/plugin
 /Common/psd/.psd.conf

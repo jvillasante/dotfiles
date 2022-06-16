@@ -71,11 +71,6 @@
     (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
     (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line))
 
-;; shell
-(setq-default
-    multi-term-program +my/zsh-path
-    shell-file-name +my/zsh-path)
-
 ;; defaults
 (setq
     major-mode 'text-mode

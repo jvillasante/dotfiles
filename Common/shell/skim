@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #
 # Skim
 #
@@ -6,8 +8,16 @@ if type sk >/dev/null 2>/dev/null; then
     # Config
     #
 
-    [ -f /usr/share/zsh/site-functions/_sk ] && source /usr/share/zsh/site-functions/_sk || echo "No skim completions found"
-    [ -f /usr/share/skim/shell/key-bindings.zsh ] && source /usr/share/skim/shell/key-bindings.zsh || echo "No skim key-bindings found"
+    if [ -n "$BASH_VERSION" ]; then
+        [ -f /usr/share/bash-completion/completions/sk ] && source /usr/share/bash-completion/completions/sk || echo "No skim completions found"
+        [ -f /usr/share/skim/shell/key-bindings.bash ] && source /usr/share/skim/shell/key-bindings.bash || echo "No skim key-bindings found"
+    elif [ -n "$ZSH_VERSION" ]; then
+        [ -f /usr/share/zsh/site-functions/_sk ] && source /usr/share/zsh/site-functions/_sk || echo "No skim completions found"
+        [ -f /usr/share/skim/shell/key-bindings.zsh ] && source /usr/share/skim/shell/key-bindings.zsh || echo "No skim key-bindings found"
+    else
+        echo "Bash or Zsh are required, exiting..." && exit 1
+    fi
+
     export SKIM_DEFAULT_COMMAND="fd --type f || rg --files || find ."
     export SKIM_DEFAULT_OPTIONS="\
         --color=light \

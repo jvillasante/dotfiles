@@ -14,40 +14,58 @@ DOTFILES_DIR=$(find_dotfiles)
 
 echo ">>> Running ($CURRENT_SHELL) for '$CURRENT_HOST' on '$CURRENT_OS' at '$DOTFILES_DIR'."
 
-install_zsh() {
-    # Test to see if zshell is installed. If it is:
-    if [ "$CURRENT_OS" = "LINUX" ]; then
-        if [ -f /bin/zsh ] || [ -f /usr/bin/zsh ]; then
-            # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-            if [ ! -d "$DOTFILES_DIR/.oh-my-zsh/" ]; then
-                git clone https://github.com/ohmyzsh/ohmyzsh.git "$DOTFILES_DIR/.oh-my-zsh"
-            fi
+install_shell() {
+    case $1 in
+        bash)
+            if type bash >/dev/null 2>&1; then
+                if [ ! -d "$DOTFILES_DIR/.oh-my-bash/" ]; then
+                    export OSH="$DOTFILES_DIR/.oh-my-bash"
+                    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+                fi
 
-            # Set the default shell to zsh if it isn't currently set to zsh
-            if [ ! "$SHELL" = "$(which zsh)" ]; then
-                chsh -s "$(which zsh)"
-                echo ">>> Your need to re-login :(                                        "
-            fi
-        else
-            # If zsh isn't installed, If the platform is Linux, try an apt-get to install zsh and then recurse
-            sudo apt-get install zsh
-            install_zsh
-        fi
-    elif [ "$CURRENT_OS" = "OSX" ]; then
-        if [ -f /bin/zsh ] || [ -f /usr/local/bin/zsh ] || [ -f /usr/bin/zsh ]; then
-            # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-            if [ ! -d "$DOTFILES_DIR/.oh-my-zsh/" ]; then
-                git clone https://github.com/ohmyzsh/ohmyzsh.git "$DOTFILES_DIR/.oh-my-zsh"
-            fi
+                # Set the default shell to bash if it isn't currently set to bash
+                if [ ! "$SHELL" = "$(which bash)" ]; then
+                    chsh -s "$(which bash)"
+                    echo ">>> You need to re-login :(                                        "
+                fi
+            else
+                # Bash not installed
+                sudo dnf install bash || exit 1
 
-            echo ">>> Remember to set the default shell to zsh if it isn't already         "
-        else
-            echo ">>> Remember to install zsh                                              "
-        fi
-    fi
+                # Run again
+                install_shell "bash"
+            fi
+            ;;
+        zsh)
+            if type zsh >/dev/null 2>&1; then
+                if [ ! -d "$DOTFILES_DIR/.oh-my-zsh/" ]; then
+                    git clone https://github.com/ohmyzsh/ohmyzsh.git "$DOTFILES_DIR/.oh-my-zsh"
+                fi
+
+                # Set the default shell to zsh if it isn't currently set to zsh
+                if [ ! "$SHELL" = "$(which zsh)" ]; then
+                    chsh -s "$(which zsh)"
+                    echo ">>> You need to re-login :(                                        "
+                fi
+            else
+                # Zsh not installed
+                sudo dnf install zsh || exit 1
+
+                # Run again
+                install_shell "zsh"
+            fi
+            ;;
+        *)
+            echo ">>> Unknown shell ($1), exiting..." && exit 1
+            ;;
+    esac
 }
 
 install_emacs() {
+    if ! type emacs >/dev/null 2>&1; then
+        echo ">>> Emacs is not installed, exiting..." && exit 1
+    fi
+
     # Install Chemacs2
     if [ ! -d "$DOTFILES_DIR/.emacs.chemacs2" ]; then
         git clone git@github.com:plexus/chemacs2.git "$DOTFILES_DIR/.emacs.chemacs2"
@@ -98,7 +116,7 @@ install_tmuxifier() {
     fi
 }
 
-install_zsh
+install_shell "bash"
 install_emacs
 install_vim
 install_tmuxifier
@@ -111,7 +129,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME..."
-files=".oh-my-zsh.d .bin .profile .bashrc .zshenv .zshrc .editorconfig .emacs-profiles.el .sbclrc"
+files=".oh-my-zsh.d .bin .bash_profile .bashrc .zshenv .zshrc .editorconfig .emacs-profiles.el .sbclrc"
 for file in $files; do
     unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
