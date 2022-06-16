@@ -11,7 +11,6 @@ CURRENT_SHELL=$(find_current_shell)
 CURRENT_HOST=$(find_host)
 CURRENT_OS=$(find_os)
 DOTFILES_DIR=$(find_dotfiles)
-
 echo ">>> Running ($CURRENT_SHELL) for '$CURRENT_HOST' on '$CURRENT_OS' at '$DOTFILES_DIR'."
 
 install_shell() {
@@ -122,14 +121,17 @@ install_vim
 install_tmuxifier
 
 echo ">>> Linking global files in $HOME"
-files=".emacs.d .oh-my-zsh .tmuxifier"
+files=".emacs.d .tmuxifier"
+[ -n "$ZSH_VERSION" ] && files+=" .oh-my-zsh"
 for file in $files; do
     unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/$file" "$HOME/"
 done
 
 echo ">>> Linking common files in $HOME..."
-files=".oh-my-zsh.d .bin .bash_profile .bashrc .zshenv .zshrc .editorconfig .emacs-profiles.el .sbclrc"
+files=".bin .editorconfig .emacs-profiles.el .sbclrc"
+[ -n "$BASH_VERSION" ] && files+=" .bash_profile .bashrc"
+[ -n "$ZSH_VERSION" ] && files+=" .oh-my-zsh.d .zshenv .zshrc"
 for file in $files; do
     unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
