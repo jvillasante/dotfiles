@@ -3,8 +3,6 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-(load! "+early-init.el")
-
 (when noninteractive
     (after! undo-tree
         (global-undo-tree-mode -1)))
