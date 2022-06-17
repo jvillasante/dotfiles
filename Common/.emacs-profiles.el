@@ -3,6 +3,7 @@
                      (env . (("DOOMDIR" . "~/Workspace/Public/dotfiles/Common/doom")))))
     ("doom-vanilla" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/.emacs.doom.vanilla")
                           (env . (("DOOMDIR" . "~/Workspace/Public/dotfiles/Common/doom-vanilla")))))
+    ("personal" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/Common/emacs.d")))
     ("prelude" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/.emacs.prelude")
                      (env . (("PRELUDE_PERSONAL_DIR" . "~/Workspace/Public/dotfiles/Common/prelude")))))
     ("rational" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/.emacs.rational")

@@ -58,19 +58,6 @@
     auto-save-default t               ; Nobody likes to loose work, I certainly don't
     password-cache-expiry nil)        ; I can trust my computers ... can't I?
 
-;; evil stuff
-(when (featurep! :editor evil)
-    (setq evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
-    (setq evil-cross-lines t)    ;; Make horizontal movement cross lines
-    (setq evil-shift-width 4)    ;; evil shift width
-    (setq evil-ex-search-persistent-highlight nil) ;; No highlight persistence on evil search
-
-    ;; Make movement keys work like they should
-    (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
-    (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-    (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
-    (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line))
-
 ;; defaults
 (setq
     major-mode 'text-mode

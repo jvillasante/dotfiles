@@ -18,7 +18,7 @@
             +my/mu-path "/usr/local/bin/mu"
             +my/msmtp-path "/usr/local/bin/msmtp"
             vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
-        (setq ns-use-proxy-icon         nil
+        (setq ns-use-proxy-icon       nil
             ns-use-thin-smoothing     t
             ns-alternate-modifier     nil
             mac-command-modifier      'meta

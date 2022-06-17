@@ -9,8 +9,18 @@
     (after! undo-tree
         (global-undo-tree-mode -1)))
 
-(after! evil
-    (setq evil-want-fine-undo t))
+(when (featurep! :editor evil)
+    (after! evil
+        (setq evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
+        (setq evil-cross-lines t)    ;; Make horizontal movement cross lines
+        (setq evil-shift-width 4)    ;; evil shift width
+        (setq evil-ex-search-persistent-highlight nil) ;; No highlight persistence on evil search
+
+        ;; Make movement keys work like they should
+        (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+        (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+        (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+        (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)))
 
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
@@ -41,8 +51,8 @@
     (push (expand-file-name "snippets/" doom-private-dir) yas-snippet-dirs))
 
 (after! recentf
-    (push (list (expand-file-name ".emacs.d/" +my/dropbox-path)) recentf-exclude)
-    (push (list (expand-file-name ".tmuxifier/" +my/dropbox-path)) recentf-exclude)
+    (push (list (expand-file-name ".emacs.d/" +my/dotfiles-path)) recentf-exclude)
+    (push (list (expand-file-name ".tmuxifier/" +my/dotfiles-path)) recentf-exclude)
     (push #'+org-is-agenda-file recentf-exclude)
     (push "~/.mail" recentf-exclude)
     (push "\\.git" recentf-exclude)
