@@ -1,11 +1,5 @@
-/.emacs.chemacs2
-/.emacs.d
-/.emacs.doom
-/.emacs.doom.vanilla
-/.emacs.prelude
-/.emacs.rational
-/.oh-my-zsh
-/.oh-my-bash
+/.emacs.*
+/.oh-my-*
 /.tmuxifier
 /Common/nvim/plugin
 /Common/psd/.psd.conf

@@ -76,11 +76,11 @@ at least the fill column. Place the point after the comment box. http://irreal.o
         (mapcar (lambda (mode)
                     (if (and (boundp mode) (symbol-value mode))
                         mode))
-	    minor-mode-list)))
+            minor-mode-list)))
 
 ;;;###autoload
 (defun +my/switch-theme (theme)
-    ;; This interactive call is taken from `load-theme'
+    "This interactive call is taken from `load-theme'."
     (interactive
         (list
             (intern (completing-read "Load custom theme: "

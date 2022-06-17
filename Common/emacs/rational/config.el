@@ -144,17 +144,6 @@
 (global-set-key (kbd "C-x C-r") 'crux-recentf-find-file)
 (global-set-key (kbd "C-c f") 'crux-cleanup-buffer-or-region)
 
-;; helpful - Prettier docs
-;; https://github.com/wilfred/helpful
-(rational-package-install-package 'helpful)
-(global-set-key (kbd "C-h f") #'helpful-callable)
-(global-set-key (kbd "C-h v") #'helpful-variable)
-(global-set-key (kbd "C-h k") #'helpful-key)
-(global-set-key (kbd "C-h o") #'helpful-symbol)
-(global-set-key (kbd "C-c C-d") #'helpful-at-point)
-(global-set-key (kbd "C-h F") #'helpful-function)
-(global-set-key (kbd "C-h C") #'helpful-command)
-
 ;; expand-region - Expand region increases the selected region by semantic units
 ;; https://github.com/magnars/expand-region.el
 (rational-package-install-package 'expand-region)

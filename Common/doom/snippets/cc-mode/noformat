@@ -1,7 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: clang-format off/on
-# key: no_format
-# --
-// clang-format off
-$0
-// clang-format on

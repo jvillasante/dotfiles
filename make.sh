@@ -74,25 +74,18 @@ install_emacs() {
         ln -s "$DOTFILES_DIR/.emacs.chemacs2" "$DOTFILES_DIR/.emacs.d"
     fi
 
-    # Install Doom Emacs (Evil)
+    # Install Doom Emacs
     if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
         git clone git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom"
         check $?
 
-        "$DOTFILES_DIR"/.emacs.doom/bin/doom --doomdir "$DOTFILES_DIR"/Common/doom/ install
-    fi
-
-    # Install Doom Emacs (Vanilla)
-    if [ ! -d "$DOTFILES_DIR/.emacs.doom.vanilla" ]; then
-        git clone git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom.vanilla"
-        check $?
-
-        "$DOTFILES_DIR"/.emacs.doom.vanilla/bin/doom --doomdir "$DOTFILES_DIR"/Common/doom-vanilla/ install
+        "$DOTFILES_DIR"/.emacs.doom/bin/doom --doomdir "$DOTFILES_DIR"/Common/emacs/doom/ install
     fi
 
     # Install Prelude Emacs
     if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
-        export PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" && curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+        export PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" &&
+            curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
         check $?
     fi
 

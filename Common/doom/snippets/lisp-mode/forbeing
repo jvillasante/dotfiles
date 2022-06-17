@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: forbeing
-# key: forbeing
-# --
-for ${1:key} being the ${2:hask-keys} in ${3:hash-table-name}  ${4:using list-form}

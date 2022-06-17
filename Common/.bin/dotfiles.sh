@@ -100,11 +100,11 @@ case $cmd in
         ;;
     doom)
         [ "$nargs" -lt 2 ] && usage 1
-        if [ ! -f "${DOTFILES_DIR}/.emacs.doom/bin/doom" ]; then
+        if [ ! -f "$DOTFILES_DIR/.emacs.doom/bin/doom" ]; then
             echo "doom script not present, exiting..."
             exit 1
         else
-            "${DOTFILES_DIR}/.emacs.doom/bin/doom" "$@"
+            "$DOTFILES_DIR"/.emacs.doom/bin/doom --doomdir "$DOTFILES_DIR"/Common/emacs/doom "$@"
         fi
         ;;
     emacs)
