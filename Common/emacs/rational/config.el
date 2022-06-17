@@ -34,7 +34,6 @@
             vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
 
 ;;; rational modules
-;;;
 (require 'rational-defaults)    ; Sensible default settings for Emacs
 (require 'rational-use-package) ; Configuration for `use-package`
 (require 'rational-updates)     ; Tools to upgrade Rational Emacs

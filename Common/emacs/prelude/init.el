@@ -1,6 +1,10 @@
 ;;; personal/init.el --- Prelude personal init -*- lexical-binding: t; -*-
 ;;;
 
+;;; Commentary:
+
+;;; Code:
+
 ;; Some Defaults
 ;;
 ;; (setq next-line-add-newlines t) ; C-n inserts new line to avoid "end of buffer" errors
@@ -16,21 +20,20 @@
 (save-place-mode 1)                         ; Remember point in files
 
 ;; Auto-save on focus lost - https://www.emacswiki.org/emacs/AutoSave
-(defun +my/save-all() (interactive) (save-some-buffers t))
-(add-hook 'focus-out-hook 'save-all)
+(add-function :after after-focus-change-function (lambda () (unless (frame-focus-state) (save-some-buffers t))))
 
 ;;; font
 (set-face-attribute 'default nil :family "Iosevka" :height 160 :weight 'normal :width 'normal)
 
 ;;; theme
 (defun +my/switch-theme (theme)
-    "This interactive call is taken from `load-theme'"
+    "This interactive call is taken from `load-theme' function."
     (interactive
         (list
             (intern (completing-read "Load custom theme: "
                         (mapcar 'symbol-name
                             (custom-available-themes))))))
-    (mapcar #'disable-theme custom-enabled-themes)
+    (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
 (prelude-require-package 'modus-themes)
 (+my/switch-theme 'modus-operandi)
