@@ -4,8 +4,8 @@
 /Common/nvim/plugin
 /Common/psd/.psd.conf
 /Common/nushell/history.txt
-/Common/rational-emacs/etc
-/Common/rational-emacs/var
+/Common/emacs/rational/etc
+/Common/emacs/rational/var
 .DS_Store
 *flycheck_tmp_*
 *~
