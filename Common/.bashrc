@@ -7,7 +7,8 @@ case $- in
 esac
 
 # Path to your oh-my-bash installation.
-export OSH=/home/jvillasante/Workspace/Public/dotfiles/.oh-my-bash
+export OSH="$HOME"/Workspace/Public/dotfiles/.oh-my-bash
+export OSH_CUSTOM="$HOME"/Workspace/Public/dotfiles/Common/.oh-my-bash.custom
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
@@ -48,9 +49,6 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $OSH/custom?
-OSH_CUSTOM="$HOME"/Workspace/Public/dotfiles/Common/.oh-my-bash.custom
 
 # To disable the uses of "sudo" by oh-my-bash, please set "false" to
 # this variable.  The default behavior for the empty value is "true".
