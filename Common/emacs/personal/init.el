@@ -47,13 +47,20 @@ There are two things you can do about this warning:
 (defconst +my/savefile-dir (expand-file-name "savefile" user-emacs-directory))
 (unless (file-exists-p +my/savefile-dir)
     (make-directory +my/savefile-dir)) ;; create the savefile dir if it doesn't exist
-
-;; more useful frame title, that show either a file or a
-;; buffer name (if the buffer isn't visiting a file)
-(setq frame-title-format
-    '((:eval (if (buffer-file-name)
-                 (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
+;; frame title
+(setq-default frame-title-format
+    '(:eval
+         (format "%s@%s: %s"
+             (or (file-remote-p default-directory 'user)
+                 user-real-login-name)
+             (or (file-remote-p default-directory 'host)
+                 system-name)
+             (cond
+                 (buffer-file-truename
+                     (concat buffer-file-truename))
+                 (dired-directory
+                     (concat dired-directory))
+                 (t (buffer-name))))))
 
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
@@ -68,16 +75,17 @@ There are two things you can do about this warning:
 (set-keyboard-coding-system 'utf-8)
 
 ;; hippie expand is dabbrev expand on steroids
-(setq hippie-expand-try-functions-list '(try-expand-dabbrev
-                                            try-expand-dabbrev-all-buffers
-                                            try-expand-dabbrev-from-kill
-                                            try-complete-file-name-partially
-                                            try-complete-file-name
-                                            try-expand-all-abbrevs
-                                            try-expand-list
-                                            try-expand-line
-                                            try-complete-lisp-symbol-partially
-                                            try-complete-lisp-symbol))
+(setq hippie-expand-try-functions-list
+      '(try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill
+        try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-all-abbrevs
+        try-expand-list
+        try-expand-line
+        try-complete-lisp-symbol-partially
+        try-complete-lisp-symbol))
 
 (progn
     (setq user-full-name "Julio C. Villasante"
@@ -114,7 +122,9 @@ There are two things you can do about this warning:
     (delete-selection-mode 1) ; If text is selected, we expect that typing will replace the selection
     (save-place-mode 1) ; Remember point in files
     (show-paren-mode 1) ; Highlight the matching parenthesis
+    (setq auto-save-default nil) ; Don't autosave files with default Emacs package (we'll use `super-save' pacakge isntead)
     (setq-default show-trailing-whitespace t) ; Show in red the spaces forgotten at the end of lines
+    (setq search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
     (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
     (setq use-short-answers t) ; Abreviate Yes/No to y or n
     (setq require-final-newline t) ;; Newline at end of file
@@ -173,8 +183,7 @@ There are two things you can do about this warning:
     :ensure nil  ; emacs built-in
     :config
     (setq save-place-file (expand-file-name "saveplace" +my/savefile-dir))
-    ;; activate it for all buffers
-    (setq-default save-place t))
+    (save-place-mode +1))
 
 ;; savehist : save minibuffer history
 (use-package savehist
@@ -198,23 +207,43 @@ There are two things you can do about this warning:
         recentf-auto-cleanup 'never)
     (recentf-mode +1))
 
+;;;; projectile : project interaction library for Emacs.
+(use-package projectile
+  :demand
+  :init
+  (setq projectile-project-search-path '("~/Workspace/Private/Projects/" "~/Workspace/Public/" "~/Workspace/Work/Projects")
+      projectile-switch-project-action 'projectile-dired
+      projectile-require-project-root t
+      projectile-project-root-files-bottom-up '(".projectile" ".git")
+      projectile-sort-order 'recentf
+      projectile-indexing-method 'hybrid)
+  :config
+  (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
+  (global-set-key (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
+
 ;;;; Dired : built-in navigation of folders
 (use-package dired
     :ensure nil  ; emacs built-in
-    ;; :bind (:map dired-mode-map ("u" . dired-up-directory))
     :config
-    ;; reuse current buffer by pressing 'a'
-    (put 'dired-find-alternate-file 'disabled nil)
-    ;; always delete and copy recursively
-    (setq dired-recursive-deletes 'always)
-    (setq dired-recursive-copies 'always)
-    ;; if there is a dired buffer displayed in the next window, use its
-    ;; current subdir, instead of the current subdir of this dired buffer
-    (setq dired-dwim-target t)
-    ;; enable some really cool extensions like C-x C-j(dired-jump)
-    (require 'dired-x)
-    :custom
-    (dired-kill-when-opening-new-dired-buffer t)) ; Auto close previous folder buffer
+    (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
+    (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
+    (setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
+    (setq dired-dwim-target t) ;; makes dired guess the target directory
+    (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
+    (setq projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
+
+    ;; Dired listing switches
+    ;;  -a : Do not ignore entries starting with .
+    ;;  -l : Use long listing format.
+    ;;  -h : Human-readable sizes like 1K, 234M, ..
+    ;;  -v : Do natural sort .. so the file names starting with . will show up first.
+    ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
+    (setq dired-listing-switches (if (eq system-type 'windows-nt)
+                                     "-alh"
+                                     "-alhvF --group-directories-first"))
+
+    (require 'dired-x)) ;; enable some really cool extensions like C-x C-j(dired-jump)
 
 ;;;; whitespace : visualize blanks (tabs, spaces, newline, etc)
 (use-package whitespace
@@ -252,9 +281,44 @@ There are two things you can do about this warning:
     ;; Load the theme files before enabling a theme
     (modus-themes-load-themes)
     :config
-    ;; Load the theme of your choice:
-    (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+            (lambda (frame)
+                (with-selected-frame frame
+                    (modus-themes-load-operandi)))) ;; OR (modus-themes-load-vivendi)
+        (modus-themes-load-operandi)) ;; OR (modus-themes-load-vivendi)
     :bind ("<f5>" . modus-themes-toggle))
+
+;;;; mini-modeline
+;; modeline
+(use-package mini-modeline
+    :demand
+    :init
+    (setq mode-line-position (list "%l:%c %p"))
+    (setq mode-line-modes (list "%m"))
+    (setq mini-modeline-enhance-visual t)
+    (when (display-graphic-p) (setq mini-modeline-display-gui-line t))
+    (setq mini-modeline-echo-duration 10)
+    (setq mini-modeline-right-padding 1)
+    (setq mini-modeline-l-format nil)
+    (setq mini-modeline-r-format
+        '("%e"
+             mode-line-front-space
+             mode-line-position
+             " "
+             mode-line-mule-info     ; Information on character sets, encodings, and other human-language details
+             mode-line-client        ; Identifies frames created by emacsclient
+             mode-line-modified      ; Modified and read-only status
+             mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
+             " "
+             mode-line-modes))
+    :config
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+            (lambda (frame)
+                (with-selected-frame frame
+                    (mini-modeline-mode t))))
+        (mini-modeline-mode t)))
 
 ;;;; diminish : Hide the mode line string for modes (called the lighter)
 (use-package diminish
@@ -266,7 +330,7 @@ There are two things you can do about this warning:
     (diminish 'flyspell-prog-mode)
     (diminish 'abbrev-mode))
 
-;;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
+;;;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
     :demand
     :bind (("M-j" . avy-goto-char-timer)
@@ -275,9 +339,19 @@ There are two things you can do about this warning:
               ("M-g f" . avy-goto-line)
               ("M-g w" . avy-goto-word-or-subword-1))
     :config
+    (setq avy-all-windows t)
     (setq avy-background t))
 
-;; super-save : auto-saves your buffers, when certain events happen
+;;;; smartparens : minor mode for dealing with pairs in Emacs
+(use-package smartparens
+  :demand
+  :config
+    (require 'smartparens-config)
+    (show-smartparens-global-mode +1)
+    (smartparens-global-mode 1)
+    (show-paren-mode t))
+
+;;;; super-save : auto-saves your buffers, when certain events happen
 (use-package super-save
   :demand
   :config
@@ -298,7 +372,7 @@ There are two things you can do about this warning:
 (use-package ace-window
   :demand
   :config
-  (global-set-key (kbd "M-w") 'ace-window)
+  ;; TODO: (global-set-key (kbd "M-w") 'ace-window)
   (global-set-key [remap other-window] 'ace-window))
 
 ;;;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
@@ -306,8 +380,8 @@ There are two things you can do about this warning:
     :demand
     :bind (("C-c o" . crux-open-with)
               ("M-o" . crux-smart-open-line)
-              ("C-c n" . crux-cleanup-buffer-or-region)
-              ("C-c f" . crux-recentf-find-file)
+              ("C-x C-r" . crux-recentf-find-file)
+              ("C-c f" . crux-cleanup-buffer-or-region)
               ("C-M-z" . crux-indent-defun)
               ("C-c u" . crux-view-url)
               ("C-c e" . crux-eval-and-replace)
@@ -319,8 +393,6 @@ There are two things you can do about this warning:
               ("C-c TAB" . crux-indent-rigidly-and-copy-to-clipboard)
               ("C-c I" . crux-find-user-init-file)
               ("C-c S" . crux-find-shell-init-file)
-              ("s-r" . crux-recentf-find-file)
-              ("s-j" . crux-top-join-line)
               ("C-^" . crux-top-join-line)
               ("s-k" . crux-kill-whole-line)
               ("C-<backspace>" . crux-kill-line-backwards)
@@ -331,15 +403,15 @@ There are two things you can do about this warning:
               ([remap kill-whole-line] . crux-kill-whole-line)
               ("C-c s" . crux-ispell-word-then-abbrev)))
 
-;; FIXME: Figure out why the vterm module stopped compiling properly
-;; (use-package vterm
-;;   :ensure t
-;;   :config
-;;   (setq vterm-shell "/bin/bash")
-;;   ;; macOS
-;;   (global-set-key (kbd "s-v") 'vterm)
-;;   ;; Linux
-;;   (global-set-key (kbd "C-c v") 'vterm))
+;;;; vterm : terminal emulator
+(use-package vterm
+  :demand
+  :hook (vterm-mode . (lambda()
+                        (setq-local global-hl-line-mode nil)
+                        (display-line-numbers-mode 0)))
+  :config
+  (setq vterm-shell "/usr/bin/bash")
+  (global-set-key (kbd "C-c v") 'vterm))
 
 ;;;; anzy : displays current match and total matches information in the mode-line in various search modes
 (use-package anzu
@@ -355,21 +427,22 @@ There are two things you can do about this warning:
   :config
   (global-set-key [remap kill-ring-save] 'easy-kill))
 
-;;;; projectile : project interaction library for Emacs.
-(use-package projectile
-  :demand
-  :init
-  ;; TODO: (setq projectile-project-search-path '("~/projects/" "~/work/"))
-  :config
-  (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
-  (global-set-key (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1))
-
 ;;;; magit : Git front end (amazing!)
 (use-package magit
     :bind (("C-x g" . magit-status))
-    :custom
-    (ediff-split-window-function 'split-window-horizontally)) ; Make ediff split side by side
+    :config
+    ;; Have magit-status go full screen and quit to previous configuration.
+    ;; Taken from http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
+    ;; and http://irreal.org/blog/?p=2253
+    (defadvice magit-status (around magit-fullscreen activate)
+        (window-configuration-to-register :magit-fullscreen)
+        ad-do-it
+        (delete-other-windows))
+    (defadvice magit-quit-window (after magit-restore-screen activate)
+        (jump-to-register :magit-fullscreen))
+
+    (setq git-commit-summary-max-length 80
+        vc-handled-backends (delq 'Git vc-handled-backends)))
 
 ;;;; which-key : Displays command shortcuts when typing commands
 (use-package which-key
@@ -456,21 +529,77 @@ There are two things you can do about this warning:
 
 ;;;; Org mode : Base mode for note taking
 (use-package org
-    :custom ((org-agenda-files '("~/.org_roam")) ; TODO: For autopopulating todos from notes
-                (org-agenda-span 'month) ; To have a monthly view by default
-                (org-agenda-start-on-weekday 1) ; Agenda starts on monday in agenda
-                (calendar-week-start-day 1) ; Date picker starts on monday
-                (org-capture-bookmark nil)) ; To disable adding a bookmark on each org capture
-    :hook (org-mode . (lambda()
-                          (require 'org-tempo) ; For templates like <sTAB to insert a code block
-                          (require 'recentf)
-                          (add-to-list 'recentf-exclude ".*org$") ; Ignore org files from recentf due to agenda loading everything
-                          (org-indent-mode) ; Auto indent lines according to depth
-                          (auto-fill-mode)))) ; Wrap lines when longer than fill column
+  :config
+  ;; Latex previews in org-mode
+  (plist-put org-format-latex-options :background 'default)
+
+  ;; To get the most out of themes
+  (setq
+   org-fontify-whole-heading-line t
+   org-fontify-done-headline t
+   org-fontify-quote-and-verse-blocks t)
+
+  ;; settings
+  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
+  (setq org-startup-indented t)
+  (setq org-startup-folded t)
+  (setq org-cycle-separator-lines 2)
+  (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
+  (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
+  (setq org-log-done t)
+  (setq org-startup-with-inline-images t)
+  (setq org-image-actual-width nil)
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-imenu-depth 8)
+  (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
+  (setq org-adapt-indentation nil ;; prevent demoting heading also shifting text inside sections
+   org-src-preserve-indentation nil
+   org-edit-src-content-indentation 2)
+
+  ;; Show the daily agenda by default.
+  (setq org-agenda-span 'day)
+  (setq org-agenda-prefix-format
+        '((agenda . " %i %-12:c%?-12t% s")
+          (todo   . " ")
+          (tags   . " %i %-12:c")
+          (search . " %i %-12:c")))
+  (setq org-agenda-hide-tags-regexp ".") ;; ask the agenda to hide any tag (.) that may be present.
+  (setq org-capture-templates            ;; set our capture templates
+        `(("i" "Inbox" entry (file "inbox.org")
+           ,(concat "* TODO %?\n"
+                    "/Entered on/ %U"))
+          ("n" "Note" entry (file "notes.org")
+           ,(concat "* Note (%a)\n"
+                    "/Entered on/ %U\n" "\n" "%?"))))
+  :hook (org-mode . (lambda()
+                      (require 'org-tempo) ; For templates like <sTAB to insert a code block
+                      (require 'recentf)
+                      (add-to-list 'recentf-exclude ".*org$") ; Ignore org files from recentf due to agenda loading everything
+                      (org-indent-mode) ; Auto indent lines according to depth
+                      (visual-line-mode))))
 
 ;;;; Org bullets : Pretty mode for org
 (use-package org-bullets
-    :hook (org-mode . org-bullets-mode))
+  :after org
+  :hook (org-mode . org-bullets-mode))
+
+;;;; encryption
+;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
+(require 'epa-file)
+(progn
+    (epa-file-enable)
+    (setq
+        epa-file-encrypt-to user-mail-address
+        epa-file-select-keys 'silent
+        epa-file-cache-passphrase-for-symmetric-encryption nil))
+(require 'org-crypt)
+(progn
+    (org-crypt-use-before-save-magic)
+    (setq org-crypt-disable-auto-save nil) ;; don't ask to disable auto-save
+    (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+    (setq org-crypt-key nil)
+    (setq org-crypt-key user-mail-address))
 
 ;;; Development packages and options
 ;;;; ag : Front end for the CLI utility ag
@@ -481,9 +610,56 @@ There are two things you can do about this warning:
 (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
 
-;;;; treemacs : Displays the current project on the left as in an IDE
-(use-package treemacs
-    :custom (treemacs-no-delete-other-windows nil))
+;;;; neotree : A Emacs tree plugin like NerdTree for Vim.
+(use-package neotree
+  :bind (("C-c n" . neotree-toggle))
+  :config
+  (setq neo-theme 'ascii
+    neo-window-width 42
+    neo-smart-open t
+    neo-create-file-auto-open nil
+    neo-show-updir-line t
+    neo-show-hidden-files t
+    neo-auto-indent-point t
+    neo-vc-integration nil
+    neo-autorefresh nil
+    projectile-switch-project-action 'neotree-projectile-action
+    neo-hidden-regexp-list
+    '(;; vcs folders
+         "^\\.\\(?:git\\|hg\\|svn\\)$"
+         ;; compiled files
+         "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
+         ;; generated files, caches or local pkgs
+         "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+         ;; org-mode folders
+         "^\\.\\(?:sync\\|export\\|attach\\)$"
+         ;; temp files
+         "~$"
+         "^#.*#$"
+         ;; Others
+         "^\\.\\(cache\\|tox\\|coverage\\)$"
+         "^\\.\\(DS_Store\\|python\\-version\\)"
+         "^\\(htmlcov\\)$" "\\.elcs$"
+         "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+         "^\\.#.*$" "^__pycache__$"
+         "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+         "^\\.cproject$" "^\\.project$" "^\\.projectile$"
+         "\\.egg\-info$")))
+
+;;;; deft : plain text notes
+(use-package deft
+  :config
+  (setq
+      deft-directory "~/Dropbox/Apps/org/notes"
+      deft-extensions '("org" "md" "txt")
+      deft-default-extension "org"
+      deft-recursive nil
+      deft-use-filename-as-title nil
+      deft-use-filter-string-for-filename t
+      deft-file-naming-rules '((noslash . "-")
+                                  (nospace . "-")
+                                  (case-fn . downcase))
+      deft-auto-save-interval 0))
 
 ;;;; markdown-mode : edit markdown-formatted text
 (use-package markdown-mode
@@ -553,16 +729,12 @@ There are two things you can do about this warning:
     :config
     (advice-add 'c-update-modeline :override #'ignore)) ;; Don't use a modeline suffix (i.e C++//l)
 
-;;;; lsp-treemacs : treemacs style views for various lsp results
-(use-package lsp-treemacs
-    :demand)
-
 ;;;; company : Completion frontend, used by lsp
 (use-package company
     :demand
     :config
-    (setq company-idle-delay 0.5)
-    (setq company-show-numbers t)
+    (setq company-idle-delay 0.1)
+    (setq company-show-quick-access t)
     (setq company-tooltip-limit 10)
     (setq company-minimum-prefix-length 2)
     (setq company-tooltip-align-annotations t)
@@ -600,47 +772,55 @@ There are two things you can do about this warning:
 (use-package flycheck
   :demand
   :config
+  (setq flycheck-temp-prefix "flycheck_tmp")
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package flycheck-eldev
   :demand)
 
 ;;;; lsp-mode : Completion and syntax highlighting backend API, available for most languages
-;; The following packages need to be installed according to the language
-;; Python : pip install pyright flake8
-;; c++ : pacman -S clang bear (or jq)
-;; vue.js, javascript, typescript : sudo npm install -g vls typescript-language-server
 (use-package lsp-mode
     :hook
     (lsp-mode . lsp-enable-which-key-integration)
     :init (setq lsp-keymap-prefix "C-c l")
     :bind (("C-h l" . lsp-describe-thing-at-point))
-    :custom
-    ;; Formatting options for vue.js (.vue files)
-    (lsp-enable-links nil) ; Make links non clickable
-    (lsp-vetur-format-default-formatter-html "js-beautify-html")
-    (lsp-vetur-format-default-formatter-options
-        '((js-beautify-html
-              (wrap_attributes . "preserve")
-              (indent_size . 2)
-              (wrap_attributes_indent_size . 2))
-             (prettier
-                 (singleQuote . :json-false)
-                 (printWidth . 100)
-                 (tabWidth . 4)
-                 (trailingComma . "all")
-                 (vueIndentScriptAndStyle . :json-false)
-                 (semi . :json-false))))
     :config
-    (setq lsp-headerline-arrow ">")) ; Material design icon not working on windows
+    (setq lsp-restart 'ignore
+        lsp-headerline-breadcrumb-enable nil
+        lsp-enable-symbol-highlighting t
+        lsp-enable-indentation nil
+        lsp-eldoc-enable-hover t
+        lsp-eldoc-render-all nil
+        lsp-signature-render-documentation nil
+        lsp-signature-auto-activate nil
+        lsp-signature-doc-lines 1
+        lsp-auto-guess-root nil
+        lsp-enable-file-watchers nil
+        lsp-enable-on-type-formatting nil)
+
+    ;; Zig
+    ;; (setq lsp-zig-zls-executable (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
+
+    ;; C++
+    (setq lsp-clients-clangd-args
+        '("-j=4"
+             "--malloc-trim"
+             "--log=error"
+             "--background-index"
+             "--clang-tidy"
+             "--cross-file-rename"
+             "--completion-style=detailed"
+             "--pch-storage=memory"
+             "--header-insertion=never"
+             "--header-insertion-decorators=0")))
 
 ;;;; lsp-format-and-save : format on save if lsp-auto-format is not nil
 (defcustom lsp-auto-format nil
-    "If not nil, lsp-format-and-save will format the buffer before saving"
+    "If not nil, lsp-format-and-save will format the buffer before saving."
     :type 'boolean)
 
 (defun lsp-format-and-save()
-    "Saves the current buffer and formats it if lsp-format-on-save is not nil"
+    "Save the current buffer and formats it if lsp-format-on-save is not nil."
     (interactive)
     (when (and (not buffer-read-only) lsp-auto-format)
         (lsp-format-buffer))
@@ -652,9 +832,20 @@ There are two things you can do about this warning:
                              (require 'lsp-pyright)
                              (lsp-deferred))))
 
+;;;; rustic : blazingly fast
+(use-package rustic
+  :config
+    (setq
+        rustic-lsp-server 'rust-analyzer
+        rustic-format-on-save nil
+        lsp-rust-analyzer-cargo-watch-command "clippy"
+        lsp-rust-analyzer-inlay-hints-mode nil
+        lsp-rust-analyzer-server-display-inlay-hints nil))
+
 ;;;; Hydra search text
 (defhydra search(:exit t :columns 2)
-    "Text search related commands"
+  "Tex
+t search related commands"
     ("o" consult-line "Occurences in file")
     ("s" isearch-forward "Next occurence in file")
     ("w" isearch-forward-symbol-at-point "Next occurence in file of word")
@@ -705,7 +896,10 @@ There are two things you can do about this warning:
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(tab-stop-list (quote (4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))))
+ '(package-selected-packages
+   '(neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
+ '(tab-stop-list
+   '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
