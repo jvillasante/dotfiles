@@ -113,3 +113,6 @@
 
 ;; ;; https://emacs.stackexchange.com/questions/835/make-buffer-list-take-focus
 ;; (global-set-key [remap list-buffers] #'ibuffer)
+
+(provide 'init)
+;;; init.el ends here
