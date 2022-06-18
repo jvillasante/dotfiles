@@ -96,7 +96,7 @@ There are two things you can do about this warning:
     (tool-bar-mode 0) ; Disable the toolbar in GUI mode
     (menu-bar-mode -1) ; Hide Menu bar
     (blink-cursor-mode -1) ;; the blinking cursor is nothing, but an annoyance
-    (when (display-graphic-p) (scroll-bar-mode -1)) ; Disable the scroll bar in GUI mode
+    (scroll-bar-mode -1) ; Disable the scroll bar in GUI mode
     (setq inhibit-startup-screen t) ; Hide the startup screen
     (setq scroll-margin 0 ;; nice scrolling
         scroll-conservatively 100000
@@ -313,7 +313,7 @@ There are two things you can do about this warning:
     (setq mode-line-position (list "%l:%c %p"))
     (setq mode-line-modes (list "%m"))
     (setq mini-modeline-enhance-visual t)
-    (when (display-graphic-p) (setq mini-modeline-display-gui-line t))
+    (setq mini-modeline-display-gui-line t)
     (setq mini-modeline-echo-duration 10)
     (setq mini-modeline-right-padding 1)
     (setq mini-modeline-l-format nil)
