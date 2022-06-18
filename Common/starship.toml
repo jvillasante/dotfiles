@@ -1,6 +1,34 @@
 # Do not insert a blank line between shell prompts
 add_newline = false
 
+# Set the format string
+format = """
+$git_branch\
+$git_state\
+$git_status\
+$directory\
+$character"""
+
 [character]
-success_symbol = "[➜](bold green)"
-error_symbol = "[✗](bold red)"
+success_symbol = "[❯](green)"
+error_symbol = "[✗](red)"
+vicmd_symbol = "[❮](green)"
+
+[directory]
+style = "green"
+
+[git_branch]
+format = "[$branch]($style)"
+style = "green"
+
+[git_status]
+# format = '([\($all_status$ahead_behind\)]($style) )'
+format = '([\($all_status$ahead_behind\)]($style) )'
+#              $conflicted$stashed$deleted$renamed$modified$staged$untracked
+# format = "[[($conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed)]($style)"
+stashed = "≡"
+style = "cyan"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "cyan"
