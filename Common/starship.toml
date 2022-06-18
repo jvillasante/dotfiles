@@ -23,6 +23,7 @@ style = "green"
 
 [git_status]
 stashed = "≡"
+up_to_date = "✓"
 style = "cyan"
 
 [git_state]
