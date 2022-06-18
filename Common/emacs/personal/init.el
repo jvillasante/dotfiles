@@ -158,7 +158,12 @@ There are two things you can do about this warning:
     (lambda () (unless (frame-focus-state) (save-some-buffers t))))
 
 ;; Default font
-(set-frame-font "Iosevka 16" nil t)
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+        (lambda (frame)
+            (with-selected-frame frame
+                (set-frame-font "Iosevka 16" nil t))))
+    (set-frame-font "Iosevka 16" nil t))
 
 ;; TODO: from Steve Yegge: Bind `kill-region' to "C-x C-k" and "C-c C-k"
 ;; TODO: from Steve Yegge: Bind `backward-kill-word' to "C-w"
