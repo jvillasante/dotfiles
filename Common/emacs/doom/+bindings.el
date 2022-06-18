@@ -1,12 +1,5 @@
 ;;; +bindings.el --- description -*- lexical-binding: t; -*-
 
-(defun +jv/org-capture-inbox ()
-    (interactive)
-    (org-capture nil "i"))
-(defun +jv/org-capture-notes()
-    (interactive)
-    (org-capture nil "n"))
-
 (map!
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Defaults
@@ -20,8 +13,8 @@
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     "C-c c" #'org-capture
     "C-c a" #'org-agenda
-    "C-c i" #'+jv/org-capture-inbox
-    "C-c n" #'+jv/org-capture-notes
+    "C-c i" #'+my/org-capture-inbox
+    "C-c n" #'+my/org-capture-notes
 
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Vterm toggle quick

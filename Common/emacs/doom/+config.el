@@ -60,7 +60,7 @@
 
 ;; defaults
 (setq
-    major-mode 'text-mode
+    major-mode 'fundamental-mode
     use-dialog-box nil
     vc-follow-symlinks t
     load-prefer-newer t
@@ -132,13 +132,13 @@
 (advice-remove #'newline-and-indent #'doom*newline-indent-and-continue-comments)
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-(setq display-time-world-list
+(setq world-clock-list
     '(("UTC" "UTC")
          ("America/New_York" "Tampa")
          ("Europe/Ljubljana" "Slovenia")
          ("Asia/Calcutta" "India")
          ("America/Havana" "Havana")))
-(setq display-time-world-time-format "%a, %d %b %I:%M %p %Z")
+(setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; line spacing
 (setq-default line-spacing 0.1)

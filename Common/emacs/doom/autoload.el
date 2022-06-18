@@ -9,14 +9,6 @@
         (switch-to-buffer (current-buffer))))
 
 ;;;###autoload
-(defun +my/apply-theme (appearance)
-    "Load theme, taking current system APPEARANCE into consideration."
-    (mapc #'disable-theme custom-enabled-themes)
-    (pcase appearance
-        ('light (load-theme 'modus-operandi t))
-        ('dark (load-theme 'modus-vivendi t))))
-
-;;;###autoload
 (defun +my/dos2unix ()
     "Replace DOS eolns CR LF with Unix eolns CR"
     (interactive)
@@ -86,5 +78,15 @@ at least the fill column. Place the point after the comment box. http://irreal.o
             (intern (completing-read "Load custom theme: "
                         (mapcar 'symbol-name
                             (custom-available-themes))))))
-    (mapcar #'disable-theme custom-enabled-themes)
+    (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
+
+;;;###autoload
+(defun +my/org-capture-inbox ()
+    (interactive)
+    (org-capture nil "i"))
+
+;;;###autoload
+(defun +my/org-capture-notes()
+    (interactive)
+    (org-capture nil "n"))
