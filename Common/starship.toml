@@ -18,17 +18,12 @@ vicmd_symbol = "[❮](green)"
 style = "green"
 
 [git_branch]
-format = "[$branch]($style)"
+format = "[$branch(:$remote_branch)]($style) "
 style = "green"
 
 [git_status]
-# format = '([\($all_status$ahead_behind\)]($style) )'
-format = '([\($all_status$ahead_behind\)]($style) )'
-#              $conflicted$stashed$deleted$renamed$modified$staged$untracked
-# format = "[[($conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed)]($style)"
 stashed = "≡"
 style = "cyan"
 
 [git_state]
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
 style = "cyan"
