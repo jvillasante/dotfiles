@@ -46,7 +46,8 @@ There are two things you can do about this warning:
 ;;;; Misc
 (defconst +my/savefile-dir (expand-file-name "savefile" user-emacs-directory))
 (unless (file-exists-p +my/savefile-dir)
-    (make-directory +my/savefile-dir)) ;; create the savefile dir if it doesn't exist
+  (make-directory +my/savefile-dir)) ;; create the savefile dir if it doesn't exist
+
 ;; frame title
 (setq-default frame-title-format
     '(:eval
@@ -123,7 +124,6 @@ There are two things you can do about this warning:
     (save-place-mode 1) ; Remember point in files
     (show-paren-mode 1) ; Highlight the matching parenthesis
     (setq auto-save-default nil) ; Don't autosave files with default Emacs package (we'll use `super-save' pacakge isntead)
-    (setq-default show-trailing-whitespace t) ; Show in red the spaces forgotten at the end of lines
     (setq search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
     (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
     (setq use-short-answers t) ; Abreviate Yes/No to y or n
@@ -132,6 +132,7 @@ There are two things you can do about this warning:
     (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
     (setq-default tab-width 4)            ;; but maintain correct appearance
     (setq indent-line-function 'insert-tab) ;; indent the current line
+    (setq standard-indent 4)
     (setq-default c-basic-offset  4) ; Base indent size when indented automatically
     (c-set-offset 'cpp-macro 0 nil) ; Indent C/C++ macros as normal code
     (c-set-offset 'substatement-open 0) ; Align braces with the if/for statement. If not set, a half indent will be used
@@ -159,11 +160,19 @@ There are two things you can do about this warning:
 ;; Default font
 (set-frame-font "Iosevka 16" nil t)
 
-;; from Steve Yegge
-;; TODO: Bind `kill-region' to "C-x C-k" and "C-c C-k"
-;; TODO: Bind `backward-kill-word' to "C-w"
+;; TODO: from Steve Yegge: Bind `kill-region' to "C-x C-k" and "C-c C-k"
+;; TODO: from Steve Yegge: Bind `backward-kill-word' to "C-w"
 (use-package emacs
     :ensure nil  ; emacs built-in
+    :hook ((text-mode-hook . (lambda() (visual-line-mode))))
+    :config
+    (dolist (hook '(special-mode-hook
+                     term-mode-hook
+                     comint-mode-hook
+                     compilation-mode-hook
+                     minibuffer-setup-hook))
+       (add-hook hook
+         (lambda () (setq show-trailing-whitespace nil))))
     :bind (;; kill buffers
               ("C-x k" . kill-this-buffer)
               ("C-x K" . kill-buffer)
@@ -249,16 +258,18 @@ There are two things you can do about this warning:
 (use-package whitespace
     :ensure nil  ; emacs built-in
     :init
-    (dolist (hook '(prog-mode-hook text-mode-hook))
-        (add-hook hook #'whitespace-mode))
+    (add-hook 'phyton-mode-hook #'whitespace-mode)
+    (add-hook 'makefile-mode-hook #'whitespace-mode)
     (add-hook 'before-save-hook #'whitespace-cleanup)
     :config
+    (setq show-trailing-whitespace t)
+    (setq whitespace-action '(auto-cleanup))
     (setq whitespace-line-column 135) ;; limit line length
     (setq whitespace-style '(face tabs empty trailing lines-tail)))
 
 ;;;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
-    :ensure t
+    :demand
     :config
     (editorconfig-mode 1))
 
@@ -362,7 +373,7 @@ There are two things you can do about this warning:
 
 ;;;; diff-hl : highlights uncommitted changes on the left side of the window
 (use-package diff-hl
-  :ensure t
+  :demand
   :config
   (global-diff-hl-mode +1)
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
@@ -372,14 +383,14 @@ There are two things you can do about this warning:
 (use-package ace-window
   :demand
   :config
-  ;; TODO: (global-set-key (kbd "M-w") 'ace-window)
   (global-set-key [remap other-window] 'ace-window))
 
 ;;;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (use-package crux
     :demand
     :bind (("C-c o" . crux-open-with)
-              ("M-o" . crux-smart-open-line)
+              ("C-o" . crux-smart-open-line)
+              ("M-o" . crux-smart-open-line-above)
               ("C-x C-r" . crux-recentf-find-file)
               ("C-c f" . crux-cleanup-buffer-or-region)
               ("C-M-z" . crux-indent-defun)
@@ -394,9 +405,8 @@ There are two things you can do about this warning:
               ("C-c I" . crux-find-user-init-file)
               ("C-c S" . crux-find-shell-init-file)
               ("C-^" . crux-top-join-line)
-              ("s-k" . crux-kill-whole-line)
+              ;; TODO: ("C-k" . crux-kill-whole-line)
               ("C-<backspace>" . crux-kill-line-backwards)
-              ("s-o" . crux-smart-open-line-above)
               ([remap move-beginning-of-line] . crux-move-beginning-of-line)
               ([(shift return)] . crux-smart-open-line)
               ([(control shift return)] . crux-smart-open-line-above)
@@ -415,7 +425,7 @@ There are two things you can do about this warning:
 
 ;;;; anzy : displays current match and total matches information in the mode-line in various search modes
 (use-package anzu
-    :ensure t
+    :demand
     :bind (("M-%" . anzu-query-replace)
               ("C-M-%" . anzu-query-replace-regexp))
     :config
@@ -423,7 +433,7 @@ There are two things you can do about this warning:
 
 ;;;; easy-kill : kill things easily
 (use-package easy-kill
-  :ensure t
+  :demand
   :config
   (global-set-key [remap kill-ring-save] 'easy-kill))
 
@@ -519,9 +529,36 @@ There are two things you can do about this warning:
               ("M-s k" . consult-keep-lines)
               ("M-s u" . consult-focus-lines)))
 
+;;;; embard : Emacs Mini-Buffer Actions Rooted in Keymaps
+(use-package embark
+  :demand
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :after (embark consult)
+  :demand
+  ;; if you want to have consult previews as you move around an
+  ;; auto-updating embark collect buffer
+  :hook (embark-collect-mode . consult-preview-at-point-mode))
+
 ;;;; Expand Region : expand or contract selection
 (use-package expand-region
-  :ensure t
+  :demand
   :bind ("C-=" . er/expand-region))
 
 ;;;; Helpful : nice looking and more complete help buffers
@@ -703,8 +740,7 @@ There are two things you can do about this warning:
     (if (member (file-name-extension (buffer-name)) extensions)
         t))
   :mode ("\\.css\\'" "\\.html\\'" "\\.ts\\'" "\\.js\\'" "\\.vue\\'")
-  :hook
-  (web-mode . (lambda () (when (+my/match-buffer-extension "ts" "js" "vue")
+  :hook (web-mode . (lambda () (when (+my/match-buffer-extension "ts" "js" "vue")
                            (lsp-deferred)
                            (setq-local lsp-auto-format t))))
   :custom
@@ -746,7 +782,7 @@ There are two things you can do about this warning:
 
 ;;;; hl-todo : highlight TODO and similar keywords in comments and strings
 (use-package hl-todo
-  :ensure t
+  :demand
   :config
   (setq hl-todo-highlight-punctuation ":")
   (global-hl-todo-mode))
@@ -780,8 +816,7 @@ There are two things you can do about this warning:
 
 ;;;; lsp-mode : Completion and syntax highlighting backend API, available for most languages
 (use-package lsp-mode
-    :hook
-    (lsp-mode . lsp-enable-which-key-integration)
+    :hook (lsp-mode . lsp-enable-which-key-integration)
     :init (setq lsp-keymap-prefix "C-c l")
     :bind (("C-h l" . lsp-describe-thing-at-point))
     :config
