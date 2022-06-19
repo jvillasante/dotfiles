@@ -602,7 +602,7 @@ There are two things you can do about this warning:
                           (require 'org-tempo) ; For templates like <sTAB to insert a code block
                           (require 'recentf)
                           (add-to-list 'recentf-exclude ".*org$") ; Ignore org files from recentf due to agenda loading everything
-                          ;; (variable-pitch-mode)
+                          (variable-pitch-mode)
                           (visual-line-mode))))
 
 ;;;; Org bullets : Pretty mode for org
