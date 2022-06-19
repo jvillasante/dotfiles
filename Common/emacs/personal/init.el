@@ -957,7 +957,7 @@ There are two things you can do about this warning:
         "C-x C-r" 'crux-recentf-find-file
         "C-c f" 'crux-recentf-find-file
         "C-c F" 'crux-recentf-find-directory
-        "C-c n" 'crux-cleanup-buffer-or-region
+        ;; "C-c n" 'crux-cleanup-buffer-or-region
         "C-M-z" 'crux-indent-defun
         "C-c e" 'crux-eval-and-replace
         "C-c w" 'crux-swap-windows
@@ -966,7 +966,7 @@ There are two things you can do about this warning:
         "C-c t" 'crux-visit-term-buffer
         "C-c k" 'crux-kill-other-buffers
         "C-c TAB" 'crux-indent-rigidly-and-copy-to-clipboard
-        "C-c I" 'crux-find-user-init-file
+        "C-c I" 'crux-find-user-custom-file
         "C-c S" ' crux-find-shell-init-file
         "C-^" 'crux-top-join-line
         "C-c s" 'crux-ispell-word-then-abbrev
@@ -986,11 +986,13 @@ There are two things you can do about this warning:
     (general-define-key :prefix "C-c c" ; code
         "d" 'lsp-describe-thing-at-point
         "f" 'format-all-buffer)
+    (general-define-key :prefix "C-c n" ; notes
+        "d" 'deft-find-file
+        "D" 'deft)
     (general-define-key :prefix "C-c o" ; open
         "c" 'calc
         "C" 'quick-calc
         "e" 'elfeed
-        "d" 'deft
         "n" 'neotree-toggle
         "v" 'vterm)
 
