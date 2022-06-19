@@ -46,7 +46,7 @@ There are two things you can do about this warning:
 ;;;; Misc
 (defconst +my/savefile-dir (expand-file-name "savefile" user-emacs-directory))
 (unless (file-exists-p +my/savefile-dir)
-  (make-directory +my/savefile-dir)) ;; create the savefile dir if it doesn't exist
+    (make-directory +my/savefile-dir)) ;; create the savefile dir if it doesn't exist
 
 ;; frame title
 (setq-default frame-title-format
@@ -64,10 +64,8 @@ There are two things you can do about this warning:
                  (t (buffer-name))))))
 
 ;; store all backup and autosave files in the tmp dir
-(setq backup-directory-alist
-    `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-    `((".*" ,temporary-file-directory t)))
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;; encoding
 (prefer-coding-system 'utf-8)
@@ -77,28 +75,28 @@ There are two things you can do about this warning:
 
 ;; hippie expand is dabbrev expand on steroids
 (setq hippie-expand-try-functions-list
-      '(try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill
-        try-complete-file-name-partially
-        try-complete-file-name
-        try-expand-all-abbrevs
-        try-expand-list
-        try-expand-line
-        try-complete-lisp-symbol-partially
-        try-complete-lisp-symbol))
+    '(try-expand-dabbrev
+         try-expand-dabbrev-all-buffers
+         try-expand-dabbrev-from-kill
+         try-complete-file-name-partially
+         try-complete-file-name
+         try-expand-all-abbrevs
+         try-expand-list
+         try-expand-line
+         try-complete-lisp-symbol-partially
+         try-complete-lisp-symbol))
 
 (progn
     (setq user-full-name "Julio C. Villasante"
         user-mail-address "jvillasantegomez@gmail.com"
         user-login-name "jvillasante")
     (setq load-prefer-newer t) ;; Always load newest byte code
-    (tool-bar-mode 0) ; Disable the toolbar in GUI mode
+    (tool-bar-mode -1) ; Disable the toolbar in GUI mode
     (menu-bar-mode -1) ; Hide Menu bar
     (blink-cursor-mode -1) ;; the blinking cursor is nothing, but an annoyance
     (scroll-bar-mode -1) ; Disable the scroll bar in GUI mode
     (setq inhibit-startup-screen t) ; Hide the startup screen
-    (setq scroll-margin 0 ;; nice scrolling
+    (setq scroll-margin 2 ;; nice scrolling
         scroll-conservatively 100000
         scroll-preserve-screen-position 1)
     (when (fboundp 'pixel-scroll-precision-mode)
@@ -121,8 +119,8 @@ There are two things you can do about this warning:
     (line-number-mode t) ; Display line number
     (size-indication-mode t) ; Display size indication
     (delete-selection-mode 1) ; If text is selected, we expect that typing will replace the selection
-    (save-place-mode 1) ; Remember point in files
-    (show-paren-mode 1) ; Highlight the matching parenthesis
+    (save-place-mode +1) ; Remember point in files
+    (show-paren-mode +1) ; Highlight the matching parenthesis
     (setq auto-save-default nil) ; Don't autosave files with default Emacs package (we'll use `super-save' pacakge isntead)
     (setq search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
     (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
@@ -172,12 +170,12 @@ There are two things you can do about this warning:
     :hook ((text-mode-hook . (lambda() (visual-line-mode))))
     :config
     (dolist (hook '(special-mode-hook
-                     term-mode-hook
-                     comint-mode-hook
-                     compilation-mode-hook
-                     minibuffer-setup-hook))
-       (add-hook hook
-         (lambda () (setq show-trailing-whitespace nil))))
+                       term-mode-hook
+                       comint-mode-hook
+                       compilation-mode-hook
+                       minibuffer-setup-hook))
+        (add-hook hook
+            (lambda () (setq show-trailing-whitespace nil))))
     :bind (;; kill buffers
               ("C-x k" . kill-this-buffer)
               ("C-x K" . kill-buffer)
@@ -223,18 +221,18 @@ There are two things you can do about this warning:
 
 ;;;; projectile : project interaction library for Emacs.
 (use-package projectile
-  :demand
-  :init
-  (setq projectile-project-search-path '("~/Workspace/Private/Projects/" "~/Workspace/Public/" "~/Workspace/Work/Projects")
-      projectile-switch-project-action 'projectile-dired
-      projectile-require-project-root t
-      projectile-project-root-files-bottom-up '(".projectile" ".git")
-      projectile-sort-order 'recentf
-      projectile-indexing-method 'hybrid)
-  :config
-  (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
-  (global-set-key (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1))
+    :demand
+    :init
+    (setq projectile-project-search-path '("~/Workspace/Private/Projects/" "~/Workspace/Public/" "~/Workspace/Work/Projects")
+        projectile-switch-project-action 'projectile-dired
+        projectile-require-project-root t
+        projectile-project-root-files-bottom-up '(".projectile" ".git")
+        projectile-sort-order 'recentf
+        projectile-indexing-method 'hybrid)
+    :config
+    (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
+    (global-set-key (kbd "C-c p") 'projectile-command-map)
+    (projectile-mode +1))
 
 ;;;; Dired : built-in navigation of folders
 (use-package dired
@@ -280,8 +278,8 @@ There are two things you can do about this warning:
 
 ;;;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
-  :demand
-  :config
+    :demand
+    :config
     (when (daemonp)
         (exec-path-from-shell-initialize)))
 
@@ -360,8 +358,8 @@ There are two things you can do about this warning:
 
 ;;;; smartparens : minor mode for dealing with pairs in Emacs
 (use-package smartparens
-  :demand
-  :config
+    :demand
+    :config
     (require 'smartparens-config)
     (show-smartparens-global-mode +1)
     (smartparens-global-mode 1)
@@ -369,26 +367,26 @@ There are two things you can do about this warning:
 
 ;;;; super-save : auto-saves your buffers, when certain events happen
 (use-package super-save
-  :demand
-  :config
-  ;; add integration with ace-window
-  (add-to-list 'super-save-triggers 'ace-window)
-  (super-save-mode +1)
-  (diminish 'super-save-mode))
+    :demand
+    :config
+    ;; add integration with ace-window
+    (add-to-list 'super-save-triggers 'ace-window)
+    (super-save-mode +1)
+    (diminish 'super-save-mode))
 
 ;;;; diff-hl : highlights uncommitted changes on the left side of the window
 (use-package diff-hl
-  :demand
-  :config
-  (global-diff-hl-mode +1)
-  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+    :demand
+    :config
+    (global-diff-hl-mode +1)
+    (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
 ;;;; ace-window : GNU Emacs package for selecting a window to switch to
 (use-package ace-window
-  :demand
-  :config
-  (global-set-key [remap other-window] 'ace-window))
+    :demand
+    :config
+    (global-set-key [remap other-window] 'ace-window))
 
 ;;;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (use-package crux
@@ -420,13 +418,13 @@ There are two things you can do about this warning:
 
 ;;;; vterm : terminal emulator
 (use-package vterm
-  :demand
-  :hook (vterm-mode . (lambda()
-                        (setq-local global-hl-line-mode nil)
-                        (display-line-numbers-mode 0)))
-  :config
-  (setq vterm-shell "/usr/bin/bash")
-  (global-set-key (kbd "C-c v") 'vterm))
+    :demand
+    :hook (vterm-mode . (lambda()
+                            (setq-local global-hl-line-mode nil)
+                            (display-line-numbers-mode 0)))
+    :config
+    (setq vterm-shell "/usr/bin/bash")
+    (global-set-key (kbd "C-c v") 'vterm))
 
 ;;;; anzy : displays current match and total matches information in the mode-line in various search modes
 (use-package anzu
@@ -438,9 +436,9 @@ There are two things you can do about this warning:
 
 ;;;; easy-kill : kill things easily
 (use-package easy-kill
-  :demand
-  :config
-  (global-set-key [remap kill-ring-save] 'easy-kill))
+    :demand
+    :config
+    (global-set-key [remap kill-ring-save] 'easy-kill))
 
 ;;;; magit : Git front end (amazing!)
 (use-package magit
@@ -461,20 +459,20 @@ There are two things you can do about this warning:
 
 ;;;; which-key : Displays command shortcuts when typing commands
 (use-package which-key
-  :demand
-  :config (which-key-mode +1)
-  (diminish 'which-key-mode))
+    :demand
+    :config (which-key-mode +1)
+    (diminish 'which-key-mode))
 
 ;;;; undo-tree : treat undo history as a tree
 (use-package undo-tree
-  :demand
-  :config
-  ;; autosave the undo-tree history
-  (setq undo-tree-history-directory-alist
+    :demand
+    :config
+    ;; autosave the undo-tree history
+    (setq undo-tree-history-directory-alist
         `((".*" . ,temporary-file-directory)))
-  (setq undo-tree-auto-save-history t)
-  (global-undo-tree-mode +1)
-  (diminish 'undo-tree-mode))
+    (setq undo-tree-auto-save-history t)
+    (global-undo-tree-mode +1)
+    (diminish 'undo-tree-mode))
 
 ;;;; hydra : Keybindings combinations
 (use-package hydra)
@@ -536,95 +534,95 @@ There are two things you can do about this warning:
 
 ;;;; embard : Emacs Mini-Buffer Actions Rooted in Keymaps
 (use-package embark
-  :demand
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+    :demand
+    :bind
+    (("C-." . embark-act)         ;; pick some comfortable binding
+        ("C-;" . embark-dwim)        ;; good alternative: M-.
+        ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
+    :init
+    ;; Optionally replace the key help with a completing-read interface
+    (setq prefix-help-command #'embark-prefix-help-command)
 
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+    :config
+    ;; Hide the mode line of the Embark live/completions buffers
+    (add-to-list 'display-buffer-alist
+        '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+             nil
+             (window-parameters (mode-line-format . none)))))
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :after (embark consult)
-  :demand
-  ;; if you want to have consult previews as you move around an
-  ;; auto-updating embark collect buffer
-  :hook (embark-collect-mode . consult-preview-at-point-mode))
+    :after (embark consult)
+    :demand
+    ;; if you want to have consult previews as you move around an
+    ;; auto-updating embark collect buffer
+    :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 ;;;; Expand Region : expand or contract selection
 (use-package expand-region
-  :demand
-  :bind ("C-=" . er/expand-region))
+    :demand
+    :bind ("C-=" . er/expand-region))
 
 ;;;; Helpful : nice looking and more complete help buffers
 (use-package helpful)
 
 ;;;; Org mode : Base mode for note taking
 (use-package org
-  :config
-  ;; Latex previews in org-mode
-  (plist-put org-format-latex-options :background 'default)
+    :config
+    ;; Latex previews in org-mode
+    (plist-put org-format-latex-options :background 'default)
 
-  ;; To get the most out of themes
-  (setq
-   org-fontify-whole-heading-line t
-   org-fontify-done-headline t
-   org-fontify-quote-and-verse-blocks t)
+    ;; To get the most out of themes
+    (setq
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t)
 
-  ;; settings
-  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
-  (setq org-startup-indented t)
-  (setq org-startup-folded t)
-  (setq org-cycle-separator-lines 2)
-  (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
-  (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
-  (setq org-log-done t)
-  (setq org-startup-with-inline-images t)
-  (setq org-image-actual-width nil)
-  (setq org-src-fontify-natively t)
-  (setq org-src-tab-acts-natively t)
-  (setq org-imenu-depth 8)
-  (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
-  (setq org-adapt-indentation nil ;; prevent demoting heading also shifting text inside sections
-   org-src-preserve-indentation nil
-   org-edit-src-content-indentation 2)
+    ;; settings
+    (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
+    (setq org-startup-indented t)
+    (setq org-startup-folded t)
+    (setq org-cycle-separator-lines 2)
+    (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
+    (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
+    (setq org-log-done t)
+    (setq org-startup-with-inline-images t)
+    (setq org-image-actual-width nil)
+    (setq org-src-fontify-natively t)
+    (setq org-src-tab-acts-natively t)
+    (setq org-imenu-depth 8)
+    (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
+    (setq org-adapt-indentation nil ;; prevent demoting heading also shifting text inside sections
+        org-src-preserve-indentation nil
+        org-edit-src-content-indentation 2)
 
-  ;; Show the daily agenda by default.
-  (setq org-agenda-span 'day)
-  (setq org-agenda-prefix-format
+    ;; Show the daily agenda by default.
+    (setq org-agenda-span 'day)
+    (setq org-agenda-prefix-format
         '((agenda . " %i %-12:c%?-12t% s")
-          (todo   . " ")
-          (tags   . " %i %-12:c")
-          (search . " %i %-12:c")))
-  (setq org-agenda-hide-tags-regexp ".") ;; ask the agenda to hide any tag (.) that may be present.
-  (setq org-capture-templates            ;; set our capture templates
+             (todo   . " ")
+             (tags   . " %i %-12:c")
+             (search . " %i %-12:c")))
+    (setq org-agenda-hide-tags-regexp ".") ;; ask the agenda to hide any tag (.) that may be present.
+    (setq org-capture-templates            ;; set our capture templates
         `(("i" "Inbox" entry (file "inbox.org")
-           ,(concat "* TODO %?\n"
-                    "/Entered on/ %U"))
-          ("n" "Note" entry (file "notes.org")
-           ,(concat "* Note (%a)\n"
-                    "/Entered on/ %U\n" "\n" "%?"))))
-  :hook (org-mode . (lambda()
-                      (require 'org-tempo) ; For templates like <sTAB to insert a code block
-                      (require 'recentf)
-                      (add-to-list 'recentf-exclude ".*org$") ; Ignore org files from recentf due to agenda loading everything
-                      (org-indent-mode) ; Auto indent lines according to depth
-                      (visual-line-mode))))
+              ,(concat "* TODO %?\n"
+                   "/Entered on/ %U"))
+             ("n" "Note" entry (file "notes.org")
+                 ,(concat "* Note (%a)\n"
+                      "/Entered on/ %U\n" "\n" "%?"))))
+    :hook (org-mode . (lambda()
+                          (require 'org-tempo) ; For templates like <sTAB to insert a code block
+                          (require 'recentf)
+                          (add-to-list 'recentf-exclude ".*org$") ; Ignore org files from recentf due to agenda loading everything
+                          (org-indent-mode) ; Auto indent lines according to depth
+                          (visual-line-mode))))
 
 ;;;; Org bullets : Pretty mode for org
 (use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode))
+    :after org
+    :hook (org-mode . org-bullets-mode))
 
 ;;;; encryption
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
@@ -654,80 +652,79 @@ There are two things you can do about this warning:
 
 ;;;; neotree : A Emacs tree plugin like NerdTree for Vim.
 (use-package neotree
-  :bind (("C-c n" . neotree-toggle))
-  :config
-  (setq neo-theme 'ascii
-    neo-window-width 42
-    neo-smart-open t
-    neo-create-file-auto-open nil
-    neo-show-updir-line t
-    neo-show-hidden-files t
-    neo-auto-indent-point t
-    neo-vc-integration nil
-    neo-autorefresh nil
-    projectile-switch-project-action 'neotree-projectile-action
-    neo-hidden-regexp-list
-    '(;; vcs folders
-         "^\\.\\(?:git\\|hg\\|svn\\)$"
-         ;; compiled files
-         "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
-         ;; generated files, caches or local pkgs
-         "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
-         ;; org-mode folders
-         "^\\.\\(?:sync\\|export\\|attach\\)$"
-         ;; temp files
-         "~$"
-         "^#.*#$"
-         ;; Others
-         "^\\.\\(cache\\|tox\\|coverage\\)$"
-         "^\\.\\(DS_Store\\|python\\-version\\)"
-         "^\\(htmlcov\\)$" "\\.elcs$"
-         "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-         "^\\.#.*$" "^__pycache__$"
-         "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-         "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-         "\\.egg\-info$")))
+    :bind (("C-c n" . neotree-toggle))
+    :config
+    (setq neo-theme 'ascii
+        neo-window-width 42
+        neo-smart-open t
+        neo-create-file-auto-open nil
+        neo-show-updir-line t
+        neo-show-hidden-files t
+        neo-auto-indent-point t
+        neo-vc-integration nil
+        neo-autorefresh nil
+        projectile-switch-project-action 'neotree-projectile-action
+        neo-hidden-regexp-list '(;; vcs folders
+                                    "^\\.\\(?:git\\|hg\\|svn\\)$"
+                                    ;; compiled files
+                                    "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
+                                    ;; generated files, caches or local pkgs
+                                    "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+                                    ;; org-mode folders
+                                    "^\\.\\(?:sync\\|export\\|attach\\)$"
+                                    ;; temp files
+                                    "~$"
+                                    "^#.*#$"
+                                    ;; Others
+                                    "^\\.\\(cache\\|tox\\|coverage\\)$"
+                                    "^\\.\\(DS_Store\\|python\\-version\\)"
+                                    "^\\(htmlcov\\)$" "\\.elcs$"
+                                    "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+                                    "^\\.#.*$" "^__pycache__$"
+                                    "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+                                    "^\\.cproject$" "^\\.project$" "^\\.projectile$"
+                                    "\\.egg\-info$")))
 
 ;;;; deft : plain text notes
 (use-package deft
-  :config
-  (setq
-      deft-directory "~/Dropbox/Apps/org/notes"
-      deft-extensions '("org" "md" "txt")
-      deft-default-extension "org"
-      deft-recursive nil
-      deft-use-filename-as-title nil
-      deft-use-filter-string-for-filename t
-      deft-file-naming-rules '((noslash . "-")
-                                  (nospace . "-")
-                                  (case-fn . downcase))
-      deft-auto-save-interval 0))
+    :config
+    (setq
+        deft-directory "~/Dropbox/Apps/org/notes"
+        deft-extensions '("org" "md" "txt")
+        deft-default-extension "org"
+        deft-recursive nil
+        deft-use-filename-as-title nil
+        deft-use-filter-string-for-filename t
+        deft-file-naming-rules '((noslash . "-")
+                                    (nospace . "-")
+                                    (case-fn . downcase))
+        deft-auto-save-interval 0))
 
 ;;;; markdown-mode : edit markdown-formatted text
 (use-package markdown-mode
-  :mode (("\\.md\\'" . gfm-mode)
-         ("\\.markdown\\'" . gfm-mode))
-  :config
-  (setq markdown-fontify-code-blocks-natively t)
-  :preface
-  (defun jekyll-insert-image-url ()
-    (interactive)
-    (let* ((files (directory-files "../assets/images"))
-           (selected-file (completing-read "Select image: " files nil t)))
-      (insert (format "![%s](/assets/images/%s)" selected-file selected-file))))
+    :mode (("\\.md\\'" . gfm-mode)
+              ("\\.markdown\\'" . gfm-mode))
+    :config
+    (setq markdown-fontify-code-blocks-natively t)
+    :preface
+    (defun jekyll-insert-image-url ()
+        (interactive)
+        (let* ((files (directory-files "../assets/images"))
+                  (selected-file (completing-read "Select image: " files nil t)))
+            (insert (format "![%s](/assets/images/%s)" selected-file selected-file))))
 
-  (defun jekyll-insert-post-url ()
-    (interactive)
-    (let* ((project-root (projectile-project-root))
-           (posts-dir (expand-file-name "_posts" project-root))
-           (default-directory posts-dir))
-      (let* ((files (remove "." (mapcar #'file-name-sans-extension (directory-files "."))))
-             (selected-file (completing-read "Select article: " files nil t)))
-        (insert (format "{%% post_url %s %%}" selected-file))))))
+    (defun jekyll-insert-post-url ()
+        (interactive)
+        (let* ((project-root (projectile-project-root))
+                  (posts-dir (expand-file-name "_posts" project-root))
+                  (default-directory posts-dir))
+            (let* ((files (remove "." (mapcar #'file-name-sans-extension (directory-files "."))))
+                      (selected-file (completing-read "Select article: " files nil t)))
+                (insert (format "{%% post_url %s %%}" selected-file))))))
 
 ;;;; adoc-mode : ascii docs
 (use-package adoc-mode
-  :mode "\\.adoc\\'")
+    :mode "\\.adoc\\'")
 
 ;;;; csv-mode : Support for csv files (use csv-align-mode for alignment)
 (use-package csv-mode
@@ -739,18 +736,18 @@ There are two things you can do about this warning:
 
 ;;;; web-mode : Support various web files
 (use-package web-mode
-  :preface
-  (defun +my/match-buffer-extension(&rest extensions)
-    "Returns t if the current buffer has an extension in EXTENSIONS"
-    (if (member (file-name-extension (buffer-name)) extensions)
-        t))
-  :mode ("\\.css\\'" "\\.html\\'" "\\.ts\\'" "\\.js\\'" "\\.vue\\'")
-  :hook (web-mode . (lambda () (when (+my/match-buffer-extension "ts" "js" "vue")
-                           (lsp-deferred)
-                           (setq-local lsp-auto-format t))))
-  :custom
-  (web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
-  (web-mode-markup-indent-offset 2)) ; For html : use an indent of size 2 (default is 4)
+    :preface
+    (defun +my/match-buffer-extension(&rest extensions)
+        "Returns t if the current buffer has an extension in EXTENSIONS"
+        (if (member (file-name-extension (buffer-name)) extensions)
+            t))
+    :mode ("\\.css\\'" "\\.html\\'" "\\.ts\\'" "\\.js\\'" "\\.vue\\'")
+    :hook (web-mode . (lambda () (when (+my/match-buffer-extension "ts" "js" "vue")
+                                     (lsp-deferred)
+                                     (setq-local lsp-auto-format t))))
+    :custom
+    (web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
+    (web-mode-markup-indent-offset 2)) ; For html : use an indent of size 2 (default is 4)
 
 ;;;; prettier-js : Formatting on save, used by my-ts-mode for .js and .ts files
 (use-package prettier-js
@@ -787,10 +784,10 @@ There are two things you can do about this warning:
 
 ;;;; hl-todo : highlight TODO and similar keywords in comments and strings
 (use-package hl-todo
-  :demand
-  :config
-  (setq hl-todo-highlight-punctuation ":")
-  (global-hl-todo-mode))
+    :demand
+    :config
+    (setq hl-todo-highlight-punctuation ":")
+    (global-hl-todo-mode))
 
 ;;;; flyspell : on-the-fly spell checker
 (use-package flyspell
@@ -811,13 +808,13 @@ There are two things you can do about this warning:
 
 ;;;; flycheck : Syntax highlighting, used by lsp
 (use-package flycheck
-  :demand
-  :config
-  (setq flycheck-temp-prefix "flycheck_tmp")
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+    :demand
+    :config
+    (setq flycheck-temp-prefix "flycheck_tmp")
+    (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package flycheck-eldev
-  :demand)
+    :demand)
 
 ;;;; lsp-mode : Completion and syntax highlighting backend API, available for most languages
 (use-package lsp-mode
@@ -874,7 +871,7 @@ There are two things you can do about this warning:
 
 ;;;; rustic : blazingly fast
 (use-package rustic
-  :config
+    :config
     (setq
         rustic-lsp-server 'rust-analyzer
         rustic-format-on-save nil
@@ -884,8 +881,7 @@ There are two things you can do about this warning:
 
 ;;;; Hydra search text
 (defhydra search(:exit t :columns 2)
-  "Tex
-t search related commands"
+    "Text search related commands"
     ("o" consult-line "Occurences in file")
     ("s" isearch-forward "Next occurence in file")
     ("w" isearch-forward-symbol-at-point "Next occurence in file of word")
@@ -932,20 +928,20 @@ t search related commands"
 ;; (define-key ijkl-local-mode-map "v" 'magit/body)
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
- '(tab-stop-list
-   '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
+    ;; custom-set-variables was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    '(package-selected-packages
+         '(neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
+    '(tab-stop-list
+         '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+    ;; custom-set-faces was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    )
 
 (provide 'init)
 ;;; init.el ends here
