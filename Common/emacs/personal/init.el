@@ -188,14 +188,7 @@ There are two things you can do about this warning:
                        compilation-mode-hook
                        minibuffer-setup-hook))
         (add-hook hook
-            (lambda () (setq show-trailing-whitespace nil))))
-    :bind (;; kill buffers
-              ("C-x k" . kill-this-buffer)
-              ("C-x K" . kill-buffer)
-              ;; use hippie-expand instead of debbrev
-              ("M-/" . hippie-expand)
-              ;; ibuffer is better than list-buffers
-              ([remap list-buffers] . ibuffer)))
+            (lambda () (setq show-trailing-whitespace nil)))))
 
 ;; hl-line : highlight the current line
 (use-package hl-line
@@ -243,8 +236,6 @@ There are two things you can do about this warning:
         projectile-sort-order 'recentf
         projectile-indexing-method 'hybrid)
     :config
-    (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
-    (global-set-key (kbd "C-c p") 'projectile-command-map)
     (projectile-mode +1))
 
 ;;;; Dired : built-in navigation of folders
@@ -313,8 +304,7 @@ There are two things you can do about this warning:
             (lambda (frame)
                 (with-selected-frame frame
                     (modus-themes-load-operandi)))) ;; OR (modus-themes-load-vivendi)
-        (modus-themes-load-operandi)) ;; OR (modus-themes-load-vivendi)
-    :bind ("<f5>" . modus-themes-toggle))
+        (modus-themes-load-operandi))) ;; OR (modus-themes-load-vivendi))
 
 ;;;; mini-modeline
 ;; modeline
@@ -369,14 +359,16 @@ There are two things you can do about this warning:
     (diminish 'flyspell-prog-mode)
     (diminish 'abbrev-mode))
 
+(use-package guru-mode
+    :demand
+    :config
+    (setq guru-warn-only t)
+    ;; (add-to-list 'guru-affected-bindings-list '("<C-left>" "M-b" left-word))
+    (guru-global-mode +1))
+
 ;;;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
     :demand
-    :bind (("M-j" . avy-goto-char-timer)
-              ("C-c ." . avy-goto-word-or-subword-1)
-              ("C-c ," . avy-goto-char)
-              ("M-g f" . avy-goto-line)
-              ("M-g w" . avy-goto-word-or-subword-1))
     :config
     (setq avy-all-windows t)
     (setq avy-background t))
@@ -400,37 +392,11 @@ There are two things you can do about this warning:
 
 ;;;; ace-window : GNU Emacs package for selecting a window to switch to
 (use-package ace-window
-    :demand
-    :config
-    (global-set-key [remap other-window] 'ace-window))
+    :demand)
 
 ;;;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (use-package crux
-    :demand
-    :bind (("C-c o" . crux-open-with)
-              ("C-o" . crux-smart-open-line)
-              ("M-o" . crux-smart-open-line-above)
-              ("C-x C-r" . crux-recentf-find-file)
-              ("C-c f" . crux-cleanup-buffer-or-region)
-              ("C-M-z" . crux-indent-defun)
-              ("C-c u" . crux-view-url)
-              ("C-c e" . crux-eval-and-replace)
-              ("C-c w" . crux-swap-windows)
-              ("C-c D" . crux-delete-file-and-buffer)
-              ("C-c r" . crux-rename-buffer-and-file)
-              ("C-c t" . crux-visit-term-buffer)
-              ("C-c k" . crux-kill-other-buffers)
-              ("C-c TAB" . crux-indent-rigidly-and-copy-to-clipboard)
-              ("C-c I" . crux-find-user-init-file)
-              ("C-c S" . crux-find-shell-init-file)
-              ("C-^" . crux-top-join-line)
-              ;; TODO: ("C-k" . crux-kill-whole-line)
-              ("C-<backspace>" . crux-kill-line-backwards)
-              ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-              ([(shift return)] . crux-smart-open-line)
-              ([(control shift return)] . crux-smart-open-line-above)
-              ([remap kill-whole-line] . crux-kill-whole-line)
-              ("C-c s" . crux-ispell-word-then-abbrev)))
+    :demand)
 
 ;;;; vterm : terminal emulator
 (use-package vterm
@@ -439,26 +405,20 @@ There are two things you can do about this warning:
                             (setq-local global-hl-line-mode nil)
                             (display-line-numbers-mode 0)))
     :config
-    (setq vterm-shell "/usr/bin/bash")
-    (global-set-key (kbd "C-c v") 'vterm))
+    (setq vterm-shell "/usr/bin/bash"))
 
 ;;;; anzy : displays current match and total matches information in the mode-line in various search modes
 (use-package anzu
     :demand
-    :bind (("M-%" . anzu-query-replace)
-              ("C-M-%" . anzu-query-replace-regexp))
     :config
     (global-anzu-mode))
 
 ;;;; easy-kill : kill things easily
 (use-package easy-kill
-    :demand
-    :config
-    (global-set-key [remap kill-ring-save] 'easy-kill))
+    :demand)
 
 ;;;; magit : Git front end (amazing!)
 (use-package magit
-    :bind (("C-x g" . magit-status))
     :config
     ;; Have magit-status go full screen and quit to previous configuration.
     ;; Taken from http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
@@ -514,48 +474,48 @@ There are two things you can do about this warning:
 ;;;; Consult : a collection of commands that improve emacs defaults
 (use-package consult
     :demand
-    :bind (;; C-x bindings (ctl-x-map)
-              ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-              ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-              ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-              ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-              ;; Custom M-# bindings for fast register access
-              ("M-#" . consult-register-load)
-              ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-              ("C-M-#" . consult-register)
-              ;; Other custom bindings
-              ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-              ("<help> a" . consult-apropos)            ;; orig. apropos-command
-              ;; M-g bindings (goto-map)
-              ("M-g e" . consult-compile-error)
-              ("M-g f" . consult-flycheck)
-              ("M-g g" . consult-goto-line)             ;; orig. goto-line
-              ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-              ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-              ("M-g m" . consult-mark)
-              ("M-g k" . consult-global-mark)
-              ("M-g i" . consult-imenu)
-              ("M-g I" . consult-imenu-multi)
-              ;; M-s bindings (search-map)
-              ("M-s f" . consult-find)
-              ("M-s F" . consult-locate)
-              ("M-s g" . consult-grep)
-              ("M-s G" . consult-git-grep)
-              ("M-s r" . consult-ripgrep)
-              ("M-s l" . consult-line)
-              ("M-s L" . consult-line-multi)
-              ("M-s m" . consult-multi-occur)
-              ("M-s k" . consult-keep-lines)
-              ("M-s u" . consult-focus-lines)))
+    ;; Enable automatic preview at point in the *Completions* buffer. This is
+    ;; relevant when you use the default completion UI.
+    :hook (completion-list-mode . consult-preview-at-point-mode)
+    :init
+    ;; Optionally configure the register formatting. This improves the register
+    ;; preview for `consult-register', `consult-register-load',
+    ;; `consult-register-store' and the Emacs built-ins.
+    (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+
+    ;; Optionally tweak the register preview window.
+    ;; This adds thin lines, sorting and hides the mode line of the window.
+    (advice-add #'register-preview :override #'consult-register-window)
+
+    ;; Use Consult to select xref locations with preview
+    (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+
+    :config
+    ;; Optionally configure preview. The default value
+    ;; is 'any, such that any key triggers the preview.
+    ;; (setq consult-preview-key 'any)
+    ;; (setq consult-preview-key (kbd "M-."))
+    ;; (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>")))
+    ;; For some commands and buffer sources it is useful to configure the
+    ;; :preview-key on a per-command basis using the `consult-customize' macro.
+    (consult-customize
+        consult-theme
+        :preview-key '(:debounce 0.2 any)
+        consult-ripgrep consult-git-grep consult-grep
+        consult-bookmark consult-recent-file consult-xref
+        consult--source-bookmark consult--source-recent-file
+        consult--source-project-recent-file
+        :preview-key (kbd "M-."))
+
+    ;; Optionally configure the narrowing key.
+    ;; Both < and C-+ work reasonably well.
+    (setq consult-narrow-key "<")) ;; (kbd "C-+")
 
 ;;;; embard : Emacs Mini-Buffer Actions Rooted in Keymaps
 (use-package embark
     :demand
-    :bind
-    (("C-." . embark-act)         ;; pick some comfortable binding
-        ("C-;" . embark-dwim)        ;; good alternative: M-.
-        ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
     :init
     ;; Optionally replace the key help with a completing-read interface
     (setq prefix-help-command #'embark-prefix-help-command)
@@ -577,20 +537,11 @@ There are two things you can do about this warning:
 
 ;;;; Expand Region : expand or contract selection
 (use-package expand-region
-    :demand
-    :bind ("C-=" . er/expand-region))
+    :demand)
 
 ;;;; Helpful : nice looking and more complete help buffers
 (use-package helpful
-    :config
-    (define-key helpful-mode-map [remap revert-buffer] #'helpful-update)
-    (global-set-key [remap describe-command] #'helpful-command)
-    (global-set-key [remap describe-function] #'helpful-callable)
-    (global-set-key [remap describe-key] #'helpful-key)
-    (global-set-key [remap describe-symbol] #'helpful-symbol)
-    (global-set-key [remap describe-variable] #'helpful-variable)
-    (global-set-key (kbd "C-h F") #'helpful-function)
-    (global-set-key (kbd "C-h K") #'describe-keymap))
+    :demand)
 
 ;;;; Org mode : Base mode for note taking
 (use-package org
@@ -646,7 +597,6 @@ There are two things you can do about this warning:
 
 ;;;; neotree : A Emacs tree plugin like NerdTree for Vim.
 (use-package neotree
-    :bind (("C-c n" . neotree-toggle))
     :config
     (setq neo-theme 'ascii
         neo-window-width 42
@@ -693,6 +643,21 @@ There are two things you can do about this warning:
                                     (nospace . "-")
                                     (case-fn . downcase))
         deft-auto-save-interval 0))
+
+;;;; elfeed : rss
+(use-package elfeed
+    :config
+    (setq elfeed-search-title-min-width 60)
+    (setq elfeed-search-title-max-width 100)
+    (setq elfeed-search-trailing-width 0)
+    (setq elfeed-search-filter "@6-months-ago +unread")
+    (setq elfeed-db-directory "~/Dropbox/Apps/elfeed/elfeed_db"))
+
+;;;; elfeed-org : rss
+(use-package elfeed-org
+    :init (elfeed-org)
+    :config
+    (setq rmh-elfeed-org-files (list "~/Dropbox/Apps/elfeed/elfeed.org")))
 
 ;;;; markdown-mode : edit markdown-formatted text
 (use-package markdown-mode
@@ -770,9 +735,6 @@ There are two things you can do about this warning:
     (setq company-tooltip-limit 10)
     (setq company-minimum-prefix-length 2)
     (setq company-tooltip-align-annotations t)
-    ;; invert the navigation direction if the the completion popup-isearch-match
-    ;; is displayed on top (happens near the bottom of windows)
-    (setq company-tooltip-flip-when-above t)
     (global-company-mode)
     (diminish 'company-mode))
 
@@ -813,8 +775,6 @@ There are two things you can do about this warning:
 ;;;; lsp-mode : Completion and syntax highlighting backend API, available for most languages
 (use-package lsp-mode
     :hook (lsp-mode . lsp-enable-which-key-integration)
-    :init (setq lsp-keymap-prefix "C-c l")
-    :bind (("C-h l" . lsp-describe-thing-at-point))
     :config
     (setq lsp-restart 'ignore
         lsp-headerline-breadcrumb-enable nil
@@ -874,6 +834,160 @@ There are two things you can do about this warning:
         lsp-rust-analyzer-inlay-hints-mode nil
         lsp-rust-analyzer-server-display-inlay-hints nil))
 
+;;;; general : binding keys
+(use-package general
+    :demand
+    :config
+    ;; * Global Keybindings
+    ;; `general-define-key' acts like `global-set-key' when :keymaps is not
+    ;; specified (because ":keymaps 'global" is the default)
+    ;; kbd is not necessary and arbitrary amount of key def pairs are allowed
+    (general-define-key
+        ;;;; general keys
+        "C-c u" 'browse-url-at-point ; simple browse url
+        "C-x k" 'kill-this-buffer ; kill buffer without prompt
+        "C-x K" 'Info-kill-buffer ; prompt for buffer to kill
+        "M-/" 'hippie-expand ; use hippie-expand instead of debbrev
+        [remap list-buffers] 'ibuffer ; ibuffer is better than list-buffers
+
+        ;;;; easy-kill
+        [remap kill-ring-save] 'easy-kill
+
+        ;;;; avy
+        "M-j" 'avy-goto-char-timer ; most usefull avy function
+
+        ;;;; ace-window
+        [remap other-window] 'ace-window ; better other window
+
+        ;;;; anzy
+        "M-%" 'anzu-query-replace
+        "C-M-%" 'anzu-query-replace-regexp
+
+        ;;;; expand-region
+        "C-=" 'er/expand-region
+
+        ;;;; magit
+        "C-x g" 'magit-status
+
+        ;;;; embark
+        "C-." 'embark-act        ; pick some comfortable binding
+        "C-;" 'embark-dwim       ; good alternative: "M-."
+        "C-h B" 'embark-bindings ; alternative for `describe-bindings'
+
+        ;;;; helpful
+        ;; (define-key helpful-mode-map [remap revert-buffer] #'helpful-update)
+        [remap describe-command] 'helpful-command
+        [remap describe-function] 'helpful-callable
+        [remap describe-key] 'helpful-key
+        [remap describe-symbol] 'helpful-symbol
+        [remap describe-variable] 'helpful-variable
+        "C-h F" 'helpful-function
+        "C-h K" 'describe-keymap
+
+        ;;;; consult
+        ;; C-c bindings (mode-specific-map)
+        "C-c h" 'consult-history
+        "C-c m" 'consult-mode-command
+        ;; "C-c k" 'consult-kmacro
+        ;; C-x bindings (Ctl-x-map)
+        "C-x M-:" 'consult-complex-command     ; orig. repeat-complex-command
+        "C-x b" 'consult-buffer                ; orig. switch-to-buffer
+        "C-x 4 b" 'consult-buffer-other-window ; orig. switch-to-buffer-other-window
+        "C-x 5 b" 'consult-buffer-other-frame  ; orig. switch-to-buffer-other-frame
+        "C-x r b" 'consult-bookmark            ; orig. bookmark-jump
+        "C-x p b" 'consult-project-buffer      ; orig. project-switch-to-buffer
+        ;; Custom M-# bindings for fast register access
+        "M-#" 'consult-register-load
+        "M-'" 'consult-register-store          ; orig. abbrev-prefix-mark (unrelated)
+        "C-M-#" 'consult-register
+        ;; Other custom bindings
+        "M-y" 'consult-yank-pop                ; orig. yank-pop
+        "<help> a" 'consult-apropos            ; orig. apropos-command
+        ;; M-g bindings (goto-map)
+        "M-g e" 'consult-compile-error
+        "M-g f" 'consult-flymake               ; Alternative: consult-flycheck
+        "M-g g" 'consult-goto-line             ; orig. goto-line
+        "M-g M-g" 'consult-goto-line           ; orig. goto-line
+        "M-g o" 'consult-outline               ; Alternative: consult-org-heading
+        "M-g m" 'consult-mark
+        "M-g k" 'consult-global-mark
+        "M-g i" 'consult-imenu
+        "M-g I" 'consult-imenu-multi
+        ;; M-s bindings (search-map)
+        "M-s d" 'consult-find
+        "M-s D" 'consult-locate
+        "M-s g" 'consult-grep
+        "M-s G" 'consult-git-grep
+        "M-s r" 'consult-ripgrep
+        "M-s l" 'consult-line
+        "M-s L" 'consult-line-multi
+        "M-s m" 'consult-multi-occur
+        "M-s k" 'consult-keep-lines
+        "M-s u" 'consult-focus-lines
+        ;; Isearch integration
+        "M-s e" 'consult-isearch-history
+
+        ;;;; crux
+        ;; "C-c o" 'crux-open-with
+        ;; "C-c u" 'crux-view-url
+        "C-o" 'crux-smart-open-line
+        "M-o" 'crux-smart-open-line-above
+        "C-x C-r" 'crux-recentf-find-file
+        "C-c f" 'crux-recentf-find-file
+        "C-c F" 'crux-recentf-find-directory
+        "C-c n" 'crux-cleanup-buffer-or-region
+        "C-M-z" 'crux-indent-defun
+        "C-c e" 'crux-eval-and-replace
+        "C-c w" 'crux-swap-windows
+        "C-c D" 'crux-delete-file-and-buffer
+        "C-c r" 'crux-rename-buffer-and-file
+        "C-c t" 'crux-visit-term-buffer
+        "C-c k" 'crux-kill-other-buffers
+        "C-c TAB" 'crux-indent-rigidly-and-copy-to-clipboard
+        "C-c I" 'crux-find-user-init-file
+        "C-c S" ' crux-find-shell-init-file
+        "C-^" 'crux-top-join-line
+        "C-c s" 'crux-ispell-word-then-abbrev
+        "C-k" 'crux-smart-kill-line
+        "C-<backspace>" 'crux-kill-line-backwards
+        "C-x 4 t" 'crux-transpose-windows
+        "C-x C-u" 'crux-upcase-region
+        "C-x C-l" 'crux-downcase-region
+        "C-x M-c" 'crux-capitalize-region
+        [remap move-beginning-of-line] 'crux-move-beginning-of-line
+        [shift return] 'crux-smart-open-line
+        [control shift return] 'crux-smart-open-line-above
+        [remap kill-whole-line] 'crux-kill-whole-line)
+
+    ;; * Prefix Keybindings
+    ;; :prefix can be used to prevent redundant specification of prefix keys
+    (general-define-key
+        :prefix "C-c l" ; lsp
+        "l" 'lsp-describe-thing-at-point
+        "f" 'lsp-format-and-save
+        :prefix "C-c o" ; open
+        "e" 'elfeed
+        "d" 'deft
+        "n" 'neotree
+        "v" 'vterm)
+
+    ;; * Mode Keybindings
+    ;; `general-define-key' is comparable to `define-key' when :keymaps is specified
+    (general-define-key
+        :keymaps 'dired-mode-map
+        "C-c o" 'crux-open-with
+        :keymaps 'isearch-mode-map
+        "M-e" 'consult-isearch-history         ; orig. isearch-edit-string
+        "M-s e" 'consult-isearch-history       ; orig. isearch-edit-string
+        "M-s l" 'consult-line                  ; needed by consult-line to detect isearch
+        "M-s L" 'consult-line-multi            ; needed by consult-line to detect isearch
+        :keymaps 'minibuffer-local-map
+        "M-s" 'consult-history                 ; orig. next-matching-history-element
+        "M-r" 'consult-history                 ; orig. previous-matching-history-element
+        :keymaps 'projectile-mode-map
+        "C-c C-p" 'projectile-command-map
+        "C-c p" 'projectile-command-map))
+
 ;;;; Hydra search text
 (defhydra search(:exit t :columns 2)
     "Text search related commands"
@@ -923,20 +1037,20 @@ There are two things you can do about this warning:
 ;; (define-key ijkl-local-mode-map "v" 'magit/body)
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-    '(org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
- '(tab-stop-list
-    '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
+    ;; custom-set-variables was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    '(package-selected-packages
+         '(general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
+    '(tab-stop-list
+         '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+    ;; custom-set-faces was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    )
 
 (provide 'init)
 ;;; init.el ends here
