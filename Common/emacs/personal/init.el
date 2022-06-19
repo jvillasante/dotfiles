@@ -822,6 +822,16 @@ There are two things you can do about this warning:
         lsp-rust-analyzer-inlay-hints-mode nil
         lsp-rust-analyzer-server-display-inlay-hints nil))
 
+(use-package format-all
+    :hook ((c-mode . format-all-mode)
+              (c++-mode . format-all-mode)
+              (python-mode . format-all-mode)
+              (format-all-mode . format-all-ensure-formatter))
+    :config
+    (custom-set-variables
+        '(format-all-formatters (quote (("C++" clang-format)
+                                           ("Python" black))))))
+
 ;;;; general : binding keys
 (use-package general
     :demand
@@ -952,13 +962,15 @@ There are two things you can do about this warning:
 
     ;; * Prefix Keybindings
     ;; :prefix can be used to prevent redundant specification of prefix keys
-    (general-define-key :prefix "C-c l" ; lsp
-        "l" 'lsp-describe-thing-at-point
-        "f" 'lsp-format-buffer)
+    (general-define-key :prefix "C-c c" ; code
+        "d" 'lsp-describe-thing-at-point
+        "f" 'format-all-buffer)
     (general-define-key :prefix "C-c o" ; open
+        "c" 'calc
+        "C" 'quick-calc
         "e" 'elfeed
         "d" 'deft
-        "n" 'neotree
+        "n" 'neotree-toggle
         "v" 'vterm)
 
     ;; * Mode Keybindings
@@ -981,7 +993,7 @@ There are two things you can do about this warning:
     ;; Your init file should contain only one such instance.
     ;; If there is more than one, they won't work right.
     '(package-selected-packages
-         '(general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
+         '(format-all general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
     '(tab-stop-list
          '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
 (custom-set-faces
