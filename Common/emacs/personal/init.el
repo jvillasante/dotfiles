@@ -866,7 +866,7 @@ There are two things you can do about this warning:
         ;;;; general keys
         "C-c u" 'browse-url-at-point ; simple browse url
         "C-x k" 'kill-this-buffer ; kill buffer without prompt
-        "C-x K" 'Info-kill-buffer ; prompt for buffer to kill
+        "C-x K" 'kill-buffer ; prompt for buffer to kill
         "M-/" 'hippie-expand ; use hippie-expand instead of debbrev
         [remap list-buffers] 'ibuffer ; ibuffer is better than list-buffers
 

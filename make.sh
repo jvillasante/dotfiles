@@ -131,14 +131,14 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME/.config..."
-files="shell tmux ranger rofi nvim psd i3 nushell starship.toml"
+files="alacritty shell tmux ranger rofi nvim psd i3 nushell starship.toml"
 for file in $files; do
     unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
 done
 
 echo ">>> Linking other files in $HOME/.config..."
-files="alacritty git"
+files="git"
 for file in $files; do
     unlink "$HOME/.config/$file"
 
