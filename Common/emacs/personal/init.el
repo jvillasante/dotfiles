@@ -455,6 +455,7 @@ There are two things you can do about this warning:
 
 ;;;; Vertico : Completion for commands in a vertical way
 (use-package vertico
+    :demand
     :init (vertico-mode)
     :custom
     (vertico-cycle t)
@@ -462,10 +463,12 @@ There are two things you can do about this warning:
 
 ;;;; Marginalia : Display additional completion data (doc strings, file permissions...)
 (use-package marginalia
-    :init (marginalia-mode))
+    :demand
+    :config (marginalia-mode))
 
 ;;;; Orderless : Matching of several patterns without order in completion
 (use-package orderless
+    :demand
     :custom
     ((completion-styles '(orderless basic))
         (completion-category-defaults nil)
