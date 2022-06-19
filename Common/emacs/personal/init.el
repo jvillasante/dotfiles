@@ -806,18 +806,6 @@ There are two things you can do about this warning:
                  "--header-insertion=never"
                  "--header-insertion-decorators=0"))))
 
-;;;; lsp-format-and-save : format on save if lsp-auto-format is not nil
-(defcustom lsp-auto-format nil
-    "If not nil, lsp-format-and-save will format the buffer before saving."
-    :type 'boolean)
-
-(defun lsp-format-and-save()
-    "Save the current buffer and formats it if lsp-format-on-save is not nil."
-    (interactive)
-    (when (and (not buffer-read-only) lsp-auto-format)
-        (lsp-format-buffer))
-    (save-buffer))
-
 ;;;; lsp-pyright : An LSP backend for python
 (use-package lsp-pyright
     :hook (python-mode . (lambda()
@@ -873,6 +861,9 @@ There are two things you can do about this warning:
         "C-." 'embark-act        ; pick some comfortable binding
         "C-;" 'embark-dwim       ; good alternative: "M-."
         "C-h B" 'embark-bindings ; alternative for `describe-bindings'
+
+        ;;;; projectile
+        "C-c p" 'projectile-command-map
 
         ;;;; helpful
         ;; (define-key helpful-mode-map [remap revert-buffer] #'helpful-update)
@@ -961,11 +952,10 @@ There are two things you can do about this warning:
 
     ;; * Prefix Keybindings
     ;; :prefix can be used to prevent redundant specification of prefix keys
-    (general-define-key
-        :prefix "C-c l" ; lsp
+    (general-define-key :prefix "C-c l" ; lsp
         "l" 'lsp-describe-thing-at-point
-        "f" 'lsp-format-and-save
-        :prefix "C-c o" ; open
+        "f" 'lsp-format-buffer)
+    (general-define-key :prefix "C-c o" ; open
         "e" 'elfeed
         "d" 'deft
         "n" 'neotree
@@ -973,68 +963,17 @@ There are two things you can do about this warning:
 
     ;; * Mode Keybindings
     ;; `general-define-key' is comparable to `define-key' when :keymaps is specified
-    (general-define-key
-        :keymaps 'dired-mode-map
-        "C-c o" 'crux-open-with
-        :keymaps 'isearch-mode-map
+    (general-define-key :keymaps 'dired-mode-map
+        "C-c o" 'crux-open-with)
+    (general-define-key :keymaps 'isearch-mode-map
         "M-e" 'consult-isearch-history         ; orig. isearch-edit-string
         "M-s e" 'consult-isearch-history       ; orig. isearch-edit-string
         "M-s l" 'consult-line                  ; needed by consult-line to detect isearch
-        "M-s L" 'consult-line-multi            ; needed by consult-line to detect isearch
-        :keymaps 'minibuffer-local-map
+        "M-s L" 'consult-line-multi)           ; needed by consult-line to detect isearch
+    (general-define-key :keymaps 'minibuffer-local-map
         "M-s" 'consult-history                 ; orig. next-matching-history-element
-        "M-r" 'consult-history                 ; orig. previous-matching-history-element
-        :keymaps 'projectile-mode-map
-        "C-c C-p" 'projectile-command-map
-        "C-c p" 'projectile-command-map))
-
-;;;; Hydra search text
-(defhydra search(:exit t :columns 2)
-    "Text search related commands"
-    ("o" consult-line "Occurences in file")
-    ("s" isearch-forward "Next occurence in file")
-    ("w" isearch-forward-symbol-at-point "Next occurence in file of word")
-    ("r" query-replace "Next occurence in file")
-    ("a" (lambda() (interactive) (consult-grep default-directory)) "Grep in current directory")
-    ("p" projectile-ag "Grep in current project")
-    ("b" multi-occur-in-matching-buffers "Occur in all buffers"))
-;; (define-key ijkl-local-mode-map "s" 'search/body)
-
-;;;; Hydra find
-(defhydra find(:exit t :columns 2)
-    "Search related commands"
-    ("d" dired-jump "Open current directory in dired")
-    ("f" find-file "Find file by URL")
-    ("e" flycheck-list-errors "Errors current file (flycheck + LSP)")
-    ("t" lsp-treemacs-errors-list "Errors current project (LSP treemacs)")
-    ("r" lsp-find-references "LSP find references")
-    ("o" ff-find-other-file "switch header/cpp")
-    ("p" project-find-file "project-find-file")
-    ("P" projectile-find-file-other-window "projectile-find-file-other-window"))
-;; (define-key ijkl-local-mode-map "f" 'find/body)
-
-;;;; Hydra go
-(defhydra go(:exit t :columns 3)
-    "Jump to destination in text"
-    ("l" goto-line "Go to line n°")
-    ("b" bookmark-jump "Bookmark jump")
-    ("r" jump-to-register "Jump to register (see point-to-register)")
-    ("j" lsp-find-definition "LSP jump to definition")
-    ("g" flycheck-next-error "Next error (Flycheck)")
-    ("e" flycheck-next-error "Next error (Flycheck)")
-    ("E" flycheck-previous-error "Previous error (Flycheck)")
-    ("n" forward-sexp  "Go to the closing parenthesis/bracket")
-    ("," org-roam-node-find "Go to an org roam file")
-    ("p" backward-sexp "Go to the opening parenthesis/bracket"))
-;; (define-key ijkl-local-mode-map "g" 'go/body)
-
-;;;; Magit hydra
-(defhydra magit(:exit t :columns 1)
-    "Magit commands"
-    ("s" magit-status "Status (Home)")
-    ("f" magit-file-dispatch "File commands")
-    ("v" magit-dispatch "Global Commands"))
-;; (define-key ijkl-local-mode-map "v" 'magit/body)
+        "M-r" 'consult-history)                ; orig. previous-matching-history-element
+    )
 
 (custom-set-variables
     ;; custom-set-variables was added by Custom.
