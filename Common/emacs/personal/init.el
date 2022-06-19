@@ -160,8 +160,14 @@ There are two things you can do about this warning:
     (add-hook 'after-make-frame-functions
         (lambda (frame)
             (with-selected-frame frame
-                (set-frame-font "Iosevka 16" nil t))))
-    (set-frame-font "Iosevka 16" nil t))
+                (progn
+                    (set-face-font 'default "Iosevka 16")
+                    (set-face-font 'variable-pitch "Iosevka 16")
+                    (copy-face 'default 'fixed-pitch)))))
+    (progn
+        (set-face-font 'default "Iosevka 16")
+        (set-face-font 'variable-pitch "Iosevka 22")
+        (copy-face 'default 'fixed-pitch)))
 
 ;; TODO: from Steve Yegge: Bind `kill-region' to "C-x C-k" and "C-c C-k"
 ;; TODO: from Steve Yegge: Bind `backward-kill-word' to "C-w"
@@ -572,14 +578,10 @@ There are two things you can do about this warning:
     :config
     ;; Latex previews in org-mode
     (plist-put org-format-latex-options :background 'default)
-
     ;; To get the most out of themes
-    (setq
-        org-fontify-whole-heading-line t
+    (setq org-fontify-whole-heading-line t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t)
-
-    ;; settings
     (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
     (setq org-startup-indented t)
     (setq org-startup-folded t)
@@ -596,32 +598,15 @@ There are two things you can do about this warning:
     (setq org-adapt-indentation nil ;; prevent demoting heading also shifting text inside sections
         org-src-preserve-indentation nil
         org-edit-src-content-indentation 2)
-
-    ;; Show the daily agenda by default.
-    (setq org-agenda-span 'day)
-    (setq org-agenda-prefix-format
-        '((agenda . " %i %-12:c%?-12t% s")
-             (todo   . " ")
-             (tags   . " %i %-12:c")
-             (search . " %i %-12:c")))
-    (setq org-agenda-hide-tags-regexp ".") ;; ask the agenda to hide any tag (.) that may be present.
-    (setq org-capture-templates            ;; set our capture templates
-        `(("i" "Inbox" entry (file "inbox.org")
-              ,(concat "* TODO %?\n"
-                   "/Entered on/ %U"))
-             ("n" "Note" entry (file "notes.org")
-                 ,(concat "* Note (%a)\n"
-                      "/Entered on/ %U\n" "\n" "%?"))))
     :hook (org-mode . (lambda()
                           (require 'org-tempo) ; For templates like <sTAB to insert a code block
                           (require 'recentf)
                           (add-to-list 'recentf-exclude ".*org$") ; Ignore org files from recentf due to agenda loading everything
-                          (org-indent-mode) ; Auto indent lines according to depth
+                          ;; (variable-pitch-mode)
                           (visual-line-mode))))
 
 ;;;; Org bullets : Pretty mode for org
 (use-package org-bullets
-    :after org
     :hook (org-mode . org-bullets-mode))
 
 ;;;; encryption
