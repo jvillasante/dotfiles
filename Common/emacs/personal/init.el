@@ -96,12 +96,16 @@ There are two things you can do about this warning:
     (blink-cursor-mode -1) ;; the blinking cursor is nothing, but an annoyance
     (scroll-bar-mode -1) ; Disable the scroll bar in GUI mode
     (setq inhibit-startup-screen t) ; Hide the startup screen
-    (setq scroll-margin 2 ;; nice scrolling
-        scroll-conservatively 100000
-        scroll-preserve-screen-position 1)
+    (setq auto-window-vscroll nil  ; fast scrolling
+        fast-but-imprecise-scrolling t
+        scroll-margin 2
+        scroll-conservatively 101
+        scroll-preserve-screen-position t)
     (when (fboundp 'pixel-scroll-precision-mode)
         (pixel-scroll-precision-mode t))
-    (fset 'yes-or-no-p 'y-or-n-p) ;; enable y/n answers
+    (if (boundp 'use-short-answers) ;; Use "y" and "n" to confirm/negate prompt
+        (setq use-short-answers t)
+        (advice-add 'yes-or-no-p :override #'y-or-n-p))
     (setq large-file-warning-threshold 100000000) ;; warn when opening files bigger than 100MB
     (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
     (savehist-mode) ; Save history for commands
@@ -120,7 +124,10 @@ There are two things you can do about this warning:
     (size-indication-mode t) ; Display size indication
     (delete-selection-mode 1) ; If text is selected, we expect that typing will replace the selection
     (save-place-mode +1) ; Remember point in files
+    (electric-pair-mode +1) ; auto-insert matching parenteses
     (show-paren-mode +1) ; Highlight the matching parenthesis
+    (global-so-long-mode +1) ; long files
+    (setq kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
     (setq auto-save-default nil) ; Don't autosave files with default Emacs package (we'll use `super-save' pacakge isntead)
     (setq search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
     (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
@@ -340,6 +347,18 @@ There are two things you can do about this warning:
                     (mini-modeline-mode t))))
         (mini-modeline-mode t)))
 
+;;;; pulsar : Pulse highlight line on demand or after running select functions
+(use-package pulsar
+    :demand
+    :config
+    (setq pulsar-pulse-on-window-change t)
+    (setq pulsar-pulse t)
+    (setq pulsar-delay 0.055)
+    (setq pulsar-iterations 10)
+    (setq pulsar-face 'pulsar-magenta)
+    (setq pulsar-highlight-face 'pulsar-yellow)
+    (pulsar-global-mode 1))
+
 ;;;; diminish : Hide the mode line string for modes (called the lighter)
 (use-package diminish
     :demand
@@ -361,15 +380,6 @@ There are two things you can do about this warning:
     :config
     (setq avy-all-windows t)
     (setq avy-background t))
-
-;;;; smartparens : minor mode for dealing with pairs in Emacs
-(use-package smartparens
-    :demand
-    :config
-    (require 'smartparens-config)
-    (show-smartparens-global-mode +1)
-    (smartparens-global-mode 1)
-    (show-paren-mode t))
 
 ;;;; super-save : auto-saves your buffers, when certain events happen
 (use-package super-save
@@ -571,36 +581,31 @@ There are two things you can do about this warning:
     :bind ("C-=" . er/expand-region))
 
 ;;;; Helpful : nice looking and more complete help buffers
-(use-package helpful)
+(use-package helpful
+    :config
+    (define-key helpful-mode-map [remap revert-buffer] #'helpful-update)
+    (global-set-key [remap describe-command] #'helpful-command)
+    (global-set-key [remap describe-function] #'helpful-callable)
+    (global-set-key [remap describe-key] #'helpful-key)
+    (global-set-key [remap describe-symbol] #'helpful-symbol)
+    (global-set-key [remap describe-variable] #'helpful-variable)
+    (global-set-key (kbd "C-h F") #'helpful-function)
+    (global-set-key (kbd "C-h K") #'describe-keymap))
 
 ;;;; Org mode : Base mode for note taking
 (use-package org
     :config
-    ;; Latex previews in org-mode
-    (plist-put org-format-latex-options :background 'default)
     ;; To get the most out of themes
     (setq org-fontify-whole-heading-line t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t)
-    (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
     (setq org-startup-indented t)
     (setq org-startup-folded t)
-    (setq org-cycle-separator-lines 2)
-    (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
-    (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
-    (setq org-log-done t)
-    (setq org-startup-with-inline-images t)
-    (setq org-image-actual-width nil)
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-imenu-depth 8)
     (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
-    (setq org-adapt-indentation nil ;; prevent demoting heading also shifting text inside sections
-        org-src-preserve-indentation nil
-        org-edit-src-content-indentation 2)
     :hook (org-mode . (lambda()
-                          (require 'org-tempo) ; For templates like <sTAB to insert a code block
-                          (require 'recentf)
+                          ;; disable auto-pairing of "<" in org-mode
+                          (setq-local electric-pair-inhibit-predicate
+                              `(lambda (c) (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))
                           (add-to-list 'recentf-exclude ".*org$") ; Ignore org files from recentf due to agenda loading everything
                           (variable-pitch-mode)
                           (visual-line-mode))))
@@ -609,22 +614,26 @@ There are two things you can do about this warning:
 (use-package org-bullets
     :hook (org-mode . org-bullets-mode))
 
+;;;; org-appear : toggle visibility of hidden elements
+(use-package org-appear
+    :hook (org-mode . org-appear-mode))
+
 ;;;; encryption
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
-(require 'epa-file)
 (progn
+    (require 'epa-file)
     (epa-file-enable)
     (setq
         epa-file-encrypt-to user-mail-address
         epa-file-select-keys 'silent
-        epa-file-cache-passphrase-for-symmetric-encryption nil))
-(require 'org-crypt)
-(progn
+        epa-file-cache-passphrase-for-symmetric-encryption nil)
+
+    (require 'org-crypt)
     (org-crypt-use-before-save-magic)
-    (setq org-crypt-disable-auto-save nil) ;; don't ask to disable auto-save
-    (setq org-tags-exclude-from-inheritance (quote ("crypt")))
-    (setq org-crypt-key nil)
-    (setq org-crypt-key user-mail-address))
+    (setq org-crypt-disable-auto-save nil
+        org-tags-exclude-from-inheritance (quote ("crypt"))
+        org-crypt-key nil
+        org-crypt-key user-mail-address))
 
 ;;; Development packages and options
 ;;;; ag : Front end for the CLI utility ag
@@ -824,17 +833,18 @@ There are two things you can do about this warning:
     ;; (setq lsp-zig-zls-executable (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
 
     ;; C++
-    (setq lsp-clients-clangd-args
-        '("-j=4"
-             "--malloc-trim"
-             "--log=error"
-             "--background-index"
-             "--clang-tidy"
-             "--cross-file-rename"
-             "--completion-style=detailed"
-             "--pch-storage=memory"
-             "--header-insertion=never"
-             "--header-insertion-decorators=0")))
+    (with-eval-after-load "c++-mode"
+        (setq lsp-clients-clangd-args
+            '("-j=4"
+                 "--malloc-trim"
+                 "--log=error"
+                 "--background-index"
+                 "--clang-tidy"
+                 "--cross-file-rename"
+                 "--completion-style=detailed"
+                 "--pch-storage=memory"
+                 "--header-insertion=never"
+                 "--header-insertion-decorators=0"))))
 
 ;;;; lsp-format-and-save : format on save if lsp-auto-format is not nil
 (defcustom lsp-auto-format nil
@@ -913,20 +923,20 @@ There are two things you can do about this warning:
 ;; (define-key ijkl-local-mode-map "v" 'magit/body)
 
 (custom-set-variables
-    ;; custom-set-variables was added by Custom.
-    ;; If you edit it by hand, you could mess it up, so be careful.
-    ;; Your init file should contain only one such instance.
-    ;; If there is more than one, they won't work right.
-    '(package-selected-packages
-         '(neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
-    '(tab-stop-list
-         '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+    '(org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
+ '(tab-stop-list
+    '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
 (custom-set-faces
-    ;; custom-set-faces was added by Custom.
-    ;; If you edit it by hand, you could mess it up, so be careful.
-    ;; Your init file should contain only one such instance.
-    ;; If there is more than one, they won't work right.
-    )
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 (provide 'init)
 ;;; init.el ends here
