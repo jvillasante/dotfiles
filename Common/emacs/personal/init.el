@@ -702,7 +702,6 @@ There are two things you can do about this warning:
             t))
     :mode ("\\.css\\'" "\\.html\\'" "\\.ts\\'" "\\.js\\'" "\\.vue\\'")
     :hook (web-mode . (lambda () (when (+my/match-buffer-extension "ts" "js" "vue")
-                                     (lsp-deferred)
                                      (setq-local lsp-auto-format t))))
     :custom
     (web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
@@ -722,7 +721,6 @@ There are two things you can do about this warning:
 (use-package c++-mode
     :ensure nil  ; Part of emacs
     :mode ("\\.h\\'" "\\.cpp\\'" "\\.hpp\\'" "\\.hxx\\'" "\\.cxx\\'")
-    :hook (c++-mode . lsp-deferred)
     :config
     (advice-add 'c-update-modeline :override #'ignore)) ;; Don't use a modeline suffix (i.e C++//l)
 
@@ -774,7 +772,18 @@ There are two things you can do about this warning:
 
 ;;;; lsp-mode : Completion and syntax highlighting backend API, available for most languages
 (use-package lsp-mode
-    :hook (lsp-mode . lsp-enable-which-key-integration)
+    :hook ((lsp-mode . lsp-enable-which-key-integration)
+              ((c-mode             ; clangd
+                   c++-mode        ; clangd
+                   c-or-c++-mode   ; clangd
+                   ;; java-mode       ; eclipse-jdtls
+                   js-mode         ; ts-ls (tsserver wrapper)
+                   js-jsx-mode     ; ts-ls (tsserver wrapper)
+                   typescript-mode ; ts-ls (tsserver wrapper)
+                   python-mode     ; pyright
+                   web-mode        ; ts-ls/HTML/CSS
+                   ;; haskell-mode    ; haskell-language-server
+                   ) . lsp-deferred))
     :config
     (setq lsp-restart 'ignore
         lsp-headerline-breadcrumb-enable nil
@@ -806,11 +815,21 @@ There are two things you can do about this warning:
                  "--header-insertion=never"
                  "--header-insertion-decorators=0"))))
 
+;;;; lsp-ui : annoying ui for lsp
+(use-package lsp-ui
+    :config
+    (setq lsp-ui-doc-enable nil)
+    (setq lsp-ui-doc-header t)
+    (setq lsp-ui-doc-include-signature t)
+    (setq lsp-ui-doc-border (face-foreground 'default))
+    (setq lsp-ui-sideline-show-code-actions t)
+    (setq lsp-ui-sideline-delay 0.05))
+
 ;;;; lsp-pyright : An LSP backend for python
 (use-package lsp-pyright
-    :hook (python-mode . (lambda()
-                             (require 'lsp-pyright)
-                             (lsp-deferred))))
+  :hook (python-mode . (lambda () (require 'lsp-pyright)))
+  :init (when (executable-find "python3")
+          (setq lsp-pyright-python-executable-cmd "python3")))
 
 ;;;; rustic : blazingly fast
 (use-package rustic
@@ -988,20 +1007,21 @@ There are two things you can do about this warning:
     )
 
 (custom-set-variables
-    ;; custom-set-variables was added by Custom.
-    ;; If you edit it by hand, you could mess it up, so be careful.
-    ;; Your init file should contain only one such instance.
-    ;; If there is more than one, they won't work right.
-    '(package-selected-packages
-         '(format-all general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
-    '(tab-stop-list
-         '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(format-all-formatters '(("C++" clang-format) ("Python" black)) t)
+ '(package-selected-packages
+      '(lsp-ui format-all general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
+ '(tab-stop-list
+      '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
 (custom-set-faces
-    ;; custom-set-faces was added by Custom.
-    ;; If you edit it by hand, you could mess it up, so be careful.
-    ;; Your init file should contain only one such instance.
-    ;; If there is more than one, they won't work right.
-    )
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 (provide 'init)
 ;;; init.el ends here
