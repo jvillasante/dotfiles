@@ -75,8 +75,7 @@
     (setq dash-docs-browser-func #'+lookup-xwidget-webkit-open-url-fn))
 
 (after! projectile
-    (setq
-        projectile-switch-project-action 'projectile-dired
+    (setq projectile-switch-project-action 'projectile-dired
         projectile-require-project-root t
         projectile-project-root-files-bottom-up '(".projectile" ".git")
         projectile-sort-order 'recentf
@@ -101,8 +100,7 @@
                 (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root)))))
 
 (after! ivy
-    (setq
-        ivy-display-style nil
+    (setq ivy-display-style nil
         ivy-count-format "(%d/%d) "
         ivy-use-selectable-prompt t    ; much better than C-M-j
         ivy-use-virtual-buffers t      ; to make ivy-views appear on the buffers list
@@ -123,8 +121,7 @@
     (setq avy-all-windows t))
 
 (after! counsel
-    (setq
-        counsel-rg-base-command "rg -S --no-heading --line-number --color never %s ."
+    (setq counsel-rg-base-command "rg -S --no-heading --line-number --color never %s ."
         counsel-ag-base-command "ag -S --nocolor --nogroup %s"))
 
 (after! smartparens
@@ -162,8 +159,7 @@
     (setq flycheck-indication-mode 'left-fringe))
 
 (after! company
-    (setq
-        company-idle-delay 0.1
+    (setq company-idle-delay 0.1
         company-tooltip-limit 10
         company-minimum-prefix-length 2
         company-tooltip-align-annotations t)
@@ -291,8 +287,7 @@
                    "--header-insertion-decorators=0"))))
 
 (after! rustic
-    (setq
-        rustic-lsp-server 'rust-analyzer
+    (setq rustic-lsp-server 'rust-analyzer
         rustic-format-on-save nil
         lsp-rust-analyzer-cargo-watch-command "clippy"
         lsp-rust-analyzer-inlay-hints-mode nil
@@ -380,8 +375,7 @@
     (add-hook! 'pdf-view-mode-hook '+my/config-pdf))
 
 (after! neotree
-    (setq
-        neo-theme 'ascii
+    (setq neo-theme 'ascii
         neo-window-width 42
         neo-smart-open t
         neo-create-file-auto-open nil
@@ -419,7 +413,6 @@
 
 (after! treemacs
     (setq treemacs-no-png-images t)
-
     (defvar treemacs-file-ignore-extensions '()
         "File extension which `treemacs-ignore-filter' will ensure are ignored")
     (defvar treemacs-file-ignore-globs '()
@@ -473,8 +466,7 @@
     (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! deft
-    (setq
-        deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
+    (setq deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
         deft-recursive nil
@@ -486,91 +478,12 @@
         deft-auto-save-interval 0))
 
 (after! org-roam
-    (setq
-        org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
+    (setq org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
         org-roam-completion-everywhere t))
 
 (after! org
-    (defun +my/org-custom-faces ()
-        "Set up a nice proportional font, in different sizes, for the headlines.
-        The fonts listed will be tried in sequence, and the first one found will be used."
-        (when (display-graphic-p)
-            (let* ((variable-tuple
-                       (cond
-                           ((x-list-fonts "Iosevka")         '(:font   "Iosevka"))
-                           ((x-list-fonts "Source Code Pro") '(:font   "Source Code Pro"))
-                           ((x-list-fonts "JetBrains Mono")  '(:font   "JetBrains Mono"))
-                           ((x-list-fonts "Source Sans Pro") '(:font   "Source Sans Pro"))
-                           ((x-list-fonts "Lucida Grande")   '(:font   "Lucida Grande"))
-                           ((x-list-fonts "Verdana")         '(:font   "Verdana"))
-                           ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
-                           (nil (warn "Cannot find Font."))))
-                      (base-font-color (face-foreground 'default nil 'default))
-                      (headline `(:inherit default :weight bold :foreground ,base-font-color)))
-                (custom-theme-set-faces
-                    'user
-                    `(org-level-8        ((t (,@headline ,@variable-tuple :height 1.04))))
-                    `(org-level-7        ((t (,@headline ,@variable-tuple :height 1.07))))
-                    `(org-level-6        ((t (,@headline ,@variable-tuple :height 1.10))))
-                    `(org-level-5        ((t (,@headline ,@variable-tuple :height 1.13))))
-                    `(org-level-4        ((t (,@headline ,@variable-tuple :height 1.16))))
-                    `(org-level-3        ((t (,@headline ,@variable-tuple :height 1.19))))
-                    `(org-level-2        ((t (,@headline ,@variable-tuple :height 1.22))))
-                    `(org-level-1        ((t (,@headline ,@variable-tuple :height 1.25))))
-                    `(org-headline-done  ((t (,@headline ,@variable-tuple :strike-through t))))
-                    `(org-document-title ((t (,@headline ,@variable-tuple :height 1.25 :underline nil))))))))
-
-    ;; Latex previews in org-mode
-    (plist-put org-format-latex-options :background 'default)
-
-    ;; To get the most out of themes
-    (setq
-        org-fontify-whole-heading-line t
-        org-fontify-done-headline t
-        org-fontify-quote-and-verse-blocks t)
-
-    ;; settings
-    (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|org\\.txt\\)$" . org-mode))
-    (setq org-startup-indented t)
-    (setq org-startup-folded t)
-    (setq org-cycle-separator-lines 2)
-    (setq org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
-    (setq org-agenda-file-regexp "\\`[^.].*\\.\\(org\\.txt\\|org\\)\\'")
-    (setq org-log-done t)
-    (setq org-startup-with-inline-images t)
-    (setq org-image-actual-width nil)
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-imenu-depth 8)
-    (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
-    (setq
-        org-indent-mode t
-        org-adapt-indentation nil ;; prevent demoting heading also shifting text inside sections
-        org-src-preserve-indentation nil
-        org-edit-src-content-indentation 2)
-
-    ;; Show the daily agenda by default.
-    (setq org-agenda-span 'day)
-    (setq org-agenda-prefix-format
-        '((agenda . " %i %-12:c%?-12t% s")
-             (todo   . " ")
-             (tags   . " %i %-12:c")
-             (search . " %i %-12:c")))
-    (setq org-agenda-hide-tags-regexp ".") ;; ask the agenda to hide any tag (.) that may be present.
-    (setq org-capture-templates            ;; set our capture templates
-        `(("i" "Inbox" entry (file "inbox.org")
-              ,(concat "* TODO %?\n"
-                   "/Entered on/ %U"))
-             ("n" "Note" entry (file "notes.org")
-                 ,(concat "* Note (%a)\n"
-                      "/Entered on/ %U\n" "\n" "%?"))))
-
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-            (lambda (frame)
-                (with-selected-frame frame
-                    (+my/org-custom-faces))))
-        (+my/org-custom-faces)))
+    (setq org-hide-emphasis-markers t
+        org-startup-folded t))
 
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt

@@ -37,7 +37,7 @@
 
     (:after elfeed
         :map elfeed-search-mode-map
-        :desc "Elfeed update"         "gr" #'elfeed-update
+        :desc "Elfeed update"         "U"  #'elfeed-update
         :desc "Elfeed mark read"      "r"  #'elfeed-search-untag-all-unread
         :desc "Elfeed mark unread"    "u"  #'elfeed-search-tag-all-unread
         :desc "Elfed open in browser" "b"  #'elfeed-search-browse-url
