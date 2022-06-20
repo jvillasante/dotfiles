@@ -94,6 +94,7 @@ There are two things you can do about this warning:
     (tool-bar-mode -1) ; Disable the toolbar in GUI mode
     (menu-bar-mode -1) ; Hide Menu bar
     (blink-cursor-mode -1) ;; the blinking cursor is nothing, but an annoyance
+    (setq visible-cursor nil) ;; make it work in terminal too
     (scroll-bar-mode -1) ; Disable the scroll bar in GUI mode
     (setq inhibit-startup-screen t) ; Hide the startup screen
     (setq auto-window-vscroll nil  ; fast scrolling
@@ -337,6 +338,7 @@ There are two things you can do about this warning:
 ;;;; pulsar : Pulse highlight line on demand or after running select functions
 (use-package pulsar
     :demand
+    :disabled t  ; does not work well in terminal
     :config
     (setq pulsar-pulse-on-window-change t)
     (setq pulsar-pulse t)
