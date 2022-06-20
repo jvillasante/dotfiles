@@ -1,4 +1,4 @@
-;;; +bindings.el --- description -*- lexical-binding: t; -*-
+;;; +bindings-vim.el --- Evil Emacs oriented keybindings -*- lexical-binding: t; -*-
 
 (map!
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

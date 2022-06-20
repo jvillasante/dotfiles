@@ -30,6 +30,7 @@
 (package! dired-hide-dotfiles)
 
 ;; others
+(package! easy-kill)
 (package! ibuffer-vc)
 (package! visual-regexp)
 (package! crux)

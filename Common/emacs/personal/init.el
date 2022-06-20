@@ -868,7 +868,7 @@ There are two things you can do about this warning:
         ;;;; ace-window
         [remap other-window] 'ace-window ; better other window
 
-        ;;;; anzy
+        ;;;; anzu
         "M-%" 'anzu-query-replace
         "C-M-%" 'anzu-query-replace-regexp
 

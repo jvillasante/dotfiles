@@ -3,10 +3,6 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-(when noninteractive
-    (after! undo-tree
-        (global-undo-tree-mode -1)))
-
 (when (featurep! :editor evil)
     (after! evil
         (setq evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
@@ -20,8 +16,12 @@
         (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
         (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)))
 
+(when noninteractive
+    (after! undo-tree
+        (global-undo-tree-mode -1)))
+
 (after! persp-mode
-  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+    (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
 (after! tramp
     (setq tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
@@ -586,7 +586,9 @@
 
 (load! "+ui")
 (load! "+config")
-(load! "+bindings")
+(if (featurep! :editor evil)
+    (load! "+bindings-evil")
+    (load! "+bindings-emacs"))
 (load! "+hydras")
 
 ;; Here are some additional functions/macros that could help you configure Doom:

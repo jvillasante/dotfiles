@@ -1,0 +1,91 @@
+;;; +bindings-emacs.el --- Vanilla Emacs oriented bindings -*- lexical-binding: t; -*-
+
+;;;; Global & plugin bindings
+(map!
+    "C-x C-m" #'execute-extended-command ;; ALT may or may not be available
+    "C-c C-m" #'execute-extended-command ;; ALT may or may not be available
+    "C-c u" #'browse-url-at-point        ;; browse url with default browser
+    "C-x k" #'kill-this-buffer           ;; kill buffer without prompt
+    "C-x K" #'kill-buffer                ;; prompt for buffer to kill
+
+    ;;;; easy-kill
+    [remap kill-ring-save] 'easy-kill
+
+    ;;;; avy
+    "M-j" #'avy-goto-char-timer ;; most useful avy function
+
+    ;;;; expand-region
+    "C-=" #'er/expand-region
+    "C--" #'er/contract-region
+
+    ;;;; crux
+    "C-o" #'crux-smart-open-line
+    "M-o" #'crux-smart-open-line-above
+    "C-^" #'crux-top-join-line
+    "C-k" #'crux-smart-kill-line
+    "C-x C-u" #'crux-upcase-region
+    "C-x C-l" #'crux-downcase-region
+    [remap kill-whole-line] #'crux-kill-whole-line
+
+    (:after dired
+        :map dired-mode-map
+        "C-o" #'crux-open-with)
+
+    (:after neotree
+        :map neotree-mode-map
+        :desc "Neotree stretch" [tab] #'neotree-stretch-toggle)
+
+    (:after elfeed
+        :map elfeed-search-mode-map
+        :desc "Elfeed update"         "gr" #'elfeed-update
+        :desc "Elfeed mark read"      "r"  #'elfeed-search-untag-all-unread
+        :desc "Elfeed mark unread"    "u"  #'elfeed-search-tag-all-unread
+        :desc "Elfed open in browser" "b"  #'elfeed-search-browse-url
+        :desc "Elfeed quit"           "q"  #'elfeed-kill-buffer)
+    )
+
+;;;; Leader key bindings (C-c)
+(map! :leader
+    (:prefix-map ("o" . "open")
+        "p" nil ;; unbind project drawer
+        "P" nil ;; unbind project drawer
+
+        :desc "iElm" "i"       #'ielm
+        :desc "Calc" "c"       #'calc
+        :desc "Quick Calc" "C" #'quick-calc
+        (:when (featurep! :ui neotree)
+            :desc "Toggle Neotree"       "n" #'neotree-toggle
+            :desc "Find file in Neotree" "N" #'+neotree/find-this-file)
+        (:when (featurep! :ui treemacs)
+            :desc "Toggle Treemacs"       "n" #'treemacs
+            :desc "Doom toggle Treemacs"  "N" #'+treemacs/toggle)
+        (:prefix-map ("p" . "Password Store")
+            :desc "Clear secret in the kill ring"             "C" #'password-store-clear
+            :desc "Add password for ENTRY into the kill ring" "c" #'password-store-copy
+            :desc "Add FIELD for ENTRY into the kill ring"    "f" #'password-store-copy-field
+            :desc "Edit password for ENTRY"                   "e" #'password-store-edit
+            :desc "Insert a new ENTRY containing PASSWORD"    "i" #'password-store-insert
+            :desc "Generate a new password for ENTRY"         "g" #'password-store-generate
+            :desc "Rename ENTRY to NEW-ENTRY"                 "r" #'password-store-rename
+            :desc "Remove existing password for ENTRY"        "R" #'password-store-remove)
+        (:prefix-map ("a" . "Application")
+            :desc "Mu4e"               "m" #'mu4e
+            :desc "Elfeed Rss Reader"  "f" #'elfeed
+            :desc "Deft"               "n" #'deft))
+
+    (:prefix-map ("c" . "Code")
+        :desc "Make run"                  "m" #'+make/run
+        :desc "Make run last"             "M" #'+make/run-last
+        :desc "Lookup zeal documentation" "z" #'zeal-at-point
+        :desc "Flycheck list errors"      "x" #'flycheck-list-errors
+        :desc "Restart LSP Workspace"     "q" #'lsp-workspace-restart
+        :desc "Shutdown LSP Workspace"    "Q" #'lsp-workspace-shutdown
+        (:prefix-map ("u" . "Menu")
+            :desc "Show" "m" #'lsp-ui-imenu
+            :desc "Hide" "q" #'lsp-ui-imenu--kill))
+
+    (:prefix-map ("n" . "Notes")
+        :desc "Find deft file" "d" #'deft-find-file
+        :desc "Open deft"      "D" #'deft)
+    )
+

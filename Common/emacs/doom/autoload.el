@@ -41,7 +41,6 @@ at least the fill column. Place the point after the comment box. http://irreal.o
         (comment-box b e 1)
         (goto-char e)
         (set-marker e nil)))
-(global-set-key (kbd "C-c b b") '+my/comment-box)
 
 ;;;###autoload
 (defun +my/bury-compile-buffer-if-successful (buffer string)

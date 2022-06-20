@@ -22,8 +22,7 @@
 (require 'epa-file)
 (progn
     (epa-file-enable)
-    (setq
-        epa-file-encrypt-to user-mail-address
+    (setq epa-file-encrypt-to user-mail-address
         epa-file-select-keys 'silent
         epa-file-cache-passphrase-for-symmetric-encryption nil))
 
