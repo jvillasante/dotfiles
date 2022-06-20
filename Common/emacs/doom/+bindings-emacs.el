@@ -46,6 +46,22 @@
 
 ;;;; Leader key bindings (C-c)
 (map! :leader
+    (:prefix-map ("d" . "doom")
+        :desc "Dashboard"                 "d" #'+doom-dashboard/open
+        :desc "Reload Private Config"     "r" #'doom/reload
+        :desc "Recent files"              "f" #'recentf-open-files
+        :desc "Popup other"               "o" #'+popup/other
+        :desc "Popup toggle"              "t" #'+popup/toggle
+        :desc "Popup close"               "c" #'+popup/close
+        :desc "Popup close all"           "C" #'+popup/close-all
+        :desc "Popup raise"               "p" #'+popup/raise
+        :desc "Popup restore"             "P" #'+popup/restore
+        :desc "Scratch buffer"            "s" #'doom/open-scratch-buffer
+        :desc "Switch to scratch buffer"  "S" #'doom/switch-to-scratch-buffer
+        :desc "Sudo this file"            "u" #'doom/sudo-this-file
+        :desc "Sudo find file"            "U" #'doom/sudo-find-file
+        :desc "Toggle frame fullscreen"   "F" #'toggle-frame-fullscreen)
+
     (:prefix-map ("o" . "open")
         "p" nil ;; unbind project drawer
         "P" nil ;; unbind project drawer
