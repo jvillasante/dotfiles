@@ -91,11 +91,11 @@ There are two things you can do about this warning:
         user-mail-address "jvillasantegomez@gmail.com"
         user-login-name "jvillasante")
     (setq load-prefer-newer t) ;; Always load newest byte code
-    (tool-bar-mode -1) ; Disable the toolbar in GUI mode
-    (menu-bar-mode -1) ; Hide Menu bar
+    (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; Disable the toolbar
+    (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; Hide menu bar
+    (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))     ; Disable the scroll bar
     (blink-cursor-mode -1) ;; the blinking cursor is nothing, but an annoyance
     (setq visible-cursor nil) ;; make it work in terminal too
-    (scroll-bar-mode -1) ; Disable the scroll bar in GUI mode
     (setq inhibit-startup-screen t) ; Hide the startup screen
     (setq auto-window-vscroll nil  ; fast scrolling
         fast-but-imprecise-scrolling t
@@ -163,6 +163,10 @@ There are two things you can do about this warning:
 (add-function :after after-focus-change-function
     (lambda () (unless (frame-focus-state) (save-some-buffers t))))
 
+;; Prevent killing scratch buffer
+(with-current-buffer "*scratch*"
+	  (emacs-lock-mode 'kill))
+
 ;; Default font
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -226,8 +230,6 @@ There are two things you can do about this warning:
                     (mini-modeline-mode t))))
         (mini-modeline-mode t)))
 
-;; TODO: from Steve Yegge: Bind `kill-region' to "C-x C-k" and "C-c C-k"
-;; TODO: from Steve Yegge: Bind `backward-kill-word' to "C-w"
 (use-package emacs
     :ensure nil  ; emacs built-in
     :hook ((text-mode-hook . (lambda() (visual-line-mode))))
@@ -239,6 +241,12 @@ There are two things you can do about this warning:
                        minibuffer-setup-hook))
         (add-hook hook
             (lambda () (setq show-trailing-whitespace nil)))))
+
+;; persistent-scratch : preserve scratch buffer across sessions
+(use-package persistent-scratch
+    :config
+    (persistent-scratch-setup-default)
+    (persistent-scratch-autosave-mode 1))
 
 ;; hl-line : highlight the current line
 (use-package hl-line
@@ -357,14 +365,6 @@ There are two things you can do about this warning:
     (diminish 'flyspell-mode)
     (diminish 'flyspell-prog-mode)
     (diminish 'abbrev-mode))
-
-;;;; guru
-(use-package guru-mode
-    :demand
-    :config
-    (setq guru-warn-only t)
-    ;; (add-to-list 'guru-affected-bindings-list '("<C-left>" "M-b" left-word))
-    (guru-global-mode +1))
 
 ;;;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
@@ -840,6 +840,8 @@ There are two things you can do about this warning:
                                            ("Python" black))))))
 
 ;;;; general : binding keys
+;; TODO: from Steve Yegge: Bind `kill-region' to "C-x C-k" and "C-c C-k"
+;; TODO: from Steve Yegge: Bind `backward-kill-word' to "C-w"
 (use-package general
     :demand
     :config
@@ -849,6 +851,8 @@ There are two things you can do about this warning:
     ;; kbd is not necessary and arbitrary amount of key def pairs are allowed
     (general-define-key
         ;;;; general keys
+        "C-x C-m" 'execute-extended-command ; ALT may or may not be available
+        "C-c C-m" 'execute-extended-command ; ALT may or may not be available
         "C-c u" 'browse-url-at-point ; simple browse url
         "C-x k" 'kill-this-buffer ; kill buffer without prompt
         "C-x K" 'kill-buffer ; prompt for buffer to kill
@@ -1004,7 +1008,7 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(format-all-formatters '(("C++" clang-format) ("Python" black)) t)
  '(package-selected-packages
-    '(org-crypt epa-file moody lsp-ui format-all general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
+    '(persistent-scratch org-crypt epa-file moody lsp-ui format-all general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
  '(tab-stop-list
     '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
 (custom-set-faces
