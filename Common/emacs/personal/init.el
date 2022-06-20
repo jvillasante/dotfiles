@@ -176,6 +176,55 @@ There are two things you can do about this warning:
         (set-face-font 'variable-pitch "Iosevka 22")
         (copy-face 'default 'fixed-pitch)))
 
+;;;; Main color theme : modus-themes
+(use-package modus-themes
+    :demand
+    :init
+    ;; Add all your customizations prior to loading the themes
+    (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-region '(bg-only no-extend))
+
+    ;; Load the theme files before enabling a theme
+    (modus-themes-load-themes)
+    :config
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+            (lambda (frame)
+                (with-selected-frame frame
+                    (modus-themes-load-operandi)))) ;; OR (modus-themes-load-vivendi)
+        (modus-themes-load-operandi))) ;; OR (modus-themes-load-vivendi))
+
+;;;; modeline : mini-modeline
+(use-package mini-modeline
+    :demand
+    :init
+    (setq mode-line-position (list "%l:%c %p"))
+    (setq mode-line-modes (list "%m"))
+    (setq mini-modeline-enhance-visual t)
+    (setq mini-modeline-display-gui-line t)
+    (setq mini-modeline-echo-duration 10)
+    (setq mini-modeline-right-padding 1)
+    (setq mini-modeline-l-format nil)
+    (setq mini-modeline-r-format
+        '("%e"
+             mode-line-front-space
+             mode-line-position
+             " "
+             mode-line-mule-info     ; Information on character sets, encodings, and other human-language details
+             mode-line-client        ; Identifies frames created by emacsclient
+             mode-line-modified      ; Modified and read-only status
+             mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
+             " "
+             mode-line-modes))
+    :config
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+            (lambda (frame)
+                (with-selected-frame frame
+                    (mini-modeline-mode t))))
+        (mini-modeline-mode t)))
+
 ;; TODO: from Steve Yegge: Bind `kill-region' to "C-x C-k" and "C-c C-k"
 ;; TODO: from Steve Yegge: Bind `backward-kill-word' to "C-w"
 (use-package emacs
@@ -220,8 +269,6 @@ There are two things you can do about this warning:
     (setq recentf-save-file (expand-file-name "recentf" +my/savefile-dir)
         recentf-max-saved-items 500
         recentf-max-menu-items 15
-        ;; disable recentf-cleanup on Emacs start, because it can cause
-        ;; problems with remote files
         recentf-auto-cleanup 'never)
     (recentf-mode +1))
 
@@ -287,55 +334,6 @@ There are two things you can do about this warning:
     (when (daemonp)
         (exec-path-from-shell-initialize)))
 
-;;;; Main color theme : modus-themes
-(use-package modus-themes
-    :demand
-    :init
-    ;; Add all your customizations prior to loading the themes
-    (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-region '(bg-only no-extend))
-
-    ;; Load the theme files before enabling a theme
-    (modus-themes-load-themes)
-    :config
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-            (lambda (frame)
-                (with-selected-frame frame
-                    (modus-themes-load-operandi)))) ;; OR (modus-themes-load-vivendi)
-        (modus-themes-load-operandi))) ;; OR (modus-themes-load-vivendi))
-
-;;;; modeline : mini-modeline
-(use-package mini-modeline
-    :demand
-    :init
-    (setq mode-line-position (list "%l:%c %p"))
-    (setq mode-line-modes (list "%m"))
-    (setq mini-modeline-enhance-visual t)
-    (setq mini-modeline-display-gui-line t)
-    (setq mini-modeline-echo-duration 10)
-    (setq mini-modeline-right-padding 1)
-    (setq mini-modeline-l-format nil)
-    (setq mini-modeline-r-format
-        '("%e"
-             mode-line-front-space
-             mode-line-position
-             " "
-             mode-line-mule-info     ; Information on character sets, encodings, and other human-language details
-             mode-line-client        ; Identifies frames created by emacsclient
-             mode-line-modified      ; Modified and read-only status
-             mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
-             " "
-             mode-line-modes))
-    :config
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-            (lambda (frame)
-                (with-selected-frame frame
-                    (mini-modeline-mode t))))
-        (mini-modeline-mode t)))
-
 ;;;; pulsar : Pulse highlight line on demand or after running select functions
 (use-package pulsar
     :demand
@@ -358,6 +356,7 @@ There are two things you can do about this warning:
     (diminish 'flyspell-prog-mode)
     (diminish 'abbrev-mode))
 
+;;;; guru
 (use-package guru-mode
     :demand
     :config
@@ -576,8 +575,7 @@ There are two things you can do about this warning:
 (progn
     (require 'epa-file)
     (epa-file-enable)
-    (setq
-        epa-file-encrypt-to user-mail-address
+    (setq epa-file-encrypt-to user-mail-address
         epa-file-select-keys 'silent
         epa-file-cache-passphrase-for-symmetric-encryption nil)
 
@@ -610,26 +608,27 @@ There are two things you can do about this warning:
         neo-vc-integration nil
         neo-autorefresh nil
         projectile-switch-project-action 'neotree-projectile-action
-        neo-hidden-regexp-list '(;; vcs folders
-                                    "^\\.\\(?:git\\|hg\\|svn\\)$"
-                                    ;; compiled files
-                                    "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
-                                    ;; generated files, caches or local pkgs
-                                    "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
-                                    ;; org-mode folders
-                                    "^\\.\\(?:sync\\|export\\|attach\\)$"
-                                    ;; temp files
-                                    "~$"
-                                    "^#.*#$"
-                                    ;; Others
-                                    "^\\.\\(cache\\|tox\\|coverage\\)$"
-                                    "^\\.\\(DS_Store\\|python\\-version\\)"
-                                    "^\\(htmlcov\\)$" "\\.elcs$"
-                                    "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-                                    "^\\.#.*$" "^__pycache__$"
-                                    "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-                                    "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-                                    "\\.egg\-info$")))
+        neo-hidden-regexp-list
+        '(;; vcs folders
+             "^\\.\\(?:git\\|hg\\|svn\\)$"
+             ;; compiled files
+             "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
+             ;; generated files, caches or local pkgs
+             "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+             ;; org-mode folders
+             "^\\.\\(?:sync\\|export\\|attach\\)$"
+             ;; temp files
+             "~$"
+             "^#.*#$"
+             ;; Others
+             "^\\.\\(cache\\|tox\\|coverage\\)$"
+             "^\\.\\(DS_Store\\|python\\-version\\)"
+             "^\\(htmlcov\\)$" "\\.elcs$"
+             "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+             "^\\.#.*$" "^__pycache__$"
+             "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+             "^\\.cproject$" "^\\.project$" "^\\.projectile$"
+             "\\.egg\-info$")))
 
 ;;;; deft : plain text notes
 (use-package deft
@@ -666,22 +665,7 @@ There are two things you can do about this warning:
     :mode (("\\.md\\'" . gfm-mode)
               ("\\.markdown\\'" . gfm-mode))
     :config
-    (setq markdown-fontify-code-blocks-natively t)
-    :preface
-    (defun jekyll-insert-image-url ()
-        (interactive)
-        (let* ((files (directory-files "../assets/images"))
-                  (selected-file (completing-read "Select image: " files nil t)))
-            (insert (format "![%s](/assets/images/%s)" selected-file selected-file))))
-
-    (defun jekyll-insert-post-url ()
-        (interactive)
-        (let* ((project-root (projectile-project-root))
-                  (posts-dir (expand-file-name "_posts" project-root))
-                  (default-directory posts-dir))
-            (let* ((files (remove "." (mapcar #'file-name-sans-extension (directory-files "."))))
-                      (selected-file (completing-read "Select article: " files nil t)))
-                (insert (format "{%% post_url %s %%}" selected-file))))))
+    (setq markdown-fontify-code-blocks-natively t))
 
 ;;;; adoc-mode : ascii docs
 (use-package adoc-mode
@@ -884,6 +868,7 @@ There are two things you can do about this warning:
 
         ;;;; expand-region
         "C-=" 'er/expand-region
+        "C--" 'er/contract-region
 
         ;;;; magit
         "C-x g" 'magit-status
@@ -1017,7 +1002,7 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(format-all-formatters '(("C++" clang-format) ("Python" black)) t)
  '(package-selected-packages
-    '(moody lsp-ui format-all general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
+    '(org-crypt epa-file moody lsp-ui format-all general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
  '(tab-stop-list
     '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
 (custom-set-faces
