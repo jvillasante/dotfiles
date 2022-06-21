@@ -16,7 +16,6 @@
 
     ;;;; expand-region
     "C-=" #'er/expand-region
-    "C--" #'er/contract-region
 
     ;;;; crux
     "C-o" #'crux-smart-open-line
