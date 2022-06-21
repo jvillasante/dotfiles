@@ -75,17 +75,12 @@ install_emacs() {
     fi
 
     # Install Doom Emacs
-    if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
-        git clone git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom"
+    if [ ! -d "$EMACSDIR" ]; then
+        echo ">>> Installing Doom Emacs at $EMACSDIR with personal config at $DOOMDIR"
+        git clone git@github.com:hlissner/doom-emacs.git "$EMACSDIR"
         check $?
 
-        "$DOTFILES_DIR"/.emacs.doom/bin/doom --doomdir "$DOTFILES_DIR"/Common/emacs/doom/ install
-    fi
-
-    # Install Prelude Emacs
-    if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
-        export PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" &&
-            curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+        "$EMACSDIR"/bin/doom install
         check $?
     fi
 

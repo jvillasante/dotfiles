@@ -19,6 +19,10 @@ if [ -d "$HOME/.bin/bin" ]; then
     export PATH="$HOME/.bin/bin:$PATH"
 fi
 
+# Doom Emacs
+export EMACSDIR="$HOME/Workspace/Public/dotfiles/.emacs.doom"
+export DOOMDIR="$HOME/Workspace/Public/dotfiles/Common/emacs/doom"
+
 # snap
 if [ -d "/snap/bin" ]; then
     export PATH="$PATH:/snap/bin"
