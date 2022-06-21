@@ -95,6 +95,7 @@
                 (string-prefix-p (expand-file-name ".bin/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".bin/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".oh-my-zsh/" +my/dotfiles-path) project-root)
+                (string-prefix-p (expand-file-name ".oh-my-bash/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name "Workspace/Software/zig/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".cargo/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root)))))
