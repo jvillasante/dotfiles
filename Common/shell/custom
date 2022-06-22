@@ -26,10 +26,8 @@ if type emacs >/dev/null 2>/dev/null; then
     ekill() { emacsclient --eval '(kill-emacs)'; }
 fi
 
-# bash keybidings
-# https://unix.stackexchange.com/questions/264791/ctrl-backspace-and-ctrl-delete-in-bash
-# https://unix.stackexchange.com/questions/150578/confusing-behavior-of-emacs-style-keybindings-in-bash
-bind '"\C-H": backward-kill-word' # make C-Backspace act as in emacs
+# bash keybidings (man readline)
+bind '"\C-\b": backward-kill-word' # make C-Backspace act as in emacs
 
 # utils
 alias ls='ls --color'
