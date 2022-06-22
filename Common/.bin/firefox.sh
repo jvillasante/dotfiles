@@ -2,20 +2,33 @@
 
 . "$(dirname "$0")/common.sh"
 
+function usage() {
+    echo "Usage:"
+    echo "    $0 help:"
+    echo "        Show this help message"
+    echo "    $0 arkenfox:"
+    echo "        Update arkenfox users.js"
+    echo "    $0 personal"
+    echo "        Update personal users.js"
+    echo
+    echo " e.g: $0 arkenfox"
+    exit "$1"
+}
+
 #
 # https://github.com/arkenfox/user.js
 #
 update_usersjs_arkenfox() {
     if pgrep -x firefox >/dev/null; then
         echo ">>> Firefox is running. Close Firefox and try again."
-        exit 1
+        usage 1
     fi
 
     local PROFILE
     PROFILE=$(cat "$HOME/.mozilla/firefox/profiles.ini" | sed -n -e 's/^.*Default=//p' | head -n 1)
     if [[ ! "$PROFILE" =~ ^.*\.[Pp]ersonal$ ]]; then
         echo ">>> Invalid profile '$PROFILE', should be called '*******.personal', exiting..."
-        exit 1
+        usage 1
     else
         PROFILE="${HOME}/.mozilla/firefox/$PROFILE"
     fi
@@ -96,14 +109,14 @@ ENDOFFILE
 update_usersjs_personal() {
     if pgrep -x firefox >/dev/null; then
         echo ">>> Firefox is running. Close Firefox and try again."
-        exit 1
+        usage 1
     fi
 
     local PROFILE
     PROFILE=$(cat "$HOME/.mozilla/firefox/profiles.ini" | sed -n -e 's/^.*Default=//p' | head -n 1)
     if [[ ! "$PROFILE" =~ ^.*\.personal$ ]]; then
         echo ">>> Invalid profile '$PROFILE', should be called '*******.personal', exiting..."
-        exit 1
+        usage 1
     else
         PROFILE="${HOME}/.mozilla/firefox/$PROFILE"
     fi
@@ -573,24 +586,24 @@ user_pref("privacy.sanitize.timeSpan", 0);
 ENDOFFILE
 }
 
-while true; do
-    PS3="Choose an option: "
-    options=("Update arkenfox users.js" "Update personal user.js" "Quit")
-
-    select opt in "${options[@]}"; do
-        case $REPLY in
-            1)
-                update_usersjs_arkenfox
-                hr
-                break
-                ;;
-            2)
-                update_usersjs_personal
-                hr
-                break
-                ;;
-            3) break 2 ;;
-            *) echo "Invalid option '$opt'" >&2 ;;
-        esac
-    done
-done
+nargs=$#
+cmd=${1-}
+rc=0
+if [ "$#" -gt 0 ]; then shift; fi
+case $cmd in
+    arkenfox)
+        [ "$nargs" -eq 1 ] || usage 1
+        update_usersjs_arkenfox "$@"
+        ;;
+    personal)
+        [ "$nargs" -eq 1 ] || usage 1
+        update_usersjs_personal "$@"
+        ;;
+    help | --help | -h)
+        usage 0
+        ;;
+    *)
+        usage 1
+        ;;
+esac
+exit $rc
