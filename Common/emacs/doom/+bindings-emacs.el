@@ -26,6 +26,11 @@
     "C-x C-l" #'crux-downcase-region
     [remap kill-whole-line] #'crux-kill-whole-line
 
+    (:when (featurep! :emacs undo)
+        (:after undo-fu
+            "C-/" #'undo-fu-only-undo
+            "C-?" #'undo-fu-only-redo))
+
     (:after dired
         :map dired-mode-map
         "C-o" #'crux-open-with)
