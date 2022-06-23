@@ -142,8 +142,11 @@
 ;; line spacing
 (setq-default line-spacing 0.1)
 
-;; Isearch convenience, space matches anything (non-greedy)
-(setq search-whitespace-regexp ".*?")
+;; Isearch
+(progn
+    (setq search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
+    (setq isearch-lax-whitespace t)
+    (setq isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
 
 ;; Color compilation buffer
 (require 'xterm-color)
