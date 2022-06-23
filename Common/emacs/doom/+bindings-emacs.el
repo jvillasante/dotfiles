@@ -26,6 +26,9 @@
     "C-x C-l" #'crux-downcase-region
     [remap kill-whole-line] #'crux-kill-whole-line
 
+    (:when (daemonp)
+        "C-z" nil)   ;; suspend-frame does not work well with daemon
+
     (:after isearch
         :map isearch-mode-map
         "C-n" #'isearch-repeat-forward
