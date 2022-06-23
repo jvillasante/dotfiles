@@ -12,7 +12,7 @@
     [remap kill-ring-save] 'easy-kill
 
     ;;;; avy
-    "M-j" #'avy-goto-char-timer ;; most useful avy function
+    "C-," #'avy-goto-char-timer ;; most useful avy function
 
     ;;;; expand-region
     "C-=" #'er/expand-region
@@ -33,7 +33,7 @@
 
     (:after dired
         :map dired-mode-map
-        "C-o" #'crux-open-with)
+        "C-u o" #'crux-open-with)
 
     (:after neotree
         :map neotree-mode-map
