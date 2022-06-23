@@ -17,6 +17,9 @@
 ;; modeline
 (package! mini-modeline)
 
+;; whole-line-or-region for nice C-w/M-w
+(package! whole-line-or-region)
+
 ;; rmsbolt (A supercharged implementation of the godbolt compiler-explorer for Emacs.)
 (package! rmsbolt :recipe
     (:host gitlab
@@ -30,14 +33,11 @@
 (package! dired-hide-dotfiles)
 
 ;; others
-(package! easy-kill)
 (package! ibuffer-vc)
-(package! visual-regexp)
 (package! crux)
 (package! super-save)
 (package! tldr)
 (package! zeal-at-point)
-(package! sokoban)
 (package! password-store)
 (package! speed-type)
 

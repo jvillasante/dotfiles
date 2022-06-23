@@ -530,8 +530,9 @@
     (setq org-crypt-key nil)
     (setq org-crypt-key user-mail-address))
 
-(use-package! visual-regexp
-    :commands (vr/query-replace vr/replace))
+(use-package! whole-line-or-region
+    :config
+    (whole-line-or-region-global-mode))
 
 (load! "+ui")
 (load! "+config")

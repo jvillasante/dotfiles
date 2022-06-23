@@ -8,8 +8,9 @@
     "C-x k" #'kill-this-buffer           ;; kill buffer without prompt
     "C-x K" #'kill-buffer                ;; prompt for buffer to kill
 
-    ;;;; easy-kill
-    [remap kill-ring-save] 'easy-kill
+    ;;;; easy-kill (not using this ATM)
+    ;; [remap kill-ring-save] 'easy-kill
+    ;; [remap mark-sexp] #'easy-mark
 
     ;;;; avy
     "C-," #'avy-goto-char-timer ;; most useful avy function
@@ -33,6 +34,10 @@
         :map isearch-mode-map
         "C-n" #'isearch-repeat-forward
         "C-p" #'isearch-repeat-backward)
+
+    (:after smartparens
+        :map smartparens-mode-map
+        "C-M-<backspace>" #'sp-backward-kill-sexp)
 
     (:when (featurep! :emacs undo)
         (:after undo-fu
