@@ -19,8 +19,8 @@
                  (t (buffer-name))))))
 
 ;; encryption
-(require 'epa-file)
 (progn
+    (require 'epa-file)
     (epa-file-enable)
     (setq epa-file-encrypt-to user-mail-address
         epa-file-select-keys 'silent
@@ -162,13 +162,14 @@
 (setq show-paren-mode 1)
 
 ;; no auto-fill-mode
-(turn-off-auto-fill)
+;; (turn-off-auto-fill)
 
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
 
 ;; Hooks
+(add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 (add-hook 'phyton-mode-hook #'whitespace-mode)
 (add-hook 'makefile-mode-hook #'whitespace-mode)
-(add-hook 'text-mode-hook #'visual-line-mode)
-;; (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
+;; (add-hook 'text-mode-hook #'visual-line-mode)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)

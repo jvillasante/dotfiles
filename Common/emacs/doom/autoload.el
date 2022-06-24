@@ -83,10 +83,10 @@ at least the fill column. Place the point after the comment box. http://irreal.o
 ;;;###autoload
 (defun +my/fill-or-unfill ()
     "Like `fill-paragraph', but unfill if used twice.
-  (https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html)"
+  (https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html.)"
     (interactive)
     (let ((fill-column
-              (if (eq last-command 'endless/fill-or-unfill)
+              (if (eq last-command '+my/fill-or-unfill)
                   (progn (setq this-command nil)
                       (point-max))
                   fill-column)))
