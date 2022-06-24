@@ -163,6 +163,20 @@
     (setq-default fill-column 132)
     (global-display-fill-column-indicator-mode))
 
+;; hippie expand is dabbrev expand on steroids
+(setq hippie-expand-try-functions-list
+    '(yas-hippie-try-expand
+         try-expand-dabbrev
+         try-expand-dabbrev-all-buffers
+         try-expand-dabbrev-from-kill
+         try-complete-file-name-partially
+         try-complete-file-name
+         try-expand-all-abbrevs
+         try-expand-list
+         try-expand-line
+         try-complete-lisp-symbol-partially
+         try-complete-lisp-symbol))
+
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
 

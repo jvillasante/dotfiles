@@ -2,11 +2,14 @@
 
 ;;;; Global & plugin bindings
 (map!
-    "C-x C-m" #'execute-extended-command ;; ALT may or may not be available
-    "C-c C-m" #'execute-extended-command ;; ALT may or may not be available
-    "C-c u" #'browse-url-at-point        ;; browse url with default browser
-    "C-x k" #'kill-this-buffer           ;; kill buffer without prompt
-    "C-x K" #'kill-buffer                ;; prompt for buffer to kill
+    "C-x C-m" #'execute-extended-command  ;; ALT may or may not be available
+    "C-c C-m" #'execute-extended-command  ;; ALT may or may not be available
+    "C-c u"   #'browse-url-at-point       ;; browse url with default browser
+    "C-x k"   #'kill-this-buffer          ;; kill buffer without prompt
+    "C-x K"   #'kill-buffer               ;; prompt for buffer to kill
+
+    ;;;; hippie-expand is a better dabbrev
+    [remap dabbrev-expand] #'hippie-expand
 
     ;;;; fill-unfill
     [remap fill-paragraph] #'+my/fill-or-unfill
