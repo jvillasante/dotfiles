@@ -268,8 +268,6 @@
     (setq lsp-ui-imenu-enable t))
 
 (after! eglot
-    (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
-    (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
     (setq eldoc-echo-area-use-multiline-p nil)
     (setq eglot-extend-to-xref t)
     (add-to-list 'eglot-server-programs

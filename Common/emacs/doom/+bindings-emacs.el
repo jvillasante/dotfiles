@@ -8,6 +8,9 @@
     "C-x k"   #'kill-this-buffer          ;; kill buffer without prompt
     "C-x K"   #'kill-buffer               ;; prompt for buffer to kill
 
+    ;;;; zap
+    "M-S-z" #'zap-up-to-char ;; New in Emacs 28
+
     ;;;; hippie-expand is a better dabbrev
     [remap dabbrev-expand] #'hippie-expand
 
