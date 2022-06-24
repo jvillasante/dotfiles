@@ -20,6 +20,9 @@
     (after! undo-tree
         (global-undo-tree-mode -1)))
 
+(after! vterm
+    (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh")))
+
 (after! persp-mode
     (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
