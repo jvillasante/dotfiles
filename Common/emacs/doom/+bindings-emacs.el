@@ -93,9 +93,11 @@
         "p" nil ;; unbind project drawer
         "P" nil ;; unbind project drawer
 
-        :desc "iElm" "i"       #'ielm
-        :desc "Calc" "c"       #'calc
+        :desc "Calc"       "c" #'calc
         :desc "Quick Calc" "C" #'quick-calc
+        :desc "Elfeed"     "e" #'elfeed
+        :desc "iElm"       "i" #'ielm
+        :desc "Mu4e"       "m" #'mu4e
         (:when (featurep! :ui neotree)
             :desc "Toggle Neotree"       "n" #'neotree-toggle
             :desc "Find file in Neotree" "N" #'+neotree/find-this-file)
@@ -110,11 +112,7 @@
             :desc "Insert a new ENTRY containing PASSWORD"    "i" #'password-store-insert
             :desc "Generate a new password for ENTRY"         "g" #'password-store-generate
             :desc "Rename ENTRY to NEW-ENTRY"                 "r" #'password-store-rename
-            :desc "Remove existing password for ENTRY"        "R" #'password-store-remove)
-        (:prefix-map ("a" . "Application")
-            :desc "Mu4e"               "m" #'mu4e
-            :desc "Elfeed Rss Reader"  "f" #'elfeed
-            :desc "Deft"               "n" #'deft))
+            :desc "Remove existing password for ENTRY"        "R" #'password-store-remove))
 
     (:prefix-map ("c" . "Code")
         :desc "Make run"                  "m" #'+make/run
