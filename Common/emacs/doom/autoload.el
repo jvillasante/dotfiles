@@ -82,8 +82,8 @@ at least the fill column. Place the point after the comment box. http://irreal.o
 
 ;;;###autoload
 (defun +my/fill-or-unfill ()
-    "Like `fill-paragraph', but unfill if used twice.
-  (https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html.)"
+    ;; https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html.
+    "Like `fill-paragraph', but unfill if used twice."
     (interactive)
     (let ((fill-column
               (if (eq last-command '+my/fill-or-unfill)
@@ -93,9 +93,17 @@ at least the fill column. Place the point after the comment box. http://irreal.o
         (call-interactively #'fill-paragraph)))
 
 ;;;###autoload
+(defun +my/fill-buffer ()
+    (interactive)
+    (save-excursion
+        (save-restriction
+            (widen)
+            (fill-region (point-min) (point-max)))))
+
+;;;###autoload
 (defun +my/unfill-paragraph (&optional region)
-    "Takes a multi-line paragraph and makes it into a single line of text.
-     (https://www.emacswiki.org/emacs/UnfillParagraph.)"
+    ;; https://www.emacswiki.org/emacs/UnfillParagraph.
+    "Takes a multi-line paragraph and makes it into a single line of text."
     (interactive (progn (barf-if-buffer-read-only) '(t)))
     (let ((fill-column (point-max))
              ;; This would override `fill-column' if it's an integer.
@@ -104,17 +112,18 @@ at least the fill column. Place the point after the comment box. http://irreal.o
 
 ;;;###autoload
 (defun +my/unfill-region (beg end)
+    ;; https://www.emacswiki.org/emacs/UnfillRegion.
     "Unfill the region, joining text paragraphs into a single
     logical line.  This is useful, e.g., for use with
-    `visual-line-mode' (https://www.emacswiki.org/emacs/UnfillRegion.)"
+    `visual-line-mode'"
     (interactive "*r")
     (let ((fill-column (point-max)))
         (fill-region beg end)))
 
 ;;;###autoload
 (defun +my/unfill-buffer ()
-    "Undo filling for all paragraphs
-     (https://www.emacswiki.org/emacs/UndoFilling.) "
+    ;; https://www.emacswiki.org/emacs/UndoFilling.
+    "Undo filling for all paragraphs."
     (interactive)
     (goto-char (point-min))
     (let ((fill-column 99999))
