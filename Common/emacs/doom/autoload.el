@@ -81,11 +81,44 @@ at least the fill column. Place the point after the comment box. http://irreal.o
     (load-theme theme t))
 
 ;;;###autoload
-(defun +my/org-capture-inbox ()
+(defun +my/fill-or-unfill ()
+    "Like `fill-paragraph', but unfill if used twice.
+  (https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html)"
     (interactive)
-    (org-capture nil "i"))
+    (let ((fill-column
+              (if (eq last-command 'endless/fill-or-unfill)
+                  (progn (setq this-command nil)
+                      (point-max))
+                  fill-column)))
+        (call-interactively #'fill-paragraph)))
 
 ;;;###autoload
-(defun +my/org-capture-notes()
+(defun +my/unfill-paragraph (&optional region)
+    "Takes a multi-line paragraph and makes it into a single line of text.
+     (https://www.emacswiki.org/emacs/UnfillParagraph.)"
+    (interactive (progn (barf-if-buffer-read-only) '(t)))
+    (let ((fill-column (point-max))
+             ;; This would override `fill-column' if it's an integer.
+             (emacs-lisp-docstring-fill-column t))
+        (fill-paragraph nil region)))
+
+;;;###autoload
+(defun +my/unfill-region (beg end)
+    "Unfill the region, joining text paragraphs into a single
+    logical line.  This is useful, e.g., for use with
+    `visual-line-mode' (https://www.emacswiki.org/emacs/UnfillRegion.)"
+    (interactive "*r")
+    (let ((fill-column (point-max)))
+        (fill-region beg end)))
+
+;;;###autoload
+(defun +my/unfill-buffer ()
+    "Undo filling for all paragraphs
+     (https://www.emacswiki.org/emacs/UndoFilling.) "
     (interactive)
-    (org-capture nil "n"))
+    (goto-char (point-min))
+    (let ((fill-column 99999))
+        (fill-paragraph nil)
+        (while (< (point) (point-max))
+            (forward-paragraph)
+            (fill-paragraph nil))))

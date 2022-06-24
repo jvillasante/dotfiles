@@ -8,9 +8,10 @@
     "C-x k" #'kill-this-buffer           ;; kill buffer without prompt
     "C-x K" #'kill-buffer                ;; prompt for buffer to kill
 
-    ;;;; easy-kill (not using this ATM)
-    ;; [remap kill-ring-save] 'easy-kill
-    ;; [remap mark-sexp] #'easy-mark
+    ;;;; fill-unfill
+    [remap fill-paragraph] #'+my/fill-or-unfill
+    "M-Q"                  #'+my/unfill-paragraph
+    "C-M-Q"                #'+my/unfill-region
 
     ;;;; avy
     "C-," #'avy-goto-char-timer ;; most useful avy function

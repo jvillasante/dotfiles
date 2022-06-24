@@ -11,20 +11,17 @@
     ggtags
     ccls)
 
-;; theme
+;; modus-themes : modus-operandi & modus-vivendi themes
 (package! modus-themes)
 
-;; modeline
+;; mini-modeline : Allows to display mode line information in minibuffer.
 (package! mini-modeline)
 
-;; whole-line-or-region for nice C-w/M-w
+;; whole-line-or-region : In Emacs, operate on the current line if no region is active
 (package! whole-line-or-region)
 
-;; rmsbolt (A supercharged implementation of the godbolt compiler-explorer for Emacs.)
-(package! rmsbolt :recipe
-    (:host gitlab
-        :repo "jgkamat/rmsbolt"
-        :files (:defaults "starters")))
+;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
+(package! crux)
 
 ;; dired
 (package! dired-quick-sort)
@@ -34,7 +31,6 @@
 
 ;; others
 (package! ibuffer-vc)
-(package! crux)
 (package! super-save)
 (package! tldr)
 (package! zeal-at-point)
