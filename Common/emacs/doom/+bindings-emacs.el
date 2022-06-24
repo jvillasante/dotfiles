@@ -12,6 +12,9 @@
     [remap fill-paragraph] #'+my/fill-or-unfill
     "M-Q"                  #'+my/unfill-paragraph
     "C-M-Q"                #'+my/unfill-region
+    (:after org
+        :map org-mode-map
+        [remap fill-paragraph] #'+my/org-fill-or-unfill)
 
     ;;;; avy
     "C-," #'avy-goto-char-timer ;; most useful avy function

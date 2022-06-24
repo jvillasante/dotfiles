@@ -30,19 +30,6 @@
     (aset buffer-display-table ?\^M ?\^M))
 
 ;;;###autoload
-(defun +my/comment-box (b e)
-    "Draw a box comment around the region but arrange for the region to extend to
-at least the fill column. Place the point after the comment box. http://irreal.org/blog/?p=374 "
-    (interactive "r")
-    (let ((e (copy-marker e t)))
-        (goto-char b)
-        (end-of-line)
-        (insert-char ?  (- fill-column (current-column)))
-        (comment-box b e 1)
-        (goto-char e)
-        (set-marker e nil)))
-
-;;;###autoload
 (defun +my/bury-compile-buffer-if-successful (buffer string)
     "Bury a compilation buffer if succeeded without warnings "
     (when (and
@@ -91,6 +78,18 @@ at least the fill column. Place the point after the comment box. http://irreal.o
                       (point-max))
                   fill-column)))
         (call-interactively #'fill-paragraph)))
+
+;;;###autoload
+(defun +my/org-fill-or-unfill ()
+    ;; https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html.
+    "Like `org-fill-paragraph', but unfill if used twice."
+    (interactive)
+    (let ((fill-column
+              (if (eq last-command '+my/org-fill-or-unfill)
+                  (progn (setq this-command nil)
+                      (point-max))
+                  fill-column)))
+        (call-interactively #'org-fill-paragraph)))
 
 ;;;###autoload
 (defun +my/fill-buffer ()

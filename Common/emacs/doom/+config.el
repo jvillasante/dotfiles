@@ -45,11 +45,8 @@
 (setq-default
     delete-by-moving-to-trash t      ; Delete files to trash
     window-combination-resize t      ; take new window space from all other windows (not just current)
+    delete-trailing-lines t          ; `M-x delete-trailing-whitespace' deletes trailing lines
     x-stretch-cursor nil)            ; Stretch cursor to the glyph width
-
-(setq-default
-    fill-column 120
-    delete-trailing-lines t)
 
 (setq
     undo-limit 80000000               ; Raise undo-limit to 80Mb
@@ -161,8 +158,10 @@
 ;; Toggle visualization of matching parens
 (setq show-paren-mode 1)
 
-;; no auto-fill-mode
-;; (turn-off-auto-fill)
+;; filling
+(progn
+    (setq-default fill-column 132)
+    (global-display-fill-column-indicator-mode))
 
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
