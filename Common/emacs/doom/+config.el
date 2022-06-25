@@ -160,8 +160,7 @@
 
 ;; filling
 (progn
-    (setq-default fill-column 132)
-    (global-display-fill-column-indicator-mode))
+    (setq-default fill-column 132))
 
 ;; hippie expand is dabbrev expand on steroids
 (setq hippie-expand-try-functions-list
@@ -184,5 +183,5 @@
 (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 (add-hook 'phyton-mode-hook #'whitespace-mode)
 (add-hook 'makefile-mode-hook #'whitespace-mode)
-;; (add-hook 'text-mode-hook #'visual-line-mode)
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(remove-hook 'text-mode-hook #'turn-on-auto-fill)    ;; auto-fill insert hard line breaks
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
