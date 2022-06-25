@@ -98,13 +98,14 @@
         :desc "Elfeed"     "e" #'elfeed
         :desc "iElm"       "i" #'ielm
         :desc "Mu4e"       "m" #'mu4e
+        :desc "Proceed"    "p" #'proced
         (:when (featurep! :ui neotree)
             :desc "Toggle Neotree"       "n" #'neotree-toggle
             :desc "Find file in Neotree" "N" #'+neotree/find-this-file)
         (:when (featurep! :ui treemacs)
             :desc "Toggle Treemacs"       "n" #'treemacs
             :desc "Doom toggle Treemacs"  "N" #'+treemacs/toggle)
-        (:prefix-map ("p" . "Password Store")
+        (:prefix-map ("P" . "Password Store")
             :desc "Clear secret in the kill ring"             "C" #'password-store-clear
             :desc "Add password for ENTRY into the kill ring" "c" #'password-store-copy
             :desc "Add FIELD for ENTRY into the kill ring"    "f" #'password-store-copy-field

@@ -350,6 +350,7 @@
     (setq dired-dwim-target t) ;; makes dired guess the target directory
     (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
     (setq projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
+    (setq wdired-allow-to-change-permissions t) ;; allow to edit permissions in wdired
 
     (let ((gls "/usr/local/bin/gls"))
         (if (file-exists-p gls) (setq insert-directory-program gls)))
