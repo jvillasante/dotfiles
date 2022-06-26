@@ -9,6 +9,9 @@
     doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16.0)
     doom-serif-font (font-spec :family "IBM Plex Serif" :size 14.0))
 
+;; Emacs 29 improved scrolling
+(pixel-scroll-precision-mode)
+
 ;; Dash highlighting
 (after! dash
     (global-dash-fontify-mode))
