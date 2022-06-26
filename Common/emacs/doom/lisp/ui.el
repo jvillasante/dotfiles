@@ -1,4 +1,4 @@
-;;; +ui.el -*- lexical-binding: t; -*-
+;;; lisp/ui.el -*- lexical-binding: t; -*-
 
 ;; font
 (setq
@@ -92,4 +92,4 @@
 (after! pass (set-popup-rule! "^\\*Password-Store*" :side 'left :size 0.35 :quit nil))
 
 ;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
-(load! "+ui-modus-exporter.el")
+(load! "site-lisp/ui-modus-exporter.el")

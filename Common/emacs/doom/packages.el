@@ -31,7 +31,6 @@
 
 ;; others
 (package! ibuffer-vc)
-(package! super-save)
 (package! tldr)
 (package! zeal-at-point)
 (package! password-store)

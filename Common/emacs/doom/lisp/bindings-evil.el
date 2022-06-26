@@ -1,4 +1,4 @@
-;;; +bindings-vim.el --- Evil Emacs oriented keybindings -*- lexical-binding: t; -*-
+;;; lisp/bindings-vim.el --- Evil Emacs Keybindings -*- lexical-binding: t; -*-
 
 (map!
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

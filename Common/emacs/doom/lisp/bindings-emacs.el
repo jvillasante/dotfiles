@@ -1,4 +1,4 @@
-;;; +bindings-emacs.el --- Vanilla Emacs oriented bindings -*- lexical-binding: t; -*-
+;;; lisp/bindings-emacs.el --- Vanilla Emacs Keybindings -*- lexical-binding: t; -*-
 
 ;;;; Global & plugin bindings
 (map!
@@ -130,4 +130,3 @@
         :desc "Find deft file" "d" #'deft-find-file
         :desc "Open deft"      "D" #'deft)
     )
-

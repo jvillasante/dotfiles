@@ -14,7 +14,6 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
-(load! "+early-init.el")
 (doom!
     :input
     ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
@@ -202,8 +201,4 @@
 
     :config
     ;;literate
-    (default +bindings +smartparens)
-
-    :private
-    ;; my-eshell
-    my-cc)
+    (default +bindings +smartparens))

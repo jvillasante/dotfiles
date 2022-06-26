@@ -1,7 +1,57 @@
-;;; +config.el -*- lexical-binding: t; -*-
+;;; lisp/init.el -*- lexical-binding: t; -*-
+
+(setq user-full-name "Julio C. Villasante"
+    user-mail-address "jvillasantegomez@gmail.com"
+    user-login-name "jvillasante"
+    +my/home-path (expand-file-name "~/")
+    +my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" +my/home-path)
+    +my/software-path (expand-file-name "Workspace/Software/" +my/home-path)
+    +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path)
+    +my/splash-path (expand-file-name "Misc/splash/emacs-logo.png" +my/dotfiles-path))
+
+(cond
+    (IS-MAC
+        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+        (setq browse-url-browser-function 'browse-url-generic
+            browse-url-generic-program "open")
+        (setq +my/clang-path "/usr/local/opt/llvm/bin/clang"
+            +my/mu-path "/usr/local/bin/mu"
+            +my/msmtp-path "/usr/local/bin/msmtp"
+            vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
+        (setq ns-use-proxy-icon       nil
+            ns-use-thin-smoothing     t
+            ns-alternate-modifier     nil
+            mac-command-modifier      'meta
+            mac-option-modifier       'alt
+            mac-right-option-modifier 'alt))
+    (IS-LINUX
+        (setq browse-url-browser-function 'browse-url-generic
+            browse-url-generic-program "xdg-open")
+        (setq +my/clang-path "/usr/bin/clang"
+            +my/mu-path "/usr/bin/mu"
+            +my/msmtp-path "/usr/bin/msmtp"
+            vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
+
+;; Start maximized
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
+;; Select and raise the frame, always
+(select-frame-set-input-focus (selected-frame))
+
+;; Prevents some cases of Emacs flickering
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+
+;; org-directory needs to be set early
+(setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
+
+;; Don’t compact font caches during GC.
+(setq inhibit-compacting-font-caches t)
 
 ;; disable risky local variables warning
 (advice-add 'risky-local-variable-p :override #'ignore)
+
+;; emacs does not need a pager
+(setenv "PAGER" "cat")
 
 ;; frame title
 (setq-default frame-title-format
@@ -35,9 +85,6 @@
 (advice-add #'ispell-init-process :around #'doom-shut-up-a)
 (setq ispell-dictionary "en_US") ;; default dictionary
 
-;; Don't autosave files with default Emacs package (we'll use super-save package instead)
-(setq auto-save-default nil)
-
 ;;
 ;; Some default
 ;;
@@ -49,13 +96,10 @@
     x-stretch-cursor nil)            ; Stretch cursor to the glyph width
 
 (setq
-    undo-limit 80000000               ; Raise undo-limit to 80Mb
-    suggest-key-bindings nil          ; very annoying
-    auto-save-default t               ; Nobody likes to loose work, I certainly don't
-    password-cache-expiry nil)        ; I can trust my computers ... can't I?
-
-;; defaults
-(setq
+    undo-limit 80000000             ; Raise undo-limit to 80Mb
+    suggest-key-bindings nil        ; very annoying
+    auto-save-default t             ; Nobody likes to loose work, I certainly don't
+    password-cache-expiry nil       ; I can trust my computers ... can't I?
     major-mode 'fundamental-mode
     use-dialog-box nil
     vc-follow-symlinks t
@@ -159,8 +203,7 @@
 (setq show-paren-mode 1)
 
 ;; filling
-(progn
-    (setq-default fill-column 132))
+(setq-default fill-column 132)
 
 ;; hippie expand is dabbrev expand on steroids
 (setq hippie-expand-try-functions-list

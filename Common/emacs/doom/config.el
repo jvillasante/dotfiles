@@ -1,7 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+(load! "lisp/init")
+(load! "lisp/ui")
 
 (when (featurep! :editor evil)
     (after! evil
@@ -22,6 +22,26 @@
 
 (after! vterm
     (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh")))
+
+(after! eshell
+    (setq
+        ;; eshell-buffer-shorthand t ...  Can't see Bug#19391
+        eshell-highlight-prompt nil
+        eshell-scroll-to-bottom-on-input 'all
+        eshell-error-if-no-glob t
+        eshell-hist-ignoredups t
+        eshell-save-history-on-exit t
+        eshell-prefer-lisp-functions nil
+        eshell-destroy-buffer-when-process-dies t)
+
+    ;; Aliases
+    (add-hook 'eshell-mode-hook
+        (lambda ()
+            ;; The 'ls' executable requires the Gnu version on the Mac
+            (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                          "/usr/local/bin/gls"
+                          "/bin/ls")))
+                (eshell/alias "ll" (concat ls " -AlohG --color=always"))))))
 
 (after! persp-mode
     (setq persp-emacsclient-init-frame-behaviour-override "main"))
@@ -172,10 +192,36 @@
         ;; make aborting less annoying.
         (add-hook! evil-normal-state-entry #'company-abort)))
 
+(after! format
+    (setq +format-on-save-enabled-modes
+        '(not emacs-lisp-mode ; elisp's mechanisms are good enough
+             sql-mode         ; sqlformat is currently broken
+             tex-mode         ; latexindent is broken
+             latex-mode))
+
+    ;; Do not format with lsp, use `format` instead
+    (setq +format-with-lsp nil))
+
 (after! ws-butler
     (setq ws-butler-global-exempt-modes
         (append ws-butler-global-exempt-modes
             '(prog-mode org-mode))))
+
+(after! cc
+    (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
+    (c-set-offset 'innamespace 0)
+    (setq c-default-style "stroustrup"
+        c-basic-offset 4
+        indent-tabs-mode t)
+    (add-hook! c-mode-common-hook (c-toggle-auto-state 1))
+    (setq-default flycheck-c/c++-clang-executable +my/clang-path)
+    (setq-default flycheck-clang-standard-library "libc++")
+    (setq-default flycheck-clang-language-standard "c++20"))
 
 (after! python
     (setq python-shell-interpreter "python3"))
@@ -197,16 +243,6 @@
 
     (setq slime-default-lisp 'sbcl)
     (setq slime-net-coding-system 'utf-8-unix))
-
-(after! format
-    (setq +format-on-save-enabled-modes
-        '(not emacs-lisp-mode ; elisp's mechanisms are good enough
-             sql-mode         ; sqlformat is currently broken
-             tex-mode         ; latexindent is broken
-             latex-mode))
-
-    ;; Do not format with lsp, use `format` instead
-    (setq +format-with-lsp nil))
 
 ;; Rust hack!
 (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
@@ -536,12 +572,10 @@
     :config
     (whole-line-or-region-global-mode))
 
-(load! "+ui")
-(load! "+config")
 (if (featurep! :editor evil)
-    (load! "+bindings-evil")
-    (load! "+bindings-emacs"))
-(load! "+hydras")
+    (load! "lisp/bindings-evil")
+    (load! "lisp/bindings-emacs"))
+(load! "lisp/hydras")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

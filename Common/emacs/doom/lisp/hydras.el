@@ -1,4 +1,4 @@
-;;; +hydras.el -*- lexical-binding: t; -*-
+;;; lisp/hydras.el -*- lexical-binding: t; -*-
 
 (after! hydra
     ;; Hydra for dired
