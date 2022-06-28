@@ -26,7 +26,27 @@
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
 (delq! t custom-theme-load-path)
-(+my/switch-theme 'modus-operandi)
+(use-package! modus-themes
+    :init
+    (setq
+        ;; modus-themes-mode-line '(accented borderless)
+        modus-themes-bold-constructs nil
+        modus-themes-italic-constructs t
+        modus-themes-fringes 'subtle
+        modus-themes-tabs-accented t
+        modus-themes-subtle-line-numbers t
+        modus-themes-diffs 'desaturated
+        modus-themes-org-blocks 'tinted-background
+        modus-themes-region '(bg-only no-extend)
+        modus-themes-headings
+        '((1 . (monochrome variable-pitch 1.3))
+             (2 . (monochrome variable-pitch 1.2))
+             (3 . (monochrome variable-pitch 1.1))
+             (t . (monochrome))))
+    (modus-themes-load-themes)
+    :config
+    (+my/switch-theme 'modus-operandi)
+    :bind ("<f5>" . modus-themes-toggle))
 
 ;; modeline
 (use-package! mini-modeline
