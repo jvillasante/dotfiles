@@ -334,7 +334,7 @@
 (after! elfeed
     (setq elfeed-feeds
         '(;; General
-             "http://feeds.bbci.co.uk/news/rss.xml" ; BBC News
+             ;; "http://feeds.bbci.co.uk/news/rss.xml" ; BBC News
              ;; ycombinator
              "https://news.ycombinator.com/rss"
              ;; VPN
