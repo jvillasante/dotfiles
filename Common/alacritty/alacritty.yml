@@ -4,212 +4,212 @@
 # environment variables. Some entries may override variables
 # set by alacritty itself.
 env:
-  # TERM variable
-  #
-  # This value is used to set the `$TERM` environment variable for
-  # each instance of Alacritty. If it is not present, alacritty will
-  # check the local terminfo database and use `alacritty` if it is
-  # available, otherwise `xterm-256color` is used.
-  TERM: alacritty
+    # TERM variable
+    #
+    # This value is used to set the `$TERM` environment variable for
+    # each instance of Alacritty. If it is not present, alacritty will
+    # check the local terminfo database and use `alacritty` if it is
+    # available, otherwise `xterm-256color` is used.
+    TERM: alacritty
 
 window:
-  # Window dimensions (changes require restart)
-  #
-  # Specified in number of columns/lines, not pixels.
-  # If both are `0`, this setting is ignored.
-  dimensions:
-    columns: 140
-    lines: 30
+    # Window dimensions (changes require restart)
+    #
+    # Specified in number of columns/lines, not pixels.
+    # If both are `0`, this setting is ignored.
+    dimensions:
+        columns: 140
+        lines: 30
 
-  # Window position (changes require restart)
-  #
-  # Specified in number of pixels.
-  # If the position is not set, the window manager will handle the placement.
-  #position:
-  #  x: 0
-  #  y: 0
+    # Window position (changes require restart)
+    #
+    # Specified in number of pixels.
+    # If the position is not set, the window manager will handle the placement.
+    #position:
+    #  x: 0
+    #  y: 0
 
-  # Window padding (changes require restart)
-  #
-  # Blank space added around the window in pixels. This padding is scaled
-  # by DPI and the specified value is always added at both opposing sides.
-  padding:
-    x: 5
-    y: 1
+    # Window padding (changes require restart)
+    #
+    # Blank space added around the window in pixels. This padding is scaled
+    # by DPI and the specified value is always added at both opposing sides.
+    padding:
+        x: 5
+        y: 1
 
-  # Spread additional padding evenly around the terminal content.
-  dynamic_padding: true
+    # Spread additional padding evenly around the terminal content.
+    dynamic_padding: true
 
-  # Window decorations
-  #
-  # Values for `decorations`:
-  #     - full: Borders and title bar
-  #     - none: Neither borders nor title bar
-  #
-  # Values for `decorations` (macOS only):
-  #     - transparent: Title bar, transparent background and title bar buttons
-  #     - buttonless: Title bar, transparent background, but no title bar buttons
-  decorations: full
+    # Window decorations
+    #
+    # Values for `decorations`:
+    #     - full: Borders and title bar
+    #     - none: Neither borders nor title bar
+    #
+    # Values for `decorations` (macOS only):
+    #     - transparent: Title bar, transparent background and title bar buttons
+    #     - buttonless: Title bar, transparent background, but no title bar buttons
+    decorations: full
 
-  # Startup Mode (changes require restart)
-  #
-  # Values for `startup_mode`:
-  #   - Windowed
-  #   - Maximized
-  #   - Fullscreen
-  #
-  # Values for `startup_mode` (macOS only):
-  #   - SimpleFullscreen
-  startup_mode: Maximized
+    # Startup Mode (changes require restart)
+    #
+    # Values for `startup_mode`:
+    #   - Windowed
+    #   - Maximized
+    #   - Fullscreen
+    #
+    # Values for `startup_mode` (macOS only):
+    #   - SimpleFullscreen
+    startup_mode: Maximized
 
-  # Window title
-  title: Alacritty
+    # Window title
+    title: Alacritty
 
-  # Window class (Linux/BSD only):
-  class:
-    # Application instance name
-    instance: Alacritty
-    # General application class
-    general: Alacritty
+    # Window class (Linux/BSD only):
+    class:
+        # Application instance name
+        instance: Alacritty
+        # General application class
+        general: Alacritty
 
-  # GTK theme variant (Linux/BSD only)
-  #
-  # Override the variant of the GTK theme. Commonly supported values are `dark` and `light`.
-  # Set this to `None` to use the default theme variant.
-  gtk_theme_variant: None
+    # GTK theme variant (Linux/BSD only)
+    #
+    # Override the variant of the GTK theme. Commonly supported values are `dark` and `light`.
+    # Set this to `None` to use the default theme variant.
+    gtk_theme_variant: None
 
 scrolling:
-  # Maximum number of lines in the scrollback buffer.
-  # Specifying '0' will disable scrolling.
-  history: 10000
+    # Maximum number of lines in the scrollback buffer.
+    # Specifying '0' will disable scrolling.
+    history: 10000
 
-  # Number of lines the viewport will move for every line scrolled when
-  # scrollback is enabled (history > 0).
-  multiplier: 2
+    # Number of lines the viewport will move for every line scrolled when
+    # scrollback is enabled (history > 0).
+    multiplier: 2
 
 # Font configuration
 font:
-  # Normal (roman) font face
-  normal:
-    # Font family
+    # Normal (roman) font face
+    normal:
+        # Font family
+        #
+        # Default:
+        #   - (macOS) Menlo
+        #   - (Linux/BSD) monospac
+        #   - (Windows) Consolas
+        family: Iosevka Term
+        style: Regular
+
+    # Bold font face
+    bold:
+        # Font family
+        #
+        # If the bold family is not specified, it will fall back to the
+        # value specified for the normal font.
+        family: Iosevka Term
+        style: Bold
+
+    # Italic font face
+    italic:
+        # Font family
+        #
+        # If the italic family is not specified, it will fall back to the
+        # value specified for the normal font.
+        family: Iosevka Term
+        style: Italic
+
+    # Bold italic font face
+    bold_italic:
+        # Font family
+        #
+        # If the bold italic family is not specified, it will fall back to the
+        # value specified for the normal font.
+        family: Iosevka Term
+        style: Bold Italic
+
+    # Point size
+    size: 16.5
+
+    # Offset is the extra space around each character. `offset.y` can be thought of
+    # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
+    offset:
+        x: 0
+        y: 0
+
+    # Glyph offset determines the locations of the glyphs within their cells with
+    # the default being at the bottom. Increasing `x` moves the glyph to the right,
+    # increasing `y` moves the glyph upwards.
+    glyph_offset:
+        x: 0
+        y: 0
+
+    # Thin stroke font rendering (macOS only)
     #
-    # Default:
-    #   - (macOS) Menlo
-    #   - (Linux/BSD) monospac
-    #   - (Windows) Consolas
-    family: Iosevka Term
-    style: Regular
-
-  # Bold font face
-  bold:
-    # Font family
+    # Thin strokes are suitable for retina displays, but for non-retina screens
+    # it is recommended to set `use_thin_strokes` to `false`
     #
-    # If the bold family is not specified, it will fall back to the
-    # value specified for the normal font.
-    family: Iosevka Term
-    style: Bold
-
-  # Italic font face
-  italic:
-    # Font family
+    # macOS >= 10.14.x:
     #
-    # If the italic family is not specified, it will fall back to the
-    # value specified for the normal font.
-    family: Iosevka Term
-    style: Italic
-
-  # Bold italic font face
-  bold_italic:
-    # Font family
+    # If the font quality on non-retina display looks bad then set
+    # `use_thin_strokes` to `true` and enable font smoothing by running the
+    # following command:
+    #   `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
     #
-    # If the bold italic family is not specified, it will fall back to the
-    # value specified for the normal font.
-    family: Iosevka Term
-    style: Bold Italic
-
-  # Point size
-  size: 16.5
-
-  # Offset is the extra space around each character. `offset.y` can be thought of
-  # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
-  offset:
-    x: 0
-    y: 0
-
-  # Glyph offset determines the locations of the glyphs within their cells with
-  # the default being at the bottom. Increasing `x` moves the glyph to the right,
-  # increasing `y` moves the glyph upwards.
-  glyph_offset:
-    x: 0
-    y: 0
-
-  # Thin stroke font rendering (macOS only)
-  #
-  # Thin strokes are suitable for retina displays, but for non-retina screens
-  # it is recommended to set `use_thin_strokes` to `false`
-  #
-  # macOS >= 10.14.x:
-  #
-  # If the font quality on non-retina display looks bad then set
-  # `use_thin_strokes` to `true` and enable font smoothing by running the
-  # following command:
-  #   `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
-  #
-  # This is a global setting and will require a log out or restart to take
-  # effect.
-  # use_thin_strokes: false
+    # This is a global setting and will require a log out or restart to take
+    # effect.
+    # use_thin_strokes: false
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
 schemes:
-  modus_operandi: &light
-    primary:
-      background: "#ffffff"
-      foreground: "#000000"
-    cursor:
-      text: "#ffffff"
-      cursor: "#000000"
-    normal:
-      black: "#000000"
-      red: "#a60000"
-      green: "#005e00"
-      yellow: "#813e00"
-      blue: "#0031a9"
-      magenta: "#721045"
-      cyan: "#00538b"
-      white: "#bfbfbf"
-    bright:
-      black: "#595959"
-      red: "#972500"
-      green: "#315b00"
-      yellow: "#70480f"
-      blue: "#2544bb"
-      magenta: "#5317ac"
-      cyan: "#005a5f"
-      white: "#ffffff"
-  modus_vivendi: &dark
-    primary:
-      background: "#000000"
-      foreground: "#ffffff"
-    normal:
-      black: "#000000"
-      red: "#ff8059"
-      green: "#44bc44"
-      yellow: "#eecc00"
-      blue: "#2fafff"
-      magenta: "#feacd0"
-      cyan: "#00d3d0"
-      white: "#bfbfbf"
-    bright:
-      black: "#595959"
-      red: "#f4923b"
-      green: "#70c900"
-      yellow: "#cfdf30"
-      blue: "#79a8ff"
-      magenta: "#b6a0ff"
-      cyan: "#6ae4b9"
-      white: "#ffffff"
+    modus_operandi: &light
+        primary:
+            background: "#ffffff"
+            foreground: "#000000"
+        cursor:
+            text: "#ffffff"
+            cursor: "#000000"
+        normal:
+            black: "#000000"
+            red: "#a60000"
+            green: "#005e00"
+            yellow: "#813e00"
+            blue: "#0031a9"
+            magenta: "#721045"
+            cyan: "#00538b"
+            white: "#bfbfbf"
+        bright:
+            black: "#595959"
+            red: "#972500"
+            green: "#315b00"
+            yellow: "#70480f"
+            blue: "#2544bb"
+            magenta: "#5317ac"
+            cyan: "#005a5f"
+            white: "#ffffff"
+    modus_vivendi: &dark
+        primary:
+            background: "#000000"
+            foreground: "#ffffff"
+        normal:
+            black: "#000000"
+            red: "#ff8059"
+            green: "#44bc44"
+            yellow: "#eecc00"
+            blue: "#2fafff"
+            magenta: "#feacd0"
+            cyan: "#00d3d0"
+            white: "#bfbfbf"
+        bright:
+            black: "#595959"
+            red: "#f4923b"
+            green: "#70c900"
+            yellow: "#cfdf30"
+            blue: "#79a8ff"
+            magenta: "#b6a0ff"
+            cyan: "#6ae4b9"
+            white: "#ffffff"
 colors: *light
 
 # Visual Bell
@@ -254,29 +254,29 @@ colors: *light
 #dynamic_title: true
 
 cursor:
-  # Cursor style
-  #
-  # Values for `style`:
-  #   - ▇ Block
-  #   - _ Underline
-  #   - | Beam
-  style: Block
+    # Cursor style
+    #
+    # Values for `style`:
+    #   - ▇ Block
+    #   - _ Underline
+    #   - | Beam
+    style: Block
 
-  # Vi mode cursor style
-  #
-  # If the vi mode cursor style is `None` or not specified, it will fall back to
-  # the style of the active value of the normal cursor.
-  #
-  # See `cursor.style` for available options.
-  vi_mode_style: None
+    # Vi mode cursor style
+    #
+    # If the vi mode cursor style is `None` or not specified, it will fall back to
+    # the style of the active value of the normal cursor.
+    #
+    # See `cursor.style` for available options.
+    vi_mode_style: None
 
-  # If this is `true`, the cursor will be rendered as a hollow box when the
-  # window is not focused.
-  unfocused_hollow: true
+    # If this is `true`, the cursor will be rendered as a hollow box when the
+    # window is not focused.
+    unfocused_hollow: true
 
-  # Thickness of the cursor relative to the cell width as floating point number
-  # from `0.0` to `1.0`.
-  #thickness: 0.15
+    # Thickness of the cursor relative to the cell width as floating point number
+    # from `0.0` to `1.0`.
+    #thickness: 0.15
 
 # Live config reload (changes require restart)
 live_config_reload: true
@@ -291,18 +291,17 @@ live_config_reload: true
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
 shell:
-  program: /usr/bin/bash
-  args:
-    - -l
-    - -c
-    - "tmux attach || tmux new -s 0 -n Default"
+    program: /usr/bin/bash
+    args:
+        - -l
+        - -c
+        - "tmux attach || tmux new -s 0 -n Default"
 
 # Startup directory
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
 working_directory: None
-
 # WinPTY backend (Windows only)
 #
 # Alacritty defaults to using the newer ConPTY backend if it is available,
