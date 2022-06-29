@@ -618,7 +618,8 @@
         org-roam-completion-everywhere t))
 
 (after! org
-    (setq org-hide-emphasis-markers t
+    (setq org-return-follows-link  t
+        org-hide-emphasis-markers t
         org-startup-folded t))
 
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
