@@ -27,9 +27,11 @@
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
 (delq! t custom-theme-load-path)
 (use-package! modus-themes
+    :demand t
     :init
     (setq
         ;; modus-themes-mode-line '(accented borderless)
+        ;; modus-themes-syntax '(faint alt-syntax)
         modus-themes-bold-constructs nil
         modus-themes-italic-constructs t
         modus-themes-fringes 'subtle
@@ -50,6 +52,7 @@
 
 ;; modeline
 (use-package! mini-modeline
+    :demand t
     :init
     (setq mode-line-position (list "%l:%c %p"))
     (setq mode-line-modes (list "%m"))
