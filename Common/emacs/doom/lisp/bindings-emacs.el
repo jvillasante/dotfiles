@@ -23,7 +23,7 @@
         [remap fill-paragraph] #'+my/org-fill-or-unfill)
 
     ;;;; avy
-    "C-," #'avy-goto-char-timer ;; most useful avy function
+    "C-." #'avy-goto-char-timer ;; most useful avy function
 
     ;;;; expand-region
     "C-=" #'er/expand-region
@@ -45,6 +45,7 @@
         ;; Prevents issue where you have to press backspace twice when
         ;; trying to remove the first character that fails a search
         [remap isearch-delete-char] #'isearch-del-char
+
         ;; Better navigation
         "C-n" #'isearch-repeat-forward
         "C-p" #'isearch-repeat-backward)
