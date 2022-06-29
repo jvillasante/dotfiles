@@ -21,10 +21,6 @@
         (global-undo-tree-mode -1)))
 
 (after! isearch
-    ;; Prevents issue where you have to press backspace twice when
-    ;; trying to remove the first character that fails a search
-    (define-key isearch-mode-map [remap isearch-delete-char] 'isearch-del-char)
-
     (defadvice isearch-search (after isearch-no-fail activate)
         (unless isearch-success
             (ad-disable-advice 'isearch-search 'after 'isearch-no-fail)

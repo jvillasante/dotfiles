@@ -42,6 +42,10 @@
 
     (:after isearch
         :map isearch-mode-map
+        ;; Prevents issue where you have to press backspace twice when
+        ;; trying to remove the first character that fails a search
+        [remap isearch-delete-char] #'isearch-del-char
+        ;; Better navigation
         "C-n" #'isearch-repeat-forward
         "C-p" #'isearch-repeat-backward)
 
