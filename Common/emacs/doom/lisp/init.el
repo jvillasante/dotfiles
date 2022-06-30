@@ -222,6 +222,7 @@
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
 
+;; Add system-wide mu4e installation
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 
 ;; Hooks

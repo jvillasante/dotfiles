@@ -624,6 +624,12 @@
 
 (use-package! mu4e
     :config
+    (setq sendmail-program (executable-find "msmtp")
+        send-mail-function #'smtpmail-send-it
+        message-sendmail-f-is-evil t
+        message-sendmail-extra-arguments '("--read-envelope-from")
+        message-send-mail-function #'message-send-mail-with-sendmail)
+
     (set-email-account! "gmail"
         '((mu4e-sent-folder          . "/gmail/[Gmail]/Sent Mail")
              (mu4e-drafts-folder     . "/gmail/[Gmail]/Drafts")

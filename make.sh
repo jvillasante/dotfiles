@@ -117,7 +117,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME..."
-files=".bin .editorconfig .emacs-profiles.el .sbclrc .mbsyncrc"
+files=".bin .editorconfig .emacs-profiles.el .sbclrc .mbsyncrc .msmtprc"
 [ -n "$BASH_VERSION" ] && files+=" .bash_profile .bashrc"
 [ -n "$ZSH_VERSION" ] && files+=" .oh-my-zsh.d .zshenv .zshrc"
 for file in $files; do

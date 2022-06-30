@@ -102,6 +102,7 @@
         :desc "Quick Calc" "C" #'quick-calc
         :desc "Elfeed"     "e" #'elfeed
         :desc "iElm"       "i" #'ielm
+        :desc "mu4e"       "m" #'=mu4e
         :desc "Proceed"    "p" #'proced
         (:when (featurep! :ui neotree)
             :desc "Toggle Neotree"       "n" #'neotree-toggle
