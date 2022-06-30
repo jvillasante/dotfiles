@@ -11,6 +11,9 @@
     ggtags
     ccls)
 
+;; no alert for mu4e
+(package! mu4e-alert :disable t)
+
 ;; modus-themes : modus-operandi & modus-vivendi themes
 (package! modus-themes)
 

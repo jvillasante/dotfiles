@@ -622,6 +622,24 @@
         org-hide-emphasis-markers t
         org-startup-folded t))
 
+(after! mu4e
+    (set-email-account! "gmail"
+        '((mu4e-sent-folder          . "/gmail/[Gmail]/Sent Mail")
+             (mu4e-drafts-folder     . "/gmail/[Gmail]/Drafts")
+             (mu4e-trash-folder      . "/gmail/[Gmail]/Trash")
+             (mu4e-refile-folder     . "/gmail/[Gmail]/All Mail")
+             (smtpmail-smtp-user     . "jvillasantegomez@gmail.com")
+             (mu4e-compose-signature . "---\nRegards,\nJulio"))
+        t)
+    (set-email-account! "icloud"
+        '((mu4e-sent-folder          . "/icloud/Sent Messages")
+             (mu4e-drafts-folder     . "/icloud/Drafts")
+             (mu4e-trash-folder      . "/icloud/Deleted Messages")
+             (mu4e-refile-folder     . "/icloud/Archive")
+             (smtpmail-smtp-user     . "julio.villasante@icloud.com")
+             (mu4e-compose-signature . "---\nRegards,\nJulio"))
+        t))
+
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt
     :after org

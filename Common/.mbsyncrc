@@ -1,0 +1,57 @@
+#
+# gmail
+#
+IMAPAccount gmail
+Host imap.gmail.com
+User jvillasantegomez@gmail.com
+PassCmd "pass show Apps/mu4e-gmail | head -n1"
+Port 993
+SSLType IMAPS
+AuthMechs *
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+SubFolders Verbatim
+Path ~/.mail/gmail/
+Inbox ~/.mail/gmail/INBOX
+
+Channel gmail
+Far :gmail-remote:
+Near :gmail-local:
+Patterns *
+Create Near
+Sync All
+Expunge Both
+SyncState *
+
+#
+# iCloud
+#
+IMAPAccount icloud
+Host imap.mail.me.com
+User julio.villasante@icloud.com
+PassCmd "pass show Apps/mu4e-icloud | head -n1"
+Port 993
+SSLType IMAPS
+AuthMechs *
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore icloud-remote
+Account icloud
+
+MaildirStore icloud-local
+SubFolders Verbatim
+Path ~/.mail/icloud/
+Inbox ~/.mail/icloud/INBOX
+
+Channel icloud
+Far :icloud-remote:
+Near :icloud-local:
+Patterns *
+Create Near
+Sync All
+Expunge Both
+SyncState *

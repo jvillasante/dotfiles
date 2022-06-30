@@ -14,6 +14,9 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+;; (require 'mu4e)
+
 (doom!
     :input
     ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
@@ -187,7 +190,7 @@
     ;; (zig +lsp)        ; C, but simpler
 
     :email
-    ;;(mu4e +org +gmail)
+    (mu4e +org +gmail)
     ;;notmuch
     ;;(wanderlust +gmail)
 
