@@ -622,7 +622,8 @@
         org-hide-emphasis-markers t
         org-startup-folded t))
 
-(after! mu4e
+(use-package! mu4e
+    :config
     (set-email-account! "gmail"
         '((mu4e-sent-folder          . "/gmail/[Gmail]/Sent Mail")
              (mu4e-drafts-folder     . "/gmail/[Gmail]/Drafts")

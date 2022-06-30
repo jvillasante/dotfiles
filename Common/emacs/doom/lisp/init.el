@@ -222,6 +222,8 @@
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
 
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+
 ;; Hooks
 (add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 (add-hook 'phyton-mode-hook #'whitespace-mode)
