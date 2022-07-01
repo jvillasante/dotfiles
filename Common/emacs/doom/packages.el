@@ -36,7 +36,6 @@
 (package! ibuffer-vc)
 (package! tldr)
 (package! zeal-at-point)
-(package! password-store)
 (package! speed-type)
 
 ;; To install a package with Doom you must declare them here, run 'doom sync' on

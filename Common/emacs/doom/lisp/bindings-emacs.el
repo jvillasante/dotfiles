@@ -78,7 +78,7 @@
 
 ;;;; Leader key bindings (C-c)
 (map! :leader
-    (:prefix-map ("o" . "open")
+    (:prefix ("o" . "open")
         "p" nil ;; unbind project drawer
         "P" nil ;; unbind project drawer
 
@@ -92,7 +92,7 @@
             :desc "Toggle Treemacs"       "p" #'treemacs
             :desc "Doom toggle Treemacs"  "P" #'+treemacs/toggle))
 
-    (:prefix-map ("c" . "Code")
+    (:prefix ("c" . "Code")
         :desc "Make run"                  "m" #'+make/run
         :desc "Make run last"             "M" #'+make/run-last
         :desc "Lookup zeal documentation" "z" #'zeal-at-point
@@ -103,7 +103,7 @@
             :desc "Show" "m" #'lsp-ui-imenu
             :desc "Hide" "q" #'lsp-ui-imenu--kill))
 
-    (:prefix-map ("n" . "Notes")
+    (:prefix ("n" . "Notes")
         "d" nil ;; unbind deft
 
         :desc "Find deft file" "d" #'deft-find-file
