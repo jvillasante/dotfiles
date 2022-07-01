@@ -78,47 +78,19 @@
 
 ;;;; Leader key bindings (C-c)
 (map! :leader
-    (:prefix-map ("d" . "doom")
-        :desc "Dashboard"                 "d" #'+doom-dashboard/open
-        :desc "Reload Private Config"     "r" #'doom/reload
-        :desc "Recent files"              "f" #'recentf-open-files
-        :desc "Popup other"               "o" #'+popup/other
-        :desc "Popup toggle"              "t" #'+popup/toggle
-        :desc "Popup close"               "c" #'+popup/close
-        :desc "Popup close all"           "C" #'+popup/close-all
-        :desc "Popup raise"               "p" #'+popup/raise
-        :desc "Popup restore"             "P" #'+popup/restore
-        :desc "Scratch buffer"            "s" #'doom/open-scratch-buffer
-        :desc "Switch to scratch buffer"  "S" #'doom/switch-to-scratch-buffer
-        :desc "Sudo this file"            "u" #'doom/sudo-this-file
-        :desc "Sudo find file"            "U" #'doom/sudo-find-file
-        :desc "Toggle frame fullscreen"   "F" #'toggle-frame-fullscreen)
-
     (:prefix-map ("o" . "open")
         "p" nil ;; unbind project drawer
         "P" nil ;; unbind project drawer
 
         :desc "Calc"       "c" #'calc
         :desc "Quick Calc" "C" #'quick-calc
-        :desc "Elfeed"     "e" #'elfeed
-        :desc "iElm"       "i" #'ielm
-        :desc "mu4e"       "m" #'=mu4e
-        :desc "Proceed"    "p" #'proced
+        :desc "Elfeed"     "f" #'elfeed
         (:when (featurep! :ui neotree)
-            :desc "Toggle Neotree"       "n" #'neotree-toggle
-            :desc "Find file in Neotree" "N" #'+neotree/find-this-file)
+            :desc "Toggle Neotree"       "p" #'neotree-toggle
+            :desc "Find file in Neotree" "P" #'+neotree/find-this-file)
         (:when (featurep! :ui treemacs)
-            :desc "Toggle Treemacs"       "n" #'treemacs
-            :desc "Doom toggle Treemacs"  "N" #'+treemacs/toggle)
-        (:prefix-map ("P" . "Password Store")
-            :desc "Clear secret in the kill ring"             "C" #'password-store-clear
-            :desc "Add password for ENTRY into the kill ring" "c" #'password-store-copy
-            :desc "Add FIELD for ENTRY into the kill ring"    "f" #'password-store-copy-field
-            :desc "Edit password for ENTRY"                   "e" #'password-store-edit
-            :desc "Insert a new ENTRY containing PASSWORD"    "i" #'password-store-insert
-            :desc "Generate a new password for ENTRY"         "g" #'password-store-generate
-            :desc "Rename ENTRY to NEW-ENTRY"                 "r" #'password-store-rename
-            :desc "Remove existing password for ENTRY"        "R" #'password-store-remove))
+            :desc "Toggle Treemacs"       "p" #'treemacs
+            :desc "Doom toggle Treemacs"  "P" #'+treemacs/toggle))
 
     (:prefix-map ("c" . "Code")
         :desc "Make run"                  "m" #'+make/run
@@ -132,6 +104,8 @@
             :desc "Hide" "q" #'lsp-ui-imenu--kill))
 
     (:prefix-map ("n" . "Notes")
+        "d" nil ;; unbind deft
+
         :desc "Find deft file" "d" #'deft-find-file
         :desc "Open deft"      "D" #'deft)
     )
