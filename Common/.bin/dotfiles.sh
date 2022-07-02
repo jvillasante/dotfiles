@@ -75,7 +75,7 @@ function do_emacs() {
     case $1 in
         kill)
             if pgrep -x emacs >/dev/null; then
-                emacsclient --eval "(progn (save-some-buffers t) (setq kill-emacs-hook nil) (kill-emacs))"
+                emacsclient --eval '(kill-emacs)'
                 check $?
             fi
             ;;

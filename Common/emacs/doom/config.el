@@ -627,7 +627,6 @@
         'docker-image-run-custom-args
         `("^sm*" ("-v $HOME/Workspace/Projects/dmxs:/tmp/sm" . ,docker-image-run-default-args))))
 
-
 (use-package! mu4e
     :config
     (setq sendmail-program (executable-find "msmtp")
