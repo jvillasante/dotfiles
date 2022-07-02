@@ -4,7 +4,6 @@
 ;; disabled packages
 (disable-packages!
     doom-themes
-    doom-modeline
     solaire-mode
     elfeed-goodies
     irony
@@ -16,9 +15,6 @@
 
 ;; modus-themes : modus-operandi & modus-vivendi themes
 (package! modus-themes)
-
-;; mini-modeline : Allows to display mode line information in minibuffer.
-(package! mini-modeline)
 
 ;; whole-line-or-region : In Emacs, operate on the current line if no region is active
 (package! whole-line-or-region)

@@ -22,6 +22,9 @@
 ;; dashboard
 (setq fancy-splash-image +my/splash-path)
 
+;; all-the-icons
+(setq all-the-icons-scale-factor 1.1)
+
 ;; theme
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
 (add-hook 'after-init-hook #'doom-init-theme-h 'append)
@@ -30,15 +33,13 @@
     :demand t
     :init
     (setq
-        ;; modus-themes-mode-line '(accented borderless)
-        ;; modus-themes-syntax '(faint alt-syntax)
+        modus-themes-mode-line '(borderless)
         modus-themes-bold-constructs nil
         modus-themes-italic-constructs t
         modus-themes-fringes 'subtle
         modus-themes-tabs-accented t
         modus-themes-subtle-line-numbers t
         modus-themes-diffs 'desaturated
-        ;; modus-themes-org-blocks 'tinted-background
         modus-themes-region '(bg-only no-extend)
         modus-themes-headings
         '((1 . (monochrome variable-pitch 1.3))
@@ -51,34 +52,13 @@
     :bind ("<f5>" . modus-themes-toggle))
 
 ;; modeline
-(use-package! mini-modeline
-    :demand t
-    :init
-    (setq mode-line-position (list "%l:%c %p"))
-    (setq mode-line-modes (list "%m"))
-    (setq mini-modeline-enhance-visual t)
-    (setq mini-modeline-display-gui-line nil)
-    (setq mini-modeline-echo-duration 10)
-    (setq mini-modeline-right-padding 1)
-    (setq mini-modeline-l-format nil)
-    (setq mini-modeline-r-format
-        '("%e"
-             mode-line-front-space
-             mode-line-position
-             " "
-             mode-line-mule-info     ; Information on character sets, encodings, and other human-language details
-             mode-line-client        ; Identifies frames created by emacsclient
-             mode-line-modified      ; Modified and read-only status
-             mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
-             " "
-             mode-line-modes))
-    :config
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-            (lambda (frame)
-                (with-selected-frame frame
-                    (mini-modeline-mode t))))
-        (mini-modeline-mode t)))
+(after! doom-modeline
+    (setq doom-modeline-icon t)
+    (setq doom-modeline-height 1)
+    (custom-set-faces
+        '(mode-line ((t (:family "Iosevka" :height 0.9))))
+        '(mode-line-active ((t (:family "Iosevka" :height 0.9))))
+        '(mode-line-inactive ((t (:family "Iosevka" :height 0.9))))))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
