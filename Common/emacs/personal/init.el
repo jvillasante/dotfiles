@@ -165,7 +165,7 @@ There are two things you can do about this warning:
 
 ;; Prevent killing scratch buffer
 (with-current-buffer "*scratch*"
-	  (emacs-lock-mode 'kill))
+          (emacs-lock-mode 'kill))
 
 ;; Default font
 (if (daemonp)

@@ -38,7 +38,7 @@
         modus-themes-tabs-accented t
         modus-themes-subtle-line-numbers t
         modus-themes-diffs 'desaturated
-        modus-themes-org-blocks 'tinted-background
+        ;; modus-themes-org-blocks 'tinted-background
         modus-themes-region '(bg-only no-extend)
         modus-themes-headings
         '((1 . (monochrome variable-pitch 1.3))
