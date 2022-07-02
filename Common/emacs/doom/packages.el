@@ -5,6 +5,7 @@
 (disable-packages!
     doom-themes
     solaire-mode
+    ace-window
     elfeed-goodies
     irony
     ggtags

@@ -16,6 +16,9 @@
         (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
         (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)))
 
+;; enable repeat-mode, see: `describe-repeat-maps'
+(repeat-mode)
+
 (when noninteractive
     (after! undo-tree
         (global-undo-tree-mode -1)))
