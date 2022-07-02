@@ -5,9 +5,24 @@
     doom-font-increment 1
     doom-font (font-spec :family "Iosevka" :size 16.0)
     doom-big-font (font-spec :family "Iosevka" :size 18.0)
-    doom-variable-pitch-font (font-spec :family "IBM Plex Sans Condensed" :size 16.0)
+    doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16.0)
     doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16.0)
     doom-serif-font (font-spec :family "IBM Plex Serif" :size 14.0))
+
+;; frame title
+(setq-default frame-title-format
+    '(:eval
+         (format "%s@%s: %s"
+             (or (file-remote-p default-directory 'user)
+                 user-real-login-name)
+             (or (file-remote-p default-directory 'host)
+                 system-name)
+             (cond
+                 (buffer-file-truename
+                     (concat buffer-file-truename))
+                 (dired-directory
+                     (concat dired-directory))
+                 (t (buffer-name))))))
 
 ;; Emacs 29 improved scrolling
 (pixel-scroll-precision-mode)
@@ -53,12 +68,14 @@
 
 ;; modeline
 (after! doom-modeline
-    (setq doom-modeline-icon t)
-    (setq doom-modeline-height 1)
     (custom-set-faces
-        '(mode-line ((t (:family "Iosevka" :height 0.9))))
-        '(mode-line-active ((t (:family "Iosevka" :height 0.9))))
-        '(mode-line-inactive ((t (:family "Iosevka" :height 0.9))))))
+        '(mode-line ((t (:height 0.85))))
+        '(mode-line-active ((t (:height 0.85))))
+        '(mode-line-inactive ((t (:height 0.85)))))
+    (setq doom-modeline-minor-modes t)
+    (setq doom-modeline-icon nil)
+    (setq doom-modeline-height 1)
+    (minions-mode 1))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.

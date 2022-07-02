@@ -16,6 +16,9 @@
 ;; modus-themes : modus-operandi & modus-vivendi themes
 (package! modus-themes)
 
+;; minions : ...
+(package! minions)
+
 ;; whole-line-or-region : In Emacs, operate on the current line if no region is active
 (package! whole-line-or-region)
 
