@@ -1,6 +1,6 @@
 ;;; lisp/bindings-emacs.el --- Vanilla Emacs Keybindings -*- lexical-binding: t; -*-
 
-;;;; Global & plugin bindings
+;;; Global & plugin bindings
 (map!
     "C-x C-m" #'execute-extended-command  ;; ALT may or may not be available
     "C-c C-m" #'execute-extended-command  ;; ALT may or may not be available
@@ -8,13 +8,13 @@
     "C-x k"   #'kill-this-buffer          ;; kill buffer without prompt
     "C-x K"   #'kill-buffer               ;; prompt for buffer to kill
 
-    ;;;; zap
+    ;;; zap
     "M-S-z" #'zap-up-to-char ;; New in Emacs 28
 
-    ;;;; hippie-expand is a better dabbrev
+    ;;; hippie-expand is a better dabbrev
     [remap dabbrev-expand] #'hippie-expand
 
-    ;;;; fill-unfill
+    ;;; fill-unfill
     [remap fill-paragraph] #'+my/fill-or-unfill
     "M-Q"                  #'+my/unfill-paragraph
     "C-M-Q"                #'+my/unfill-region
@@ -22,7 +22,7 @@
         :map org-mode-map
         [remap fill-paragraph] #'+my/org-fill-or-unfill)
 
-    ;;;; windows
+    ;;; windows
     (:map ctl-x-4-map
         "t" #'+my/toggle-window-split)
 
@@ -31,13 +31,13 @@
             [remap other-window] #'other-window
             "M-o" #'ace-window))
 
-    ;;;; avy
+    ;;; avy
     "C-." #'avy-goto-char-timer ;; most useful avy function
 
-    ;;;; expand-region
+    ;;; expand-region
     "C-=" #'er/expand-region
 
-    ;;;; crux
+    ;;; crux
     "C-o" #'crux-smart-open-line
     "M-o" #'crux-smart-open-line-above
     "C-^" #'crux-top-join-line
@@ -68,6 +68,11 @@
             "C-/" #'undo-fu-only-undo
             "C-?" #'undo-fu-only-redo))
 
+    (:when (featurep! :term vterm)
+        (:after vterm
+            :map vterm-mode-map
+            "C-y" #'vterm-yank))
+
     (:after dired
         :map dired-mode-map
         "C-u o" #'crux-open-with)
@@ -85,7 +90,7 @@
         :desc "Elfeed quit"           "q"  #'elfeed-kill-buffer)
     )
 
-;;;; Leader key bindings (C-c)
+;;; Leader key bindings (C-c)
 (map! :leader
     (:prefix ("f" . "file")
         :desc "Emacs scratch buffer" "s" #'scratch-buffer)
