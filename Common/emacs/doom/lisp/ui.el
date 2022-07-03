@@ -48,7 +48,7 @@
     :demand t
     :init
     (setq
-        modus-themes-mode-line '(borderless)
+        modus-themes-mode-line '(borderless (padding 1) (height 0.9))
         modus-themes-bold-constructs nil
         modus-themes-italic-constructs t
         modus-themes-fringes 'subtle
@@ -70,12 +70,7 @@
 (after! doom-modeline
     (setq doom-modeline-icon nil)
     (setq doom-modeline-height 1)
-    (setq doom-modeline-lsp t)
-    (custom-set-faces
-        '(mode-line ((t (:height 0.9))))
-        '(mode-line-active ((t (:height 0.9))))
-        '(mode-line-inactive ((t (:height 0.9))))))
-
+    (setq doom-modeline-lsp t))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
