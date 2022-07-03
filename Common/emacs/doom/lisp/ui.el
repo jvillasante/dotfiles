@@ -70,7 +70,11 @@
 (after! doom-modeline
     (setq doom-modeline-icon nil)
     (setq doom-modeline-height 1)
-    (setq doom-modeline-lsp t))
+    (setq doom-modeline-lsp t)
+    (custom-set-faces
+        '(mode-line ((t (:height 0.9))))
+        '(mode-line-active ((t (:height 0.9))))
+        '(mode-line-inactive ((t (:height 0.9))))))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
