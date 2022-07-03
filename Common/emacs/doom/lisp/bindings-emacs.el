@@ -87,6 +87,9 @@
 
 ;;;; Leader key bindings (C-c)
 (map! :leader
+    (:prefix ("f" . "file")
+        :desc "Emacs scratch buffer" "s" #'scratch-buffer)
+
     (:prefix ("o" . "open")
         "p" nil ;; unbind project drawer
         "P" nil ;; unbind project drawer
