@@ -47,16 +47,6 @@
             buffer)))
 
 ;;;###autoload
-(defun +my/current-minor-modes ()
-    "Return the list of minor modes enabled in the current buffer."
-    (interactive)
-    (delq nil
-        (mapcar (lambda (mode)
-                    (if (and (boundp mode) (symbol-value mode))
-                        mode))
-            minor-mode-list)))
-
-;;;###autoload
 (defun +my/switch-theme (theme)
     "This interactive call is taken from `load-theme'."
     (interactive
@@ -66,6 +56,11 @@
                             (custom-available-themes))))))
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
+
+;;;###autoload
+(defun +my/comment-auto-fill ()
+    (setq-local comment-auto-fill-only-comments t)
+    (auto-fill-mode 1))
 
 ;;;###autoload
 (defun +my/fill-or-unfill ()
