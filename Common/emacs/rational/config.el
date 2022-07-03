@@ -4,14 +4,22 @@
 ;;; https://systemcrafters.net/live-streams/july-1-2022/
 
 ;;; Rational Modules
-(require 'rational-defaults)   ;;; Sane Defaults
-(require 'rational-ui)         ;;; User Interface
-;; (require 'rational-evil)       ;;; Evil?
-(require 'rational-completion) ;;; Completions and Actions
-(require 'rational-project)    ;;; Project Management
-(require 'rational-screencast) ;;; Presentations
-(require 'rational-ide)  ;;; IDE
-(require 'rational-lisp)  ;;; Lisp Editing
+(require 'rational-defaults)    ; Sensible default settings for Emacs
+(require 'rational-use-package) ; Configuration for `use-package`
+(require 'rational-updates)     ; Tools to upgrade Rational Emacs
+(require 'rational-completion)  ; selection framework based on `vertico`
+(require 'rational-ui)          ; Better UI experience (modeline etc.)
+(require 'rational-windows)     ; Window management configuration
+(require 'rational-editing)     ; Whitspace trimming, auto parens etc.
+;(require 'rational-evil)        ; An `evil-mode` configuration
+(require 'rational-org)         ; org-appear, clickable hyperlinks etc.
+(require 'rational-project)     ; built-in alternative to projectile
+(require 'rational-speedbar)    ; built-in file-tree
+;(require 'rational-screencast)  ; show current command and binding in modeline
+;(require 'rational-python)
+(require 'rational-lisp)
+(require 'rational-ide)
+(require 'rational-compile)
 
 ;;;; Misc
 (defconst +my/savefile-dir (expand-file-name "savefile" user-emacs-directory))
@@ -83,16 +91,33 @@
                             (custom-available-themes))))))
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
+
 (rational-package-install-package 'modus-themes)
-(setq modus-themes-italic-constructs t
-      modus-themes-bold-constructs nil
-      modus-themes-region '(bg-only no-extend))
-(modus-themes-load-themes);
+(setq
+    modus-themes-mode-line '(borderless (padding 1) (height 0.9))
+    modus-themes-bold-constructs nil
+    modus-themes-italic-constructs t
+    modus-themes-fringes 'subtle
+    modus-themes-tabs-accented t
+    modus-themes-subtle-line-numbers t
+    modus-themes-diffs 'desaturated
+    modus-themes-region '(bg-only no-extend)
+    modus-themes-headings
+    '((1 . (monochrome variable-pitch 1.3))
+         (2 . (monochrome variable-pitch 1.2))
+         (3 . (monochrome variable-pitch 1.1))
+         (t . (monochrome))))
+(modus-themes-load-themes)
 (+my/switch-theme 'modus-operandi)
 
 ;; modeline
-(rational-package-install-package 'minions)
-(add-hook 'doom-modeline-mode-hook 'minions-mode)
+(setq doom-modeline-icon nil)
+(setq doom-modeline-height 1)
+(setq doom-modeline-lsp t)
+(custom-set-faces
+    '(mode-line ((t (:height 0.9))))
+    '(mode-line-active ((t (:height 0.9))))
+    '(mode-line-inactive ((t (:height 0.9)))))
 
 ;; Set configuration variables
 (custom-set-variables '(rational-ui-display-line-numbers t)
