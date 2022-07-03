@@ -71,8 +71,6 @@
     (setq doom-modeline-icon nil)
     (setq doom-modeline-height 1)
     (setq doom-modeline-lsp t)
-    (setq doom-modeline-workspace-name t)
-    (setq doom-modeline-persp-name t)
     (custom-set-faces
         '(mode-line ((t (:height 0.9))))
         '(mode-line-active ((t (:height 0.9))))
