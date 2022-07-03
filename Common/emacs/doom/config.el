@@ -660,6 +660,7 @@
     (setq org-crypt-key nil)
     (setq org-crypt-key user-mail-address))
 
+;; better C-w and M-w
 (use-package! whole-line-or-region
     :config
     (whole-line-or-region-global-mode))
