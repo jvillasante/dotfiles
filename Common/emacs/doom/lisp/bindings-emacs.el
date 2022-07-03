@@ -22,6 +22,15 @@
         :map org-mode-map
         [remap fill-paragraph] #'+my/org-fill-or-unfill)
 
+    ;;;; windows
+    (:map ctl-x-4-map
+        "t" #'+my/toggle-window-split)
+
+    (:when (featurep! :ui window-select)
+        (:after ace-window
+            [remap other-window] #'other-window
+            "M-o" #'ace-window))
+
     ;;;; avy
     "C-." #'avy-goto-char-timer ;; most useful avy function
 

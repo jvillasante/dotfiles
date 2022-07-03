@@ -23,6 +23,9 @@
     (after! undo-tree
         (global-undo-tree-mode -1)))
 
+(after! which-key
+    (setq which-key-popup-type 'minibuffer))
+
 (after! isearch
     (defadvice isearch-search (after isearch-no-fail activate)
         (unless isearch-success
