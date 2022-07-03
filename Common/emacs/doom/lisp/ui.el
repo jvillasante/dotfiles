@@ -68,14 +68,16 @@
 
 ;; modeline
 (after! doom-modeline
-    (custom-set-faces
-        '(mode-line ((t (:height 0.85))))
-        '(mode-line-active ((t (:height 0.85))))
-        '(mode-line-inactive ((t (:height 0.85)))))
-    (setq doom-modeline-minor-modes t)
     (setq doom-modeline-icon nil)
     (setq doom-modeline-height 1)
-    (minions-mode 1))
+    (setq doom-modeline-lsp t)
+    (setq doom-modeline-workspace-name t)
+    (setq doom-modeline-persp-name t)
+    (custom-set-faces
+        '(mode-line ((t (:height 0.9))))
+        '(mode-line-active ((t (:height 0.9))))
+        '(mode-line-inactive ((t (:height 0.9))))))
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.

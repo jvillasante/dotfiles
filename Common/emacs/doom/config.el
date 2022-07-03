@@ -468,19 +468,7 @@
     (add-hook 'ediff-keymap-setup-hook '+my/add-d-to-ediff-mode-map))
 
 (after! magit
-    ;; Have magit-status go full screen and quit to previous configuration.
-    ;; Taken from http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
-    ;; and http://irreal.org/blog/?p=2253
-    (defadvice magit-status (around magit-fullscreen activate)
-        (window-configuration-to-register :magit-fullscreen)
-        ad-do-it
-        (delete-other-windows))
-    (defadvice magit-quit-window (after magit-restore-screen activate)
-        (jump-to-register :magit-fullscreen))
-
-    (setq
-        git-commit-summary-max-length 80
-        vc-handled-backends (delq 'Git vc-handled-backends)))
+    (setq git-commit-summary-max-length 80))
 
 (after! dired
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
