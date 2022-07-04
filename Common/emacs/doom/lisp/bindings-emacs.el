@@ -31,22 +31,21 @@
         "t" #'+my/toggle-window-split)
 
     (:when (featurep! :ui window-select)
-        (:after ace-window
+        (:when 'ace-window
             [remap other-window] #'other-window
             "M-o" #'ace-window))
 
     ;;; avy
-    (:after avy
+    (:when 'avy
         "C-." #'avy-goto-char-timer)
 
     ;;; expand-region
-    (:after expand-region
+    (:when 'expand-region
         "C-=" #'er/expand-region)
 
     ;;; crux
-    (:after crux
+    (:when 'crux
         "C-o" #'crux-smart-open-line
-        "M-o" #'crux-smart-open-line-above
         "C-^" #'crux-top-join-line
         "C-k" #'crux-smart-kill-line
         "C-x C-u" #'crux-upcase-region
@@ -71,13 +70,13 @@
 
     ;;; undo
     (:when (featurep! :emacs undo)
-        (:after undo-fu
+        (:when 'undo-fu
             "C-/" #'undo-fu-only-undo
             "C-?" #'undo-fu-only-redo))
 
     ;;; vterm
     (:when (featurep! :term vterm)
-        (:after vterm
+        (:when 'vterm
             :map vterm-mode-map
             "C-y" #'vterm-yank))
 
