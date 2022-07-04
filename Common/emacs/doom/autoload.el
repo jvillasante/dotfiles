@@ -58,6 +58,10 @@
     (load-theme theme t))
 
 ;;;###autoload
+(defun +my/save-all ()
+    (interactive) (save-some-buffers t))
+
+;;;###autoload
 (defun +my/comment-auto-fill ()
     (setq-local comment-auto-fill-only-comments t)
     (auto-fill-mode 1))
