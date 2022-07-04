@@ -1,12 +1,16 @@
 ;;; lisp/bindings-emacs.el --- Vanilla Emacs Keybindings -*- lexical-binding: t; -*-
 
-;;; Global & plugin bindings
+;;; Global bindings
 (map!
     "C-x C-m" #'execute-extended-command  ;; ALT may or may not be available
     "C-c C-m" #'execute-extended-command  ;; ALT may or may not be available
     "C-c u"   #'browse-url-at-point       ;; browse url with default browser
     "C-x k"   #'kill-this-buffer          ;; kill buffer without prompt
     "C-x K"   #'kill-buffer               ;; prompt for buffer to kill
+
+    ;;; suspend-frame does not work well with daemon
+    (:when (daemonp)
+        "C-z" nil)
 
     ;;; zap
     "M-S-z" #'zap-up-to-char ;; New in Emacs 28
@@ -32,23 +36,24 @@
             "M-o" #'ace-window))
 
     ;;; avy
-    "C-." #'avy-goto-char-timer ;; most useful avy function
+    (:after avy
+        "C-." #'avy-goto-char-timer)
 
     ;;; expand-region
-    "C-=" #'er/expand-region
+    (:after expand-region
+        "C-=" #'er/expand-region)
 
     ;;; crux
-    "C-o" #'crux-smart-open-line
-    "M-o" #'crux-smart-open-line-above
-    "C-^" #'crux-top-join-line
-    "C-k" #'crux-smart-kill-line
-    "C-x C-u" #'crux-upcase-region
-    "C-x C-l" #'crux-downcase-region
-    [remap kill-whole-line] #'crux-kill-whole-line
+    (:after crux
+        "C-o" #'crux-smart-open-line
+        "M-o" #'crux-smart-open-line-above
+        "C-^" #'crux-top-join-line
+        "C-k" #'crux-smart-kill-line
+        "C-x C-u" #'crux-upcase-region
+        "C-x C-l" #'crux-downcase-region
+        [remap kill-whole-line] #'crux-kill-whole-line)
 
-    (:when (daemonp)
-        "C-z" nil)   ;; suspend-frame does not work well with daemon
-
+    ;;; isearch
     (:after isearch
         :map isearch-mode-map
         ;; Prevents issue where you have to press backspace twice when
@@ -59,35 +64,33 @@
         "C-n" #'isearch-repeat-forward
         "C-p" #'isearch-repeat-backward)
 
+    ;;; smartparens
     (:after smartparens
         :map smartparens-mode-map
         "C-M-<backspace>" #'sp-backward-kill-sexp)
 
+    ;;; undo
     (:when (featurep! :emacs undo)
         (:after undo-fu
             "C-/" #'undo-fu-only-undo
             "C-?" #'undo-fu-only-redo))
 
+    ;;; vterm
     (:when (featurep! :term vterm)
         (:after vterm
             :map vterm-mode-map
             "C-y" #'vterm-yank))
 
+    ;;; dired
     (:after dired
         :map dired-mode-map
         "C-u o" #'crux-open-with)
 
-    (:after neotree
-        :map neotree-mode-map
-        :desc "Neotree stretch" [tab] #'neotree-stretch-toggle)
-
-    (:after elfeed
-        :map elfeed-search-mode-map
-        :desc "Elfeed update"         "U"  #'elfeed-update
-        :desc "Elfeed mark read"      "r"  #'elfeed-search-untag-all-unread
-        :desc "Elfeed mark unread"    "u"  #'elfeed-search-tag-all-unread
-        :desc "Elfed open in browser" "b"  #'elfeed-search-browse-url
-        :desc "Elfeed quit"           "q"  #'elfeed-kill-buffer)
+    ;;; neotree
+    (:when (featurep! :ui neotree)
+        (:after neotree
+            :map neotree-mode-map
+            :desc "Neotree stretch" [tab] #'neotree-stretch-toggle))
     )
 
 ;;; Leader key bindings (C-c)
