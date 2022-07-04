@@ -68,7 +68,7 @@
 
 ;; modeline
 (after! doom-modeline
-    (setq doom-modeline-icon nil)
+    (setq doom-modeline-icon t)
     (setq doom-modeline-height 1)
     (setq doom-modeline-lsp t)
     (custom-set-faces
