@@ -16,8 +16,7 @@ else
     # Split window into panes.
     split_v 80
     run_cmd "docker run --rm --interactive --tty --volume $HOME/Workspace/Work/Projects/dmxs:/tmp/sm \
-        -u $(id -u "${USER}"):$(id -g "${USER}") sm:latest /bin/bash"
-    run_cmd "cd /tmp/sm"
+        -u jenkins -w /tmp/sm --name dmxs sm:latest /bin/bash"
 
     # Set active pane.
     select_pane 2
