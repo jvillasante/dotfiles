@@ -30,23 +30,6 @@
     (aset buffer-display-table ?\^M ?\^M))
 
 ;;;###autoload
-(defun +my/bury-compile-buffer-if-successful (buffer string)
-    "Bury a compilation buffer if succeeded without warnings "
-    (when (and
-              (buffer-live-p buffer)
-              (string-match "compilation" (buffer-name buffer))
-              (string-match "finished" string)
-              (not
-                  (with-current-buffer buffer
-                      (goto-char (point-min))
-                      (search-forward "warning" nil t))))
-        (run-with-timer 2 nil
-            (lambda (buf)
-                (bury-buffer buf)
-                (delete-windows-on buf))
-            buffer)))
-
-;;;###autoload
 (defun +my/switch-theme (theme)
     "This interactive call is taken from `load-theme'."
     (interactive

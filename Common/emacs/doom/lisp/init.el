@@ -204,6 +204,20 @@
          try-complete-lisp-symbol-partially
          try-complete-lisp-symbol))
 
+;; compilation stuff
+(defun +my/notify-compilation-result(buffer msg)
+    "Notify that the compilation is finished,
+close the *compilation* buffer if the compilation is successful,
+and set the focus back to Emacs frame"
+    (if (string-match "^finished" msg)
+        (progn
+            (delete-windows-on buffer)
+            (message "Compilation Successful :-)"))
+        (message "Compilation Failed :-("))
+    (setq current-frame (car (car (cdr (current-frame-configuration)))))
+    (select-frame-set-input-focus current-frame))
+(add-to-list 'compilation-finish-functions '+my/notify-compilation-result)
+
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
 
@@ -211,7 +225,6 @@
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 
 ;; Hooks
-(add-hook 'compilation-finish-functions #'+my/bury-compile-buffer-if-successful)
 (add-hook 'phyton-mode-hook #'whitespace-mode)
 (add-hook 'makefile-mode-hook #'whitespace-mode)
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)    ;; auto-fill insert hard line breaks
