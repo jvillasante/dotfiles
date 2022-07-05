@@ -624,7 +624,8 @@
 
 (after! docker
     (add-to-list 'docker-image-run-custom-args
-        `("^sm*" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm" "-w /tmp/sm" . ,docker-image-run-default-args))))
+        `("^sm*"
+             ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm" "-w /tmp/sm" "--name dmxs" . ,docker-image-run-default-args))))
 
 (use-package! mu4e
     :config
