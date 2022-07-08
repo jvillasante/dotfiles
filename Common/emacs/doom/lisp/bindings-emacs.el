@@ -30,10 +30,10 @@
     (:map ctl-x-4-map
         "t" #'+my/toggle-window-split)
 
-    (:when (featurep! :ui window-select)
-        (:when 'ace-window
-            [remap other-window] #'other-window
-            "M-o" #'ace-window))
+    ;; (:when (featurep! :ui window-select)
+    ;;     (:when 'ace-window
+    ;;         [remap other-window] #'other-window
+    ;;         "M-o" #'ace-window))
 
     ;;; avy
     (:when 'avy

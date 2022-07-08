@@ -1,9 +1,9 @@
-;;; config.el ---  Emacs Configuration -*- lexical-binding: t; -*-
-;;;
+;;; config.el --- Emacs Configuration -*- lexical-binding: t; -*-
+;;
 ;;; https://github.com/SystemCrafters/rational-emacs
 ;;; https://systemcrafters.net/live-streams/july-1-2022/
 
-;;; Rational Modules
+;;;; Rational Modules
 (require 'rational-defaults)    ; Sensible default settings for Emacs
 (require 'rational-use-package) ; Configuration for `use-package`
 (require 'rational-updates)     ; Tools to upgrade Rational Emacs
@@ -11,20 +11,49 @@
 (require 'rational-ui)          ; Better UI experience (modeline etc.)
 (require 'rational-windows)     ; Window management configuration
 (require 'rational-editing)     ; Whitspace trimming, auto parens etc.
-;(require 'rational-evil)        ; An `evil-mode` configuration
+;;(require 'rational-evil)        ; An `evil-mode` configuration
 (require 'rational-org)         ; org-appear, clickable hyperlinks etc.
 (require 'rational-project)     ; built-in alternative to projectile
 (require 'rational-speedbar)    ; built-in file-tree
-;(require 'rational-screencast)  ; show current command and binding in modeline
-;(require 'rational-python)
+;;(require 'rational-screencast)  ; show current command and binding in modeline
+(require 'rational-python)
 (require 'rational-lisp)
 (require 'rational-ide)
 (require 'rational-compile)
+;;(require 'osx)
+
+;;;; Autoloads
+(load "autoload")
 
 ;;;; Misc
 (defconst +my/savefile-dir (expand-file-name "savefile" user-emacs-directory))
 (unless (file-exists-p +my/savefile-dir)
     (make-directory +my/savefile-dir)) ;; create the savefile dir if it doesn't exist
+
+;; frame title
+(setq-default frame-title-format
+    '(:eval
+         (format "%s@%s: %s"
+             (or (file-remote-p default-directory 'user)
+                 user-real-login-name)
+             (or (file-remote-p default-directory 'host)
+                 system-name)
+             (cond
+                 (buffer-file-truename
+                     (concat buffer-file-truename))
+                 (dired-directory
+                     (concat dired-directory))
+                 (t (buffer-name))))))
+
+;; store all backup and autosave files in the tmp dir
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
+;; encoding
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
 
 ;;; Defaults
 (progn
@@ -80,88 +109,8 @@
     (setq make-backup-files nil) ; Do not use backup files (filename~)
     (setq create-lockfiles nil)) ; Do not use lock files (.#filename)
 
-;;; User Interface
-;; theme
-(defun +my/switch-theme (theme)
-    "This interactive call is taken from `load-theme'."
-    (interactive
-        (list
-            (intern (completing-read "Load custom theme: "
-                        (mapcar 'symbol-name
-                            (custom-available-themes))))))
-    (mapc #'disable-theme custom-enabled-themes)
-    (load-theme theme t))
-
-(rational-package-install-package 'modus-themes)
-(setq
-    modus-themes-mode-line '(borderless (padding 1) (height 0.9))
-    modus-themes-bold-constructs nil
-    modus-themes-italic-constructs t
-    modus-themes-fringes 'subtle
-    modus-themes-tabs-accented t
-    modus-themes-subtle-line-numbers t
-    modus-themes-diffs 'desaturated
-    modus-themes-region '(bg-only no-extend)
-    modus-themes-headings
-    '((1 . (monochrome variable-pitch 1.3))
-         (2 . (monochrome variable-pitch 1.2))
-         (3 . (monochrome variable-pitch 1.1))
-         (t . (monochrome))))
-(modus-themes-load-themes)
-(+my/switch-theme 'modus-operandi)
-
-;; modeline
-(setq doom-modeline-icon nil)
-(setq doom-modeline-height 1)
-(setq doom-modeline-lsp t)
-(custom-set-faces
-    '(mode-line ((t (:height 0.9))))
-    '(mode-line-active ((t (:height 0.9))))
-    '(mode-line-inactive ((t (:height 0.9)))))
-
-;; Set configuration variables
-(custom-set-variables '(rational-ui-display-line-numbers t)
-                      '(doom-modeline-height 35))
-
-;;; Evil stuff
-;; Set configuration variables
-;; (custom-set-variables '(rational-evil-discourage-arrow-keys t)
-;;                       '(evil-want-C-u-scroll t))
-;; Set preferred key bindings
-;; (global-set-key (kbd "M-/") 'evilnc-comment-or-uncomment-lines)
-;; (global-set-key (kbd "C-M-u") 'universal-argument)
-
-;;; Completions and Actions
-(setq vertico-cycle t
-      vertico-count 15)
-;; (define-key vertico-map (kbd "C-f") 'vertico-exit)
-;; (define-key minibuffer-local-map (kbd "C-d") 'embark-act)
-;; (define-key project-prefix-map (kbd "g") 'consult-ripgrep)
-;; (global-set-key (kbd "C-M-j") 'consult-buffer)
-
-;;; Source Control
-(rational-package-install-package 'magit)
-(setq git-commit-summary-max-length 80
-      magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-(global-set-key (kbd "C-x g") #'magit-status)
-
-;;; Org Mode
-;; Turn on variable pitch for non-monospace fonts
-(variable-pitch-mode 1)
-
-;;; IDE
-(rational-package-install-package 'typescript-mode)
-
-;;; Shells
-(rational-package-install-package 'exec-path-from-shell)
-(when (daemonp) (exec-path-from-shell-initialize))
-(rational-package-install-package 'vterm)
-(setq vterm-shell "/usr/bin/bash"
-      vterm-max-scrollback 10000)
-(add-hook 'vterm-mode-hook (lambda ()
-                             (setq-local global-hl-line-mode nil)
-                             (display-line-numbers-mode nil)))
-(rational-package-install-package 'xterm-color)
+;;; repead-mode by default
+(repeat-mode)
 
 ;;; hippie expand is dabbrev expand on steroids
 (setq hippie-expand-try-functions-list
@@ -176,11 +125,221 @@
          try-complete-lisp-symbol-partially
          try-complete-lisp-symbol))
 
+;;; encryption
+;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
+(progn
+    (require 'epa-file)
+    (epa-file-enable)
+    (setq epa-file-encrypt-to user-mail-address
+        epa-file-select-keys 'silent
+        epa-file-cache-passphrase-for-symmetric-encryption nil)
+
+    (require 'org-crypt)
+    (org-crypt-use-before-save-magic)
+    (setq org-crypt-disable-auto-save nil
+        org-tags-exclude-from-inheritance (quote ("crypt"))
+        org-crypt-key nil
+        org-crypt-key user-mail-address))
+
+;;;; User Interface
+;;; theme
+(rational-package-install-package 'modus-themes)
+(with-eval-after-load "modus-themes"
+    (setq
+        modus-themes-mode-line '(borderless (padding 1) (height 0.9))
+        modus-themes-bold-constructs nil
+        modus-themes-italic-constructs t
+        modus-themes-fringes 'subtle
+        modus-themes-tabs-accented t
+        modus-themes-subtle-line-numbers t
+        modus-themes-diffs 'desaturated
+        modus-themes-region '(bg-only no-extend)
+        modus-themes-headings
+        '((1 . (monochrome variable-pitch 1.3))
+             (2 . (monochrome variable-pitch 1.2))
+             (3 . (monochrome variable-pitch 1.1))
+             (t . (monochrome)))))
+(modus-themes-load-themes)
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+        (lambda (frame)
+            (with-selected-frame frame
+                (+my/switch-theme 'modus-operandi)))) ;; OR (modus-themes-load-vivendi)
+    (+my/switch-theme 'modus-operandi)) ;; OR (modus-themes-load-vivendi))
+
+;;; modeline
+(with-eval-after-load "doom-modeline"
+    (setq doom-modeline-icon nil)
+    (setq doom-modeline-height 1)
+    (setq doom-modeline-lsp t)
+    (custom-set-faces
+        '(mode-line ((t (:height 0.9))))
+        '(mode-line-active ((t (:height 0.9))))
+        '(mode-line-inactive ((t (:height 0.9))))))
+
+(rational-package-install-package 'minions)
+(add-hook 'doom-modeline-mode-hook 'minions-mode)
+
+;; Emacs 29 improved scrolling
+(pixel-scroll-precision-mode)
+
+;;; line numbers
+(custom-set-variables
+    '(rational-ui-line-numbers-disabled-modes `(org-mode vterm-mode term-mode shell-mode eshell-mode))
+    '(rational-ui-display-line-numbers t))
+
+;; all-the-icons
+(setq all-the-icons-scale-factor 1.1)
+
+;;; which-key : display keybindings
+(rational-package-install-package 'which-key)
+(which-key-mode)
+
+;;;; Source Control
+(rational-package-install-package 'magit)
+(with-eval-after-load "magit"
+    (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+    (setq git-commit-summary-max-length 80))
+
+;;;; Org Mode
+(with-eval-after-load "org"
+    (setq org-return-follows-link  t
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t
+        org-startup-indented t
+        org-startup-folded t
+        org-hide-emphasis-markers t))
+(add-hook 'org-mode-hook
+    (lambda ()
+        ;; disable auto-pairing of "<" in org-mode
+        (setq-local electric-pair-inhibit-predicate
+            `(lambda (c) (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))
+        (add-to-list 'recentf-exclude ".*org$") ; Ignore org files from recentf due to agenda loading everything
+        (variable-pitch-mode)
+        (visual-line-mode)))
+
+;;;; IDE
+;; (rational-package-install-package 'typescript-mode)
+(rational-package-install-package 'yasnippet)
+
+;;;; c++ mode
+(use-package c++-mode
+    :ensure nil  ; Part of emacs
+    :mode ("\\.h\\'" "\\.cpp\\'" "\\.hpp\\'" "\\.hxx\\'" "\\.cxx\\'")
+    :config
+    (advice-add 'c-update-modeline :override #'ignore)) ;; Don't use a modeline suffix (i.e C++//l)
+
+;; C & C++
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.hxx\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cxx\\'" . c++-mode))
+(with-eval-after-load "c++-mode"
+    (c-set-offset 'innamespace 0)
+    (setq c-default-style "stroustrup"
+        c-basic-offset 4
+        indent-tabs-mode t))
+
+;; Rust
+(rational-package-install-package 'rustic)
+(with-eval-after-load "rustic"
+    (setq rustic-format-on-save nil
+        rustic-lsp-server 'rust-analyzer
+        lsp-rust-analyzer-cargo-watch-command "clippy"
+        lsp-rust-analyzer-inlay-hints-mode nil
+        lsp-rust-analyzer-server-display-inlay-hints nil))
+
+;; eglot
+(with-eval-after-load "eglot"
+    (setq eldoc-echo-area-use-multiline-p nil)
+    (setq eglot-extend-to-xref t)
+    (add-to-list 'eglot-server-programs
+        `(rust-mode . ("rust-analyzer"))
+        `(c-mode c++-mode
+             . ("/usr/bin/clangd"
+                   "-j=4"
+                   "--malloc-trim"
+                   "--log=error"
+                   "--background-index"
+                   "--clang-tidy"
+                   "--cross-file-rename"
+                   "--completion-style=detailed"
+                   "--pch-storage=memory"
+                   "--header-insertion=never"
+                   "--header-insertion-decorators=0"))))
+
+;;; Shells
+(rational-package-install-package 'exec-path-from-shell)
+(when (daemonp) (exec-path-from-shell-initialize))
+
+;; vterm is kind of nice (but I still prefer shell)
+(rational-package-install-package 'vterm)
+(with-eval-after-load "vterm"
+    (setq vterm-shell "/usr/bin/bash"
+        vterm-max-scrollback 10000)
+    (add-hook 'vterm-mode-hook
+        (lambda ()
+            (setq-local global-hl-line-mode nil)
+            (display-line-numbers-mode nil))))
+
+;; nice colors
+(rational-package-install-package 'xterm-color)
+
+;; eshell
+(with-eval-after-load "eshell"
+    (setq eshell-highlight-prompt nil
+        eshell-scroll-to-bottom-on-input 'all
+        eshell-error-if-no-glob t
+        eshell-hist-ignoredups t
+        eshell-save-history-on-exit t
+        eshell-prefer-lisp-functions nil
+        eshell-destroy-buffer-when-process-dies t)
+
+    ;; Aliases
+    (add-hook 'eshell-mode-hook
+        (lambda ()
+            ;; The 'ls' executable requires the Gnu version on the Mac
+            (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                          "/usr/local/bin/gls"
+                          "/bin/ls")))
+                (eshell/alias "ll" (concat ls " -AlohG --color=always"))))))
+
+;;;; Stuff
+;;; tramp
+(with-eval-after-load "tramp"
+    (setq tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
+    (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (setq tramp-password-prompt-regexp   ; Add verification code support.
+        (concat
+            "^.*"
+            (regexp-opt
+                '("passphrase" "Passphrase"
+                     "password" "Password"
+                     "Verification code")
+                t)
+            ".*:\0? *")))
+
 ;;; scratch buffer
 (with-current-buffer "*scratch*" (emacs-lock-mode 'kill))
 (rational-package-install-package 'persistent-scratch)
 (persistent-scratch-setup-default)
 (persistent-scratch-autosave-mode 1)
+
+;;; isearch
+(defadvice isearch-search (after isearch-no-fail activate)
+    (unless isearch-success
+        (ad-disable-advice 'isearch-search 'after 'isearch-no-fail)
+        (ad-activate 'isearch-search)
+        (isearch-repeat (if isearch-forward 'forward))
+        (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
+        (ad-activate 'isearch-search)))
 
 ;;; saveplace : remembers your location in a file when saving files
 (setq save-place-file (expand-file-name "saveplace" +my/savefile-dir))
@@ -188,36 +347,61 @@
 
 ;;; savehist : save minibuffer history
 (setq savehist-additional-variables
-      '(search-ring regexp-search-ring) ;; search entries
-      savehist-autosave-interval 60 ;; save every minute
-      savehist-file (expand-file-name "savehist" +my/savefile-dir)) ;; keep the home clean
+    '(search-ring regexp-search-ring) ;; search entries
+    savehist-autosave-interval 60 ;; save every minute
+    savehist-file (expand-file-name "savehist" +my/savefile-dir)) ;; keep the home clean
 (savehist-mode +1)
+
+;;; super-save : auto-saves your buffers, when certain events happen
+(rational-package-install-package 'super-save)
+(with-eval-after-load "super-save"
+    (when (fboundp 'ace-window) (add-to-list 'super-save-triggers 'ace-window))
+    (setq super-save-exclude '(".gpg")
+        super-save-auto-save-when-idle t
+        super-save-remote-files nil))
+(super-save-mode +1)
 
 ;;; recentf : recent files
 (setq recentf-save-file (expand-file-name "recentf" +my/savefile-dir)
-      recentf-max-saved-items 500
-      recentf-max-menu-items 15
-      recentf-auto-cleanup 'never)
+    recentf-max-saved-items 500
+    recentf-max-menu-items 15
+    recentf-auto-cleanup 'never)
+(push #'+org-is-agenda-file recentf-exclude)
+(push "~/Dropbox/Apps/elfeed" recentf-exclude)
+(push "~/.emacs.d" recentf-exclude)
+(push "~/.mail" recentf-exclude)
+(push "\\.git" recentf-exclude)
+(push "/tmp/" recentf-exclude)
+(push "/ssh:" recentf-exclude)
+(push "~/\\.emacs\\.d/.local" recentf-exclude)
+(push "~/mail" recentf-exclude)
+(push "/var" recentf-exclude)
+(push "/etc" recentf-exclude)
+(push "/usr" recentf-exclude)
+(push "\\.?ido\\.last$" recentf-exclude)
+(push "^/nix/store/" recentf-exclude)
+(push ".+\\.mp3$" recentf-exclude)
 (recentf-mode +1)
 
 ;;; dired : built-in navigation of folders
-(setq dired-ls-F-marks-symlinks t) ;; mark symlinks
-(setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
-(setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
-(setq dired-dwim-target t) ;; makes dired guess the target directory
-(setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
-(setq projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
+(with-eval-after-load "dired"
+    (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
+    (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
+    (setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
+    (setq dired-dwim-target t) ;; makes dired guess the target directory
+    (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
+    (setq projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
+    (setq wdired-allow-to-change-permissions t) ;; allow to edit permissions in wdired
 
-;; Dired listing switches
-;;  -a : Do not ignore entries starting with .
-;;  -l : Use long listing format.
-;;  -h : Human-readable sizes like 1K, 234M, ..
-;;  -v : Do natural sort .. so the file names starting with . will show up first.
-;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
-(setq dired-listing-switches (if (eq system-type 'windows-nt)
-                                 "-alh"
-                               "-alhvF --group-directories-first"))
-(require 'dired-x) ;; enable some really cool extensions like C-x C-j(dired-jump)
+    ;; Dired listing switches
+    ;;  -a : Do not ignore entries starting with .
+    ;;  -l : Use long listing format.
+    ;;  -h : Human-readable sizes like 1K, 234M, ..
+    ;;  -v : Do natural sort .. so the file names starting with . will show up first.
+    ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
+    (setq dired-listing-switches (if (eq system-type 'windows-nt)
+                                     "-alh"
+                                     "-alhvF --group-directories-first")))
 
 ;;; whitespace : visualize blanks (tabs, spaces, newline, etc)
 (setq show-trailing-whitespace t)
@@ -232,260 +416,336 @@
 (rational-package-install-package 'editorconfig)
 (editorconfig-mode 1)
 
-;;; ace-window : emacs package for selecting a window to switch to.
-(rational-package-install-package 'ace-window)
-
 ;;; crux : a collection of ridiculously useful extensions for emacs
 (rational-package-install-package 'crux)
 
 ;;; avy : emacs package for jumping to visible text using a char-based decision tree.
 (rational-package-install-package 'avy)
-(setq avy-all-windows t
-      avy-background t)
+(with-eval-after-load "avy"
+    (setq avy-all-windows t
+        avy-background t))
 
-;;; super-save : auto-saves your buffers, when certain events happen
-(rational-package-install-package 'super-save)
-(setq
- super-save-exclude '(".gpg")
- super-save-auto-save-when-idle t
- super-save-remote-files nil)
-(super-save-mode +1)
-(add-to-list 'super-save-triggers 'ace-window)
-
-;;; easy-kill : kill things easily
-(rational-package-install-package 'easy-kill)
+;;; whole-line-or-region : operate on the current line if no region is active
+(rational-package-install-package 'whole-line-or-region)
+(whole-line-or-region-global-mode)
 
 ;;; expand-region : expand or contract selection
 (rational-package-install-package 'expand-region)
 
-;;; neotree : a emacs tree plugin like NerdTree for Vim
-(rational-package-install-package 'neotree)
-(setq neo-theme 'ascii
-      neo-window-width 42
-      neo-smart-open t
-      neo-create-file-auto-open nil
-      neo-show-updir-line t
-      neo-show-hidden-files t
-      neo-auto-indent-point t
-      neo-vc-integration nil
-      neo-autorefresh nil
-      projectile-switch-project-action 'neotree-projectile-action
-      neo-hidden-regexp-list
-      '(;; vcs folders
-        "^\\.\\(?:git\\|hg\\|svn\\)$"
-        ;; compiled files
-        "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
-        ;; generated files, caches or local pkgs
-        "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
-        ;; org-mode folders
-        "^\\.\\(?:sync\\|export\\|attach\\)$"
-        ;; temp files
-        "~$"
-        "^#.*#$"
-        ;; Others
-        "^\\.\\(cache\\|tox\\|coverage\\)$"
-        "^\\.\\(DS_Store\\|python\\-version\\)"
-        "^\\(htmlcov\\)$" "\\.elcs$"
-        "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-        "^\\.#.*$" "^__pycache__$"
-        "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-        "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-        "\\.egg\-info$"))
-
-;;; deft : play text notes.
+;;; deft : plain text notes.
 (rational-package-install-package 'deft)
-(setq
- deft-directory "~/Dropbox/Apps/org/notes"
- deft-extensions '("org" "md" "txt")
- deft-default-extension "org"
- deft-recursive nil
- deft-use-filename-as-title nil
- deft-use-filter-string-for-filename t
- deft-file-naming-rules '((noslash . "-")
-                          (nospace . "-")
-                          (case-fn . downcase))
- deft-auto-save-interval 0)
+(with-eval-after-load "deft"
+    (setq
+        deft-directory "~/Dropbox/Apps/org/notes"
+        deft-extensions '("org" "md" "txt")
+        deft-default-extension "org"
+        deft-recursive nil
+        deft-use-filename-as-title nil
+        deft-use-filter-string-for-filename t
+        deft-file-naming-rules '((noslash . "-")
+                                    (nospace . "-")
+                                    (case-fn . downcase))
+        deft-auto-save-interval 0))
+
+;;; format-all : auto-format source code in many languages using the same command for all languages
+(rational-package-install-package 'format-all)
+(with-eval-after-load "format-all"
+    (custom-set-variables
+        '(format-all-formatters (quote (("C++" clang-format)
+                                           ("Python" black))))))
+(add-hook 'c-mode 'format-all-mode);
+(add-hook 'c++-mode 'format-all-mode);
+(add-hook 'python-mode 'format-all-mode);
+(add-hook 'format-all-mode 'format-all-ensure-formatter)
+
+;;; anzu : displays current match and total matches information in the mode-line in various search modes
+(rational-package-install-package 'anzu)
+(global-anzu-mode)
+
+;;; markdown-mode : edit markdown-formatted text
+(rational-package-install-package 'markdown-mode)
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
+(with-eval-after-load "markdown-mode"
+    (setq markdown-fontify-code-blocks-natively t))
+
+;;; csv-mode : Support for csv files (use csv-align-mode for alignment)
+(rational-package-install-package 'csv-mode)
+(add-to-list 'auto-mode-alist '("\\.csv\\'" . csv-mode))
+
+;;; yaml-mode : Support gitlab-ci.yml
+(rational-package-install-package 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+
+;;; web-mode : Support various web files
+(rational-package-install-package 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
+;;; prettier-js : Formatting on save, used by my-ts-mode for .js and .ts files
+(rational-package-install-package 'prettier-js)
+(with-eval-after-load "prettier-js"
+    (prettier-js-show-errors nil)
+    (prettier-js-args '("--semi" "false"
+                           "--single-quote" "false"
+                           "--tab-width" "4"
+                           "--trailing-comma" "all"
+                           "--print-width" "150")))
+
+;;; hl-todo : highlight TODO and similar keywords in comments and strings
+(rational-package-install-package 'hl-todo)
+(with-eval-after-load "hl-todo"
+    (setq hl-todo-highlight-punctuation ":"))
+(global-hl-line-mode);
+
+;; docker : Emacs integration for Docker
+(rational-package-install-package 'docker)
+(rational-package-install-package 'docker-tramp)
+(with-eval-after-load "docker"
+    (setq docker-container-shell-file-name "/bin/bash")
+    (add-to-list 'docker-image-run-custom-args
+        `("^sm" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm"
+                    "-u jenkins"
+                    "-w /tmp/sm"
+                    "--name dmxs" . ,docker-image-run-default-args))))
 
 ;;; elfeed : rss
 (rational-package-install-package 'elfeed)
-(setq elfeed-search-title-min-width 60)
-(setq elfeed-search-title-max-width 100)
-(setq elfeed-search-trailing-width 0)
-(setq elfeed-search-filter "@6-months-ago +unread")
-(setq elfeed-db-directory "~/Dropbox/Apps/elfeed/elfeed_db")
+(with-eval-after-load "elfeed"
+    (setq elfeed-feeds
+        '(;; General
+             ;; "http://feeds.bbci.co.uk/news/rss.xml" ; BBC News
+             ;; ycombinator
+             "https://news.ycombinator.com/rss"
+             ;; VPN
+             "https://mullvad.net/blog/feed/atom"
+             ;; Emacs
+             "https://planet.emacslife.com/atom.xml"
+             "http://www.terminally-incoherent.com/blog/feed"
+             "http://nullprogram.com/feed"
+             "http://fasciism.com/feed.xml"
+             "https://protesilaos.com/master.xml"
+             "https://jeffbowman.writeas.com/feed/"
+             "https://www.masteringemacs.org/feed"
+             "https://irreal.org/blog/?feed=rss2"
+             ;; Embedded
+             "http://www.embeddedrelated.com/blogs_rss.php"
+             ;; C++
+             "https://isocpp.org/blog/rss"
+             "http://arne-mertz.de/feed/"
+             "http://herbsutter.com/feed/"
+             "http://feeds.feedburner.com/CppSoup"
+             "http://feeds.feedburner.com/CppTruths"
+             "http://www.drdobbs.com/articles/cpp/rss"
+             "http://scottmeyers.blogspot.com/feeds/posts/default"
+             "http://bartoszmilewski.com/feed/"
+             "https://akrzemi1.wordpress.com/feed/"
+             "https://www.fayewilliams.com/feed/"
+             "http://feeds.woboq.com/woboq"
+             "https://oopscenities.net/feed/"
+             "http://articles.emptycrate.com/node/feed.xml"
+             "https://tartanllama.github.io/feed.xml"
+             "https://marcoarena.wordpress.com/feed/"
+             "http://www.nirfriedman.com/atom.xml"
+             "http://tristanbrindle.com/feed.xml"
+             "http://templated-thoughts.blogspot.com/feeds/posts/default"
+             "http://www.fluentcpp.com/feed/"
+             "https://pniedzielski.net/feed.xml"
+             "https://dvmirchevcpp.blogspot.com/feeds/posts/default"
+             "http://szelei.me/atom.xml"
+             "https://blog.galowicz.de//feed.xml"
+             "https://baptiste-wicht.com/rss.xml"
+             "http://feeds.feedburner.com/abseilio"
+             "https://mariusbancila.ro/blog/feed/"
+             "https://www.computist.xyz/feeds/posts/default?alt=rss"
+             "http://www.nuonsoft.com/blog/feed/"
+             "http://blog.vorbrodt.me/?feed=rss2"
+             "https://levelofindirection.com/main.rss"
+             "https://wgml.pl/feed.xml"
+             "https://panky-codes.github.io/feed.xml"
+             "https://philippegroarke.com//posts/index.xml"
+             "https://codingnest.com/rss/"
+             "https://cor3ntin.github.io/index.xml"
+             "https://bitbashing.io/feed.xml"
+             "https://oleksandrkvl.github.io/feed.xml"
+             "https://www.sandordargo.com/feed.xml"
+             "https://muit.tech/posts/index.xml"
+             "https://quuxplusone.github.io/blog/feed.xml"
+             "https://brevzin.github.io/feed.xml"
+             ;; Golang
+             "https://blog.golang.org/feed.atom"
+             ;; Rust
+             "https://blog.rust-lang.org/feed.xml"
+             "https://readrust.net/all/feed.rss"
+             "http://www.integer32.com/feed.xml"
+             "https://odetorust.com/feed.xml"
+             "https://ehsanmkermani.com/feed/"
+             "https://www.jameselford.com/rss.xml"
+             "https://blog.adamchalmers.com/atom.xml"
+             "https://itsallaboutthebit.com/atom.xml"
+             ;; Misc
+             "http://www.norvig.com/rss-feed.xml"
+             "http://eli.thegreenplace.net/feeds/all.atom.xml"
+             "https://pniedzielski.net/feed.xml"
+             "https://eklitzke.org/index.rss"
+             "https://www.murrayc.com/feed/"
+             "https://gendignoux.com/blog/feed.xml"
+             "https://drewdevault.com/blog/index.xml"
+             "https://incolumitas.com/feeds/all.atom.xml"
+             "http://www.mycpu.org/feed.xml"
+             "https://muit.tech/index.xml"
+             "https://blog.codinghorror.com/rss/"
+             "https://www.micahcantor.com/atom.xml"
+             "https://h2x.sh/atom.xml"
+             "https://kerkour.com/feed.xml"
+             "https://cliffle.com/rss.xml"))
+
+    (setq elfeed-search-title-min-width 60)
+    (setq elfeed-search-title-max-width 100)
+    (setq elfeed-search-trailing-width 0)
+    (setq elfeed-search-filter "@6-months-ago +unread")
+    (setq elfeed-db-directory "~/Dropbox/Apps/elfeed/elfeed_db"))
 
 ;;; Some Hooks
 (add-hook 'text-mode-hook (lambda () (visual-line-mode)))
 (dolist (hook '(special-mode-hook
-                term-mode-hook
-                comint-mode-hook
-                compilation-mode-hook
-                minibuffer-setup-hook))
-  (add-hook hook (lambda () (setq show-trailing-whitespace nil))))
+                   term-mode-hook
+                   comint-mode-hook
+                   compilation-mode-hook
+                   minibuffer-setup-hook))
+    (add-hook hook (lambda () (setq show-trailing-whitespace nil))))
 
-;;; encryption
-;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
-(progn
-  (require 'epa-file)
-  (epa-file-enable)
-  (setq epa-file-encrypt-to user-mail-address
-        epa-file-select-keys 'silent
-        epa-file-cache-passphrase-for-symmetric-encryption nil)
-  (require 'org-crypt)
-  (org-crypt-use-before-save-magic)
-  (setq org-crypt-disable-auto-save nil
-        org-tags-exclude-from-inheritance (quote ("crypt"))
-        org-crypt-key nil
-      org-crypt-key user-mail-address))
+;;;; keybindings : https://www.masteringemacs.org/article/mastering-key-bindings-emacs
+;;; Global
+(define-key global-map (kbd "C-c u") 'browse-url-at-point) ;; browse url
+(define-key global-map (kbd "C-x k") 'kill-this-buffer)    ;; kill buffer without prompt
+(define-key global-map (kbd "C-x K") 'kill-buffer)         ;; prompt for buffer to kill
+(define-key global-map (kbd "C-z") nil)                    ;; suspend-frame does not work well
+(define-key global-map (kbd "C-x C-z") nil)                ;; same
+(define-key global-map [remap list-buffers] 'ibuffer)      ;; `ibuffer' is better than `list-buffers'
+(define-key global-map [remap dabbrev-expand] 'hippie-expand) ;; use `hippie-expand'
 
-;;; keybindings
-(rational-package-install-package 'general)
+;; zap
+(when (fboundp 'zap-up-to-char)
+    (define-key global-map (kbd "M-S-z") 'zap-up-to-char))
 
-;; * Global Keybindings
-;; `general-define-key' acts like `global-set-key' when :keymaps is not
-;; specified (because ":keymaps 'global" is the default)
-;; kbd is not necessary and arbitrary amount of key def pairs are allowed
-(general-define-key
-    ;; general keys
-    "C-x C-m" 'execute-extended-command ; ALT may or may not be available
-    "C-c C-m" 'execute-extended-command ; ALT may or may not be available
-    "C-c u" 'browse-url-at-point ; simple browse url
-    "C-x k" 'kill-this-buffer ; kill buffer without prompt
-    "C-x K" 'kill-buffer ; prompt for buffer to kill
-    "M-/" 'hippie-expand ; use hippie-expand instead of debbrev
-    [remap list-buffers] 'ibuffer ; ibuffer is better than list-buffers
+;; fill/unfill
+(define-key global-map [remap fill-paragraph] '+my/fill-or-unfill)
+(define-key global-map (kbd "M-Q") '+my/unfill-paragraph)
+(define-key global-map (kbd "C-M-Q") '+my/unfill-region)
+(add-hook 'org-mode-hook
+    (lambda ()
+        (interactive)
+        (define-key org-mode-map [remap fill-paragraph] '+my/org-fill-or-unfill)))
 
-    ;; easy-kill
-    [remap kill-ring-save] 'easy-kill
+;; windows
+(define-key ctl-x-4-map (kbd "t") '+my/toggle-window-split)
 
-    ;;;; avy
-    "C-;" 'avy-goto-char-timer ; most usefull avy function
+;; ace-window
+(when (package-installed-p 'ace-window)
+    (define-key global-map [remap other-window] 'ace-window))
 
-    ;; ace-window
-    [remap other-window] 'ace-window ; better other window
+;; easy-kill
+(when (package-installed-p 'easy-kill)
+    (define-key global-map [remap kill-ring-save] 'easy-kill))
 
-    ;; anzu
-    ;; "M-%" 'anzu-query-replace
-    ;; "C-M-%" 'anzu-query-replace-regexp
+;; avy
+(when (package-installed-p 'avy)
+    (define-key global-map (kbd "C-;") 'avy-goto-char-timer))
 
-    ;; expand-region
-    "C-=" 'er/expand-region
+;; expand-region
+(when (package-installed-p 'expand-region)
+    (define-key global-map (kbd "C-=") 'er/expand-region))
 
-    ;; magit
-    "C-x g" 'magit-status
+;; magit
+(when (fboundp 'magit-status)
+    (define-key global-map (kbd "C-x g") 'magit-status))
 
-    ;; embark
-    "C-." 'embark-act        ; pick some comfortable binding
-    "C-;" 'embark-dwim       ; good alternative: "M-."
-    "C-h B" 'embark-bindings ; alternative for `describe-bindings'
+;; embark
+;; (when (package-installed-p 'embark)
+;;     (define-key global-map (kbd "C-.") 'embark-act))
 
-    ;; projectile
-    ;; "C-c p" 'projectile-command-map
+;; crux
+(when (package-installed-p 'crux)
+    (define-key global-map (kbd "C-o") 'crux-smart-open-line)
+    (define-key global-map (kbd "M-o") 'crux-smart-open-line-above)
+    (define-key global-map (kbd "C-^") 'crux-top-join-line)
+    (define-key global-map (kbd "C-k") 'crux-smart-kill-line)
+    (define-key global-map (kbd "C-x C-r") 'crux-recentf-find-file)
+    (define-key global-map (kbd "C-x C-u") 'crux-upcase-region)
+    (define-key global-map (kbd "C-x C-l") 'crux-downcase-region)
+    (define-key global-map [remap kill-whole-line] 'crux-kill-whole-line)
+    (define-key global-map [remap move-beginning-of-line] 'crux-move-beginning-of-line))
 
-    ;; consult
-    ;; C-c bindings (mode-specific-map)
-    "C-c h" 'consult-history
-    "C-c m" 'consult-mode-command
-    ;; "C-c k" 'consult-kmacro
-    ;; C-x bindings (Ctl-x-map)
-    "C-x M-:" 'consult-complex-command     ; orig. repeat-complex-command
-    "C-x b" 'consult-buffer                ; orig. switch-to-buffer
-    "C-x 4 b" 'consult-buffer-other-window ; orig. switch-to-buffer-other-window
-    "C-x 5 b" 'consult-buffer-other-frame  ; orig. switch-to-buffer-other-frame
-    "C-x r b" 'consult-bookmark            ; orig. bookmark-jump
-    "C-x p b" 'consult-project-buffer      ; orig. project-switch-to-buffer
-    ;; Custom M-# bindings for fast register access
-    "M-#" 'consult-register-load
-    "M-'" 'consult-register-store          ; orig. abbrev-prefix-mark (unrelated)
-    "C-M-#" 'consult-register
-    ;; Other custom bindings
-    "M-y" 'consult-yank-pop                ; orig. yank-pop
-    "<help> a" 'consult-apropos            ; orig. apropos-command
-    ;; M-g bindings (goto-map)
-    "M-g e" 'consult-compile-error
-    "M-g f" 'consult-flymake               ; Alternative: consult-flycheck
-    "M-g g" 'consult-goto-line             ; orig. goto-line
-    "M-g M-g" 'consult-goto-line           ; orig. goto-line
-    "M-g o" 'consult-outline               ; Alternative: consult-org-heading
-    "M-g m" 'consult-mark
-    "M-g k" 'consult-global-mark
-    "M-g i" 'consult-imenu
-    "M-g I" 'consult-imenu-multi
-    ;; M-s bindings (search-map)
-    "M-s d" 'consult-find
-    "M-s D" 'consult-locate
-    "M-s g" 'consult-grep
-    "M-s G" 'consult-git-grep
-    "M-s r" 'consult-ripgrep
-    "M-s l" 'consult-line
-    "M-s L" 'consult-line-multi
-    "M-s m" 'consult-multi-occur
-    "M-s k" 'consult-keep-lines
-    "M-s u" 'consult-focus-lines
-    ;; Isearch integration
-    "M-s e" 'consult-isearch-history
+;; undo-fu
+(when (package-installed-p 'undo-fu)
+    (define-key global-map (kbd "C-/") 'undo-fu-only-undo)
+    (define-key global-map (kbd "C-?") 'undo-fu-only-redo))
 
-    ;; crux
-    ;; "C-c o" 'crux-open-with
-    ;; "C-c u" 'crux-view-url
-    "C-o" 'crux-smart-open-line
-    "M-o" 'crux-smart-open-line-above
-    "C-x C-r" 'crux-recentf-find-file
-    "C-c f" 'crux-recentf-find-file
-    "C-c F" 'crux-recentf-find-directory
-    ;; "C-c n" 'crux-cleanup-buffer-or-region
-    "C-M-z" 'crux-indent-defun
-    "C-c e" 'crux-eval-and-replace
-    "C-c w" 'crux-swap-windows
-    "C-c D" 'crux-delete-file-and-buffer
-    "C-c r" 'crux-rename-buffer-and-file
-    "C-c t" 'crux-visit-term-buffer
-    "C-c k" 'crux-kill-other-buffers
-    "C-c TAB" 'crux-indent-rigidly-and-copy-to-clipboard
-    "C-c I" 'crux-find-user-custom-file
-    "C-c S" ' crux-find-shell-init-file
-    "C-^" 'crux-top-join-line
-    "C-c s" 'crux-ispell-word-then-abbrev
-    "C-k" 'crux-smart-kill-line
-    "C-<backspace>" 'crux-kill-line-backwards
-    "C-x 4 t" 'crux-transpose-windows
-    "C-x C-u" 'crux-upcase-region
-    "C-x C-l" 'crux-downcase-region
-    "C-x M-c" 'crux-capitalize-region
-    [remap move-beginning-of-line] 'crux-move-beginning-of-line
-    [shift return] 'crux-smart-open-line
-    [control shift return] 'crux-smart-open-line-above
-    [remap kill-whole-line] 'crux-kill-whole-line)
+;;; Prefix
+;; C-c f : File
+(define-key global-map (kbd "C-c f s") 'save-buffer)
+(define-key global-map (kbd "C-c f S") '+my/save-all)
 
-;; * Prefix Keybindings
-;; :prefix can be used to prevent redundant specification of prefix keys
-(general-define-key :prefix "C-c c" ; code
-    "d" 'lsp-describe-thing-at-point
-    "f" 'format-all-buffer)
-(general-define-key :prefix "C-c n" ; notes
-    "d" 'deft-find-file
-    "D" 'deft)
-(general-define-key :prefix "C-c o" ; open
-    "c" 'calc
-    "C" 'quick-calc
-    "e" 'elfeed
-    "n" 'neotree-toggle
-    "v" 'vterm)
+;; C-c n : Notes
+(define-key global-map (kbd "C-c n d") 'deft-find-file)
+(define-key global-map (kbd "C-c n D") 'deft)
 
-;; * Mode Keybindings
-;; `general-define-key' is comparable to `define-key' when :keymaps is specified
-(general-define-key :keymaps 'dired-mode-map
-    "C-c o" 'crux-open-with)
-(general-define-key :keymaps 'isearch-mode-map
-    "M-e" 'consult-isearch-history         ; orig. isearch-edit-string
-    "M-s e" 'consult-isearch-history       ; orig. isearch-edit-string
-    "M-s l" 'consult-line                  ; needed by consult-line to detect isearch
-    "M-s L" 'consult-line-multi)           ; needed by consult-line to detect isearch
-(general-define-key :keymaps 'minibuffer-local-map
-    "M-s" 'consult-history                 ; orig. next-matching-history-element
-    "M-r" 'consult-history)                ; orig. previous-matching-history-element
+;; C-c o : Open
+(define-key global-map (kbd "C-c o c") 'calc)
+(define-key global-map (kbd "C-c o C") 'quick-calk)
+(define-key global-map (kbd "C-c o e") 'elfeed)
+;; (define-key global-map (kbd "C-c o v") 'vterm)
+(when (package-installed-p 'neotree)
+    (define-key global-map (kbd "C-c o p") 'neotree-toggle))
+(when (package-installed-p 'treemacs)
+    (define-key global-map (kbd "C-c o p") 'treemacs))
+
+;;; Modal
+;; dired
+(add-hook 'dired-mode-hook
+    (lambda ()
+        (interactive)
+        (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+        (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))
+        (define-key dired-mode-map (kbd "C-c o") 'crux-open-with)))
+
+;; isearch
+(add-hook 'isearch-mode-hook
+    (lambda()
+        (interactive)
+        ;; Prevents issue where you have to press backspace twice when trying to remove the first character that fails a search
+        (define-key isearch-mode-map [remap isearch-delete-char] 'isearch-del-char)
+        ;; Better navigation
+        (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward)
+        (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)))
+
+;; completion
+(define-key vertico-map (kbd "C-f") 'vertico-exit)
+(define-key minibuffer-local-map (kbd "C-.") 'embark-act)
+(define-key project-prefix-map (kbd "g") 'consult-ripgrep)
+
+;; smartparens
+(when (package-installed-p 'smartparens)
+    (define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-backward-kill-sexp))
+
+;; vterm
+(when (package-installed-p 'vterm)
+    (add-hook 'vterm-mode-hook
+        (lambda ()
+            (interactive)
+            (define-key vterm-mode-map (kbd "C-y") 'vterm-yank))))
 
 ;; To not load `custom.el' after `config.el', uncomment this line.
-;; (setq rational-load-custom-file nil)
+(setq rational-load-custom-file nil)
 
-;;; example-config.el ends here
+;;; config.el ends here
