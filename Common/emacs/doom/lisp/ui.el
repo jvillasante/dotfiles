@@ -76,6 +76,9 @@
         '(mode-line-active ((t (:height 0.9))))
         '(mode-line-inactive ((t (:height 0.9))))))
 
+(after! anzu
+    (global-anzu-mode))
+
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
