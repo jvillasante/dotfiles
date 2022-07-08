@@ -7,10 +7,8 @@
     "C-c u"   #'browse-url-at-point       ;; browse url with default browser
     "C-x k"   #'kill-this-buffer          ;; kill buffer without prompt
     "C-x K"   #'kill-buffer               ;; prompt for buffer to kill
-
-    ;;; suspend-frame does not work well with daemon
-    (:when (daemonp)
-        "C-z" nil)
+    "C-z"     nil                         ;; suspend frame should go away
+    "C-x C-z" nil                         ;; same
 
     ;;; zap
     "M-S-z" #'zap-up-to-char ;; New in Emacs 28
@@ -29,11 +27,6 @@
     ;;; windows
     (:map ctl-x-4-map
         "t" #'+my/toggle-window-split)
-
-    ;; (:when (featurep! :ui window-select)
-    ;;     (:when 'ace-window
-    ;;         [remap other-window] #'other-window
-    ;;         "M-o" #'ace-window))
 
     ;;; avy
     (:when 'avy
@@ -63,6 +56,11 @@
         "C-n" #'isearch-repeat-forward
         "C-p" #'isearch-repeat-backward)
 
+    ;;; ibuffer
+    (:after ibuffer
+        :map ibuffer-mode-map
+        "q" #'kill-this-buffer)
+
     ;;; smartparens
     (:after smartparens
         :map smartparens-mode-map
@@ -73,6 +71,10 @@
         (:when 'undo-fu
             "C-/" #'undo-fu-only-undo
             "C-?" #'undo-fu-only-redo))
+
+    (:when (featurep! :completion vertico)
+        :map minibuffer-local-map
+        "C-." 'embark-act)
 
     ;;; vterm
     (:when (featurep! :term vterm)
