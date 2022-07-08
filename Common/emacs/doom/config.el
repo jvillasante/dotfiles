@@ -265,6 +265,9 @@
     (setq slime-default-lisp 'sbcl)
     (setq slime-net-coding-system 'utf-8-unix))
 
+(after! scheme
+    (setq geiser-guile-binary "guile3.0"))
+
 ;; Rust hack!
 (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
     (-let* (((&hash "value") contents)
