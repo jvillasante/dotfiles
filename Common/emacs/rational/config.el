@@ -23,13 +23,9 @@
 ;;(require 'osx)
 
 ;;;; Autoloads
-(load "autoload")
+(load "lisp/functions")
 
 ;;;; Misc
-(defconst +my/savefile-dir (expand-file-name "savefile" user-emacs-directory))
-(unless (file-exists-p +my/savefile-dir)
-    (make-directory +my/savefile-dir)) ;; create the savefile dir if it doesn't exist
-
 ;; frame title
 (setq-default frame-title-format
     '(:eval
@@ -75,7 +71,6 @@
         (advice-add 'yes-or-no-p :override #'y-or-n-p))
     (setq large-file-warning-threshold 100000000) ;; warn when opening files bigger than 100MB
     (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
-    (savehist-mode) ; Save history for commands
     (setq isearch-resume-in-command-history t) ; Use history for isearch as well
     (setq-default auto-revert-verbose t) ; show message when file changes
     (setq-default auto-revert-avoid-polling t) ; use save signal
@@ -86,7 +81,6 @@
     (setq debug-on-error nil) ; Display the stacktrace if error encountered in one of the lisp method
     (setq completions-detailed t) ; Detailed description for the built in describe symbol etc
     (delete-selection-mode 1) ; If text is selected, we expect that typing will replace the selection
-    (save-place-mode +1) ; Remember point in files
     (electric-pair-mode +1) ; auto-insert matching parenteses
     (show-paren-mode +1) ; Highlight the matching parenthesis
     (global-so-long-mode +1) ; long files
@@ -223,13 +217,6 @@
 ;; (rational-package-install-package 'typescript-mode)
 (rational-package-install-package 'yasnippet)
 
-;;;; c++ mode
-(use-package c++-mode
-    :ensure nil  ; Part of emacs
-    :mode ("\\.h\\'" "\\.cpp\\'" "\\.hpp\\'" "\\.hxx\\'" "\\.cxx\\'")
-    :config
-    (advice-add 'c-update-modeline :override #'ignore)) ;; Don't use a modeline suffix (i.e C++//l)
-
 ;; C & C++
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
@@ -329,6 +316,7 @@
 ;;; scratch buffer
 (with-current-buffer "*scratch*" (emacs-lock-mode 'kill))
 (rational-package-install-package 'persistent-scratch)
+(setq persistent-scratch-save-file (expand-file-name "persistent-scratch" rational-config-var-directory))
 (persistent-scratch-setup-default)
 (persistent-scratch-autosave-mode 1)
 
@@ -342,14 +330,14 @@
         (ad-activate 'isearch-search)))
 
 ;;; saveplace : remembers your location in a file when saving files
-(setq save-place-file (expand-file-name "saveplace" +my/savefile-dir))
+(setq save-place-file (expand-file-name "saveplace" rational-config-var-directory))
 (save-place-mode +1)
 
 ;;; savehist : save minibuffer history
 (setq savehist-additional-variables
     '(search-ring regexp-search-ring) ;; search entries
     savehist-autosave-interval 60 ;; save every minute
-    savehist-file (expand-file-name "savehist" +my/savefile-dir)) ;; keep the home clean
+    savehist-file (expand-file-name "savehist" rational-config-var-directory)) ;; keep the home clean
 (savehist-mode +1)
 
 ;;; super-save : auto-saves your buffers, when certain events happen
@@ -362,7 +350,7 @@
 (super-save-mode +1)
 
 ;;; recentf : recent files
-(setq recentf-save-file (expand-file-name "recentf" +my/savefile-dir)
+(setq
     recentf-max-saved-items 500
     recentf-max-menu-items 15
     recentf-auto-cleanup 'never)
@@ -474,22 +462,22 @@
 (add-to-list 'auto-mode-alist '("\\.csv\\'" . csv-mode))
 
 ;;; yaml-mode : Support gitlab-ci.yml
-(rational-package-install-package 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+;; (rational-package-install-package 'yaml-mode)
+;; (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
 ;;; web-mode : Support various web files
-(rational-package-install-package 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+;; (rational-package-install-package 'web-mode)
+;; (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 
 ;;; prettier-js : Formatting on save, used by my-ts-mode for .js and .ts files
 (rational-package-install-package 'prettier-js)
@@ -647,6 +635,9 @@
         (interactive)
         (define-key org-mode-map [remap fill-paragraph] '+my/org-fill-or-unfill)))
 
+;; isearch (because rational maps it to consult)
+(define-key global-map (kbd "C-s") 'isearch-forward)
+
 ;; windows
 (define-key ctl-x-4-map (kbd "t") '+my/toggle-window-split)
 
@@ -669,10 +660,6 @@
 ;; magit
 (when (fboundp 'magit-status)
     (define-key global-map (kbd "C-x g") 'magit-status))
-
-;; embark
-;; (when (package-installed-p 'embark)
-;;     (define-key global-map (kbd "C-.") 'embark-act))
 
 ;; crux
 (when (package-installed-p 'crux)

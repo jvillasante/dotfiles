@@ -839,6 +839,9 @@ There are two things you can do about this warning:
         '(format-all-formatters (quote (("C++" clang-format)
                                            ("Python" black))))))
 
+(use-package docker
+    :demand t)
+
 ;;;; general : binding keys
 ;; TODO: from Steve Yegge: Bind `kill-region' to "C-x C-k" and "C-c C-k"
 ;; TODO: from Steve Yegge: Bind `backward-kill-word' to "C-w"
@@ -1008,7 +1011,7 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(format-all-formatters '(("C++" clang-format) ("Python" black)) t)
  '(package-selected-packages
-    '(persistent-scratch org-crypt epa-file moody lsp-ui format-all general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode vertico use-package undo-tree super-save rainbow-delimiters projectile prettier-js org-bullets orderless modus-themes marginalia magit lsp-treemacs lsp-pyright hl-todo helpful flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl csv-mode crux consult company anzu ag adoc-mode))
+    '(docker persistent-scratch org-crypt epa-file general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode use-package undo-tree super-save rainbow-delimiters prettier-js org-bullets orderless lsp-treemacs lsp-pyright hl-todo flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish crux anzu ag adoc-mode))
  '(tab-stop-list
     '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
 (custom-set-faces
