@@ -211,7 +211,7 @@ close the *compilation* buffer if the compilation is successful,
 and set the focus back to Emacs frame"
     (if (string-match "^finished" msg)
         (progn
-            (delete-windows-on buffer)
+            (run-at-time "2 sec" nil 'delete-windows-on buffer)
             (message "Compilation Successful :-)"))
         (message "Compilation Failed :-("))
     (setq current-frame (car (car (cdr (current-frame-configuration)))))
