@@ -117,13 +117,7 @@
     (:prefix ("c" . "Code")
         :desc "Make run"                  "m" #'+make/run
         :desc "Make run last"             "M" #'+make/run-last
-        :desc "Lookup zeal documentation" "z" #'zeal-at-point
-        :desc "Flycheck list errors"      "x" #'flycheck-list-errors
-        :desc "Restart LSP Workspace"     "q" #'lsp-workspace-restart
-        :desc "Shutdown LSP Workspace"    "Q" #'lsp-workspace-shutdown
-        (:prefix-map ("u" . "Menu")
-            :desc "Show" "m" #'lsp-ui-imenu
-            :desc "Hide" "q" #'lsp-ui-imenu--kill))
+        :desc "Lookup zeal documentation" "z" #'zeal-at-point)
 
     (:prefix ("n" . "Notes")
         "d" nil ;; unbind deft

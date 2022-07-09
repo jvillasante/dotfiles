@@ -83,7 +83,7 @@
     vterm             ; the best terminal emulation in Emacs
 
     :checkers
-    syntax           ; tasing you for every semicolon you forget
+    ;;syntax           ; tasing you for every semicolon you forget
     (spell           ; tasing you for misspelling mispelling
         +aspell
         +everywhere)
@@ -102,7 +102,7 @@
     (lookup             ; navigate your code and its documentation
         +docsets
         +dictionary)
-    (lsp -eglot)
+    (lsp +eglot)
     magit             ; a git porcelain for Emacs
     make              ; run make tasks from Emacs
     ;; (pass +auth)      ; password manager for nerds
