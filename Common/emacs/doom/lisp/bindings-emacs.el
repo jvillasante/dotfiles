@@ -72,10 +72,6 @@
             "C-/" #'undo-fu-only-undo
             "C-?" #'undo-fu-only-redo))
 
-    (:when (featurep! :completion vertico)
-        :map minibuffer-local-map
-        "C-." 'embark-act)
-
     ;;; vterm
     (:when (featurep! :term vterm)
         (:when 'vterm
