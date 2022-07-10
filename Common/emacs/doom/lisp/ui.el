@@ -89,16 +89,14 @@
                    eshell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-;; buffer display
-(setq display-buffer-alist
-    '(("\\*shell"
-		  (display-buffer-reuse-window display-buffer-same-window))
-		 ("^\\*Embark*"
-			 (display-buffer-reuse-window display-buffer-at-bottom)
-			 (window-height . 0.33))))
-
-;; popup rules
+;; popup windows & rules
 (when (featurep! :ui popup)
+    (setq +popup-default-parameters
+        '((transient . t)   ; remove later
+             (quit . t)        ; remove later
+             (select . ignore) ; remove later
+             (no-other-window . nil))) ;; Allow `other-window'
+
     (set-popup-rule! "^\\*doom:scratch*" :size 0.4 :ttl 0 :quit t)
     (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
     (set-popup-rule! "^\\*compilation" :size 0.6 :quit t :ttl 0)
