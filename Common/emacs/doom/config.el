@@ -672,6 +672,11 @@
     :config
     (whole-line-or-region-global-mode))
 
+(use-package! flymake-diagnostic-at-point
+  :after flymake
+  :config
+  (add-hook 'flymake-mode-hook #'flymake-diagnostic-at-point-mode))
+
 (if (featurep! :editor evil)
     (load! "lisp/bindings-evil")
     (load! "lisp/bindings-emacs"))

@@ -22,6 +22,9 @@
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (package! crux)
 
+;; flymake-diagnostic-at-point : Minor mode for showing flymake diagnostics at point.
+(package! flymake-diagnostic-at-point)
+
 ;; dired
 (package! dired-quick-sort)
 (package! dired-single)

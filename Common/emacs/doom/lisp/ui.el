@@ -99,17 +99,20 @@
 
     (set-popup-rule! "^\\*doom:scratch*" :size 0.4 :ttl 0 :quit t)
     (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
-    (set-popup-rule! "^\\*compilation" :size 0.6 :quit t :ttl 0)
+    (set-popup-rule! "^\\*compilation" :size 0.4 :quit t :ttl 0)
     (set-popup-rule! "^\\*info*" :size 0.6 :ttl 0 :quit nil)
     (set-popup-rule! "^\\*Man" :size 0.6 :quit t :select t)
     (set-popup-rule! "^\\*xwidget-webkit*" :size 0.8 :quit t :select t)
-    (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.6 :quit nil :select t :autosave nil)
+    (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4 :quit nil :select t :autosave nil)
     (set-popup-rule! "^\\*Diff" :size 0.6 :quit t :select t)
     (after! tldr (set-popup-rule! "^\\*tldr*" :size 0.6 :ttl 0 :quit nil))
     (after! lsp (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0))
     (after! eglot (set-popup-rule! "^\\*eglot-.*$" :size 0.4 :quit t :ttl 0))
+    (after! flymake (set-popup-rule! "^\\*Flymake" :size 0.4 :quit t :ttl 0))
+    (after! rustic (set-popup-rule! "^\\*rustic-" :size 0.4 :quit t :ttl 0))
+    (after! rustic (set-popup-rule! "^\\*cargo-" :size 0.4 :quit t :ttl 0))
     (after! vterm (set-popup-rule! "^\\*doom:vterm-popup" :size 0.4 :ttl 0 :quit nil))
-    (after! pass (set-popup-rule! "^\\*Password-Store*" :side 'left :size 0.35 :quit nil)))
+    (after! pass (set-popup-rule! "^\\*Password-Store*" :side 'left :size 0.32 :quit nil)))
 
 ;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
 (load! "site-lisp/ui-modus-exporter.el")
