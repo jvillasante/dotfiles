@@ -84,9 +84,7 @@
 
     :checkers
     ;;syntax           ; tasing you for every semicolon you forget
-    (spell           ; tasing you for misspelling mispelling
-        +aspell
-        +everywhere)
+    (spell +aspell +everywhere)           ; tasing you for misspelling mispelling
     ;;grammar           ; tasing grammar mistake every you make
 
     :tools
@@ -99,9 +97,7 @@
     ;;ein             ; tame Jupyter notebooks with emacs
     (eval +overlay)   ; run code, run (also, repls)
     ;;gist              ; interacting with github gists
-    (lookup             ; navigate your code and its documentation
-        +docsets
-        +dictionary)
+    (lookup +docsets +dictionary)            ; navigate your code and its documentation
     (lsp +eglot)
     magit             ; a git porcelain for Emacs
     make              ; run make tasks from Emacs
