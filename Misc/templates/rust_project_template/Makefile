@@ -9,31 +9,31 @@ DOC     = cargo doc
 CURRENT = app
 
 clean_all:
-	${CLEAN}
+	${CLEAN} --workspace
 
 clean:
 	cd ${CURRENT} && ${CLEAN}
 
 check_all:
-	${CHECK}
+	${CHECK} --workspace
 
 check:
 	cd ${CURRENT} && ${CHECK}
 
 clippy_all:
-	${CLIPPY}
+	${CLIPPY} --workspace
 
 clippy:
 	cd ${CURRENT} && ${CLIPPY}
 
 build_all:
-	${BUILD}
+	${BUILD} --workspace
 
 build:
 	cd ${CURRENT} && ${BUILD}
 
 build_all_release:
-	${BUILD} --release
+	${BUILD} --workspace --release
 
 build_release:
 	cd ${CURRENT} && ${BUILD} --release
@@ -45,13 +45,13 @@ run_release:
 	cd ${CURRENT} && ${RUN} --release ${ARGS}
 
 test_all:
-	${TEST}
+	${TEST} --workspace
 
 test:
 	cd ${CURRENT} && ${TEST}
 
 doc_all:
-	${DOC}
+	${DOC} --workspace
 
 doc:
 	cd ${CURRENT} && ${DOC}
