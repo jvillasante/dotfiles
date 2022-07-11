@@ -3,39 +3,37 @@ CHECK   = cargo check
 BUILD   = cargo build
 CLIPPY  = cargo clippy
 RUN     = cargo run
-TEST    = cargo nextest run
-# TEST    = cargo nextest run --success-output=final
-DOC     = cargo doc
 ARGS    =
+TEST    = cargo test
+DOC     = cargo doc
 CURRENT = app
-ALL     = app
 
 clean_all:
-	$(foreach project,$(ALL),cd $(project) && ${CLEAN} && cd -;)
+	${CLEAN}
 
 clean:
 	cd ${CURRENT} && ${CLEAN}
 
 check_all:
-	$(foreach project,$(ALL),cd $(project) && ${CHECK} && cd -;)
+	${CHECK}
 
 check:
 	cd ${CURRENT} && ${CHECK}
 
 clippy_all:
-	$(foreach project,$(ALL),cd $(project) && ${CLIPPY} && cd -;)
+	${CLIPPY}
 
 clippy:
 	cd ${CURRENT} && ${CLIPPY}
 
 build_all:
-	$(foreach project,$(ALL),cd $(project) && ${BUILD} && cd -;)
+	${BUILD}
 
 build:
 	cd ${CURRENT} && ${BUILD}
 
 build_all_release:
-	$(foreach project,$(ALL),cd $(project) && ${BUILD} --release && cd -;)
+	${BUILD} --release
 
 build_release:
 	cd ${CURRENT} && ${BUILD} --release
@@ -47,13 +45,13 @@ run_release:
 	cd ${CURRENT} && ${RUN} --release ${ARGS}
 
 test_all:
-	$(foreach project,$(ALL),cd $(project) && ${TEST} && cd -;)
+	${TEST}
 
 test:
 	cd ${CURRENT} && ${TEST}
 
 doc_all:
-	$(foreach project,$(ALL),cd $(project) && ${DOC} && cd -;)
+	${DOC}
 
 doc:
 	cd ${CURRENT} && ${DOC}
