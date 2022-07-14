@@ -227,6 +227,11 @@
 ;; Add system-wide mu4e installation
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 
+;; macros
+(require 'kmacro)
+(defalias 'kmacro-insert-macro 'insert-kbd-macro)
+(define-key kmacro-keymap (kbd "I") #'kmacro-insert-macro)
+
 ;; Hooks
 (add-hook 'phyton-mode-hook #'whitespace-mode)
 (add-hook 'makefile-mode-hook #'whitespace-mode)

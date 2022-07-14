@@ -515,7 +515,7 @@
 
 (after! neotree
     (setq neo-theme 'ascii
-        neo-window-width 42
+        neo-window-width 32
         neo-smart-open t
         neo-create-file-auto-open nil
         neo-show-updir-line nil
@@ -671,11 +671,6 @@
 (use-package! whole-line-or-region
     :config
     (whole-line-or-region-global-mode))
-
-(use-package! flymake-diagnostic-at-point
-  :after flymake
-  :config
-  (add-hook 'flymake-mode-hook #'flymake-diagnostic-at-point-mode))
 
 (if (featurep! :editor evil)
     (load! "lisp/bindings-evil")

@@ -121,3 +121,8 @@
         :desc "Find deft file" "d" #'deft-find-file
         :desc "Open deft"      "D" #'deft)
     )
+
+;;; hooks
+(add-hook 'c-mode-common-hook
+    (lambda()
+        (local-set-key  (kbd "C-c C-o") #'ff-find-other-file)))
