@@ -22,6 +22,9 @@
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (package! crux)
 
+;; pass
+(package! password-store)
+
 ;; dired
 (package! dired-quick-sort)
 (package! dired-single)
