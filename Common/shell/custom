@@ -37,6 +37,13 @@ alias mv="mv -iv"
 alias tree="tree --dirsfirst -a -I 'node_modules|.git'"
 alias ag='ag --hidden --ignore node_modules --ignore .git'
 
+# atool to extract archives
+if type atool >/dev/null 2>/dev/null; then
+    unpack() {
+        atool --extract --explain "$@"
+    }
+fi
+
 # exa
 if type exa >/dev/null 2>/dev/null; then
     alias ls='exa --group-directories-first --color=auto'
