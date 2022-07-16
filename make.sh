@@ -84,9 +84,9 @@ install_emacs() {
         check $?
     fi
 
-    # Install Rational Emacs
-    if [ ! -d "$DOTFILES_DIR/.emacs.rational" ]; then
-        git clone git@github.com:SystemCrafters/rational-emacs.git "$DOTFILES_DIR/.emacs.rational"
+    # Install Crafted Emacs
+    if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
+        git clone git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
         check $?
     fi
 }
