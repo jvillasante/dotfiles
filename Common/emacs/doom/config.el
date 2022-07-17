@@ -333,6 +333,8 @@
 (after! eglot
     (setq eldoc-echo-area-use-multiline-p nil)
     (setq eglot-extend-to-xref t)
+    (setq eglot-ignored-server-capabilities
+        (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
     (add-to-list 'eglot-server-programs
         `(rust-mode . ("rust-analyzer"))
         `(c-mode c++-mode
