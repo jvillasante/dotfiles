@@ -82,7 +82,6 @@ update_usersjs_arkenfox() {
 // Don't throw away HTTP basic authentication sessions and history on Firefox shutdown.
 /* 2811 */ user_pref("privacy.clearOnShutdown.sessions", false);
            user_pref("privacy.clearOnShutdown.history", false);
-           user_pref("privacy.clearOnShutdown.cookies", false);
 
 // Disables Pocket extension.
 /* 9000 */ user_pref("extensions.pocket.enabled", false);
