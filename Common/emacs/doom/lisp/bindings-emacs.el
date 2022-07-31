@@ -7,6 +7,7 @@
     "C-c u"   #'browse-url-at-point       ;; browse url with default browser
     "C-x k"   #'kill-this-buffer          ;; kill buffer without prompt
     "C-x K"   #'kill-buffer               ;; prompt for buffer to kill
+    "C-x S"   #'+my/save-all              ;; save some buffers without prompt
     "C-z"     nil                         ;; suspend frame should go away
     "C-x C-z" nil                         ;; same
 
