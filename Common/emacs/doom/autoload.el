@@ -42,6 +42,7 @@
 
 ;;;###autoload
 (defun +my/save-all ()
+    "Save buffers without prompt"
     (interactive) (save-some-buffers t))
 
 ;;;###autoload
