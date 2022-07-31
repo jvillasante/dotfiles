@@ -40,10 +40,15 @@
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
 
-;;;###autoload
 (defun +my/save-all ()
     "Save buffers without prompt"
-    (interactive) (save-some-buffers t))
+    (interactive)
+    (let ((modified-count
+              (length (cl-loop for buf in (buffer-list)
+                          when (and (buffer-file-name buf) (buffer-modified-p buf))
+                          collect buf))))
+        (save-some-buffers t)
+        (message "%d buffer(s) saved" modified-count)))
 
 ;;;###autoload
 (defun +my/comment-auto-fill ()
