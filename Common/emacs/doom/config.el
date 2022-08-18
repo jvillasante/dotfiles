@@ -46,13 +46,13 @@
 
 (after! eshell
     (setq
-        ;; eshell-buffer-shorthand t ...  Can't see Bug#19391
         eshell-highlight-prompt nil
-        eshell-scroll-to-bottom-on-input 'all
+        eshell-scroll-to-bottom-on-input nil
+        eshell-scroll-to-bottom-on-output nil
+        eshell-prefer-lisp-functions nil
         eshell-error-if-no-glob t
         eshell-hist-ignoredups t
         eshell-save-history-on-exit t
-        eshell-prefer-lisp-functions nil
         eshell-destroy-buffer-when-process-dies t)
 
     ;; Aliases
@@ -62,7 +62,7 @@
             (let ((ls (if (file-exists-p "/usr/local/bin/gls")
                           "/usr/local/bin/gls"
                           "/bin/ls")))
-                (eshell/alias "ll" (concat ls " -AlohG --color=always"))))))
+                (eshell/alias "ll" (concat ls " -alh --group-directories-first --color=auto"))))))
 
 (after! persp-mode
     (setq persp-emacsclient-init-frame-behaviour-override "main"))
