@@ -66,9 +66,6 @@ update_usersjs_arkenfox() {
 // Re-enables URL usages as a search bar.
 /* 0801 */ user_pref("keyword.enabled", true);
 
-// Override when to send a cross-origin referer (0=always)
-/* 1601 */ user_pref("network.http.referer.XOriginPolicy", 0);
-
 // Enable live search suggestions
 /* 0804 */ user_pref("browser.search.suggest.enabled", true);
            user_pref("browser.urlbar.suggest.searches", true);
@@ -76,12 +73,13 @@ update_usersjs_arkenfox() {
 // Disable saving passwords
 /* 5003 user_pref("signon.rememberSignons", false); */
 
-// Don't delete cookies and site data on exit
-/* 2801 */ user_pref("network.cookie.lifetimePolicy", 0);
-
 // Don't throw away HTTP basic authentication sessions and history on Firefox shutdown.
 /* 2811 */ user_pref("privacy.clearOnShutdown.sessions", false);
            user_pref("privacy.clearOnShutdown.history", false);
+
+// Don't delete cookies and site data on exit (better to have site exceptions here!)
+/* 2815 */ user_pref("privacy.clearOnShutdown.cookies", false);
+           user_pref("privacy.clearOnShutdown.offlineApps", false);
 
 // Disables Pocket extension.
 /* 9000 */ user_pref("extensions.pocket.enabled", false);
