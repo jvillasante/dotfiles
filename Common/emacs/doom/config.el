@@ -68,6 +68,7 @@
     (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
 (after! tramp
+    (setq tramp-verbose 2)
     (setq tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq tramp-password-prompt-regexp   ; Add verification code support.
