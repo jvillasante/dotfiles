@@ -676,7 +676,24 @@
     :config
     (whole-line-or-region-global-mode))
 
-(if (featurep! :editor evil)
+(use-package! dwim-shell-command
+    :demand
+    :bind (([remap shell-command] . dwim-shell-command)
+              :map dired-mode-map
+              ([remap dired-do-async-shell-command] . dwim-shell-command)
+              ([remap dired-do-shell-command] . dwim-shell-command)
+              ([remap dired-smart-shell-command] . dwim-shell-command))
+    :config
+    (require 'dwim-shell-commands)
+    (defun +my/dwim-shell-command-convert-to-gif ()
+        "Convert all marked videos to optimized gif(s)."
+        (interactive)
+        (dwim-shell-command-on-marked-files
+            "Convert to gif"
+            "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
+            :utils "ffmpeg")))
+
+(if (modulep! :editor evil)
     (load! "lisp/bindings-evil")
     (load! "lisp/bindings-emacs"))
 ;; (load! "lisp/hydras")
