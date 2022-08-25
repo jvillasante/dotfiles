@@ -205,21 +205,21 @@
          try-complete-lisp-symbol))
 
 ;; compilation stuff
-(defun +my/bury-compile-buffer (buffer msg)
-    "Bury compilation buffer if succeeded without warnings."
-    (if (and
-            (buffer-live-p buffer)
-            (string-match "^finished" msg)
-            (not (with-current-buffer buffer
-                     (goto-char (point-min))
-                     (search-forward "warning" nil t))))
-        (progn
-            (run-at-time "2 sec" nil 'delete-windows-on buffer)
-            (message "Compilation Successful :-)"))
-        (message "Compilation Failed :-("))
-    (setq current-frame (car (car (cdr (current-frame-configuration)))))
-    (select-frame-set-input-focus current-frame))
-(add-to-list 'compilation-finish-functions '+my/bury-compile-buffer)
+;; (defun +my/bury-compile-buffer (buffer msg)
+;;     "Bury compilation buffer if succeeded without warnings."
+;;     (if (and
+;;             (buffer-live-p buffer)
+;;             (string-match "^finished" msg)
+;;             (not (with-current-buffer buffer
+;;                      (goto-char (point-min))
+;;                      (search-forward "warning" nil t))))
+;;         (progn
+;;             (run-at-time "2 sec" nil 'delete-windows-on buffer)
+;;             (message "Compilation Successful :-)"))
+;;         (message "Compilation Failed :-("))
+;;     (setq current-frame (car (car (cdr (current-frame-configuration)))))
+;;     (select-frame-set-input-focus current-frame))
+;; (add-to-list 'compilation-finish-functions '+my/bury-compile-buffer)
 
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
