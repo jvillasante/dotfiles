@@ -229,21 +229,21 @@
         (append ws-butler-global-exempt-modes
             '(prog-mode org-mode))))
 
-(after! cc
-    (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
-    (c-set-offset 'innamespace 0)
-    (setq c-default-style "stroustrup"
-        c-basic-offset 4
-        indent-tabs-mode t)
-    (add-hook! c-mode-common-hook (c-toggle-auto-state 1))
-    (setq-default flycheck-c/c++-clang-executable +my/clang-path)
-    (setq-default flycheck-clang-standard-library "libc++")
-    (setq-default flycheck-clang-language-standard "c++20"))
+(progn
+    (setq
+        c-default-style "linux"
+        c-basic-offset 4)
+
+    (after! cc
+        (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+        (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+        (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+        (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
+        (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
+        (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
+        (setq-default flycheck-c/c++-clang-executable +my/clang-path)
+        (setq-default flycheck-clang-standard-library "libc++")
+        (setq-default flycheck-clang-language-standard "c++20")))
 
 (after! python
     (setq python-shell-interpreter "python3"))
@@ -442,9 +442,10 @@
              "^\\(htmlcov\\)$" "\\.elcs$"
              "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
              "^\\.#.*$" "^__pycache__$"
-             "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+             "^\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
              "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-             "\\.egg\-info$")))
+             "^\\.log$"
+             "^\\.egg\-info$")))
 
 (after! treemacs
     (setq treemacs-no-png-images t)

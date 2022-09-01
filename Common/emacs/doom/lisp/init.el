@@ -94,7 +94,7 @@
     split-width-threshold 160          ; Split verticaly by default
     scroll-margin 3
     uniquify-buffer-name-style 'forward   ; Uniquify buffer names
-    indent-tabs-mode nil                  ; use space to indent by default
+    indent-tabs-mode t                    ; use space to indent by default
 
     ;; set appearance of a tab that is represented by 4 spaces
     tab-width 4
