@@ -3,31 +3,23 @@
     email = jvillasantegomez@gmail.com
 [includeIf "gitdir:~/Workspace/Work/"]
     path = ~/Workspace/Work/.gitconfig
-
 [credential]
     helper = cache --timeout=3600
-
 [pull]
     rebase = false
-
 [push]
     default = matching
-
 [branch]
     autosetuprebase = always
-
 [color]
     ui = true
     status = auto
     branch = auto
-
 [core]
     autocrlf = false
     safecrlf = true
-
 [merge]
     tool = kdiff3
-
 [alias]
     # abbrevations
     co = checkout
@@ -41,11 +33,9 @@
 
     # list all branches
     branches = "branch -a  --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:blue)(%(committerdate:short)) [%(authorname)]' --sort=-committerdate"
-
 [github]
     user = jvillasante
     password = p
     oauth-token =
-
 [fetch]
     prune = true
