@@ -126,23 +126,10 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME/.config..."
-files="nyxt alacritty shell tmux ranger rofi nvim psd i3 nushell starship.toml"
+files="git nyxt alacritty shell tmux ranger rofi nvim psd i3 nushell starship.toml"
 for file in $files; do
     unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
-done
-
-echo ">>> Linking other files in $HOME/.config..."
-files="git"
-for file in $files; do
-    unlink "$HOME/.config/$file"
-
-    if [ -d "$DOTFILES_DIR/Hosts/$CURRENT_HOST/" ]; then
-        ln -s "$DOTFILES_DIR/Hosts/$CURRENT_HOST/$file" "$HOME/.config"
-    else
-        echo ">>> $DOTFILES_DIR/Hosts/$CURRENT_HOST does not exits, exiting..."
-        exit 1
-    fi
 done
 
 echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."

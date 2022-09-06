@@ -442,7 +442,7 @@
              "^\\(htmlcov\\)$" "\\.elcs$"
              "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
              "^\\.#.*$" "^__pycache__$"
-             "^\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+             "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
              "^\\.cproject$" "^\\.project$" "^\\.projectile$"
              "^\\.log$"
              "^\\.egg\-info$")))
