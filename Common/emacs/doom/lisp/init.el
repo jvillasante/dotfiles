@@ -70,6 +70,9 @@
 (advice-add #'ispell-init-process :around #'doom-shut-up-a)
 (setq ispell-dictionary "en_US") ;; default dictionary
 
+;; no comments on RET while writing comments
+(setq +default-want-RET-continue-comments nil)
+
 ;;
 ;; Some default
 ;;
