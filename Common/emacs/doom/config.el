@@ -219,6 +219,7 @@
         '(not emacs-lisp-mode ; elisp's mechanisms are good enough
              sql-mode         ; sqlformat is currently broken
              tex-mode         ; latexindent is broken
+             web-mode         ; I just don't like tidy
              latex-mode))
 
     ;; Do not format with lsp, use `format` instead
