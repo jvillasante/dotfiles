@@ -17,6 +17,7 @@
              "https://jeffbowman.writeas.com/feed/"
              "https://www.masteringemacs.org/feed"
              "https://irreal.org/blog/?feed=rss2"
+             "https://olddeuteronomy.github.io/index.xml"
              ;; Embedded
              "http://www.embeddedrelated.com/blogs_rss.php"
              ;; C++
