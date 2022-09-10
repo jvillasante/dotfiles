@@ -62,7 +62,10 @@
             (let ((ls (if (file-exists-p "/usr/local/bin/gls")
                           "/usr/local/bin/gls"
                           "/bin/ls")))
-                (eshell/alias "ll" (concat ls " -alh --group-directories-first --color=auto"))))))
+                (eshell/alias "ll" (concat ls " -alh --group-directories-first --color=auto")))
+            (eshell/alias "ff" "find-file $1")
+            (eshell/alias "e" "find-file-other-window $1")
+            (eshell/alias "d" "dired $1"))))
 
 (after! persp-mode
     (setq persp-emacsclient-init-frame-behaviour-override "main"))

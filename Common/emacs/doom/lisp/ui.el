@@ -90,7 +90,7 @@
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; popup windows & rules
-(when (featurep! :ui popup)
+(when (modulep! :ui popup)
     (setq +popup-default-parameters
         '((transient . t)   ; remove later
              (quit . t)        ; remove later

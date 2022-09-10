@@ -19,19 +19,19 @@
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Vterm toggle quick
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (:when (featurep! :term vterm)
+    (:when (modulep! :term vterm)
         :n "C-t" #'+vterm/toggle)
 
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Spell change dictionary
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (:when (featurep! :checkers spell)
+    (:when (modulep! :checkers spell)
         :n "zd" #'ispell-change-dictionary)
 
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Evil multiple cursors hydra
     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (:when (featurep! :editor multiple-cursors)
+    (:when (modulep! :editor multiple-cursors)
         :prefix "g"
         :nv "z" #'+my/hydra-evil-mc/body)
 
@@ -55,10 +55,10 @@
             :desc "iElm"       :n "i" #'ielm
             :desc "Calc"       :n "c" #'calc
             :desc "Quick Calc" :n "C" #'quick-calc
-            (:when (featurep! :ui neotree)
+            (:when (modulep! :ui neotree)
                 :desc "Toogle neotree"  :n "n" #'neotree-toggle
                 :desc "File in neotree" :n "N" #'+neotree/find-this-file)
-            (:when (featurep! :ui treemacs)
+            (:when (modulep! :ui treemacs)
                 :desc "Initialize or toggle treemacs"      :n "n" #'treemacs
                 :desc "Doom initialize or toggle treemacs" :n "N" #'+treemacs/toggle)
             (:prefix ("p" . "Password Store")
@@ -123,7 +123,7 @@
 
         ;;;; Hydra
         (:leader
-            (:when (featurep! :ui hydra)
+            (:when (modulep! :ui hydra)
                 (:prefix "w"
                     :desc "Interactive menu"    "w" #'+hydra/window-nav/body)
                 (:prefix ("z" . "zoom")

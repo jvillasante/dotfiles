@@ -68,13 +68,13 @@
         "C-M-<backspace>" #'sp-backward-kill-sexp)
 
     ;;; undo
-    (:when (featurep! :emacs undo)
+    (:when (modulep! :emacs undo)
         (:when 'undo-fu
             "C-/" #'undo-fu-only-undo
             "C-?" #'undo-fu-only-redo))
 
     ;;; vterm
-    (:when (featurep! :term vterm)
+    (:when (modulep! :term vterm)
         (:when 'vterm
             :map vterm-mode-map
             "C-y" #'vterm-yank))
@@ -85,7 +85,7 @@
         "C-u o" #'crux-open-with)
 
     ;;; neotree
-    (:when (featurep! :ui neotree)
+    (:when (modulep! :ui neotree)
         (:after neotree
             :map neotree-mode-map
             :desc "Neotree stretch" [tab] #'neotree-stretch-toggle))
@@ -104,10 +104,10 @@
         :desc "Calc"       "c" #'calc
         :desc "Quick Calc" "C" #'quick-calc
         :desc "Elfeed"     "f" #'elfeed
-        (:when (featurep! :ui neotree)
+        (:when (modulep! :ui neotree)
             :desc "Toggle Neotree"       "p" #'neotree-toggle
             :desc "Find file in Neotree" "P" #'+neotree/find-this-file)
-        (:when (featurep! :ui treemacs)
+        (:when (modulep! :ui treemacs)
             :desc "Toggle Treemacs"       "p" #'treemacs
             :desc "Doom toggle Treemacs"  "P" #'+treemacs/toggle))
 
