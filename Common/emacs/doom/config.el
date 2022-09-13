@@ -219,10 +219,12 @@
 
 (after! format
     (setq +format-on-save-enabled-modes
-        '(not emacs-lisp-mode ; elisp's mechanisms are good enough
+        '(not
+             emacs-lisp-mode ; elisp's mechanisms are good enough
              sql-mode         ; sqlformat is currently broken
              tex-mode         ; latexindent is broken
              web-mode         ; I just don't like tidy
+             ;; nxml-mode        ; work make me do this
              latex-mode))
 
     ;; Do not format with lsp, use `format` instead
