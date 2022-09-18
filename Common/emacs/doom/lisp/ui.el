@@ -25,7 +25,8 @@
                  (t (buffer-name))))))
 
 ;; Emacs 29 improved scrolling
-(pixel-scroll-precision-mode)
+(when (> emacs-major-version 28)
+    (pixel-scroll-precision-mode))
 
 ;; Dash highlighting
 (after! dash

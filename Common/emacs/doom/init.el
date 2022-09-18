@@ -99,7 +99,7 @@
     (lsp -eglot)
     magit             ; a git porcelain for Emacs
     make              ; run make tasks from Emacs
-    ;;(pass +auth)      ; password manager for nerds
+    (pass +auth)      ; password manager for nerds
     pdf               ; pdf enhancements
     ;;prodigy           ; FIXME managing external services & code builders
     ;;rgb               ; creating color strings
@@ -167,7 +167,7 @@
     ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
     (rust +lsp +tree-sitter)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
     ;;scala             ; java, but good
-    (scheme +guile)   ; a fully conniving family of lisps
+    ;; (scheme +guile)   ; a fully conniving family of lisps
     (sh +lsp)                ; she sells {ba,z,fi}sh shells on the C xor
     ;;sml
     ;;solidity          ; do you need a blockchain? No.

@@ -22,9 +22,6 @@
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (package! crux)
 
-;; pass
-(package! password-store)
-
 ;; dwim-shell-command
 (package! dwim-shell-command)
 
