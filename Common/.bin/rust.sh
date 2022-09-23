@@ -2,6 +2,21 @@
 
 . "$(dirname "$0")/common.sh"
 
+function usage() {
+    echo "Usage:"
+    echo "    $0 help:"
+    echo "        Show this help message"
+    echo "    $0 update:"
+    echo "        Update both rust and rust_analyzer"
+    echo "    $0 package [show|update]:"
+    echo "        Show or update global packages installed with cargo"
+    echo "    $0 cargo [arbitrary cargo command]:"
+    echo "        Run arbitrary cargo command"
+    echo
+    echo " e.g: $0 package show"
+    exit "$1"
+}
+
 update_rust() {
     if hash rustup 2>/dev/null; then
         rustup self update
@@ -36,28 +51,12 @@ update_rust_analyzer() {
     fi
 }
 
-update_nextest() {
-    if [ ! -d "${CARGO_HOME:-~/.cargo}/bin" ]; then
-        echo ">>> cargo is not installed, exiting..."
-        exit 1
-    fi
-
-    local CURRENT_OS
-    CURRENT_OS="$(find_os)"
-    if [ "$CURRENT_OS" = "OSX" ]; then
-        curl -LsSf https://get.nexte.st/latest/mac | tar zxf - -C "${CARGO_HOME:-~/.cargo}/bin"
-    elif [ "$CURRENT_OS" = "LINUX" ]; then
-        curl -LsSf https://get.nexte.st/latest/linux | tar zxf - -C "${CARGO_HOME:-~/.cargo}/bin"
-    fi
-}
-
-update_all() {
+function do_update() {
     update_rust
     update_rust_analyzer
-    update_nextest
 }
 
-show_global_packages() {
+function show_global_packages() {
     if hash cargo 2>/dev/null; then
         echo "Global Packages Installed:"
         cargo install-update -al
@@ -69,53 +68,54 @@ show_global_packages() {
     fi
 }
 
-update_global_packages() {
+function update_global_packages() {
     if hash cargo 2>/dev/null; then
         cargo install-update -a
         check $?
     fi
 }
 
-while true; do
-    PS3="Choose an option: "
-    options=("Update Rust" "Update Rust Analyzer" "Update Nextest" "Update Rust, Rust Analyzer and Nextest"
-        "Show Global Packages Installed" "Update Global Packages Installed"
-        "Quit")
+function do_package() {
+    case $1 in
+        show)
+            show_global_packages
+            ;;
+        update)
+            update_global_packages
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+}
 
-    select opt in "${options[@]}"; do
-        case $REPLY in
-            1)
-                update_rust
-                hr
-                break
-                ;;
-            2)
-                update_rust_analyzer
-                hr
-                break
-                ;;
-            3)
-                update_nextest
-                hr
-                break
-                ;;
-            4)
-                update_all
-                hr
-                break
-                ;;
-            5)
-                show_global_packages
-                hr
-                break
-                ;;
-            6)
-                update_global_packages
-                hr
-                break
-                ;;
-            7) break 2 ;;
-            *) echo "Invalid option '$opt'" >&2 ;;
-        esac
-    done
-done
+nargs=$#
+cmd=${1-}
+rc=0
+if [ "$#" -gt 0 ]; then shift; fi
+case $cmd in
+    update)
+        [ "$nargs" -eq 1 ] || usage 1
+        do_update "$@"
+        ;;
+    package)
+        [ "$nargs" -eq 2 ] || usage 1
+        do_package "$@"
+        ;;
+    cargo)
+        [ "$nargs" -lt 2 ] && usage 1
+        if hash cargo 2>/dev/null; then
+            cargo "$@"
+        else
+            echo "cargo not installed, exiting..."
+            exit 1
+        fi
+        ;;
+    help | --help | -h)
+        usage 0
+        ;;
+    *)
+        usage 1
+        ;;
+esac
+exit $rc
