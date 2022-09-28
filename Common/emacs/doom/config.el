@@ -275,21 +275,21 @@
 (after! scheme
     (setq geiser-guile-binary "guile3.0"))
 
-;; Rust hack!
-(cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
-    (-let* (((&hash "value") contents)
-               (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
-               (sig_group (if (s-equals? "```rust" (car (-third-item groups)))
-                              (-third-item groups)
-                              (car groups)))
-               (sig (--> sig_group
-                        (--drop-while (s-equals? "```rust" it) it)
-                        (--take-while (not (s-equals? "```" it)) it)
-                        (--map (s-trim it) it)
-                        (s-join " " it))))
-        (lsp--render-element (concat "```rust\n" sig "\n```"))))
-
 (after! lsp-mode
+    ;; Rust hack!
+    (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
+        (-let* (((&hash "value") contents)
+                   (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
+                   (sig_group (if (s-equals? "```rust" (car (-third-item groups)))
+                                  (-third-item groups)
+                                  (car groups)))
+                   (sig (--> sig_group
+                            (--drop-while (s-equals? "```rust" it) it)
+                            (--take-while (not (s-equals? "```" it)) it)
+                            (--map (s-trim it) it)
+                            (s-join " " it))))
+            (lsp--render-element (concat "```rust\n" sig "\n```"))))
+
     (setq lsp-restart 'ignore
         lsp-headerline-breadcrumb-enable nil
         lsp-enable-symbol-highlighting t
@@ -342,6 +342,7 @@
     (setq eglot-extend-to-xref t)
     (setq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
+
     (add-to-list 'eglot-server-programs
         `(rust-mode . ("rust-analyzer"))
         `(c-mode c++-mode
