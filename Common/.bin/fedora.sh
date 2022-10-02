@@ -8,59 +8,62 @@ if [ ! "$CURRENT_OS" = "LINUX" ]; then
     exit 1
 fi
 
-fedora_check_update() {
+function usage() {
+    echo "Usage:"
+    echo "    $0 help:"
+    echo "        Show this help message"
+    echo "    $0 update:"
+    echo "        Update DNF Packages"
+    echo "    $0 dnf [arbitrary DNF command]:"
+    echo "        Run arbitrary DNF command"
+    echo
+    echo " e.g: $0 dnf check-update"
+    exit "$1"
+}
+
+function fedora_update() {
+    dnf -y upgrade --refresh
+    check $?
+
+    dnf -y distro-sync
+    check $?
+}
+
+function fedora_cleanup() {
+    dnf autoremove
+    check $?
+}
+
+function update_and_cleanup() {
     if hash dnf 2>/dev/null; then
-        sudo dnf check-update
-        check $?
+        fedora_update
+        fedora_cleanup
     fi
 }
 
-fedora_update() {
-    if hash dnf 2>/dev/null; then
-        sudo dnf -y upgrade --refresh
-        check $?
-
-        sudo dnf -y distro-sync
-        check $?
-    fi
-}
-
-fedora_cleanup() {
-    if hash dnf 2>/dev/null; then
-        sudo dnf autoremove
-        check $?
-    fi
-}
-
-while true; do
-    PS3="Choose an option: "
-    options=("Fedora check-update" "Fedora update" "Fedora cleanup" "Fedora update-cleanup" "Quit")
-
-    select opt in "${options[@]}"; do
-        case $REPLY in
-            1)
-                fedora_check_update
-                hr
-                break
-                ;;
-            2)
-                fedora_update
-                hr
-                break
-                ;;
-            3)
-                fedora_cleanup
-                hr
-                break
-                ;;
-            4)
-                fedora_update
-                fedora_cleanup
-                hr
-                break
-                ;;
-            5) break 2 ;;
-            *) echo "Invalid option '$opt'" >&2 ;;
-        esac
-    done
-done
+nargs=$#
+cmd=${1-}
+rc=0
+if [ "$#" -gt 0 ]; then shift; fi
+case $cmd in
+    update)
+        [ "$nargs" -eq 1 ] || usage 1
+        update_and_cleanup "$@"
+        ;;
+    dnf)
+        [ "$nargs" -lt 2 ] && usage 1
+        if hash dnf 2>/dev/null; then
+            dnf "$@"
+        else
+            echo "dnf not installed, exiting..."
+            exit 1
+        fi
+        ;;
+    help | --help | -h)
+        usage 0
+        ;;
+    *)
+        usage 1
+        ;;
+esac
+exit $rc
