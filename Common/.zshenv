@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-source "${HOME}/.config/shell/env"
+source "${HOME}/.config/shell/system/env"

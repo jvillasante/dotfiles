@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-. "$(dirname "$0")/common.sh"
-
 install_common_go_packages() {
     if hash go 2>/dev/null; then
         go get golang.org/x/tools/gopls@latest

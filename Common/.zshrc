@@ -66,7 +66,7 @@ ZSH_CUSTOM=$HOME/.oh-my-zsh.d
 if [[ "$(uname -s)" == "Darwin" ]]; then
     plugins=(vi-mode git osx)
 else
-    plugins=(vi-mode git )
+    plugins=(vi-mode git)
 fi
 
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true # omz vi-mode plugin
@@ -77,4 +77,4 @@ source $ZSH/oh-my-zsh.sh
 umask 022
 
 # Source our custom files
-source "${HOME}/.config/shell/custom"
+source "${HOME}/.config/shell/system/custom"

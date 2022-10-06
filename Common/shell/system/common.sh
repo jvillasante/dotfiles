@@ -4,7 +4,7 @@
 # Find current shell
 # Call it like: CURRENT_SHELL=$(find_current_shell)
 #
-find_current_shell() {
+function find_current_shell() {
     local CURRENT_SHELL
     CURRENT_SHELL="unknown"
     if [[ -n ${ZSH_VERSION} ]]; then
@@ -19,7 +19,7 @@ find_current_shell() {
 # Find current host based on `hostname`
 # Call it like: CURRENT_HOST=$(find_host)
 #
-find_host() {
+function find_host() {
     local CURRENT_HOST HOST
     CURRENT_HOST="UNSUPPORTED"
     HOST="$(hostname)"
@@ -53,7 +53,7 @@ find_host() {
 # Find current OS based on `uname`
 # Call it like: CURRENT_OS=$(find_os)
 #
-find_os() {
+function find_os() {
     local CURRENT_OS PLATFORM
     CURRENT_OS="UNSUPPORTED"
     PLATFORM="$(uname -s)"
@@ -82,7 +82,7 @@ find_os() {
 # Find current dotfiles directory based on current host
 # Call it like: DOTFILES_DIR=$(find_dotfiles)
 #
-find_dotfiles() {
+function find_dotfiles() {
     local DOTFILES_DIR CURRENT_HOST
     DOTFILES_DIR="NOT_FOUND"
     CURRENT_HOST="$(find_host)"
@@ -99,7 +99,7 @@ find_dotfiles() {
 #
 # Check helper for return values
 #
-check() {
+function check() {
     if [ "$1" -ne 0 ]; then
         echo ""
         echo ">>> This is an error, do something else... We don't know what's wrong here!!!"
@@ -111,7 +111,7 @@ check() {
 #
 # Ask helper (https://djm.me/ask)
 #
-ask() {
+function ask() {
     local prompt default reply
 
     while true; do
@@ -148,7 +148,7 @@ ask() {
 #
 # Print a horizontal line followed by a new line
 #
-hr() {
+function hr() {
     local start=$'\e(0' end=$'\e(B' line='qqqqqqqqqqqqqqqq'
     local cols=${COLUMNS:-$(tput cols)}
     while ((${#line} < cols)); do line+="$line"; done
@@ -168,7 +168,7 @@ hr() {
 #    github_latest arkenfox user.js "${HOME}/Downloads"
 #    check $?
 #
-github_latest_release() {
+function github_latest_release() {
     local GITHUB_ORGANIZATION
     local GITHUB_REPO
     local OUTPUT

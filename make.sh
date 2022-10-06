@@ -5,8 +5,7 @@
 # This script creates symlinks from the home directory to any desired dotfiles in $HOME/dotfiles
 ############################
 
-. "$(dirname "$0")/Common/.bin/common.sh"
-
+. "$(dirname "$0")/Common/shell/system/common.sh"
 CURRENT_SHELL=$(find_current_shell)
 CURRENT_HOST=$(find_host)
 CURRENT_OS=$(find_os)
@@ -117,7 +116,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME..."
-files=".bin .editorconfig .emacs-profiles.el .sbclrc .mbsyncrc .msmtprc .tidyrc"
+files=".editorconfig .emacs-profiles.el .sbclrc .mbsyncrc .msmtprc .tidyrc"
 [ -n "$BASH_VERSION" ] && files+=" .bash_profile .bashrc"
 [ -n "$ZSH_VERSION" ] && files+=" .oh-my-zsh.d .zshenv .zshrc"
 for file in $files; do
@@ -130,6 +129,13 @@ files="git nyxt alacritty shell tmux ranger rofi nvim psd i3 nushell starship.to
 for file in $files; do
     unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
+done
+
+echo ">>> Linking scripts files in $HOME/.local/bin..."
+files="+backup +colors +crypt +dmxs +dotfiles +fedora +firefox +fs +go +mac +rust +spell +ubuntu +zig +zombie"
+for file in $files; do
+    unlink "$HOME/.local/bin/$file"
+    ln -s "$DOTFILES_DIR/Common/shell/scripts/$file" "$HOME/.local/bin"
 done
 
 echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."

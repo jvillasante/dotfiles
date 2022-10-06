@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. "$(dirname "$0")/common.sh"
+. "$HOME/.config/shell/system/common.sh"
 
 function usage() {
     echo "Usage:"

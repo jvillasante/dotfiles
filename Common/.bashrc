@@ -80,5 +80,5 @@ export plugins=(git bashmarks)
 #  fi
 
 source "$OSH"/oh-my-bash.sh
-source "${HOME}/.config/shell/env"
-source "${HOME}/.config/shell/custom"
+source "${HOME}/.config/shell/system/env"
+source "${HOME}/.config/shell/system/custom"

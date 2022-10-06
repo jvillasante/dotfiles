@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. "$(dirname "$0")/common.sh"
+. "$HOME/.config/shell/system/common.sh"
 CURRENT_HOST=$(find_host)
 
 create_c_project_gcc() {
