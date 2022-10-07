@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. "$HOME/.config/shell/system/common.sh"
+
 function usage() {
     echo "Usage:"
     echo "    $0 help:"
@@ -91,7 +93,7 @@ user_pref("ui.key.menuAccessKeyFocuses", false);
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
 
-    sh "${PROFILE}"/updater.sh
+    sh "${PROFILE}"/updater.sh -u -s
     check $?
 
     sh "${PROFILE}"/prefsCleaner.sh
