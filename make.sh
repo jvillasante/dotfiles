@@ -132,7 +132,7 @@ for file in $files; do
 done
 
 echo ">>> Linking scripts files in $HOME/.local/bin..."
-files="+backup +colors +crypt +dmxs +dotfiles +fedora +firefox +fs +go +mac +rust +spell +ubuntu +zig +zombie"
+files="+backup +colors +crypt +dmxs +dotfiles +fedora +firefox +fs +go +mac +openbb +rust +spell +ubuntu +zig +zombie"
 for file in $files; do
     unlink "$HOME/.local/bin/$file"
     ln -s "$DOTFILES_DIR/Common/shell/scripts/$file" "$HOME/.local/bin"

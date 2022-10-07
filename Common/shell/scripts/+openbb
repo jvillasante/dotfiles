@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+. "$HOME/.config/shell/system/common.sh"
+DOTFILES_DIR="$(find_dotfiles)"
+
+tmuxifier load-window "$DOTFILES_DIR/Common/shell/tmuxifier/OpenBB.sh"
+tmux send-keys C-u "$1" Enter
