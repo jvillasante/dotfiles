@@ -21,15 +21,15 @@ function usage() {
 }
 
 function fedora_update() {
-    dnf -y upgrade --refresh
+    sudo dnf -y upgrade --refresh
     check $?
 
-    dnf -y distro-sync
+    sudo dnf -y distro-sync
     check $?
 }
 
 function fedora_cleanup() {
-    dnf autoremove
+    sudo dnf autoremove
     check $?
 }
 
