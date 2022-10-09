@@ -148,3 +148,10 @@
 	            (set-window-buffer (next-window) next-win-buffer)
 	            (select-window first-win)
 	            (if this-win-2nd (other-window 1))))))
+
+;;;###autoload
+(defun +my/new-scratch-buffer-in-markdown ()
+    "Make a temporary buffer in markdown-mode and switch to it"
+    (interactive)
+    (switch-to-buffer (make-temp-name "scratch-"))
+    (markdown-mode))
