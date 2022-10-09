@@ -288,6 +288,7 @@
                             (s-join " " it))))
             (lsp--render-element (concat "```rust\n" sig "\n```"))))
 
+    ;; General
     (setq lsp-restart 'ignore
         lsp-headerline-breadcrumb-enable nil
         lsp-enable-symbol-highlighting t
@@ -300,6 +301,11 @@
         lsp-auto-guess-root nil
         lsp-enable-file-watchers nil
         lsp-enable-on-type-formatting nil)
+
+    ;; Rust
+    (setq
+        lsp-rust-analyzer-cargo-watch-command "clippy"
+        lsp-rust-analyzer-completion-auto-import-enable nil)
 
     ;; Zig
     (setq lsp-zig-zls-executable
@@ -357,11 +363,7 @@
                    "--header-insertion-decorators=0"))))
 
 (after! rustic
-    (setq rustic-lsp-server 'rust-analyzer
-        rustic-format-on-save nil
-        lsp-rust-analyzer-cargo-watch-command "clippy"
-        lsp-rust-analyzer-inlay-hints-mode nil
-        lsp-rust-analyzer-server-display-inlay-hints nil))
+    (setq rustic-format-on-save nil))
 
 (after! evil-snipe
     (push 'elfeed-show-mode   evil-snipe-disabled-modes)
