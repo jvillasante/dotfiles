@@ -35,8 +35,41 @@
 ;; Do not modify neotree
 (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)
 
-;; dashboard
+;; doom-dashboard
 (setq fancy-splash-image +my/splash-path)
+(setq +doom-dashboard-functions
+    '(doom-dashboard-widget-banner
+         doom-dashboard-widget-shortmenu
+         doom-dashboard-widget-loaded))
+(setq +doom-dashboard-menu-sections
+    '(("Reload last session"
+          :icon nil
+          :when (cond ((modulep! :ui workspaces)
+                          (file-exists-p (expand-file-name persp-auto-save-fname persp-save-dir)))
+                    ((require 'desktop nil t)
+                        (file-exists-p (desktop-full-file-name))))
+          :face (:inherit (doom-dashboard-menu-title bold))
+          :action doom/quickload-session)
+         ("Open org-agenda"
+             :icon nil
+             :when (fboundp 'org-agenda)
+             :action org-agenda)
+         ("Recently opened files"
+             :icon nil
+             :action recentf-open-files)
+         ("Open project"
+             :icon nil
+             :action projectile-switch-project)
+         ("Jump to bookmark"
+             :icon nil
+             :action bookmark-jump)
+         ("Open private configuration"
+             :icon nil
+             :when (file-directory-p doom-user-dir)
+             :action doom/open-private-config)
+         ("Open documentation"
+             :icon nil
+             :action doom/help)))
 
 ;; all-the-icons
 (setq all-the-icons-scale-factor 1.1)
