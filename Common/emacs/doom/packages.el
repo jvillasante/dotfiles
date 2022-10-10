@@ -25,6 +25,9 @@
 ;; dwim-shell-command
 (package! dwim-shell-command)
 
+;; password-store
+(package! password-store)
+
 ;; dired
 (package! dired-quick-sort)
 (package! dired-single)
