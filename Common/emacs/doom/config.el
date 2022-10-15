@@ -222,7 +222,7 @@
              sql-mode         ; sqlformat is currently broken
              tex-mode         ; latexindent is broken
              web-mode         ; I just don't like tidy
-             ;; nxml-mode        ; work make me do this
+             nxml-mode        ; work make me do this
              latex-mode))
 
     ;; Do not format with lsp, use `format` instead
