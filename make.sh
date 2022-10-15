@@ -16,11 +16,6 @@ install_shell() {
     case $1 in
         bash)
             if type bash >/dev/null 2>&1; then
-                if [ ! -d "$DOTFILES_DIR/.oh-my-bash/" ]; then
-                    export OSH="$DOTFILES_DIR/.oh-my-bash"
-                    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
-                fi
-
                 # Set the default shell to bash if it isn't currently set to bash
                 if [ ! "$SHELL" = "$(which bash)" ]; then
                     chsh -s "$(which bash)"
@@ -36,10 +31,6 @@ install_shell() {
             ;;
         zsh)
             if type zsh >/dev/null 2>&1; then
-                if [ ! -d "$DOTFILES_DIR/.oh-my-zsh/" ]; then
-                    git clone https://github.com/ohmyzsh/ohmyzsh.git "$DOTFILES_DIR/.oh-my-zsh"
-                fi
-
                 # Set the default shell to zsh if it isn't currently set to zsh
                 if [ ! "$SHELL" = "$(which zsh)" ]; then
                     chsh -s "$(which zsh)"
@@ -109,7 +100,6 @@ install_tmuxifier
 
 echo ">>> Linking global files in $HOME"
 files=".emacs.d .tmuxifier"
-[ -n "$ZSH_VERSION" ] && files+=" .oh-my-zsh"
 for file in $files; do
     unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/$file" "$HOME/"
@@ -118,7 +108,7 @@ done
 echo ">>> Linking common files in $HOME..."
 files=".editorconfig .emacs-profiles.el .sbclrc .mbsyncrc .msmtprc .tidyrc"
 [ -n "$BASH_VERSION" ] && files+=" .bash_profile .bashrc"
-[ -n "$ZSH_VERSION" ] && files+=" .oh-my-zsh.d .zshenv .zshrc"
+[ -n "$ZSH_VERSION" ] && files+=" .zshenv .zshrc"
 for file in $files; do
     unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"

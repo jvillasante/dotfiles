@@ -1,5 +1,4 @@
 /.emacs.*
-/.oh-my-*
 /.tmuxifier
 .DS_Store
 *flycheck_tmp_*
