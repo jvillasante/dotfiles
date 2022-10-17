@@ -3,10 +3,10 @@ add_newline = false
 
 # Set the format string
 format = """
+$directory\
 $git_branch\
 $git_state\
 $git_status\
-$directory\
 $character"""
 
 [character]
@@ -18,7 +18,7 @@ vicmd_symbol = "[❮](green)"
 style = "green"
 
 [git_branch]
-format = "[$branch(:$remote_branch)]($style) "
+# format = "[$branch(:$remote_branch)]($style) "
 style = "green"
 
 [git_status]
