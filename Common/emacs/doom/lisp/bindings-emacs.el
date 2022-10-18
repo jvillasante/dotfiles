@@ -77,6 +77,7 @@
     (:when (modulep! :term vterm)
         (:when 'vterm
             :map vterm-mode-map
+            "M-[" #'vterm-copy-mode
             "C-y" #'vterm-yank))
 
     ;;; dired
