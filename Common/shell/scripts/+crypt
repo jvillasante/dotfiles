@@ -10,7 +10,7 @@
 #   (symmetric) or "*.tar.gz.asc (asymmetric)"
 #
 
-function usage() {
+usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
@@ -28,7 +28,7 @@ function usage() {
     exit "$1"
 }
 
-function check() {
+check() {
     if [ "$1" -ne 0 ]; then
         echo ""
         echo ">>> This is an error, do something else... We don't know what's wrong here!!!"
@@ -37,7 +37,7 @@ function check() {
     fi
 }
 
-function encrypt() {
+encrypt() {
     if [ -z "$1" ] || [ "$1" != "-s" ] && [ "$1" != "-a" ]; then
         echo "Illegal arguments ($1 must exist and be either '-s (symmetric)' or '-a (asymmetric)')"
         echo "  Usage: ./crypt -e [-s | -a] [file | directory]"
@@ -90,7 +90,7 @@ function encrypt() {
     check $?
 }
 
-function do_decrypt() {
+do_decrypt() {
     local p
     p=$(basename "$1" | cut -d. -f1)
 
@@ -109,7 +109,7 @@ function do_decrypt() {
     echo "Decrypted $1 to $p ($2)"
 }
 
-function decrypt() {
+decrypt() {
     if [ -z "$1" ] || [ ! -f "$1" ]; then
         echo "Illegal arguments ($1 must exist and be a file)"
         echo "  Usage: ./crypt -d [filename.tar.gz.gpg (symmetric) | filename.tar.gz.asc (asymmetric)]"

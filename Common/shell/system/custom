@@ -62,7 +62,7 @@ alias ag='ag --hidden --ignore node_modules --ignore .git'
 
 # atool to extract archives
 if type atool >/dev/null 2>/dev/null; then
-    function extract() {
+    extract() {
         atool --extract --explain "$@"
     }
 fi
@@ -130,7 +130,7 @@ if [ "$(uname -s)" = 'Linux' ]; then
     }
 
     # print ssh agent info
-    function get_ssh_agent {
+    get_ssh_agent() {
         if [ -n "$SSH_AGENT_PID" -o -n "$SSH_AUTH_SOCK" ]; then
             echo "Current ssh agent is:"
             for each in SSH_AGENT_PID SSH_AUTH_SOCK; do

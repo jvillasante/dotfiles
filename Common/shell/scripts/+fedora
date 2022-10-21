@@ -7,7 +7,7 @@ if [ ! "$CURRENT_OS" = "LINUX" ]; then
     exit 1
 fi
 
-function usage() {
+usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
@@ -20,7 +20,7 @@ function usage() {
     exit "$1"
 }
 
-function fedora_update() {
+fedora_update() {
     sudo dnf -y upgrade --refresh
     check $?
 
@@ -28,12 +28,12 @@ function fedora_update() {
     check $?
 }
 
-function fedora_cleanup() {
+fedora_cleanup() {
     sudo dnf autoremove
     check $?
 }
 
-function update_and_cleanup() {
+update_and_cleanup() {
     if hash dnf 2>/dev/null; then
         fedora_update
         fedora_cleanup

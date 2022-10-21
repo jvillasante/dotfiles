@@ -2,7 +2,7 @@
 
 . "$HOME/.config/shell/system/common.sh"
 
-function usage() {
+usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
@@ -51,12 +51,12 @@ update_rust_analyzer() {
     fi
 }
 
-function do_update() {
+do_update() {
     update_rust
     update_rust_analyzer
 }
 
-function show_global_packages() {
+show_global_packages() {
     if hash cargo 2>/dev/null; then
         echo "Global Packages Installed:"
         cargo install-update -al
@@ -68,14 +68,14 @@ function show_global_packages() {
     fi
 }
 
-function update_global_packages() {
+update_global_packages() {
     if hash cargo 2>/dev/null; then
         cargo install-update -a
         check $?
     fi
 }
 
-function do_package() {
+do_package() {
     case $1 in
         show)
             show_global_packages

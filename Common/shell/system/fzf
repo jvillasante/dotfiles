@@ -33,27 +33,27 @@ if type fzf >/dev/null 2>/dev/null; then
     #
 
     # switch to a project
-    function pproj() {
+    pproj() {
         cd $(find ~/Workspace/Private/Projects/ -maxdepth 2 -type d | fzf)
     }
 
-    function wproj() {
+    wproj() {
         cd $(find ~/Workspace/Work/Projects/ -maxdepth 2 -type d | fzf)
     }
 
     # change to an arbitrary subdirectory
-    function fcd() {
+    fcd() {
         cd $(find . -type d | fzf)
     }
 
     # fuzzy match current directory contents
-    function ffuzz() {
+    ffuzz() {
         search_term=$1
         find . -wholename \*$search_term\* -not -path './.*/*' | fzf
     }
 
     # run a command from the history
-    function fhist() {
+    fhist() {
         $(history | cut -c8- | sort -u | fzf)
     }
 
@@ -62,12 +62,12 @@ if type fzf >/dev/null 2>/dev/null; then
     #
 
     # show process id - interactive grep
-    function fgrep() {
+    fgrep() {
         ps aux | eval fzf | awk '{ print $2 }'
     }
 
     # kill processes - list only the ones you can kill.
-    function fkill() {
+    fkill() {
         local pid
         if [ "$UID" != "0" ]; then
             pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
@@ -86,7 +86,7 @@ if type fzf >/dev/null 2>/dev/null; then
     #
 
     # fbr - checkout git branch (including remote branches)
-    function fbr() {
+    fbr() {
         local branches branch
         branches=$(git branch --all | grep -v HEAD) &&
             branch=$(echo "$branches" | fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
@@ -94,7 +94,7 @@ if type fzf >/dev/null 2>/dev/null; then
     }
 
     # fco - checkout git branch/tag
-    function fco() {
+    fco() {
         local tags branches target
         branches=$(
             git --no-pager branch --all \
@@ -109,7 +109,7 @@ if type fzf >/dev/null 2>/dev/null; then
     }
 
     # fcoc - checkout git commit
-    function fcoc() {
+    fcoc() {
         local commits commit
         commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
             commit=$(echo "$commits" | fzf --tac +s +m -e) &&
@@ -117,7 +117,7 @@ if type fzf >/dev/null 2>/dev/null; then
     }
 
     # fshow - git commit browser
-    function fshow() {
+    fshow() {
         git log --graph --color=always \
             --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
             fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
@@ -135,7 +135,7 @@ FZF-EOF"
         # `ftm_session_new` - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
         # `ftm_session_new` will allow you to select your tmux session via fzf.
         # `ftm_session_new irc` will attach to the irc session (if it exists), else it will create it.
-        function ftm_session_new() {
+        ftm_session_new() {
             [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
             if [ $1 ]; then
                 tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
@@ -145,7 +145,7 @@ FZF-EOF"
 
 
         # zsh; needs setopt re_match_pcre. You can, of course, adapt it to your own shell easily.
-        function ftm_session_kill() {
+        ftm_session_kill() {
             local sessions
             sessions="$(tmux ls|fzf --exit-0 --multi)"  || return $?
             local i
@@ -161,7 +161,7 @@ FZF-EOF"
         # ftm_session_switch [FUZZY PATTERN] - Select selected tmux session
         #   - Bypass fuzzy finder if there's only one match (--select-1)
         #   - Exit if there's no match (--exit-0)
-        function ftm_session_switch() {
+        ftm_session_switch() {
             local session
             session=$(tmux list-sessions -F "#{session_name}" | \
                 fzf --query="$1" --select-1 --exit-0) &&
@@ -169,7 +169,7 @@ FZF-EOF"
         }
 
         # ftn_pane_switch - switch pane
-        function ftm_pane_switch() {
+        ftm_pane_switch() {
             local panes current_window current_pane target target_window target_pane
             panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
             current_pane=$(tmux display-message -p '#I:#P')
@@ -193,7 +193,7 @@ FZF-EOF"
     # Pass
     #
     if type pass >/dev/null 2>/dev/null; then
-        function fpass() {
+        fpass() {
             local DIR=$(pwd)
             cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}"
             local PASSFILE=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)

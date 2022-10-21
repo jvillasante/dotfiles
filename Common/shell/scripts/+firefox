@@ -2,7 +2,7 @@
 
 . "$HOME/.config/shell/system/common.sh"
 
-function usage() {
+usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
@@ -22,7 +22,7 @@ function usage() {
 #
 # https://github.com/arkenfox/user.js
 #
-function update_arkenfox() {
+update_arkenfox() {
     if pgrep -x firefox >/dev/null; then
         echo ">>> Firefox is running. Close Firefox and try again."
         usage 1
@@ -102,7 +102,7 @@ ENDOFFILE
     echo ""
 }
 
-function update_non_arkenfox() {
+update_non_arkenfox() {
     if pgrep -x firefox >/dev/null; then
         echo ">>> Firefox is running. Close Firefox and try again."
         usage 1
