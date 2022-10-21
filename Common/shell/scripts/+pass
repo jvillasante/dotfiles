@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+type pass >/dev/null 2>/dev/null || exit 1
+type sk >/dev/null 2>/dev/null || exit 1
+
+usage() {
+    echo "Usage:"
+    echo "    $0 --help:"
+    echo "        Show this help message"
+    echo "    $0 --copy:"
+    echo "        Copy password after selection"
+    echo "    $0 --view:"
+    echo "        View password after selection"
+    echo "    $0 --edit"
+    echo "        Edit password after selection"
+    echo "    $0 [args]"
+    echo "        Execute arbitrary [args] pass command"
+    echo
+    echo " e.g: $0 --copy"
+    exit "$1"
+}
+
+do_pass() {
+    local DIR PASSFILE
+    DIR=$(pwd)
+    cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || exit
+    PASSFILE=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | sk)
+    cd "$DIR" || exit
+    if [ -n "$PASSFILE" ]; then
+        case "$1" in
+            --copy)
+                pass --clip "${PASSFILE}"
+                ;;
+            --view)
+                pass "${PASSFILE}"
+                ;;
+            --edit)
+                pass edit "${PASSFILE}"
+                ;;
+            *) ;;
+        esac
+    fi
+}
+
+nargs=$#
+cmd=${1-p}
+case $cmd in
+    --copy)
+        [ "$nargs" -eq 1 ] || usage 1
+        do_pass "$cmd"
+        ;;
+    --view)
+        [ "$nargs" -eq 1 ] || usage 1
+        do_pass "$cmd"
+        ;;
+    --edit)
+        [ "$nargs" -eq 1 ] || usage 1
+        do_pass "$cmd"
+        ;;
+    help | --help | -h)
+        usage 0
+        ;;
+    *)
+        pass "$@"
+        ;;
+esac
+exit 0
