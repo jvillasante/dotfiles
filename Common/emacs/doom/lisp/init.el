@@ -90,7 +90,6 @@
     password-cache-expiry nil       ; I can trust my computers ... can't I?
     major-mode 'fundamental-mode
     use-dialog-box nil
-    vc-follow-symlinks t
     load-prefer-newer t
     truncate-lines t                   ; Don't fold lines
     truncate-partial-width-windows nil ; for vertically-split windows
@@ -121,6 +120,10 @@
     ;; LaTeX
     font-latex-fontify-script nil
     TeX-newline-function 'reindent-then-newline-and-indent
+
+    ;; vc
+    vc-follow-symlinks t
+    vc-handled-backends '(Git)
 
     ;; other defaults
     auto-window-vscroll nil
