@@ -21,21 +21,21 @@ usage() {
 }
 
 do_pass() {
-    local DIR PASSFILE
-    DIR=$(pwd)
+    local dir passfile
+    dir=$(pwd)
     cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || exit
-    PASSFILE=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | sk)
-    cd "$DIR" || exit
-    if [ -n "$PASSFILE" ]; then
+    passfile=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | sk)
+    cd "$dir" || exit
+    if [ -n "$passfile" ]; then
         case "$1" in
             --copy)
-                pass --clip "${PASSFILE}"
+                pass --clip "${passfile}"
                 ;;
             --view)
-                pass "${PASSFILE}"
+                pass "${passfile}"
                 ;;
             --edit)
-                pass edit "${PASSFILE}"
+                pass edit "${passfile}"
                 ;;
             *) ;;
         esac
