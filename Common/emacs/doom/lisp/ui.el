@@ -139,6 +139,7 @@
     (set-popup-rule! "^\\*xwidget-webkit*" :size 0.8 :quit t :select t)
     (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4 :quit nil :select t :autosave nil)
     (set-popup-rule! "^\\*Diff" :size 0.6 :quit t :select t)
+    (set-popup-rule! "^\\*Async Shell Command" :size 0.4 :quit t :select t)
     (after! tldr (set-popup-rule! "^\\*tldr*" :size 0.6 :ttl 0 :quit nil))
     (after! lsp (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0))
     (after! eglot (set-popup-rule! "^\\*eglot-.*$" :size 0.4 :quit t :ttl 0))
