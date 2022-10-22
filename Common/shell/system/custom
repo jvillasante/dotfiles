@@ -24,12 +24,12 @@ export SSH_KEY_PATH="$HOME/.ssh/dsa_id"
 
 # Shell options
 # command history related
-shopt -s histappend
-shopt -s histverify # edit the resulting command instead of run it directly
-shopt -s autocd
-shopt -s cdspell
-shopt -s dirspell
-shopt -s checkwinsize
+# shopt -s histappend
+# shopt -s histverify
+# shopt -s autocd
+# shopt -s cdspell
+# shopt -s dirspell
+# shopt -s checkwinsize
 # shopt -q progcomp
 
 # PS1
@@ -127,28 +127,6 @@ if [ "$(uname -s)" = 'Linux' ]; then
     # Known bug with gpg on Fedora
     gpg_pcscd_restart() {
         sudo systemctl restart pcscd
-    }
-
-    # print ssh agent info
-    get_ssh_agent() {
-        if [ -n "$SSH_AGENT_PID" -o -n "$SSH_AUTH_SOCK" ]; then
-            echo "Current ssh agent is:"
-            for each in SSH_AGENT_PID SSH_AUTH_SOCK; do
-                eval "echo export $each=\${$each}"
-            done
-            return
-        fi
-
-        # Search in command history. This works because we set shopt to append
-        # command history on the fly.
-        hist=$(history | grep SSH | grep -v grep | awk '{$1="";print $0}')
-        # Note: don't "sort -u", which will break match between agent pid and sock
-        if [ -n "$hist" ]; then
-            echo "Possible ssh agent(s):"
-            echo "$hist"
-        else
-            echo "No clue about ssh agent"
-        fi
     }
 fi
 
