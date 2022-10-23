@@ -15,6 +15,8 @@ usage() {
     echo "        Update tmuxifier"
     echo "    $0 dotfiles [pull|sync]:"
     echo "        Update personal dotfiles (pull from remote or sync on local)"
+    echo "    $0 chemacs sync:"
+    echo "        Update chemacs2 (pull from remote and symlink)"
     echo "    $0 doom [arbitrary doom command]:"
     echo "        Run arbitrary doom command"
     echo "    $0 emacs kill"
@@ -45,6 +47,30 @@ do_dotfiles() {
 
             "${DOTFILES_DIR}/make.sh"
             check $?
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+}
+
+do_chemacs() {
+    case $1 in
+        sync)
+            if [ -d "$DOTFILES_DIR/.emacs.chemacs2" ]; then
+                git -C "${DOTFILES_DIR}/.emacs.chemacs2" status
+                check $?
+
+                if ask "Do you want to pull?"; then
+                    git -C "${DOTFILES_DIR}/.emacs.chemacs2" pull
+                    check $?
+                fi
+
+                if ask "Do you want to symlink?"; then
+                    rm -rf "$DOTFILES_DIR/.emacs.d"
+                    ln -s "$DOTFILES_DIR/.emacs.chemacs2" "$DOTFILES_DIR/.emacs.d"
+                fi
+            fi
             ;;
         *)
             usage 1
@@ -97,6 +123,10 @@ case $cmd in
     tmuxifier)
         [ "$nargs" -eq 2 ] || usage 1
         do_tmuxifier "$@"
+        ;;
+    chemacs)
+        [ "$nargs" -eq 2 ] || usage 1
+        do_chemacs "$@"
         ;;
     doom)
         [ "$nargs" -lt 2 ] && usage 1
