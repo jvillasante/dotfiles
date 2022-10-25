@@ -1,4 +1,4 @@
-;;; jv-ui.el --- Custom UI Configs -*- lexical-binding: t; -*-
+;;; my-ui.el --- Custom UI Configs -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; UI Customizations
@@ -76,5 +76,5 @@
         '(mode-line-active ((t (:height 0.9))))
         '(mode-line-inactive ((t (:height 0.9))))))
 
-(provide 'jv-ui)
-;;; jv-ui.el ends here
+(provide 'my-ui)
+;;; my-ui.el ends here

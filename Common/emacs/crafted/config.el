@@ -31,7 +31,7 @@
 (require 'crafted-windows)     ; Window management configuration
 
 ;; Personal Modules
-(require 'jv-ui) ; custom ui configs
+(require 'my-ui) ; custom ui configs
 
 ;;; To not load `custom.el' after `config.el', uncomment this line.
 ;;; (setq crafted-load-custom-file nil)
