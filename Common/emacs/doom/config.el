@@ -19,12 +19,6 @@
 ;; enable repeat-mode, see: `describe-repeat-maps'
 (repeat-mode)
 
-;; scratch buffer
-(setq initial-major-mode 'emacs-lisp-mode)
-(setq initial-scratch-message "\
-;; This buffer is for text that is not saved, and for Lisp evaluation.\n\
-;; To create a file, visit it with \\[find-file] and enter text in its buffer.\n\n")
-
 (when noninteractive
     (after! undo-tree
         (global-undo-tree-mode -1)))
