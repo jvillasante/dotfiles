@@ -6,3 +6,5 @@
 !config.el
 !custom.el
 !early-config.el
+!/custom-modules/
+!/custom-modules/**
