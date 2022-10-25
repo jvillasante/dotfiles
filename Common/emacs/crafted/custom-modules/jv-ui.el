@@ -62,6 +62,7 @@
              (2 . (monochrome variable-pitch 1.2))
              (3 . (monochrome variable-pitch 1.1))
              (t . (monochrome))))
+
     (disable-theme 'deeper-blue) ; first turn off the deeper-blue theme
     (modus-themes-load-themes))
 
@@ -74,18 +75,6 @@
         '(mode-line ((t (:height 0.9))))
         '(mode-line-active ((t (:height 0.9))))
         '(mode-line-inactive ((t (:height 0.9))))))
-
-
-;;; Themes are color customization packages which coordinate the
-;;; various colors, and in some cases, font-sizes for various aspects
-;;; of text editing within Emacs, toolbars, tabbars and
-;;; modeline. Several themes are built-in to Emacs, by default,
-;;; Crafted Emacs uses the `deeper-blue' theme. Here is an example of
-;;; loading a different theme from the venerable Doom Emacs project.
-(crafted-package-install-package 'doom-themes)
-(progn
-    (disable-theme 'deeper-blue)          ; first turn off the deeper-blue theme
-    (load-theme 'doom-one-light t))       ; load the doom-palenight theme
 
 (provide 'jv-ui)
 ;;; jv-ui.el ends here
