@@ -51,10 +51,10 @@
 (add-hook 'emacs-startup-hook
     (lambda ()
         (custom-set-faces
-            `(default ((t (:font "Iosevka 18"))))
+            `(default ((t (:font "Iosevka 16"))))
             `(fixed-pitch ((t (:inherit (default)))))
             `(fixed-pitch-serif ((t (:inherit (default)))))
-            `(variable-pitch ((t (:font "Iosevka Aile 18")))))))
+            `(variable-pitch ((t (:font "Iosevka Aile 16")))))))
 
 ;; line numbers on
 (setq crafted-ui-display-line-numbers t)
@@ -68,7 +68,7 @@
 (crafted-package-install-package 'doom-themes)
 (progn
     (disable-theme 'deeper-blue)          ; first turn off the deeper-blue theme
-    (load-theme 'doom-palenight t))       ; load the doom-palenight theme
+    (load-theme 'doom-one-light t))       ; load the doom-palenight theme
 
 ;; To not load `custom.el' after `config.el', uncomment this line.
 ;; (setq crafted-load-custom-file nil)
