@@ -1,0 +1,30 @@
+# Emacs please
+set editing-mode emacs
+
+# do not bell on tab-completion
+set bell-style none
+
+# Change the timeout for key sequences as 500ms is too fast.
+set keyseq-timeout 1200
+
+# By default, completions are not highlighted in color.
+set colored-stats on
+set colored-completion-prefix on
+
+# M-m is back-to-indentation which is what I usually use to go to the
+# beginning of a line; everywhere else, I bind it like C-a.
+"\em": beginning-of-line
+
+# M-p and M-n should behave like they do in M-x shell in Emacs.
+"\ep": previous-history
+"\en": next-history
+
+# C-Backspace should behave like in Emacs.
+"\C-\b": backward-kill-word
+
+# C-w should behave like in Emacs.
+"\C-w": kill-region
+
+# C-M-f and C-M-v dump functions and variables.
+"\e\C-f": dump-functions
+"\e\C-v": dump-variables

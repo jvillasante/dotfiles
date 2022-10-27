@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
 # tty
-stty -ixon       # Disable flow control, i.e. ^s "freeze screen" and ^q resume
-stty erase ^?    # kill ^u intr ^c eof ^d stop ^s
-set -o ignoreeof # do not logout when "ctrl + D pressed"
-set -o emacs
+stty -ixon    # Disable flow control, i.e. ^s "freeze screen" and ^q resume
+stty erase ^? # kill ^u intr ^c eof ^d stop ^s
 
 # Exports
 export ALTERNATE_EDITOR=""
@@ -21,16 +19,6 @@ export LANGUAGE=en_US.UTF-8
 # ssh
 alias ssh="TERM=xterm-256color ssh"
 export SSH_KEY_PATH="$HOME/.ssh/dsa_id"
-
-# Shell options
-# command history related
-# shopt -s histappend
-# shopt -s histverify
-# shopt -s autocd
-# shopt -s cdspell
-# shopt -s dirspell
-# shopt -s checkwinsize
-# shopt -q progcomp
 
 # PS1
 eval "$(starship init bash)"
@@ -143,21 +131,3 @@ fi
 # Fuzzy Finder (https://github.com/lotabout/skim)
 #
 . "${HOME}/.config/shell/system/skim"
-
-# .inputrc stuff, BASH ONLY
-# Usually, following settings are put into ~/.inputrc, with only stuff
-# enclosed within single quotes kept. For me, I prefer to keep all stuff in
-# one place to make it more explicit.
-
-bind 'set show-all-if-ambiguous on'
-bind 'set completion-ignore-case on'
-
-# double <esc> to cycle through possible completions
-bind '"\e\e":menu-complete'
-
-# M-p,M-n works like those in eshell
-bind '"\ep": history-search-backward'
-bind '"\en": history-search-forward'
-
-bind '"\C-w":kill-region'
-bind '"\C-\b": backward-kill-word' # make C-Backspace act as in emacs
