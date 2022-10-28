@@ -36,9 +36,6 @@
 ;; Ignore xressources
 (setq inhibit-x-resources t)
 
-;; no splash
-(customize-set-variable 'crafted-startup-inhibit-splash t)
-
 ;; all-the-icons
 (setq all-the-icons-scale-factor 1.1)
 
