@@ -43,9 +43,19 @@
 (setq all-the-icons-scale-factor 1.1)
 
 ;;; line numbers on
-(setq crafted-ui-display-line-numbers t)
+(customize-set-variable 'crafted-ui-display-line-numbers t)
 
 ;; theme
+(defun +my/switch-theme (theme)
+    "This interactive call is taken from `load-theme'."
+    (interactive
+        (list
+            (intern (completing-read "Load custom theme: "
+                        (mapcar 'symbol-name
+                            (custom-available-themes))))))
+    (mapc #'disable-theme custom-enabled-themes)
+    (load-theme theme t))
+
 (crafted-package-install-package 'modus-themes)
 (progn
     (setq
@@ -63,8 +73,8 @@
              (3 . (monochrome variable-pitch 1.1))
              (t . (monochrome))))
 
-    (disable-theme 'deeper-blue) ; first turn off the deeper-blue theme
-    (modus-themes-load-themes))
+    (modus-themes-load-themes) ;; Load the theme files before enabling a theme
+    (+my/switch-theme 'modus-operandi))
 
 ;; modeline
 (progn
