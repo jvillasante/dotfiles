@@ -23,6 +23,9 @@
         "C-x C-z" nil ; same
         ;; [remap list-buffers] 'ibuffer ; ibuffer is better than list-buffers
 
+        ;;; for some reason, crafted-emacs remaps C-s to `consult-line'
+        "C-s" 'isearch-forward
+
         ;;; upcase, downcase and capitalize
         "M-u" 'upcase-dwim
         "M-l" 'downcase-dwim
