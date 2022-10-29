@@ -39,6 +39,10 @@
 ;; all-the-icons
 (setq all-the-icons-scale-factor 1.1)
 
+;;; no bell
+(customize-set-variable 'visible-bell nil)
+(customize-set-variable 'ring-bell-function 'ignore)
+
 ;;; line numbers on
 (customize-set-variable 'crafted-ui-display-line-numbers t)
 
