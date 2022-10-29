@@ -11,6 +11,11 @@
     "C-z"     nil                         ;; suspend frame should go away
     "C-x C-z" nil                         ;; same
 
+    ;;; upcase, downcase and capitalize
+    "M-u" #'upcase-dwim
+    "M-l" #'downcase-dwim
+    "M-c" #'capitalize-dwim
+
     ;;; zap
     "M-S-z" #'zap-up-to-char ;; New in Emacs 28
 
@@ -42,8 +47,6 @@
         "C-o" #'crux-smart-open-line
         "C-^" #'crux-top-join-line
         "C-k" #'crux-smart-kill-line
-        "C-x C-u" #'crux-upcase-region
-        "C-x C-l" #'crux-downcase-region
         [remap kill-whole-line] #'crux-kill-whole-line)
 
     ;;; isearch
