@@ -1,0 +1,290 @@
+;;; my-packages.el --- Packages Configs -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;; Packages Customizations
+
+;;; Code:
+
+;; Isearch
+(progn
+    (defadvice isearch-search (after isearch-no-fail activate)
+        (unless isearch-success
+            (ad-disable-advice 'isearch-search 'after 'isearch-no-fail)
+            (ad-activate 'isearch-search)
+            (isearch-repeat (if isearch-forward 'forward))
+            (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
+            (ad-activate 'isearch-search)))
+    (customize-set-variable 'isearch-resume-in-command-history t) ; Use history for isearch as well
+    (customize-set-variable 'search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
+    (customize-set-variable 'isearch-lax-whitespace t)
+    (customize-set-variable 'isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
+
+;; dired : built-in navigation of folders
+(crafted-package-install-package 'dired-quick-sort)
+(progn
+    (customize-set-variable 'dired-ls-F-marks-symlinks t) ;; mark symlinks
+    (customize-set-variable 'dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
+    (customize-set-variable 'dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
+    (customize-set-variable 'dired-dwim-target t) ;; makes dired guess the target directory
+    (customize-set-variable 'dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
+    ;; (customize-set-variable 'projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
+
+    ;; Dired listing switches
+    ;;  -a : Do not ignore entries starting with .
+    ;;  -l : Use long listing format.
+    ;;  -h : Human-readable sizes like 1K, 234M, ..
+    ;;  -v : Do natural sort .. so the file names starting with . will show up first.
+    ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
+    (customize-set-variable 'dired-listing-switches (if (eq system-type 'windows-nt)
+                                                        "-alh"
+                                                        "-alhvF --group-directories-first"))
+    (require 'dired-x) ; enable some really cool extensions like C-x C-j(dired-jump)
+    (dired-quick-sort-setup))
+
+;; tramp : Transparent Remote (file) Access, Multiple Protocol
+(progn
+    (customize-set-variable 'tramp-verbose 2)
+    (customize-set-variable 'tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
+    (customize-set-variable 'tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (customize-set-variable 'tramp-password-prompt-regexp   ; Add verification code support.
+        (concat
+            "^.*"
+            (regexp-opt
+                '("passphrase" "Passphrase"
+                     "password" "Password"
+                     "Verification code")
+                t)
+            ".*:\0? *")))
+
+;; persistent-scratch : preserve scratch buffer across sessions
+(crafted-package-install-package 'persistent-scratch)
+(progn
+    (persistent-scratch-setup-default)
+    (persistent-scratch-autosave-mode 1))
+
+;; saveplace : remembers your location in a file when saving files
+(crafted-package-install-package 'saveplace)
+(progn
+    (customize-set-variable 'save-place-file (expand-file-name "saveplace" crafted-config-var-directory))
+    (save-place-mode +1))
+
+;; savehist : save minibuffer history
+(crafted-package-install-package 'savehist)
+(progn
+    (customize-set-variable 'savehist-additional-variables '(search-ring regexp-search-ring)) ;; search entries
+    (customize-set-variable 'savehist-autosave-interval 60) ;; save every minute
+    (customize-set-variable 'savehist-file (expand-file-name "savehist" crafted-config-var-directory)) ;; keep the home clean
+    (savehist-mode +1))
+
+;; recentf : recent files
+(crafted-package-install-package 'recentf)
+(progn
+    (push (list (expand-file-name ".emacs.d/" +my/dotfiles-path)) recentf-exclude)
+    (push (list (expand-file-name ".tmuxifier/" +my/dotfiles-path)) recentf-exclude)
+    (push "~/.mail" recentf-exclude)
+    (push "\\.git" recentf-exclude)
+    (push "/tmp/" recentf-exclude)
+    (push "/ssh:" recentf-exclude)
+    (push "~/\\.emacs\\.d/.local" recentf-exclude)
+    (push "~/mail" recentf-exclude)
+    (push "/var" recentf-exclude)
+    (push "/etc" recentf-exclude)
+    (push "/usr" recentf-exclude)
+    (push "\\.?ido\\.last$" recentf-exclude)
+    (push "^/nix/store/" recentf-exclude)
+    (push ".+\\.mp3$" recentf-exclude)
+    (customize-set-variable 'recentf-save-file (expand-file-name "recentf" crafted-config-var-directory))
+    (customize-set-variable 'recentf-max-saved-items 500)
+    (customize-set-variable 'recentf-max-menu-items 15)
+    (customize-set-variable 'recentf-auto-cleanup 'never)
+    (recentf-mode +1))
+
+;; editorconfig : editorconfig for Emacs
+(crafted-package-install-package 'editorconfig)
+(progn
+    (editorconfig-mode 1))
+
+;; exec-path-from-shell : Sane environment variables
+(crafted-package-install-package 'exec-path-from-shell)
+(progn
+    (when (daemonp)
+        (exec-path-from-shell-initialize)))
+
+;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
+(crafted-package-install-package 'avy)
+(progn
+    (customize-set-variable 'avy-all-windows t)
+    (customize-set-variable 'avy-background t))
+
+;; diff-hl : highlights uncommitted changes on the left side of the window
+(crafted-package-install-package 'diff-hl)
+(progn
+    (global-diff-hl-mode +1)
+    (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+
+;; ace-window : GNU Emacs package for selecting a window to switch to
+(crafted-package-install-package 'ace-window)
+
+;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
+(crafted-package-install-package 'crux)
+
+;; vterm : terminal emulator
+(crafted-package-install-package 'vterm)
+(progn
+    (add-hook
+        'vterm-mode-hook (lambda ()
+                             (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
+                             (customize-set-variable 'global-hl-line-mode nil)
+                             (display-line-numbers-mode 0)))
+    (customize-set-variable 'vterm-shell "/usr/bin/bash"))
+
+;; eshell : the emacs shell
+(progn
+    (customize-set-variable 'eshell-highlight-prompt nil)
+    (customize-set-variable 'eshell-scroll-to-bottom-on-input nil)
+    (customize-set-variable 'eshell-scroll-to-bottom-on-output nil)
+    (customize-set-variable 'eshell-prefer-lisp-functions nil)
+    (customize-set-variable 'eshell-error-if-no-glob t)
+    (customize-set-variable 'eshell-hist-ignoredups t)
+    (customize-set-variable 'eshell-save-history-on-exit t)
+    (customize-set-variable 'eshell-destroy-buffer-when-process-dies t)
+
+    ;; Aliases
+    (add-hook 'eshell-mode-hook
+        (lambda ()
+            ;; The 'ls' executable requires the Gnu version on the Mac
+            (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                          "/usr/local/bin/gls"
+                          "/bin/ls")))
+                (eshell/alias "ll" (concat ls " -alh --group-directories-first --color=auto")))
+            (eshell/alias "ff" "find-file $1")
+            (eshell/alias "e" "find-file-other-window $1")
+            (eshell/alias "d" "dired $1"))))
+
+;; whole-line-or-region : better C-w and M-w
+(crafted-package-install-package 'whole-line-or-region)
+(progn
+    (whole-line-or-region-global-mode))
+
+;; magit : Git front end (amazing!)
+(crafted-package-install-package 'magit)
+(progn
+    (defadvice magit-status (around magit-fullscreen activate)
+        (window-configuration-to-register :magit-fullscreen)
+        ad-do-it
+        (delete-other-windows))
+    (defadvice magit-quit-window (after magit-restore-screen activate)
+        (jump-to-register :magit-fullscreen))
+
+    (customize-set-variable 'git-commit-summary-max-length 80)
+    (customize-set-variable 'vc-handled-backends (delq 'Git vc-handled-backends)))
+
+;; which-key : Displays command shortcuts when typing commands
+(crafted-package-install-package 'which-key)
+(progn
+    (customize-set-variable 'which-key-popup-type 'minibuffer)
+    (which-key-mode +1))
+
+;; hydra : Keybindings combinations
+(crafted-package-install-package 'hydra)
+
+;; Expand Region : expand or contract selection
+(crafted-package-install-package 'expand-region)
+
+;; Helpful : nice looking and more complete help buffers
+(crafted-package-install-package 'helpful)
+
+;; neotree : A Emacs tree plugin like NerdTree for Vim.
+(crafted-package-install-package 'neotree)
+(progn
+    (customize-set-variable 'neo-theme 'ascii)
+    (customize-set-variable 'neo-window-width 32)
+    (customize-set-variable 'neo-smart-open t)
+    (customize-set-variable 'neo-create-file-auto-open nil)
+    (customize-set-variable 'neo-show-updir-line t)
+    (customize-set-variable 'neo-show-hidden-files t)
+    (customize-set-variable 'neo-auto-indent-point t)
+    (customize-set-variable 'neo-vc-integration nil)
+    (customize-set-variable 'neo-autorefresh nil)
+    (customize-set-variable 'neo-hidden-regexp-list
+        '(;; vcs folders
+             "^\\.\\(?:git\\|hg\\|svn\\)$"
+             ;; compiled files
+             "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
+             ;; generated files, caches or local pkgs
+             "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+             ;; org-mode folders
+             "^\\.\\(?:sync\\|export\\|attach\\)$"
+             ;; temp files
+             "~$"
+             "^#.*#$"
+             ;; Others
+             "^\\.\\(cache\\|tox\\|coverage\\)$"
+             "^\\.\\(DS_Store\\|python\\-version\\)"
+             "^\\(htmlcov\\)$" "\\.elcs$"
+             "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+             "^\\.#.*$" "^__pycache__$"
+             "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+             "^\\.cproject$" "^\\.project$" "^\\.projectile$"
+             "^\\.log$"
+             "\\.egg\-info$")))
+
+;; deft : plain text notes
+(crafted-package-install-package 'deft)
+(progn
+    (customize-set-variable 'deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path))
+    (customize-set-variable 'deft-extensions '("org" "md" "txt"))
+    (customize-set-variable 'deft-default-extension "org")
+    (customize-set-variable 'deft-recursive nil)
+    (customize-set-variable 'deft-use-filename-as-title nil)
+    (customize-set-variable 'deft-use-filter-string-for-filename t)
+    (customize-set-variable 'deft-file-naming-rules '((noslash . "-")
+                                                         (nospace . "-")
+                                                         (case-fn . downcase)))
+    (customize-set-variable 'deft-auto-save-interval 0))
+
+;; markdown-mode : edit markdown-formatted text
+(crafted-package-install-package 'markdown-mode)
+(progn
+    (autoload 'markdown-mode "markdown-mode"
+        "Major mode for editing Markdown files" t)
+    (add-to-list 'auto-mode-alist
+        '("\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\)\\'" . markdown-mode))
+
+    (autoload 'gfm-mode "markdown-mode"
+        "Major mode for editing GitHub Flavored Markdown files" t)
+    (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+    (customize-set-variable 'markdown-command "multimarkdown"))
+
+;; csv : edit csv-formatted text
+(crafted-package-install-package 'csv-mode)
+
+;; yaml : edit yaml-formatted text
+(crafted-package-install-package 'yaml-mode)
+
+;; smartparens : minor mode for dealing with pairs in Emacs.
+(crafted-package-install-package 'smartparens)
+(progn
+    (require 'smartparens-config)
+    (show-smartparens-global-mode +1)
+    (smartparens-global-mode 1)
+    (show-paren-mode t)
+
+    ;; global
+    (sp-pair "`" "`" :actions nil)
+
+    ;; c++
+    (sp-with-modes '(c-mode c++-mode)
+        (sp-local-pair "<" ">" :actions nil)
+
+        ;; when you press RET, the curly braces automatically add another newline
+        (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+        (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC") ("* ||\n[i]" "RET"))))
+
+    ;; rust
+    (sp-with-modes '(rustic-mode)
+        (sp-local-pair "|" "|" :actions nil)))
+
+(provide 'my-packages)
+;;; my-packages.el ends here

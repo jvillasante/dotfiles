@@ -29,9 +29,17 @@
                      (concat dired-directory))
                  (t (buffer-name))))))
 
-;; Emacs 29 improved scrolling
-(when (> emacs-major-version 28)
-  (pixel-scroll-precision-mode))
+;; Start maximized
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
+;; Select and raise the frame, always
+(select-frame-set-input-focus (selected-frame))
+
+;; Prevents some cases of Emacs flickering
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+
+;; Hide the startup screen
+(customize-set-variable 'inhibit-startup-screen t)
 
 ;; Ignore xressources
 (customize-set-variable 'inhibit-x-resources t)
@@ -85,6 +93,14 @@
         '(mode-line ((t (:height 0.9))))
         '(mode-line-active ((t (:height 0.9))))
         '(mode-line-inactive ((t (:height 0.9))))))
+
+(crafted-package-install-package 'minions)
+(add-hook 'after-init-hook 'minions-mode)
+
+;; anzy : displays current match and total matches information in the mode-line in various search modes
+(crafted-package-install-package 'anzu)
+(progn
+    (global-anzu-mode))
 
 (provide 'my-ui)
 ;;; my-ui.el ends here
