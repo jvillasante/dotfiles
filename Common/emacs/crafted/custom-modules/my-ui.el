@@ -15,7 +15,7 @@
             `(variable-pitch ((t (:font "Iosevka Aile 16")))))))
 
 ;; frame title
-(setq-default frame-title-format
+(customize-set-variable 'frame-title-format
     '(:eval
          (format "%s@%s: %s"
              (or (file-remote-p default-directory 'user)
@@ -34,10 +34,10 @@
   (pixel-scroll-precision-mode))
 
 ;; Ignore xressources
-(setq inhibit-x-resources t)
+(customize-set-variable 'inhibit-x-resources t)
 
 ;; all-the-icons
-(setq all-the-icons-scale-factor 1.1)
+(customize-set-variable 'all-the-icons-scale-factor 1.1)
 
 ;;; no bell
 (customize-set-variable 'visible-bell nil)
@@ -59,16 +59,15 @@
 
 (crafted-package-install-package 'modus-themes)
 (progn
-    (setq
-        modus-themes-mode-line '(borderless (padding 1) (height 0.9))
-        modus-themes-bold-constructs nil
-        modus-themes-italic-constructs t
-        modus-themes-fringes 'subtle
-        modus-themes-tabs-accented t
-        modus-themes-subtle-line-numbers t
-        modus-themes-diffs 'desaturated
-        modus-themes-region '(bg-only no-extend)
-        modus-themes-headings
+    (customize-set-variable 'modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
+    (customize-set-variable 'modus-themes-bold-constructs nil)
+    (customize-set-variable 'modus-themes-italic-constructs t)
+    (customize-set-variable 'modus-themes-fringes 'subtle)
+    (customize-set-variable 'modus-themes-tabs-accented t)
+    (customize-set-variable 'modus-themes-subtle-line-numbers t)
+    (customize-set-variable 'modus-themes-diffs 'desaturated)
+    (customize-set-variable 'modus-themes-region '(bg-only no-extend))
+    (customize-set-variable 'modus-themes-headings
         '((1 . (monochrome variable-pitch 1.3))
              (2 . (monochrome variable-pitch 1.2))
              (3 . (monochrome variable-pitch 1.1))
@@ -79,9 +78,9 @@
 
 ;; modeline
 (progn
-    (setq doom-modeline-icon t)
-    (setq doom-modeline-height 1)
-    (setq doom-modeline-lsp t)
+    (customize-set-variable 'doom-modeline-icon t)
+    (customize-set-variable 'doom-modeline-height 1)
+    (customize-set-variable 'doom-modeline-lsp t)
     (custom-set-faces
         '(mode-line ((t (:height 0.9))))
         '(mode-line-active ((t (:height 0.9))))

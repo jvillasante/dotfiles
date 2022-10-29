@@ -11,7 +11,7 @@
 
 ;; Crafted Emacs Modules
 (require 'crafted-compile)         ; Set up automatic compilation for some emacs-lisp files
-(require 'crafted-completion)      ; A selection framework configuration based on Vertico etc.
+;; (require 'crafted-completion)      ; A selection framework configuration based on Vertico etc.
 (require 'crafted-defaults)        ; Lightly opinionated default settings for Emacs
 (require 'crafted-editing)         ; Settings for the editing component (whitespace trimming etc.)
 ;; (require 'crafted-erlang)       ; A configuration for Erlang programming
@@ -31,6 +31,10 @@
 (require 'crafted-ui)              ; Extra UI configuration for a better experience (mode line, etc)
 (require 'crafted-updates)         ; Tools to upgrade Crafted Emacs
 (require 'crafted-windows)         ; Window management configuration
+
+;; crafted-mastering-emacs customizations
+(crafted-mastering-emacs-enable-hydra-package)
+(crafted-mastering-emacs-enable-dumb-jump-package)
 
 ;; Personal Modules
 (require 'my-ui) ; custom ui configs
