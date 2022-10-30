@@ -29,6 +29,9 @@
                      (concat dired-directory))
                  (t (buffer-name))))))
 
+;; no splash
+(setc crafted-startup-inhibit-splash t)
+
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 

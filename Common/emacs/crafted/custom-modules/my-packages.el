@@ -209,6 +209,12 @@
     (setc neo-auto-indent-point t)
     (setc neo-vc-integration nil)
     (setc neo-autorefresh nil)
+    (setc neo-auto-indent-point nil)
+    (setc neo-mode-line-type 'none)
+    (setc neo-banner-message nil)
+    (setc neo-confirm-create-file #'off-p)
+    (setc neo-confirm-create-directory #'off-p)
+    (setc neo-keymap-style 'concise)
     (setc neo-hidden-regexp-list
         '(;; vcs folders
              "^\\.\\(?:git\\|hg\\|svn\\)$"

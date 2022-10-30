@@ -18,7 +18,7 @@
         "C-x k" 'kill-this-buffer ; kill buffer without prompt
         "C-x K" 'kill-buffer ; prompt for buffer to kill
         "M-/" 'hippie-expand ; use hippie-expand instead of debbrev
-        "C-x S" #'+my/save-all ; save some buffers without prompt
+        "C-x S" '+my/save-all ; save some buffers without prompt
         "C-z" nil ; suspend frame should go away
         "C-x C-z" nil ; same
 
@@ -34,9 +34,9 @@
         [remap dabbrev-expand] 'hippie-expand
 
         ;;; fill-unfill
-        [remap fill-paragraph] #'+my/fill-or-unfill
-        "M-Q"                  #'+my/unfill-paragraph
-        "C-M-Q"                #'+my/unfill-region
+        [remap fill-paragraph] '+my/fill-or-unfill
+        "M-Q"                  '+my/unfill-paragraph
+        "C-M-Q"                '+my/unfill-region
 
         ;;; avy
         "C-." 'avy-goto-char-timer
@@ -165,7 +165,7 @@
     (general-define-key :keymaps 'isearch-mode-map
         ;; Prevents issue where you have to press backspace twice when
         ;; trying to remove the first character that fails a search
-        [remap isearch-delete-char] #'isearch-del-char
+        [remap isearch-delete-char] 'isearch-del-char
         "C-n" 'isearch-repeat-forward ; better navigation
         "C-p" 'isearch-repeat-backward ; better navigation
         "M-e" 'consult-isearch-history ; orig. isearch-edit-string
