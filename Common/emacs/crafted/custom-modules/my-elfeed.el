@@ -103,6 +103,7 @@
 (setc elfeed-search-trailing-width 0)
 (setc elfeed-search-filter "@6-months-ago +unread")
 (setc elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path))
+(add-hook 'elfeed-search-mode-hook 'elfeed-update)
 
 (provide 'my-elfeed)
 ;;; my-elfeed.el ends here

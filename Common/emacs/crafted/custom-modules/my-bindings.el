@@ -121,7 +121,7 @@
         "C-c k" 'crux-kill-other-buffers
         "C-c TAB" 'crux-indent-rigidly-and-copy-to-clipboard
         "C-c I" 'crux-find-user-custom-file
-        "C-c S" ' crux-find-shell-init-file
+        "C-c S" 'crux-find-shell-init-file
         "C-^" 'crux-top-join-line
         "C-c s" 'crux-ispell-word-then-abbrev
         "C-k" 'crux-smart-kill-line

@@ -186,7 +186,6 @@
 ;; which-key : Displays command shortcuts when typing commands
 (crafted-package-install-package 'which-key)
 (progn
-    (setc which-key-popup-type 'minibuffer)
     (which-key-mode +1))
 
 ;; hydra : Keybindings combinations
