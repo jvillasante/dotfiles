@@ -6,25 +6,26 @@
 ;;; Code:
 
 ;; Eglot
+(setc eldoc-echo-area-use-multiline-p t)
 (when (crafted-package-installed-p 'eglot)
-    (setc eldoc-echo-area-use-multiline-p nil)
-    (setc eglot-extend-to-xref t)
-    (setc eglot-ignored-server-capabilities
-        (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
-    (add-to-list 'eglot-server-programs
-        `(rust-mode . ("rust-analyzer"))
-        `(c-mode c++-mode
-             . ("/usr/bin/clangd"
-                   "-j=4"
-                   "--malloc-trim"
-                   "--log=error"
-                   "--background-index"
-                   "--clang-tidy"
-                   "--cross-file-rename"
-                   "--completion-style=detailed"
-                   "--pch-storage=memory"
-                   "--header-insertion=never"
-                   "--header-insertion-decorators=0"))))
+    (with-eval-after-load "eglot"
+        (setc eglot-extend-to-xref t)
+        (setc eglot-ignored-server-capabilities
+            (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
+        (add-to-list 'eglot-server-programs
+            `(rust-mode . ("rust-analyzer"))
+            `(c-mode c++-mode
+                 . ("/usr/bin/clangd"
+                       "-j=4"
+                       "--malloc-trim"
+                       "--log=error"
+                       "--background-index"
+                       "--clang-tidy"
+                       "--cross-file-rename"
+                       "--completion-style=detailed"
+                       "--pch-storage=memory"
+                       "--header-insertion=never"
+                       "--header-insertion-decorators=0")))))
 
 ;; C++
 (progn
