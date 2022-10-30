@@ -333,12 +333,11 @@
     (setc lsp-ui-doc-enable nil)
     (setc lsp-ui-imenu-enable t))
 
+(setc eldoc-echo-area-use-multiline-p nil)
 (after! eglot
-    (setc eldoc-echo-area-use-multiline-p nil)
     (setc eglot-extend-to-xref t)
     (setc eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
-
     (add-to-list 'eglot-server-programs
         `(rust-mode . ("rust-analyzer"))
         `(c-mode c++-mode
