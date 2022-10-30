@@ -91,18 +91,15 @@
 (progn
     (customize-set-variable 'doom-modeline-icon nil)
     (customize-set-variable 'doom-modeline-height 1)
-    (customize-set-variable 'doom-modeline-lsp t)
-    (custom-set-faces
-        '(mode-line ((t (:height 0.9))))
-        '(mode-line-active ((t (:height 0.9))))
-        '(mode-line-inactive ((t (:height 0.9))))))
+    (customize-set-variable 'doom-modeline-lsp t))
 
 ;; column number display mode in the modeline
 (add-hook 'after-init-hook 'column-number-mode)
 
 ;; minions : menu that lists enabled minor-modes
 (crafted-package-install-package 'minions)
-(add-hook 'after-init-hook 'minions-mode)
+(progn
+  (add-hook 'after-init-hook 'minions-mode))
 
 ;; anzy : displays current match and total matches information in the mode-line in various search modes
 (crafted-package-install-package 'anzu)
