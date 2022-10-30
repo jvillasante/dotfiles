@@ -241,16 +241,16 @@
 ;; deft : plain text notes
 (crafted-package-install-package 'deft)
 (progn
-    (setc deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path))
-    (setc deft-extensions '("org" "md" "txt"))
-    (setc deft-default-extension "org")
-    (setc deft-recursive nil)
-    (setc deft-use-filename-as-title nil)
-    (setc deft-use-filter-string-for-filename t)
-    (setc deft-file-naming-rules '((noslash . "-")
+    (customize-set-variable 'deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path))
+    (customize-set-variable 'deft-extensions '("org" "md" "txt"))
+    (customize-set-variable 'deft-default-extension "org")
+    (customize-set-variable 'deft-recursive nil)
+    (customize-set-variable 'deft-use-filename-as-title nil)
+    (customize-set-variable 'deft-use-filter-string-for-filename t)
+    (customize-set-variable 'deft-file-naming-rules '((noslash . "-")
                                       (nospace . "-")
                                       (case-fn . downcase)))
-    (setc deft-auto-save-interval 0))
+    (customize-set-variable 'deft-auto-save-interval 0))
 
 ;; markdown-mode : edit markdown-formatted text
 (crafted-package-install-package 'markdown-mode)
@@ -263,7 +263,7 @@
     (autoload 'gfm-mode "markdown-mode"
         "Major mode for editing GitHub Flavored Markdown files" t)
     (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-    (setc markdown-command "multimarkdown"))
+    (customize-set-variable 'markdown-command "multimarkdown"))
 
 ;; csv : edit csv-formatted text
 (crafted-package-install-package 'csv-mode)

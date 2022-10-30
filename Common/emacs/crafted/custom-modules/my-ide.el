@@ -54,11 +54,11 @@ means save all with no questions."
             (funcall fn edit-command))))
 
 ;; Eglot
-(setc eldoc-echo-area-use-multiline-p t)
+(customize-set-variable 'eldoc-echo-area-use-multiline-p t)
 (with-eval-after-load "eglot"
     (with-eval-after-load "eglot"
-        (setc eglot-extend-to-xref t)
-        (setc eglot-ignored-server-capabilities
+        (customize-set-variable 'eglot-extend-to-xref t)
+        (customize-set-variable 'eglot-ignored-server-capabilities
             (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
         (add-to-list 'eglot-server-programs
             `(rust-mode . ("rust-analyzer"))
@@ -77,8 +77,8 @@ means save all with no questions."
 
 ;; C++
 (progn
-    (setc c-default-style "linux")
-    (setc c-basic-offset 4)
+    (customize-set-variable 'c-default-style "linux")
+    (customize-set-variable 'c-basic-offset 4)
     (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
@@ -93,7 +93,7 @@ means save all with no questions."
 ;; rustic : rust mode
 (crafted-package-install-package 'rustic)
 (progn
-    (setc rustic-format-on-save nil)
+    (customize-set-variable 'rustic-format-on-save nil)
     (add-hook 'rustic-mode-hook #'eglot-ensure))
 
 ;; format-all : auto format source code
