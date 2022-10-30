@@ -5,6 +5,15 @@
 
 ;;; Code:
 
+;; ibuffer
+(progn
+    (customize-set-variable 'ibuffer-expert t)
+    (customize-set-variable 'ibuffer-show-empty-filter-groups nil)
+    (add-hook 'ibuffer-mode-hook
+        '(lambda ()
+             (ibuffer-switch-to-saved-filter-groups "default")
+             (ibuffer-auto-mode 1))))
+
 ;; Isearch
 (progn
     (defadvice isearch-search (after isearch-no-fail activate)
