@@ -14,20 +14,20 @@
             (isearch-repeat (if isearch-forward 'forward))
             (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
             (ad-activate 'isearch-search)))
-    (setc isearch-resume-in-command-history t) ; Use history for isearch as well
-    (setc search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
-    (setc isearch-lax-whitespace t)
-    (setc isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
+    (customize-set-variable 'isearch-resume-in-command-history t) ; Use history for isearch as well
+    (customize-set-variable 'search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
+    (customize-set-variable 'isearch-lax-whitespace t)
+    (customize-set-variable 'isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
 
 ;; dired : built-in navigation of folders
 (crafted-package-install-package 'dired-quick-sort)
 (progn
-    (setc dired-ls-F-marks-symlinks t) ;; mark symlinks
-    (setc dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
-    (setc dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
-    (setc dired-dwim-target t) ;; makes dired guess the target directory
-    (setc dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
-    (setc projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
+    (customize-set-variable 'dired-ls-F-marks-symlinks t) ;; mark symlinks
+    (customize-set-variable 'dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
+    (customize-set-variable 'dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
+    (customize-set-variable 'dired-dwim-target t) ;; makes dired guess the target directory
+    (customize-set-variable 'dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
+    (customize-set-variable 'projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
@@ -35,7 +35,7 @@
     ;;  -h : Human-readable sizes like 1K, 234M, ..
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
-    (setc dired-listing-switches (if (eq system-type 'windows-nt)
+    (customize-set-variable 'dired-listing-switches (if (eq system-type 'windows-nt)
                                      "-alh"
                                      "-alhvF --group-directories-first"))
     (require 'dired-x) ; enable some really cool extensions like C-x C-j(dired-jump)
@@ -43,10 +43,10 @@
 
 ;; tramp : Transparent Remote (file) Access, Multiple Protocol
 (progn
-    (setc tramp-verbose 2)
-    (setc tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
-    (setc tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
-    (setc tramp-password-prompt-regexp   ; Add verification code support.
+    (customize-set-variable 'tramp-verbose 2)
+    (customize-set-variable 'tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
+    (customize-set-variable 'tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (customize-set-variable 'tramp-password-prompt-regexp   ; Add verification code support.
         (concat
             "^.*"
             (regexp-opt
@@ -65,19 +65,18 @@
 ;; saveplace : remembers your location in a file when saving files
 (crafted-package-install-package 'saveplace)
 (progn
-    (setc save-place-file (expand-file-name "saveplace" crafted-config-var-directory))
+    (customize-set-variable 'save-place-file (expand-file-name "saveplace" crafted-config-var-directory))
     (save-place-mode +1))
 
 ;; savehist : save minibuffer history
 (crafted-package-install-package 'savehist)
 (progn
-    (setc savehist-additional-variables '(search-ring regexp-search-ring)) ;; search entries
-    (setc savehist-autosave-interval 60) ;; save every minute
-    (setc savehist-file (expand-file-name "savehist" crafted-config-var-directory)) ;; keep the home clean
+    (customize-set-variable 'savehist-additional-variables '(search-ring regexp-search-ring)) ;; search entries
+    (customize-set-variable 'savehist-autosave-interval 60) ;; save every minute
+    (customize-set-variable 'savehist-file (expand-file-name "savehist" crafted-config-var-directory)) ;; keep the home clean
     (savehist-mode +1))
 
 ;; recentf : recent files
-(crafted-package-install-package 'recentf)
 (progn
     (push (list (expand-file-name ".emacs.chemacs2/" +my/dotfiles-path)) recentf-exclude)
     (push (list (expand-file-name ".emacs.crafted/" +my/dotfiles-path)) recentf-exclude)
@@ -96,10 +95,9 @@
     (push "\\.?ido\\.last$" recentf-exclude)
     (push "^/nix/store/" recentf-exclude)
     (push ".+\\.mp3$" recentf-exclude)
-    (setc recentf-save-file (expand-file-name "recentf" crafted-config-var-directory))
-    (setc recentf-max-saved-items 500)
-    (setc recentf-max-menu-items 15)
-    (setc recentf-auto-cleanup 'never)
+    (customize-set-variable 'recentf-max-saved-items 500)
+    (customize-set-variable 'recentf-max-menu-items 15)
+    (customize-set-variable 'recentf-auto-cleanup 'never)
     (recentf-mode +1))
 
 ;; editorconfig : editorconfig for Emacs
@@ -116,8 +114,8 @@
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (crafted-package-install-package 'avy)
 (progn
-    (setc avy-all-windows t)
-    (setc avy-background t))
+    (customize-set-variable 'avy-all-windows t)
+    (customize-set-variable 'avy-background t))
 
 ;; diff-hl : highlights uncommitted changes on the left side of the window
 (crafted-package-install-package 'diff-hl)
@@ -138,20 +136,20 @@
     (add-hook
         'vterm-mode-hook (lambda ()
                              (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
-                             (setc global-hl-line-mode nil)
+                             (customize-set-variable 'global-hl-line-mode nil)
                              (display-line-numbers-mode 0)))
-    (setc vterm-shell "/usr/bin/bash"))
+    (customize-set-variable 'vterm-shell "/usr/bin/bash"))
 
 ;; eshell : the emacs shell
 (progn
-    (setc eshell-highlight-prompt nil)
-    (setc eshell-scroll-to-bottom-on-input nil)
-    (setc eshell-scroll-to-bottom-on-output nil)
-    (setc eshell-prefer-lisp-functions nil)
-    (setc eshell-error-if-no-glob t)
-    (setc eshell-hist-ignoredups t)
-    (setc eshell-save-history-on-exit t)
-    (setc eshell-destroy-buffer-when-process-dies t)
+    (customize-set-variable 'eshell-highlight-prompt nil)
+    (customize-set-variable 'eshell-scroll-to-bottom-on-input nil)
+    (customize-set-variable 'eshell-scroll-to-bottom-on-output nil)
+    (customize-set-variable 'eshell-prefer-lisp-functions nil)
+    (customize-set-variable 'eshell-error-if-no-glob t)
+    (customize-set-variable 'eshell-hist-ignoredups t)
+    (customize-set-variable 'eshell-save-history-on-exit t)
+    (customize-set-variable 'eshell-destroy-buffer-when-process-dies t)
 
     ;; Aliases
     (add-hook 'eshell-mode-hook
@@ -180,8 +178,8 @@
     (defadvice magit-quit-window (after magit-restore-screen activate)
         (jump-to-register :magit-fullscreen))
 
-    (setc git-commit-summary-max-length 80)
-    (setc vc-handled-backends (delq 'Git vc-handled-backends)))
+    (customize-set-variable 'git-commit-summary-max-length 80)
+    (customize-set-variable 'vc-handled-backends (delq 'Git vc-handled-backends)))
 
 ;; which-key : Displays command shortcuts when typing commands
 (crafted-package-install-package 'which-key)
