@@ -155,6 +155,8 @@
 
 ;; map: dired-mode-map
 (define-key dired-mode-map (kbd "C-c o") 'crux-open-with)
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
+(define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 
 ;; map: isearch-mode-map
 ;; Prevents issue where you have to press backspace twice when trying

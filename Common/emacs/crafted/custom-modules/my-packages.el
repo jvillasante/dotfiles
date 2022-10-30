@@ -20,14 +20,30 @@
     (customize-set-variable 'isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
 
 ;; dired : built-in navigation of folders
-(crafted-package-install-package 'dired-quick-sort)
 (progn
+    (if (version< emacs-version "28.1")
+        nil
+        (progn
+            (require 'dired-x))) ;; for dired-jump
+
+    (customize-set-variable 'dired-dwim-target t)  ; suggest a target for moving/copying intelligently
+    (customize-set-variable 'dired-hide-details-hide-symlink-targets nil)
+    ;; don't prompt to revert, just do it
+    (customize-set-variable 'dired-auto-revert-buffer #'dired-buffer-stale-p)
+    ;; Always copy/delete recursively
+    (customize-set-variable 'dired-recursive-copies 'always)
+    (customize-set-variable 'dired-recursive-deletes 'top)
+    ;; Ask whether destination dirs should get created when copying/removing files.
+    (customize-set-variable 'dired-create-destination-dirs 'ask)
+    ;; Where to store image caches
+    (customize-set-variable 'image-dired-dir (concat crafted-config-var-directory "image-dired/"))
+    (customize-set-variable 'image-dired-db-file (concat image-dired-dir "db.el"))
+    (customize-set-variable 'image-dired-gallery-dir (concat image-dired-dir "gallery/"))
+    (customize-set-variable 'image-dired-temp-image-file (concat image-dired-dir "temp-image"))
+    (customize-set-variable 'image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image"))
+    ;; Screens are larger nowadays, we can afford slightly larger thumbnails
+    (customize-set-variable 'image-dired-thumb-size 150)
     (customize-set-variable 'dired-ls-F-marks-symlinks t) ;; mark symlinks
-    (customize-set-variable 'dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
-    (customize-set-variable 'dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
-    (customize-set-variable 'dired-dwim-target t) ;; makes dired guess the target directory
-    (customize-set-variable 'dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
-    (customize-set-variable 'projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
@@ -36,10 +52,8 @@
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
     (customize-set-variable 'dired-listing-switches (if (eq system-type 'windows-nt)
-                                     "-alh"
-                                     "-alhvF --group-directories-first"))
-    (require 'dired-x) ; enable some really cool extensions like C-x C-j(dired-jump)
-    (dired-quick-sort-setup))
+                                                        "-alh"
+                                                        "-alhvF --group-directories-first")))
 
 ;; tramp : Transparent Remote (file) Access, Multiple Protocol
 (progn
