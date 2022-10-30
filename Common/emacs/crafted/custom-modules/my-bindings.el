@@ -125,7 +125,7 @@
         "C-^" 'crux-top-join-line
         "C-c s" 'crux-ispell-word-then-abbrev
         "C-k" 'crux-smart-kill-line
-        "C-<backspace>" 'crux-kill-line-backwards
+        ;; "C-<backspace>" 'crux-kill-line-backwards
         "C-x 4 t" 'crux-transpose-windows
         "C-x C-u" 'crux-upcase-region
         "C-x C-l" 'crux-downcase-region
