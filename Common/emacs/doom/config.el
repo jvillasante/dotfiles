@@ -5,10 +5,10 @@
 
 (when (modulep! :editor evil)
     (after! evil
-        (setq evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
-        (setq evil-cross-lines t)    ;; Make horizontal movement cross lines
-        (setq evil-shift-width 4)    ;; evil shift width
-        (setq evil-ex-search-persistent-highlight nil) ;; No highlight persistence on evil search
+        (setc evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
+        (setc evil-cross-lines t)    ;; Make horizontal movement cross lines
+        (setc evil-shift-width 4)    ;; evil shift width
+        (setc evil-ex-search-persistent-highlight nil) ;; No highlight persistence on evil search
 
         ;; Make movement keys work like they should
         (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
@@ -24,7 +24,7 @@
         (global-undo-tree-mode -1)))
 
 (after! which-key
-    (setq which-key-popup-type 'minibuffer))
+    (setc which-key-popup-type 'minibuffer))
 
 (after! isearch
     (defadvice isearch-search (after isearch-no-fail activate)
@@ -39,7 +39,7 @@
     (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh")))
 
 (after! eshell
-    (setq
+    (setc
         eshell-highlight-prompt nil
         eshell-scroll-to-bottom-on-input nil
         eshell-scroll-to-bottom-on-output nil
@@ -62,13 +62,13 @@
             (eshell/alias "d" "dired $1"))))
 
 (after! persp-mode
-    (setq persp-emacsclient-init-frame-behaviour-override "main"))
+    (setc persp-emacsclient-init-frame-behaviour-override "main"))
 
 (after! tramp
-    (setq tramp-verbose 2)
-    (setq tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
-    (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
-    (setq tramp-password-prompt-regexp   ; Add verification code support.
+    (setc tramp-verbose 2)
+    (setc tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
+    (setc tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (setc tramp-password-prompt-regexp   ; Add verification code support.
         (concat
             "^.*"
             (regexp-opt
@@ -82,7 +82,7 @@
     (remove-hook 'emacs-everywhere-init-hooks #'org-mode)
     (add-hook 'emacs-everywhere-init-hooks #'markdown-mode)
 
-    (setq emacs-everywhere-frame-parameters
+    (setc emacs-everywhere-frame-parameters
         `((name . "emacs-everywhere")
              (width . 120)
              (height . 20))))
@@ -107,23 +107,23 @@
     (push "^/nix/store/" recentf-exclude)
     (push ".+\\.mp3$" recentf-exclude))
 
-(setq +lookup-open-url-fn #'browse-url)
-;; (setq +lookup-open-url-fn #'+lookup-xwidget-webkit-open-url-fn)
+(setc +lookup-open-url-fn #'browse-url)
+;; (setc +lookup-open-url-fn #'+lookup-xwidget-webkit-open-url-fn)
 (after! dash-docs
     (set-docsets! 'c-mode "C")
     (set-docsets! 'c++-mode "C" "C++")
     (set-docsets! 'js2-mode "JavaScript" "JQuery")
     (set-docsets! 'nodejs-mode :remove "JQuery")
-    (setq dash-docs-browser-func #'+lookup-xwidget-webkit-open-url-fn))
+    (setc dash-docs-browser-func #'+lookup-xwidget-webkit-open-url-fn))
 
 (after! projectile
-    (setq projectile-switch-project-action 'projectile-dired
+    (setc projectile-switch-project-action 'projectile-dired
         projectile-require-project-root t
         projectile-project-root-files-bottom-up '(".projectile" ".git")
         projectile-sort-order 'recentf
         projectile-indexing-method 'hybrid)
 
-    (setq projectile-ignored-project-function
+    (setc projectile-ignored-project-function
         (lambda (project-root)
             (or (file-remote-p project-root)
                 (string-prefix-p temporary-file-directory project-root)
@@ -139,7 +139,7 @@
                 (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root)))))
 
 (after! ivy
-    (setq ivy-display-style nil
+    (setc ivy-display-style nil
         ivy-count-format "(%d/%d) "
         ivy-use-selectable-prompt t    ; much better than C-M-j
         ivy-use-virtual-buffers t      ; to make ivy-views appear on the buffers list
@@ -150,17 +150,17 @@
 
     ;; While in an ivy mini-buffer C-o shows a list of all possible actions one may take.
     ;; By default this is #'ivy-read-action-by-key however a better interface to this is using Hydra.
-    (setq ivy-read-action-function #'ivy-hydra-read-action)
+    (setc ivy-read-action-function #'ivy-hydra-read-action)
 
-    (setq ivy-display-functions-alist
+    (setc ivy-display-functions-alist
         '((counsel-irony . ivy-display-function-overlay)
              (ivy-completion-in-region . ivy-display-function-overlay))))
 
 (after! avy
-    (setq avy-all-windows t))
+    (setc avy-all-windows t))
 
 (after! counsel
-    (setq counsel-rg-base-command "rg -S --no-heading --line-number --color never %s ."
+    (setc counsel-rg-base-command "rg -S --no-heading --line-number --color never %s ."
         counsel-ag-base-command "ag -S --nocolor --nogroup %s"))
 
 (after! smartparens
@@ -185,20 +185,20 @@
         (sp-local-pair "|" "|" :actions nil)))
 
 (after! flyspell
-    (setq flyspell-lazy-idle-seconds 2)) ; default is 2
+    (setc flyspell-lazy-idle-seconds 2)) ; default is 2
 
 (after! spell-fu
-    (setq spell-fu-idle-delay 0.5) ; default is 0.25
+    (setc spell-fu-idle-delay 0.5) ; default is 0.25
     (add-hook! 'spell-fu-mode-hook
         (lambda ()
             (spell-fu-dictionary-add (spell-fu-get-ispell "es")))))
 
 (after! flycheck
-    (setq flycheck-temp-prefix "flycheck_tmp")
-    (setq flycheck-indication-mode 'left-fringe))
+    (setc flycheck-temp-prefix "flycheck_tmp")
+    (setc flycheck-indication-mode 'left-fringe))
 
 (after! company
-    (setq company-idle-delay 0.1
+    (setc company-idle-delay 0.1
         company-tooltip-limit 10
         company-minimum-prefix-length 2
         company-tooltip-align-annotations t)
@@ -208,7 +208,7 @@
         (add-hook! evil-normal-state-entry #'company-abort)))
 
 (after! format
-    (setq +format-on-save-enabled-modes
+    (setc +format-on-save-enabled-modes
         '(not
              emacs-lisp-mode ; elisp's mechanisms are good enough
              sql-mode         ; sqlformat is currently broken
@@ -218,15 +218,15 @@
              latex-mode))
 
     ;; Do not format with lsp, use `format` instead
-    (setq +format-with-lsp nil))
+    (setc +format-with-lsp nil))
 
 (after! ws-butler
-    (setq ws-butler-global-exempt-modes
+    (setc ws-butler-global-exempt-modes
         (append ws-butler-global-exempt-modes
             '(prog-mode org-mode))))
 
 (progn
-    (setq
+    (setc
         c-default-style "linux"
         c-basic-offset 4)
 
@@ -242,15 +242,15 @@
         (setq-default flycheck-clang-language-standard "c++20")))
 
 (after! python
-    (setq python-shell-interpreter "python3"))
+    (setc python-shell-interpreter "python3"))
 
 (after! elisp-mode
     (remove-hook 'emacs-lisp-mode-hook #'+emacs-lisp-extend-imenu-h))
 
 (after! common-lisp
-    (setq inferior-lisp-program "/usr/local/bin/sbcl")
+    (setc inferior-lisp-program "/usr/local/bin/sbcl")
 
-    (setq slime-lisp-implementations
+    (setc slime-lisp-implementations
         `((ccl ("~/.cim/bin/ccl-1.9") :coding-system utf-8-unix)
              (alisp ("/usr/local/bin/alisp") :coding-system utf-8-unix)
              (ecl ("/usr/local/bin/ecl"))  ; :coding-system utf-8-unix)
@@ -259,11 +259,11 @@
              (abcl ("~/.cim/bin/abcl-1.3.1" "-XX:MaxPermSize=256m" "-Dfile.encoding=UTF-8") :coding-system utf-8-unix)
              (clisp ("/usr/local/bin/clisp") :coding-system utf-8-unix)))
 
-    (setq slime-default-lisp 'sbcl)
-    (setq slime-net-coding-system 'utf-8-unix))
+    (setc slime-default-lisp 'sbcl)
+    (setc slime-net-coding-system 'utf-8-unix))
 
 (after! scheme
-    (setq geiser-guile-binary "guile3.0"))
+    (setc geiser-guile-binary "guile3.0"))
 
 (after! lsp-mode
     ;; Rust hack!
@@ -281,7 +281,7 @@
             (lsp--render-element (concat "```rust\n" sig "\n```"))))
 
     ;; General
-    (setq lsp-restart 'ignore
+    (setc lsp-restart 'ignore
         lsp-headerline-breadcrumb-enable nil
         lsp-enable-symbol-highlighting t
         lsp-enable-indentation nil
@@ -295,16 +295,16 @@
         lsp-enable-on-type-formatting nil)
 
     ;; Rust
-    (setq
+    (setc
         lsp-rust-analyzer-cargo-watch-command "clippy"
         lsp-rust-analyzer-completion-auto-import-enable nil)
 
     ;; Zig
-    (setq lsp-zig-zls-executable
+    (setc lsp-zig-zls-executable
         (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
 
     ;; C++
-    (setq lsp-clients-clangd-args
+    (setc lsp-clients-clangd-args
         '("-j=4"
              "--malloc-trim"
              "--log=error"
@@ -320,23 +320,23 @@
     (after! lsp-clangd (set-lsp-priority! 'clangd 2)))
 
 (after! lsp-ui
-    (setq lsp-ui-sideline-enable nil
+    (setc lsp-ui-sideline-enable nil
         lsp-ui-sideline-show-symbol nil
         lsp-ui-sideline-show-diagnostics nil
         lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-show-code-actions nil)
 
-    (setq lsp-ui-peek-enable nil
+    (setc lsp-ui-peek-enable nil
         lsp-ui-peek-always-show nil
         lsp-ui-peek-show-directory nil)
 
-    (setq lsp-ui-doc-enable nil)
-    (setq lsp-ui-imenu-enable t))
+    (setc lsp-ui-doc-enable nil)
+    (setc lsp-ui-imenu-enable t))
 
 (after! eglot
-    (setq eldoc-echo-area-use-multiline-p nil)
-    (setq eglot-extend-to-xref t)
-    (setq eglot-ignored-server-capabilities
+    (setc eldoc-echo-area-use-multiline-p nil)
+    (setc eglot-extend-to-xref t)
+    (setc eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
 
     (add-to-list 'eglot-server-programs
@@ -355,7 +355,7 @@
                    "--header-insertion-decorators=0"))))
 
 (after! rustic
-    (setq rustic-format-on-save nil))
+    (setc rustic-format-on-save nil))
 
 (after! evil-snipe
     (push 'elfeed-show-mode   evil-snipe-disabled-modes)
@@ -372,19 +372,19 @@
     (add-hook 'ediff-keymap-setup-hook '+my/add-d-to-ediff-mode-map))
 
 (after! magit
-    (setq git-commit-summary-max-length 80))
+    (setc git-commit-summary-max-length 80))
 
 (after! dired
-    (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
-    (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
-    (setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
-    (setq dired-dwim-target t) ;; makes dired guess the target directory
-    (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
-    (setq projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
-    (setq wdired-allow-to-change-permissions t) ;; allow to edit permissions in wdired
+    (setc dired-ls-F-marks-symlinks t) ;; mark symlinks
+    (setc dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
+    (setc dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
+    (setc dired-dwim-target t) ;; makes dired guess the target directory
+    (setc dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
+    (setc projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
+    (setc wdired-allow-to-change-permissions t) ;; allow to edit permissions in wdired
 
     (let ((gls "/usr/local/bin/gls"))
-        (if (file-exists-p gls) (setq insert-directory-program gls)))
+        (if (file-exists-p gls) (setc insert-directory-program gls)))
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
@@ -392,7 +392,7 @@
     ;;  -h : Human-readable sizes like 1K, 234M, ..
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
-    (setq dired-listing-switches (if (eq system-type 'windows-nt)
+    (setc dired-listing-switches (if (eq system-type 'windows-nt)
                                      "-alh"
                                      "-alhvF --group-directories-first")))
 
@@ -409,7 +409,7 @@
     (add-hook! 'pdf-view-mode-hook '+my/config-pdf))
 
 (after! neotree
-    (setq neo-theme 'ascii
+    (setc neo-theme 'ascii
         neo-window-width 32
         neo-smart-open t
         neo-create-file-auto-open nil
@@ -420,10 +420,10 @@
         neo-autorefresh nil)
 
     ;; When running `projectile-switch-project`, `neotree` will change root automatically.
-    (setq projectile-switch-project-action 'neotree-projectile-action)
+    (setc projectile-switch-project-action 'neotree-projectile-action)
 
     ;; Hidden files
-    (setq neo-hidden-regexp-list
+    (setc neo-hidden-regexp-list
         '(;; vcs folders
              "^\\.\\(?:git\\|hg\\|svn\\)$"
              ;; compiled files
@@ -447,14 +447,14 @@
              "^\\.egg\-info$")))
 
 (after! treemacs
-    (setq treemacs-no-png-images t)
+    (setc treemacs-no-png-images t)
     (defvar treemacs-file-ignore-extensions '()
         "File extension which `treemacs-ignore-filter' will ensure are ignored")
     (defvar treemacs-file-ignore-globs '()
         "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
     (defvar treemacs-file-ignore-regexps '()
         "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
-    (setq treemacs-file-ignore-extensions
+    (setc treemacs-file-ignore-extensions
         '(;; LaTeX
              "aux"
              "ptc"
@@ -475,7 +475,7 @@
              "mw"
              ;; LaTeX - pdfx
              "pdfa.xmpi"))
-    (setq treemacs-file-ignore-globs
+    (setc treemacs-file-ignore-globs
         '(;; LaTeX
              "*/_minted-*"
              ;; AucTeX
@@ -484,24 +484,24 @@
              "*/_region_.tex"))
     (defun treemacs-file-ignore-generate-regexps ()
         "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
-        (setq treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
+        (setc treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
     (if (equal treemacs-file-ignore-globs '()) nil (treemacs-file-ignore-generate-regexps))
     (defun treemacs-ignore-filter (file full-path)
         "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
         (or (member (file-name-extension file) treemacs-file-ignore-extensions)
             (let ((ignore-file nil))
                 (dolist (regexp treemacs-file-ignore-regexps ignore-file)
-                    (setq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
+                    (setc ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
     (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
 
 (after! pass
-    (setq password-store-password-length 25))
+    (setc password-store-password-length 25))
 
 (after! evil-org
     (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! deft
-    (setq deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
+    (setc deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path)
         deft-extensions '("org" "md" "txt")
         deft-default-extension "org"
         deft-recursive nil
@@ -513,16 +513,16 @@
         deft-auto-save-interval 0))
 
 (after! org-roam
-    (setq org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
+    (setc org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path)
         org-roam-completion-everywhere t))
 
 (after! org
-    (setq org-return-follows-link  t
+    (setc org-return-follows-link  t
         org-hide-emphasis-markers t
         org-startup-folded t))
 
 (after! docker
-    (setq docker-container-shell-file-name "/bin/bash")
+    (setc docker-container-shell-file-name "/bin/bash")
     (add-to-list 'docker-image-run-custom-args
         `("^sm" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm"
                     "-u jenkins"
@@ -531,7 +531,7 @@
 
 (use-package! mu4e
     :config
-    (setq sendmail-program (executable-find "msmtp")
+    (setc sendmail-program (executable-find "msmtp")
         send-mail-function #'smtpmail-send-it
         message-sendmail-f-is-evil t
         message-sendmail-extra-arguments '("--read-envelope-from")
@@ -558,10 +558,10 @@
 (use-package! org-crypt
     :after org
     :config
-    (setq org-crypt-disable-auto-save nil) ;; don't ask to disable auto-save
-    (setq org-tags-exclude-from-inheritance (quote ("crypt")))
-    (setq org-crypt-key nil)
-    (setq org-crypt-key user-mail-address))
+    (setc org-crypt-disable-auto-save nil) ;; don't ask to disable auto-save
+    (setc org-tags-exclude-from-inheritance (quote ("crypt")))
+    (setc org-crypt-key nil)
+    (setc org-crypt-key user-mail-address))
 
 ;; better C-w and M-w
 (use-package! whole-line-or-region

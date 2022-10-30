@@ -1,7 +1,7 @@
 ;;; lisp/ui.el -*- lexical-binding: t; -*-
 
 ;; font
-(setq
+(setc
     doom-font-increment 1
     doom-font (font-spec :family "Iosevka" :size 16.0)
     doom-big-font (font-spec :family "Iosevka" :size 18.0)
@@ -10,7 +10,7 @@
     doom-serif-font (font-spec :family "IBM Plex Serif" :size 14.0))
 
 ;; frame title
-(setq-default frame-title-format
+(setc frame-title-format
     '(:eval
          (format "%s@%s: %s"
              (or (file-remote-p default-directory 'user)
@@ -36,12 +36,12 @@
 (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)
 
 ;; doom-dashboard
-(setq fancy-splash-image +my/splash-path)
-(setq +doom-dashboard-functions
+(setc fancy-splash-image +my/splash-path)
+(setc +doom-dashboard-functions
     '(doom-dashboard-widget-banner
          doom-dashboard-widget-shortmenu
          doom-dashboard-widget-loaded))
-(setq +doom-dashboard-menu-sections
+(setc +doom-dashboard-menu-sections
     '(("Reload last session"
           :icon nil
           :when (cond ((modulep! :ui workspaces)
@@ -72,7 +72,7 @@
              :action doom/help)))
 
 ;; all-the-icons
-(setq all-the-icons-scale-factor 1.1)
+(setc all-the-icons-scale-factor 1.1)
 
 ;; theme
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
@@ -81,7 +81,7 @@
 (use-package! modus-themes
     :demand t
     :init
-    (setq
+    (setc
         modus-themes-mode-line '(borderless (padding 1) (height 0.9))
         modus-themes-bold-constructs nil
         modus-themes-italic-constructs t
@@ -102,9 +102,9 @@
 
 ;; modeline
 (after! doom-modeline
-    (setq doom-modeline-icon t)
-    (setq doom-modeline-height 1)
-    (setq doom-modeline-lsp t)
+    (setc doom-modeline-icon t)
+    (setc doom-modeline-height 1)
+    (setc doom-modeline-lsp t)
     (custom-set-faces
         '(mode-line ((t (:height 0.9))))
         '(mode-line-active ((t (:height 0.9))))
@@ -115,7 +115,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setc display-line-numbers-type t)
 (dolist (mode '(org-mode-hook
                    vterm-mode-hook
                    term-mode-hook
@@ -125,7 +125,7 @@
 
 ;; popup windows & rules
 (when (modulep! :ui popup)
-    (setq +popup-default-parameters
+    (setc +popup-default-parameters
         '((transient . t)   ; remove later
              (quit . t)        ; remove later
              (select . ignore) ; remove later

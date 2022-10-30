@@ -15,7 +15,7 @@
             `(variable-pitch ((t (:font "Iosevka Aile 16")))))))
 
 ;; frame title
-(customize-set-variable 'frame-title-format
+(setc frame-title-format
     '(:eval
          (format "%s@%s: %s"
              (or (file-remote-p default-directory 'user)
@@ -39,20 +39,20 @@
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 ;; Hide the startup screen
-(customize-set-variable 'inhibit-startup-screen t)
+(setc inhibit-startup-screen t)
 
 ;; Ignore xressources
-(customize-set-variable 'inhibit-x-resources t)
+(setc inhibit-x-resources t)
 
 ;; all-the-icons
-(customize-set-variable 'all-the-icons-scale-factor 1.1)
+(setc all-the-icons-scale-factor 1.1)
 
 ;;; no bell
-(customize-set-variable 'visible-bell nil)
-(customize-set-variable 'ring-bell-function 'ignore)
+(setc visible-bell nil)
+(setc ring-bell-function 'ignore)
 
 ;;; line numbers on
-(customize-set-variable 'crafted-ui-display-line-numbers t)
+(setc crafted-ui-display-line-numbers t)
 
 ;; theme
 (defun +my/switch-theme (theme)
@@ -67,15 +67,15 @@
 
 (crafted-package-install-package 'modus-themes)
 (progn
-    (customize-set-variable 'modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
-    (customize-set-variable 'modus-themes-bold-constructs nil)
-    (customize-set-variable 'modus-themes-italic-constructs t)
-    (customize-set-variable 'modus-themes-fringes 'subtle)
-    (customize-set-variable 'modus-themes-tabs-accented t)
-    (customize-set-variable 'modus-themes-subtle-line-numbers t)
-    (customize-set-variable 'modus-themes-diffs 'desaturated)
-    (customize-set-variable 'modus-themes-region '(bg-only no-extend))
-    (customize-set-variable 'modus-themes-headings
+    (setc modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
+    (setc modus-themes-bold-constructs nil)
+    (setc modus-themes-italic-constructs t)
+    (setc modus-themes-fringes 'subtle)
+    (setc modus-themes-tabs-accented t)
+    (setc modus-themes-subtle-line-numbers t)
+    (setc modus-themes-diffs 'desaturated)
+    (setc modus-themes-region '(bg-only no-extend))
+    (setc modus-themes-headings
         '((1 . (monochrome variable-pitch 1.3))
              (2 . (monochrome variable-pitch 1.2))
              (3 . (monochrome variable-pitch 1.1))
@@ -86,9 +86,9 @@
 
 ;; modeline
 (progn
-    (customize-set-variable 'doom-modeline-icon t)
-    (customize-set-variable 'doom-modeline-height 1)
-    (customize-set-variable 'doom-modeline-lsp t)
+    (setc doom-modeline-icon t)
+    (setc doom-modeline-height 1)
+    (setc doom-modeline-lsp t)
     (custom-set-faces
         '(mode-line ((t (:height 0.9))))
         '(mode-line-active ((t (:height 0.9))))

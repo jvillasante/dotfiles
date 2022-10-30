@@ -9,6 +9,9 @@
 
 ;;; Code:
 
+;; Some early stuff we need
+(require 'my-early-init)
+
 ;; Crafted Emacs Modules
 (require 'crafted-compile)         ; Set up automatic compilation for some emacs-lisp files
 (require 'crafted-completion)      ; A selection framework configuration based on Vertico etc.

@@ -7,8 +7,8 @@
 
 ;; C++
 (progn
-    (customize-set-variable 'c-default-style "linux")
-    (customize-set-variable 'c-basic-offset 4)
+    (setc c-default-style "linux")
+    (setc c-basic-offset 4)
     (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
@@ -18,9 +18,9 @@
 
 ;; Eglot
 (when (crafted-package-installed-p 'eglot)
-    (customize-set-variable 'eldoc-echo-area-use-multiline-p nil)
-    (customize-set-variable 'eglot-extend-to-xref t)
-    (customize-set-variable 'eglot-ignored-server-capabilities
+    (setc eldoc-echo-area-use-multiline-p nil)
+    (setc eglot-extend-to-xref t)
+    (setc eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
     (add-to-list 'eglot-server-programs
         `(rust-mode . ("rust-analyzer"))
@@ -40,7 +40,7 @@
 ;; rustic : rust mode
 (crafted-package-install-package 'rustic)
 (progn
-    (customize-set-variable 'rustic-format-on-save nil))
+    (setc rustic-format-on-save nil))
 
 ;; format-all : auto format source code
 (crafted-package-install-package 'format-all)

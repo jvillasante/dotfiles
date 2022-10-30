@@ -24,14 +24,14 @@
 (defun +my/hide-dos-eol ()
     "Hide ^M in files containing mixed UNIX and DOS line endings."
     (interactive)
-    (setq buffer-display-table (make-display-table))
+    (setc buffer-display-table (make-display-table))
     (aset buffer-display-table ?\^M []))
 
 ;;;###autoload
 (defun +my/show-dos-eol ()
     "Show ^M in files containing mixed UNIX and DOS line endings."
     (interactive)
-    (setq buffer-display-table (make-display-table))
+    (setc buffer-display-table (make-display-table))
     (aset buffer-display-table ?\^M ?\^M))
 
 ;;;###autoload
@@ -67,7 +67,7 @@
     (interactive)
     (let ((fill-column
               (if (eq last-command '+my/fill-or-unfill)
-                  (progn (setq this-command nil)
+                  (progn (setc this-command nil)
                       (point-max))
                   fill-column)))
         (call-interactively #'fill-paragraph)))
@@ -79,7 +79,7 @@
     (interactive)
     (let ((fill-column
               (if (eq last-command '+my/org-fill-or-unfill)
-                  (progn (setq this-command nil)
+                  (progn (setc this-command nil)
                       (point-max))
                   fill-column)))
         (call-interactively #'org-fill-paragraph)))

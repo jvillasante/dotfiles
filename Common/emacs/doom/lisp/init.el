@@ -1,6 +1,6 @@
 ;;; lisp/init.el -*- lexical-binding: t; -*-
 
-(setq user-full-name "Julio C. Villasante"
+(setc user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
     user-login-name "jvillasante"
     +my/home-path (expand-file-name "~/")
@@ -12,22 +12,22 @@
 (cond
     (IS-MAC
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-        (setq browse-url-browser-function 'browse-url-generic
+        (setc browse-url-browser-function 'browse-url-generic
             browse-url-generic-program "open")
-        (setq +my/clang-path "/usr/local/opt/llvm/bin/clang"
+        (setc +my/clang-path "/usr/local/opt/llvm/bin/clang"
             +my/mu-path "/usr/local/bin/mu"
             +my/msmtp-path "/usr/local/bin/msmtp"
             vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
-        (setq ns-use-proxy-icon       nil
+        (setc ns-use-proxy-icon       nil
             ns-use-thin-smoothing     t
             ns-alternate-modifier     nil
             mac-command-modifier      'meta
             mac-option-modifier       'alt
             mac-right-option-modifier 'alt))
     (IS-LINUX
-        (setq browse-url-browser-function 'browse-url-generic
+        (setc browse-url-browser-function 'browse-url-generic
             browse-url-generic-program "xdg-open")
-        (setq +my/clang-path "/usr/bin/clang"
+        (setc +my/clang-path "/usr/bin/clang"
             +my/mu-path "/usr/bin/mu"
             +my/msmtp-path "/usr/bin/msmtp"
             vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
@@ -42,10 +42,10 @@
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 ;; org-directory needs to be set early
-(setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
+(setc org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 
 ;; Don’t compact font caches during GC.
-(setq inhibit-compacting-font-caches t)
+(setc inhibit-compacting-font-caches t)
 
 ;; disable risky local variables warning
 (advice-add 'risky-local-variable-p :override #'ignore)
@@ -57,33 +57,23 @@
 (progn
     (require 'epa-file)
     (epa-file-enable)
-    (setq epa-file-encrypt-to user-mail-address
+    (setc epa-file-encrypt-to user-mail-address
         epa-file-select-keys 'silent
         epa-file-cache-passphrase-for-symmetric-encryption nil))
 
-;; Minibuffer setup
-(setq-hook! 'minibuffer-setup-hook
-    show-trailing-whitespace nil
-    line-spacing 1)
-
 ;; aspell
 (advice-add #'ispell-init-process :around #'doom-shut-up-a)
-(setq ispell-dictionary "en_US") ;; default dictionary
+(setc ispell-dictionary "en_US") ;; default dictionary
 
 ;; no comments on RET while writing comments
-(setq +default-want-RET-continue-comments nil)
+(setc +default-want-RET-continue-comments nil)
 
-;;
 ;; Some default
-;;
-
-(setq-default
+(setc
     delete-by-moving-to-trash t      ; Delete files to trash
     window-combination-resize t      ; take new window space from all other windows (not just current)
     delete-trailing-lines t          ; `M-x delete-trailing-whitespace' deletes trailing lines
-    x-stretch-cursor nil)            ; Stretch cursor to the glyph width
-
-(setq
+    x-stretch-cursor nil             ; Stretch cursor to the glyph width
     undo-limit 80000000             ; Raise undo-limit to 80Mb
     suggest-key-bindings nil        ; very annoying
     auto-save-default t             ; Nobody likes to loose work, I certainly don't
@@ -135,7 +125,7 @@
 
 ;; Default Encoding
 (prefer-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
+(setc locale-coding-system 'utf-8)
 (set-charset-priority 'unicode)
 (set-language-environment "UTF-8")
 (set-locale-environment "en_US.UTF-8")
@@ -145,9 +135,9 @@
 (set-clipboard-coding-system 'utf-8) ; included by set-selection-coding-system
 (set-keyboard-coding-system 'utf-8) ; configured by prefer-coding-system
 (set-terminal-coding-system 'utf-8) ; configured by prefer-coding-system
-(setq buffer-file-coding-system 'utf-8) ; utf-8
-(setq save-buffer-coding-system 'utf-8) ; nil
-(setq process-coding-system-alist
+(setc buffer-file-coding-system 'utf-8) ; utf-8
+(setc save-buffer-coding-system 'utf-8) ; nil
+(setc process-coding-system-alist
     (cons '("grep" utf-8 . utf-8) process-coding-system-alist))
 
 ;; write over selected text on input... like all modern editors do
@@ -163,41 +153,41 @@
 (advice-remove #'newline-and-indent #'doom*newline-indent-and-continue-comments)
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-(setq world-clock-list
+(setc world-clock-list
     '(("UTC" "UTC")
          ("America/New_York" "Tampa")
          ("Europe/Ljubljana" "Slovenia")
          ("Asia/Calcutta" "India")
          ("America/Havana" "Havana")))
-(setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
+(setc world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; line spacing
-(setq-default line-spacing 0.1)
+(setc line-spacing 0.1)
 
 ;; Isearch
 (progn
-    (setq search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
-    (setq isearch-lax-whitespace t)
-    (setq isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
+    (setc search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
+    (setc isearch-lax-whitespace t)
+    (setc isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
 
 ;; Color compilation buffer
 (require 'xterm-color)
-(setq compilation-environment '("TERM=xterm-256color"))
+(setc compilation-environment '("TERM=xterm-256color"))
 (defun +my/advice-compilation-filter (f proc string)
     (funcall f proc (xterm-color-filter string)))
 (advice-add 'compilation-filter :around #'+my/advice-compilation-filter)
 
 ;; Workaround for terminal buffer scroll
-(setq term-char-mode-point-at-process-mark nil)
+(setc term-char-mode-point-at-process-mark nil)
 
 ;; Toggle visualization of matching parens
-(setq show-paren-mode 1)
+(setc show-paren-mode 1)
 
 ;; filling
-(setq-default fill-column 132)
+(setc fill-column 132)
 
 ;; hippie expand is dabbrev expand on steroids
-(setq hippie-expand-try-functions-list
+(setc hippie-expand-try-functions-list
     '(yas-hippie-try-expand
          try-expand-dabbrev
          try-expand-dabbrev-all-buffers
@@ -223,7 +213,7 @@
             (run-at-time "1 sec" nil 'delete-windows-on buffer)
             (message "Compilation Successful :-)"))
         (message "Compilation Failed :-("))
-    (setq current-frame (car (car (cdr (current-frame-configuration)))))
+    (setc current-frame (car (car (cdr (current-frame-configuration)))))
     (select-frame-set-input-focus current-frame))
 (add-to-list 'compilation-finish-functions '+my/bury-compile-buffer)
 
@@ -244,3 +234,9 @@
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)    ;; auto-fill insert hard line breaks
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
 (add-hook 'prog-mode-hook '+my/comment-auto-fill)    ;; ... but add comment auto-fill in prog-mode
+
+;; Minibuffer setup
+(add-hook
+    'minibuffer-setup-hook (lambda ()
+                               (setc show-trailing-whitespace nil)
+                               (setc line-spacing 1)))

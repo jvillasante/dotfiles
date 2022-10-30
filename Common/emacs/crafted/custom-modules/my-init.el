@@ -5,13 +5,13 @@
 
 ;;; Code:
 
-(customize-set-variable 'user-full-name "Julio C. Villasante")
-(customize-set-variable 'user-mail-address "jvillasantegomez@gmail.com")
-(customize-set-variable 'user-login-name "jvillasante")
-(customize-set-variable '+my/home-path (expand-file-name "~/"))
-(customize-set-variable '+my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" +my/home-path))
-(customize-set-variable '+my/software-path (expand-file-name "Workspace/Software/" +my/home-path))
-(customize-set-variable '+my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
+(setc user-full-name "Julio C. Villasante")
+(setc user-mail-address "jvillasantegomez@gmail.com")
+(setc user-login-name "jvillasante")
+(setc +my/home-path (expand-file-name "~/"))
+(setc +my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" +my/home-path))
+(setc +my/software-path (expand-file-name "Workspace/Software/" +my/home-path))
+(setc +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
 
 (cond
     ((string-equal system-type "windows-nt")
@@ -21,40 +21,40 @@
         (progn
             (message "Emacs Running on MacOS")
             (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-            (customize-set-variable 'browse-url-browser-function 'browse-url-generic)
-            (customize-set-variable 'browse-url-generic-program "open")
-            (customize-set-variable '+my/clang-path "/usr/local/opt/llvm/bin/clang")
-            (customize-set-variable '+my/mu-path "/usr/local/bin/mu")
-            (customize-set-variable '+my/msmtp-path "/usr/local/bin/msmtp")
-            (customize-set-variable 'vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
-            (customize-set-variable 'ns-use-proxy-icon nil)
-            (customize-set-variable 'ns-use-thin-smoothing t)
-            (customize-set-variable 'ns-alternate-modifier nil)
-            (customize-set-variable 'mac-command-modifier 'meta)
-            (customize-set-variable 'mac-option-modifier 'alt)
-            (customize-set-variable 'mac-right-option-modifier 'alt)))
+            (setc browse-url-browser-function 'browse-url-generic)
+            (setc browse-url-generic-program "open")
+            (setc +my/clang-path "/usr/local/opt/llvm/bin/clang")
+            (setc +my/mu-path "/usr/local/bin/mu")
+            (setc +my/msmtp-path "/usr/local/bin/msmtp")
+            (setc vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
+            (setc ns-use-proxy-icon nil)
+            (setc ns-use-thin-smoothing t)
+            (setc ns-alternate-modifier nil)
+            (setc mac-command-modifier 'meta)
+            (setc mac-option-modifier 'alt)
+            (setc mac-right-option-modifier 'alt)))
     ((string-equal system-type "gnu/linux")
         (progn
             (message "Emacs Running in Linux")
-            (customize-set-variable 'browse-url-browser-function 'browse-url-generic)
-            (customize-set-variable 'browse-url-generic-program "xdg-open")
-            (customize-set-variable '+my/clang-path "/usr/bin/clang")
-            (customize-set-variable '+my/mu-path "/usr/bin/mu")
-            (customize-set-variable '+my/msmtp-path "/usr/bin/msmtp")
-            (customize-set-variable 'vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))))
+            (setc browse-url-browser-function 'browse-url-generic)
+            (setc browse-url-generic-program "xdg-open")
+            (setc +my/clang-path "/usr/bin/clang")
+            (setc +my/mu-path "/usr/bin/mu")
+            (setc +my/msmtp-path "/usr/bin/msmtp")
+            (setc vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))))
 
 ;; store all backup and autosave files in the tmp dir
-(customize-set-variable 'backup-directory-alist `((".*" . ,temporary-file-directory)))
-(customize-set-variable 'auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+(setc backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setc auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;; Add system-wide mu4e installation
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 
 ;; org-directory needs to be set early
-(customize-set-variable 'org-directory (expand-file-name "Apps/org" +my/dropbox-path))
+(setc org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 
 ;; Don’t compact font caches during GC.
-(customize-set-variable 'inhibit-compacting-font-caches t)
+(setc inhibit-compacting-font-caches t)
 
 ;; disable risky local variables warning
 (advice-add 'risky-local-variable-p :override #'ignore)
@@ -66,63 +66,63 @@
 (progn
     (require 'epa-file)
     (epa-file-enable)
-    (customize-set-variable 'epa-file-encrypt-to user-mail-address)
-    (customize-set-variable 'epa-file-select-keys 'silent)
-    (customize-set-variable 'epa-file-cache-passphrase-for-symmetric-encryption nil)
+    (setc epa-file-encrypt-to user-mail-address)
+    (setc epa-file-select-keys 'silent)
+    (setc epa-file-cache-passphrase-for-symmetric-encryption nil)
 
     (require 'org-crypt)
     (org-crypt-use-before-save-magic)
-    (customize-set-variable 'org-crypt-disable-auto-save nil)
-    (customize-set-variable 'org-tags-exclude-from-inheritance (quote ("crypt")))
-    (customize-set-variable 'org-crypt-key nil)
-    (customize-set-variable 'org-crypt-key user-mail-address))
+    (setc org-crypt-disable-auto-save nil)
+    (setc org-tags-exclude-from-inheritance (quote ("crypt")))
+    (setc org-crypt-key nil)
+    (setc org-crypt-key user-mail-address))
 
 ;; Defaults
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; Disable the toolbar
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1)) ; Hide menu bar
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1)) ; Disable the scroll bar
 (blink-cursor-mode -1) ; the blinking cursor is nothing, but an annoyance
-(customize-set-variable 'visible-cursor nil) ; make it work in terminal too
-(customize-set-variable 'delete-by-moving-to-trash t) ; Delete files to trash
-(customize-set-variable 'window-combination-resize t) ; take new window space from all other windows (not just current)
-(customize-set-variable 'delete-trailing-lines t) ; `M-x delete-trailing-whitespace' deletes trailing lines
-(customize-set-variable 'x-stretch-cursor nil) ; Stretch cursor to the glyph width
-(customize-set-variable 'undo-limit 80000000) ; Raise undo-limit to 80Mb
-(customize-set-variable 'suggest-key-bindings nil) ; very annoying
-(customize-set-variable 'auto-save-default t) ; Nobody likes to loose work, I certainly don't
-(customize-set-variable 'password-cache-expiry nil) ; I can trust my computers ... can't I?
-(customize-set-variable 'major-mode 'fundamental-mode)
-(customize-set-variable 'use-dialog-box nil)
-(customize-set-variable 'load-prefer-newer t)
-(customize-set-variable 'truncate-lines t) ; Don't fold lines
-(customize-set-variable 'truncate-partial-width-windows nil) ; for vertically-split windows
-(customize-set-variable 'split-width-threshold 160) ; Split verticaly by default
-(customize-set-variable 'uniquify-buffer-name-style 'forward) ; Uniquify buffer names
-(customize-set-variable 'indent-tabs-mode t) ; use space to indent by default
-(customize-set-variable 'large-file-warning-threshold 100000000) ; warn when opening files bigger than 100MB
-(customize-set-variable 'confirm-kill-processes nil) ; quit Emacs directly even if there are running processes
-(customize-set-variable 'enable-local-eval t) ; Enable eval blocks in .dir-locals.el
-(customize-set-variable 'enable-local-variables :all) ; Enable by default variables in .dir-locals.el
-(customize-set-variable 'debug-on-error nil) ; Display the stacktrace if error encountered in one of the lisp method
-(customize-set-variable 'completions-detailed t) ; Detailed description for the built in describe symbol etc
+(setc visible-cursor nil) ; make it work in terminal too
+(setc delete-by-moving-to-trash t) ; Delete files to trash
+(setc window-combination-resize t) ; take new window space from all other windows (not just current)
+(setc delete-trailing-lines t) ; `M-x delete-trailing-whitespace' deletes trailing lines
+(setc x-stretch-cursor nil) ; Stretch cursor to the glyph width
+(setc undo-limit 80000000) ; Raise undo-limit to 80Mb
+(setc suggest-key-bindings nil) ; very annoying
+(setc auto-save-default t) ; Nobody likes to loose work, I certainly don't
+(setc password-cache-expiry nil) ; I can trust my computers ... can't I?
+(setc major-mode 'fundamental-mode)
+(setc use-dialog-box nil)
+(setc load-prefer-newer t)
+(setc truncate-lines t) ; Don't fold lines
+(setc truncate-partial-width-windows nil) ; for vertically-split windows
+(setc split-width-threshold 160) ; Split verticaly by default
+(setc uniquify-buffer-name-style 'forward) ; Uniquify buffer names
+(setc indent-tabs-mode t) ; use space to indent by default
+(setc large-file-warning-threshold 100000000) ; warn when opening files bigger than 100MB
+(setc confirm-kill-processes nil) ; quit Emacs directly even if there are running processes
+(setc enable-local-eval t) ; Enable eval blocks in .dir-locals.el
+(setc enable-local-variables :all) ; Enable by default variables in .dir-locals.el
+(setc debug-on-error nil) ; Display the stacktrace if error encountered in one of the lisp method
+(setc completions-detailed t) ; Detailed description for the built in describe symbol etc
 (delete-selection-mode 1) ; If text is selected, we expect that typing will replace the selection
 (save-place-mode +1) ; Remember point in files
 (electric-pair-mode +1) ; auto-insert matching parenteses
 (show-paren-mode +1) ; Highlight the matching parenthesis
 (global-so-long-mode +1) ; long files
-(customize-set-variable 'kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
-(customize-set-variable 'search-whitespace-regexp ".*?") ; Isearch convenience, space matches anything (non-greedy)
-(customize-set-variable 'next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
-(customize-set-variable 'require-final-newline t) ; Newline at end of file
-(customize-set-variable 'make-backup-files nil) ; Do not use backup files (filename~)
-(customize-set-variable 'create-lockfiles nil) ; Do not use lock files (.#filename)
+(setc kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
+(setc search-whitespace-regexp ".*?") ; Isearch convenience, space matches anything (non-greedy)
+(setc next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
+(setc require-final-newline t) ; Newline at end of file
+(setc make-backup-files nil) ; Do not use backup files (filename~)
+(setc create-lockfiles nil) ; Do not use lock files (.#filename)
 
 ;; tabs and indent
-(customize-set-variable 'indent-tabs-mode nil) ; don't use tabs to indent
-(customize-set-variable 'tab-width 4) ; but maintain correct appearance
-(customize-set-variable 'indent-line-function 'insert-tab) ; indent the current line
-(customize-set-variable 'standard-indent 4)
-(customize-set-variable 'c-basic-offset  4) ; Base indent size when indented automatically
+(setc indent-tabs-mode nil) ; don't use tabs to indent
+(setc tab-width 4) ; but maintain correct appearance
+(setc indent-line-function 'insert-tab) ; indent the current line
+(setc standard-indent 4)
+(setc c-basic-offset  4) ; Base indent size when indented automatically
 (c-set-offset 'cpp-macro 0 nil) ; Indent C/C++ macros as normal code
 (c-set-offset 'substatement-open 0) ; Align braces with the if/for statement. If not set, a half indent will be used
 (c-set-offset 'arglist-intro '+) ; Align multiline arguments with a standard indent (instead of with parenthesis)
@@ -132,51 +132,51 @@
 (savehist-mode)
 
 ;; scrolling
-(customize-set-variable 'auto-window-vscroll nil)  ; fast scrolling
-(customize-set-variable 'fast-but-imprecise-scrolling t)
-(customize-set-variable 'scroll-margin 2)
-(customize-set-variable 'scroll-conservatively 101)
-(customize-set-variable 'scroll-preserve-screen-position t)
+(setc auto-window-vscroll nil)  ; fast scrolling
+(setc fast-but-imprecise-scrolling t)
+(setc scroll-margin 2)
+(setc scroll-conservatively 101)
+(setc scroll-preserve-screen-position t)
 (when (fboundp 'pixel-scroll-precision-mode) (pixel-scroll-precision-mode t))
 
 ;; Use "y" and "n" to confirm/negate prompt
 (if (boundp 'use-short-answers)
-    (customize-set-variable 'use-short-answers t)
+    (setc use-short-answers t)
     (advice-add 'yes-or-no-p :override #'y-or-n-p))
 
 ;; set appearance of a tab that is represented by 4 spaces
-(customize-set-variable 'tab-width 4)
-(customize-set-variable 'standard-indent 4)
-(customize-set-variable 'highlight-tabs t)  ; show those ugly tabs
+(setc tab-width 4)
+(setc standard-indent 4)
+(setc highlight-tabs t)  ; show those ugly tabs
 
 ;; Whitespace settings
-(customize-set-variable 'show-trailing-whitespace t)
-(customize-set-variable 'whitespace-action '(auto-cleanup))
-(customize-set-variable 'whitespace-style '(indentation::space
-                                               space-after-tab
-                                               space-before-tab
-                                               trailing
-                                               lines-tail
-                                               tab-mark
-                                               face
-                                               tabs))
+(setc show-trailing-whitespace t)
+(setc whitespace-action '(auto-cleanup))
+(setc whitespace-style '(indentation::space
+                            space-after-tab
+                            space-before-tab
+                            trailing
+                            lines-tail
+                            tab-mark
+                            face
+                            tabs))
 
-(customize-set-variable 'doc-view-continuous t)
+(setc doc-view-continuous t)
 
 ;; LaTeX
-(customize-set-variable 'font-latex-fontify-script nil)
-(customize-set-variable 'TeX-newline-function 'reindent-then-newline-and-indent)
+(setc font-latex-fontify-script nil)
+(setc TeX-newline-function 'reindent-then-newline-and-indent)
 
 ;; vc
-(customize-set-variable 'vc-follow-symlinks t)
-(customize-set-variable 'vc-handled-backends '(Git))
+(setc vc-follow-symlinks t)
+(setc vc-handled-backends '(Git))
 
 ;; other defaults
-(customize-set-variable 'sp-escape-quotes-after-insert nil)
+(setc sp-escape-quotes-after-insert nil)
 
 ;; I do not know what this is :)
-(customize-set-variable 'max-specpdl-size 5000)
-(customize-set-variable 'url-queue-timeout 30)
+(setc max-specpdl-size 5000)
+(setc url-queue-timeout 30)
 
 ;; enable repeat-mode, see: `describe-repeat-maps'
 (unless (version< emacs-version "28")
@@ -192,30 +192,30 @@
 (delete-selection-mode t)
 
 ;; auto revert mode; automatically update a buffer if a file changes on disk
-(customize-set-variable 'auto-revert-verbose t) ; show message when file changes
-(customize-set-variable 'auto-revert-avoid-polling t) ; use save signal
+(setc auto-revert-verbose t) ; show message when file changes
+(setc auto-revert-avoid-polling t) ; use save signal
 (global-auto-revert-mode t)
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-(customize-set-variable 'world-clock-list
+(setc world-clock-list
     '(("UTC" "UTC")
          ("America/New_York" "Tampa")
          ("Europe/Ljubljana" "Slovenia")
          ("Asia/Calcutta" "India")
          ("America/Havana" "Havana")))
-(customize-set-variable 'world-clock-time-format "%a, %d %b %I:%M %p %Z")
+(setc world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; line spacing
-(customize-set-variable 'line-spacing 0.1)
+(setc line-spacing 0.1)
 
 ;; Toggle visualization of matching parens
-(customize-set-variable 'show-paren-mode 1)
+(setc show-paren-mode 1)
 
 ;; filling
-(customize-set-variable 'fill-column 132)
+(setc fill-column 132)
 
 ;; hippie expand is dabbrev expand on steroids
-(customize-set-variable 'hippie-expand-try-functions-list
+(setc hippie-expand-try-functions-list
     '(yas-hippie-try-expand
          try-expand-dabbrev
          try-expand-dabbrev-all-buffers
@@ -241,7 +241,7 @@
             (run-at-time "1 sec" nil 'delete-windows-on buffer)
             (message "Compilation Successful :-)"))
         (message "Compilation Failed :-("))
-    (customize-set-variable 'current-frame (car (car (cdr (current-frame-configuration)))))
+    (setc current-frame (car (car (cdr (current-frame-configuration)))))
     (select-frame-set-input-focus current-frame))
 (add-to-list 'compilation-finish-functions '+my/bury-compile-buffer)
 
@@ -268,8 +268,8 @@
 ;; Minibuffer setup hook
 (add-hook
     'minibuffer-setup-hook (lambda ()
-                               (customize-set-variable 'show-trailing-whitespace nil)
-                               (customize-set-variable 'line-spacing 1)))
+                               (setc show-trailing-whitespace nil)
+                               (setc line-spacing 1)))
 
 ;; trailing whitespace
 (dolist (hook '(special-mode-hook
@@ -278,7 +278,7 @@
                    compilation-mode-hook
                    minibuffer-setup-hook))
     (add-hook hook
-        (lambda () (customize-set-variable 'show-trailing-whitespace nil))))
+        (lambda () (setc show-trailing-whitespace nil))))
 
 (provide 'my-init)
 ;;; my-init.el ends here

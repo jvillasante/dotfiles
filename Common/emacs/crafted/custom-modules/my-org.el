@@ -7,26 +7,21 @@
 
 (require 'crafted-org)
 (progn
-    (customize-set-variable 'org-pretty-entities t)
-    (customize-set-variable 'org-fontify-whole-heading-line t)
-    (customize-set-variable 'org-fontify-done-headline t)
-    (customize-set-variable 'org-fontify-quote-and-verse-blocks t)
-    (customize-set-variable 'org-startup-indented t)
-    (customize-set-variable 'org-startup-folded t)
-    (customize-set-variable 'org-hide-emphasis-markers t))
+    (setc org-pretty-entities t)
+    (setc org-fontify-whole-heading-line t)
+    (setc org-fontify-done-headline t)
+    (setc org-fontify-quote-and-verse-blocks t)
+    (setc org-startup-indented t)
+    (setc org-startup-folded t)
+    (setc org-hide-emphasis-markers t))
 
 ;; org-superstar : prettify headings and plain lists in Org mode
 (crafted-package-install-package 'org-superstar) ;; bullets customization
 (progn
-    (customize-set-variable 'org-superstar-remove-leading-stars t)
-    (customize-set-variable 'org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
-    (customize-set-variable 'org-superstar-special-todo-items t)
+    (setc org-superstar-remove-leading-stars t)
+    (setc org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
+    (setc org-superstar-special-todo-items t)
     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
-
-;; org-bullets : pretty mode for org
-;; (crafted-package-install-package 'org-bullets)
-;; (progn
-;;     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (provide 'my-org)
 ;;; my-org.el ends here

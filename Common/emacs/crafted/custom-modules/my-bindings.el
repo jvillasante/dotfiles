@@ -21,7 +21,6 @@
         "C-x S" #'+my/save-all ; save some buffers without prompt
         "C-z" nil ; suspend frame should go away
         "C-x C-z" nil ; same
-        ;; [remap list-buffers] 'ibuffer ; ibuffer is better than list-buffers
 
         ;;; for some reason, crafted-emacs remaps C-s to `consult-line'
         "C-s" 'isearch-forward
