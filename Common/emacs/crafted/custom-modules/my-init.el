@@ -150,16 +150,18 @@
 (customize-set-variable 'highlight-tabs t)  ; show those ugly tabs
 
 ;; Whitespace settings
-(customize-set-variable 'show-trailing-whitespace t)
+(customize-set-variable 'whitespace-line-column 132)
+(customize-set-variable 'show-trailing-whitespace nil)
 (customize-set-variable 'whitespace-action '(auto-cleanup))
-(customize-set-variable 'whitespace-style '(indentation::space
-                            space-after-tab
-                            space-before-tab
-                            trailing
-                            lines-tail
-                            tab-mark
-                            face
-                            tabs))
+(customize-set-variable 'whitespace-style
+    '(indentation::space
+         space-after-tab
+         space-before-tab
+         trailing
+         lines-tail
+         tab-mark
+         face
+         tabs))
 
 (customize-set-variable 'doc-view-continuous t)
 

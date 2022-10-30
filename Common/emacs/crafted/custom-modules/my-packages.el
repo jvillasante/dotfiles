@@ -198,45 +198,100 @@
 (crafted-package-install-package 'helpful)
 
 ;; neotree : A Emacs tree plugin like NerdTree for Vim.
-(crafted-package-install-package 'neotree)
-(progn
-    (setc neo-theme 'ascii)
-    (setc neo-window-width 32)
-    (setc neo-smart-open t)
-    (setc neo-create-file-auto-open nil)
-    (setc neo-show-updir-line t)
-    (setc neo-show-hidden-files t)
-    (setc neo-auto-indent-point t)
-    (setc neo-vc-integration nil)
-    (setc neo-autorefresh nil)
-    (setc neo-auto-indent-point nil)
-    (setc neo-mode-line-type 'none)
-    (setc neo-banner-message nil)
-    (setc neo-confirm-create-file #'off-p)
-    (setc neo-confirm-create-directory #'off-p)
-    (setc neo-keymap-style 'concise)
-    (setc neo-hidden-regexp-list
-        '(;; vcs folders
-             "^\\.\\(?:git\\|hg\\|svn\\)$"
-             ;; compiled files
-             "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
-             ;; generated files, caches or local pkgs
-             "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
-             ;; org-mode folders
-             "^\\.\\(?:sync\\|export\\|attach\\)$"
-             ;; temp files
-             "~$"
-             "^#.*#$"
-             ;; Others
-             "^\\.\\(cache\\|tox\\|coverage\\)$"
-             "^\\.\\(DS_Store\\|python\\-version\\)"
-             "^\\(htmlcov\\)$" "\\.elcs$"
-             "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-             "^\\.#.*$" "^__pycache__$"
-             "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-             "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-             "^\\.log$"
-             "\\.egg\-info$")))
+;; (crafted-package-install-package 'neotree)
+;; (progn
+;;     (setc neo-theme 'ascii)
+;;     (setc neo-window-width 32)
+;;     (setc neo-smart-open t)
+;;     (setc neo-create-file-auto-open nil)
+;;     (setc neo-show-updir-line t)
+;;     (setc neo-show-hidden-files t)
+;;     (setc neo-auto-indent-point t)
+;;     (setc neo-vc-integration nil)
+;;     (setc neo-autorefresh nil)
+;;     (setc neo-auto-indent-point nil)
+;;     (setc neo-mode-line-type 'none)
+;;     (setc neo-banner-message nil)
+;;     (setc neo-confirm-create-file #'off-p)
+;;     (setc neo-confirm-create-directory #'off-p)
+;;     (setc neo-keymap-style 'concise)
+;;     (setc neo-hidden-regexp-list
+;;         '(;; vcs folders
+;;              "^\\.\\(?:git\\|hg\\|svn\\)$"
+;;              ;; compiled files
+;;              "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
+;;              ;; generated files, caches or local pkgs
+;;              "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+;;              ;; org-mode folders
+;;              "^\\.\\(?:sync\\|export\\|attach\\)$"
+;;              ;; temp files
+;;              "~$"
+;;              "^#.*#$"
+;;              ;; Others
+;;              "^\\.\\(cache\\|tox\\|coverage\\)$"
+;;              "^\\.\\(DS_Store\\|python\\-version\\)"
+;;              "^\\(htmlcov\\)$" "\\.elcs$"
+;;              "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+;;              "^\\.#.*$" "^__pycache__$"
+;;              "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+;;              "^\\.cproject$" "^\\.project$" "^\\.projectile$"
+;;              "^\\.log$"
+;;              "\\.egg\-info$")))
+
+;; treemacs : a tree layout file explorer for Emacs
+(crafted-package-install-package 'treemacs)
+(customize-set-variable 'treemacs-no-png-images t)
+(customize-set-variable 'treemacs-follow-after-init t)
+(customize-set-variable 'treemacs-is-never-other-window t)
+(customize-set-variable 'treemacs-sorting 'alphabetic-case-insensitive-asc)
+(customize-set-variable 'treemacs-persist-file (concat crafted-config-var-directory "treemacs-persist"))
+(customize-set-variable 'treemacs-last-error-persist-file (concat crafted-config-var-directory "treemacs-last-error-persist"))
+(with-eval-after-load "treemacs"
+    (defvar treemacs-file-ignore-extensions '()
+        "File extension which `treemacs-ignore-filter' will ensure are ignored")
+    (defvar treemacs-file-ignore-globs '()
+        "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
+    (defvar treemacs-file-ignore-regexps '()
+        "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
+    (customize-set-variable 'treemacs-file-ignore-extensions
+        '(;; LaTeX
+             "aux"
+             "ptc"
+             "fdb_latexmk"
+             "fls"
+             "synctex.gz"
+             "toc"
+             ;; LaTeX - glossary
+             "glg"
+             "glo"
+             "gls"
+             "glsdefs"
+             "ist"
+             "acn"
+             "acr"
+             "alg"
+             ;; LaTeX - pgfplots
+             "mw"
+             ;; LaTeX - pdfx
+             "pdfa.xmpi"))
+    (customize-set-variable 'treemacs-file-ignore-globs
+        '(;; LaTeX
+             "*/_minted-*"
+             ;; AucTeX
+             "*/.auctex-auto"
+             "*/_region_.log"
+             "*/_region_.tex"))
+    (defun treemacs-file-ignore-generate-regexps ()
+        "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
+        (customize-set-variable 'treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
+    (if (equal treemacs-file-ignore-globs '()) nil (treemacs-file-ignore-generate-regexps))
+    (defun treemacs-ignore-filter (file full-path)
+        "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
+        (or (member (file-name-extension file) treemacs-file-ignore-extensions)
+            (let ((ignore-file nil))
+                (dolist (regexp treemacs-file-ignore-regexps ignore-file)
+                    (customize-set-variable 'ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
+    (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
 
 ;; deft : plain text notes
 (crafted-package-install-package 'deft)

@@ -141,7 +141,8 @@
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o C") 'quick-calc)
 (global-set-key (kbd "C-c o e") 'elfeed)
-(global-set-key (kbd "C-c o p") 'neotree-toggle)
+;; (global-set-key (kbd "C-c o p") 'neotree-toggle)
+(global-set-key (kbd "C-c o p") 'treemacs)
 (global-set-key (kbd "C-c o t") 'vterm)
 (global-set-key (kbd "C-c o e") 'eshell)
 
