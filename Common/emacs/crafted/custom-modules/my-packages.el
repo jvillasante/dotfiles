@@ -203,7 +203,6 @@
     (customize-set-variable 'treemacs-no-png-images t)
     (customize-set-variable 'treemacs-is-never-other-window nil)
     (customize-set-variable 'treemacs-follow-after-init t)
-    (customize-set-variable 'treemacs-is-never-other-window t)
     (customize-set-variable 'treemacs-sorting 'alphabetic-case-insensitive-asc)
     (customize-set-variable 'treemacs-persist-file (concat crafted-config-var-directory "treemacs-persist"))
     (customize-set-variable 'treemacs-last-error-persist-file (concat crafted-config-var-directory "treemacs-last-error-persist"))
