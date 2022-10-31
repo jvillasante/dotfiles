@@ -61,7 +61,7 @@ means save all with no questions."
 (progn
     (with-eval-after-load 'eglot
         (add-to-list 'eglot-server-programs
-            '(c-mode c++-mode
+            '((c-mode c++-mode)
                  . ("clangd"
                        "-j=8"
                        "--log=error"

@@ -10,7 +10,7 @@
     (customize-set-variable 'ibuffer-expert t)
     (customize-set-variable 'ibuffer-show-empty-filter-groups nil)
     (add-hook 'ibuffer-mode-hook
-        '(lambda ()
+        (lambda ()
              (ibuffer-switch-to-saved-filter-groups "default")
              (ibuffer-auto-mode 1))))
 
