@@ -57,7 +57,7 @@ means save all with no questions."
 (customize-set-variable 'eldoc-echo-area-use-multiline-p nil)
 
 ;; Eglot
-(crafted-package-install-package 'eglot)
+(when (< emacs-major-version 29) (crafted-package-install-package 'eglot))
 (progn
     (customize-set-variable 'eglot-autoshutdown t)
     (customize-set-variable 'eglot-extend-to-xref t)
@@ -106,10 +106,7 @@ means save all with no questions."
     (add-hook 'c++-mode-hook #'format-all-mode)
     (add-hook 'python-mode-hook #'format-all-mode)
     (add-hook 'rustic-mode-hook #'format-all-mode)
-    (add-hook 'format-all-mode-hook #'format-all-ensure-formatter)
-    (custom-set-variables
-        '(format-all-formatters (quote (("C++" clang-format)
-                                           ("Python" black))))))
+    (add-hook 'format-all-mode-hook #'format-all-ensure-formatter))
 
 (provide 'my-ide)
 ;;; my-ide.el ends here

@@ -261,28 +261,5 @@
 ;; yaml : edit yaml-formatted text
 (crafted-package-install-package 'yaml-mode)
 
-;; smartparens : minor mode for dealing with pairs in Emacs.
-(crafted-package-install-package 'smartparens)
-(progn
-    (require 'smartparens-config)
-    (show-smartparens-global-mode +1)
-    (smartparens-global-mode 1)
-    (show-paren-mode t)
-
-    ;; global
-    (sp-pair "`" "`" :actions nil)
-
-    ;; c++
-    (sp-with-modes '(c-mode c++-mode)
-        (sp-local-pair "<" ">" :actions nil)
-
-        ;; when you press RET, the curly braces automatically add another newline
-        (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
-        (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC") ("* ||\n[i]" "RET"))))
-
-    ;; rust
-    (sp-with-modes '(rustic-mode)
-        (sp-local-pair "|" "|" :actions nil)))
-
 (provide 'my-packages)
 ;;; my-packages.el ends here

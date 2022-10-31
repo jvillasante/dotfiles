@@ -105,11 +105,9 @@
 (customize-set-variable 'enable-local-variables :all) ; Enable by default variables in .dir-locals.el
 (customize-set-variable 'debug-on-error nil) ; Display the stacktrace if error encountered in one of the lisp method
 (customize-set-variable 'completions-detailed t) ; Detailed description for the built in describe symbol etc
-(delete-selection-mode 1) ; If text is selected, we expect that typing will replace the selection
-(save-place-mode +1) ; Remember point in files
-;; (electric-pair-mode +1) ; auto-insert matching parenteses
-;; (show-paren-mode +1) ; Highlight the matching parenthesis
-(global-so-long-mode +1) ; long files
+(customize-set-variable 'delete-selection-mode 1) ; If text is selected, we expect that typing will replace the selection
+(customize-set-variable 'save-place-mode 1) ; Remember point in files
+(customize-set-variable 'global-so-long-mode 1) ; long files
 (customize-set-variable 'kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
 (customize-set-variable 'search-whitespace-regexp ".*?") ; Isearch convenience, space matches anything (non-greedy)
 (customize-set-variable 'next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
@@ -152,7 +150,7 @@
 ;; Whitespace settings
 (customize-set-variable 'whitespace-line-column 132)
 (customize-set-variable 'show-trailing-whitespace nil)
-(customize-set-variable 'whitespace-action '(auto-cleanup))
+(customize-set-variable 'whitespace-action '(cleanup auto-cleanup))
 (customize-set-variable 'whitespace-style
     '(indentation::space
          space-after-tab

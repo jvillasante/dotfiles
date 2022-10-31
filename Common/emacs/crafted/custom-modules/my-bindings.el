@@ -175,9 +175,6 @@
 (define-key isearch-mode-map (kbd "M-s l") 'consult-line) ; needed by consult-line to detect isearch
 (define-key isearch-mode-map (kbd "M-s L") 'consult-line-multi) ; needed by consult-line to detect isearch
 
-;; ibuffer-mode-map
-(define-key ibuffer-mode-map (kbd "q") 'kill-this-buffer)
-
 ;; smartparens-mode-map
 (define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-backward-kill-sexp)
 
