@@ -59,18 +59,13 @@ means save all with no questions."
 ;; Eglot
 (when (< emacs-major-version 29) (crafted-package-install-package 'eglot))
 (progn
-    (customize-set-variable 'eglot-autoshutdown t)
-    (customize-set-variable 'eglot-extend-to-xref t)
-    (customize-set-variable 'eglot-ignored-server-capabilities
-        (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
-
     (with-eval-after-load 'eglot
         (add-to-list 'eglot-server-programs
             '(c-mode c++-mode
                  . ("clangd"
-                       "-j=4"
-                       "--malloc-trim"
+                       "-j=8"
                        "--log=error"
+                       "--malloc-trim"
                        "--background-index"
                        "--clang-tidy"
                        "--cross-file-rename"
@@ -81,7 +76,11 @@ means save all with no questions."
 
     (add-hook 'c-mode-hook #'eglot-ensure)
     (add-hook 'c++-mode-hook #'eglot-ensure)
-    (add-hook 'rustic-mode-hook #'eglot-ensure))
+    (add-hook 'rustic-mode-hook #'eglot-ensure)
+    (customize-set-variable 'eglot-autoshutdown t)
+    (customize-set-variable 'eglot-extend-to-xref t)
+    (customize-set-variable 'eglot-ignored-server-capabilities
+        (quote (:documentFormattingProvider :documentRangeFormattingProvider))))
 
 ;; C++
 (progn
