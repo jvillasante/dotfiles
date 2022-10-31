@@ -226,10 +226,7 @@
     (customize-set-variable 'treemacs-follow-after-init t)
     (customize-set-variable 'treemacs-sorting 'alphabetic-case-insensitive-asc)
     (customize-set-variable 'treemacs-persist-file (concat crafted-config-var-directory "treemacs-persist"))
-    (customize-set-variable 'treemacs-last-error-persist-file (concat crafted-config-var-directory "treemacs-last-error-persist"))
-    (with-eval-after-load "treemacs"
-        (treemacs-follow-mode -1)
-        (treemacs-git-mode 'simple)))
+    (customize-set-variable 'treemacs-last-error-persist-file (concat crafted-config-var-directory "treemacs-last-error-persist")))
 
 ;; deft : plain text notes
 (crafted-package-install-package 'deft)

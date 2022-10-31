@@ -19,7 +19,7 @@
 (require 'crafted-editing)         ; Settings for the editing component (whitespace trimming etc.)
 ;; (require 'crafted-erlang)       ; A configuration for Erlang programming
 ;; (require 'crafted-evil)         ; An evil-mode configuration
-(require 'crafted-ide)             ; A general configuration to make Emacs more like an IDE, uses eglot.
+;; (require 'crafted-ide)             ; A general configuration to make Emacs more like an IDE, uses eglot.
 (require 'crafted-latex)           ; A configuration for creating documents using the LaTeX typesetting language
 (require 'crafted-lisp)            ; A configuration for the Lisp family of languages (Clojure, Common Lisp, Scheme, Racket)
 (require 'crafted-mastering-emacs) ; From the book of the same name

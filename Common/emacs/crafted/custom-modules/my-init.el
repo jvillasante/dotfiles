@@ -107,8 +107,8 @@
 (customize-set-variable 'completions-detailed t) ; Detailed description for the built in describe symbol etc
 (delete-selection-mode 1) ; If text is selected, we expect that typing will replace the selection
 (save-place-mode +1) ; Remember point in files
-(electric-pair-mode +1) ; auto-insert matching parenteses
-(show-paren-mode +1) ; Highlight the matching parenthesis
+;; (electric-pair-mode +1) ; auto-insert matching parenteses
+;; (show-paren-mode +1) ; Highlight the matching parenthesis
 (global-so-long-mode +1) ; long files
 (customize-set-variable 'kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
 (customize-set-variable 'search-whitespace-regexp ".*?") ; Isearch convenience, space matches anything (non-greedy)

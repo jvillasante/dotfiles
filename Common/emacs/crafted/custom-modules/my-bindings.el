@@ -133,6 +133,11 @@
 ;;; Prefix
 ;; C-c c
 (global-set-key (kbd "C-c c f") 'format-all-buffer)
+(global-set-key (kbd "C-c c h") 'eldoc)
+(with-eval-after-load "eglot"
+    (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
+    (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
 
 ;; C-c n
 (global-set-key (kbd "C-c n d") 'deft-find-file)
@@ -141,7 +146,7 @@
 ;; C-c o
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o C") 'quick-calc)
-(global-set-key (kbd "C-c o e") 'elfeed)
+(global-set-key (kbd "C-c o f") 'elfeed)
 (global-set-key (kbd "C-c o p") 'treemacs)
 (global-set-key (kbd "C-c o t") 'vterm)
 (global-set-key (kbd "C-c o e") 'eshell)
@@ -171,7 +176,7 @@
 (define-key isearch-mode-map (kbd "M-s L") 'consult-line-multi) ; needed by consult-line to detect isearch
 
 ;; ibuffer-mode-map
-;; (define-key minibuffer-mode-map (kbd "q") 'kill-this-buffer)
+(define-key ibuffer-mode-map (kbd "q") 'kill-this-buffer)
 
 ;; smartparens-mode-map
 (define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-backward-kill-sexp)
@@ -188,6 +193,11 @@
 ;; minibuffer-local-map
 (define-key minibuffer-local-map (kbd "M-s") 'consult-history) ; orig. next-matching-history-element
 (define-key minibuffer-local-map (kbd "M-r") 'consult-history) ; orig. previous-matching-history-element
+
+;; prog-mode
+(with-eval-after-load "prog-mode"
+    (define-key prog-mode-map (kbd "C-c e n") #'flymake-goto-next-error)
+    (define-key prog-mode-map (kbd "C-c e p") #'flymake-goto-prev-error))
 
 (provide 'my-bindings)
 ;;; my-bindings.el ends here

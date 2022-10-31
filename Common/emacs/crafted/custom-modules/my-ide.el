@@ -53,17 +53,21 @@ means save all with no questions."
                 (funcall fn edit-command))
             (funcall fn edit-command))))
 
+;; Eldoc
+(customize-set-variable 'eldoc-echo-area-use-multiline-p nil)
+
 ;; Eglot
-(customize-set-variable 'eldoc-echo-area-use-multiline-p t)
-(with-eval-after-load "eglot"
+(crafted-package-install-package 'eglot)
+(progn
+    (customize-set-variable 'eglot-autoshutdown t)
+    (customize-set-variable 'eglot-extend-to-xref t)
+    (customize-set-variable 'eglot-ignored-server-capabilities
+        (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
+
     (with-eval-after-load "eglot"
-        (customize-set-variable 'eglot-extend-to-xref t)
-        (customize-set-variable 'eglot-ignored-server-capabilities
-            (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
         (add-to-list 'eglot-server-programs
-            `(rust-mode . ("rust-analyzer"))
-            `(c-mode c++-mode
-                 . ("/usr/bin/clangd"
+            '(c-mode c++-mode
+                 . ("clangd"
                        "-j=4"
                        "--malloc-trim"
                        "--log=error"
@@ -73,7 +77,11 @@ means save all with no questions."
                        "--completion-style=detailed"
                        "--pch-storage=memory"
                        "--header-insertion=never"
-                       "--header-insertion-decorators=0")))))
+                       "--header-insertion-decorators=0"))))
+
+    (add-hook 'c-mode-hook #'eglot-ensure)
+    (add-hook 'c++-mode-hook #'eglot-ensure)
+    (add-hook 'rustic-mode-hook #'eglot-ensure))
 
 ;; C++
 (progn
@@ -84,17 +92,12 @@ means save all with no questions."
     (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
-    (add-hook 'c-mode-common-hook
-        (lambda ()
-            (when (derived-mode-p 'c-mode 'c++-mode)
-                (eglot-ensure)))))
+    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode)))
 
 ;; rustic : rust mode
 (crafted-package-install-package 'rustic)
 (progn
-    (customize-set-variable 'rustic-format-on-save nil)
-    (add-hook 'rustic-mode-hook #'eglot-ensure))
+    (customize-set-variable 'rustic-format-on-save nil))
 
 ;; format-all : auto format source code
 (crafted-package-install-package 'format-all)
