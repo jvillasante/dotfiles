@@ -134,7 +134,7 @@
 ;; C-c c
 (global-set-key (kbd "C-c c f") 'format-all-buffer)
 (global-set-key (kbd "C-c c h") 'eldoc)
-(with-eval-after-load "eglot"
+(with-eval-after-load 'eglot
     (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
     (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
@@ -156,7 +156,7 @@
 (define-key ctl-x-4-map (kbd "t") '+my/toggle-window-split)
 
 ;; org-mode-map
-(with-eval-after-load "org"
+(with-eval-after-load 'org
     (define-key org-mode-map [remap fill-paragraph] '+my/org-fill-or-unfill))
 
 ;; dired-mode-map
@@ -176,12 +176,12 @@
 (define-key isearch-mode-map (kbd "M-s L") 'consult-line-multi) ; needed by consult-line to detect isearch
 
 ;; vterm-mode-map
-(with-eval-after-load "vterm"
+(with-eval-after-load 'vterm
     (define-key vterm-mode-map (kbd "M-[") 'vterm-copy-mode)
     (define-key vterm-mode-map (kbd "C-y") 'vterm-yank))
 
 ;; neotree-mode-map
-(with-eval-after-load "neotree"
+(with-eval-after-load 'neotree
     (define-key neotree-mode-map (kbd "TAB") 'neotree-stretch-toggle))
 
 ;; minibuffer-local-map
@@ -189,7 +189,7 @@
 (define-key minibuffer-local-map (kbd "M-r") 'consult-history) ; orig. previous-matching-history-element
 
 ;; prog-mode
-(with-eval-after-load "prog-mode"
+(with-eval-after-load 'prog-mode
     (define-key prog-mode-map (kbd "C-c e n") #'flymake-goto-next-error)
     (define-key prog-mode-map (kbd "C-c e p") #'flymake-goto-prev-error))
 

@@ -64,7 +64,7 @@ means save all with no questions."
     (customize-set-variable 'eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
 
-    (with-eval-after-load "eglot"
+    (with-eval-after-load 'eglot
         (add-to-list 'eglot-server-programs
             '(c-mode c++-mode
                  . ("clangd"
