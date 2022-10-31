@@ -97,6 +97,7 @@ means save all with no questions."
 ;; rustic : rust mode
 (crafted-package-install-package 'rustic)
 (progn
+    (customize-set-variable 'rustic-lsp-client 'eglot)
     (customize-set-variable 'rustic-format-on-save nil))
 
 ;; format-all : auto format source code
