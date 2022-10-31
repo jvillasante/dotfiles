@@ -8,7 +8,7 @@
 
 ;;; Code:
 
-;; some globals
+;;; Some globals
 (global-set-key (kbd "C-x C-m") 'execute-extended-command) ; ALT may or may not be available
 (global-set-key (kbd "C-c C-m") 'execute-extended-command) ; ALT may or may not be available
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
@@ -130,35 +130,36 @@
 (define-key global-map [remap move-beginning-of-line] 'crux-move-beginning-of-line)
 (define-key global-map [remap kill-whole-line] 'crux-kill-whole-line)
 
-;; prefix: C-c c
+;;; Prefix
+;; C-c c
 (global-set-key (kbd "C-c c f") 'format-all-buffer)
 
-;; prefix: C-c n
+;; C-c n
 (global-set-key (kbd "C-c n d") 'deft-find-file)
 (global-set-key (kbd "C-c n D") 'deft)
 
-;; prefix: C-c o
+;; C-c o
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o C") 'quick-calc)
 (global-set-key (kbd "C-c o e") 'elfeed)
-;; (global-set-key (kbd "C-c o p") 'neotree-toggle)
 (global-set-key (kbd "C-c o p") 'treemacs)
 (global-set-key (kbd "C-c o t") 'vterm)
 (global-set-key (kbd "C-c o e") 'eshell)
 
-;; map: ctl-x-4-map
+;;; Keymaps
+;; ctl-x-4-map
 (define-key ctl-x-4-map (kbd "t") '+my/toggle-window-split)
 
-;; map: org-mode-map
+;; org-mode-map
 (with-eval-after-load "org"
     (define-key org-mode-map [remap fill-paragraph] '+my/org-fill-or-unfill))
 
-;; map: dired-mode-map
+;; dired-mode-map
 (define-key dired-mode-map (kbd "C-c o") 'crux-open-with)
 (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
 (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 
-;; map: isearch-mode-map
+;; isearch-mode-map
 ;; Prevents issue where you have to press backspace twice when trying
 ;; to remove the first character that fails a search
 (define-key isearch-mode-map [remap isearch-delete-char] 'isearch-del-char)
@@ -169,22 +170,22 @@
 (define-key isearch-mode-map (kbd "M-s l") 'consult-line) ; needed by consult-line to detect isearch
 (define-key isearch-mode-map (kbd "M-s L") 'consult-line-multi) ; needed by consult-line to detect isearch
 
-;; map: ibuffer-mode-map
+;; ibuffer-mode-map
 ;; (define-key minibuffer-mode-map (kbd "q") 'kill-this-buffer)
 
-;; map: smartparens-mode-map
+;; smartparens-mode-map
 (define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-backward-kill-sexp)
 
-;; map: vterm-mode-map
+;; vterm-mode-map
 (with-eval-after-load "vterm"
     (define-key vterm-mode-map (kbd "M-[") 'vterm-copy-mode)
     (define-key vterm-mode-map (kbd "C-y") 'vterm-yank))
 
-;; map: neotree-mode-map
+;; neotree-mode-map
 (with-eval-after-load "neotree"
     (define-key neotree-mode-map (kbd "TAB") 'neotree-stretch-toggle))
 
-;; map: minibuffer-local-map
+;; minibuffer-local-map
 (define-key minibuffer-local-map (kbd "M-s") 'consult-history) ; orig. next-matching-history-element
 (define-key minibuffer-local-map (kbd "M-r") 'consult-history) ; orig. previous-matching-history-element
 
