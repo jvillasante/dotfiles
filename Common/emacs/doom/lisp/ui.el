@@ -1,16 +1,15 @@
 ;;; lisp/ui.el -*- lexical-binding: t; -*-
 
 ;; font
-(setc
-    doom-font-increment 1
-    doom-font (font-spec :family "Iosevka" :size 16.0)
-    doom-big-font (font-spec :family "Iosevka" :size 18.0)
-    doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16.0)
-    doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16.0)
-    doom-serif-font (font-spec :family "IBM Plex Serif" :size 14.0))
+(customize-set-variable 'doom-font-increment 1)
+(customize-set-variable 'doom-font (font-spec :family "Iosevka" :size 16.0))
+(customize-set-variable 'doom-big-font (font-spec :family "Iosevka" :size 18.0))
+(customize-set-variable 'doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16.0))
+(customize-set-variable 'doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16.0))
+(customize-set-variable 'doom-serif-font (font-spec :family "IBM Plex Serif" :size 14.0))
 
 ;; frame title
-(setc frame-title-format
+(customize-set-variable 'frame-title-format
     '(:eval
          (format "%s@%s: %s"
              (or (file-remote-p default-directory 'user)
@@ -36,12 +35,12 @@
 (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)
 
 ;; doom-dashboard
-(setc fancy-splash-image +my/splash-path)
-(setc +doom-dashboard-functions
+(customize-set-variable 'fancy-splash-image +my/splash-path)
+(customize-set-variable '+doom-dashboard-functions
     '(doom-dashboard-widget-banner
          doom-dashboard-widget-shortmenu
          doom-dashboard-widget-loaded))
-(setc +doom-dashboard-menu-sections
+(customize-set-variable '+doom-dashboard-menu-sections
     '(("Reload last session"
           :icon nil
           :when (cond ((modulep! :ui workspaces)
@@ -72,7 +71,7 @@
              :action doom/help)))
 
 ;; all-the-icons
-(setc all-the-icons-scale-factor 1.1)
+(customize-set-variable 'all-the-icons-scale-factor 1.1)
 
 ;; theme
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
@@ -81,16 +80,15 @@
 (use-package! modus-themes
     :demand t
     :init
-    (setc
-        modus-themes-mode-line '(borderless (padding 1) (height 0.9))
-        modus-themes-bold-constructs nil
-        modus-themes-italic-constructs t
-        modus-themes-fringes 'subtle
-        modus-themes-tabs-accented t
-        modus-themes-subtle-line-numbers t
-        modus-themes-diffs 'desaturated
-        modus-themes-region '(bg-only no-extend)
-        modus-themes-headings
+    (customize-set-variable 'modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
+    (customize-set-variable 'modus-themes-bold-constructs nil)
+    (customize-set-variable 'modus-themes-italic-constructs t)
+    (customize-set-variable 'modus-themes-fringes 'subtle)
+    (customize-set-variable 'modus-themes-tabs-accented t)
+    (customize-set-variable 'modus-themes-subtle-line-numbers t)
+    (customize-set-variable 'modus-themes-diffs 'desaturated)
+    (customize-set-variable 'modus-themes-region '(bg-only no-extend))
+    (customize-set-variable 'modus-themes-headings
         '((1 . (monochrome variable-pitch 1.3))
              (2 . (monochrome variable-pitch 1.2))
              (3 . (monochrome variable-pitch 1.1))
@@ -102,9 +100,9 @@
 
 ;; modeline
 (after! doom-modeline
-    (setc doom-modeline-icon t)
-    (setc doom-modeline-height 1)
-    (setc doom-modeline-lsp t)
+    (customize-set-variable 'doom-modeline-icon t)
+    (customize-set-variable 'doom-modeline-height 1)
+    (customize-set-variable 'doom-modeline-lsp t)
     (custom-set-faces
         '(mode-line ((t (:height 0.9))))
         '(mode-line-active ((t (:height 0.9))))
@@ -115,7 +113,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setc display-line-numbers-type t)
+(customize-set-variable 'display-line-numbers-type t)
 (dolist (mode '(org-mode-hook
                    vterm-mode-hook
                    term-mode-hook
@@ -125,7 +123,7 @@
 
 ;; popup windows & rules
 (when (modulep! :ui popup)
-    (setc +popup-default-parameters
+    (customize-set-variable '+popup-default-parameters
         '((transient . t)   ; remove later
              (quit . t)        ; remove later
              (select . ignore) ; remove later

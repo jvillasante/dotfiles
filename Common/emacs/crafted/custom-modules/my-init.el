@@ -254,6 +254,10 @@
 (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill))
 
+;; Prevent killing Messages buffer
+(with-current-buffer "*Messages*"
+    (emacs-lock-mode 'kill))
+
 ;; Auto-save on focus lost - https://www.emacswiki.org/emacs/AutoSave
 (add-function :after after-focus-change-function
     (lambda () (unless (frame-focus-state) (save-some-buffers t))))
