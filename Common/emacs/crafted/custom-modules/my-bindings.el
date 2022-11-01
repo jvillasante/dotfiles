@@ -29,6 +29,8 @@
 
 ;; ibuffer
 (define-key global-map [remap list-buffers] 'ibuffer)
+(with-eval-after-load 'ibuffer
+    (define-key ibuffer-mode-map (kbd "q") 'kill-this-buffer))
 
 ;; fill-unfill
 (define-key global-map [remap fill-paragraph] '+my/fill-or-unfill)
