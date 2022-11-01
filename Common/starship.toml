@@ -15,6 +15,7 @@ error_symbol = "[✗](red)"
 vicmd_symbol = "[❮](green)"
 
 [directory]
+truncation_length = 1
 style = "green"
 
 [git_branch]
