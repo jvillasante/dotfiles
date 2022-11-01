@@ -34,6 +34,7 @@
 (require 'crafted-ui)              ; Extra UI configuration for a better experience (mode line, etc)
 (require 'crafted-updates)         ; Tools to upgrade Crafted Emacs
 (require 'crafted-windows)         ; Window management configuration
+;; (require 'crafted-workspaces)      ; Workspaces configuration
 
 ;; crafted-mastering-emacs customizations
 (crafted-mastering-emacs-enable-hydra-package)

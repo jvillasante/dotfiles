@@ -202,7 +202,8 @@
         (jump-to-register :magit-fullscreen))
 
     (customize-set-variable 'git-commit-summary-max-length 80)
-    (customize-set-variable 'vc-handled-backends (delq 'Git vc-handled-backends)))
+    (customize-set-variable 'vc-handled-backends (delq 'Git vc-handled-backends))
+    (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 80))))
 
 ;; which-key : Displays command shortcuts when typing commands
 (crafted-package-install-package 'which-key)

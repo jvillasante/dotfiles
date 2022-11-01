@@ -30,6 +30,9 @@
 ;; hippie-expand is a better dabbrev
 (define-key global-map [remap dabbrev-expand] 'hippie-expand)
 
+;; ibuffer
+(define-key global-map [remap list-buffers] 'ibuffer)
+
 ;; fill-unfill
 (define-key global-map [remap fill-paragraph] '+my/fill-or-unfill)
 (global-set-key (kbd "M-Q") '+my/unfill-paragraph)
