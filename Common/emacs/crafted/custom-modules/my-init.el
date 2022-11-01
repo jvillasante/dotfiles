@@ -19,7 +19,6 @@
             (message "Emacs Running on Microsoft Windows (which is super weird!)")))
     ((string-equal system-type "darwin")
         (progn
-            (message "Emacs Running on MacOS")
             (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
             (customize-set-variable 'browse-url-browser-function 'browse-url-generic)
             (customize-set-variable 'browse-url-generic-program "open")
@@ -35,7 +34,6 @@
             (customize-set-variable 'mac-right-option-modifier 'alt)))
     ((string-equal system-type "gnu/linux")
         (progn
-            (message "Emacs Running in Linux")
             (customize-set-variable 'browse-url-browser-function 'browse-url-generic)
             (customize-set-variable 'browse-url-generic-program "xdg-open")
             (customize-set-variable '+my/clang-path "/usr/bin/clang")
