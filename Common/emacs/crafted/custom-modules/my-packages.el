@@ -79,6 +79,24 @@
                             t)
                            ".*:\0? *")))
 
+;; ansi-colors
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(add-hook 'eshell-mode-hook 'ansi-color-for-comint-mode-on)
+(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+
+;; exec-path-from-shell : Sane environment variables
+(crafted-package-install-package 'exec-path-from-shell)
+(progn
+  (require 'exec-path-from-shell)
+  (dolist (var '("TERM" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
+    (add-to-list 'exec-path-from-shell-variables var))
+
+  (when (daemonp)
+    (add-hook
+     'emacs-startup-hook
+     (lambda ()
+       (exec-path-from-shell-initialize)))))
+
 ;; persistent-scratch : preserve scratch buffer across sessions
 (crafted-package-install-package 'persistent-scratch)
 (progn
@@ -128,12 +146,6 @@
 (progn
   (editorconfig-mode 1))
 
-;; exec-path-from-shell : Sane environment variables
-(crafted-package-install-package 'exec-path-from-shell)
-(progn
-  (when (daemonp)
-    (exec-path-from-shell-initialize)))
-
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (crafted-package-install-package 'avy)
 (progn
@@ -182,6 +194,7 @@
                             "/usr/local/bin/gls"
                           "/bin/ls")))
                 (eshell/alias "ll" (concat ls " -alh --group-directories-first --color=auto")))
+              (eshell/alias "clear" "clear-scrollback")
               (eshell/alias "ff" "find-file $1")
               (eshell/alias "e" "find-file-other-window $1")
               (eshell/alias "d" "dired $1"))))
