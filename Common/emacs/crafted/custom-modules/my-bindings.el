@@ -14,13 +14,10 @@
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
 (global-set-key (kbd "C-x k") 'kill-this-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
-(global-set-key (kbd "M-/") 'hippie-expand) ; use hippie-expand instead of debbrev
 (global-set-key (kbd "C-x S") '+my/save-all) ; save some buffers without prompt
 (global-set-key (kbd "C-z") nil) ; suspend frame should go away
 (global-set-key (kbd "C-x C-z") nil) ; same
-
-;; for some reason, crafted-emacs remaps C-s to `consult-line'
-(global-set-key (kbd "C-s") 'isearch-forward)
+(global-set-key (kbd "C-s") 'isearch-forward) ; crafted-emacs remaps C-s to `consult-line'
 
 ;; upcase, downcase and capitalize
 (global-set-key (kbd "M-u") 'upcase-dwim)
@@ -133,41 +130,19 @@
 (define-key global-map [remap move-beginning-of-line] 'crux-move-beginning-of-line)
 (define-key global-map [remap kill-whole-line] 'crux-kill-whole-line)
 
-;;; Prefix
-;; C-c c
-(global-set-key (kbd "C-c c f") 'format-all-buffer)
-(global-set-key (kbd "C-c c h") 'eldoc)
-(with-eval-after-load 'eglot
-    (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
-    (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
-    (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
-
-;; C-c n
-(global-set-key (kbd "C-c n d") 'deft-find-file)
-(global-set-key (kbd "C-c n D") 'deft)
-
-;; C-c o
-(global-set-key (kbd "C-c o c") 'calc)
-(global-set-key (kbd "C-c o C") 'quick-calc)
-(global-set-key (kbd "C-c o f") 'elfeed)
-(global-set-key (kbd "C-c o p") 'treemacs)
-(global-set-key (kbd "C-c o t") 'vterm)
-(global-set-key (kbd "C-c o e") 'eshell)
-
-;;; Keymaps
 ;; ctl-x-4-map
 (define-key ctl-x-4-map (kbd "t") '+my/toggle-window-split)
 
-;; org-mode-map
+;; org
 (with-eval-after-load 'org
     (define-key org-mode-map [remap fill-paragraph] '+my/org-fill-or-unfill))
 
-;; dired-mode-map
+;; dired
 (define-key dired-mode-map (kbd "C-c o") 'crux-open-with)
 (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
 (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 
-;; isearch-mode-map
+;; isearch
 ;; Prevents issue where you have to press backspace twice when trying
 ;; to remove the first character that fails a search
 (define-key isearch-mode-map [remap isearch-delete-char] 'isearch-del-char)
@@ -178,16 +153,16 @@
 (define-key isearch-mode-map (kbd "M-s l") 'consult-line) ; needed by consult-line to detect isearch
 (define-key isearch-mode-map (kbd "M-s L") 'consult-line-multi) ; needed by consult-line to detect isearch
 
-;; vterm-mode-map
+;; vterm
 (with-eval-after-load 'vterm
     (define-key vterm-mode-map (kbd "M-[") 'vterm-copy-mode)
     (define-key vterm-mode-map (kbd "C-y") 'vterm-yank))
 
-;; neotree-mode-map
+;; neotree
 (with-eval-after-load 'neotree
     (define-key neotree-mode-map (kbd "TAB") 'neotree-stretch-toggle))
 
-;; minibuffer-local-map
+;; minibuffer
 (define-key minibuffer-local-map (kbd "M-s") 'consult-history) ; orig. next-matching-history-element
 (define-key minibuffer-local-map (kbd "M-r") 'consult-history) ; orig. previous-matching-history-element
 
@@ -195,6 +170,27 @@
 (with-eval-after-load 'prog-mode
     (define-key prog-mode-map (kbd "C-c e n") #'flymake-goto-next-error)
     (define-key prog-mode-map (kbd "C-c e p") #'flymake-goto-prev-error))
+
+;;; Prefix
+;; C-c c : Code
+(global-set-key (kbd "C-c c f") 'format-all-buffer)
+(global-set-key (kbd "C-c c h") 'eldoc)
+(with-eval-after-load 'eglot
+    (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
+    (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
+
+;; C-c n : Notes
+(global-set-key (kbd "C-c n d") 'deft-find-file)
+(global-set-key (kbd "C-c n D") 'deft)
+
+;; C-c o : Open
+(global-set-key (kbd "C-c o c") 'calc)
+(global-set-key (kbd "C-c o C") 'quick-calc)
+(global-set-key (kbd "C-c o f") 'elfeed)
+(global-set-key (kbd "C-c o p") 'treemacs)
+(global-set-key (kbd "C-c o t") 'vterm)
+(global-set-key (kbd "C-c o e") 'eshell)
 
 (provide 'my-bindings)
 ;;; my-bindings.el ends here
