@@ -53,6 +53,9 @@
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
+(with-eval-after-load 'magit
+    (define-key magit-mode-map (kbd "q")
+        (lambda() (interactive) (magit-mode-bury-buffer t))))
 
 ;; embark
 (global-set-key (kbd "C-;") 'embark-act)        ; pick some comfortable binding
