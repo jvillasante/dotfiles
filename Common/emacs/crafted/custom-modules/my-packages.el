@@ -79,18 +79,49 @@
                             t)
                            ".*:\0? *")))
 
-;; ansi-colors
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-(add-hook 'eshell-mode-hook 'ansi-color-for-comint-mode-on)
-(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+;; xterm-color : ANSI control sequence to text-property translator.
+(crafted-package-install-package 'xterm-color)
+(progn
+  (require 'xterm-color)
+
+  ;; Comint
+  (progn
+    (setq comint-output-filter-functions
+          (remove 'ansi-color-process-output comint-output-filter-functions))
+
+    (add-hook 'shell-mode-hook
+              (lambda ()
+                (font-lock-mode -1) ;; Disable font-locking in this buffer to improve performance
+                (make-local-variable 'font-lock-function) ;; Prevent font-locking from being re-enabled in this buffer
+                (setq font-lock-function (lambda (_) nil))
+                (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t))))
+
+  ;; Eshell
+  (with-eval-after-load 'esh-mode
+    (add-hook 'eshell-mode-hook
+              (lambda () (progn
+                           (setq xterm-color-preserve-properties t)
+                           (setenv "TERM" "xterm-256color"))))
+
+    (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+    (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
+
+
+  ;; Compilation buffers
+  (progn
+    (setq compilation-environment '("TERM=xterm-256color"))
+
+    (defun my/advice-compilation-filter (f proc string)
+      (funcall f proc (xterm-color-filter string)))
+    (advice-add 'compilation-filter :around #'my/advice-compilation-filter)))
 
 ;; exec-path-from-shell : Sane environment variables
 (crafted-package-install-package 'exec-path-from-shell)
 (progn
   (require 'exec-path-from-shell)
-  (dolist (var '("TERM" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
+  (setenv "PAGER" "cat") ; emacs does not need a pager
+  (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
     (add-to-list 'exec-path-from-shell-variables var))
-
   (when (daemonp)
     (add-hook
      'emacs-startup-hook

@@ -57,9 +57,6 @@
 ;; disable risky local variables warning
 (advice-add 'risky-local-variable-p :override #'ignore)
 
-;; emacs does not need a pager
-(setenv "PAGER" "cat")
-
 ;; encryption : https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (progn
   (require 'epa-file)

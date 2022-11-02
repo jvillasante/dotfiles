@@ -3,6 +3,7 @@
 # tty
 stty -ixon    # Disable flow control, i.e. ^s "freeze screen" and ^q resume
 stty erase ^? # kill ^u intr ^c eof ^d stop ^s
+set -o emacs
 
 # Exports
 export ALTERNATE_EDITOR=""

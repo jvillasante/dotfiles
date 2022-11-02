@@ -103,7 +103,7 @@
 (progn
   (add-hook 'after-init-hook 'minions-mode))
 
-;; anzy : displays current match and total matches information in the mode-line in various search modes
+;; anzu : displays current match and total matches information in the mode-line in various search modes
 (crafted-package-install-package 'anzu)
 (progn
   (global-anzu-mode))
