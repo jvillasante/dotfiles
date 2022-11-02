@@ -106,14 +106,14 @@
     (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
     (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
-
   ;; Compilation buffers
-  (progn
-    (setq compilation-environment '("TERM=xterm-256color"))
+  ;; (progn
+  ;;   (setq compilation-environment '("TERM=xterm-256color"))
 
-    (defun my/advice-compilation-filter (f proc string)
-      (funcall f proc (xterm-color-filter string)))
-    (advice-add 'compilation-filter :around #'my/advice-compilation-filter)))
+  ;;   (defun my/advice-compilation-filter (f proc string)
+  ;;     (funcall f proc (xterm-color-filter string)))
+  ;;     (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
+  )
 
 ;; exec-path-from-shell : Sane environment variables
 (crafted-package-install-package 'exec-path-from-shell)
