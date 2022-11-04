@@ -79,6 +79,7 @@
 ;; tramp : Transparent Remote (file) Access, Multiple Protocol
 (progn
   (customize-set-variable 'tramp-verbose 2)
+  (customize-set-variable 'tramp-auto-save-directory temporary-file-directory) ; auto-save to /tmp
   (customize-set-variable 'tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
   (customize-set-variable 'tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
   (customize-set-variable 'tramp-password-prompt-regexp   ; Add verification code support.
