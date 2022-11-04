@@ -48,6 +48,7 @@
 (require 'my-init)      ; custom init
 (require 'my-ui)        ; custom ui configs
 (require 'my-packages)  ; custom packages
+(require 'my-hydra)
 (require 'my-org)       ; org-mode
 (require 'my-elfeed)    ; rss
 (require 'my-ide)       ; ide stuff

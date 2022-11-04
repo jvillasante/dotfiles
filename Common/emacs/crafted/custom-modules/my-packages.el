@@ -6,13 +6,25 @@
 ;;; Code:
 
 ;; ibuffer
+(crafted-package-install-package 'ibuffer-project)
 (progn
   (customize-set-variable 'ibuffer-expert t)
   (customize-set-variable 'ibuffer-show-empty-filter-groups nil)
-  (add-hook 'ibuffer-mode-hook
-            (lambda ()
-              (ibuffer-switch-to-saved-filter-groups "default")
-              (ibuffer-auto-mode 1))))
+  (add-hook
+   'ibuffer-mode-hook
+   (lambda ()
+     (ibuffer-switch-to-saved-filter-groups "default")
+     (ibuffer-auto-mode 1)))
+
+  (add-hook
+   'ibuffer-hook
+   (lambda ()
+     (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+     (unless (eq ibuffer-sorting-mode 'project-file-relative)
+       (ibuffer-do-sort-by-project-file-relative))))
+
+  (with-eval-after-load 'ibuffer-project
+    (add-to-list 'ibuffer-project-root-functions '(file-remote-p . "Remote"))))
 
 ;; Isearch
 (progn
@@ -207,6 +219,7 @@
   (customize-set-variable 'vterm-shell "/usr/bin/bash"))
 
 ;; eshell : the emacs shell
+(crafted-package-install-package 'eshell-prompt-extras)
 (progn
   (customize-set-variable 'eshell-highlight-prompt nil)
   (customize-set-variable 'eshell-scroll-to-bottom-on-input nil)
@@ -216,6 +229,12 @@
   (customize-set-variable 'eshell-hist-ignoredups t)
   (customize-set-variable 'eshell-save-history-on-exit t)
   (customize-set-variable 'eshell-destroy-buffer-when-process-dies t)
+
+  ;; Prompt
+  (with-eval-after-load "esh-opt"
+    (autoload 'epe-theme-lambda "eshell-prompt-extras")
+    (customize-set-variable 'eshell-highlight-prompt nil)
+    (customize-set-variable 'eshell-prompt-function 'epe-theme-lambda))
 
   ;; Aliases
   (add-hook 'eshell-mode-hook
@@ -253,9 +272,6 @@
 (crafted-package-install-package 'which-key)
 (progn
   (which-key-mode +1))
-
-;; hydra : Keybindings combinations
-(crafted-package-install-package 'hydra)
 
 ;; Expand Region : expand or contract selection
 (crafted-package-install-package 'expand-region)
