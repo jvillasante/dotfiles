@@ -56,6 +56,15 @@ means save all with no questions."
 ;; Eldoc
 (customize-set-variable 'eldoc-echo-area-use-multiline-p nil)
 
+;; hideshow
+(progn
+  (add-hook 'prog-mode-hook 'hs-minor-mode)
+  (defun +my/toggle-fold ()
+    (interactive)
+    (save-excursion
+      (end-of-line)
+      (hs-toggle-hiding))))
+
 ;; Eglot
 (when (< emacs-major-version 29) (crafted-package-install-package 'eglot))
 (progn
@@ -106,6 +115,18 @@ means save all with no questions."
 (progn
   (add-hook 'prog-mode-hook 'format-all-mode)
   (add-hook 'format-all-mode-hook #'format-all-ensure-formatter))
+
+;; flymake
+(progn
+  ;; Underline warnings and errors from Flymake
+  (custom-set-faces
+   '(flymake-errline ((((class color)) (:underline "red"))))
+   '(flymake-warnline ((((class color)) (:underline "yellow")))))
+
+  ;; Display error and warning messages in minibuffer.
+  (custom-set-variables
+   '(help-at-pt-timer-delay 0.5)
+   '(help-at-pt-display-when-idle '(flymake-overlay))))
 
 (provide 'my-ide)
 ;;; my-ide.el ends here

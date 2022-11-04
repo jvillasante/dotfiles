@@ -40,9 +40,6 @@
 ;; avy
 (global-set-key (kbd "C-.") 'avy-goto-char-timer)
 
-;; ace-window
-;; (define-key global-map [remap other-window] 'ace-window)
-
 ;; anzu
 (global-set-key (kbd "M-%") 'anzu-query-replace)
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
@@ -175,8 +172,12 @@
 
 ;; prog-mode
 (with-eval-after-load 'prog-mode
-  (define-key prog-mode-map (kbd "C-c e n") #'flymake-goto-next-error)
-  (define-key prog-mode-map (kbd "C-c e p") #'flymake-goto-prev-error))
+  (define-key prog-mode-map (kbd "M-n") 'flymake-goto-next-error)
+  (define-key prog-mode-map (kbd "M-p") 'flymake-goto-prev-error))
+
+;; folding
+(global-unset-key (kbd "C-c C-f"))
+(global-set-key (kbd "C-c C-f C-f") '+my/toggle-fold)
 
 ;;; Prefix
 ;; C-c c : Code
