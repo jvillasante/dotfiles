@@ -40,8 +40,8 @@
 (crafted-mastering-emacs-enable-hydra-package)
 (crafted-mastering-emacs-enable-dumb-jump-package)
 (with-eval-after-load "crafted-mastering-emacs"
-  (customize-set-variable 'icomplete-mode nil)     ; using vertico
-  (customize-set-variable 'fido-vertical-mode nil)) ; using vertico
+  (csetq icomplete-mode nil)     ; using vertico
+  (csetq fido-vertical-mode nil)) ; using vertico
 
 ;; Personal Modules
 (require 'my-functions) ; helper functions

@@ -82,7 +82,6 @@
 (global-set-key (kbd "<help> a") 'consult-apropos)            ; orig. apropos-command
 ;; M-g bindings (goto-map)
 (global-set-key (kbd "M-g e") 'consult-compile-error)
-(global-set-key (kbd "M-g f") 'consult-flymake)               ; Alternative: consult-flycheck
 (global-set-key (kbd "M-g g") 'consult-goto-line)             ; orig. goto-line
 (global-set-key (kbd "M-g M-g") 'consult-goto-line)           ; orig. goto-line
 (global-set-key (kbd "M-g o") 'consult-outline)               ; Alternative: consult-org-heading
@@ -171,12 +170,19 @@
 (define-key minibuffer-local-map (kbd "M-r") 'consult-history) ; orig. previous-matching-history-element
 
 ;; prog-mode
-(with-eval-after-load 'prog-mode
-  (define-key prog-mode-map (kbd "M-n") 'flymake-goto-next-error)
-  (define-key prog-mode-map (kbd "M-p") 'flymake-goto-prev-error))
+(when (eq my-ide-lsp-backend 'eglot)
+  (with-eval-after-load 'prog-mode
+    (global-set-key (kbd "M-g f") 'consult-flymake)
+    (define-key prog-mode-map (kbd "M-n") 'flymake-goto-next-error)
+    (define-key prog-mode-map (kbd "M-p") 'flymake-goto-prev-error)))
+(when (eq my-ide-lsp-backend 'lsp-mode)
+  (with-eval-after-load 'prog-mode
+    (global-set-key (kbd "M-g f") 'consult-flycheck)
+    (define-key prog-mode-map (kbd "M-n") 'flycheck-next-error)
+    (define-key prog-mode-map (kbd "M-p") 'flycheck-previous-error)))
 
 ;; folding
-(global-unset-key (kbd "C-c C-f"))
+(global-unset-key "\C-c\C-f")
 (global-set-key (kbd "C-c C-f C-f") '+my/toggle-fold)
 
 ;;; Prefix

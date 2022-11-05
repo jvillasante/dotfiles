@@ -8,8 +8,8 @@
 ;; ibuffer
 (crafted-package-install-package 'ibuffer-project)
 (progn
-  (customize-set-variable 'ibuffer-expert t)
-  (customize-set-variable 'ibuffer-show-empty-filter-groups nil)
+  (csetq ibuffer-expert t)
+  (csetq ibuffer-show-empty-filter-groups nil)
   (add-hook
    'ibuffer-mode-hook
    (lambda ()
@@ -35,10 +35,10 @@
       (isearch-repeat (if isearch-forward 'forward))
       (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
       (ad-activate 'isearch-search)))
-  (customize-set-variable 'isearch-resume-in-command-history t) ; Use history for isearch as well
-  (customize-set-variable 'search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
-  (customize-set-variable 'isearch-lax-whitespace t)
-  (customize-set-variable 'isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
+  (csetq isearch-resume-in-command-history t) ; Use history for isearch as well
+  (csetq search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
+  (csetq isearch-lax-whitespace t)
+  (csetq isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
 
 ;; dired : built-in navigation of folders
 (progn
@@ -47,24 +47,24 @@
     (progn
       (require 'dired-x))) ;; for dired-jump
 
-  (customize-set-variable 'dired-dwim-target t)  ; suggest a target for moving/copying intelligently
-  (customize-set-variable 'dired-hide-details-hide-symlink-targets nil)
+  (csetq dired-dwim-target t)  ; suggest a target for moving/copying intelligently
+  (csetq dired-hide-details-hide-symlink-targets nil)
   ;; don't prompt to revert, just do it
-  (customize-set-variable 'dired-auto-revert-buffer #'dired-buffer-stale-p)
+  (csetq dired-auto-revert-buffer #'dired-buffer-stale-p)
   ;; Always copy/delete recursively
-  (customize-set-variable 'dired-recursive-copies 'always)
-  (customize-set-variable 'dired-recursive-deletes 'top)
+  (csetq dired-recursive-copies 'always)
+  (csetq dired-recursive-deletes 'top)
   ;; Ask whether destination dirs should get created when copying/removing files.
-  (customize-set-variable 'dired-create-destination-dirs 'ask)
+  (csetq dired-create-destination-dirs 'ask)
   ;; Where to store image caches
-  (customize-set-variable 'image-dired-dir (concat crafted-config-var-directory "image-dired/"))
-  (customize-set-variable 'image-dired-db-file (concat image-dired-dir "db.el"))
-  (customize-set-variable 'image-dired-gallery-dir (concat image-dired-dir "gallery/"))
-  (customize-set-variable 'image-dired-temp-image-file (concat image-dired-dir "temp-image"))
-  (customize-set-variable 'image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image"))
+  (csetq image-dired-dir (concat crafted-config-var-directory "image-dired/"))
+  (csetq image-dired-db-file (concat image-dired-dir "db.el"))
+  (csetq image-dired-gallery-dir (concat image-dired-dir "gallery/"))
+  (csetq image-dired-temp-image-file (concat image-dired-dir "temp-image"))
+  (csetq image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image"))
   ;; Screens are larger nowadays, we can afford slightly larger thumbnails
-  (customize-set-variable 'image-dired-thumb-size 150)
-  (customize-set-variable 'dired-ls-F-marks-symlinks t) ;; mark symlinks
+  (csetq image-dired-thumb-size 150)
+  (csetq dired-ls-F-marks-symlinks t) ;; mark symlinks
 
   ;; Dired listing switches
   ;;  -a : Do not ignore entries starting with .
@@ -72,25 +72,25 @@
   ;;  -h : Human-readable sizes like 1K, 234M, ..
   ;;  -v : Do natural sort .. so the file names starting with . will show up first.
   ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
-  (customize-set-variable 'dired-listing-switches (if (eq system-type 'windows-nt)
-                                                      "-alh"
-                                                    "-alhvF --group-directories-first")))
+  (csetq dired-listing-switches (if (eq system-type 'windows-nt)
+                                    "-alh"
+                                  "-alhvF --group-directories-first")))
 
 ;; tramp : Transparent Remote (file) Access, Multiple Protocol
 (progn
-  (customize-set-variable 'tramp-verbose 2)
-  (customize-set-variable 'tramp-auto-save-directory temporary-file-directory) ; auto-save to /tmp
-  (customize-set-variable 'tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
-  (customize-set-variable 'tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
-  (customize-set-variable 'tramp-password-prompt-regexp   ; Add verification code support.
-                          (concat
-                           "^.*"
-                           (regexp-opt
-                            '("passphrase" "Passphrase"
-                              "password" "Password"
-                              "Verification code")
-                            t)
-                           ".*:\0? *")))
+  (csetq tramp-verbose 2)
+  (csetq tramp-auto-save-directory temporary-file-directory) ; auto-save to /tmp
+  (csetq tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
+  (csetq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+  (csetq tramp-password-prompt-regexp   ; Add verification code support.
+         (concat
+          "^.*"
+          (regexp-opt
+           '("passphrase" "Passphrase"
+             "password" "Password"
+             "Verification code")
+           t)
+          ".*:\0? *")))
 
 ;; xterm-color : ANSI control sequence to text-property translator.
 (crafted-package-install-package 'xterm-color)
@@ -150,15 +150,15 @@
 ;; saveplace : remembers your location in a file when saving files
 (crafted-package-install-package 'saveplace)
 (progn
-  (customize-set-variable 'save-place-file (expand-file-name "saveplace" crafted-config-var-directory))
+  (csetq save-place-file (expand-file-name "saveplace" crafted-config-var-directory))
   (save-place-mode +1))
 
 ;; savehist : save minibuffer history
 (crafted-package-install-package 'savehist)
 (progn
-  (customize-set-variable 'savehist-additional-variables '(search-ring regexp-search-ring)) ;; search entries
-  (customize-set-variable 'savehist-autosave-interval 60) ;; save every minute
-  (customize-set-variable 'savehist-file (expand-file-name "savehist" crafted-config-var-directory)) ;; keep the home clean
+  (csetq savehist-additional-variables '(search-ring regexp-search-ring)) ;; search entries
+  (csetq savehist-autosave-interval 60) ;; save every minute
+  (csetq savehist-file (expand-file-name "savehist" crafted-config-var-directory)) ;; keep the home clean
   (savehist-mode +1))
 
 ;; recentf : recent files
@@ -180,9 +180,9 @@
   (push "\\.?ido\\.last$" recentf-exclude)
   (push "^/nix/store/" recentf-exclude)
   (push ".+\\.mp3$" recentf-exclude)
-  (customize-set-variable 'recentf-max-saved-items 500)
-  (customize-set-variable 'recentf-max-menu-items 15)
-  (customize-set-variable 'recentf-auto-cleanup 'never)
+  (csetq recentf-max-saved-items 500)
+  (csetq recentf-max-menu-items 15)
+  (csetq recentf-auto-cleanup 'never)
   (recentf-mode +1))
 
 ;; editorconfig : editorconfig for Emacs
@@ -193,8 +193,8 @@
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (crafted-package-install-package 'avy)
 (progn
-  (customize-set-variable 'avy-all-windows t)
-  (customize-set-variable 'avy-background t))
+  (csetq avy-all-windows t)
+  (csetq avy-background t))
 
 ;; diff-hl : highlights uncommitted changes on the left side of the window
 (crafted-package-install-package 'diff-hl)
@@ -215,27 +215,27 @@
   (add-hook
    'vterm-mode-hook (lambda ()
                       (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
-                      (customize-set-variable 'global-hl-line-mode nil)
+                      (csetq global-hl-line-mode nil)
                       (display-line-numbers-mode 0)))
-  (customize-set-variable 'vterm-shell "/usr/bin/bash"))
+  (csetq vterm-shell "/usr/bin/bash"))
 
 ;; eshell : the emacs shell
 (crafted-package-install-package 'eshell-prompt-extras)
 (progn
-  (customize-set-variable 'eshell-highlight-prompt nil)
-  (customize-set-variable 'eshell-scroll-to-bottom-on-input nil)
-  (customize-set-variable 'eshell-scroll-to-bottom-on-output nil)
-  (customize-set-variable 'eshell-prefer-lisp-functions nil)
-  (customize-set-variable 'eshell-error-if-no-glob t)
-  (customize-set-variable 'eshell-hist-ignoredups t)
-  (customize-set-variable 'eshell-save-history-on-exit t)
-  (customize-set-variable 'eshell-destroy-buffer-when-process-dies t)
+  (csetq eshell-highlight-prompt nil)
+  (csetq eshell-scroll-to-bottom-on-input nil)
+  (csetq eshell-scroll-to-bottom-on-output nil)
+  (csetq eshell-prefer-lisp-functions nil)
+  (csetq eshell-error-if-no-glob t)
+  (csetq eshell-hist-ignoredups t)
+  (csetq eshell-save-history-on-exit t)
+  (csetq eshell-destroy-buffer-when-process-dies t)
 
   ;; Prompt
   (with-eval-after-load "esh-opt"
     (autoload 'epe-theme-lambda "eshell-prompt-extras")
-    (customize-set-variable 'eshell-highlight-prompt nil)
-    (customize-set-variable 'eshell-prompt-function 'epe-theme-lambda))
+    (csetq eshell-highlight-prompt nil)
+    (csetq eshell-prompt-function 'epe-theme-lambda))
 
   ;; Aliases
   (add-hook 'eshell-mode-hook
@@ -265,8 +265,8 @@
   (defadvice magit-quit-window (after magit-restore-screen activate)
     (jump-to-register :magit-fullscreen))
 
-  (customize-set-variable 'git-commit-summary-max-length 80)
-  (customize-set-variable 'vc-handled-backends (delq 'Git vc-handled-backends))
+  (csetq git-commit-summary-max-length 80)
+  (csetq vc-handled-backends (delq 'Git vc-handled-backends))
   (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 80))))
 
 ;; which-key : Displays command shortcuts when typing commands
@@ -324,26 +324,26 @@
 ;; treemacs : a tree layout file explorer for Emacs
 (crafted-package-install-package 'treemacs)
 (progn
-  (customize-set-variable 'treemacs-no-png-images t)
-  (customize-set-variable 'treemacs-is-never-other-window nil)
-  (customize-set-variable 'treemacs-follow-after-init t)
-  (customize-set-variable 'treemacs-sorting 'alphabetic-case-insensitive-asc)
-  (customize-set-variable 'treemacs-persist-file (concat crafted-config-var-directory "treemacs-persist"))
-  (customize-set-variable 'treemacs-last-error-persist-file (concat crafted-config-var-directory "treemacs-last-error-persist")))
+  (csetq treemacs-no-png-images t)
+  (csetq treemacs-is-never-other-window nil)
+  (csetq treemacs-follow-after-init t)
+  (csetq treemacs-sorting 'alphabetic-case-insensitive-asc)
+  (csetq treemacs-persist-file (concat crafted-config-var-directory "treemacs-persist"))
+  (csetq treemacs-last-error-persist-file (concat crafted-config-var-directory "treemacs-last-error-persist")))
 
 ;; deft : plain text notes
 (crafted-package-install-package 'deft)
 (progn
-  (customize-set-variable 'deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path))
-  (customize-set-variable 'deft-extensions '("org" "md" "txt"))
-  (customize-set-variable 'deft-default-extension "org")
-  (customize-set-variable 'deft-recursive nil)
-  (customize-set-variable 'deft-use-filename-as-title nil)
-  (customize-set-variable 'deft-use-filter-string-for-filename t)
-  (customize-set-variable 'deft-file-naming-rules '((noslash . "-")
-                                                    (nospace . "-")
-                                                    (case-fn . downcase)))
-  (customize-set-variable 'deft-auto-save-interval 0))
+  (csetq deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path))
+  (csetq deft-extensions '("org" "md" "txt"))
+  (csetq deft-default-extension "org")
+  (csetq deft-recursive nil)
+  (csetq deft-use-filename-as-title nil)
+  (csetq deft-use-filter-string-for-filename t)
+  (csetq deft-file-naming-rules '((noslash . "-")
+                                  (nospace . "-")
+                                  (case-fn . downcase)))
+  (csetq deft-auto-save-interval 0))
 
 ;; markdown-mode : edit markdown-formatted text
 (crafted-package-install-package 'markdown-mode)
@@ -356,13 +356,15 @@
   (autoload 'gfm-mode "markdown-mode"
     "Major mode for editing GitHub Flavored Markdown files" t)
   (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-  (customize-set-variable 'markdown-command "multimarkdown"))
+  (csetq markdown-command "multimarkdown"))
 
 ;; csv : edit csv-formatted text
 (crafted-package-install-package 'csv-mode)
 
 ;; yaml : edit yaml-formatted text
 (crafted-package-install-package 'yaml-mode)
+
+;; (use-package docker :demand t)
 
 (provide 'my-packages)
 ;;; my-packages.el ends here

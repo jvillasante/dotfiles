@@ -32,7 +32,7 @@
             (t (buffer-name))))))
 
 ;; no splash
-(customize-set-variable 'crafted-startup-inhibit-splash t)
+(csetq crafted-startup-inhibit-splash t)
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -44,20 +44,20 @@
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 ;; Hide the startup screen
-(customize-set-variable 'inhibit-startup-screen t)
+(csetq inhibit-startup-screen t)
 
 ;; Ignore xressources
-(customize-set-variable 'inhibit-x-resources t)
+(csetq inhibit-x-resources t)
 
 ;; all-the-icons
-(customize-set-variable 'all-the-icons-scale-factor 1.1)
+(csetq all-the-icons-scale-factor 1.1)
 
 ;;; no bell
-(customize-set-variable 'visible-bell nil)
-(customize-set-variable 'ring-bell-function 'ignore)
+(csetq visible-bell nil)
+(csetq ring-bell-function 'ignore)
 
 ;;; line numbers on
-(customize-set-variable 'crafted-ui-display-line-numbers t)
+(csetq crafted-ui-display-line-numbers t)
 
 ;; theme
 (defun +my/switch-theme (theme)
@@ -72,28 +72,35 @@
 
 (crafted-package-install-package 'modus-themes)
 (progn
-  (customize-set-variable 'modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
-  (customize-set-variable 'modus-themes-bold-constructs nil)
-  (customize-set-variable 'modus-themes-italic-constructs t)
-  (customize-set-variable 'modus-themes-fringes 'subtle)
-  (customize-set-variable 'modus-themes-tabs-accented t)
-  (customize-set-variable 'modus-themes-subtle-line-numbers t)
-  (customize-set-variable 'modus-themes-diffs 'desaturated)
-  (customize-set-variable 'modus-themes-region '(bg-only no-extend))
-  (customize-set-variable 'modus-themes-headings
-                          '((1 . (monochrome variable-pitch 1.3))
-                            (2 . (monochrome variable-pitch 1.2))
-                            (3 . (monochrome variable-pitch 1.1))
-                            (t . (monochrome))))
+  (csetq modus-themes-variable-pitch-ui t)
+  (csetq modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
+  (csetq modus-themes-bold-constructs t)
+  (csetq modus-themes-italic-constructs nil)
+  (csetq modus-themes-paren-match '(bold intense))
+  (csetq modus-themes-fringes 'subtle)
+  (csetq modus-themes-tabs-accented t)
+  (csetq modus-themes-subtle-line-numbers t)
+  (csetq modus-themes-diffs 'desaturated)
+  (csetq modus-themes-region '(bg-only no-extend))
+  (csetq modus-themes-mixed-fonts t)
+  (csetq modus-themes-section-headings t)
+  (csetq modus-themes-completions '((matches . (extrabold background intense))
+                                    (selection . (extrabold accented intense))
+                                    (popup . (accented))))
+  (csetq modus-themes-headings
+         '((1 . (monochrome variable-pitch 1.3))
+           (2 . (monochrome variable-pitch 1.2))
+           (3 . (monochrome variable-pitch 1.1))
+           (t . (monochrome))))
 
   (modus-themes-load-themes) ;; Load the theme files before enabling a theme
   (+my/switch-theme 'modus-operandi))
 
 ;; modeline
 (progn
-  (customize-set-variable 'doom-modeline-icon nil)
-  (customize-set-variable 'doom-modeline-height 1)
-  (customize-set-variable 'doom-modeline-lsp t))
+  (csetq doom-modeline-icon nil)
+  (csetq doom-modeline-height 1)
+  (csetq doom-modeline-lsp t))
 
 ;; column number display mode in the modeline
 (add-hook 'after-init-hook 'column-number-mode)
@@ -101,6 +108,10 @@
 ;; minions : menu that lists enabled minor-modes
 (crafted-package-install-package 'minions)
 (progn
+  (with-eval-after-load 'minions
+    (push 'flycheck-mode minions-prominent-modes)
+    (push 'overwrite-mode minions-prominent-modes))
+
   (add-hook 'after-init-hook 'minions-mode))
 
 ;; anzu : displays current match and total matches information in the mode-line in various search modes

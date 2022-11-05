@@ -54,7 +54,7 @@ means save all with no questions."
       (funcall fn edit-command))))
 
 ;; Eldoc
-(customize-set-variable 'eldoc-echo-area-use-multiline-p nil)
+(csetq eldoc-echo-area-use-multiline-p nil)
 
 ;; hideshow
 (progn
@@ -65,9 +65,73 @@ means save all with no questions."
       (end-of-line)
       (hs-toggle-hiding))))
 
-;; Eglot
-(when (< emacs-major-version 29) (crafted-package-install-package 'eglot))
+;; flymake
 (progn
+  ;; Underline warnings and errors from Flymake
+  (custom-set-faces
+   '(flymake-errline ((((class color)) (:underline "red"))))
+   '(flymake-warnline ((((class color)) (:underline "yellow")))))
+
+  ;; Display error and warning messages in minibuffer.
+  (custom-set-variables
+   '(help-at-pt-timer-delay 0.5)
+   '(help-at-pt-display-when-idle '(flymake-overlay))))
+
+;; format-all : auto format source code
+(crafted-package-install-package 'format-all)
+(progn
+  (add-hook 'prog-mode-hook 'format-all-mode)
+  (add-hook 'format-all-mode-hook #'format-all-ensure-formatter))
+
+;; yasnippet
+(crafted-package-install-package 'yasnippet)
+(crafted-package-install-package 'yasnippet-snippets)
+(with-eval-after-load 'yasnippet
+  (yas-global-mode 1))
+
+;; C++
+(progn
+  (csetq c-default-style "linux")
+  (csetq c-basic-offset 4)
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.hxx\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.cxx\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode)))
+
+;; rustic : rust mode
+(crafted-package-install-package 'rustic)
+(progn
+  (csetq rustic-lsp-client 'eglot)
+  (csetq rustic-format-on-save nil))
+
+;; web
+(crafted-package-install-package 'web-mode)
+(with-eval-after-load 'web-mode
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
+
+;; lsp
+(defvar my-ide-lsp-backend 'lsp-mode
+  "The lsp backend in use ['eglot or 'lsp-mode].")
+
+;; Eglot
+(when (eq my-ide-lsp-backend 'eglot)
+  (when (< emacs-major-version 29) (crafted-package-install-package 'eglot))
   (with-eval-after-load 'eglot
     (add-to-list
      'eglot-server-programs
@@ -88,45 +152,123 @@ means save all with no questions."
   (add-hook 'c++-mode-hook #'eglot-ensure)
   (add-hook 'rustic-mode-hook #'eglot-ensure)
   (add-hook 'js-mode-hook #'eglot-ensure)
-  (customize-set-variable 'eglot-autoshutdown t)
-  (customize-set-variable 'eglot-extend-to-xref t)
-  (customize-set-variable 'eglot-ignored-server-capabilities
-                          (quote (:documentFormattingProvider :documentRangeFormattingProvider))))
+  (csetq eglot-autoshutdown t)
+  (csetq eglot-extend-to-xref t)
+  (csetq eglot-ignored-server-capabilities
+         (quote (:documentFormattingProvider :documentRangeFormattingProvider))))
 
-;; C++
-(progn
-  (customize-set-variable 'c-default-style "linux")
-  (customize-set-variable 'c-basic-offset 4)
-  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-  (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
-  (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
-  (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
-  (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
-  (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode)))
+;; lsp-mode
+(when (eq my-ide-lsp-backend 'lsp-mode)
+  ;; flycheck
+  (crafted-package-install-package 'flycheck)
+  (crafted-package-install-package 'flycheck-inline)
+  (progn
+    (with-eval-after-load 'flycheck
+      (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
+      (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
+      (add-to-list 'flycheck-disabled-checkers 'emacs-lisp-checkdoc)
+      (add-hook 'flycheck-mode-hook 'flycheck-inline-mode))
+    (csetq flycheck-temp-prefix "flycheck_tmp")
+    (add-hook 'after-init-hook 'global-flycheck-mode))
 
-;; rustic : rust mode
-(crafted-package-install-package 'rustic)
-(progn
-  (customize-set-variable 'rustic-lsp-client 'eglot)
-  (customize-set-variable 'rustic-format-on-save nil))
+  ;; company
+  (crafted-package-install-package 'company)
+  (progn
+    (csetq company-tooltip-limit 20)
+    (csetq company-idle-delay 0.1)
+    (csetq company-echo-delay 0.1)
+    (csetq company-show-quick-access t)
+    (csetq company-minimum-prefix-length 2)
+    (csetq company-tooltip-align-annotations t)
+    (csetq company-auto-commit nil)
+    (csetq company-global-modes
+           '(not erc-mode
+                 circe-mode
+                 message-mode
+                 help-mode
+                 gud-mode
+                 vterm-mode))
+    (csetq company-frontends
+           '(company-pseudo-tooltip-frontend  ; always show candidates in overlay tooltip
+             company-echo-metadata-frontend))  ; show selected candidate docs in echo area
+    (add-hook
+     'after-init-hook (lambda ()
+                        (global-corfu-mode -1)
+                        (global-company-mode +1))))
 
-;; format-all : auto format source code
-(crafted-package-install-package 'format-all)
-(progn
-  (add-hook 'prog-mode-hook 'format-all-mode)
-  (add-hook 'format-all-mode-hook #'format-all-ensure-formatter))
+  ;; lsp-mode
+  (crafted-package-install-package 'lsp-mode)
+  (progn
+    ;; Rust hack!
+    ;; (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
+    ;;   (-let* (((&hash "value") contents)
+    ;;           (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
+    ;;           (sig_group (if (s-equals? "```rust" (car (-third-item groups)))
+    ;;                          (-third-item groups)
+    ;;                        (car groups)))
+    ;;           (sig (--> sig_group
+    ;;                     (--drop-while (s-equals? "```rust" it) it)
+    ;;                     (--take-while (not (s-equals? "```" it)) it)
+    ;;                     (--map (s-trim it) it)
+    ;;                     (s-join " " it))))
+    ;;     (lsp--render-element (concat "```rust\n" sig "\n```"))))
 
-;; flymake
-(progn
-  ;; Underline warnings and errors from Flymake
-  (custom-set-faces
-   '(flymake-errline ((((class color)) (:underline "red"))))
-   '(flymake-warnline ((((class color)) (:underline "yellow")))))
+    ;; Hooks
+    (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
+    (add-hook 'c-mode-hook 'lsp)
+    (add-hook 'c++-mode-hook 'lsp)
+    (add-hook 'js-mode-hook 'lsp)
+    (add-hook 'js-jsx-mode-hook 'lsp)
+    (add-hook 'typescript-mode-hook 'lsp)
+    (add-hook 'web-mode-hook 'lsp)
 
-  ;; Display error and warning messages in minibuffer.
-  (custom-set-variables
-   '(help-at-pt-timer-delay 0.5)
-   '(help-at-pt-display-when-idle '(flymake-overlay))))
+    ;; Customizations
+    (csetq lsp-keymap-prefix "C-c l") ;; set prefix for lsp-command-keymap
+    (csetq lsp-idle-delay 0.1)
+    (csetq lsp-restart 'ignore)
+    (csetq lsp-headerline-breadcrumb-enable nil)
+    (csetq lsp-enable-indentation nil)
+    (csetq lsp-eldoc-enable-hover t)
+    (csetq lsp-eldoc-render-all nil)
+    (csetq lsp-signature-render-documentation nil)
+    (csetq lsp-signature-auto-activate nil)
+    (csetq lsp-signature-doc-lines 1)
+    (csetq lsp-auto-guess-root nil)
+    (csetq lsp-enable-file-watchers nil)
+    (csetq lsp-enable-on-type-formatting nil)
+
+    ;; Rust
+    (csetq lsp-rust-analyzer-cargo-watch-command "clippy")
+    (csetq lsp-rust-analyzer-completion-auto-import-enable nil)
+
+    ;; Zig
+    (csetq lsp-zig-zls-executable
+           (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
+
+    ;; C++
+    (csetq lsp-clients-clangd-args
+           '("-j=8"
+             "--log=error"
+             "--malloc-trim"
+             "--background-index"
+             "--clang-tidy"
+             "--cross-file-rename"
+             "--completion-style=detailed"
+             "--pch-storage=memory"
+             "--header-insertion=never"
+             "--header-insertion-decorators=0")))
+
+  ;; lsp-ui
+  (crafted-package-install-package 'lsp-ui)
+  (progn
+    (csetq lsp-ui-doc-enable nil)
+    (csetq lsp-ui-doc-show-with-cursor nil)
+    (csetq lsp-ui-doc-show-with-mouse nil)
+    (csetq lsp-lens-enable nil)
+    (csetq lsp-ui-sideline-enable nil)
+    (csetq lsp-ui-sideline-show-code-actions nil)
+    (csetq lsp-ui-sideline-enable nil)
+    (csetq lsp-ui-sideline-show-hover nil)))
 
 (provide 'my-ide)
 ;;; my-ide.el ends here

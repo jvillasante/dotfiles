@@ -24,14 +24,14 @@
 (defun +my/hide-dos-eol ()
   "Hide ^M in files containing mixed UNIX and DOS line endings."
   (interactive)
-  (customize-set-variable 'buffer-display-table (make-display-table))
+  (csetq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))
 
 ;;;###autoload
 (defun +my/show-dos-eol ()
   "Show ^M in files containing mixed UNIX and DOS line endings."
   (interactive)
-  (customize-set-variable 'buffer-display-table (make-display-table))
+  (csetq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M ?\^M))
 
 ;;;###autoload
@@ -46,7 +46,7 @@
   (load-theme theme t))
 
 (defun +my/save-all ()
-  "Save buffers without prompt"
+  "Save buffers without prompt."
   (interactive)
   (let ((modified-count
          (length (cl-loop for buf in (buffer-list)
@@ -67,7 +67,7 @@
   (interactive)
   (let ((fill-column
          (if (eq last-command '+my/fill-or-unfill)
-             (progn (customize-set-variable 'this-command nil)
+             (progn (csetq this-command nil)
                     (point-max))
            fill-column)))
     (call-interactively #'fill-paragraph)))
@@ -79,7 +79,7 @@
   (interactive)
   (let ((fill-column
          (if (eq last-command '+my/org-fill-or-unfill)
-             (progn (customize-set-variable 'this-command nil)
+             (progn (csetq this-command nil)
                     (point-max))
            fill-column)))
     (call-interactively #'org-fill-paragraph)))
