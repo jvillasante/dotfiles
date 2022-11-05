@@ -224,6 +224,7 @@ means save all with no questions."
 
     ;; Customizations
     (csetq lsp-keymap-prefix "C-c l") ;; set prefix for lsp-command-keymap
+    (csetq lsp-session-file (expand-file-name ".lsp-session" crafted-config-var-directory))
     (csetq lsp-idle-delay 0.1)
     (csetq lsp-restart 'ignore)
     (csetq lsp-headerline-breadcrumb-enable nil)

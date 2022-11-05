@@ -144,6 +144,8 @@
 ;; persistent-scratch : preserve scratch buffer across sessions
 (crafted-package-install-package 'persistent-scratch)
 (progn
+  (with-eval-after-load
+      (csetq persistent-scratch-save-file (expand-file-name ".persistent-scratch" crafted-config-var-directory)))
   (persistent-scratch-setup-default)
   (persistent-scratch-autosave-mode 1))
 
