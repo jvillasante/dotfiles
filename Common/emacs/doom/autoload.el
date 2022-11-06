@@ -2,15 +2,15 @@
 
 ;;;###autoload
 (defmacro csetq (variable value)
-  "Set the VARIABLE to VALUE, but use `set-default' if needed."
-  `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
+    "Set the VARIABLE to VALUE, but use `set-default' if needed."
+    `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
 
 ;;;###autoload
 (defmacro setq-if-exists (variable value)
-  "Set VARIABLE to VALUE. Error out if VARIABLE is not special."
-  `(if (special-variable-p ',variable)
-       (setq ,variable ,value)
-     (error (format "Variable %s does not exist" ',variable))))
+    "Set VARIABLE to VALUE. Error out if VARIABLE is not special."
+    `(if (special-variable-p ',variable)
+         (setq ,variable ,value)
+         (error (format "Variable %s does not exist" ',variable))))
 
 ;;;###autoload
 (defun +my/switch-to-messages-buffer ()
@@ -48,7 +48,7 @@
         (list
             (intern (completing-read "Load custom theme: "
                         (mapcar 'symbol-name
-                            (custom-available-themes))))))
+				            (custom-available-themes))))))
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
 

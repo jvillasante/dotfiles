@@ -205,7 +205,7 @@
 (after! format
     (csetq +format-on-save-enabled-modes
         '(not
-             emacs-lisp-mode ; elisp's mechanisms are good enough
+             emacs-lisp-mode  ; elisp's mechanisms are good enough
              sql-mode         ; sqlformat is currently broken
              tex-mode         ; latexindent is broken
              web-mode         ; I just don't like tidy
@@ -218,7 +218,7 @@
 (after! ws-butler
     (csetq ws-butler-global-exempt-modes
         (append ws-butler-global-exempt-modes
-            '(prog-mode org-mode))))
+		    '(prog-mode org-mode))))
 
 (progn
     (csetq c-default-style "linux")
@@ -275,17 +275,6 @@
 
     ;; General
     (csetq lsp-restart 'ignore)
-    (csetq lsp-headerline-breadcrumb-enable nil)
-    (csetq lsp-enable-symbol-highlighting t)
-    (csetq lsp-enable-indentation nil)
-    (csetq lsp-eldoc-enable-hover t)
-    (csetq lsp-eldoc-render-all nil)
-    (csetq lsp-signature-render-documentation nil)
-    (csetq lsp-signature-auto-activate nil)
-    (csetq lsp-signature-doc-lines 1)
-    (csetq lsp-auto-guess-root nil)
-    (csetq lsp-enable-file-watchers nil)
-    (csetq lsp-enable-on-type-formatting nil)
 
     ;; Rust
     (csetq lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -297,9 +286,9 @@
 
     ;; C++
     (csetq lsp-clients-clangd-args
-        '("-j=4"
-             "--malloc-trim"
+        '("-j=8"
              "--log=error"
+             "--malloc-trim"
              "--background-index"
              "--clang-tidy"
              "--cross-file-rename"
@@ -312,18 +301,14 @@
     (after! lsp-clangd (set-lsp-priority! 'clangd 2)))
 
 (after! lsp-ui
-    (csetq lsp-ui-sideline-enable nil)
-    (csetq lsp-ui-sideline-show-symbol nil)
-    (csetq lsp-ui-sideline-show-diagnostics nil)
-    (csetq lsp-ui-sideline-show-hover nil)
-    (csetq lsp-ui-sideline-show-code-actions nil)
-
-    (csetq lsp-ui-peek-enable nil)
-    (csetq lsp-ui-peek-always-show nil)
-    (csetq lsp-ui-peek-show-directory nil)
-
     (csetq lsp-ui-doc-enable nil)
-    (csetq lsp-ui-imenu-enable t))
+    (csetq lsp-ui-doc-show-with-cursor nil)
+    (csetq lsp-ui-doc-show-with-mouse nil)
+    (csetq lsp-lens-enable nil)
+    (csetq lsp-ui-sideline-enable nil)
+    (csetq lsp-ui-sideline-show-code-actions nil)
+    (csetq lsp-ui-sideline-enable nil)
+    (csetq lsp-ui-sideline-show-hover nil))
 
 (csetq eldoc-echo-area-use-multiline-p nil)
 (after! eglot
@@ -334,10 +319,10 @@
 
     (add-to-list 'eglot-server-programs
         '(c-mode c++-mode
-             . ("clangd"
-                   "-j=4"
-                   "--malloc-trim"
+		     . ("clangd"
+                   "-j=8"
                    "--log=error"
+                   "--malloc-trim"
                    "--background-index"
                    "--clang-tidy"
                    "--cross-file-rename"
@@ -347,7 +332,8 @@
                    "--header-insertion-decorators=0"))))
 
 (after! rustic
-    (csetq rustic-lsp-client 'eglot)
+    (when (modulep! :tools lsp +eglot)
+        (csetq rustic-lsp-client 'eglot))
     (csetq rustic-format-on-save nil))
 
 (after! evil-snipe
@@ -358,7 +344,7 @@
     (defun +my/ediff-copy-both-to-C ()
         (interactive)
         (ediff-copy-diff ediff-current-difference nil 'C nil
-            (concat
+		    (concat
                 (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
                 (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
     (defun +my/add-d-to-ediff-mode-map () (define-key ediff-mode-map "C" '+my/ediff-copy-both-to-C))
@@ -386,8 +372,8 @@
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
     (csetq dired-listing-switches (if (eq system-type 'windows-nt)
-                                     "-alh"
-                                     "-alhvF --group-directories-first")))
+                                      "-alh"
+                                      "-alhvF --group-directories-first")))
 
 (after! dired-quick-sort
     (dired-quick-sort-setup))
@@ -501,8 +487,8 @@
     (csetq deft-use-filename-as-title nil)
     (csetq deft-use-filter-string-for-filename t)
     (csetq deft-file-naming-rules '((noslash . "-")
-                                                         (nospace . "-")
-                                                         (case-fn . downcase)))
+                                       (nospace . "-")
+                                       (case-fn . downcase)))
     (csetq deft-auto-save-interval 0))
 
 (after! org-roam
@@ -518,9 +504,9 @@
     (csetq docker-container-shell-file-name "/bin/bash")
     (add-to-list 'docker-image-run-custom-args
         `("^sm" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm"
-                    "-u jenkins"
-                    "-w /tmp/sm"
-                    "--name dmxs" . ,docker-image-run-default-args))))
+			        "-u jenkins"
+			        "-w /tmp/sm"
+			        "--name dmxs" . ,docker-image-run-default-args))))
 
 (use-package! mu4e
     :config
@@ -531,21 +517,21 @@
     (csetq message-send-mail-function #'message-send-mail-with-sendmail)
 
     (set-email-account! "gmail"
-        '((mu4e-sent-folder          . "/gmail/[Gmail]/Sent Mail")
-             (mu4e-drafts-folder     . "/gmail/[Gmail]/Drafts")
-             (mu4e-trash-folder      . "/gmail/[Gmail]/Trash")
-             (mu4e-refile-folder     . "/gmail/[Gmail]/All Mail")
-             (smtpmail-smtp-user     . "jvillasantegomez@gmail.com")
-             (mu4e-compose-signature . "---\nRegards,\nJulio"))
-        t)
+		'((mu4e-sent-folder          . "/gmail/[Gmail]/Sent Mail")
+			 (mu4e-drafts-folder     . "/gmail/[Gmail]/Drafts")
+			 (mu4e-trash-folder      . "/gmail/[Gmail]/Trash")
+			 (mu4e-refile-folder     . "/gmail/[Gmail]/All Mail")
+			 (smtpmail-smtp-user     . "jvillasantegomez@gmail.com")
+			 (mu4e-compose-signature . "---\nRegards,\nJulio"))
+		t)
     (set-email-account! "icloud"
-        '((mu4e-sent-folder          . "/icloud/Sent Messages")
-             (mu4e-drafts-folder     . "/icloud/Drafts")
-             (mu4e-trash-folder      . "/icloud/Deleted Messages")
-             (mu4e-refile-folder     . "/icloud/Archive")
-             (smtpmail-smtp-user     . "julio.villasante@icloud.com")
-             (mu4e-compose-signature . "---\nRegards,\nJulio"))
-        t))
+		'((mu4e-sent-folder          . "/icloud/Sent Messages")
+			 (mu4e-drafts-folder     . "/icloud/Drafts")
+			 (mu4e-trash-folder      . "/icloud/Deleted Messages")
+			 (mu4e-refile-folder     . "/icloud/Archive")
+			 (smtpmail-smtp-user     . "julio.villasante@icloud.com")
+			 (mu4e-compose-signature . "---\nRegards,\nJulio"))
+		t))
 
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt
@@ -583,4 +569,3 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
-
