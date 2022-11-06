@@ -193,8 +193,8 @@
     (csetq flycheck-indication-mode 'left-fringe))
 
 (after! company
-    (csetq company-idle-delay 0.1)
-    (csetq company-tooltip-limit 10)
+    (csetq company-idle-delay 0.0)
+    (csetq company-tooltip-limit 20)
     (csetq company-minimum-prefix-length 2)
     (csetq company-tooltip-align-annotations t)
 
@@ -274,7 +274,18 @@
             (lsp--render-element (concat "```rust\n" sig "\n```"))))
 
     ;; General
+    (csetq lsp-idle-delay 0.1)
     (csetq lsp-restart 'ignore)
+    (csetq lsp-headerline-breadcrumb-enable nil)
+    (csetq lsp-enable-indentation nil)
+    (csetq lsp-eldoc-enable-hover t)
+    (csetq lsp-eldoc-render-all nil)
+    (csetq lsp-signature-render-documentation nil)
+    (csetq lsp-signature-auto-activate nil)
+    (csetq lsp-signature-doc-lines 1)
+    (csetq lsp-auto-guess-root nil)
+    (csetq lsp-enable-file-watchers nil)
+    (csetq lsp-enable-on-type-formatting nil)
 
     ;; Rust
     (csetq lsp-rust-analyzer-cargo-watch-command "clippy")
