@@ -55,6 +55,10 @@
         "C-k" #'crux-smart-kill-line
         [remap kill-whole-line] #'crux-kill-whole-line)
 
+    ;;; consult
+    (:when 'consult
+        "C-x C-r" #'consult-recent-file)
+
     ;;; isearch
     (:after isearch
         :map isearch-mode-map
@@ -137,3 +141,6 @@
 (add-hook 'c-mode-common-hook
     (lambda()
         (local-set-key  (kbd "C-c C-o") #'ff-find-other-file)))
+
+;;; Projectile prefix on `C-x p'
+(define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)

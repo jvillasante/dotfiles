@@ -65,7 +65,6 @@
 
 (after! tramp
     (csetq tramp-verbose 2)
-    (csetq tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
     (csetq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (csetq tramp-password-prompt-regexp   ; Add verification code support.
         (concat
@@ -90,7 +89,10 @@
     (push (expand-file-name "snippets/" doom-user-dir) yas-snippet-dirs))
 
 (after! recentf
+    (push (list (expand-file-name ".emacs.chemacs2/" +my/dotfiles-path)) recentf-exclude)
+    (push (list (expand-file-name ".emacs.crafted/" +my/dotfiles-path)) recentf-exclude)
     (push (list (expand-file-name ".emacs.d/" +my/dotfiles-path)) recentf-exclude)
+    (push (list (expand-file-name ".emacs.doom/" +my/dotfiles-path)) recentf-exclude)
     (push (list (expand-file-name ".tmuxifier/" +my/dotfiles-path)) recentf-exclude)
     (push #'+org-is-agenda-file recentf-exclude)
     (push "~/.mail" recentf-exclude)
@@ -116,12 +118,8 @@
     (csetq dash-docs-browser-func #'+lookup-xwidget-webkit-open-url-fn))
 
 (after! projectile
-    (csetq projectile-switch-project-action 'projectile-dired)
-    (csetq projectile-require-project-root t)
     (csetq projectile-project-root-files-bottom-up '(".projectile" ".git"))
     (csetq projectile-sort-order 'recentf)
-    (csetq projectile-indexing-method 'hybrid)
-
     (csetq projectile-ignored-project-function
         (lambda (project-root)
             (or (file-remote-p project-root)
@@ -131,7 +129,7 @@
                 (string-prefix-p (expand-file-name ".emacs.d/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.doom/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.chemacs2/" +my/dotfiles-path) project-root)
-                (string-prefix-p (expand-file-name ".emacs.rational/" +my/dotfiles-path) project-root)
+                (string-prefix-p (expand-file-name ".emacs.crafted/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".tmuxifier/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name "Workspace/Software/zig/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".cargo/" +my/home-path) project-root)
@@ -369,7 +367,6 @@
     (csetq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
     (csetq dired-dwim-target t) ;; makes dired guess the target directory
     (csetq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
-    (csetq projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
     (csetq wdired-allow-to-change-permissions t) ;; allow to edit permissions in wdired
 
     (let ((gls "/usr/local/bin/gls"))
@@ -407,9 +404,6 @@
     (csetq neo-auto-indent-point t)
     (csetq neo-vc-integration nil)
     (csetq neo-autorefresh nil)
-
-    ;; When running `projectile-switch-project`, `neotree` will change root automatically.
-    (csetq projectile-switch-project-action 'neotree-projectile-action)
 
     ;; Hidden files
     (csetq neo-hidden-regexp-list
@@ -561,7 +555,7 @@
 (if (modulep! :editor evil)
     (load! "lisp/bindings-evil")
     (load! "lisp/bindings-emacs"))
-;; (load! "lisp/hydras")
+(load! "lisp/hydras")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

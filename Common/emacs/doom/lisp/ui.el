@@ -91,7 +91,6 @@
     (csetq modus-themes-diffs 'desaturated)
     (csetq modus-themes-region '(bg-only no-extend))
     (csetq modus-themes-mixed-fonts t)
-    (csetq modus-themes-section-headings t)
     (csetq modus-themes-completions '((matches . (extrabold background intense))
                                          (selection . (extrabold accented intense))
                                          (popup . (accented))))
@@ -102,19 +101,13 @@
              (t . (monochrome))))
     (modus-themes-load-themes)
     :config
-    (+my/switch-theme 'modus-operandi)
-    :bind ("<f5>" . modus-themes-toggle))
+    (+my/switch-theme 'modus-operandi))
 
 ;; modeline
 (after! doom-modeline
-    (csetq doom-modeline-icon t)
+    (csetq doom-modeline-icon nil)
     (csetq doom-modeline-height 1)
-    (csetq doom-modeline-lsp t)
-    ;; (custom-set-faces
-    ;;  '(mode-line ((t (:height 0.9))))
-    ;;  '(mode-line-active ((t (:height 0.9))))
-    ;;  '(mode-line-inactive ((t (:height 0.9)))))
-    )
+    (csetq doom-modeline-lsp t))
 
 (after! anzu
     (global-anzu-mode))
