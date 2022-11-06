@@ -5,6 +5,10 @@
 
 ;;; Code:
 
+;; lsp
+(defvar my-ide-lsp-backend 'lsp-mode
+  "The lsp backend in use ['eglot or 'lsp-mode].")
+
 ;; Project.el enhancements
 (with-eval-after-load 'project
   (defcustom project-root-markers
@@ -106,8 +110,9 @@ means save all with no questions."
 
 ;; rustic : rust mode
 (crafted-package-install-package 'rustic)
-(progn
-  (csetq rustic-lsp-client 'eglot)
+(with-eval-after-load 'rustic
+  (when (eq my-ide-lsp-backend 'eglot)
+    (csetq rustic-lsp-client 'eglot))
   (csetq rustic-format-on-save nil))
 
 ;; web
@@ -125,14 +130,19 @@ means save all with no questions."
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
 
-;; lsp
-(defvar my-ide-lsp-backend 'lsp-mode
-  "The lsp backend in use ['eglot or 'lsp-mode].")
-
 ;; Eglot
 (when (eq my-ide-lsp-backend 'eglot)
   (when (< emacs-major-version 29) (crafted-package-install-package 'eglot))
+  (add-hook 'c-mode-hook #'eglot-ensure)
+  (add-hook 'c++-mode-hook #'eglot-ensure)
+  (add-hook 'rustic-mode-hook #'eglot-ensure)
+  (add-hook 'js-mode-hook #'eglot-ensure)
   (with-eval-after-load 'eglot
+    (csetq eglot-autoshutdown t)
+    (csetq eglot-extend-to-xref t)
+    (csetq eglot-ignored-server-capabilities
+           (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
+
     (add-to-list
      'eglot-server-programs
      '((c-mode c++-mode)
@@ -146,16 +156,7 @@ means save all with no questions."
           "--completion-style=detailed"
           "--pch-storage=memory"
           "--header-insertion=never"
-          "--header-insertion-decorators=0"))))
-
-  (add-hook 'c-mode-hook #'eglot-ensure)
-  (add-hook 'c++-mode-hook #'eglot-ensure)
-  (add-hook 'rustic-mode-hook #'eglot-ensure)
-  (add-hook 'js-mode-hook #'eglot-ensure)
-  (csetq eglot-autoshutdown t)
-  (csetq eglot-extend-to-xref t)
-  (csetq eglot-ignored-server-capabilities
-         (quote (:documentFormattingProvider :documentRangeFormattingProvider))))
+          "--header-insertion-decorators=0")))))
 
 ;; lsp-mode
 (when (eq my-ide-lsp-backend 'lsp-mode)
@@ -164,37 +165,39 @@ means save all with no questions."
   (crafted-package-install-package 'flycheck-inline)
   (progn
     (with-eval-after-load 'flycheck
+      (csetq flycheck-temp-prefix "flycheck_tmp")
       (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
       (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
       (add-to-list 'flycheck-disabled-checkers 'emacs-lisp-checkdoc)
       (add-hook 'flycheck-mode-hook 'flycheck-inline-mode))
-    (csetq flycheck-temp-prefix "flycheck_tmp")
     (add-hook 'after-init-hook 'global-flycheck-mode))
 
   ;; company
   (crafted-package-install-package 'company)
   (progn
-    (csetq company-tooltip-limit 20)
-    (csetq company-idle-delay 0.1)
-    (csetq company-echo-delay 0.1)
-    (csetq company-show-quick-access t)
-    (csetq company-minimum-prefix-length 2)
-    (csetq company-tooltip-align-annotations t)
-    (csetq company-auto-commit nil)
-    (csetq company-global-modes
-           '(not erc-mode
-                 circe-mode
-                 message-mode
-                 help-mode
-                 gud-mode
-                 vterm-mode))
-    (csetq company-frontends
-           '(company-pseudo-tooltip-frontend  ; always show candidates in overlay tooltip
-             company-echo-metadata-frontend))  ; show selected candidate docs in echo area
     (add-hook
      'after-init-hook (lambda ()
                         (global-corfu-mode -1)
-                        (global-company-mode +1))))
+                        (global-company-mode +1)))
+
+    (with-eval-after-load 'company
+      (csetq company-tooltip-limit 20)
+      (csetq company-idle-delay 0.1)
+      (csetq company-echo-delay 0.1)
+      (csetq company-show-quick-access t)
+      (csetq company-minimum-prefix-length 2)
+      (csetq company-tooltip-align-annotations t)
+      (csetq company-auto-commit nil)
+      (csetq company-global-modes
+             '(not erc-mode
+                   circe-mode
+                   message-mode
+                   help-mode
+                   gud-mode
+                   vterm-mode))
+      (csetq company-frontends
+             '(company-pseudo-tooltip-frontend  ; always show candidates in overlay tooltip
+               company-echo-metadata-frontend))))  ; show selected candidate docs in echo area
 
   ;; lsp-mode
   (crafted-package-install-package 'lsp-mode)
@@ -223,45 +226,46 @@ means save all with no questions."
     (add-hook 'web-mode-hook 'lsp)
 
     ;; Customizations
-    (csetq lsp-keymap-prefix "C-c l") ;; set prefix for lsp-command-keymap
-    (csetq lsp-session-file (expand-file-name ".lsp-session" crafted-config-var-directory))
-    (csetq lsp-idle-delay 0.1)
-    (csetq lsp-restart 'ignore)
-    (csetq lsp-headerline-breadcrumb-enable nil)
-    (csetq lsp-enable-indentation nil)
-    (csetq lsp-eldoc-enable-hover t)
-    (csetq lsp-eldoc-render-all nil)
-    (csetq lsp-signature-render-documentation nil)
-    (csetq lsp-signature-auto-activate nil)
-    (csetq lsp-signature-doc-lines 1)
-    (csetq lsp-auto-guess-root nil)
-    (csetq lsp-enable-file-watchers nil)
-    (csetq lsp-enable-on-type-formatting nil)
+    (with-eval-after-load 'lsp-mode
+      (csetq lsp-keymap-prefix "C-c l") ;; set prefix for lsp-command-keymap
+      (csetq lsp-session-file (expand-file-name ".lsp-session" crafted-config-var-directory))
+      (csetq lsp-idle-delay 0.1)
+      (csetq lsp-restart 'ignore)
+      (csetq lsp-headerline-breadcrumb-enable nil)
+      (csetq lsp-enable-indentation nil)
+      (csetq lsp-eldoc-enable-hover t)
+      (csetq lsp-eldoc-render-all nil)
+      (csetq lsp-signature-render-documentation nil)
+      (csetq lsp-signature-auto-activate nil)
+      (csetq lsp-signature-doc-lines 1)
+      (csetq lsp-auto-guess-root nil)
+      (csetq lsp-enable-file-watchers nil)
+      (csetq lsp-enable-on-type-formatting nil)
 
-    ;; Rust
-    (csetq lsp-rust-analyzer-cargo-watch-command "clippy")
-    (csetq lsp-rust-analyzer-completion-auto-import-enable nil)
+      ;; Rust
+      (csetq lsp-rust-analyzer-cargo-watch-command "clippy")
+      (csetq lsp-rust-analyzer-completion-auto-import-enable nil)
 
-    ;; Zig
-    (csetq lsp-zig-zls-executable
-           (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
+      ;; Zig
+      (csetq lsp-zig-zls-executable
+             (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
 
-    ;; C++
-    (csetq lsp-clients-clangd-args
-           '("-j=8"
-             "--log=error"
-             "--malloc-trim"
-             "--background-index"
-             "--clang-tidy"
-             "--cross-file-rename"
-             "--completion-style=detailed"
-             "--pch-storage=memory"
-             "--header-insertion=never"
-             "--header-insertion-decorators=0")))
+      ;; C++
+      (csetq lsp-clients-clangd-args
+             '("-j=8"
+               "--log=error"
+               "--malloc-trim"
+               "--background-index"
+               "--clang-tidy"
+               "--cross-file-rename"
+               "--completion-style=detailed"
+               "--pch-storage=memory"
+               "--header-insertion=never"
+               "--header-insertion-decorators=0"))))
 
   ;; lsp-ui
   (crafted-package-install-package 'lsp-ui)
-  (progn
+  (with-eval-after-load lsp-ui
     (csetq lsp-ui-doc-enable nil)
     (csetq lsp-ui-doc-show-with-cursor nil)
     (csetq lsp-ui-doc-show-with-mouse nil)
