@@ -5,10 +5,10 @@
 
 (when (modulep! :editor evil)
     (after! evil
-        (customize-set-variable 'evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
-        (customize-set-variable 'evil-cross-lines t)    ;; Make horizontal movement cross lines
-        (customize-set-variable 'evil-shift-width 4)    ;; evil shift width
-        (customize-set-variable 'evil-ex-search-persistent-highlight nil) ;; No highlight persistence on evil search
+        (csetq evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
+        (csetq evil-cross-lines t)    ;; Make horizontal movement cross lines
+        (csetq evil-shift-width 4)    ;; evil shift width
+        (csetq evil-ex-search-persistent-highlight nil) ;; No highlight persistence on evil search
 
         ;; Make movement keys work like they should
         (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
@@ -24,7 +24,7 @@
         (global-undo-tree-mode -1)))
 
 (after! which-key
-    (customize-set-variable 'which-key-popup-type 'minibuffer))
+    (csetq which-key-popup-type 'minibuffer))
 
 (after! isearch
     (defadvice isearch-search (after isearch-no-fail activate)
@@ -39,15 +39,14 @@
     (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh")))
 
 (after! eshell
-    (setc
-        eshell-highlight-prompt nil
-        eshell-scroll-to-bottom-on-input nil
-        eshell-scroll-to-bottom-on-output nil
-        eshell-prefer-lisp-functions nil
-        eshell-error-if-no-glob t
-        eshell-hist-ignoredups t
-        eshell-save-history-on-exit t
-        eshell-destroy-buffer-when-process-dies t)
+    (csetq eshell-highlight-prompt nil)
+    (csetq eshell-scroll-to-bottom-on-input nil)
+    (csetq eshell-scroll-to-bottom-on-output nil)
+    (csetq eshell-prefer-lisp-functions nil)
+    (csetq eshell-error-if-no-glob t)
+    (csetq eshell-hist-ignoredups t)
+    (csetq eshell-save-history-on-exit t)
+    (csetq eshell-destroy-buffer-when-process-dies t)
 
     ;; Aliases
     (add-hook 'eshell-mode-hook
@@ -62,13 +61,13 @@
             (eshell/alias "d" "dired $1"))))
 
 (after! persp-mode
-    (customize-set-variable 'persp-emacsclient-init-frame-behaviour-override "main"))
+    (csetq persp-emacsclient-init-frame-behaviour-override "main"))
 
 (after! tramp
-    (customize-set-variable 'tramp-verbose 2)
-    (customize-set-variable 'tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
-    (customize-set-variable 'tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
-    (customize-set-variable 'tramp-password-prompt-regexp   ; Add verification code support.
+    (csetq tramp-verbose 2)
+    (csetq tramp-use-ssh-controlmaster-options nil) ; Don't override SSH config.
+    (csetq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (csetq tramp-password-prompt-regexp   ; Add verification code support.
         (concat
             "^.*"
             (regexp-opt
@@ -82,7 +81,7 @@
     (remove-hook 'emacs-everywhere-init-hooks #'org-mode)
     (add-hook 'emacs-everywhere-init-hooks #'markdown-mode)
 
-    (customize-set-variable 'emacs-everywhere-frame-parameters
+    (csetq emacs-everywhere-frame-parameters
         `((name . "emacs-everywhere")
              (width . 120)
              (height . 20))))
@@ -107,23 +106,23 @@
     (push "^/nix/store/" recentf-exclude)
     (push ".+\\.mp3$" recentf-exclude))
 
-(customize-set-variable '+lookup-open-url-fn #'browse-url)
-;; (customize-set-variable '+lookup-open-url-fn #'+lookup-xwidget-webkit-open-url-fn)
+(csetq +lookup-open-url-fn #'browse-url)
+;; (csetq +lookup-open-url-fn #'+lookup-xwidget-webkit-open-url-fn)
 (after! dash-docs
     (set-docsets! 'c-mode "C")
     (set-docsets! 'c++-mode "C" "C++")
     (set-docsets! 'js2-mode "JavaScript" "JQuery")
     (set-docsets! 'nodejs-mode :remove "JQuery")
-    (customize-set-variable 'dash-docs-browser-func #'+lookup-xwidget-webkit-open-url-fn))
+    (csetq dash-docs-browser-func #'+lookup-xwidget-webkit-open-url-fn))
 
 (after! projectile
-    (customize-set-variable 'projectile-switch-project-action 'projectile-dired)
-    (customize-set-variable 'projectile-require-project-root t)
-    (customize-set-variable 'projectile-project-root-files-bottom-up '(".projectile" ".git"))
-    (customize-set-variable 'projectile-sort-order 'recentf)
-    (customize-set-variable 'projectile-indexing-method 'hybrid)
+    (csetq projectile-switch-project-action 'projectile-dired)
+    (csetq projectile-require-project-root t)
+    (csetq projectile-project-root-files-bottom-up '(".projectile" ".git"))
+    (csetq projectile-sort-order 'recentf)
+    (csetq projectile-indexing-method 'hybrid)
 
-    (customize-set-variable 'projectile-ignored-project-function
+    (csetq projectile-ignored-project-function
         (lambda (project-root)
             (or (file-remote-p project-root)
                 (string-prefix-p temporary-file-directory project-root)
@@ -139,25 +138,25 @@
                 (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root)))))
 
 (after! ivy
-    (customize-set-variable 'ivy-display-style nil)
-    (customize-set-variable 'ivy-count-format "(%d/%d) ")
-    (customize-set-variable 'ivy-use-selectable-prompt t)    ; much better than C-M-j
-    (customize-set-variable 'ivy-use-virtual-buffers t)      ; to make ivy-views appear on the buffers list
-    (customize-set-variable 'ivy-virtual-abbreviate 'full)   ; default is name
-    (customize-set-variable 'ivy-initial-inputs-alist nil)   ; remove initial ^ input.
-    (customize-set-variable 'ivy-extra-directories nil)      ; remove . and .. directory. (default value: ("../" "./"))
-    (customize-set-variable 'ivy-height 10)
+    (csetq ivy-display-style nil)
+    (csetq ivy-count-format "(%d/%d) ")
+    (csetq ivy-use-selectable-prompt t)    ; much better than C-M-j
+    (csetq ivy-use-virtual-buffers t)      ; to make ivy-views appear on the buffers list
+    (csetq ivy-virtual-abbreviate 'full)   ; default is name
+    (csetq ivy-initial-inputs-alist nil)   ; remove initial ^ input.
+    (csetq ivy-extra-directories nil)      ; remove . and .. directory. (default value: ("../" "./"))
+    (csetq ivy-height 10)
 
     ;; While in an ivy mini-buffer C-o shows a list of all possible actions one may take.
     ;; By default this is #'ivy-read-action-by-key however a better interface to this is using Hydra.
-    (customize-set-variable 'ivy-read-action-function #'ivy-hydra-read-action)
+    (csetq ivy-read-action-function #'ivy-hydra-read-action)
 
-    (customize-set-variable 'ivy-display-functions-alist
+    (csetq ivy-display-functions-alist
         '((counsel-irony . ivy-display-function-overlay)
              (ivy-completion-in-region . ivy-display-function-overlay))))
 
 (after! avy
-    (customize-set-variable 'avy-all-windows t))
+    (csetq avy-all-windows t))
 
 (after! smartparens
     (require 'smartparens-config)
@@ -181,30 +180,30 @@
         (sp-local-pair "|" "|" :actions nil)))
 
 (after! flyspell
-    (customize-set-variable 'flyspell-lazy-idle-seconds 2)) ; default is 2
+    (csetq flyspell-lazy-idle-seconds 2)) ; default is 2
 
 (after! spell-fu
-    (customize-set-variable 'spell-fu-idle-delay 0.5) ; default is 0.25
+    (csetq spell-fu-idle-delay 0.5) ; default is 0.25
     (add-hook! 'spell-fu-mode-hook
         (lambda ()
             (spell-fu-dictionary-add (spell-fu-get-ispell "es")))))
 
 (after! flycheck
-    (customize-set-variable 'flycheck-temp-prefix "flycheck_tmp")
-    (customize-set-variable 'flycheck-indication-mode 'left-fringe))
+    (csetq flycheck-temp-prefix "flycheck_tmp")
+    (csetq flycheck-indication-mode 'left-fringe))
 
 (after! company
-    (customize-set-variable 'company-idle-delay 0.1)
-    (customize-set-variable 'company-tooltip-limit 10)
-    (customize-set-variable 'company-minimum-prefix-length 2)
-    (customize-set-variable 'company-tooltip-align-annotations t)
+    (csetq company-idle-delay 0.1)
+    (csetq company-tooltip-limit 10)
+    (csetq company-minimum-prefix-length 2)
+    (csetq company-tooltip-align-annotations t)
 
     (when (modulep! :editor evil)
         ;; make aborting less annoying.
         (add-hook! evil-normal-state-entry #'company-abort)))
 
 (after! format
-    (customize-set-variable '+format-on-save-enabled-modes
+    (csetq +format-on-save-enabled-modes
         '(not
              emacs-lisp-mode ; elisp's mechanisms are good enough
              sql-mode         ; sqlformat is currently broken
@@ -214,18 +213,16 @@
              latex-mode))
 
     ;; Do not format with lsp, use `format` instead
-    (customize-set-variable '+format-with-lsp nil))
+    (csetq +format-with-lsp nil))
 
 (after! ws-butler
-    (customize-set-variable 'ws-butler-global-exempt-modes
+    (csetq ws-butler-global-exempt-modes
         (append ws-butler-global-exempt-modes
             '(prog-mode org-mode))))
 
 (progn
-    (setc
-        c-default-style "linux"
-        c-basic-offset 4)
-
+    (csetq c-default-style "linux")
+    (csetq c-basic-offset 4)
     (after! cc
         (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
         (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
@@ -238,15 +235,15 @@
         (setq-default flycheck-clang-language-standard "c++20")))
 
 (after! python
-    (customize-set-variable 'python-shell-interpreter "python3"))
+    (csetq python-shell-interpreter "python3"))
 
 (after! elisp-mode
     (remove-hook 'emacs-lisp-mode-hook #'+emacs-lisp-extend-imenu-h))
 
 (after! common-lisp
-    (customize-set-variable 'inferior-lisp-program "/usr/local/bin/sbcl")
+    (csetq inferior-lisp-program "/usr/local/bin/sbcl")
 
-    (customize-set-variable 'slime-lisp-implementations
+    (csetq slime-lisp-implementations
         `((ccl ("~/.cim/bin/ccl-1.9") :coding-system utf-8-unix)
              (alisp ("/usr/local/bin/alisp") :coding-system utf-8-unix)
              (ecl ("/usr/local/bin/ecl"))  ; :coding-system utf-8-unix)
@@ -255,11 +252,11 @@
              (abcl ("~/.cim/bin/abcl-1.3.1" "-XX:MaxPermSize=256m" "-Dfile.encoding=UTF-8") :coding-system utf-8-unix)
              (clisp ("/usr/local/bin/clisp") :coding-system utf-8-unix)))
 
-    (customize-set-variable 'slime-default-lisp 'sbcl)
-    (customize-set-variable 'slime-net-coding-system 'utf-8-unix))
+    (csetq slime-default-lisp 'sbcl)
+    (csetq slime-net-coding-system 'utf-8-unix))
 
 (after! scheme
-    (customize-set-variable 'geiser-guile-binary "guile3.0"))
+    (csetq geiser-guile-binary "guile3.0"))
 
 (after! lsp-mode
     ;; Rust hack!
@@ -277,30 +274,29 @@
             (lsp--render-element (concat "```rust\n" sig "\n```"))))
 
     ;; General
-    (customize-set-variable 'lsp-restart 'ignore
-        lsp-headerline-breadcrumb-enable nil
-        lsp-enable-symbol-highlighting t
-        lsp-enable-indentation nil
-        lsp-eldoc-enable-hover t
-        lsp-eldoc-render-all nil
-        lsp-signature-render-documentation nil
-        lsp-signature-auto-activate nil
-        lsp-signature-doc-lines 1
-        lsp-auto-guess-root nil
-        lsp-enable-file-watchers nil
-        lsp-enable-on-type-formatting nil)
+    (csetq lsp-restart 'ignore)
+    (csetq lsp-headerline-breadcrumb-enable nil)
+    (csetq lsp-enable-symbol-highlighting t)
+    (csetq lsp-enable-indentation nil)
+    (csetq lsp-eldoc-enable-hover t)
+    (csetq lsp-eldoc-render-all nil)
+    (csetq lsp-signature-render-documentation nil)
+    (csetq lsp-signature-auto-activate nil)
+    (csetq lsp-signature-doc-lines 1)
+    (csetq lsp-auto-guess-root nil)
+    (csetq lsp-enable-file-watchers nil)
+    (csetq lsp-enable-on-type-formatting nil)
 
     ;; Rust
-    (setc
-        lsp-rust-analyzer-cargo-watch-command "clippy"
-        lsp-rust-analyzer-completion-auto-import-enable nil)
+    (csetq lsp-rust-analyzer-cargo-watch-command "clippy")
+    (csetq lsp-rust-analyzer-completion-auto-import-enable nil)
 
     ;; Zig
-    (customize-set-variable 'lsp-zig-zls-executable
+    (csetq lsp-zig-zls-executable
         (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
 
     ;; C++
-    (customize-set-variable 'lsp-clients-clangd-args
+    (csetq lsp-clients-clangd-args
         '("-j=4"
              "--malloc-trim"
              "--log=error"
@@ -316,24 +312,24 @@
     (after! lsp-clangd (set-lsp-priority! 'clangd 2)))
 
 (after! lsp-ui
-    (customize-set-variable 'lsp-ui-sideline-enable nil)
-    (customize-set-variable 'lsp-ui-sideline-show-symbol nil)
-    (customize-set-variable 'lsp-ui-sideline-show-diagnostics nil)
-    (customize-set-variable 'lsp-ui-sideline-show-hover nil)
-    (customize-set-variable 'lsp-ui-sideline-show-code-actions nil)
+    (csetq lsp-ui-sideline-enable nil)
+    (csetq lsp-ui-sideline-show-symbol nil)
+    (csetq lsp-ui-sideline-show-diagnostics nil)
+    (csetq lsp-ui-sideline-show-hover nil)
+    (csetq lsp-ui-sideline-show-code-actions nil)
 
-    (customize-set-variable 'lsp-ui-peek-enable nil)
-    (customize-set-variable 'lsp-ui-peek-always-show nil)
-    (customize-set-variable 'lsp-ui-peek-show-directory nil)
+    (csetq lsp-ui-peek-enable nil)
+    (csetq lsp-ui-peek-always-show nil)
+    (csetq lsp-ui-peek-show-directory nil)
 
-    (customize-set-variable 'lsp-ui-doc-enable nil)
-    (customize-set-variable 'lsp-ui-imenu-enable t))
+    (csetq lsp-ui-doc-enable nil)
+    (csetq lsp-ui-imenu-enable t))
 
-(customize-set-variable 'eldoc-echo-area-use-multiline-p nil)
+(csetq eldoc-echo-area-use-multiline-p nil)
 (after! eglot
-    (customize-set-variable 'eglot-autoshutdown t)
-    (customize-set-variable 'eglot-extend-to-xref t)
-    (customize-set-variable 'eglot-ignored-server-capabilities
+    (csetq eglot-autoshutdown t)
+    (csetq eglot-extend-to-xref t)
+    (csetq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
 
     (add-to-list 'eglot-server-programs
@@ -351,8 +347,8 @@
                    "--header-insertion-decorators=0"))))
 
 (after! rustic
-    (customize-set-variable 'rustic-lsp-client 'eglot)
-    (customize-set-variable 'rustic-format-on-save nil))
+    (csetq rustic-lsp-client 'eglot)
+    (csetq rustic-format-on-save nil))
 
 (after! evil-snipe
     (push 'elfeed-show-mode   evil-snipe-disabled-modes)
@@ -369,19 +365,19 @@
     (add-hook 'ediff-keymap-setup-hook '+my/add-d-to-ediff-mode-map))
 
 (after! magit
-    (customize-set-variable 'git-commit-summary-max-length 80))
+    (csetq git-commit-summary-max-length 80))
 
 (after! dired
-    (customize-set-variable 'dired-ls-F-marks-symlinks t) ;; mark symlinks
-    (customize-set-variable 'dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
-    (customize-set-variable 'dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
-    (customize-set-variable 'dired-dwim-target t) ;; makes dired guess the target directory
-    (customize-set-variable 'dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
-    (customize-set-variable 'projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
-    (customize-set-variable 'wdired-allow-to-change-permissions t) ;; allow to edit permissions in wdired
+    (csetq dired-ls-F-marks-symlinks t) ;; mark symlinks
+    (csetq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
+    (csetq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
+    (csetq dired-dwim-target t) ;; makes dired guess the target directory
+    (csetq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
+    (csetq projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
+    (csetq wdired-allow-to-change-permissions t) ;; allow to edit permissions in wdired
 
     (let ((gls "/usr/local/bin/gls"))
-        (if (file-exists-p gls) (customize-set-variable 'insert-directory-program gls)))
+        (if (file-exists-p gls) (csetq insert-directory-program gls)))
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
@@ -389,7 +385,7 @@
     ;;  -h : Human-readable sizes like 1K, 234M, ..
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
-    (customize-set-variable 'dired-listing-switches (if (eq system-type 'windows-nt)
+    (csetq dired-listing-switches (if (eq system-type 'windows-nt)
                                      "-alh"
                                      "-alhvF --group-directories-first")))
 
@@ -406,21 +402,21 @@
     (add-hook! 'pdf-view-mode-hook '+my/config-pdf))
 
 (after! neotree
-    (customize-set-variable 'neo-theme 'ascii)
-    (customize-set-variable 'neo-window-width 32)
-    (customize-set-variable 'neo-smart-open t)
-    (customize-set-variable 'neo-create-file-auto-open nil)
-    (customize-set-variable 'neo-show-updir-line nil)
-    (customize-set-variable 'neo-show-hidden-files t)
-    (customize-set-variable 'neo-auto-indent-point t)
-    (customize-set-variable 'neo-vc-integration nil)
-    (customize-set-variable 'neo-autorefresh nil)
+    (csetq neo-theme 'ascii)
+    (csetq neo-window-width 32)
+    (csetq neo-smart-open t)
+    (csetq neo-create-file-auto-open nil)
+    (csetq neo-show-updir-line nil)
+    (csetq neo-show-hidden-files t)
+    (csetq neo-auto-indent-point t)
+    (csetq neo-vc-integration nil)
+    (csetq neo-autorefresh nil)
 
     ;; When running `projectile-switch-project`, `neotree` will change root automatically.
-    (customize-set-variable 'projectile-switch-project-action 'neotree-projectile-action)
+    (csetq projectile-switch-project-action 'neotree-projectile-action)
 
     ;; Hidden files
-    (customize-set-variable 'neo-hidden-regexp-list
+    (csetq neo-hidden-regexp-list
         '(;; vcs folders
              "^\\.\\(?:git\\|hg\\|svn\\)$"
              ;; compiled files
@@ -444,14 +440,14 @@
              "^\\.egg\-info$")))
 
 (after! treemacs
-    (customize-set-variable 'treemacs-no-png-images t)
+    (csetq treemacs-no-png-images t)
     (defvar treemacs-file-ignore-extensions '()
         "File extension which `treemacs-ignore-filter' will ensure are ignored")
     (defvar treemacs-file-ignore-globs '()
         "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
     (defvar treemacs-file-ignore-regexps '()
         "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
-    (customize-set-variable 'treemacs-file-ignore-extensions
+    (csetq treemacs-file-ignore-extensions
         '(;; LaTeX
              "aux"
              "ptc"
@@ -472,7 +468,7 @@
              "mw"
              ;; LaTeX - pdfx
              "pdfa.xmpi"))
-    (customize-set-variable 'treemacs-file-ignore-globs
+    (csetq treemacs-file-ignore-globs
         '(;; LaTeX
              "*/_minted-*"
              ;; AucTeX
@@ -481,45 +477,45 @@
              "*/_region_.tex"))
     (defun treemacs-file-ignore-generate-regexps ()
         "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
-        (customize-set-variable 'treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
+        (csetq treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
     (if (equal treemacs-file-ignore-globs '()) nil (treemacs-file-ignore-generate-regexps))
     (defun treemacs-ignore-filter (file full-path)
         "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
         (or (member (file-name-extension file) treemacs-file-ignore-extensions)
             (let ((ignore-file nil))
                 (dolist (regexp treemacs-file-ignore-regexps ignore-file)
-                    (customize-set-variable 'ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
+                    (csetq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
     (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
 
 (after! pass
-    (customize-set-variable 'password-store-password-length 25))
+    (csetq password-store-password-length 25))
 
 (after! evil-org
     (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! deft
-    (customize-set-variable 'deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path))
-    (customize-set-variable 'deft-extensions '("org" "md" "txt"))
-    (customize-set-variable 'deft-default-extension "org")
-    (customize-set-variable 'deft-recursive nil)
-    (customize-set-variable 'deft-use-filename-as-title nil)
-    (customize-set-variable 'deft-use-filter-string-for-filename t)
-    (customize-set-variable 'deft-file-naming-rules '((noslash . "-")
+    (csetq deft-directory (expand-file-name "Apps/org/notes" +my/dropbox-path))
+    (csetq deft-extensions '("org" "md" "txt"))
+    (csetq deft-default-extension "org")
+    (csetq deft-recursive nil)
+    (csetq deft-use-filename-as-title nil)
+    (csetq deft-use-filter-string-for-filename t)
+    (csetq deft-file-naming-rules '((noslash . "-")
                                                          (nospace . "-")
                                                          (case-fn . downcase)))
-    (customize-set-variable 'deft-auto-save-interval 0))
+    (csetq deft-auto-save-interval 0))
 
 (after! org-roam
-    (customize-set-variable 'org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path))
-    (customize-set-variable 'org-roam-completion-everywhere t))
+    (csetq org-roam-directory (expand-file-name "Apps/org/roam" +my/dropbox-path))
+    (csetq org-roam-completion-everywhere t))
 
 (after! org
-    (customize-set-variable 'org-return-follows-link  t)
-    (customize-set-variable 'org-hide-emphasis-markers t)
-    (customize-set-variable 'org-startup-folded t))
+    (csetq org-return-follows-link  t)
+    (csetq org-hide-emphasis-markers t)
+    (csetq org-startup-folded t))
 
 (after! docker
-    (customize-set-variable 'docker-container-shell-file-name "/bin/bash")
+    (csetq docker-container-shell-file-name "/bin/bash")
     (add-to-list 'docker-image-run-custom-args
         `("^sm" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm"
                     "-u jenkins"
@@ -528,11 +524,11 @@
 
 (use-package! mu4e
     :config
-    (customize-set-variable 'sendmail-program (executable-find "msmtp"))
-    (customize-set-variable 'send-mail-function #'smtpmail-send-it)
-    (customize-set-variable 'message-sendmail-f-is-evil t)
-    (customize-set-variable 'message-sendmail-extra-arguments '("--read-envelope-from"))
-    (customize-set-variable 'message-send-mail-function #'message-send-mail-with-sendmail)
+    (csetq sendmail-program (executable-find "msmtp"))
+    (csetq send-mail-function #'smtpmail-send-it)
+    (csetq message-sendmail-f-is-evil t)
+    (csetq message-sendmail-extra-arguments '("--read-envelope-from"))
+    (csetq message-send-mail-function #'message-send-mail-with-sendmail)
 
     (set-email-account! "gmail"
         '((mu4e-sent-folder          . "/gmail/[Gmail]/Sent Mail")
@@ -555,10 +551,10 @@
 (use-package! org-crypt
     :after org
     :config
-    (customize-set-variable 'org-crypt-disable-auto-save nil) ;; don't ask to disable auto-save
-    (customize-set-variable 'org-tags-exclude-from-inheritance (quote ("crypt")))
-    (customize-set-variable 'org-crypt-key nil)
-    (customize-set-variable 'org-crypt-key user-mail-address))
+    (csetq org-crypt-disable-auto-save nil) ;; don't ask to disable auto-save
+    (csetq org-tags-exclude-from-inheritance (quote ("crypt")))
+    (csetq org-crypt-key nil)
+    (csetq org-crypt-key user-mail-address))
 
 ;; better C-w and M-w
 (use-package! whole-line-or-region

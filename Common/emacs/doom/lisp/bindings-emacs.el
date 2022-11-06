@@ -38,9 +38,15 @@
     (:when 'avy
         "C-." #'avy-goto-char-timer)
 
+    ;;; anzu
+    (:when 'anzu
+        "M-%" #'anzu-query-replace
+        "C-M-%" #'anzu-query-replace-regexp)
+
     ;;; expand-region
     (:when 'expand-region
-        "C-=" #'er/expand-region)
+        "C-=" #'er/expand-region
+        "C--" #'er/contract-region)
 
     ;;; crux
     (:when 'crux
