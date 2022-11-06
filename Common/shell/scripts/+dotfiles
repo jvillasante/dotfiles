@@ -13,11 +13,11 @@ usage() {
     echo "        Show this help message"
     echo "    $0 tmuxifier sync:"
     echo "        Update tmuxifier"
-    echo "    $0 dotfiles [pull|sync]:"
+    echo "    $0 dotfiles [pull | sync]:"
     echo "        Update personal dotfiles (pull from remote or sync on local)"
     echo "    $0 chemacs sync:"
     echo "        Update chemacs2 (pull from remote and symlink)"
-    echo "    $0 doom [arbitrary doom command]:"
+    echo "    $0 doom [restart | arbitrary doom command]:"
     echo "        Run arbitrary doom command"
     echo "    $0 emacs kill"
     echo "        Kill emacs daemon"
@@ -111,6 +111,25 @@ do_emacs() {
     esac
 }
 
+do_doom() {
+    if [ ! -f "$EMACSDIR/bin/doom" ]; then
+        echo "doom script not present, exiting..."
+        exit 1
+    fi
+
+    case $1 in
+        restart)
+            "$EMACSDIR"/bin/doom sync
+            do_emacs "kill"
+            sleep 1
+            echo "> Done."
+            ;;
+        *)
+            "$EMACSDIR"/bin/doom "$@"
+            ;;
+    esac
+}
+
 nargs=$#
 cmd=${1-}
 rc=0
@@ -130,12 +149,7 @@ case $cmd in
         ;;
     doom)
         [ "$nargs" -lt 2 ] && usage 1
-        if [ ! -f "$EMACSDIR/bin/doom" ]; then
-            echo "doom script not present, exiting..."
-            exit 1
-        else
-            "$EMACSDIR"/bin/doom "$@"
-        fi
+        do_doom "$@"
         ;;
     emacs)
         [ "$nargs" -eq 2 ] || usage 1
