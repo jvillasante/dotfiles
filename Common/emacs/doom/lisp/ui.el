@@ -106,6 +106,14 @@
 ;; modeline
 (after! doom-modeline
     (csetq doom-modeline-icon nil)
+    (csetq doom-modeline-major-mode-icon nil)
+    (csetq doom-modeline-major-mode-color-icon nil)
+    (csetq doom-modeline-buffer-state-icon nil)
+    (csetq doom-modeline-buffer-modification-icon nil)
+    (csetq doom-modeline-persp-icon nil)
+    (csetq doom-modeline-time-icon nil)
+    (csetq doom-modeline-modal-icon t)
+    (csetq doom-modeline-modal nil)
     (csetq doom-modeline-height 1)
     (csetq doom-modeline-lsp t))
 
