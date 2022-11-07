@@ -24,8 +24,8 @@
     :completion
     (company -childframe)  ; the ultimate code completion backend
     ;;helm              ; the *other* search engine for love and life
-    ;; ido               ; the other *other* search engine...
-    ;; (ivy -fuzzy +prescient) ; a search engine for love and life
+    ;;ido               ; the other *other* search engine...
+    ;;(ivy -fuzzy +prescient) ; a search engine for love and life
     vertico             ; the search engine of the future
 
     :ui
@@ -99,7 +99,7 @@
     (lsp -eglot)
     magit             ; a git porcelain for Emacs
     make              ; run make tasks from Emacs
-    ;;(pass +auth)      ; password manager for nerds
+    ;;(pass -auth)      ; password manager for nerds
     pdf               ; pdf enhancements
     ;;prodigy           ; FIXME managing external services & code builders
     ;;rgb               ; creating color strings
