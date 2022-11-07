@@ -271,18 +271,22 @@
             (lsp--render-element (concat "```rust\n" sig "\n```"))))
 
     ;; General
-    (csetq lsp-idle-delay 0.1) ;; clangd is fast
+    (csetq lsp-idle-delay 0.5)
+    (csetq lsp-file-watch-threshold 15000)
+    (csetq lsp-auto-guess-root t)
+    (csetq lsp-log-io nil)
     (csetq lsp-restart 'auto-restart)
-    ;; (csetq lsp-headerline-breadcrumb-enable nil)
-    ;; (csetq lsp-enable-indentation nil)
-    ;; (csetq lsp-eldoc-enable-hover t)
-    ;; (csetq lsp-eldoc-render-all nil)
-    ;; (csetq lsp-signature-render-documentation nil)
-    ;; (csetq lsp-signature-auto-activate nil)
-    ;; (csetq lsp-signature-doc-lines 1)
-    ;; (csetq lsp-auto-guess-root nil)
-    ;; (csetq lsp-enable-file-watchers nil)
-    ;; (csetq lsp-enable-on-type-formatting nil)
+    (csetq lsp-enable-symbol-highlighting t)
+    (csetq lsp-lens-enable nil)
+    (csetq lsp-headerline-breadcrumb-enable nil)
+    (csetq lsp-modeline-code-actions-enable t)
+    (csetq lsp-modeline-diagnostics-enable t)
+    (csetq lsp-eldoc-enable-hover t)
+    (csetq lsp-signature-auto-activate t)
+    (csetq lsp-signature-render-documentation nil)
+    (csetq lsp-completion-show-detail t)
+    (csetq lsp-completion-show-kind nil)
+    (csetq read-process-output-max (* 1024 1024)) ;; 1MB
 
     ;; Rust
     (csetq lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -312,19 +316,16 @@
     (csetq lsp-ui-doc-enable nil)
     (csetq lsp-ui-doc-show-with-cursor nil)
     (csetq lsp-ui-doc-show-with-mouse nil)
-    (csetq lsp-lens-enable nil)
     (csetq lsp-ui-sideline-enable nil)
     (csetq lsp-ui-sideline-show-code-actions nil)
-    (csetq lsp-ui-sideline-enable nil)
     (csetq lsp-ui-sideline-show-hover nil))
 
-(csetq eldoc-echo-area-use-multiline-p nil)
 (after! eglot
+    (csetq eldoc-echo-area-use-multiline-p nil)
     (csetq eglot-autoshutdown t)
     (csetq eglot-extend-to-xref t)
     (csetq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
-
     (add-to-list 'eglot-server-programs
         '(c-mode c++-mode
 		     . ("clangd"
