@@ -5,6 +5,21 @@ stty -ixon    # Disable flow control, i.e. ^s "freeze screen" and ^q resume
 stty erase ^? # kill ^u intr ^c eof ^d stop ^s
 set -o emacs
 
+# term
+export TERM=xterm-256color
+
+# You may need to manually set your language environment
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+
+# PS1
+eval "$(starship init bash)"
+
+# Use bash-completion, if available
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] &&
+    source /usr/share/bash-completion/bash_completion
+
 # Editor
 if type emacs >/dev/null 2>/dev/null; then
     export ALTERNATE_EDITOR=""
@@ -21,24 +36,15 @@ if type emacs >/dev/null 2>/dev/null; then
     ekill() { emacsclient --eval '(kill-emacs)'; }
 fi
 
-# term
-export TERM=xterm-256color
-
-# You may need to manually set your language environment
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
+# vim
+if type nvim >/dev/null 2>&1; then
+    alias vim='nvim'
+fi
+alias vi=vim
 
 # ssh
 alias ssh="TERM=xterm-256color ssh"
 export SSH_KEY_PATH="$HOME/.ssh/dsa_id"
-
-# PS1
-eval "$(starship init bash)"
-
-# Use bash-completion, if available
-[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] &&
-    source /usr/share/bash-completion/bash_completion
 
 # utils
 alias hex="od -Ax -tx1z -v"
@@ -78,12 +84,6 @@ fi
 if type gpg2 >/dev/null 2>/dev/null; then
     alias gpg='gpg2'
 fi
-
-# vim
-if type nvim >/dev/null 2>&1; then
-    alias vim='nvim'
-fi
-alias vi=vim
 
 # surf: these options are very opinionated, disabling images, javascript, etc.
 if type surf >/dev/null 2>&1; then
