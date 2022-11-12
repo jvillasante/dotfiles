@@ -5,11 +5,23 @@ stty -ixon    # Disable flow control, i.e. ^s "freeze screen" and ^q resume
 stty erase ^? # kill ^u intr ^c eof ^d stop ^s
 set -o emacs
 
-# Exports
-export ALTERNATE_EDITOR=""
-# export EDITOR="emacsclient -t -a ''"  # $EDITOR should open in terminal
-export VISUAL="emacsclient -c -n -a ''" # $VISUAL opens in GUI no wait
-export EDITOR="emacsclient -c -a ''"    # $EDITOR opens in GUI and waits
+# Editor
+if type emacs >/dev/null 2>/dev/null; then
+    export ALTERNATE_EDITOR=""
+    # export EDITOR="emacsclient -t -a ''"  # $EDITOR should open in terminal (but terminal emacs sucks)
+    export VISUAL="emacsclient -c -n -a ''" # $VISUAL opens in GUI no wait
+    export EDITOR="emacsclient -c -a ''"    # $EDITOR opens in GUI and waits
+
+    alias em="emacsclient -c -a ''"        # opens the GUI
+    alias emt="emacsclient -t -a ''"       # used to be "emacs -nw"
+    alias semt="sudo emacsclient -t -a ''" # used to be "sudo emacs -nw"
+
+    ediff() { emacsclient -c -a '' --eval "(ediff-files \"$1\" \"$2\")"; }
+    edired() { emacsclient -c -a '' --eval "(progn (dired \"$1\"))"; }
+    ekill() { emacsclient --eval '(kill-emacs)'; }
+fi
+
+# term
 export TERM=xterm-256color
 
 # You may need to manually set your language environment
@@ -28,26 +40,15 @@ eval "$(starship init bash)"
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] &&
     source /usr/share/bash-completion/bash_completion
 
-# emacs
-if type emacs >/dev/null 2>/dev/null; then
-    alias em="emacsclient -c -a ''"        # opens the GUI
-    alias emt="emacsclient -t -a ''"       # used to be "emacs -nw"
-    alias semt="sudo emacsclient -t -a ''" # used to be "sudo emacs -nw"
-
-    ediff() { emacsclient -t -a '' --eval "(ediff-files \"$1\" \"$2\")"; }
-    edired() { emacsclient -t -a '' --eval "(progn (dired \"$1\"))"; }
-    ekill() { emacsclient --eval '(kill-emacs)'; }
-fi
-
 # utils
-alias hex='od -Ax -tx1z -v'
-alias ls='ls --color'
-alias ll='ls -AlFh --color'
+alias hex="od -Ax -tx1z -v"
+alias ls="ls --color"
+alias ll="ls -AlFh --color"
 alias cp="cp -iv"
 alias mv="mv -iv"
-alias rm='rm -I' # IMHO, much better than 'rm -i'
+alias rm="rm -I" # IMHO, much better than 'rm -i'
 alias tree="tree --dirsfirst -a -I 'node_modules|.git'"
-alias ag='ag --hidden --ignore node_modules --ignore .git'
+alias ag="ag --hidden --ignore node_modules --ignore .git"
 
 # atool to extract archives
 if type atool >/dev/null 2>/dev/null; then
