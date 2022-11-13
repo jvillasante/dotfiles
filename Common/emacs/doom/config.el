@@ -553,10 +553,10 @@
     (whole-line-or-region-global-mode))
 
 (load! "lisp/elfeed")
+(load! "lisp/hydras")
 (if (modulep! :editor evil)
     (load! "lisp/bindings-evil")
     (load! "lisp/bindings-emacs"))
-(load! "lisp/hydras")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
