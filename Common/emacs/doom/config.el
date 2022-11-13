@@ -1,7 +1,6 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 (load! "lisp/init")
-(load! "lisp/ui")
 
 (when (modulep! :editor evil)
     (after! evil
@@ -17,7 +16,8 @@
         (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)))
 
 ;; enable repeat-mode, see: `describe-repeat-maps'
-(repeat-mode)
+(when (> emacs-major-version 27)
+    (repeat-mode +1))
 
 (when noninteractive
     (after! undo-tree
@@ -552,6 +552,7 @@
     :config
     (whole-line-or-region-global-mode))
 
+(load! "lisp/ui")
 (load! "lisp/elfeed")
 (load! "lisp/hydras")
 (if (modulep! :editor evil)
