@@ -63,6 +63,7 @@
              "https://quuxplusone.github.io/blog/feed.xml"
              "https://brevzin.github.io/feed.xml"
              "https://learnmoderncpp.com/feed/"
+             "http://bajamircea.github.io/feed.xml"
              ;; Golang
              "https://blog.golang.org/feed.atom"
              ;; Rust
