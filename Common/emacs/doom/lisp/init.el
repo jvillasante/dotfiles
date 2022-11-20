@@ -214,7 +214,7 @@
         (message "Compilation Failed :-("))
     (csetq current-frame (car (car (cdr (current-frame-configuration)))))
     (select-frame-set-input-focus current-frame))
-(add-to-list 'compilation-finish-functions '+my/bury-compile-buffer)
+;; (add-to-list 'compilation-finish-functions '+my/bury-compile-buffer)
 
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))

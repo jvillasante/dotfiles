@@ -140,9 +140,9 @@
 
     (set-popup-rule! "^\\*doom:scratch*" :size 0.4 :ttl 0 :quit t)
     (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)
-    (set-popup-rule! "^\\*compilation" :size 0.4 :quit t :ttl 0)
-    (set-popup-rule! "^\\*info*" :size 0.6 :ttl 0 :quit nil)
-    (set-popup-rule! "^\\*Man" :size 0.6 :quit t :select t)
+    (set-popup-rule! "^\\*compilation" :size 0.8 :quit t :ttl 0)
+    (set-popup-rule! "^\\*info*" :size 0.8 :ttl 0 :quit nil)
+    (set-popup-rule! "^\\*Man" :size 0.8 :quit t :select t)
     (set-popup-rule! "^\\*xwidget-webkit*" :size 0.8 :quit t :select t)
     (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4 :quit nil :select t :autosave nil)
     (set-popup-rule! "^\\*Diff" :size 0.6 :quit t :select t)
