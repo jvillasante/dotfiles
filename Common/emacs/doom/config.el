@@ -552,6 +552,27 @@
     :config
     (whole-line-or-region-global-mode))
 
+;; better shell commands
+(use-package! dwim-shell-command
+    :demand
+    :bind
+    (([remap shell-command] . dwim-shell-command)
+        ([remap async-shell-command] . dwim-shell-command)
+        :map dired-mode-map
+        ([remap dired-do-async-shell-command] . dwim-shell-command)
+        ([remap dired-do-shell-command] . dwim-shell-command)
+        ([remap dired-smart-shell-command] . dwim-shell-command))
+    :init
+    (require 'dwim-shell-commands)
+    :config
+    (defun my/dwim-shell-command-convert-to-gif ()
+        "Convert all marked videos to optimized gif(s)."
+        (interactive)
+        (dwim-shell-command-on-marked-files
+            "Convert to gif"
+            "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
+            :utils "ffmpeg")))
+
 (load! "lisp/ui")
 (load! "lisp/elfeed")
 (load! "lisp/hydras")
