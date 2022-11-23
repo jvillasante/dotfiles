@@ -98,9 +98,11 @@
 
 ;; modeline
 (progn
-  (csetq doom-modeline-icon nil)
-  (csetq doom-modeline-height 1)
-  (csetq doom-modeline-lsp t))
+  (csetq crafted-ui-use-doom-modeline t)
+  (with-eval-after-load 'doom-modeline
+      (csetq doom-modeline-icon nil)
+      (csetq doom-modeline-height 1)
+      (csetq doom-modeline-lsp t)))
 
 ;; column number display mode in the modeline
 (add-hook 'after-init-hook 'column-number-mode)
@@ -111,7 +113,6 @@
   (with-eval-after-load 'minions
     (push 'flycheck-mode minions-prominent-modes)
     (push 'overwrite-mode minions-prominent-modes))
-
   (add-hook 'after-init-hook 'minions-mode))
 
 ;; anzu : displays current match and total matches information in the mode-line in various search modes

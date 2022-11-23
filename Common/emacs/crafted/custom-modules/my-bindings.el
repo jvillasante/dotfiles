@@ -164,7 +164,6 @@
 ;; neotree
 (with-eval-after-load 'neotree
   (define-key neotree-mode-map (kbd "TAB") 'neotree-stretch-toggle))
-
 ;; minibuffer
 (define-key minibuffer-local-map (kbd "M-s") 'consult-history) ; orig. next-matching-history-element
 (define-key minibuffer-local-map (kbd "M-r") 'consult-history) ; orig. previous-matching-history-element
@@ -184,6 +183,14 @@
 ;; folding
 (global-unset-key "\C-c\C-f")
 (global-set-key (kbd "C-c C-f C-f") '+my/toggle-fold)
+
+;; dwim-shell-command
+(with-eval-after-load 'dwim-shell-command
+  (define-key global-map [remap shell-command] 'dwim-shell-command)
+  (define-key global-map [remap async-shell-command] 'dwim-shell-command)
+  (define-key dired-mode-map [remap dired-do-shell-command] 'dwim-shell-command)
+  (define-key dired-mode-map [remap dired-do-async-shell-command] 'dwim-shell-command)
+  (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command))
 
 ;;; Prefix
 ;; C-c c : Code

@@ -203,18 +203,18 @@ means save all with no questions."
   (crafted-package-install-package 'lsp-mode)
   (progn
     ;; Rust hack!
-    ;; (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
-    ;;   (-let* (((&hash "value") contents)
-    ;;           (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
-    ;;           (sig_group (if (s-equals? "```rust" (car (-third-item groups)))
-    ;;                          (-third-item groups)
-    ;;                        (car groups)))
-    ;;           (sig (--> sig_group
-    ;;                     (--drop-while (s-equals? "```rust" it) it)
-    ;;                     (--take-while (not (s-equals? "```" it)) it)
-    ;;                     (--map (s-trim it) it)
-    ;;                     (s-join " " it))))
-    ;;     (lsp--render-element (concat "```rust\n" sig "\n```"))))
+    (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
+      (-let* (((&hash "value") contents)
+              (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
+              (sig_group (if (s-equals? "```rust" (car (-third-item groups)))
+                             (-third-item groups)
+                           (car groups)))
+              (sig (--> sig_group
+                        (--drop-while (s-equals? "```rust" it) it)
+                        (--take-while (not (s-equals? "```" it)) it)
+                        (--map (s-trim it) it)
+                        (s-join " " it))))
+        (lsp--render-element (concat "```rust\n" sig "\n```"))))
 
     ;; Hooks
     (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
@@ -229,18 +229,22 @@ means save all with no questions."
     (with-eval-after-load 'lsp-mode
       (csetq lsp-keymap-prefix "C-c l") ;; set prefix for lsp-command-keymap
       (csetq lsp-session-file (expand-file-name ".lsp-session" crafted-config-var-directory))
-      (csetq lsp-idle-delay 0.1)
-      (csetq lsp-restart 'ignore)
+      (csetq lsp-idle-delay 0.5)
+      (csetq lsp-file-watch-threshold 15000)
+      (csetq lsp-auto-guess-root t)
+      (csetq lsp-log-io nil)
+      (csetq lsp-restart 'auto-restart)
+      (csetq lsp-enable-symbol-highlighting t)
+      (csetq lsp-lens-enable nil)
       (csetq lsp-headerline-breadcrumb-enable nil)
-      (csetq lsp-enable-indentation nil)
+      (csetq lsp-modeline-code-actions-enable t)
+      (csetq lsp-modeline-diagnostics-enable t)
       (csetq lsp-eldoc-enable-hover t)
-      (csetq lsp-eldoc-render-all nil)
+      (csetq lsp-signature-auto-activate t)
       (csetq lsp-signature-render-documentation nil)
-      (csetq lsp-signature-auto-activate nil)
-      (csetq lsp-signature-doc-lines 1)
-      (csetq lsp-auto-guess-root nil)
-      (csetq lsp-enable-file-watchers nil)
-      (csetq lsp-enable-on-type-formatting nil)
+      (csetq lsp-completion-show-detail t)
+      (csetq lsp-completion-show-kind nil)
+      (csetq read-process-output-max (* 1024 1024)) ;; 1MB
 
       ;; Rust
       (csetq lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -261,18 +265,22 @@ means save all with no questions."
                "--completion-style=detailed"
                "--pch-storage=memory"
                "--header-insertion=never"
-               "--header-insertion-decorators=0"))))
+               "--header-insertion-decorators=0")))
+
+    ;; Other
+    (with-eval-after-load 'flycheck
+      (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
+      (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc))
+    (with-eval-after-load 'lsp-clangd (set-lsp-priority! 'clangd 2)))
 
   ;; lsp-ui
   (crafted-package-install-package 'lsp-ui)
-  (with-eval-after-load lsp-ui
+  (with-eval-after-load 'lsp-ui
     (csetq lsp-ui-doc-enable nil)
     (csetq lsp-ui-doc-show-with-cursor nil)
     (csetq lsp-ui-doc-show-with-mouse nil)
-    (csetq lsp-lens-enable nil)
     (csetq lsp-ui-sideline-enable nil)
     (csetq lsp-ui-sideline-show-code-actions nil)
-    (csetq lsp-ui-sideline-enable nil)
     (csetq lsp-ui-sideline-show-hover nil)))
 
 (provide 'my-ide)

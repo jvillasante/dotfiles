@@ -144,8 +144,8 @@
 ;; persistent-scratch : preserve scratch buffer across sessions
 (crafted-package-install-package 'persistent-scratch)
 (progn
-  (with-eval-after-load
-      (csetq persistent-scratch-save-file (expand-file-name ".persistent-scratch" crafted-config-var-directory)))
+  (with-eval-after-load 'persistent-scratch
+    (csetq persistent-scratch-save-file (expand-file-name ".persistent-scratch" crafted-config-var-directory)))
   (persistent-scratch-setup-default)
   (persistent-scratch-autosave-mode 1))
 
@@ -234,7 +234,7 @@
   (csetq eshell-destroy-buffer-when-process-dies t)
 
   ;; Prompt
-  (with-eval-after-load "esh-opt"
+  (with-eval-after-load 'esh-opt
     (autoload 'epe-theme-lambda "eshell-prompt-extras")
     (csetq eshell-highlight-prompt nil)
     (csetq eshell-prompt-function 'epe-theme-lambda))
@@ -367,6 +367,18 @@
 (crafted-package-install-package 'yaml-mode)
 
 ;; (use-package docker :demand t)
+
+(crafted-package-install-package 'dwim-shell-command)
+(progn
+  (require 'dwim-shell-commands)
+  (with-eval-after-load 'dwim-shell-command
+    (defun my/dwim-shell-command-convert-to-gif ()
+      "Convert all marked videos to optimized gif(s)."
+      (interactive)
+      (dwim-shell-command-on-marked-files
+       "Convert to gif"
+       "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
+       :utils "ffmpeg"))))
 
 (provide 'my-packages)
 ;;; my-packages.el ends here
