@@ -52,14 +52,12 @@
     (add-hook 'eshell-mode-hook
         (lambda ()
             (if (executable-find "exa")
-                (progn
-                    (let ((ls (executable-find "exa")))
-                        (eshell/alias "ls" (concat ls " --git --group-directories-first --color=auto"))
-                        (eshell/alias "ll" (concat ls " -agFlh --git --group-directories-first --color=auto"))))
-                (progn
-                     (let ((ls (executable-find "ls")))
-                        (eshell/alias "ls" (concat ls " --group-directories-first --color"))
-                        (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))))
+                (let ((ls (executable-find "exa")))
+                    (eshell/alias "ls" (concat ls " --git --group-directories-first --color=auto"))
+                    (eshell/alias "ll" (concat ls " -agFlh --git --group-directories-first --color=auto")))
+                (when-let ((ls (executable-find "ls")))
+                    (eshell/alias "ls" (concat ls " --git --group-directories-first --color=auto"))
+                    (eshell/alias "ll" (concat ls " -agFlh --git --group-directories-first --color=auto"))))
 
             (eshell/alias "ff" "find-file $1")
             (eshell/alias "e" "find-file-other-window $1")
