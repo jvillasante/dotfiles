@@ -14,8 +14,10 @@ usage() {
     echo "        Update non-arkenfox profile"
     echo "    $0 personal"
     echo "        Update personal users.js"
+    echo "    e.g: $0 arkenfox"
     echo
-    echo " e.g: $0 arkenfox"
+    echo "NOTE: Both 'firefox-arkenfox' and 'firefox-non-arkenfox' profiles must exists with the first one being the 'Default'"
+    echo "      Please, create and setup them both on 'about:profiles'"
     exit "$1"
 }
 
@@ -30,9 +32,9 @@ update_arkenfox() {
 
     local PROFILE
     PROFILE=$(find "$HOME"/.mozilla/firefox/ -regextype sed -regex '.*.firefox-arkenfox$')
-    if [ ! -d "$PROFILE" ]; then
-        echo ">>> Found $PROFILE but it is not a directory, exiting..."
-        exit 1
+    if [ -z "$PROFILE" ] || [ ! -d "$PROFILE" ]; then
+        echo ">>> Can't find the 'firefox-arkenfox' profile, exiting..."
+        usage 1
     fi
 
     echo ">>> Updating 'user.js' file for $PROFILE"
@@ -110,9 +112,9 @@ update_non_arkenfox() {
 
     local PROFILE
     PROFILE=$(find "$HOME"/.mozilla/firefox/ -regextype sed -regex '.*.firefox-non-arkenfox$')
-    if [ ! -d "$PROFILE" ]; then
-        echo "Found $PROFILE but it is not a directory, exiting..."
-        exit 1
+    if [ -z "$PROFILE" ] || [ ! -d "$PROFILE" ]; then
+        echo ">>> Can't find the 'firefox-non-arkenfox' profile, exiting..."
+        usage 1
     fi
 
     echo ">>> Updating 'user.js' file for $PROFILE"
