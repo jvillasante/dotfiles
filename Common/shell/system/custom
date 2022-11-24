@@ -48,8 +48,8 @@ export SSH_KEY_PATH="$HOME/.ssh/dsa_id"
 
 # utils
 alias hex="od -Ax -tx1z -v"
-alias ls="ls --color"
-alias ll="ls -AlFh --color"
+alias ls="ls --group-directories-first --color"
+alias ll="ls -AlFh --group-directories-first --color"
 alias cp="cp -iv"
 alias mv="mv -iv"
 alias rm="rm -I" # IMHO, much better than 'rm -i'
@@ -65,8 +65,8 @@ fi
 
 # exa
 if type exa >/dev/null 2>/dev/null; then
-    alias ls='exa --group-directories-first --color=auto'
-    alias ll='exa -agFlh --group-directories-first --color=auto'
+    alias ls='exa --git --group-directories-first --color=auto'
+    alias ll='exa -agFlh --git --group-directories-first --color=auto'
 fi
 
 # ripgrep
