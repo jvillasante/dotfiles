@@ -51,13 +51,21 @@
     ;; Aliases
     (add-hook 'eshell-mode-hook
         (lambda ()
-            (if (executable-find "exa")
-                (let ((ls (executable-find "exa")))
-                    (eshell/alias "ls" (concat ls " --git --group-directories-first --color=auto"))
-                    (eshell/alias "ll" (concat ls " -agFlh --git --group-directories-first --color=auto")))
-                (when-let ((ls (executable-find "ls")))
-                    (eshell/alias "ls" (concat ls " --git --group-directories-first --color=auto"))
-                    (eshell/alias "ll" (concat ls " -agFlh --git --group-directories-first --color=auto"))))
+            ;; The 'ls' executable requires the Gnu version on the Mac
+            (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                          "/usr/local/bin/gls"
+                          "/bin/ls")))
+                (eshell/alias "ls" (concat ls " --group-directories-first --color"))
+                (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
+
+            ;; Below aliases won't work on TRAMP
+            ;; (if (executable-find "exa")
+            ;;     (let ((ls (executable-find "exa")))
+            ;;         (eshell/alias "ls" (concat ls " --git --group-directories-first --color=auto"))
+            ;;         (eshell/alias "ll" (concat ls " -agFlh --git --group-directories-first --color=auto")))
+            ;;     (when-let ((ls (executable-find "ls")))
+            ;;         (eshell/alias "ls" (concat ls " --group-directories-first --color"))
+            ;;         (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color"))))
 
             (eshell/alias "ff" "find-file $1")
             (eshell/alias "e" "find-file-other-window $1")
