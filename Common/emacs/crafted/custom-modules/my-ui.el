@@ -98,7 +98,7 @@
 
 ;; modeline
 (progn
-  (csetq crafted-ui-use-doom-modeline t)
+  (csetq crafted-ui-use-doom-modeline nil)
   (with-eval-after-load 'doom-modeline
       (csetq doom-modeline-icon nil)
       (csetq doom-modeline-height 1)
