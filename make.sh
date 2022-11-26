@@ -79,6 +79,14 @@ install_emacs() {
         git clone git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
         check $?
     fi
+
+    # Install Prelude
+    if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
+        export PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" &&
+            export PRELUDE_PERSONAL_DIR="$DOTFILES_DIR/Common/emacs/prelude" &&
+            curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+        check $?
+    fi
 }
 
 install_vim() {
