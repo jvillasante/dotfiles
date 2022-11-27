@@ -68,13 +68,15 @@ do_borg_backup() {
     # Backup the most important directories into an archive named after
     # the machine this script is currently running on
     borg create \
-        --progress \
-        --stats \
+        --verbose \
         --filter AME \
         --list \
+        --stats \
         --show-rc \
         --compression auto,lzma,6 \
         --exclude-caches \
+        --exclude '/home/*/.cache/*' \
+        --exclude '/var/tmp/*' \
         --exclude '/home/**/.DS_Store' \
         --exclude '/home/**/*.pyc' \
         --exclude '/home/**/*.*~' \
@@ -118,7 +120,7 @@ do_borg_backup() {
     borg prune \
         --list \
         --show-rc \
-        --prefix '{hostname}_' \
+        --glob-archives '{hostname}_*' \
         --keep-daily 1 \
         --keep-weekly 2 \
         --keep-monthly 2
