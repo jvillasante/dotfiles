@@ -11,6 +11,10 @@
     "C-z"     nil                         ;; suspend frame should go away
     "C-x C-z" nil                         ;; same
 
+    ;;; M is a Ctrl on steroids
+    "M-n" #'forward-paragraph
+    "M-p" #'backward-paragraph
+
     ;;; upcase, downcase and capitalize
     "M-u" #'upcase-dwim
     "M-l" #'downcase-dwim
