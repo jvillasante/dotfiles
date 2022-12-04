@@ -15,5 +15,16 @@
        (setq ,variable ,value)
      (error (format "Variable %s does not exist" ',variable))))
 
+(defmacro setq! (&rest settings)
+  "A more sensible `setopt' for setting customizable variables.
+
+This can be used as a drop-in replacement for `setq' and *should* be used
+instead of `setopt'. Unlike `setq', this triggers custom setters on variables.
+Unlike `setopt', this won't needlessly pull in dependencies."
+  (macroexp-progn
+   (cl-loop for (var val) on settings by 'cddr
+            collect `(funcall (or (get ',var 'custom-set) #'set-default-toplevel-value)
+                              ',var ,val))))
+
 (provide 'my-early-init)
 ;;; my-early-init.el ends here

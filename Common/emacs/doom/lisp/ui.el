@@ -1,15 +1,15 @@
 ;;; lisp/ui.el -*- lexical-binding: t; -*-
 
 ;; font
-(csetq doom-font-increment 1)
-(csetq doom-font (font-spec :family "Iosevka" :size 16.0))
-(csetq doom-big-font (font-spec :family "Iosevka" :size 18.0))
-(csetq doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16.0))
-(csetq doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16.0))
-(csetq doom-serif-font (font-spec :family "IBM Plex Serif" :size 14.0))
+(setq! doom-font-increment 1)
+(setq! doom-font (font-spec :family "Iosevka" :size 16.0))
+(setq! doom-big-font (font-spec :family "Iosevka" :size 18.0))
+(setq! doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16.0))
+(setq! doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16.0))
+(setq! doom-serif-font (font-spec :family "IBM Plex Serif" :size 14.0))
 
 ;; frame title
-(csetq frame-title-format
+(setq! frame-title-format
     '(:eval
          (format "%s@%s: %s"
 		     (or (file-remote-p default-directory 'user)
@@ -35,12 +35,12 @@
 (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)
 
 ;; doom-dashboard
-(csetq fancy-splash-image +my/splash-path)
-(csetq +doom-dashboard-functions
+(setq! fancy-splash-image +my/splash-path)
+(setq! +doom-dashboard-functions
     '(doom-dashboard-widget-banner
          doom-dashboard-widget-shortmenu
          doom-dashboard-widget-loaded))
-(csetq +doom-dashboard-menu-sections
+(setq! +doom-dashboard-menu-sections
     '(("Reload last session"
           :icon nil
           :when (cond ((modulep! :ui workspaces)
@@ -71,7 +71,7 @@
              :action doom/help)))
 
 ;; all-the-icons
-(csetq all-the-icons-scale-factor 1.1)
+(setq! all-the-icons-scale-factor 1.1)
 
 ;; theme
 (remove-hook 'window-setup-hook #'doom-init-theme-h)
@@ -80,21 +80,21 @@
 (use-package! modus-themes
     :demand t
     :init
-    (csetq modus-themes-variable-pitch-ui t)
-    (csetq modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
-    (csetq modus-themes-bold-constructs t)
-    (csetq modus-themes-italic-constructs nil)
-    (csetq modus-themes-paren-match '(bold intense))
-    (csetq modus-themes-fringes 'subtle)
-    (csetq modus-themes-tabs-accented t)
-    (csetq modus-themes-subtle-line-numbers t)
-    (csetq modus-themes-diffs 'desaturated)
-    (csetq modus-themes-region '(bg-only no-extend))
-    (csetq modus-themes-mixed-fonts t)
-    (csetq modus-themes-completions '((matches . (extrabold background intense))
+    (setq! modus-themes-variable-pitch-ui t)
+    (setq! modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
+    (setq! modus-themes-bold-constructs t)
+    (setq! modus-themes-italic-constructs nil)
+    (setq! modus-themes-paren-match '(bold intense))
+    (setq! modus-themes-fringes 'subtle)
+    (setq! modus-themes-tabs-accented t)
+    (setq! modus-themes-subtle-line-numbers t)
+    (setq! modus-themes-diffs 'desaturated)
+    (setq! modus-themes-region '(bg-only no-extend))
+    (setq! modus-themes-mixed-fonts t)
+    (setq! modus-themes-completions '((matches . (extrabold background intense))
                                          (selection . (extrabold accented intense))
                                          (popup . (accented))))
-    (csetq modus-themes-headings
+    (setq! modus-themes-headings
         '((1 . (monochrome variable-pitch 1.3))
              (2 . (monochrome variable-pitch 1.2))
              (3 . (monochrome variable-pitch 1.1))
@@ -105,24 +105,24 @@
 
 ;; modeline
 (after! doom-modeline
-    (csetq doom-modeline-icon nil)
-    (csetq doom-modeline-major-mode-icon nil)
-    (csetq doom-modeline-major-mode-color-icon nil)
-    (csetq doom-modeline-buffer-state-icon nil)
-    (csetq doom-modeline-buffer-modification-icon nil)
-    (csetq doom-modeline-persp-icon nil)
-    (csetq doom-modeline-time-icon nil)
-    (csetq doom-modeline-modal-icon t)
-    (csetq doom-modeline-modal nil)
-    (csetq doom-modeline-height 1)
-    (csetq doom-modeline-lsp t))
+    (setq! doom-modeline-icon nil)
+    (setq! doom-modeline-major-mode-icon nil)
+    (setq! doom-modeline-major-mode-color-icon nil)
+    (setq! doom-modeline-buffer-state-icon nil)
+    (setq! doom-modeline-buffer-modification-icon nil)
+    (setq! doom-modeline-persp-icon nil)
+    (setq! doom-modeline-time-icon nil)
+    (setq! doom-modeline-modal-icon t)
+    (setq! doom-modeline-modal nil)
+    (setq! doom-modeline-height 1)
+    (setq! doom-modeline-lsp t))
 
 (after! anzu
     (global-anzu-mode))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(csetq display-line-numbers-type t)
+(setq! display-line-numbers-type t)
 (dolist (mode '(org-mode-hook
                    vterm-mode-hook
                    term-mode-hook
@@ -132,7 +132,7 @@
 
 ;; popup windows & rules
 (when (modulep! :ui popup)
-    (csetq +popup-default-parameters
+    (setq! +popup-default-parameters
         '((transient . t)   ; remove later
              (quit . t)        ; remove later
              (select . ignore) ; remove later

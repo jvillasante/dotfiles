@@ -1,36 +1,36 @@
 ;;; lisp/init.el -*- lexical-binding: t; -*-
 
-(csetq user-full-name "Julio C. Villasante")
-(csetq user-mail-address "jvillasantegomez@gmail.com")
-(csetq user-login-name "jvillasante")
-(csetq +my/home-path (expand-file-name "~/"))
-(csetq +my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" +my/home-path))
-(csetq +my/software-path (expand-file-name "Workspace/Software/" +my/home-path))
-(csetq +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
-(csetq +my/splash-path (expand-file-name "Misc/splash/emacs-logo.png" +my/dotfiles-path))
+(setq! user-full-name "Julio C. Villasante")
+(setq! user-mail-address "jvillasantegomez@gmail.com")
+(setq! user-login-name "jvillasante")
+(setq! +my/home-path (expand-file-name "~/"))
+(setq! +my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" +my/home-path))
+(setq! +my/software-path (expand-file-name "Workspace/Software/" +my/home-path))
+(setq! +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
+(setq! +my/splash-path (expand-file-name "Misc/splash/emacs-logo.png" +my/dotfiles-path))
 
 (cond
     (IS-MAC
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-        (csetq browse-url-browser-function 'browse-url-generic)
-        (csetq browse-url-generic-program "open")
-        (csetq +my/clang-path "/usr/local/opt/llvm/bin/clang")
-        (csetq +my/mu-path "/usr/local/bin/mu")
-        (csetq +my/msmtp-path "/usr/local/bin/msmtp")
-        (csetq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
-        (csetq ns-use-proxy-icon nil)
-        (csetq ns-use-thin-smoothing t)
-        (csetq ns-alternate-modifier nil)
-        (csetq mac-command-modifier 'meta)
-        (csetq mac-option-modifier 'alt)
-        (csetq mac-right-option-modifier 'alt))
+        (setq! browse-url-browser-function 'browse-url-generic)
+        (setq! browse-url-generic-program "open")
+        (setq! +my/clang-path "/usr/local/opt/llvm/bin/clang")
+        (setq! +my/mu-path "/usr/local/bin/mu")
+        (setq! +my/msmtp-path "/usr/local/bin/msmtp")
+        (setq! vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
+        (setq! ns-use-proxy-icon nil)
+        (setq! ns-use-thin-smoothing t)
+        (setq! ns-alternate-modifier nil)
+        (setq! mac-command-modifier 'meta)
+        (setq! mac-option-modifier 'alt)
+        (setq! mac-right-option-modifier 'alt))
     (IS-LINUX
-        (csetq browse-url-browser-function 'browse-url-generic)
-        (csetq browse-url-generic-program "xdg-open")
-        (csetq +my/clang-path "/usr/bin/clang")
-        (csetq +my/mu-path "/usr/bin/mu")
-        (csetq +my/msmtp-path "/usr/bin/msmtp")
-        (csetq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
+        (setq! browse-url-browser-function 'browse-url-generic)
+        (setq! browse-url-generic-program "xdg-open")
+        (setq! +my/clang-path "/usr/bin/clang")
+        (setq! +my/mu-path "/usr/bin/mu")
+        (setq! +my/msmtp-path "/usr/bin/msmtp")
+        (setq! vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -42,10 +42,10 @@
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 ;; org-directory needs to be set early
-(csetq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
+(setq! org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 
 ;; Don’t compact font caches during GC.
-(csetq inhibit-compacting-font-caches t)
+(setq! inhibit-compacting-font-caches t)
 
 ;; disable risky local variables warning
 (advice-add 'risky-local-variable-p :override #'ignore)
@@ -57,45 +57,45 @@
 (progn
     (require 'epa-file)
     (epa-file-enable)
-    (csetq epa-file-encrypt-to user-mail-address)
-    (csetq epa-file-select-keys 'silent)
-    (csetq epa-file-cache-passphrase-for-symmetric-encryption nil))
+    (setq! epa-file-encrypt-to user-mail-address)
+    (setq! epa-file-select-keys 'silent)
+    (setq! epa-file-cache-passphrase-for-symmetric-encryption nil))
 
 ;; aspell
 (advice-add #'ispell-init-process :around #'doom-shut-up-a)
-(csetq ispell-dictionary "en_US") ;; default dictionary
+(setq! ispell-dictionary "en_US") ;; default dictionary
 
 ;; no comments on RET while writing comments
-(csetq +default-want-RET-continue-comments nil)
+(setq! +default-want-RET-continue-comments nil)
 
 ;; Some default
-(csetq delete-by-moving-to-trash t)      ; Delete files to trash
-(csetq window-combination-resize t)      ; take new window space from all other windows (not just current)
-(csetq delete-trailing-lines t)          ; `M-x delete-trailing-whitespace' deletes trailing lines
-(csetq x-stretch-cursor nil)             ; Stretch cursor to the glyph width
-(csetq undo-limit 80000000)             ; Raise undo-limit to 80Mb
-(csetq suggest-key-bindings nil)        ; very annoying
-(csetq auto-save-default t)             ; Nobody likes to loose work, I certainly don't
-(csetq password-cache-expiry nil)       ; I can trust my computers ... can't I?
-(csetq major-mode 'fundamental-mode)
-(csetq use-dialog-box nil)
-(csetq load-prefer-newer t)
-(csetq truncate-lines t)                   ; Don't fold lines
-(csetq truncate-partial-width-windows nil) ; for vertically-split windows
-(csetq split-width-threshold 160)          ; Split verticaly by default
-(csetq scroll-margin 3)
-(csetq uniquify-buffer-name-style 'forward)   ; Uniquify buffer names
-(csetq indent-tabs-mode t)                    ; use space to indent by default
+(setq! delete-by-moving-to-trash t)      ; Delete files to trash
+(setq! window-combination-resize t)      ; take new window space from all other windows (not just current)
+(setq! delete-trailing-lines t)          ; `M-x delete-trailing-whitespace' deletes trailing lines
+(setq! x-stretch-cursor nil)             ; Stretch cursor to the glyph width
+(setq! undo-limit 80000000)             ; Raise undo-limit to 80Mb
+(setq! suggest-key-bindings nil)        ; very annoying
+(setq! auto-save-default t)             ; Nobody likes to loose work, I certainly don't
+(setq! password-cache-expiry nil)       ; I can trust my computers ... can't I?
+(setq! major-mode 'fundamental-mode)
+(setq! use-dialog-box nil)
+(setq! load-prefer-newer t)
+(setq! truncate-lines t)                   ; Don't fold lines
+(setq! truncate-partial-width-windows nil) ; for vertically-split windows
+(setq! split-width-threshold 160)          ; Split verticaly by default
+(setq! scroll-margin 3)
+(setq! uniquify-buffer-name-style 'forward)   ; Uniquify buffer names
+(setq! indent-tabs-mode t)                    ; use space to indent by default
 
 ;; set appearance of a tab that is represented by 4 spaces
-(csetq tab-width 4)
-(csetq standard-indent 4)
-(csetq highlight-tabs t)  ; show those ugly tabs
+(setq! tab-width 4)
+(setq! standard-indent 4)
+(setq! highlight-tabs t)  ; show those ugly tabs
 
 ;; Whitespace settings
-(csetq show-trailing-whitespace t)
-(csetq whitespace-action '(auto-cleanup))
-(csetq whitespace-style '(indentation::space
+(setq! show-trailing-whitespace t)
+(setq! whitespace-action '(auto-cleanup))
+(setq! whitespace-style '(indentation::space
                              space-after-tab
                              space-before-tab
                              trailing
@@ -104,27 +104,27 @@
                              face
                              tabs))
 
-(csetq doc-view-continuous t)
+(setq! doc-view-continuous t)
 
 ;; LaTeX
-(csetq font-latex-fontify-script nil)
-(csetq TeX-newline-function 'reindent-then-newline-and-indent)
+(setq! font-latex-fontify-script nil)
+(setq! TeX-newline-function 'reindent-then-newline-and-indent)
 
 ;; vc
-(csetq vc-follow-symlinks t)
-(csetq vc-handled-backends '(Git))
+(setq! vc-follow-symlinks t)
+(setq! vc-handled-backends '(Git))
 
 ;; other defaults
-(csetq auto-window-vscroll nil)
-(csetq sp-escape-quotes-after-insert nil)
+(setq! auto-window-vscroll nil)
+(setq! sp-escape-quotes-after-insert nil)
 
 ;; I do not know what this is :)
-(csetq max-specpdl-size 5000)
-(csetq url-queue-timeout 30)
+(setq! max-specpdl-size 5000)
+(setq! url-queue-timeout 30)
 
 ;; Default Encoding
 (prefer-coding-system 'utf-8)
-(csetq locale-coding-system 'utf-8)
+(setq! locale-coding-system 'utf-8)
 (set-charset-priority 'unicode)
 (set-language-environment "UTF-8")
 (set-locale-environment "en_US.UTF-8")
@@ -134,9 +134,9 @@
 (set-clipboard-coding-system 'utf-8) ; included by set-selection-coding-system
 (set-keyboard-coding-system 'utf-8) ; configured by prefer-coding-system
 (set-terminal-coding-system 'utf-8) ; configured by prefer-coding-system
-(csetq buffer-file-coding-system 'utf-8) ; utf-8
-(csetq save-buffer-coding-system 'utf-8) ; nil
-(csetq process-coding-system-alist
+(setq! buffer-file-coding-system 'utf-8) ; utf-8
+(setq! save-buffer-coding-system 'utf-8) ; nil
+(setq! process-coding-system-alist
     (cons '("grep" utf-8 . utf-8) process-coding-system-alist))
 
 ;; write over selected text on input... like all modern editors do
@@ -152,41 +152,41 @@
 (advice-remove #'newline-and-indent #'doom*newline-indent-and-continue-comments)
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-(csetq world-clock-list
+(setq! world-clock-list
     '(("UTC" "UTC")
          ("America/New_York" "Tampa")
          ("Europe/Ljubljana" "Slovenia")
          ("Asia/Calcutta" "India")
          ("America/Havana" "Havana")))
-(csetq world-clock-time-format "%a, %d %b %I:%M %p %Z")
+(setq! world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; line spacing
-(csetq line-spacing 0.1)
+(setq! line-spacing 0.1)
 
 ;; Isearch
 (progn
-    (csetq search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
-    (csetq isearch-lax-whitespace t)
-    (csetq isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
+    (setq! search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
+    (setq! isearch-lax-whitespace t)
+    (setq! isearch-allow-motion t)) ;; Enable Emacs 28 isearch motions
 
 ;; Color compilation buffer
 (require 'xterm-color)
-(csetq compilation-environment '("TERM=xterm-256color"))
+(setq! compilation-environment '("TERM=xterm-256color"))
 (defun +my/advice-compilation-filter (f proc string)
     (funcall f proc (xterm-color-filter string)))
 (advice-add 'compilation-filter :around #'+my/advice-compilation-filter)
 
 ;; Workaround for terminal buffer scroll
-(csetq term-char-mode-point-at-process-mark nil)
+(setq! term-char-mode-point-at-process-mark nil)
 
 ;; Toggle visualization of matching parens
-(csetq show-paren-mode 1)
+(setq! show-paren-mode 1)
 
 ;; filling
-(csetq fill-column 132)
+(setq! fill-column 132)
 
 ;; hippie expand is dabbrev expand on steroids
-(csetq hippie-expand-try-functions-list
+(setq! hippie-expand-try-functions-list
     '(yas-hippie-try-expand
          try-expand-dabbrev
          try-expand-dabbrev-all-buffers
@@ -212,7 +212,7 @@
             (run-at-time "1 sec" nil 'delete-windows-on buffer)
             (message "Compilation Successful :-)"))
         (message "Compilation Failed :-("))
-    (csetq current-frame (car (car (cdr (current-frame-configuration)))))
+    (setq! current-frame (car (car (cdr (current-frame-configuration)))))
     (select-frame-set-input-focus current-frame))
 ;; (add-to-list 'compilation-finish-functions '+my/bury-compile-buffer)
 
@@ -237,5 +237,5 @@
 ;; Minibuffer setup
 (add-hook
     'minibuffer-setup-hook (lambda ()
-                               (csetq show-trailing-whitespace nil)
-                               (csetq line-spacing 1)))
+                               (setq! show-trailing-whitespace nil)
+                               (setq! line-spacing 1)))

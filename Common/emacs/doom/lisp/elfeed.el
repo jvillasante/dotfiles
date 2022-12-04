@@ -1,7 +1,7 @@
 ;;; lisp/elfeed.el -*- lexical-binding: t; -*-
 
 (after! elfeed
-    (csetq elfeed-feeds
+    (setq! elfeed-feeds
         '(;; General
              ;; "http://feeds.bbci.co.uk/news/rss.xml" ; BBC News
              ;; ycombinator
@@ -94,14 +94,14 @@
              "https://cliffle.com/rss.xml"
              "https://www.thecodedmessage.com/index.xml"))
 
-    (csetq elfeed-search-title-min-width 60)
-    (csetq elfeed-search-title-max-width 100)
-    (csetq elfeed-search-trailing-width 0)
-    (csetq elfeed-search-filter "@6-months-ago +unread")
-    (csetq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path)))
+    (setq! elfeed-search-title-min-width 60)
+    (setq! elfeed-search-title-max-width 100)
+    (setq! elfeed-search-trailing-width 0)
+    (setq! elfeed-search-filter "@6-months-ago +unread")
+    (setq! elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path)))
 
 (after! elfeed-org
-    (csetq rmh-elfeed-org-files (list (expand-file-name "Apps/elfeed/elfeed.org" +my/dropbox-path))))
+    (setq! rmh-elfeed-org-files (list (expand-file-name "Apps/elfeed/elfeed.org" +my/dropbox-path))))
 
 (after! elfeed-search
     (add-hook! 'elfeed-search-mode-hook 'elfeed-update)

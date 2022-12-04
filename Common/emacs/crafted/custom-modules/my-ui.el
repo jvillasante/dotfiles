@@ -16,20 +16,19 @@
     `(variable-pitch ((t (:font "Iosevka Aile 16")))))))
 
 ;; frame title
-(customize-set-variable
- 'frame-title-format
- '(:eval
-   (format "%s@%s: %s"
-           (or (file-remote-p default-directory 'user)
-               user-real-login-name)
-           (or (file-remote-p default-directory 'host)
-               system-name)
-           (cond
-            (buffer-file-truename
-             (concat buffer-file-truename))
-            (dired-directory
-             (concat dired-directory))
-            (t (buffer-name))))))
+(csetq frame-title-format
+    '(:eval
+         (format "%s@%s: %s"
+             (or (file-remote-p default-directory 'user)
+                 user-real-login-name)
+             (or (file-remote-p default-directory 'host)
+                 system-name)
+             (cond
+                 (buffer-file-truename
+                     (concat buffer-file-truename))
+                 (dired-directory
+                     (concat dired-directory))
+                 (t (buffer-name))))))
 
 ;; no splash
 (csetq crafted-startup-inhibit-splash t)
