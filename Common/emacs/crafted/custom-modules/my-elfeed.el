@@ -6,7 +6,7 @@
 ;;; Code:
 
 (crafted-package-install-package 'elfeed)
-(csetq elfeed-feeds
+(setq! elfeed-feeds
        '(;; General
          ;; "http://feeds.bbci.co.uk/news/rss.xml" ; BBC News
          ;; ycombinator
@@ -99,11 +99,11 @@
          "https://cliffle.com/rss.xml"
          "https://www.thecodedmessage.com/index.xml"))
 
-(csetq elfeed-search-title-min-width 60)
-(csetq elfeed-search-title-max-width 100)
-(csetq elfeed-search-trailing-width 0)
-(csetq elfeed-search-filter "@6-months-ago +unread")
-(csetq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path))
+(setq! elfeed-search-title-min-width 60)
+(setq! elfeed-search-title-max-width 100)
+(setq! elfeed-search-trailing-width 0)
+(setq! elfeed-search-filter "@6-months-ago +unread")
+(setq! elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" +my/dropbox-path))
 (add-hook 'elfeed-search-mode-hook 'elfeed-update)
 
 (provide 'my-elfeed)

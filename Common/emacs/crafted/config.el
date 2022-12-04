@@ -36,12 +36,15 @@
 (require 'crafted-windows)         ; Window management configuration
 ;; (require 'crafted-workspaces)      ; Workspaces configuration
 
+;; no doom-modeline for now
+(setq! crafted-ui-use-doom-modeline nil)
+
 ;; crafted-mastering-emacs customizations
 (crafted-mastering-emacs-enable-hydra-package)
 (crafted-mastering-emacs-enable-dumb-jump-package)
 (with-eval-after-load "crafted-mastering-emacs"
-  (csetq icomplete-mode nil)      ; using vertico
-  (csetq fido-vertical-mode nil)) ; using vertico
+  (setq! icomplete-mode nil)      ; using vertico
+  (setq! fido-vertical-mode nil)) ; using vertico
 
 ;; Personal Modules
 (require 'my-functions) ; helper functions
@@ -55,6 +58,6 @@
 (require 'my-bindings)  ; custom bindings
 
 ;;; To not load `custom.el' after `config.el', uncomment this line.
-;;; (setq crafted-load-custom-file nil)
+;; (setq! crafted-load-custom-file nil)
 
 ;;; config.el ends here

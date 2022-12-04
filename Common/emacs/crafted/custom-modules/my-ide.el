@@ -58,7 +58,7 @@ means save all with no questions."
       (funcall fn edit-command))))
 
 ;; Eldoc
-(csetq eldoc-echo-area-use-multiline-p nil)
+(setq! eldoc-echo-area-use-multiline-p nil)
 
 ;; hideshow
 (progn
@@ -95,8 +95,8 @@ means save all with no questions."
 
 ;; C++
 (progn
-  (csetq c-default-style "linux")
-  (csetq c-basic-offset 4)
+  (setq! c-default-style "linux")
+  (setq! c-basic-offset 4)
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
@@ -112,8 +112,8 @@ means save all with no questions."
 (crafted-package-install-package 'rustic)
 (with-eval-after-load 'rustic
   (when (eq my-ide-lsp-backend 'eglot)
-    (csetq rustic-lsp-client 'eglot))
-  (csetq rustic-format-on-save nil))
+    (setq! rustic-lsp-client 'eglot))
+  (setq! rustic-format-on-save nil))
 
 ;; web
 (crafted-package-install-package 'web-mode)
@@ -138,9 +138,9 @@ means save all with no questions."
   (add-hook 'rustic-mode-hook #'eglot-ensure)
   (add-hook 'js-mode-hook #'eglot-ensure)
   (with-eval-after-load 'eglot
-    (csetq eglot-autoshutdown t)
-    (csetq eglot-extend-to-xref t)
-    (csetq eglot-ignored-server-capabilities
+    (setq! eglot-autoshutdown t)
+    (setq! eglot-extend-to-xref t)
+    (setq! eglot-ignored-server-capabilities
            (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
 
     (add-to-list
@@ -165,7 +165,7 @@ means save all with no questions."
   (crafted-package-install-package 'flycheck-inline)
   (progn
     (with-eval-after-load 'flycheck
-      (csetq flycheck-temp-prefix "flycheck_tmp")
+      (setq! flycheck-temp-prefix "flycheck_tmp")
       (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
       (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
       (add-to-list 'flycheck-disabled-checkers 'emacs-lisp-checkdoc)
@@ -181,21 +181,21 @@ means save all with no questions."
                         (global-company-mode +1)))
 
     (with-eval-after-load 'company
-      (csetq company-tooltip-limit 20)
-      (csetq company-idle-delay 0.1)
-      (csetq company-echo-delay 0.1)
-      (csetq company-show-quick-access t)
-      (csetq company-minimum-prefix-length 2)
-      (csetq company-tooltip-align-annotations t)
-      (csetq company-auto-commit nil)
-      (csetq company-global-modes
+      (setq! company-tooltip-limit 20)
+      (setq! company-idle-delay 0.1)
+      (setq! company-echo-delay 0.1)
+      (setq! company-show-quick-access t)
+      (setq! company-minimum-prefix-length 2)
+      (setq! company-tooltip-align-annotations t)
+      (setq! company-auto-commit nil)
+      (setq! company-global-modes
              '(not erc-mode
                    circe-mode
                    message-mode
                    help-mode
                    gud-mode
                    vterm-mode))
-      (csetq company-frontends
+      (setq! company-frontends
              '(company-pseudo-tooltip-frontend  ; always show candidates in overlay tooltip
                company-echo-metadata-frontend))))  ; show selected candidate docs in echo area
 
@@ -227,35 +227,35 @@ means save all with no questions."
 
     ;; Customizations
     (with-eval-after-load 'lsp-mode
-      (csetq lsp-keymap-prefix "C-c l") ;; set prefix for lsp-command-keymap
-      (csetq lsp-session-file (expand-file-name ".lsp-session" crafted-config-var-directory))
-      (csetq lsp-idle-delay 0.5)
-      (csetq lsp-file-watch-threshold 15000)
-      (csetq lsp-auto-guess-root t)
-      (csetq lsp-log-io nil)
-      (csetq lsp-restart 'auto-restart)
-      (csetq lsp-enable-symbol-highlighting t)
-      (csetq lsp-lens-enable nil)
-      (csetq lsp-headerline-breadcrumb-enable nil)
-      (csetq lsp-modeline-code-actions-enable t)
-      (csetq lsp-modeline-diagnostics-enable t)
-      (csetq lsp-eldoc-enable-hover t)
-      (csetq lsp-signature-auto-activate t)
-      (csetq lsp-signature-render-documentation nil)
-      (csetq lsp-completion-show-detail t)
-      (csetq lsp-completion-show-kind nil)
-      (csetq read-process-output-max (* 1024 1024)) ;; 1MB
+      (setq! lsp-keymap-prefix "C-c l") ;; set prefix for lsp-command-keymap
+      (setq! lsp-session-file (expand-file-name ".lsp-session" crafted-config-var-directory))
+      (setq! lsp-idle-delay 0.5)
+      (setq! lsp-file-watch-threshold 15000)
+      (setq! lsp-auto-guess-root t)
+      (setq! lsp-log-io nil)
+      (setq! lsp-restart 'auto-restart)
+      (setq! lsp-enable-symbol-highlighting t)
+      (setq! lsp-lens-enable nil)
+      (setq! lsp-headerline-breadcrumb-enable nil)
+      (setq! lsp-modeline-code-actions-enable t)
+      (setq! lsp-modeline-diagnostics-enable t)
+      (setq! lsp-eldoc-enable-hover t)
+      (setq! lsp-signature-auto-activate t)
+      (setq! lsp-signature-render-documentation nil)
+      (setq! lsp-completion-show-detail t)
+      (setq! lsp-completion-show-kind nil)
+      (setq! read-process-output-max (* 1024 1024)) ;; 1MB
 
       ;; Rust
-      (csetq lsp-rust-analyzer-cargo-watch-command "clippy")
-      (csetq lsp-rust-analyzer-completion-auto-import-enable nil)
+      (setq! lsp-rust-analyzer-cargo-watch-command "clippy")
+      (setq! lsp-rust-analyzer-completion-auto-import-enable nil)
 
       ;; Zig
-      (csetq lsp-zig-zls-executable
+      (setq! lsp-zig-zls-executable
              (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
 
       ;; C++
-      (csetq lsp-clients-clangd-args
+      (setq! lsp-clients-clangd-args
              '("-j=8"
                "--log=error"
                "--malloc-trim"
@@ -276,12 +276,12 @@ means save all with no questions."
   ;; lsp-ui
   (crafted-package-install-package 'lsp-ui)
   (with-eval-after-load 'lsp-ui
-    (csetq lsp-ui-doc-enable nil)
-    (csetq lsp-ui-doc-show-with-cursor nil)
-    (csetq lsp-ui-doc-show-with-mouse nil)
-    (csetq lsp-ui-sideline-enable nil)
-    (csetq lsp-ui-sideline-show-code-actions nil)
-    (csetq lsp-ui-sideline-show-hover nil)))
+    (setq! lsp-ui-doc-enable nil)
+    (setq! lsp-ui-doc-show-with-cursor nil)
+    (setq! lsp-ui-doc-show-with-mouse nil)
+    (setq! lsp-ui-sideline-enable nil)
+    (setq! lsp-ui-sideline-show-code-actions nil)
+    (setq! lsp-ui-sideline-show-hover nil)))
 
 (provide 'my-ide)
 ;;; my-ide.el ends here

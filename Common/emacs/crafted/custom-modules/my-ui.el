@@ -16,7 +16,7 @@
     `(variable-pitch ((t (:font "Iosevka Aile 16")))))))
 
 ;; frame title
-(csetq frame-title-format
+(setq! frame-title-format
     '(:eval
          (format "%s@%s: %s"
              (or (file-remote-p default-directory 'user)
@@ -31,7 +31,7 @@
                  (t (buffer-name))))))
 
 ;; no splash
-(csetq crafted-startup-inhibit-splash t)
+(setq! crafted-startup-inhibit-splash t)
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -43,20 +43,20 @@
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 ;; Hide the startup screen
-(csetq inhibit-startup-screen t)
+(setq! inhibit-startup-screen t)
 
 ;; Ignore xressources
-(csetq inhibit-x-resources t)
+(setq! inhibit-x-resources t)
 
 ;; all-the-icons
-(csetq all-the-icons-scale-factor 1.1)
+(setq! all-the-icons-scale-factor 1.1)
 
 ;;; no bell
-(csetq visible-bell nil)
-(csetq ring-bell-function 'ignore)
+(setq! visible-bell nil)
+(setq! ring-bell-function 'ignore)
 
 ;;; line numbers on
-(csetq crafted-ui-display-line-numbers t)
+(setq! crafted-ui-display-line-numbers t)
 
 ;; theme
 (defun +my/switch-theme (theme)
@@ -71,22 +71,22 @@
 
 (crafted-package-install-package 'modus-themes)
 (progn
-  (csetq modus-themes-variable-pitch-ui t)
-  (csetq modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
-  (csetq modus-themes-bold-constructs t)
-  (csetq modus-themes-italic-constructs nil)
-  (csetq modus-themes-paren-match '(bold intense))
-  (csetq modus-themes-fringes 'subtle)
-  (csetq modus-themes-tabs-accented t)
-  (csetq modus-themes-subtle-line-numbers t)
-  (csetq modus-themes-diffs 'desaturated)
-  (csetq modus-themes-region '(bg-only no-extend))
-  (csetq modus-themes-mixed-fonts t)
-  (csetq modus-themes-section-headings t)
-  (csetq modus-themes-completions '((matches . (extrabold background intense))
+  (setq! modus-themes-variable-pitch-ui t)
+  (setq! modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
+  (setq! modus-themes-bold-constructs t)
+  (setq! modus-themes-italic-constructs nil)
+  (setq! modus-themes-paren-match '(bold intense))
+  (setq! modus-themes-fringes 'subtle)
+  (setq! modus-themes-tabs-accented t)
+  (setq! modus-themes-subtle-line-numbers t)
+  (setq! modus-themes-diffs 'desaturated)
+  (setq! modus-themes-region '(bg-only no-extend))
+  (setq! modus-themes-mixed-fonts t)
+  (setq! modus-themes-section-headings t)
+  (setq! modus-themes-completions '((matches . (extrabold background intense))
                                     (selection . (extrabold accented intense))
                                     (popup . (accented))))
-  (csetq modus-themes-headings
+  (setq! modus-themes-headings
          '((1 . (monochrome variable-pitch 1.3))
            (2 . (monochrome variable-pitch 1.2))
            (3 . (monochrome variable-pitch 1.1))
@@ -97,11 +97,10 @@
 
 ;; modeline
 (progn
-  (csetq crafted-ui-use-doom-modeline nil)
   (with-eval-after-load 'doom-modeline
-      (csetq doom-modeline-icon nil)
-      (csetq doom-modeline-height 1)
-      (csetq doom-modeline-lsp t)))
+      (setq! doom-modeline-icon nil)
+      (setq! doom-modeline-height 1)
+      (setq! doom-modeline-lsp t)))
 
 ;; column number display mode in the modeline
 (add-hook 'after-init-hook 'column-number-mode)
