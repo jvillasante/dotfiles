@@ -155,7 +155,7 @@
     (after! rustic (set-popup-rule! "^\\*rustic-" :size 0.4 :quit t :ttl 0))
     (after! rustic (set-popup-rule! "^\\*cargo-" :size 0.4 :quit t :ttl 0))
     (after! vterm (set-popup-rule! "^\\*doom:vterm-popup" :size 0.4 :ttl 0 :quit nil))
-    (after! pass (set-popup-rule! "^\\*Password-Store*" :side 'left :size 0.8 :quit nil)))
+    (after! vterm (set-popup-rule! "^\\*doom:eshell-popup" :size 0.4 :ttl 0 :quit nil)))
 
 ;; https://gitlab.com/protesilaos/dotfiles/-/raw/master/emacs/.emacs.d/prot-lisp/modus-themes-exporter.el
 (load! "site-lisp/ui-modus-exporter.el")
