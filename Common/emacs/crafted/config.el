@@ -58,6 +58,6 @@
 (require 'my-bindings)  ; custom bindings
 
 ;;; To not load `custom.el' after `config.el', uncomment this line.
-;; (setq! crafted-load-custom-file nil)
+(setq! crafted-load-custom-file nil)
 
 ;;; config.el ends here
