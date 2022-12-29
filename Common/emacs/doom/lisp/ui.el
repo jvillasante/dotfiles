@@ -99,7 +99,6 @@
              (2 . (monochrome variable-pitch 1.2))
              (3 . (monochrome variable-pitch 1.1))
              (t . (monochrome))))
-    (modus-themes-load-themes)
     :config
     (+my/switch-theme 'modus-operandi))
 

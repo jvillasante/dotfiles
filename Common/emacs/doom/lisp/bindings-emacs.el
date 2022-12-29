@@ -96,7 +96,7 @@
             :map vterm-mode-map
             "M-[" #'vterm-copy-mode
             "C-y" #'vterm-yank
-            "C-q" #'vterm-send-next-key)
+            "C-q" #'vterm-send-next-key))
 
     ;;; dired
     (:after dired
