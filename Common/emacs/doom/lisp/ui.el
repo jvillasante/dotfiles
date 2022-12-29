@@ -80,25 +80,15 @@
 (use-package! modus-themes
     :demand t
     :init
-    (setq! modus-themes-variable-pitch-ui t)
-    (setq! modus-themes-mode-line '(borderless (padding 1) (height 0.9)))
-    (setq! modus-themes-bold-constructs t)
     (setq! modus-themes-italic-constructs nil)
-    (setq! modus-themes-paren-match '(bold intense))
-    (setq! modus-themes-fringes 'subtle)
-    (setq! modus-themes-tabs-accented t)
-    (setq! modus-themes-subtle-line-numbers t)
-    (setq! modus-themes-diffs 'desaturated)
-    (setq! modus-themes-region '(bg-only no-extend))
+    (setq! modus-themes-bold-constructs t)
     (setq! modus-themes-mixed-fonts t)
-    (setq! modus-themes-completions '((matches . (extrabold background intense))
-                                         (selection . (extrabold accented intense))
-                                         (popup . (accented))))
-    (setq! modus-themes-headings
-        '((1 . (monochrome variable-pitch 1.3))
-             (2 . (monochrome variable-pitch 1.2))
-             (3 . (monochrome variable-pitch 1.1))
-             (t . (monochrome))))
+    (setq! modus-themes-variable-pitch-ui t)
+    (setq! modus-themes-prompts '(italic bold))
+    (setq! modus-themes-completions
+        '((matches . (extrabold))
+             (selection . (semibold italic text-also))))
+    (setq! modus-themes-region '(bg-only no-extend))
     :config
     (+my/switch-theme 'modus-operandi))
 
