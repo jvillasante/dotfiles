@@ -15,6 +15,10 @@
     "M-n" #'forward-paragraph
     "M-p" #'backward-paragraph
 
+    ;;; I use this all the time
+    "C-<" #'beginning-of-buffer
+    "C->" #'end-of-buffer
+
     ;;; upcase, downcase and capitalize
     "M-u" #'upcase-dwim
     "M-l" #'downcase-dwim
