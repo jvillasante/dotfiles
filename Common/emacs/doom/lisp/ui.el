@@ -89,6 +89,13 @@
         '((matches . (extrabold))
              (selection . (semibold italic text-also))))
     (setq! modus-themes-region '(bg-only no-extend))
+    (setq! modus-themes-org-blocks 'gray-background) ; {nil,'gray-background,'tinted-background}
+    (setq! modus-themes-headings
+        '((1 . (variable-pitch 1.5))
+             (2 . (1.3))
+             (agenda-date . (1.3))
+             (agenda-structure . (variable-pitch light 1.8))
+             (t . (1.1))))
     :config
     (+my/switch-theme 'modus-operandi))
 
