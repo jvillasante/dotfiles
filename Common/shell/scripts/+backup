@@ -49,20 +49,6 @@ do_borg_backup() {
     info() { printf "\n%s %s\n\n" "$(date)" "$*" >&2; }
     trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
 
-    if pgrep -x firefox >/dev/null; then
-        info "Firefox is running. Close it and try again..."
-        exit 1
-    fi
-
-    if pgrep -x brave >/dev/null; then
-        echo ">>> Brave Browser is running. Close it and try again..."
-        exit 1
-    fi
-
-    info "Restarting psd.service to create a new browser backups..."
-    systemctl --user restart psd.service
-    sleep 1
-
     info "Starting backup"
 
     # Backup the most important directories into an archive named after
@@ -106,9 +92,7 @@ do_borg_backup() {
         /home/"$USER"/Pictures \
         /home/"$USER"/Templates \
         /home/"$USER"/Videos \
-        /home/"$USER"/Workspace \
-        /home/"$USER"/.mozilla \
-        /home/"$USER"/.config/BraveSoftware
+        /home/"$USER"/Workspace
     backup_exit=$?
 
     info "Pruning repository"
@@ -122,7 +106,7 @@ do_borg_backup() {
         --show-rc \
         --glob-archives '{hostname}_*' \
         --keep-daily 1 \
-        --keep-weekly 2 \
+        --keep-weekly 1 \
         --keep-monthly 2
     prune_exit=$?
 
