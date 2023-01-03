@@ -58,7 +58,7 @@ alias ag="ag --hidden --ignore node_modules --ignore .git"
 
 # atool to extract archives
 if type atool >/dev/null 2>/dev/null; then
-    extract() {
+    +extract() {
         atool --extract --explain "$@"
     }
 fi

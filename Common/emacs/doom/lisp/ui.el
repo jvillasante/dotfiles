@@ -80,22 +80,35 @@
 (use-package! modus-themes
     :demand t
     :init
-    (setq! modus-themes-italic-constructs nil)
+    (setq! modus-themes-italic-constructs t)
     (setq! modus-themes-bold-constructs t)
-    (setq! modus-themes-mixed-fonts t)
     (setq! modus-themes-variable-pitch-ui t)
+    (setq! modus-themes-mixed-fonts t)
+
+    ;; Color customizations
     (setq! modus-themes-prompts '(italic bold))
     (setq! modus-themes-completions
         '((matches . (extrabold))
              (selection . (semibold italic text-also))))
-    (setq! modus-themes-region '(bg-only no-extend))
-    (setq! modus-themes-org-blocks 'gray-background) ; {nil,'gray-background,'tinted-background}
-    (setq! modus-themes-headings
-        '((1 . (variable-pitch 1.5))
-             (2 . (1.3))
-             (agenda-date . (1.3))
-             (agenda-structure . (variable-pitch light 1.8))
-             (t . (1.1))))
+    (setq! modus-themes-org-blocks 'gray-background)
+
+    ;; Font sizes for titles and headings, including org
+    (setq! modus-themes-headings '((1 . (variable-pitch 1.5))
+                                      (2 . (1.3))
+                                      (agenda-date . (1.3))
+                                      (agenda-structure . (variable-pitch light 1.8))
+                                      (t . (1.1))))
+
+    ;; Theme overrides
+    (customize-set-variable 'modus-themes-common-palette-overrides
+        `(
+             ;; Make the mode-line borderless
+             (bg-mode-line-active bg-inactive)
+             (fg-mode-line-active fg-main)
+             (bg-mode-line-inactive bg-inactive)
+             (fg-mode-line-active fg-dim)
+             (border-mode-line-active bg-inactive)
+             (border-mode-line-inactive bg-main)))
     :config
     (+my/switch-theme 'modus-operandi))
 
