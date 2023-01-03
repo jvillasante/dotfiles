@@ -276,7 +276,7 @@
     (setq! lsp-file-watch-threshold 15000)
     (setq! lsp-auto-guess-root t)
     (setq! lsp-log-io nil)
-    (setq! lsp-restart 'auto-restart)
+    (setq! lsp-restart 'ignore)
     (setq! lsp-enable-symbol-highlighting t)
     (setq! lsp-lens-enable nil)
     (setq! lsp-headerline-breadcrumb-enable nil)
