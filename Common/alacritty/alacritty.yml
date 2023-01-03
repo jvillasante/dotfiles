@@ -162,31 +162,31 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
+# Theme: modus-operandi - modus-vivendi
+# Description: Alacritty port of modus-themes (Modus themes for Emacs)
+# Author: Protesilaos Stavrou, <https://protesilaos.com>
 schemes:
     modus_operandi: &light
         primary:
             background: "#ffffff"
             foreground: "#000000"
-        cursor:
-            text: "#ffffff"
-            cursor: "#000000"
         normal:
             black: "#000000"
             red: "#a60000"
-            green: "#005e00"
-            yellow: "#813e00"
+            green: "#006800"
+            yellow: "#6f5500"
             blue: "#0031a9"
             magenta: "#721045"
-            cyan: "#00538b"
+            cyan: "#005e8b"
             white: "#bfbfbf"
         bright:
             black: "#595959"
             red: "#972500"
-            green: "#315b00"
-            yellow: "#70480f"
-            blue: "#2544bb"
-            magenta: "#5317ac"
-            cyan: "#005a5f"
+            green: "#316500"
+            yellow: "#884900"
+            blue: "#354fcf"
+            magenta: "#531ab6"
+            cyan: "#005f5f"
             white: "#ffffff"
     modus_vivendi: &dark
         primary:
@@ -194,18 +194,18 @@ schemes:
             foreground: "#ffffff"
         normal:
             black: "#000000"
-            red: "#ff8059"
+            red: "#ff5f59"
             green: "#44bc44"
-            yellow: "#eecc00"
+            yellow: "#d0bc00"
             blue: "#2fafff"
             magenta: "#feacd0"
             cyan: "#00d3d0"
             white: "#bfbfbf"
         bright:
             black: "#595959"
-            red: "#f4923b"
-            green: "#70c900"
-            yellow: "#cfdf30"
+            red: "#ff6b55"
+            green: "#70b900"
+            yellow: "#fec43f"
             blue: "#79a8ff"
             magenta: "#b6a0ff"
             cyan: "#6ae4b9"
