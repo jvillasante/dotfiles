@@ -6,19 +6,25 @@ usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
-    echo "    $0 all:"
-    echo "        Update both arkenfox and non-arkenfox profiles"
     echo "    $0 arkenfox:"
-    echo "        Update arkenfox profile"
+    echo "        Update firefox Default profile with arkenfox"
     echo "    $0 non-arkenfox:"
-    echo "        Update non-arkenfox profile"
-    echo "    $0 personal"
-    echo "        Update personal users.js"
+    echo "        Update firefox Default profile without arkenfox"
     echo "    e.g: $0 arkenfox"
     echo
-    echo "NOTE: Both 'firefox-arkenfox' and 'firefox-non-arkenfox' profiles must exists with the first one being the 'Default'"
-    echo "      Please, create and setup them both on 'about:profiles'"
     exit "$1"
+}
+
+firefox_default_profile() {
+    local PROFILE_NAME
+    PROFILE_NAME=$(grep "Default=.*\.default*" "$HOME/.mozilla/firefox/profiles.ini" | cut -d"=" -f2)
+    [ -z "$PROFILE_NAME" ] && usage 1
+
+    local PROFILE
+    PROFILE="$HOME/.mozilla/firefox/$PROFILE_NAME"
+    [ ! -d "$PROFILE" ] && usage 1
+
+    echo "$PROFILE"
 }
 
 #
@@ -31,12 +37,7 @@ update_arkenfox() {
     fi
 
     local PROFILE
-    PROFILE=$(find "$HOME"/.mozilla/firefox/ -regextype sed -regex '.*.firefox-arkenfox$')
-    if [ -z "$PROFILE" ] || [ ! -d "$PROFILE" ]; then
-        echo ">>> Can't find the 'firefox-arkenfox' profile, exiting..."
-        usage 1
-    fi
-
+    PROFILE=$(firefox_default_profile)
     echo ">>> Updating 'user.js' file for $PROFILE"
 
     # Remove previous if any
@@ -111,12 +112,7 @@ update_non_arkenfox() {
     fi
 
     local PROFILE
-    PROFILE=$(find "$HOME"/.mozilla/firefox/ -regextype sed -regex '.*.firefox-non-arkenfox$')
-    if [ -z "$PROFILE" ] || [ ! -d "$PROFILE" ]; then
-        echo ">>> Can't find the 'firefox-non-arkenfox' profile, exiting..."
-        usage 1
-    fi
-
+    PROFILE=$(firefox_default_profile)
     echo ">>> Updating 'user.js' file for $PROFILE"
 
     cat >"${PROFILE}/user.js" <<ENDOFFILE
@@ -149,11 +145,6 @@ cmd=${1-}
 rc=0
 if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
-    all)
-        [ "$nargs" -eq 1 ] || usage 1
-        update_arkenfox "$@"
-        update_non_arkenfox "$@"
-        ;;
     arkenfox)
         [ "$nargs" -eq 1 ] || usage 1
         update_arkenfox "$@"
