@@ -105,7 +105,8 @@
     ;;; dired
     (:after dired
         :map dired-mode-map
-        "C-c C-o" #'crux-open-with)
+        "C-u RET" #'crux-open-with
+        "C-u return" #'crux-open-with)
 
     ;;; neotree
     (:when (modulep! :ui neotree)
