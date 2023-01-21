@@ -51,8 +51,7 @@ do_borg_backup() {
 
     info "Starting backup"
 
-    # Backup the most important directories into an archive named after
-    # the machine this script is currently running on
+    # Backup the most important directories into an archive named after the machine this script is currently running on
     borg create \
         --verbose \
         --filter AME \
@@ -68,6 +67,7 @@ do_borg_backup() {
         --exclude '/home/**/*.*~' \
         --exclude '/home/**/.#*' \
         --exclude '/home/**/*.o' \
+        --exclude '/home/**/*.lo' \
         --exclude '/home/**/*.rs.bk' \
         --exclude '/home/**/.SynologyNAS' \
         --exclude '/home/*/VirtualBox VMs*' \
@@ -77,14 +77,18 @@ do_borg_backup() {
         --exclude '/home/*/Workspace/Software/' \
         --exclude '/home/*/Workspace/Work/Firmware/' \
         --exclude '/home/*/Workspace/Work/Software/' \
-        --exclude '/home/*/Workspace/Work/Projects/sm-ubuntu22-04' \
+        --exclude '/home/*/Workspace/Work/Projects/sm-*' \
+        --exclude '/home/*/Workspace/Work/Projects/dmxs/bin' \
+        --exclude '/home/*/Workspace/Work/Projects/dmxs/inc' \
+        --exclude '/home/*/Workspace/Work/Projects/dmxs/lib' \
+        --exclude '/home/*/Workspace/Work/Projects/dmxs/pkg' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/bin/' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/build/' \
         --exclude 're:/*var/cache/' \
         --exclude 're:/*vendor*/' \
         --exclude 're:/*target*/' \
         --exclude 're:/*node_modules*/' \
-        ::'{hostname}_{now}' \
+        ::"$USER"_'{now}' \
         /home/"$USER"/Desktop \
         /home/"$USER"/Documents \
         /home/"$USER"/Downloads \
@@ -97,17 +101,15 @@ do_borg_backup() {
 
     info "Pruning repository"
 
-    # Use the `prune` subcommand to maintain 1 daily, 2 weekly and 2 monthly
-    # archives of THIS machine. The '{hostname}_' prefix is very important to
-    # limit prune's operation to this machine's archives and not apply to
-    # other machines' archives also:
+    # Use the `prune` subcommand to maintain 1 daily, 2 weekly and 2 monthly archives of THIS machine. The '{hostname}_' prefix is
+    # very important to limit prune's operation to this machine's archives and not apply to other machines' archives also
     borg prune \
         --list \
         --show-rc \
-        --glob-archives '{hostname}_*' \
+        --glob-archives "$USER"_* \
         --keep-daily 1 \
-        --keep-weekly 1 \
-        --keep-monthly 2
+        --keep-weekly 2 \
+        --keep-monthly 3
     prune_exit=$?
 
     info "Compacting repository"
