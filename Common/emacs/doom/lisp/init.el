@@ -219,9 +219,6 @@
 ;; Add online search engines for +lookup/online
 (add-to-list '+lookup-provider-url-alist '("cppreference" "https://en.cppreference.com/w/?search=%s"))
 
-;; Add system-wide mu4e installation
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-
 ;; macros
 (require 'kmacro)
 (defalias 'kmacro-insert-macro 'insert-kbd-macro)
@@ -235,7 +232,6 @@
 (add-hook 'prog-mode-hook '+my/comment-auto-fill)    ;; ... but add comment auto-fill in prog-mode
 
 ;; Minibuffer setup
-(add-hook
-    'minibuffer-setup-hook (lambda ()
-                               (setq! show-trailing-whitespace nil)
-                               (setq! line-spacing 1)))
+(add-hook 'minibuffer-setup-hook (lambda ()
+                                     (setq! show-trailing-whitespace nil)
+                                     (setq! line-spacing 1)))

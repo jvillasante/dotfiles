@@ -10,9 +10,6 @@
     ggtags
     ccls)
 
-;; no alert for mu4e
-(package! mu4e-alert :disable t)
-
 ;; modus-themes : modus-operandi & modus-vivendi themes
 (package! modus-themes)
 
@@ -34,9 +31,6 @@
 ;; others
 (package! ibuffer-vc)
 (package! tldr)
-(package! zeal-at-point)
-(package! speed-type)
-(package! typing)
 
 ;; To install a package with Doom you must declare them here, run 'doom sync' on
 ;; the command line, then restart Emacs for the changes to take effect.

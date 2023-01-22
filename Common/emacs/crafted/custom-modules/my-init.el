@@ -45,9 +45,6 @@
 (setq! backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq! auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-;; Add system-wide mu4e installation
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-
 ;; org-directory needs to be set early
 (setq! org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 
