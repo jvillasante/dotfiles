@@ -10,23 +10,17 @@
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # set PATH so it includes .local bin if it exists
-if [ -d "$HOME/.local/bin" ]; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
 # Doom Emacs
-export EMACSDIR="$HOME/Workspace/Public/dotfiles/.emacs.doom"
-export DOOMDIR="$HOME/Workspace/Public/dotfiles/Common/emacs/doom"
+[ -d "$HOME/Workspace/Public/dotfiles/.emacs.doom" ] && export EMACSDIR="$HOME/Workspace/Public/dotfiles/.emacs.doom"
+[ -d "$HOME/Workspace/Public/dotfiles/Common/emacs/doom" ] && export DOOMDIR="$HOME/Workspace/Public/dotfiles/Common/emacs/doom"
 
 # snap
-if [ -d "/snap/bin" ]; then
-    export PATH="$PATH:/snap/bin"
-fi
+[ -d "/snap/bin" ] && export PATH="$PATH:/snap/bin"
 
 # llvm
-if [ -d "/usr/local/opt/llvm/bin" ]; then
-    export PATH="/usr/local/opt/llvm/bin:$PATH"
-fi
+[ -d "/usr/local/opt/llvm/bin" ] export PATH="/usr/local/opt/llvm/bin:$PATH"
 
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
@@ -49,9 +43,7 @@ if [ -d "$HOME/Workspace/Private/Projects/go" ]; then
 fi
 
 # Zig
-if [ -d "$HOME/Workspace/Software/zig/zig" ]; then
-    export PATH="$HOME/Workspace/Software/zig/zig:$PATH"
-fi
+[ -d "$HOME/Workspace/Software/zig/zig" ] && export PATH="$HOME/Workspace/Software/zig/zig:$PATH"
 
 # Tmuxifier
 if [ -d "$HOME/.tmuxifier" ]; then
