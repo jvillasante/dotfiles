@@ -28,13 +28,13 @@ do_pass() {
     cd "$dir" || exit
     if [ -n "$passfile" ]; then
         case "$1" in
-            --copy)
+            --copy | -c)
                 pass --clip "${passfile}"
                 ;;
-            --view)
+            --view | -v)
                 pass "${passfile}"
                 ;;
-            --edit)
+            --edit | -e)
                 pass edit "${passfile}"
                 ;;
             *) ;;
@@ -45,15 +45,15 @@ do_pass() {
 nargs=$#
 cmd=${1-p}
 case $cmd in
-    --copy)
+    --copy | -c)
         [ "$nargs" -eq 1 ] || usage 1
         do_pass "$cmd"
         ;;
-    --view)
+    --view | -v)
         [ "$nargs" -eq 1 ] || usage 1
         do_pass "$cmd"
         ;;
-    --edit)
+    --edit | -e)
         [ "$nargs" -eq 1 ] || usage 1
         do_pass "$cmd"
         ;;
