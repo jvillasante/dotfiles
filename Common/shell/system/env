@@ -20,7 +20,7 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 [ -d "/snap/bin" ] && export PATH="$PATH:/snap/bin"
 
 # llvm
-[ -d "/usr/local/opt/llvm/bin" ] export PATH="/usr/local/opt/llvm/bin:$PATH"
+[ -d "/usr/local/opt/llvm/bin" ] && export PATH="/usr/local/opt/llvm/bin:$PATH"
 
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
