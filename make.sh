@@ -65,7 +65,7 @@ install_emacs() {
     fi
 
     # Install Doom Emacs
-    if [ -n "$EMACSDIR" ]; then
+    if [ -n "$EMACSDIR" ] && [ ! -d "$EMACSDIR" ]; then
         echo ">>> Installing Doom Emacs at $EMACSDIR with personal config at $DOOMDIR"
         git clone git@github.com:hlissner/doom-emacs.git "$EMACSDIR"
         check $?
