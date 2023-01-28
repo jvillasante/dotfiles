@@ -32,6 +32,9 @@
 ;; no splash
 (setq! crafted-startup-inhibit-splash t)
 
+;;; line numbers on
+(setq! crafted-ui-display-line-numbers t)
+
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
@@ -53,9 +56,6 @@
 ;;; no bell
 (setq! visible-bell nil)
 (setq! ring-bell-function 'ignore)
-
-;;; line numbers on
-(setq! crafted-ui-display-line-numbers t)
 
 ;; theme
 (defun +my/switch-theme (theme)
