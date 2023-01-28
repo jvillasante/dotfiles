@@ -22,7 +22,7 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 if [ -d "$HOME/.cargo/bin" ]; then
     export CARGO_HOME="$HOME/.cargo"
     if [ -f "$CARGO_HOME/env" ]; then
-        . "$CARGO_HOME/env"
+        source "$CARGO_HOME/env"
     else
         export PATH="$CARGO_HOME/bin:$PATH"
     fi
