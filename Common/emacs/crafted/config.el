@@ -36,9 +36,6 @@
 (require 'crafted-windows)         ; Window management configuration
 ;; (require 'crafted-workspaces)      ; Workspaces configuration
 
-;; no doom-modeline for now
-(setq! crafted-ui-use-doom-modeline nil)
-
 ;; crafted-mastering-emacs customizations
 (crafted-mastering-emacs-enable-hydra-package)
 (crafted-mastering-emacs-enable-dumb-jump-package)

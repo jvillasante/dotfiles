@@ -104,11 +104,21 @@
     (+my/switch-theme 'modus-operandi))
 
 ;; modeline
-(progn
-    (with-eval-after-load 'doom-modeline
-        (setq! doom-modeline-icon nil)
-        (setq! doom-modeline-height 1)
-        (setq! doom-modeline-lsp t)))
+(crafted-package-install-package 'doom-modeline)
+(require 'doom-modeline)
+(doom-modeline-mode 1)
+(with-eval-after-load 'doom-modeline
+    (setq! doom-modeline-icon nil)
+    (setq! doom-modeline-major-mode-icon nil)
+    (setq! doom-modeline-major-mode-color-icon nil)
+    (setq! doom-modeline-buffer-state-icon nil)
+    (setq! doom-modeline-buffer-modification-icon nil)
+    (setq! doom-modeline-persp-icon nil)
+    (setq! doom-modeline-time-icon nil)
+    (setq! doom-modeline-modal-icon t)
+    (setq! doom-modeline-modal nil)
+    (setq! doom-modeline-height 1)
+    (setq! doom-modeline-lsp t))
 
 ;; column number display mode in the modeline
 (add-hook 'after-init-hook 'column-number-mode)
