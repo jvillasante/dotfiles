@@ -38,6 +38,8 @@ update_arkenfox() {
 
     local PROFILE
     PROFILE=$(firefox_default_profile)
+    check $?
+
     echo ">>> Updating 'user.js' file for $PROFILE"
 
     # Remove previous if any
@@ -95,6 +97,7 @@ user_pref("ui.key.menuAccessKeyFocuses", false);
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
+    check $?
 
     sh "${PROFILE}"/updater.sh -u -s
     check $?
