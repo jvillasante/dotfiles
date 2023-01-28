@@ -112,20 +112,24 @@ do_emacs() {
 }
 
 do_doom() {
-    if [ ! -f "$EMACSDIR/bin/doom" ]; then
+    if [ ! -f "$DOTFILES_DIR/.emacs.doom/bin/doom" ]; then
         echo "doom script not present, exiting..."
         exit 1
     fi
 
     case $1 in
         restart)
-            "$EMACSDIR"/bin/doom sync
+            env EMACSDIR="$DOTFILES_DIR/.emacs.doom" \
+                env DOOMDIR="$DOTFILES_DIR/Common/emacs/doom" \
+                "$DOTFILES_DIR/.emacs.doom/bin/doom" sync
             do_emacs "kill"
-            sleep 1
             echo "> Done."
             ;;
         *)
-            "$EMACSDIR"/bin/doom "$@"
+            env EMACSDIR="$DOTFILES_DIR/.emacs.doom" \
+                env DOOMDIR="$DOTFILES_DIR/Common/emacs/doom" \
+                "$DOTFILES_DIR/.emacs.doom/bin/doom" "$@"
+            echo "> Done."
             ;;
     esac
 }

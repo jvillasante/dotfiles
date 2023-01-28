@@ -12,10 +12,6 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 # set PATH so it includes .local bin if it exists
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
-# Doom Emacs
-[ -d "$HOME/Workspace/Public/dotfiles/.emacs.doom" ] && export EMACSDIR="$HOME/Workspace/Public/dotfiles/.emacs.doom"
-[ -d "$HOME/Workspace/Public/dotfiles/Common/emacs/doom" ] && export DOOMDIR="$HOME/Workspace/Public/dotfiles/Common/emacs/doom"
-
 # snap
 [ -d "/snap/bin" ] && export PATH="$PATH:/snap/bin"
 

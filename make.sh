@@ -65,26 +65,29 @@ install_emacs() {
     fi
 
     # Install Doom Emacs
-    if [ -n "$EMACSDIR" ] && [ ! -d "$EMACSDIR" ]; then
-        echo ">>> Installing Doom Emacs at $EMACSDIR with personal config at $DOOMDIR"
-        git clone git@github.com:hlissner/doom-emacs.git "$EMACSDIR"
+    if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
+        echo ">>> Installing Doom Emacs at $DOTFILES_DIR/.emacs.doom"
+        git clone git@github.com:hlissner/doom-emacs.git "$DOTFILES_DIR/.emacs.doom"
         check $?
 
-        "$EMACSDIR"/bin/doom install
+        env EMACSDIR="$DOTFILES_DIR/.emacs.doom" \
+            env DOOMDIR="$DOTFILES_DIR/Common/emacs/doom" \
+            "$DOTFILES_DIR/.emacs.doom/bin/doom" install
         check $?
     fi
 
     # Install Crafted Emacs
     if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
+        echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
         git clone git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
         check $?
     fi
 
     # Install Prelude
     if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
-        export PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" &&
-            export PRELUDE_PERSONAL_DIR="$DOTFILES_DIR/Common/emacs/prelude" &&
-            curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+        echo ">>> Installing Prelude Emacs at $DOTFILES_DIR/.emacs.prelude"
+        curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh |
+            env PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" sh
         check $?
     fi
 }
