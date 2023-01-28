@@ -30,7 +30,7 @@
 ;; ibuffer
 (define-key global-map [remap list-buffers] 'ibuffer)
 (with-eval-after-load 'ibuffer
-  (define-key ibuffer-mode-map (kbd "q") 'kill-this-buffer))
+    (define-key ibuffer-mode-map (kbd "q") 'kill-this-buffer))
 
 ;; fill-unfill
 (define-key global-map [remap fill-paragraph] '+my/fill-or-unfill)
@@ -133,7 +133,7 @@
 
 ;; org
 (with-eval-after-load 'org
-  (define-key org-mode-map [remap fill-paragraph] '+my/org-fill-or-unfill))
+    (define-key org-mode-map [remap fill-paragraph] '+my/org-fill-or-unfill))
 
 ;; dired
 (define-key dired-mode-map (kbd "C-c o") 'crux-open-with)
@@ -153,27 +153,28 @@
 
 ;; vterm
 (with-eval-after-load 'vterm
-  (define-key vterm-mode-map (kbd "M-[") 'vterm-copy-mode)
-  (define-key vterm-mode-map (kbd "C-y") 'vterm-yank))
+    (define-key vterm-mode-map (kbd "M-[") 'vterm-copy-mode)
+    (define-key vterm-mode-map (kbd "C-y") 'vterm-yank))
 
 ;; neotree
 (with-eval-after-load 'neotree
-  (define-key neotree-mode-map (kbd "TAB") 'neotree-stretch-toggle))
+    (define-key neotree-mode-map (kbd "TAB") 'neotree-stretch-toggle))
+
 ;; minibuffer
 (define-key minibuffer-local-map (kbd "M-s") 'consult-history) ; orig. next-matching-history-element
 (define-key minibuffer-local-map (kbd "M-r") 'consult-history) ; orig. previous-matching-history-element
 
 ;; prog-mode
 (when (eq my-ide-lsp-backend 'eglot)
-  (with-eval-after-load 'prog-mode
-    (global-set-key (kbd "M-g f") 'consult-flymake)
-    (define-key prog-mode-map (kbd "M-n") 'flymake-goto-next-error)
-    (define-key prog-mode-map (kbd "M-p") 'flymake-goto-prev-error)))
+    (with-eval-after-load 'prog-mode
+        (global-set-key (kbd "M-g f") 'consult-flymake)
+        (define-key prog-mode-map (kbd "M-n") 'flymake-goto-next-error)
+        (define-key prog-mode-map (kbd "M-p") 'flymake-goto-prev-error)))
 (when (eq my-ide-lsp-backend 'lsp-mode)
-  (with-eval-after-load 'prog-mode
-    (global-set-key (kbd "M-g f") 'consult-flycheck)
-    (define-key prog-mode-map (kbd "M-n") 'flycheck-next-error)
-    (define-key prog-mode-map (kbd "M-p") 'flycheck-previous-error)))
+    (with-eval-after-load 'prog-mode
+        (global-set-key (kbd "M-g f") 'consult-flycheck)
+        (define-key prog-mode-map (kbd "M-n") 'flycheck-next-error)
+        (define-key prog-mode-map (kbd "M-p") 'flycheck-previous-error)))
 
 ;; folding
 (global-unset-key "\C-c\C-f")
@@ -181,20 +182,20 @@
 
 ;; dwim-shell-command
 (with-eval-after-load 'dwim-shell-command
-  (define-key global-map [remap shell-command] 'dwim-shell-command)
-  (define-key global-map [remap async-shell-command] 'dwim-shell-command)
-  (define-key dired-mode-map [remap dired-do-shell-command] 'dwim-shell-command)
-  (define-key dired-mode-map [remap dired-do-async-shell-command] 'dwim-shell-command)
-  (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command))
+    (define-key global-map [remap shell-command] 'dwim-shell-command)
+    (define-key global-map [remap async-shell-command] 'dwim-shell-command)
+    (define-key dired-mode-map [remap dired-do-shell-command] 'dwim-shell-command)
+    (define-key dired-mode-map [remap dired-do-async-shell-command] 'dwim-shell-command)
+    (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command))
 
 ;;; Prefix
 ;; C-c c : Code
 (global-set-key (kbd "C-c c f") 'format-all-buffer)
 (global-set-key (kbd "C-c c h") 'eldoc)
 (with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
-  (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
-  (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
+    (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
+    (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
 
 ;; C-c n : Notes
 (global-set-key (kbd "C-c n d") 'deft-find-file)

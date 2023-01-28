@@ -28,7 +28,7 @@
 ;; (require 'crafted-pdf-reader)   ; Setup pdf-tools for reading PDF files in Emacs
 (require 'crafted-project)         ; Built in project management alternative to projectile
 (require 'crafted-python)          ; A configuration for programming in Python
-(require 'crafted-screencast)      ; Tools for doing screencasts
+;; (require 'crafted-screencast)      ; Tools for doing screencasts
 (require 'crafted-speedbar)        ; A file-tree
 (require 'crafted-startup)         ; Crafted Emacs splash screen on startup
 (require 'crafted-ui)              ; Extra UI configuration for a better experience (mode line, etc)
@@ -43,8 +43,8 @@
 (crafted-mastering-emacs-enable-hydra-package)
 (crafted-mastering-emacs-enable-dumb-jump-package)
 (with-eval-after-load "crafted-mastering-emacs"
-  (setq! icomplete-mode nil)      ; using vertico
-  (setq! fido-vertical-mode nil)) ; using vertico
+    (setq! icomplete-mode nil)      ; using vertico
+    (setq! fido-vertical-mode nil)) ; using vertico
 
 ;; Personal Modules
 (require 'my-functions) ; helper functions

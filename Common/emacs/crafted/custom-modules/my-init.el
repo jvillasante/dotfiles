@@ -14,32 +14,32 @@
 (setq! +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
 
 (cond
- ((string-equal system-type "windows-nt")
-  (progn
-    (message "Emacs Running on Microsoft Windows (which is super weird!)")))
- ((string-equal system-type "darwin")
-  (progn
-    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-    (setq! browse-url-browser-function 'browse-url-generic)
-    (setq! browse-url-generic-program "open")
-    (setq! +my/clang-path "/usr/local/opt/llvm/bin/clang")
-    (setq! +my/mu-path "/usr/local/bin/mu")
-    (setq! +my/msmtp-path "/usr/local/bin/msmtp")
-    (setq! vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
-    (setq! ns-use-proxy-icon nil)
-    (setq! ns-use-thin-smoothing t)
-    (setq! ns-alternate-modifier nil)
-    (setq! mac-command-modifier 'meta)
-    (setq! mac-option-modifier 'alt)
-    (setq! mac-right-option-modifier 'alt)))
- ((string-equal system-type "gnu/linux")
-  (progn
-    (setq! browse-url-browser-function 'browse-url-generic)
-    (setq! browse-url-generic-program "xdg-open")
-    (setq! +my/clang-path "/usr/bin/clang")
-    (setq! +my/mu-path "/usr/bin/mu")
-    (setq! +my/msmtp-path "/usr/bin/msmtp")
-    (setq! vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))))
+    ((string-equal system-type "windows-nt")
+        (progn
+            (message "Emacs Running on Microsoft Windows (which is super weird!)")))
+    ((string-equal system-type "darwin")
+        (progn
+            (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+            (setq! browse-url-browser-function 'browse-url-generic)
+            (setq! browse-url-generic-program "open")
+            (setq! +my/clang-path "/usr/local/opt/llvm/bin/clang")
+            (setq! +my/mu-path "/usr/local/bin/mu")
+            (setq! +my/msmtp-path "/usr/local/bin/msmtp")
+            (setq! vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
+            (setq! ns-use-proxy-icon nil)
+            (setq! ns-use-thin-smoothing t)
+            (setq! ns-alternate-modifier nil)
+            (setq! mac-command-modifier 'meta)
+            (setq! mac-option-modifier 'alt)
+            (setq! mac-right-option-modifier 'alt)))
+    ((string-equal system-type "gnu/linux")
+        (progn
+            (setq! browse-url-browser-function 'browse-url-generic)
+            (setq! browse-url-generic-program "xdg-open")
+            (setq! +my/clang-path "/usr/bin/clang")
+            (setq! +my/mu-path "/usr/bin/mu")
+            (setq! +my/msmtp-path "/usr/bin/msmtp")
+            (setq! vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))))
 
 ;; store all backup and autosave files in the tmp dir
 (setq! backup-directory-alist `((".*" . ,temporary-file-directory)))
@@ -56,18 +56,18 @@
 
 ;; encryption : https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (progn
-  (require 'epa-file)
-  (epa-file-enable)
-  (setq! epa-file-encrypt-to user-mail-address)
-  (setq! epa-file-select-keys 'silent)
-  (setq! epa-file-cache-passphrase-for-symmetric-encryption nil)
+    (require 'epa-file)
+    (epa-file-enable)
+    (setq! epa-file-encrypt-to user-mail-address)
+    (setq! epa-file-select-keys 'silent)
+    (setq! epa-file-cache-passphrase-for-symmetric-encryption nil)
 
-  (require 'org-crypt)
-  (org-crypt-use-before-save-magic)
-  (setq! org-crypt-disable-auto-save nil)
-  (setq! org-tags-exclude-from-inheritance (quote ("crypt")))
-  (setq! org-crypt-key nil)
-  (setq! org-crypt-key user-mail-address))
+    (require 'org-crypt)
+    (org-crypt-use-before-save-magic)
+    (setq! org-crypt-disable-auto-save nil)
+    (setq! org-tags-exclude-from-inheritance (quote ("crypt")))
+    (setq! org-crypt-key nil)
+    (setq! org-crypt-key user-mail-address))
 
 ;; Defaults
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; Disable the toolbar
@@ -133,7 +133,7 @@
 ;; Use "y" and "n" to confirm/negate prompt
 (if (boundp 'use-short-answers)
     (setq! use-short-answers t)
-  (advice-add 'yes-or-no-p :override #'y-or-n-p))
+    (advice-add 'yes-or-no-p :override #'y-or-n-p))
 
 ;; set appearance of a tab that is represented by 4 spaces
 (setq! tab-width 4)
@@ -145,13 +145,13 @@
 (setq! show-trailing-whitespace nil)
 (setq! whitespace-action '(cleanup auto-cleanup))
 (setq! whitespace-style '(indentation::space
-                          space-after-tab
-                          space-before-tab
-                          trailing
-                          lines-tail
-                          tab-mark
-                          face
-                          tabs))
+                             space-after-tab
+                             space-before-tab
+                             trailing
+                             lines-tail
+                             tab-mark
+                             face
+                             tabs))
 
 (setq! doc-view-continuous t)
 
@@ -172,7 +172,7 @@
 
 ;; enable repeat-mode, see: `describe-repeat-maps'
 (unless (version< emacs-version "28")
-  (repeat-mode 1))
+    (repeat-mode 1))
 
 ;; Encoding
 (prefer-coding-system 'utf-8)
@@ -190,10 +190,10 @@
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 (setq! world-clock-list '(("UTC" "UTC")
-                          ("America/New_York" "Tampa")
-                          ("Europe/Ljubljana" "Slovenia")
-                          ("Asia/Calcutta" "India")
-                          ("America/Havana" "Havana")))
+                             ("America/New_York" "Tampa")
+                             ("Europe/Ljubljana" "Slovenia")
+                             ("Asia/Calcutta" "India")
+                             ("America/Havana" "Havana")))
 (setq! world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; line spacing
@@ -207,7 +207,7 @@
 
 ;; hippie expand is dabbrev expand on steroids
 (setq! hippie-expand-try-functions-list
-       '(yas-hippie-try-expand
+    '(yas-hippie-try-expand
          try-expand-dabbrev
          try-expand-dabbrev-all-buffers
          try-expand-dabbrev-from-kill
@@ -221,19 +221,19 @@
 
 ;; compilation buffer
 (defun +my/bury-compile-buffer (buffer msg)
-  "Bury compilation buffer if succeeded without warnings."
-  (if (and
-       (buffer-live-p buffer)
-       (string-match "^finished" msg)
-       (not (with-current-buffer buffer
-              (goto-char (point-min))
-              (search-forward "warning" nil t))))
-      (progn
-        (run-at-time "1 sec" nil 'delete-windows-on buffer)
-        (message "Compilation Successful :-)"))
-    (message "Compilation Failed :-("))
-  (setq! current-frame (car (car (cdr (current-frame-configuration)))))
-  (select-frame-set-input-focus current-frame))
+    "Bury compilation buffer if succeeded without warnings."
+    (if (and
+            (buffer-live-p buffer)
+            (string-match "^finished" msg)
+            (not (with-current-buffer buffer
+                     (goto-char (point-min))
+                     (search-forward "warning" nil t))))
+        (progn
+            (run-at-time "1 sec" nil 'delete-windows-on buffer)
+            (message "Compilation Successful :-)"))
+        (message "Compilation Failed :-("))
+    (setq! current-frame (car (car (cdr (current-frame-configuration)))))
+    (select-frame-set-input-focus current-frame))
 (add-to-list 'compilation-finish-functions '+my/bury-compile-buffer)
 
 ;; macros
@@ -243,15 +243,15 @@
 
 ;; Prevent killing scratch buffer
 (with-current-buffer "*scratch*"
-  (emacs-lock-mode 'kill))
+    (emacs-lock-mode 'kill))
 
 ;; Prevent killing Messages buffer
 (with-current-buffer "*Messages*"
-  (emacs-lock-mode 'kill))
+    (emacs-lock-mode 'kill))
 
 ;; Auto-save on focus lost - https://www.emacswiki.org/emacs/AutoSave
 (add-function :after after-focus-change-function
-              (lambda () (unless (frame-focus-state) (save-some-buffers t))))
+    (lambda () (unless (frame-focus-state) (save-some-buffers t))))
 
 ;; Hooks
 (add-hook 'phyton-mode-hook 'whitespace-mode)
@@ -263,18 +263,18 @@
 
 ;; Minibuffer setup hook
 (add-hook
- 'minibuffer-setup-hook (lambda ()
-                          (setq! show-trailing-whitespace nil)
-                          (setq! line-spacing 1)))
+    'minibuffer-setup-hook (lambda ()
+                               (setq! show-trailing-whitespace nil)
+                               (setq! line-spacing 1)))
 
 ;; trailing whitespace
 (dolist (hook '(special-mode-hook
-                term-mode-hook
-                comint-mode-hook
-                compilation-mode-hook
-                minibuffer-setup-hook))
-  (add-hook hook
-            (lambda () (setq! show-trailing-whitespace nil))))
+                   term-mode-hook
+                   comint-mode-hook
+                   compilation-mode-hook
+                   minibuffer-setup-hook))
+    (add-hook hook
+        (lambda () (setq! show-trailing-whitespace nil))))
 
 (provide 'my-init)
 ;;; my-init.el ends here
