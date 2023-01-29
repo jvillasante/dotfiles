@@ -6,27 +6,31 @@ update_zig() {
     local ZIG_DIR="${HOME}/Workspace/Software/zig"
     if [ ! -d "$ZIG_DIR" ]; then
         mkdir "$ZIG_DIR"
+        test $? -eq 0 || exit 1
     fi
 
     local ZIG_ZIG_DIR="$ZIG_DIR/zig"
     if [ -d "$ZIG_ZIG_DIR" ]; then
         rm -rf "$ZIG_ZIG_DIR"
+        test $? -eq 0 || exit 1
     fi
     mkdir "$ZIG_ZIG_DIR"
+    test $? -eq 0 || exit 1
 
     # Get lastest tarball from here: https://ziglang.org/download/
     local ZIG_TAR_LOCATION="https://ziglang.org/builds/zig-linux-x86_64-0.11.0-dev.1253+fcee1bf99.tar.xz"
     local ZIG_TAR_FILE
     ZIG_TAR_FILE="$(basename $ZIG_TAR_LOCATION)"
+    test $? -eq 0 || exit 1
 
     curl --output-dir "$ZIG_ZIG_DIR" -sS -O "$ZIG_TAR_LOCATION"
-    check $?
+    test $? -eq 0 || exit 1
 
     tar --strip-components=1 -xvf "$ZIG_ZIG_DIR/$ZIG_TAR_FILE" --directory "$ZIG_ZIG_DIR"
-    check $?
+    test $? -eq 0 || exit 1
 
     rm -f "$ZIG_ZIG_DIR/$ZIG_TAR_FILE"
-    check $?
+    test $? -eq 0 || exit 1
 }
 
 update_zls() {
@@ -34,19 +38,21 @@ update_zls() {
         local ZIG_DIR="${HOME}/Workspace/Software/zig"
         if [ ! -d "$ZIG_DIR" ]; then
             mkdir "$ZIG_DIR"
+            test $? -eq 0 || exit 1
         fi
 
         local ZLS_DIR="$ZIG_DIR/zls"
         if [ -d "$ZLS_DIR" ]; then
             rm -rf "$ZLS_DIR"
+            test $? -eq 0 || exit 1
         fi
 
         git clone --recurse-submodules git@github.com:zigtools/zls.git "$ZLS_DIR"
-        check $?
+        test $? -eq 0 || exit 1
 
         cd "$ZLS_DIR" || exit 1
         zig build -Drelease-safe
-        check $?
+        test $? -eq 0 || exit 1
     else
         echo "zig is not on your path, try sourcing '.zshenv' or just restart this terminal"
     fi

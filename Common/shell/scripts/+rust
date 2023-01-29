@@ -20,17 +20,17 @@ usage() {
 update_rust() {
     if hash rustup 2>/dev/null; then
         rustup self update
-        check $?
+        test $? -eq 0 || usage 1
 
         rustup update
-        check $?
+        test $? -eq 0 || usage 1
     fi
 }
 
 update_rust_analyzer() {
     if [ ! -d "${CARGO_HOME:-~/.cargo}/bin" ]; then
         echo ">>> cargo is not installed, exiting..."
-        exit 1
+        usage 1
     fi
 
     local CURRENT_OS
@@ -38,16 +38,19 @@ update_rust_analyzer() {
     if [ "$CURRENT_OS" = "OSX" ]; then
         curl -LsSf https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-apple-darwin.gz |
             gunzip -c - >"${CARGO_HOME:-~/.cargo}/bin/rust-analyzer"
+        test $? -eq 0 || usage 1
     elif [ "$CURRENT_OS" = "LINUX" ]; then
         curl -LsSf https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz |
             gunzip -c - >"${CARGO_HOME:-~/.cargo}/bin/rust-analyzer"
+        test $? -eq 0 || usage 1
     fi
 
     if hash "${CARGO_HOME:-~/.cargo}/bin/rust-analyzer" 2>/dev/null; then
         chmod +x "${CARGO_HOME:-~/.cargo}/bin/rust-analyzer"
+        test $? -eq 0 || usage 1
     else
         echo ">>> ${CARGO_HOME:-~/.cargo}/bin/rust-analyzer does not exit, exiting..."
-        exit 1
+        usage 1
     fi
 }
 
@@ -60,7 +63,7 @@ show_global_packages() {
     if hash cargo 2>/dev/null; then
         echo "Global Packages Installed:"
         cargo install-update -al
-        check $?
+        test $? -eq 0 || usage 1
 
         echo "Run the following to update:
         $ cargo install-update -a                # Update all installed packages.
@@ -71,7 +74,7 @@ show_global_packages() {
 update_global_packages() {
     if hash cargo 2>/dev/null; then
         cargo install-update -a
-        check $?
+        test $? -eq 0 || usage 1
     fi
 }
 

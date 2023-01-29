@@ -31,22 +31,21 @@ do_dotfiles() {
         pull)
             if [ -d "$DOTFILES_DIR" ]; then
                 git -C "${DOTFILES_DIR}" status
-                check $?
+                test $? -eq 0 || usage 1
 
                 if ask "Do you want to pull?"; then
                     git -C "${DOTFILES_DIR}" pull
-                    check $?
+                    test $? -eq 0 || usage 1
                 fi
             fi
             ;;
         sync)
             if [ ! -f "${DOTFILES_DIR}/make.sh" ]; then
-                echo "make script not present, exiting..."
-                exit 1
+                echo "${DOTFILES_DIR}/make.sh script not present, exiting..." && usage 1
             fi
 
             "${DOTFILES_DIR}/make.sh"
-            check $?
+            test $? -eq 0 || usage 1
             ;;
         *)
             usage 1
@@ -59,16 +58,19 @@ do_chemacs() {
         sync)
             if [ -d "$DOTFILES_DIR/.emacs.chemacs2" ]; then
                 git -C "${DOTFILES_DIR}/.emacs.chemacs2" status
-                check $?
+                test $? -eq 0 || usage 1
 
                 if ask "Do you want to pull?"; then
                     git -C "${DOTFILES_DIR}/.emacs.chemacs2" pull
-                    check $?
+                    test $? -eq 0 || usage 1
                 fi
 
                 if ask "Do you want to symlink?"; then
-                    rm -rf "$DOTFILES_DIR/.emacs.d"
+                    [ -d "$DOTFILES_DIR/.emacs.d" ] && rm -rf "$DOTFILES_DIR/.emacs.d"
+                    test $? -eq 0 || usage 1
+
                     ln -s "$DOTFILES_DIR/.emacs.chemacs2" "$DOTFILES_DIR/.emacs.d"
+                    test $? -eq 0 || usage 1
                 fi
             fi
             ;;
@@ -83,11 +85,11 @@ do_tmuxifier() {
         sync)
             if [ -d "$DOTFILES_DIR/.tmuxifier" ]; then
                 git -C "$DOTFILES_DIR/.tmuxifier" status
-                check $?
+                test $? -eq 0 || usage 1
 
                 if ask "Do you want to pull?"; then
                     git -C "${DOTFILES_DIR}/.tmuxifier" pull
-                    check $?
+                    test $? -eq 0 || usage 1
                 fi
             fi
             ;;
@@ -102,7 +104,7 @@ do_emacs() {
         kill)
             if pgrep -x emacs >/dev/null; then
                 emacsclient --eval '(kill-emacs)'
-                check $?
+                test $? -eq 0 || usage 1
             fi
             ;;
         *)
@@ -113,8 +115,7 @@ do_emacs() {
 
 do_doom() {
     if [ ! -f "$DOTFILES_DIR/.emacs.doom/bin/doom" ]; then
-        echo "doom script not present, exiting..."
-        exit 1
+        echo "doom script not present, exiting..." && usage 1
     fi
 
     case $1 in

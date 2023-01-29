@@ -3,7 +3,7 @@
 . "$HOME/.config/shell/system/common.sh"
 CURRENT_OS="$(find_os)"
 if [ ! "$CURRENT_OS" = "LINUX" ]; then
-    echo "$CURRENT_OS :: Not on Linux"
+    echo "$CURRENT_OS :: Not on Linux, exiting..."
     exit 1
 fi
 
@@ -22,15 +22,15 @@ usage() {
 
 fedora_update() {
     sudo dnf -y upgrade --refresh
-    check $?
+    test $? -eq 0 || usage 1
 
     sudo dnf -y distro-sync
-    check $?
+    test $? -eq 0 || usage 1
 }
 
 fedora_cleanup() {
     sudo dnf autoremove
-    check $?
+    test $? -eq 0 || usage 1
 }
 
 update_and_cleanup() {
