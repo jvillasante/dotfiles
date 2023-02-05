@@ -5,18 +5,16 @@ type sk >/dev/null 2>/dev/null || exit 1
 
 usage() {
     echo "Usage:"
-    echo "    $0 --help:"
+    echo "    $0 help | h:"
     echo "        Show this help message"
-    echo "    $0 --copy:"
+    echo "    $0 copy | c:"
     echo "        Copy password after selection"
-    echo "    $0 --view:"
+    echo "    $0 view | v:"
     echo "        View password after selection"
-    echo "    $0 --edit"
+    echo "    $0 edit | e"
     echo "        Edit password after selection"
-    echo "    $0 [args]"
-    echo "        Execute arbitrary [args] pass command"
     echo
-    echo " e.g: $0 --copy"
+    echo " e.g: $0 copy"
     exit "$1"
 }
 
@@ -28,13 +26,13 @@ do_pass() {
     cd "$dir" || exit
     if [ -n "$passfile" ]; then
         case "$1" in
-            --copy | -c)
+            copy | c)
                 pass --clip "${passfile}"
                 ;;
-            --view | -v)
+            view | v)
                 pass "${passfile}"
                 ;;
-            --edit | -e)
+            edit | e)
                 pass edit "${passfile}"
                 ;;
             *) ;;
@@ -44,24 +42,27 @@ do_pass() {
 
 nargs=$#
 cmd=${1-p}
+rc=0
+if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
-    --copy | -c)
-        [ "$nargs" -eq 1 ] || usage 1
+    copy | c)
+        [ "$nargs" -gt 1 ] && usage 1
         do_pass "$cmd"
         ;;
-    --view | -v)
-        [ "$nargs" -eq 1 ] || usage 1
+    view | v)
+        [ "$nargs" -gt 1 ] && usage 1
         do_pass "$cmd"
         ;;
-    --edit | -e)
-        [ "$nargs" -eq 1 ] || usage 1
+    edit | e)
+        [ "$nargs" -gt 1 ] && usage 1
         do_pass "$cmd"
         ;;
-    help | --help | -h)
+    help | h)
+        [ "$nargs" -gt 1 ] && usage 1
         usage 0
         ;;
     *)
-        pass "$@"
+        usage 1
         ;;
 esac
-exit 0
+exit $rc
