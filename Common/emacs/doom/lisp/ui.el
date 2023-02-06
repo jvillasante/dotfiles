@@ -110,7 +110,9 @@
              (border-mode-line-active bg-inactive)
              (border-mode-line-inactive bg-main)))
     :config
-    (+my/switch-theme 'modus-operandi))
+    (setq +my/dark-theme (if (eq window-system 'x) 'modus-vivendi-tinted 'modus-vivendi))
+    (setq +my/light-theme (if (eq window-system 'x) 'modus-operandi-tinted 'modus-operandi))
+    (+my/switch-theme +my/light-theme))
 
 ;; modeline
 (after! doom-modeline
