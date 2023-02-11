@@ -1,23 +1,229 @@
 #!/usr/bin/env bash
 
-. "$HOME/.config/shell/system/common.sh"
-CURRENT_OS="$(find_os)"
-if [ ! "$CURRENT_OS" = "LINUX" ]; then
-    echo "$CURRENT_OS :: Not on Linux, exiting..."
-    exit 1
-fi
-
 usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
+    echo "    $0 install:"
+    echo "        Install Fedora System"
     echo "    $0 update:"
-    echo "        Update DNF Packages"
+    echo "        Update Fedora System"
     echo "    $0 dnf [arbitrary DNF command]:"
     echo "        Run arbitrary DNF command"
     echo
     echo " e.g: $0 dnf check-update"
     exit "$1"
+}
+
+fedora_install() {
+    HEIGHT=20
+    WIDTH=90
+    CHOICE_HEIGHT=4
+    BACKTITLE="Fedora Setup Util"
+    TITLE="Please Make a selection"
+    MENU="Please Choose one of the following options:"
+
+    # Check to see if Dialog is installed, if not install it
+    if [ $(rpm -q dialog 2>/dev/null | grep -c "is not installed") -eq 1 ]; then
+        sudo dnf install -y dialog
+    fi
+
+    OPTIONS=(
+        1 "Enable RPM Fusion - Enables the RPM Fusion repos for your specific version"
+        2 "Update Firmware - If your system supports fw update delivery"
+        3 "Speed up DNF - This enables fastestmirror, max downloads and deltarpms"
+        4 "Enable Flatpak - Enables the Flatpak repo and installs packages"
+        5 "Install Software - Installs a bunch of my most used software"
+        6 "Install Starship Prompt - INSTALL AFTER Oh-My-Zsh ONLY"
+        7 "Install Extras - Themes Fonts and Codecs"
+        8 "Install Nvidia - Install akmod nvidia drivers"
+        9 "Install Docker - Install docker"
+        10 "Quit")
+
+    while [ "$CHOICE -ne 4" ]; do
+        CHOICE=$(dialog --clear \
+            --backtitle "$BACKTITLE" \
+            --title "$TITLE" \
+            --nocancel \
+            --menu "$MENU" \
+            $HEIGHT $WIDTH $CHOICE_HEIGHT \
+            "${OPTIONS[@]}" \
+            2>&1 >/dev/tty)
+
+        clear
+        case $CHOICE in
+            1)
+                echo "Enabling RPM Fusion"
+                sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+                sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+                sudo dnf upgrade --refresh
+                sudo dnf groupupdate -y core
+                sudo dnf install -y rpmfusion-free-release-tainted
+                sudo dnf install -y rpmfusion-nonfree-release-tainted
+                sudo dnf install -y dnf-plugins-core
+                notify-send "RPM Fusion Enabled" --expire-time=10
+                ;;
+            2)
+                echo "Updating Firmware"
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
+                notify-send "Latest Firmware Installed" --expire-time=10
+                ;;
+            3)
+                echo "Speeding Up DNF"
+                echo 'fastestmirror=1' | sudo tee -a /etc/dnf/dnf.conf
+                echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
+                echo 'deltarpm=true' | sudo tee -a /etc/dnf/dnf.conf
+                notify-send "Your DNF config has now been amended" --expire-time=10
+                ;;
+            4)
+                echo "Enabling Flatpak"
+                flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                flatpak update
+                flatpak install -y "com.dropbox.Client"
+                flatpak install -y "com.discordapp.Discord"
+                flatpak install -y "com.skype.Client"
+                flatpak install -y "com.slack.Slack"
+                flatpak install -y "org.telegram.desktop"
+                flatpak install -y "org.signal.Signal"
+                flatpak install -y "com.visualstudio.code"
+                notify-send "Flatpak has now been enabled" --expire-time=10
+                ;;
+            5)
+                echo "Installing Software"
+                # general
+                sudo dnf install -y dnf-plugins-core copr-cli
+                sudo dnf groupinstall -y "Development Tools" "Development Libraries"
+                sudo dnf install -y zsh git ripgrep fd-find xclip util-linux-user xprop xwininfo
+                sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim htop
+                sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
+                sudo dnf install -y curl dconf-editor dnsutils dos2unix doxygen msmtp neofetch
+                sudo dnf install -y graphviz htop mercurial exa ninja-build pass
+                sudo dnf install -y nodejs npm python3 python3-pip pandoc poppler-utils poppler-data
+                sudo dnf install -y subversion tldr tmux tree unzip w3m wget libtool ranger texinfo
+                sudo dnf install -y wordnet shfmt editorconfig glslang ShellCheck xdotool parallel
+                sudo dnf install -y llvm clang clang-tools-extra libpcap libpcap-devel
+                sudo dnf install -y pkg-config openssl openssl-devel flex bison unar unrar p7zip p7zip-plugins
+                sudo dnf install -y gimp vlc transmission gparted tidy
+                sudo dnf install -y ImageMagick ImageMagick-devel sqlite zeal scrot
+                sudo dnf install -y go valgrind minicom mc strace
+
+                # Wayland stuff
+                sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
+
+                # tmux: A terminal multiplexer
+                sudo dnf install -y tmux
+
+                # gpg
+                sudo dnf install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc pcsc-lite-ccid
+                sudo systemctl enable pcscd
+                sudo systemctl start pcscd
+                sudo systemctl restart pcscd
+
+                # yubikey
+                sudo dnf install -y yubikey-manager
+                ykman info
+
+                # ncdu (text-based disk usage viewer)
+                sudo dnf install -y ncdu
+
+                # Wireshark
+                sudo dnf install -y wireshark wireshark-cli
+
+                # Borg Backup
+                sudo dnf install -y borgbackup
+
+                # Command Line Fuzzy Finder
+                sudo dnf install -y skim
+
+                # Gnome Software
+                sudo dnf -y install gnome-tweaks gnome-firmware gnome-extensions-app gnome-shell-extension-appindicator
+
+                # Neovim nightly
+                sudo dnf copr enable agriffis/neovim-nightly -y
+                sudo dnf install -y neovim python3-neovim
+
+                # Firewall GUI to manage firewalld
+                sudo dnf install -y firewall-config
+
+                # Profile sync daemon
+                sudo dnf install -y profile-sync-daemon
+                sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                systemctl --user enable psd.service
+                systemctl --user start psd.service
+                systemctl --user restart psd.service
+
+                # Brave Browser
+                sudo dnf install -y dnf-plugins-core
+                sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/x86_64/
+                sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+                sudo dnf update -y
+                sudo dnf install -y brave-browser
+
+                # non dnf software
+                pip install cmake-language-server
+                sudo npm install --global npm@latest
+                sudo npm install --global prettier
+                sudo npm install --global js-beautify
+                sudo npm install --global typescript-language-server typescript
+                sudo npm install --global dockerfile-language-server-nodejs
+                sudo npm install --global bash-language-server
+                notify-send "Software has been installed" --expire-time=10
+                ;;
+            6)
+                echo "Installing Alacritty and Starship Prompt"
+                sudo dnf install -y alacritty
+                curl -sS https://starship.rs/install.sh | sh
+                notify-send "Alacritty and Starship Prompt has been installed" --expire-time=10
+                ;;
+            7)
+                echo "Installing Extras"
+                # Multimedia
+                sudo dnf groupupdate -y sound-and-video
+                sudo dnf install -y libdvdcss
+                sudo dnf install -y \
+                    gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel \
+                    ffmpeg gstreamer-ffmpeg
+                sudo dnf install -y lame\* --exclude=lame-devel
+                sudo dnf group upgrade -y --with-optional Multimedia
+
+                # Fonts
+                sudo dnf copr enable peterwu/iosevka -y
+                sudo dnf update -y
+                sudo dnf install -y libreoffice-opensymbol-fonts
+                sudo dnf install -y adobe-source-code-pro-fonts
+                sudo dnf install -y jetbrains-mono-fonts
+                sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
+                sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
+                sudo dnf install -y fira-code-fonts
+
+                # Latex
+                # sudo dnf install -y texlive-scheme-full
+                notify-send "Multimedia, fonts and others has been installed" --expire-time=10
+                ;;
+            8)
+                echo "Installing Nvidia Driver Akmod-Nvidia"
+                sudo dnf install -y akmod-nvidia
+                notify-send "Nvidia Akmod Driver has been installed" --expire-time=10
+                ;;
+            9)
+                echo "Installing Docker"
+                sudo dnf install -y dnf-plugins-core
+                sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+                sudo dnf install -y docker-ce docker-ce-cli containerd.io
+
+                sudo systemctl enable docker
+                sudo systemctl start docker
+                sudo docker run hello-world
+                notify-send "Docker has been installed" --expire-time=10
+                ;;
+            10)
+                exit 0
+                ;;
+        esac
+    done
 }
 
 fedora_update() {
@@ -26,37 +232,40 @@ fedora_update() {
 
     sudo dnf -y distro-sync
     test $? -eq 0 || usage 1
-}
 
-fedora_cleanup() {
     sudo dnf autoremove
+    test $? -eq 0 || usage 1
+
+    flatpak update
     test $? -eq 0 || usage 1
 }
 
-update_and_cleanup() {
-    if hash dnf 2>/dev/null; then
-        fedora_update
-        fedora_cleanup
-    fi
-}
+if [ ! -f /etc/fedora-release ]; then
+    echo "Error: Fedora is not running on this system, exiting..."
+    exit 1
+fi
+
+if ! hash dnf 2>/dev/null; then
+    echo "Error: dnf not installed on this system, exiting..."
+    exit 1
+fi
 
 nargs=$#
 cmd=${1-}
 rc=0
 if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
+    install)
+        [ "$nargs" -eq 1 ] || usage 1
+        fedora_install "$@"
+        ;;
     update)
         [ "$nargs" -eq 1 ] || usage 1
-        update_and_cleanup "$@"
+        fedora_update "$@"
         ;;
     dnf)
         [ "$nargs" -lt 2 ] && usage 1
-        if hash dnf 2>/dev/null; then
-            dnf "$@"
-        else
-            echo "dnf not installed, exiting..."
-            exit 1
-        fi
+        dnf "$@"
         ;;
     help | --help | -h)
         usage 0
