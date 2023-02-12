@@ -16,8 +16,8 @@ usage() {
 }
 
 fedora_install() {
-    HEIGHT=30
-    WIDTH=90
+    HEIGHT=25
+    WIDTH=100
     CHOICE_HEIGHT=4
     BACKTITLE="Fedora Setup Util"
     TITLE="Please Make a selection"
