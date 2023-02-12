@@ -16,7 +16,7 @@ usage() {
 }
 
 fedora_install() {
-    HEIGHT=20
+    HEIGHT=30
     WIDTH=90
     CHOICE_HEIGHT=4
     BACKTITLE="Fedora Setup Util"
@@ -40,7 +40,9 @@ fedora_install() {
         9 "Install Docker - Install docker"
         10 "Install Nix - The Nix package manager"
         11 "Setup secrets - Setup both ssh and gpg from backups"
-        12 "Quit")
+        12 "Install Emacs - Install emac28 from source"
+        13 "Install Keyd - Install Keyd from source"
+        14 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -55,13 +57,13 @@ fedora_install() {
         clear
         case $CHOICE in
             1)
-                echo "9) Setting Defaults"
+                echo "1) Setting Defaults"
                 # hostname
-                read -r -p "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
+                read -r -p "Enter pretty hostname (defaults to '$(hostnamectl --pretty)'): " HOSTNAME_PRETTY
                 [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
                 sudo hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
 
-                read -r -p "Enter static hostname (defaults to 'fedora-xps-9710'): " HOSTNAME_STATIC
+                read -r -p "Enter static hostname (defaults to '$(hostnamectl --static)'): " HOSTNAME_STATIC
                 [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="fedora-xps-9710"
                 sudo hostnamectl set-hostname --static "$HOSTNAME_STATIC"
 
@@ -91,17 +93,20 @@ fedora_install() {
                 mkdir -p "$HOME/Workspace/Work/Stuff"
 
                 # View current settings - gsettings list-recursively org.gnome.desktop.interface
-                # Font Settings
-                gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans 11'
-                gsettings set org.gnome.desktop.interface font-name 'Noto Sans 11'
-                gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 12'
-                gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Noto Sans 11'
-
-                # Other Settings
+                # Clock Settings
                 gsettings set org.gnome.desktop.interface clock-format '24h'
                 gsettings set org.gnome.desktop.interface clock-show-date true
                 gsettings set org.gnome.desktop.interface clock-show-seconds false
                 gsettings set org.gnome.desktop.interface clock-show-weekday false
+
+                # No hot corners
+                gsettings set org.gnome.desktop.interface enable-hot-corners false
+
+                # Emacs please
+                gsettings set org.gnome.desktop.interface gtk-key-theme 'Emacs'
+
+                # Show battery
+                gsettings set org.gnome.desktop.interface show-battery-percentage true
 
                 # Enable window buttons
                 gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
@@ -109,10 +114,10 @@ fedora_install() {
                 # Set new windows centered
                 gsettings set org.gnome.mutter center-new-windows true
 
-                notify-send "9) Defaults has been set" --expire-time=20
+                notify-send "1) Defaults has been set" --expire-time=20
                 ;;
             2)
-                echo "1) Speeding Up DNF"
+                echo "2) Speeding Up DNF"
                 echo 'fastestmirror=1' | sudo tee -a /etc/dnf/dnf.conf
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
                 echo 'deltarpm=true' | sudo tee -a /etc/dnf/dnf.conf
@@ -120,10 +125,10 @@ fedora_install() {
                 sudo dnf upgrade --refresh
                 sudo dnf check
                 sudo dnf autoremove
-                notify-send "1) DNF config has now been amended" --expire-time=20
+                notify-send "2) DNF config has now been amended" --expire-time=20
                 ;;
             3)
-                echo "2) Enabling RPM Fusion"
+                echo "3) Enabling RPM Fusion"
                 sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm
                 sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
                 sudo dnf upgrade --refresh
@@ -135,10 +140,10 @@ fedora_install() {
                 sudo dnf upgrade --refresh
                 sudo dnf check
                 sudo dnf autoremove
-                notify-send "2) RPM Fusion has been enabled" --expire-time=20
+                notify-send "3) RPM Fusion has been enabled" --expire-time=20
                 ;;
             4)
-                echo "3) Updating Firmware"
+                echo "4) Updating Firmware"
                 sudo dnf upgrade --refresh
                 sudo dnf check
                 sudo dnf autoremove
@@ -150,10 +155,10 @@ fedora_install() {
                 sudo dnf upgrade --refresh
                 sudo dnf check
                 sudo dnf autoremove
-                notify-send "3) Latest Firmware installed" "Please reboot to finalize driver installation." --expire-time=5000
+                notify-send "4) Latest Firmware installed" "Please reboot to finalize driver installation." --expire-time=5000
                 ;;
             5)
-                echo "4) Installing NVIDIA Drivers"
+                echo "5) Installing NVIDIA Drivers"
                 sudo dnf install -y akmod-nvidia
                 sudo dnf install -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs
                 sudo dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs # To support ffmpeg compiled with NVENC/NVDEC
@@ -163,10 +168,10 @@ fedora_install() {
                 sudo dnf upgrade --refresh
                 sudo dnf check
                 sudo dnf autoremove
-                notify-send "4) NVIDIA drivers installed" "Please reboot to finalize driver installation." --expire-time=5000
+                notify-send "5) NVIDIA drivers installed" "Please reboot to finalize driver installation." --expire-time=5000
                 ;;
             6)
-                echo "5) Installing Software"
+                echo "6) Installing Software"
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
                 sudo dnf groupinstall -y "Development Tools" "Development Libraries"
@@ -242,10 +247,10 @@ fedora_install() {
                 sudo dnf upgrade --refresh
                 sudo dnf check
                 sudo dnf autoremove
-                notify-send "5) Software has been installed" --expire-time=20
+                notify-send "6) Software has been installed" --expire-time=20
                 ;;
             7)
-                echo "6) Installing Extras"
+                echo "7) Installing Extras"
                 # Multimedia
                 sudo dnf groupupdate -y sound-and-video
                 sudo dnf install -y libdvdcss
@@ -269,38 +274,44 @@ fedora_install() {
                 sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
                 sudo dnf install -y terminus-fonts terminus-fonts-console google-noto-fonts-common mscore-fonts-all fira-code-fonts
 
+                # Gnome Font Settings
+                gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans 12'
+                gsettings set org.gnome.desktop.interface font-name 'Noto Sans 12'
+                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+                gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Noto Sans 12'
+
                 # Latex
                 # sudo dnf install -y texlive-scheme-full
 
                 sudo dnf upgrade --refresh
                 sudo dnf check
                 sudo dnf autoremove
-                notify-send "6) Multimedia, fonts and others has been installed" --expire-time=20
+                notify-send "7) Multimedia, fonts and others has been installed" --expire-time=20
                 ;;
             8)
-                echo "7) Enabling Flatpak"
+                echo "8) Enabling Flatpak"
                 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 flatpak update
-                flatpak install -y org.gnome.Extensions
-                flatpak install -y org.gnome.Firmware
-                flatpak install -y com.dropbox.Client
-                flatpak install -y com.discordapp.Discord
-                flatpak install -y com.skype.Client
-                flatpak install -y com.slack.Slack
-                flatpak install -y org.telegram.desktop
-                flatpak install -y org.videolan.VLC
-                flatpak install -y com.transmissionbt.Transmission
-                flatpak install -y org.gimp.GIMP
-                flatpak install -y org.wireshark.Wireshark
-                flatpak install -y com.brave.Browser
-                # flatpak install -y org.signal.Signal
-                # flatpak install -y com.visualstudio.code
-                # flatpak install -y com.github.GradienceTeam.Gradience
+                flatpak install -y flathub org.gnome.Extensions
+                flatpak install -y flathub org.gnome.Firmware
+                flatpak install -y flathub com.dropbox.Client
+                flatpak install -y flathub com.discordapp.Discord
+                flatpak install -y flathub com.skype.Client
+                flatpak install -y flathub com.slack.Slack
+                flatpak install -y flathub org.telegram.desktop
+                flatpak install -y flathub org.videolan.VLC
+                flatpak install -y flathub com.transmissionbt.Transmission
+                flatpak install -y flathub org.gimp.GIMP
+                flatpak install -y flathub org.wireshark.Wireshark
+                flatpak install -y flathub com.brave.Browser
+                # flatpak install -y flathub org.signal.Signal
+                # flatpak install -y flathub com.visualstudio.code
+                # flatpak install -y flathub com.github.GradienceTeam.Gradience
 
-                notify-send "7) Flatpak has now been enabled" --expire-time=20
+                notify-send "8) Flatpak has now been enabled" --expire-time=20
                 ;;
             9)
-                echo "8) Installing Docker"
+                echo "9) Installing Docker"
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
                 sudo dnf install -y docker-ce docker-ce-cli containerd.io
@@ -312,7 +323,7 @@ fedora_install() {
                 sudo dnf upgrade --refresh
                 sudo dnf check
                 sudo dnf autoremove
-                notify-send "8) Docker has been installed" --expire-time=20
+                notify-send "9) Docker has been installed" --expire-time=20
                 ;;
             10)
                 if [ "$(getenforce 2>/dev/null | grep -c "Enforcing")" -eq 1 ]; then
@@ -358,14 +369,14 @@ fedora_install() {
             11)
                 echo "11) Setting up secrets"
                 read -r -p "Enter keys backup directory: " KEYS_DIR
-                KEYS_DIR="${1%/}"
+                KEYS_DIR=${KEYS_DIR%/}
                 [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
                 [ ! -f "+crypt" ] && notify-send "$(pwd)/+crypt script does not exists" --expire-time=20 && continue
                 [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" --expire-time=20 && continue
                 [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" --expire-time=20 && continue
 
                 echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
-                "+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
+                "./+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
                 [ ! -d "$KEYS_DIR"/ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" --expire-time=20 && continue
                 mkdir -p ~/.ssh && rm -rf ~/.ssh/*
                 cp "$KEYS_DIR"/ssh/id_* ~/.ssh
@@ -377,7 +388,7 @@ fedora_install() {
                 rm -rf "$KEYS_DIR"/ssh
 
                 echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
-                "+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
+                "./+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
                 [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" --expire-time=20 && continue
                 mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
                 cp "$KEYS_DIR"/gpg/coonfig/*.conf ~/.gnupg
@@ -391,13 +402,76 @@ fedora_install() {
                 rm -rf "$KEYS_DIR"
 
                 # With the new keys we can go ahead and download some repos
-                [ -d "$HOME/.password-store" ] && git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
-                [ -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
-                [ -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
+                [ ! -d "$HOME/.password-store" ] && git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
+                [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
+                [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
                 notify-send "11) Secrets are set" --expire-time=20
                 ;;
             12)
+                echo "12) Installing Emacs"
+
+                # Install needed dependencies
+                sudo dnf builddep -y emacs
+                sudo dnf install -y libgccjit libgccjit-devel gtk3 gtk3-devel
+
+                # Prepare git repo
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                [ ! -d "$HOME"/Workspace/Software/emacs ] && git clone git://git.sv.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
+                cd "$HOME"/Workspace/Software/emacs || {
+                    notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
+                    continue
+                }
+                git checkout emacs-28
+                sudo make uninstall
+                make clean
+                make distclean
+                git reset --hard HEAD # Remove all local changes to tracked files
+                sudo git clean -dfx   # Remove all untracked files and directories
+                git pull
+
+                # Install
+                ./autogen.sh
+                ./configure --with-native-compilation --with-xwidgets --with-json --with-mailutils --with-imagemagick \
+                    CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
+                make -j16
+                sudo make install
+
+                cd - || notify-send "Can't cd to previous directory" --expire-time=20
+                notify-send "12) Emacs has been installed" --expire-time=20
+                ;;
+            13)
+                echo "13) Installing Keyd"
+
+                # Prepare git repo
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                [ ! -d "$HOME"/Workspace/Software/keyd ] && git clone git@github.com:rvaiya/keyd.git "$HOME"/Workspace/Software/keyd
+                cd "$HOME"/Workspace/Software/keyd || {
+                    notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
+                    continue
+                }
+                sudo make uninstall
+                make clean
+                make distclean
+                git reset --hard HEAD # Remove all local changes to tracked files
+                sudo git clean -dfx   # Remove all untracked files and directories
+                git pull
+
+                # Install
+                make -j16
+                sudo make install
+
+                # Copy Configuration
+                sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
+
+                # Enable the daemon
+                sudo systemctl enable keyd && sudo systemctl start keyd
+                sudo keyd reload
+
+                cd - || notify-send "Can't cd to previous directory" --expire-time=20
+                notify-send "13) Keyd daemon has been installed" --expire-time=20
+                ;;
+            14)
                 exit 0
                 ;;
         esac
