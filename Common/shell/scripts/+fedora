@@ -161,9 +161,9 @@ fedora_install() {
                 echo "5) Installing NVIDIA Drivers"
                 sudo dnf install -y akmod-nvidia
                 sudo dnf install -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs
-                sudo dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs # To support ffmpeg compiled with NVENC/NVDEC
-                sudo dnf install -y vdpauinfo libva-vdpau-driver libva-utils               # For hardware video acceleration
-                sudo dnf install -y vulkan vulkan-tools                                    # Installs support for Vulkan which has the same functionality as openGL
+                sudo dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs
+                sudo dnf install -y vdpauinfo libva-vdpau-driver libva-utils
+                sudo dnf install -y vulkan vulkan-tools
 
                 sudo dnf upgrade --refresh
                 sudo dnf check
