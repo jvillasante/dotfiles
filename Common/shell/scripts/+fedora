@@ -24,24 +24,24 @@ fedora_install() {
     MENU="Please Choose one of the following options:"
 
     # Check to see if Dialog is installed, if not install it
-    if [ $(rpm -q dialog 2>/dev/null | grep -c "is not installed") -eq 1 ]; then
+    if [ "$(rpm -q dialog 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
         sudo dnf install -y dialog
     fi
 
     OPTIONS=(
-        1 "Enable RPM Fusion - Enables the RPM Fusion repos for your specific version"
-        2 "Update Firmware - If your system supports fw update delivery"
-        3 "Speed up DNF - This enables fastestmirror, max downloads and deltarpms"
-        4 "Enable Flatpak - Enables the Flatpak repo and installs packages"
+        1 "Speed up DNF - This enables fastestmirror, max downloads and deltarpms"
+        2 "Enable RPM Fusion - Enables the RPM Fusion repos for your specific version"
+        3 "Update Firmware - fw firmware update (reboot needed)"
+        4 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
         5 "Install Software - Installs a bunch of my most used software"
-        6 "Install Starship Prompt - A better prompt"
-        7 "Install Extras - Themes Fonts and Codecs"
-        8 "Install Nvidia - Install akmod nvidia drivers"
-        9 "Install Docker - Install docker"
-        10 "Set Defaults - Set some defaults (hostname, gsettings, etc)"
+        6 "Install Extras - Themes Fonts and Codecs"
+        7 "Enable Flatpak - Enables the Flatpak repo and installs packages"
+        8 "Install Docker - Install docker"
+        9 "Set Defaults - Set some defaults (hostname, gsettings, etc)"
+        10 "Install Nix - The Nix package manager"
         11 "Quit")
 
-    while [ "$CHOICE -ne 4" ]; do
+    while true; do
         CHOICE=$(dialog --clear \
             --backtitle "$BACKTITLE" \
             --title "$TITLE" \
@@ -54,54 +54,53 @@ fedora_install() {
         clear
         case $CHOICE in
             1)
-                echo "1) Enabling RPM Fusion"
-                sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-                sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+                echo "1) Speeding Up DNF"
+                echo 'fastestmirror=1' | sudo tee -a /etc/dnf/dnf.conf
+                echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
+                echo 'deltarpm=true' | sudo tee -a /etc/dnf/dnf.conf
+
+                notify-send "1) DNF config has now been amended" --expire-time=20
+                ;;
+            2)
+                echo "2) Enabling RPM Fusion"
+                sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm
+                sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
                 sudo dnf upgrade --refresh
                 sudo dnf groupupdate -y core
                 sudo dnf install -y rpmfusion-free-release-tainted
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
 
-                notify-send "1) RPM Fusion has been enabled" --expire-time=10
+                notify-send "2) RPM Fusion has been enabled" --expire-time=20
                 ;;
-            2)
-                echo "2) Updating Firmware"
+            3)
+                echo "3) Updating Firmware"
+                sudo dnf upgrade --refresh
+                sudo dnf check
+                sudo dnf autoremove
                 sudo fwupdmgr get-devices
                 sudo fwupdmgr refresh --force
                 sudo fwupdmgr get-updates
                 sudo fwupdmgr update
 
-                notify-send "2) Latest Firmware Installed" --expire-time=10
-                ;;
-            3)
-                echo "3) Speeding Up DNF"
-                echo 'fastestmirror=1' | sudo tee -a /etc/dnf/dnf.conf
-                echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
-                echo 'deltarpm=true' | sudo tee -a /etc/dnf/dnf.conf
-
-                notify-send "3) DNF config has now been amended" --expire-time=10
+                notify-send "3) Latest Firmware installed" "Please reboot to finalize driver installation." --expire-time=5000
                 ;;
             4)
-                echo "4) Enabling Flatpak"
-                flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-                flatpak update
-                flatpak install -y "com.dropbox.Client"
-                flatpak install -y "com.discordapp.Discord"
-                flatpak install -y "com.skype.Client"
-                flatpak install -y "com.slack.Slack"
-                flatpak install -y "org.telegram.desktop"
-                flatpak install -y "org.signal.Signal"
-                flatpak install -y "com.visualstudio.code"
+                echo "4) Installing NVIDIA Drivers"
+                sudo dnf install -y akmod-nvidia
+                sudo dnf install -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs
+                sudo dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs # To support ffmpeg compiled with NVENC/NVDEC
+                sudo dnf install -y vdpauinfo libva-vdpau-driver libva-utils               # For hardware video acceleration
+                sudo dnf install -y vulkan vulkan-tools                                    # Installs support for Vulkan which has the same functionality as openGL
 
-                notify-send "4) Flatpak has now been enabled" --expire-time=10
+                notify-send "4) NVIDIA drivers installed" "Please reboot to finalize driver installation." --expire-time=5000
                 ;;
             5)
                 echo "5) Installing Software"
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
                 sudo dnf groupinstall -y "Development Tools" "Development Libraries"
-                sudo dnf install -y zsh git ripgrep fd-find xclip util-linux-user xprop xwininfo
+                sudo dnf install -y git ripgrep fd-find xclip util-linux-user xprop xwininfo
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim htop
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
                 sudo dnf install -y curl dconf-editor dnsutils dos2unix doxygen msmtp neofetch
@@ -120,6 +119,12 @@ fedora_install() {
 
                 # tmux: A terminal multiplexer
                 sudo dnf install -y tmux
+
+                # Alacritty
+                sudo dnf install -y alacritty
+
+                # Starship Prompt
+                curl -sS https://starship.rs/install.sh | sh
 
                 # gpg
                 sudo dnf install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc pcsc-lite-ccid
@@ -176,17 +181,10 @@ fedora_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
-                notify-send "5) Software has been installed" --expire-time=10
+                notify-send "5) Software has been installed" --expire-time=20
                 ;;
             6)
-                echo "6) Installing Alacritty and Starship Prompt"
-                sudo dnf install -y alacritty
-                curl -sS https://starship.rs/install.sh | sh
-
-                notify-send "6) Alacritty and Starship Prompt has been installed" --expire-time=10
-                ;;
-            7)
-                echo "7) Installing Extras"
+                echo "6) Installing Extras"
                 # Multimedia
                 sudo dnf groupupdate -y sound-and-video
                 sudo dnf install -y libdvdcss
@@ -213,16 +211,25 @@ fedora_install() {
                 # Latex
                 # sudo dnf install -y texlive-scheme-full
 
-                notify-send "7) Multimedia, fonts and others has been installed" --expire-time=10
+                notify-send "6) Multimedia, fonts and others has been installed" --expire-time=20
                 ;;
-            8)
-                echo "8) Installing Nvidia Driver Akmod-Nvidia"
-                sudo dnf install -y akmod-nvidia
+            7)
+                echo "7) Enabling Flatpak"
+                flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                flatpak update
+                flatpak install -y "com.dropbox.Client"
+                flatpak install -y "com.discordapp.Discord"
+                flatpak install -y "com.skype.Client"
+                flatpak install -y "com.slack.Slack"
+                flatpak install -y "org.telegram.desktop"
+                flatpak install -y "org.signal.Signal"
+                flatpak install -y "com.visualstudio.code"
 
-                notify-send "8) Nvidia Akmod Driver has been installed" --expire-time=10
+                notify-send "7) Flatpak has now been enabled" --expire-time=20
                 ;;
-            9)
-                echo "9) Installing Docker"
+
+            8)
+                echo "8) Installing Docker"
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
                 sudo dnf install -y docker-ce docker-ce-cli containerd.io
@@ -231,10 +238,10 @@ fedora_install() {
                 sudo systemctl start docker
                 sudo docker run hello-world
 
-                notify-send "9) Docker has been installed" --expire-time=10
+                notify-send "8) Docker has been installed" --expire-time=20
                 ;;
-            10)
-                echo "10) Setting Defaults"
+            9)
+                echo "9) Setting Defaults"
                 # hostname
                 read -r -p "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
                 [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
@@ -243,6 +250,19 @@ fedora_install() {
                 read -r -p "Enter static hostname (defaults to 'fedora-xps-9710'): " HOSTNAME_STATIC
                 [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="fedora-xps-9710"
                 sudo hostnamectl set-hostname --static "$HOSTNAME_STATIC"
+
+                # xdg
+                export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+                export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+                export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+                export XDG_LIB_HOME="${XDG_DATA_HOME:-$HOME/.local/lib}"
+                export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+                mkdir -p \
+                    "${XDG_CACHE_HOME}" \
+                    "${XDG_CONFIG_HOME}" \
+                    "${XDG_DATA_HOME}" \
+                    "${XDG_LIB_HOME}" \
+                    "${XDG_STATE_HOME}"
 
                 # View current settings - gsettings list-recursively org.gnome.desktop.interface
                 # Font Settings
@@ -263,10 +283,50 @@ fedora_install() {
                 # Set new windows centered
                 gsettings set org.gnome.mutter center-new-windows true
 
-                notify-send "10) Defaults has been set" --expire-time=10
+                notify-send "9) Defaults has been set" --expire-time=20
+                ;;
+            10)
+                if [ "$(getenforce 2>/dev/null | grep -c "Enforcing")" -eq 1 ]; then
+                    notify-send "10) I won't install Nix" "It does not work with SELinux" --expire-time=20
+                    continue
+                fi
+
+                # Install nix
+                if ! hash nix 2>/dev/null; then
+                    echo "install: setting up nix..."
+                    sh <(curl -L https://nixos.org/nix/install) --daemon
+
+                    # Set current user as trusted user
+                    echo "trusted-users = root ${USER}" | sudo tee -a /etc/nix/nix.conf && sudo pkill nix-daemon
+
+                    source "$HOME/.bashrc"
+
+                    nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+                fi
+
+                nix-channel --update
+
+                # Install cachix (https://www.cachix.org/)
+                if ! hash cachix 2>/dev/null; then
+                    echo "install: setting up cachix..."
+
+                    # Check to see if curl is installed, if not install it
+                    if [ "$(rpm -q curl 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
+                        sudo dnf install -y curl
+                    fi
+
+                    nix-env -iA cachix -f https://cachix.org/api/v1/install
+                fi
+
+                # Using `https://devenv.sh/` alternative would be `https://github.com/nix-community/nix-direnv`
+                # Install devenv
+                if ! hash devenv 2>/dev/null; then
+                    nix-env -if https://github.com/cachix/devenv/tarball/latest
+                fi
+
+                notify-send "10) Nix has been installed" --expire-time=20
                 ;;
             11)
-                notify-send "11) All Done" --expire-time=10
                 exit 0
                 ;;
         esac
