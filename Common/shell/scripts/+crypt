@@ -2,12 +2,13 @@
 
 #
 # Encryption:
-#   Encrypts file or directory using gpg symmetric or asymmetric encryption The output is on the form "*.tar.gz.gpg"
-#   (symmetric) or "*.tar.gz.asc" (asymmetric). Files are moved into a directory of the same basename first.
+#   Encrypts file or directory using gpg symmetric or asymmetric encryption.
+#   The output is on the form "*.tar.gz.gpg" (symmetric) or "*.tar.gz.asc" (asymmetric).
+#   Files are moved into a directory of the same basename first.
 #
 # Decryption:
-#   Decrypts file using gpg (previously encrypted with `encrypt`) expects and argument with the form "*.tar.gz.gpg"
-#   (symmetric) or "*.tar.gz.asc (asymmetric)"
+#   Decrypts file using gpg (previously encrypted with `encrypt`).
+#   Expects and argument with the form "*.tar.gz.gpg" (symmetric) or "*.tar.gz.asc (asymmetric)"
 #
 
 usage() {
@@ -82,14 +83,18 @@ encrypt() {
 }
 
 do_decrypt() {
+    local DIR
+    DIR=$(dirname "$1")
+    test $? -eq 0 || usage 1
+
     local p
-    p=$(basename "$1" | cut -d. -f1)
+    p=$DIR/$(basename "$1" | cut -d. -f1)
     test $? -eq 0 || usage 1
 
     gpg --decrypt -o "$p.tar.gz" "$1" >/dev/null 2>/dev/null
     test $? -eq 0 || usage 1
 
-    tar xzf "$p.tar.gz"
+    tar xzf "$p.tar.gz" -C "$DIR"
     test $? -eq 0 || usage 1
 
     rm -f "$p.tar.gz"

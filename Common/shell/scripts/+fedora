@@ -29,17 +29,18 @@ fedora_install() {
     fi
 
     OPTIONS=(
-        1 "Speed up DNF - This enables fastestmirror, max downloads and deltarpms"
-        2 "Enable RPM Fusion - Enables the RPM Fusion repos for your specific version"
-        3 "Update Firmware - fw firmware update (reboot needed)"
-        4 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
-        5 "Install Software - Installs a bunch of my most used software"
-        6 "Install Extras - Themes Fonts and Codecs"
-        7 "Enable Flatpak - Enables the Flatpak repo and installs packages"
-        8 "Install Docker - Install docker"
-        9 "Set Defaults - Set some defaults (hostname, gsettings, etc)"
+        1 "Set Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
+        2 "Speed up DNF - This enables fastestmirror, max downloads and deltarpms"
+        3 "Enable RPM Fusion - Enables the RPM Fusion repos for your specific version"
+        4 "Update Firmware - fw firmware update (reboot needed)"
+        5 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
+        6 "Install Software - Installs a bunch of my most used software"
+        7 "Install Extras - Themes Fonts and Codecs"
+        8 "Enable Flatpak - Enables the Flatpak repo and installs packages"
+        9 "Install Docker - Install docker"
         10 "Install Nix - The Nix package manager"
-        11 "Quit")
+        11 "Setup secrets - Setup both ssh and gpg from backups"
+        12 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -54,6 +55,63 @@ fedora_install() {
         clear
         case $CHOICE in
             1)
+                echo "9) Setting Defaults"
+                # hostname
+                read -r -p "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
+                [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
+                sudo hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
+
+                read -r -p "Enter static hostname (defaults to 'fedora-xps-9710'): " HOSTNAME_STATIC
+                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="fedora-xps-9710"
+                sudo hostnamectl set-hostname --static "$HOSTNAME_STATIC"
+
+                # xdg
+                export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+                export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+                export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+                export XDG_LIB_HOME="${XDG_DATA_HOME:-$HOME/.local/lib}"
+                export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+                mkdir -p \
+                    "${XDG_CACHE_HOME}" \
+                    "${XDG_CONFIG_HOME}" \
+                    "${XDG_DATA_HOME}" \
+                    "${XDG_LIB_HOME}" \
+                    "${XDG_STATE_HOME}"
+
+                # Folder structure
+                mkdir -p "$HOME/Workspace"
+                mkdir -p "$HOME/Workspace/Books"
+                mkdir -p "$HOME/Workspace/Private/Projects"
+                mkdir -p "$HOME/Workspace/Public"
+                mkdir -p "$HOME/Workspace/Software"
+                mkdir -p "$HOME/Workspace/Stuff"
+                mkdir -p "$HOME/Workspace/Work"
+                mkdir -p "$HOME/Workspace/Work/Projects"
+                mkdir -p "$HOME/Workspace/Work/Software"
+                mkdir -p "$HOME/Workspace/Work/Stuff"
+
+                # View current settings - gsettings list-recursively org.gnome.desktop.interface
+                # Font Settings
+                gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans 11'
+                gsettings set org.gnome.desktop.interface font-name 'Noto Sans 11'
+                gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 12'
+                gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Noto Sans 11'
+
+                # Other Settings
+                gsettings set org.gnome.desktop.interface clock-format '24h'
+                gsettings set org.gnome.desktop.interface clock-show-date true
+                gsettings set org.gnome.desktop.interface clock-show-seconds false
+                gsettings set org.gnome.desktop.interface clock-show-weekday false
+
+                # Enable window buttons
+                gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
+
+                # Set new windows centered
+                gsettings set org.gnome.mutter center-new-windows true
+
+                notify-send "9) Defaults has been set" --expire-time=20
+                ;;
+            2)
                 echo "1) Speeding Up DNF"
                 echo 'fastestmirror=1' | sudo tee -a /etc/dnf/dnf.conf
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
@@ -64,7 +122,7 @@ fedora_install() {
                 sudo dnf autoremove
                 notify-send "1) DNF config has now been amended" --expire-time=20
                 ;;
-            2)
+            3)
                 echo "2) Enabling RPM Fusion"
                 sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm
                 sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
@@ -79,7 +137,7 @@ fedora_install() {
                 sudo dnf autoremove
                 notify-send "2) RPM Fusion has been enabled" --expire-time=20
                 ;;
-            3)
+            4)
                 echo "3) Updating Firmware"
                 sudo dnf upgrade --refresh
                 sudo dnf check
@@ -94,7 +152,7 @@ fedora_install() {
                 sudo dnf autoremove
                 notify-send "3) Latest Firmware installed" "Please reboot to finalize driver installation." --expire-time=5000
                 ;;
-            4)
+            5)
                 echo "4) Installing NVIDIA Drivers"
                 sudo dnf install -y akmod-nvidia
                 sudo dnf install -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs
@@ -107,7 +165,7 @@ fedora_install() {
                 sudo dnf autoremove
                 notify-send "4) NVIDIA drivers installed" "Please reboot to finalize driver installation." --expire-time=5000
                 ;;
-            5)
+            6)
                 echo "5) Installing Software"
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
@@ -186,7 +244,7 @@ fedora_install() {
                 sudo dnf autoremove
                 notify-send "5) Software has been installed" --expire-time=20
                 ;;
-            6)
+            7)
                 echo "6) Installing Extras"
                 # Multimedia
                 sudo dnf groupupdate -y sound-and-video
@@ -219,7 +277,7 @@ fedora_install() {
                 sudo dnf autoremove
                 notify-send "6) Multimedia, fonts and others has been installed" --expire-time=20
                 ;;
-            7)
+            8)
                 echo "7) Enabling Flatpak"
                 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 flatpak update
@@ -240,8 +298,7 @@ fedora_install() {
 
                 notify-send "7) Flatpak has now been enabled" --expire-time=20
                 ;;
-
-            8)
+            9)
                 echo "8) Installing Docker"
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
@@ -255,51 +312,6 @@ fedora_install() {
                 sudo dnf check
                 sudo dnf autoremove
                 notify-send "8) Docker has been installed" --expire-time=20
-                ;;
-            9)
-                echo "9) Setting Defaults"
-                # hostname
-                read -r -p "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
-                [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
-                sudo hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
-
-                read -r -p "Enter static hostname (defaults to 'fedora-xps-9710'): " HOSTNAME_STATIC
-                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="fedora-xps-9710"
-                sudo hostnamectl set-hostname --static "$HOSTNAME_STATIC"
-
-                # xdg
-                export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
-                export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-                export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-                export XDG_LIB_HOME="${XDG_DATA_HOME:-$HOME/.local/lib}"
-                export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
-                mkdir -p \
-                    "${XDG_CACHE_HOME}" \
-                    "${XDG_CONFIG_HOME}" \
-                    "${XDG_DATA_HOME}" \
-                    "${XDG_LIB_HOME}" \
-                    "${XDG_STATE_HOME}"
-
-                # View current settings - gsettings list-recursively org.gnome.desktop.interface
-                # Font Settings
-                gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans 11'
-                gsettings set org.gnome.desktop.interface font-name 'Noto Sans 11'
-                gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 12'
-                gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Noto Sans 11'
-
-                # Other Settings
-                gsettings set org.gnome.desktop.interface clock-format '24h'
-                gsettings set org.gnome.desktop.interface clock-show-date true
-                gsettings set org.gnome.desktop.interface clock-show-seconds false
-                gsettings set org.gnome.desktop.interface clock-show-weekday false
-
-                # Enable window buttons
-                gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
-
-                # Set new windows centered
-                gsettings set org.gnome.mutter center-new-windows true
-
-                notify-send "9) Defaults has been set" --expire-time=20
                 ;;
             10)
                 if [ "$(getenforce 2>/dev/null | grep -c "Enforcing")" -eq 1 ]; then
@@ -343,6 +355,48 @@ fedora_install() {
                 notify-send "10) Nix has been installed" --expire-time=20
                 ;;
             11)
+                echo "11) Setting up secrets"
+                read -r -p "Enter keys backup directory: " KEYS_DIR
+                KEYS_DIR="${1%/}"
+                [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
+                [ ! -f "+crypt" ] && notify-send "$(pwd)/+crypt script does not exists" --expire-time=20 && continue
+                [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" --expire-time=20 && continue
+                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" --expire-time=20 && continue
+
+                echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
+                "+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
+                [ ! -d "$KEYS_DIR"/ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" --expire-time=20 && continue
+                mkdir -p ~/.ssh && rm -rf ~/.ssh/*
+                cp "$KEYS_DIR"/ssh/id_* ~/.ssh
+                cp "$KEYS_DIR"/ssh/config ~/.ssh
+                chmod 700 ~/.ssh
+                chmod 644 ~/.ssh/config
+                chmod 600 ~/.ssh/id_*
+                chmod 644 ~/.ssh/id_*.pub
+                rm -rf "$KEYS_DIR"/ssh
+
+                echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
+                "+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
+                [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" --expire-time=20 && continue
+                mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
+                cp "$KEYS_DIR"/gpg/coonfig/*.conf ~/.gnupg
+                gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
+                rm -rf "$KEYS_DIR"/gpg
+
+                echo "Editing gpg key 0xB3F..., you should trust ultimately (Option 5) and type 'quit'"
+                gpg --edit-key 0xB3F739419D91C7F3
+
+                # Remove keys
+                rm -rf "$KEYS_DIR"
+
+                # With the new keys we can go ahead and download some repos
+                [ -d "$HOME/.password-store" ] && git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
+                [ -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
+                [ -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
+
+                notify-send "11) Secrets are set" --expire-time=20
+                ;;
+            12)
                 exit 0
                 ;;
         esac
@@ -373,6 +427,7 @@ if ! hash dnf 2>/dev/null; then
     exit 1
 fi
 
+cd "$(dirname "$0")" || usage 1
 nargs=$#
 cmd=${1-}
 rc=0
@@ -381,6 +436,10 @@ case $cmd in
     install)
         [ "$nargs" -eq 1 ] || usage 1
         fedora_install "$@"
+        ;;
+    keys)
+        [ "$nargs" -eq 2 ] || usage 1
+        fedora_setup_keys "$@"
         ;;
     update)
         [ "$nargs" -eq 1 ] || usage 1
