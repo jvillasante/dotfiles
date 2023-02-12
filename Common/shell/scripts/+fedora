@@ -295,6 +295,7 @@ fedora_install() {
                 flatpak install -y com.brave.Browser
                 # flatpak install -y org.signal.Signal
                 # flatpak install -y com.visualstudio.code
+                # flatpak install -y com.github.GradienceTeam.Gradience
 
                 notify-send "7) Flatpak has now been enabled" --expire-time=20
                 ;;
