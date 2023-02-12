@@ -59,6 +59,9 @@ fedora_install() {
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
                 echo 'deltarpm=true' | sudo tee -a /etc/dnf/dnf.conf
 
+                sudo dnf upgrade --refresh
+                sudo dnf check
+                sudo dnf autoremove
                 notify-send "1) DNF config has now been amended" --expire-time=20
                 ;;
             2)
@@ -71,6 +74,9 @@ fedora_install() {
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
 
+                sudo dnf upgrade --refresh
+                sudo dnf check
+                sudo dnf autoremove
                 notify-send "2) RPM Fusion has been enabled" --expire-time=20
                 ;;
             3)
@@ -83,6 +89,9 @@ fedora_install() {
                 sudo fwupdmgr get-updates
                 sudo fwupdmgr update
 
+                sudo dnf upgrade --refresh
+                sudo dnf check
+                sudo dnf autoremove
                 notify-send "3) Latest Firmware installed" "Please reboot to finalize driver installation." --expire-time=5000
                 ;;
             4)
@@ -93,6 +102,9 @@ fedora_install() {
                 sudo dnf install -y vdpauinfo libva-vdpau-driver libva-utils               # For hardware video acceleration
                 sudo dnf install -y vulkan vulkan-tools                                    # Installs support for Vulkan which has the same functionality as openGL
 
+                sudo dnf upgrade --refresh
+                sudo dnf check
+                sudo dnf autoremove
                 notify-send "4) NVIDIA drivers installed" "Please reboot to finalize driver installation." --expire-time=5000
                 ;;
             5)
@@ -110,9 +122,8 @@ fedora_install() {
                 sudo dnf install -y wordnet shfmt editorconfig glslang ShellCheck xdotool parallel
                 sudo dnf install -y llvm clang clang-tools-extra libpcap libpcap-devel
                 sudo dnf install -y pkg-config openssl openssl-devel flex bison unar unrar p7zip p7zip-plugins
-                sudo dnf install -y gimp vlc transmission gparted tidy
                 sudo dnf install -y ImageMagick ImageMagick-devel sqlite zeal scrot
-                sudo dnf install -y go valgrind minicom mc strace
+                sudo dnf install -y go valgrind minicom mc strace tidy
 
                 # Wayland stuff
                 sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
@@ -134,13 +145,9 @@ fedora_install() {
 
                 # yubikey
                 sudo dnf install -y yubikey-manager
-                ykman info
 
                 # ncdu (text-based disk usage viewer)
                 sudo dnf install -y ncdu
-
-                # Wireshark
-                sudo dnf install -y wireshark wireshark-cli
 
                 # Borg Backup
                 sudo dnf install -y borgbackup
@@ -149,7 +156,7 @@ fedora_install() {
                 sudo dnf install -y skim
 
                 # Gnome Software
-                sudo dnf -y install gnome-tweaks gnome-firmware gnome-extensions-app gnome-shell-extension-appindicator
+                sudo dnf -y install gnome-tweaks
 
                 # Neovim nightly
                 sudo dnf copr enable agriffis/neovim-nightly -y
@@ -165,13 +172,6 @@ fedora_install() {
                 systemctl --user start psd.service
                 systemctl --user restart psd.service
 
-                # Brave Browser
-                sudo dnf install -y dnf-plugins-core
-                sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/x86_64/
-                sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-                sudo dnf update -y
-                sudo dnf install -y brave-browser
-
                 # non dnf software
                 pip install cmake-language-server
                 sudo npm install --global npm@latest
@@ -181,6 +181,9 @@ fedora_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
+                sudo dnf upgrade --refresh
+                sudo dnf check
+                sudo dnf autoremove
                 notify-send "5) Software has been installed" --expire-time=20
                 ;;
             6)
@@ -211,19 +214,29 @@ fedora_install() {
                 # Latex
                 # sudo dnf install -y texlive-scheme-full
 
+                sudo dnf upgrade --refresh
+                sudo dnf check
+                sudo dnf autoremove
                 notify-send "6) Multimedia, fonts and others has been installed" --expire-time=20
                 ;;
             7)
                 echo "7) Enabling Flatpak"
                 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 flatpak update
-                flatpak install -y "com.dropbox.Client"
-                flatpak install -y "com.discordapp.Discord"
-                flatpak install -y "com.skype.Client"
-                flatpak install -y "com.slack.Slack"
-                flatpak install -y "org.telegram.desktop"
-                flatpak install -y "org.signal.Signal"
-                flatpak install -y "com.visualstudio.code"
+                flatpak install -y org.gnome.Extensions
+                flatpak install -y org.gnome.Firmware
+                flatpak install -y com.dropbox.Client
+                flatpak install -y com.discordapp.Discord
+                flatpak install -y com.skype.Client
+                flatpak install -y com.slack.Slack
+                flatpak install -y org.telegram.desktop
+                flatpak install -y org.videolan.VLC
+                flatpak install -y com.transmissionbt.Transmission
+                flatpak install -y org.gimp.GIMP
+                flatpak install -y org.wireshark.Wireshark
+                flatpak install -y com.brave.Browser
+                # flatpak install -y org.signal.Signal
+                # flatpak install -y com.visualstudio.code
 
                 notify-send "7) Flatpak has now been enabled" --expire-time=20
                 ;;
@@ -238,6 +251,9 @@ fedora_install() {
                 sudo systemctl start docker
                 sudo docker run hello-world
 
+                sudo dnf upgrade --refresh
+                sudo dnf check
+                sudo dnf autoremove
                 notify-send "8) Docker has been installed" --expire-time=20
                 ;;
             9)
