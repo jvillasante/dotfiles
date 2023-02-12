@@ -63,8 +63,7 @@ fedora_install() {
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
 
-                echo "1) RPM Fusion has been enabled"
-                read -r -p "Press enter to continue..."
+                notify-send "1) RPM Fusion has been enabled" --expire-time=10
                 ;;
             2)
                 echo "2) Updating Firmware"
@@ -73,8 +72,7 @@ fedora_install() {
                 sudo fwupdmgr get-updates
                 sudo fwupdmgr update
 
-                echo "2) Latest Firmware Installed"
-                read -r -p "Press enter to continue..."
+                notify-send "2) Latest Firmware Installed" --expire-time=10
                 ;;
             3)
                 echo "3) Speeding Up DNF"
@@ -82,8 +80,7 @@ fedora_install() {
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
                 echo 'deltarpm=true' | sudo tee -a /etc/dnf/dnf.conf
 
-                echo "3) DNF config has now been amended"
-                read -r -p "Press enter to continue..."
+                notify-send "3) DNF config has now been amended" --expire-time=10
                 ;;
             4)
                 echo "4) Enabling Flatpak"
@@ -97,8 +94,7 @@ fedora_install() {
                 flatpak install -y "org.signal.Signal"
                 flatpak install -y "com.visualstudio.code"
 
-                echo "4) Flatpak has now been enabled"
-                read -r -p "Press enter to continue..."
+                notify-send "4) Flatpak has now been enabled" --expire-time=10
                 ;;
             5)
                 echo "5) Installing Software"
@@ -180,16 +176,14 @@ fedora_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
-                echo "5) Software has been installed"
-                read -r -p "Press enter to continue..."
+                notify-send "5) Software has been installed" --expire-time=10
                 ;;
             6)
                 echo "6) Installing Alacritty and Starship Prompt"
                 sudo dnf install -y alacritty
                 curl -sS https://starship.rs/install.sh | sh
 
-                echo "6) Alacritty and Starship Prompt has been installed"
-                read -r -p "Press enter to continue..."
+                notify-send "6) Alacritty and Starship Prompt has been installed" --expire-time=10
                 ;;
             7)
                 echo "7) Installing Extras"
@@ -219,15 +213,13 @@ fedora_install() {
                 # Latex
                 # sudo dnf install -y texlive-scheme-full
 
-                echo "7) Multimedia, fonts and others has been installed"
-                read -r -p "Press enter to continue..."
+                notify-send "7) Multimedia, fonts and others has been installed" --expire-time=10
                 ;;
             8)
                 echo "8) Installing Nvidia Driver Akmod-Nvidia"
                 sudo dnf install -y akmod-nvidia
 
-                echo "8) Nvidia Akmod Driver has been installed"
-                read -r -p "Press enter to continue..."
+                notify-send "8) Nvidia Akmod Driver has been installed" --expire-time=10
                 ;;
             9)
                 echo "9) Installing Docker"
@@ -239,8 +231,7 @@ fedora_install() {
                 sudo systemctl start docker
                 sudo docker run hello-world
 
-                echo "9) Docker has been installed"
-                read -r -p "Press enter to continue..."
+                notify-send "9) Docker has been installed" --expire-time=10
                 ;;
             10)
                 echo "10) Setting Defaults"
@@ -272,11 +263,10 @@ fedora_install() {
                 # Set new windows centered
                 gsettings set org.gnome.mutter center-new-windows true
 
-                echo "10) Defaults has been set"
-                read -r -p "Press enter to continue..."
+                notify-send "10) Defaults has been set" --expire-time=10
                 ;;
             11)
-                echo "11) All Done"
+                notify-send "11) All Done" --expire-time=10
                 exit 0
                 ;;
         esac
