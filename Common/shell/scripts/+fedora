@@ -28,6 +28,11 @@ fedora_install() {
         sudo dnf install -y dialog
     fi
 
+    # Check to see if libnotify is installed, if not install it
+    if [ "$(rpm -q libnotify 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
+        sudo dnf install -y libnotify
+    fi
+
     OPTIONS=(
         1 "Set Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
         2 "Speed up DNF - This enables fastestmirror, max downloads and deltarpms"
