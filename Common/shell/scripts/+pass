@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
 type pass >/dev/null 2>/dev/null || exit 1
-type sk >/dev/null 2>/dev/null || exit 1
+# type sk >/dev/null 2>/dev/null || exit 1
+type fzf >/dev/null 2>/dev/null || exit 1
 
 usage() {
     echo "Usage:"
@@ -22,7 +28,7 @@ do_pass() {
     local dir passfile
     dir=$(pwd)
     cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || exit
-    passfile=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | sk)
+    passfile=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
     cd "$dir" || exit
     if [ -n "$passfile" ]; then
         case "$1" in

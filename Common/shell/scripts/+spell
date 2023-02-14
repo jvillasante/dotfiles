@@ -8,6 +8,12 @@
 # Usage: spell misspelling
 # Example: dict $(spell mispeling)
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
 result=$(echo "$@" | aspell -a | tail -n-2)
 if [[ "$result" == '*' ]]; then
     echo "$@"

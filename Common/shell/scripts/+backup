@@ -4,6 +4,12 @@
 # Backups and restore folders using `borg` command.
 #
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
 if ! type borg >/dev/null 2>&1; then
     echo "You need to install borg first, exiting..."
     exit 1

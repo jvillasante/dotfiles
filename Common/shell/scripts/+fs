@@ -4,6 +4,12 @@
 # Determine size of a file or total size of a directory
 #
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
 if du -b /dev/null >/dev/null 2>&1; then
     arg=-sbh
 else

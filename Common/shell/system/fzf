@@ -4,14 +4,14 @@
 # fzf
 #
 if type fzf >/dev/null 2>/dev/null; then
-    [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+    [ -f "$HOME"/.fzf.zsh ] && source "$HOME"/.fzf.zsh
+    [ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
 
     # Use ~~ as the trigger sequence instead of the default **
     # export FZF_COMPLETION_TRIGGER='~~'
 
     # Options to fzf command
     export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --border --info=inline'
-    # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -33,28 +33,28 @@ if type fzf >/dev/null 2>/dev/null; then
     #
 
     # switch to a project
-    pproj() {
-        cd $(find ~/Workspace/Private/Projects/ -maxdepth 2 -type d | fzf)
+    fproj() {
+        cd "$(find ~/Workspace/Private/Projects/ -maxdepth 2 -type d | fzf)" || return
     }
 
-    wproj() {
-        cd $(find ~/Workspace/Work/Projects/ -maxdepth 2 -type d | fzf)
+    # switch to a work project
+    fwproj() {
+        cd "$(find ~/Workspace/Work/Projects/ -maxdepth 2 -type d | fzf)" || return
     }
 
     # change to an arbitrary subdirectory
     fcd() {
-        cd $(find . -type d | fzf)
+        cd "$(find . -type d | fzf)" || return
     }
 
     # fuzzy match current directory contents
     ffuzz() {
-        search_term=$1
-        find . -wholename \*$search_term\* -not -path './.*/*' | fzf
+        find . -wholename \*"$1"\* -not -path './.*/*' | fzf
     }
 
     # run a command from the history
     fhist() {
-        $(history | cut -c8- | sort -u | fzf)
+        "$(history | cut -c8- | sort -u | fzf)"
     }
 
     #
@@ -62,12 +62,12 @@ if type fzf >/dev/null 2>/dev/null; then
     #
 
     # show process id - interactive grep
-    fgrep() {
+    fpgrep() {
         ps aux | eval fzf | awk '{ print $2 }'
     }
 
     # kill processes - list only the ones you can kill.
-    fkill() {
+    fpkill() {
         local pid
         if [ "$UID" != "0" ]; then
             pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
@@ -77,7 +77,7 @@ if type fzf >/dev/null 2>/dev/null; then
 
         if [ "x$pid" != "x" ]
         then
-            echo $pid | xargs kill -${1:-9}
+            echo "$pid" | xargs kill -"${1:-9}"
         fi
     }
 
@@ -89,8 +89,8 @@ if type fzf >/dev/null 2>/dev/null; then
     fbr() {
         local branches branch
         branches=$(git branch --all | grep -v HEAD) &&
-            branch=$(echo "$branches" | fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-            git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+            branch=$(echo "$branches" | fzf -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+            git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
     }
 
     # fco - checkout git branch/tag
@@ -105,7 +105,7 @@ if type fzf >/dev/null 2>/dev/null; then
             (echo "$branches"; echo "$tags") |
                 fzf --no-hscroll --no-multi -n 2 \
                     --ansi) || return
-        git checkout $(awk '{print $2}' <<<"$target" )
+        git checkout "$(awk '{print $2}' <<<"$target" )"
     }
 
     # fcoc - checkout git commit
@@ -113,7 +113,7 @@ if type fzf >/dev/null 2>/dev/null; then
         local commits commit
         commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
             commit=$(echo "$commits" | fzf --tac +s +m -e) &&
-            git checkout $(echo "$commit" | sed "s/ .*//")
+            git checkout "$(echo "$commit" | sed "s/ .*//")"
     }
 
     # fshow - git commit browser
@@ -137,8 +137,8 @@ FZF-EOF"
         # `ftm_session_new irc` will attach to the irc session (if it exists), else it will create it.
         ftm_session_new() {
             [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-            if [ $1 ]; then
-                tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+            if [ "$1" ]; then
+                tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s "$1" && tmux $change -t "$1"); return
             fi
             session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
         }
@@ -146,12 +146,11 @@ FZF-EOF"
 
         # zsh; needs setopt re_match_pcre. You can, of course, adapt it to your own shell easily.
         ftm_session_kill() {
-            local sessions
+            local sessions i
             sessions="$(tmux ls|fzf --exit-0 --multi)"  || return $?
-            local i
             for i in "${(f@)sessions}"
             do
-                [[ $i =~ '([^:]*):.*' ]] && {
+                [[ $i =~ ([^:]*):.* ]] && {
                     echo "Killing $match[1]"
                     tmux kill-session -t "$match[1]"
                 }
@@ -177,14 +176,14 @@ FZF-EOF"
 
             target=$(echo "$panes" | grep -v "$current_pane" | fzf +m --reverse) || return
 
-            target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
-            target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
+            target_window=$(echo "$target" | awk 'BEGIN{FS=":|-"} {print$1}')
+            target_pane=$(echo "$target" | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
 
             if [[ $current_window -eq $target_window ]]; then
-                tmux select-pane -t ${target_window}.${target_pane}
+                tmux select-pane -t "${target_window}"."${target_pane}"
             else
-                tmux select-pane -t ${target_window}.${target_pane} &&
-                    tmux select-window -t $target_window
+                tmux select-pane -t "${target_window}"."${target_pane}" &&
+                    tmux select-window -t "$target_window"
             fi
         }
     fi
@@ -194,31 +193,30 @@ FZF-EOF"
     #
     if type pass >/dev/null 2>/dev/null; then
         fpass() {
-            local DIR=$(pwd)
-            cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}"
-            local PASSFILE=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
-            cd ${DIR}
-
-            if [ ! -z "$PASSFILE" ]; then
-                local ACTIONS="Copy Password\nView File\nEdit File\nQuit"
-                local CONTINUE=true
-                while ${CONTINUE}; do
-                    local ACTION=$(echo "${ACTIONS}" | fzf --height 10 --border --header "Pass file ${PASSFILE}")
-                    case ${ACTION} in
-                        "Copy Password")
-                            pass --clip "${PASSFILE}"
-                            ;;
-                        "View File")
-                            pass "${PASSFILE}"
-                            ;;
-                        "Edit File")
-                            pass edit "${PASSFILE}"
-                            ;;
-                        "Quit") CONTINUE=false ;;
-                        *) CONTINUE=false ;;
-                    esac
-                done
-            fi
+            local dir passfile actions action
+            dir=$(pwd)
+            cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || return
+            passfile=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
+            [ -z "$PASSFILE" ] && return
+            cd "$dir" || return
+            actions="Copy Password\nView File\nEdit File\nQuit"
+            while true
+            do
+                action=$(echo -e "$actions" | fzf --height 10 --border --header "Pass file $passfile")
+                case ${action} in
+                    "Copy Password")
+                        pass --clip "${passfile}"
+                        ;;
+                    "View File")
+                        pass "${passfile}"
+                        ;;
+                    "Edit File")
+                        pass edit "${passfile}"
+                        ;;
+                    "Quit") break ;;
+                    *) break ;;
+                esac
+            done
         }
     fi
 fi

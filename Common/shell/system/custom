@@ -138,4 +138,5 @@ fi
 #
 # Fuzzy Finder (https://github.com/lotabout/skim)
 #
-source "${HOME}/.config/shell/system/skim"
+# source "${HOME}/.config/shell/system/skim"
+source "${HOME}/.config/shell/system/fzf"

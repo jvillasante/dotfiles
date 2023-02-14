@@ -1,36 +1,39 @@
 #!/usr/bin/env bash
 
+echo "Working on Debian Script"
+exit 0
+
 usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
     echo "    $0 install:"
-    echo "        Install Fedora System"
+    echo "        Install Debian System"
     echo "    $0 update:"
-    echo "        Update Fedora System"
-    echo "    $0 dnf [arbitrary DNF command]:"
-    echo "        Run arbitrary DNF command"
+    echo "        Update Debian System"
+    echo "    $0 apt [arbitrary APT command]:"
+    echo "        Run arbitrary APT command"
     echo
-    echo " e.g: $0 dnf check-update"
+    echo " e.g: $0 apt full-upgrade"
     exit "$1"
 }
 
-fedora_install() {
+debian_install() {
     HEIGHT=25
     WIDTH=100
     CHOICE_HEIGHT=4
-    BACKTITLE="Fedora Setup Util"
+    BACKTITLE="Debian Setup Util"
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
     # Check to see if Dialog is installed, if not install it
-    if [ "$(rpm -q dialog 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
-        sudo dnf install -y dialog
+    if ! hash dialog 2>/dev/null; then
+        sudo apt install -y dialog
     fi
 
     # Check to see if libnotify is installed, if not install it
-    if [ "$(rpm -q libnotify 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
-        sudo dnf install -y libnotify
+    if ! hash notify-send 2>/dev/null; then
+        sudo apt install -y libnotify-bin libnotify-dev
     fi
 
     OPTIONS=(
@@ -309,10 +312,7 @@ fedora_install() {
                 flatpak install -y flathub org.gimp.GIMP
                 flatpak install -y flathub org.wireshark.Wireshark
                 flatpak install -y flathub com.brave.Browser
-                flatpak install -y flathub com.github.tchx84.Flatseal
-                flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
                 # flatpak install -y flathub org.signal.Signal
-                # flatpak install -y flathub com.microsoft.Edge
                 # flatpak install -y flathub com.visualstudio.code
                 # flatpak install -y flathub com.github.GradienceTeam.Gradience
 
@@ -486,7 +486,7 @@ fedora_install() {
     done
 }
 
-fedora_update() {
+debian_update() {
     sudo dnf -y upgrade --refresh
     test $? -eq 0 || usage 1
 
@@ -506,13 +506,13 @@ set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 cd "$(dirname "$0")" || exit 1
 
-if [ ! -f /etc/fedora-release ]; then
-    echo "Error: Fedora is not running on this system, exiting..."
+if [ ! -f /etc/debian_version ]; then
+    echo "Error: Debian is not running on this system, exiting..."
     exit 1
 fi
 
-if ! hash dnf 2>/dev/null; then
-    echo "Error: dnf not installed on this system, exiting..."
+if ! hash apt 2>/dev/null; then
+    echo "Error: apt not installed on this system, exiting..."
     exit 1
 fi
 
@@ -523,15 +523,15 @@ if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
     install)
         [ "$nargs" -eq 1 ] || usage 1
-        fedora_install "$@"
+        debian_install "$@"
         ;;
     update)
         [ "$nargs" -eq 1 ] || usage 1
-        fedora_update "$@"
+        debian_update "$@"
         ;;
-    dnf)
+    apt)
         [ "$nargs" -lt 2 ] && usage 1
-        dnf "$@"
+        apt "$@"
         ;;
     help | --help | -h)
         usage 0

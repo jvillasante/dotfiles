@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
 printf "          "
 for b in 0 1 2 3 4 5 6 7; do printf "  4${b}m "; done
 echo

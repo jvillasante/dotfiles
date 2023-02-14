@@ -116,7 +116,8 @@ if type sk >/dev/null 2>/dev/null; then
     sk_git_checkout_commit() {
         local commits commit
         commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
-            commit=$(echo "$commits" | sk) && git checkout $(echo "$commit" | sed "s/ .*//")
+            commit=$(echo "$commits" | sk) &&
+            git checkout $(echo "$commit" | sed "s/ .*//")
     }
 
     # git commit browser
@@ -133,7 +134,6 @@ FZF-EOF"
 
     #
     # Pass
-    #
     #
     if type pass >/dev/null 2>/dev/null; then
         sk_pass() {

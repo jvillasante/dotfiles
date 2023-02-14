@@ -48,6 +48,12 @@ cleanup_go_binaries() {
     fi
 }
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
 while true; do
     PS3="Choose an option: "
     options=("Install Common Go Packages Globally" "Install Other Go Packages Globally" "Cleanup Go Binaries" "Quit")
