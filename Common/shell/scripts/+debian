@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-echo "Working on Debian Script"
-exit 0
-
 usage() {
     echo "Usage:"
     echo "    $0 help:"
@@ -38,19 +35,11 @@ debian_install() {
 
     OPTIONS=(
         1 "Set Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
-        2 "Speed up DNF - This enables fastestmirror, max downloads and deltarpms"
-        3 "Enable RPM Fusion - Enables the RPM Fusion repos for your specific version"
-        4 "Update Firmware - fw firmware update (reboot needed)"
-        5 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
-        6 "Install Software - Installs a bunch of my most used software"
-        7 "Install Extras - Themes Fonts and Codecs"
-        8 "Enable Flatpak - Enables the Flatpak repo and installs packages"
-        9 "Install Docker - Install docker"
-        10 "Install Nix - The Nix package manager"
-        11 "Setup secrets - Setup both ssh and gpg from backups"
-        12 "Install Emacs - Install emac28 from source"
-        13 "Install Keyd - Install Keyd from source"
-        14 "Quit")
+        2 "Setup secrets - Setup both ssh and gpg from backups"
+        3 "Install Emacs - Install emac28 from source"
+        4 "Install Keyd - Install Keyd from source"
+        5 "Quit"
+    )
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -125,257 +114,7 @@ debian_install() {
                 notify-send "1) Defaults has been set" --expire-time=20
                 ;;
             2)
-                echo "2) Speeding Up DNF"
-                echo 'fastestmirror=1' | sudo tee -a /etc/dnf/dnf.conf
-                echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
-                echo 'deltarpm=true' | sudo tee -a /etc/dnf/dnf.conf
-
-                sudo dnf upgrade --refresh
-                sudo dnf check
-                sudo dnf autoremove
-                notify-send "2) DNF config has now been amended" --expire-time=20
-                ;;
-            3)
-                echo "3) Enabling RPM Fusion"
-                sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm
-                sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
-                sudo dnf upgrade --refresh
-                sudo dnf groupupdate -y core
-                sudo dnf install -y rpmfusion-free-release-tainted
-                sudo dnf install -y rpmfusion-nonfree-release-tainted
-                sudo dnf install -y dnf-plugins-core
-
-                sudo dnf upgrade --refresh
-                sudo dnf check
-                sudo dnf autoremove
-                notify-send "3) RPM Fusion has been enabled" --expire-time=20
-                ;;
-            4)
-                echo "4) Updating Firmware"
-                sudo dnf upgrade --refresh
-                sudo dnf check
-                sudo dnf autoremove
-                sudo fwupdmgr get-devices
-                sudo fwupdmgr refresh --force
-                sudo fwupdmgr get-updates
-                sudo fwupdmgr update
-
-                sudo dnf upgrade --refresh
-                sudo dnf check
-                sudo dnf autoremove
-                notify-send "4) Latest Firmware installed" "Please reboot to finalize driver installation." --expire-time=5000
-                ;;
-            5)
-                echo "5) Installing NVIDIA Drivers"
-                sudo dnf install -y akmod-nvidia
-                sudo dnf install -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs
-                sudo dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs
-                sudo dnf install -y vdpauinfo libva-vdpau-driver libva-utils
-                sudo dnf install -y vulkan vulkan-tools
-
-                sudo dnf upgrade --refresh
-                sudo dnf check
-                sudo dnf autoremove
-                notify-send "5) NVIDIA drivers installed" "Please reboot to finalize driver installation." --expire-time=5000
-                ;;
-            6)
-                echo "6) Installing Software"
-                # general
-                sudo dnf install -y dnf-plugins-core copr-cli
-                sudo dnf groupinstall -y "Development Tools" "Development Libraries"
-                sudo dnf install -y git ripgrep fd-find xclip util-linux-user xprop xwininfo
-                sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim htop
-                sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
-                sudo dnf install -y curl dconf-editor dnsutils dos2unix doxygen msmtp neofetch
-                sudo dnf install -y graphviz htop mercurial exa ninja-build pass
-                sudo dnf install -y nodejs npm python3 python3-pip pandoc poppler-utils poppler-data
-                sudo dnf install -y subversion tldr tmux tree unzip w3m wget libtool ranger texinfo
-                sudo dnf install -y wordnet shfmt editorconfig glslang ShellCheck xdotool parallel
-                sudo dnf install -y llvm clang clang-tools-extra libpcap libpcap-devel
-                sudo dnf install -y pkg-config openssl openssl-devel flex bison unar unrar p7zip p7zip-plugins
-                sudo dnf install -y ImageMagick ImageMagick-devel sqlite zeal scrot
-                sudo dnf install -y go valgrind minicom mc strace tidy
-
-                # Wayland stuff
-                sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
-
-                # tmux: A terminal multiplexer
-                sudo dnf install -y tmux
-
-                # Alacritty
-                sudo dnf install -y alacritty
-
-                # Starship Prompt
-                curl -sS https://starship.rs/install.sh | sh
-
-                # gpg
-                sudo dnf install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc pcsc-lite-ccid
-                sudo systemctl enable pcscd
-                sudo systemctl start pcscd
-                sudo systemctl restart pcscd
-
-                # yubikey
-                sudo dnf install -y yubikey-manager
-
-                # ncdu (text-based disk usage viewer)
-                sudo dnf install -y ncdu
-
-                # Borg Backup
-                sudo dnf install -y borgbackup
-
-                # Command Line Fuzzy Finder
-                sudo dnf install -y skim
-
-                # Gnome Software
-                sudo dnf -y install gnome-tweaks
-
-                # Neovim nightly
-                sudo dnf copr enable agriffis/neovim-nightly -y
-                sudo dnf install -y neovim python3-neovim
-
-                # Firewall GUI to manage firewalld
-                sudo dnf install -y firewall-config
-
-                # Profile sync daemon
-                sudo dnf install -y profile-sync-daemon
-                sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-                systemctl --user enable psd.service
-                systemctl --user start psd.service
-                systemctl --user restart psd.service
-
-                # non dnf software
-                pip install cmake-language-server
-                sudo npm install --global npm@latest
-                sudo npm install --global prettier
-                sudo npm install --global js-beautify
-                sudo npm install --global typescript-language-server typescript
-                sudo npm install --global dockerfile-language-server-nodejs
-                sudo npm install --global bash-language-server
-
-                sudo dnf upgrade --refresh
-                sudo dnf check
-                sudo dnf autoremove
-                notify-send "6) Software has been installed" --expire-time=20
-                ;;
-            7)
-                echo "7) Installing Extras"
-                # Multimedia
-                sudo dnf groupupdate -y sound-and-video
-                sudo dnf install -y libdvdcss
-                sudo dnf install -y \
-                    gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel \
-                    ffmpeg gstreamer-ffmpeg
-                sudo dnf install -y lame\* --exclude=lame-devel
-                sudo dnf group upgrade -y --with-optional Multimedia
-
-                # Fonts
-                sudo dnf -y copr enable peterwu/iosevka
-                sudo dnf -y copr enable dawid/better_fonts
-                sudo dnf update -y
-                sudo dnf install -y fontconfig-font-replacements
-                sudo dnf install -y fontconfig-enhanced-defaults
-                sudo dnf update -y
-                sudo dnf install -y libreoffice-opensymbol-fonts
-                sudo dnf install -y adobe-source-code-pro-fonts
-                sudo dnf install -y jetbrains-mono-fonts-all
-                sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
-                sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
-                sudo dnf install -y terminus-fonts terminus-fonts-console google-noto-fonts-common mscore-fonts-all fira-code-fonts
-
-                # Gnome Font Settings
-                gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans 12'
-                gsettings set org.gnome.desktop.interface font-name 'Noto Sans 12'
-                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
-                gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Noto Sans 12'
-
-                # Latex
-                # sudo dnf install -y texlive-scheme-full
-
-                sudo dnf upgrade --refresh
-                sudo dnf check
-                sudo dnf autoremove
-                notify-send "7) Multimedia, fonts and others has been installed" --expire-time=20
-                ;;
-            8)
-                echo "8) Enabling Flatpak"
-                flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-                flatpak update
-                flatpak install -y flathub org.gnome.Extensions
-                flatpak install -y flathub org.gnome.Firmware
-                flatpak install -y flathub com.dropbox.Client
-                flatpak install -y flathub com.discordapp.Discord
-                flatpak install -y flathub com.skype.Client
-                flatpak install -y flathub com.slack.Slack
-                flatpak install -y flathub org.telegram.desktop
-                flatpak install -y flathub org.videolan.VLC
-                flatpak install -y flathub com.transmissionbt.Transmission
-                flatpak install -y flathub org.gimp.GIMP
-                flatpak install -y flathub org.wireshark.Wireshark
-                flatpak install -y flathub com.brave.Browser
-                # flatpak install -y flathub org.signal.Signal
-                # flatpak install -y flathub com.visualstudio.code
-                # flatpak install -y flathub com.github.GradienceTeam.Gradience
-
-                notify-send "8) Flatpak has now been enabled" --expire-time=20
-                ;;
-            9)
-                echo "9) Installing Docker"
-                sudo dnf install -y dnf-plugins-core
-                sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-                sudo dnf install -y docker-ce docker-ce-cli containerd.io
-
-                sudo systemctl enable docker
-                sudo systemctl start docker
-                sudo docker run hello-world
-
-                sudo dnf upgrade --refresh
-                sudo dnf check
-                sudo dnf autoremove
-                notify-send "9) Docker has been installed" --expire-time=20
-                ;;
-            10)
-                if [ "$(getenforce 2>/dev/null | grep -c "Enforcing")" -eq 1 ]; then
-                    notify-send "10) I won't install Nix" "It does not work with SELinux" --expire-time=20
-                    continue
-                fi
-
-                # Install nix
-                if ! hash nix 2>/dev/null; then
-                    echo "install: setting up nix..."
-                    sh <(curl -L https://nixos.org/nix/install) --daemon
-
-                    # Set current user as trusted user
-                    echo "trusted-users = root ${USER}" | sudo tee -a /etc/nix/nix.conf && sudo pkill nix-daemon
-
-                    source "$HOME/.bashrc"
-
-                    nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-                fi
-
-                nix-channel --update
-
-                # Install cachix (https://www.cachix.org/)
-                if ! hash cachix 2>/dev/null; then
-                    echo "install: setting up cachix..."
-
-                    # Check to see if curl is installed, if not install it
-                    if [ "$(rpm -q curl 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
-                        sudo dnf install -y curl
-                    fi
-
-                    nix-env -iA cachix -f https://cachix.org/api/v1/install
-                fi
-
-                # Using `https://devenv.sh/` alternative would be `https://github.com/nix-community/nix-direnv`
-                # Install devenv
-                if ! hash devenv 2>/dev/null; then
-                    nix-env -if https://github.com/cachix/devenv/tarball/latest
-                fi
-
-                notify-send "10) Nix has been installed" --expire-time=20
-                ;;
-            11)
-                echo "11) Setting up secrets"
+                echo "2) Setting up secrets"
                 read -r -p "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
                 [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
@@ -414,14 +153,14 @@ debian_install() {
                 [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
                 [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
-                notify-send "11) Secrets are set" --expire-time=20
+                notify-send "2) Secrets are set" --expire-time=20
                 ;;
-            12)
-                echo "12) Installing Emacs"
+            3)
+                echo "3) Installing Emacs"
 
                 # Install needed dependencies
-                sudo dnf builddep -y emacs
-                sudo dnf install -y libgccjit libgccjit-devel gtk3 gtk3-devel
+                sudo apt -y build-dep emacs
+                sudo apt install -y libgccjit0 libgccjit-10-dev
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -440,16 +179,16 @@ debian_install() {
 
                 # Install
                 ./autogen.sh
-                ./configure --with-native-compilation --with-xwidgets --with-json --with-mailutils --with-imagemagick \
+                ./configure --with-native-compilation --with-json --with-mailutils \
                     CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
                 make -j16
                 sudo make install
 
                 cd - || notify-send "Can't cd to previous directory" --expire-time=20
-                notify-send "12) Emacs has been installed" --expire-time=20
+                notify-send "3) Emacs has been installed" --expire-time=20
                 ;;
-            13)
-                echo "13) Installing Keyd"
+            4)
+                echo "4) Installing Keyd"
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -460,7 +199,6 @@ debian_install() {
                 }
                 sudo make uninstall
                 make clean
-                make distclean
                 git reset --hard HEAD # Remove all local changes to tracked files
                 sudo git clean -dfx   # Remove all untracked files and directories
                 git pull
@@ -477,9 +215,9 @@ debian_install() {
                 sudo keyd reload
 
                 cd - || notify-send "Can't cd to previous directory" --expire-time=20
-                notify-send "13) Keyd daemon has been installed" --expire-time=20
+                notify-send "4) Keyd daemon has been installed" --expire-time=20
                 ;;
-            14)
+            5)
                 exit 0
                 ;;
         esac
@@ -487,17 +225,21 @@ debian_install() {
 }
 
 debian_update() {
-    sudo dnf -y upgrade --refresh
+    sudo apt update -y
     test $? -eq 0 || usage 1
 
-    sudo dnf -y distro-sync
+    sudo apt upgrade -y
     test $? -eq 0 || usage 1
 
-    sudo dnf autoremove
+    sudo apt full-upgrade -y
     test $? -eq 0 || usage 1
 
-    flatpak update
+    sudo apt autoremove -y
     test $? -eq 0 || usage 1
+
+    flatpak update -y
+    test $? -eq 0 || usage 1
+
 }
 
 set -o errexit

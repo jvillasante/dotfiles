@@ -221,7 +221,8 @@ fedora_install() {
                 sudo dnf install -y borgbackup
 
                 # Command Line Fuzzy Finder
-                sudo dnf install -y skim
+                # sudo dnf install -y skim
+                sudo dnf install -y fzf
 
                 # Gnome Software
                 sudo dnf -y install gnome-tweaks
@@ -271,7 +272,6 @@ fedora_install() {
                 sudo dnf update -y
                 sudo dnf install -y fontconfig-font-replacements
                 sudo dnf install -y fontconfig-enhanced-defaults
-                sudo dnf update -y
                 sudo dnf install -y libreoffice-opensymbol-fonts
                 sudo dnf install -y adobe-source-code-pro-fonts
                 sudo dnf install -y jetbrains-mono-fonts-all
@@ -280,10 +280,10 @@ fedora_install() {
                 sudo dnf install -y terminus-fonts terminus-fonts-console google-noto-fonts-common mscore-fonts-all fira-code-fonts
 
                 # Gnome Font Settings
-                gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans 12'
-                gsettings set org.gnome.desktop.interface font-name 'Noto Sans 12'
+                gsettings set org.gnome.desktop.interface document-font-name 'Iosevka 16'
+                gsettings set org.gnome.desktop.interface font-name 'Iosevka 16'
                 gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
-                gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Noto Sans 12'
+                gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Iosevka 16'
 
                 # Latex
                 # sudo dnf install -y texlive-scheme-full
@@ -310,7 +310,7 @@ fedora_install() {
                 flatpak install -y flathub org.wireshark.Wireshark
                 flatpak install -y flathub com.brave.Browser
                 flatpak install -y flathub com.github.tchx84.Flatseal
-                flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
+                # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
                 # flatpak install -y flathub org.signal.Signal
                 # flatpak install -y flathub com.microsoft.Edge
                 # flatpak install -y flathub com.visualstudio.code
@@ -460,7 +460,6 @@ fedora_install() {
                 }
                 sudo make uninstall
                 make clean
-                make distclean
                 git reset --hard HEAD # Remove all local changes to tracked files
                 sudo git clean -dfx   # Remove all untracked files and directories
                 git pull
@@ -493,10 +492,10 @@ fedora_update() {
     sudo dnf -y distro-sync
     test $? -eq 0 || usage 1
 
-    sudo dnf autoremove
+    sudo dnf -y autoremove
     test $? -eq 0 || usage 1
 
-    flatpak update
+    flatpak update -y
     test $? -eq 0 || usage 1
 }
 
