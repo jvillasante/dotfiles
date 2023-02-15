@@ -280,13 +280,13 @@ fedora_install() {
                 sudo dnf install -y terminus-fonts terminus-fonts-console google-noto-fonts-common mscore-fonts-all fira-code-fonts
 
                 # Gnome Font Settings
-                gsettings set org.gnome.desktop.interface document-font-name 'Iosevka 16'
-                gsettings set org.gnome.desktop.interface font-name 'Iosevka 16'
+                gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans 12'
+                gsettings set org.gnome.desktop.interface font-name 'Noto Sans 12'
                 gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
-                gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Iosevka 16'
+                gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Noto Sans 12'
 
                 # Latex
-                # sudo dnf install -y texlive-scheme-full
+                sudo dnf install -y texlive-scheme-full
 
                 sudo dnf upgrade --refresh
                 sudo dnf check
