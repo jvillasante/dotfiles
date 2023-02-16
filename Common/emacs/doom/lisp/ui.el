@@ -160,6 +160,7 @@
     (set-popup-rule! "^\\*Diff" :size 0.6 :quit t :select t)
     (set-popup-rule! "^\\*Shell Command" :size 0.4 :quit t :select t)
     (set-popup-rule! "^\\*Async Shell Command" :size 0.4 :quit t :select t)
+    (set-popup-rule! "^\\*Embark Export" :size 0.4 :quit t :select t)
     (after! tldr (set-popup-rule! "^\\*tldr*" :size 0.6 :ttl 0 :quit nil))
     (after! lsp (set-popup-rule! "^\\*lsp" :size 0.4 :quit t :ttl 0))
     (after! eglot (set-popup-rule! "^\\*eglot-.*$" :size 0.4 :quit t :ttl 0))
