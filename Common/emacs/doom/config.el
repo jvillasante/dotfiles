@@ -560,6 +560,11 @@
                                           :left-fringe 16
                                           :right-fringe 16)))
 
+(use-package! evil-nerd-commenter
+    :demand
+    :config
+    (evilnc-default-hotkeys t))
+
 (load! "lisp/ui")
 (load! "lisp/elfeed")
 (load! "lisp/hydras")
