@@ -197,11 +197,10 @@ FZF-EOF"
             dir=$(pwd)
             cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || return
             passfile=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
-            [ -z "$PASSFILE" ] && return
+            [ -z "$passfile" ] && return
             cd "$dir" || return
             actions="Copy Password\nView File\nEdit File\nQuit"
-            while true
-            do
+            while true; do
                 action=$(echo -e "$actions" | fzf --height 10 --border --header "Pass file $passfile")
                 case ${action} in
                     "Copy Password")
