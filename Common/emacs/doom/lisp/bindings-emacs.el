@@ -24,6 +24,10 @@
     "M-l" #'downcase-dwim
     "M-c" #'capitalize-dwim
 
+    ;;; better comment/un-comment
+    "M-;" #'+my/comment-or-uncomment
+    "C-x C-;" #'+my/comment-or-uncomment
+
     ;;; zap
     "M-S-z" #'zap-up-to-char ;; New in Emacs 28
 

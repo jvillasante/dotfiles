@@ -36,9 +36,6 @@
 (package! posframe)
 (package! file-info)
 
-;; evil-nerd-commenter: does not need evil!
-(package! evil-nerd-commenter)
-
 ;; To install a package with Doom you must declare them here, run 'doom sync' on
 ;; the command line, then restart Emacs for the changes to take effect.
 ;; Alternatively, use M-x doom/reload.
