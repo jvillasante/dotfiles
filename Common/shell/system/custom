@@ -20,6 +20,20 @@ export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 export XDG_LIB_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}"
 export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 
+# Don't put duplicate lines or liens starting with space int he history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+
+# For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary, update the values of LINES and COLUMNS
+shopt -s checkwinsize
+
 # PS1
 eval "$(starship init bash)"
 
@@ -27,7 +41,7 @@ eval "$(starship init bash)"
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] &&
     source /usr/share/bash-completion/bash_completion
 
-# Editor
+# Editor: Emacs please
 if type emacs >/dev/null 2>/dev/null; then
     export ALTERNATE_EDITOR=""
     export VISUAL="emacsclient -c -n -a ''" # $VISUAL opens in GUI no wait

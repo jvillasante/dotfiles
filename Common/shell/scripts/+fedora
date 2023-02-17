@@ -37,7 +37,7 @@ fedora_install() {
         1 "Set Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
         2 "Setting DNF - Setup DNF and do a full upgrade of the System"
         3 "Enable RPM Fusion - Enables the RPM Fusion repos for your specific version"
-        4 "Update Firmware - fw firmware update (reboot needed)"
+        4 "Update Kernel & Firmware and Firmware update (reboot needed)"
         5 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
         6 "Install Software - Installs a bunch of my most used software"
         7 "Install Extras - Themes Fonts and Codecs"
@@ -98,12 +98,18 @@ fedora_install() {
                 mkdir -p "$HOME/Workspace/Work/Software"
                 mkdir -p "$HOME/Workspace/Work/Stuff"
 
-                # View current settings - gsettings list-recursively org.gnome.desktop.interface
+                # Gsettings
+                #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
+                #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
+
                 # Clock Settings
                 gsettings set org.gnome.desktop.interface clock-format '24h'
                 gsettings set org.gnome.desktop.interface clock-show-date true
                 gsettings set org.gnome.desktop.interface clock-show-seconds false
                 gsettings set org.gnome.desktop.interface clock-show-weekday false
+
+                # No animations (performance oriented)
+                gsettings set org.gnome.desktop.interface enable-animations false
 
                 # No hot corners
                 gsettings set org.gnome.desktop.interface enable-hot-corners false
@@ -115,10 +121,13 @@ fedora_install() {
                 gsettings set org.gnome.desktop.interface show-battery-percentage true
 
                 # Enable window buttons
-                gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
+                gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
 
                 # Set new windows centered
                 gsettings set org.gnome.mutter center-new-windows true
+
+                # Set list-view for Nautilius
+                gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 
                 notify-send "1) Defaults has been set" --expire-time=20
                 ;;
@@ -149,7 +158,8 @@ fedora_install() {
                 notify-send "3) RPM Fusion has been enabled" --expire-time=20
                 ;;
             4)
-                echo "4) Updating Firmware"
+                echo "4) Updating Keyrnel and Firmware"
+                sudo dnf install -y gcc kernel-headers kernel-devel
                 sudo fwupdmgr get-devices
                 sudo fwupdmgr refresh --force
                 sudo fwupdmgr get-updates
@@ -167,6 +177,10 @@ fedora_install() {
                 sudo dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs
                 sudo dnf install -y vdpauinfo libva-vdpau-driver libva-utils
                 sudo dnf install -y vulkan vulkan-tools
+
+                # To resolve issues that comes with nvidia when suspending system
+                sudo dnf install -y xorg-x11-drv-nvidia-power
+                sudo systemctl enable nvidia-{suspend,resume,hibernate}
 
                 sudo dnf upgrade --refresh
                 sudo dnf check
