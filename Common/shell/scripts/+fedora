@@ -161,7 +161,7 @@ fedora_install() {
                 sudo fwupdmgr update
 
                 sudo dnf upgrade -y --refresh
-                dnf autoremove -y
+                sudo dnf autoremove -y
                 read -p "4) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
                 ;;
             5)
@@ -255,12 +255,12 @@ fedora_install() {
 
                 # non dnf software
                 pip install cmake-language-server
-                npm install --global npm@latest
-                npm install --global prettier
-                npm install --global js-beautify
-                npm install --global typescript-language-server typescript
-                npm install --global dockerfile-language-server-nodejs
-                npm install --global bash-language-server
+                sudo npm install --global npm@latest
+                sudo npm install --global prettier
+                sudo npm install --global js-beautify
+                sudo npm install --global typescript-language-server typescript
+                sudo npm install --global dockerfile-language-server-nodejs
+                sudo npm install --global bash-language-server
 
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
@@ -485,7 +485,7 @@ fedora_install() {
 
                 # Enable the daemon
                 systemctl enable keyd && systemctl start keyd
-                keyd reload
+                sudo keyd reload
 
                 cd - || notify-send "Can't cd to previous directory" --expire-time=20
                 read -p "13) Keyd daemon has been installed. Press enter to continue..."
