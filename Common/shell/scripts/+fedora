@@ -4,8 +4,8 @@ usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
-    echo "    sudo $0 install:"
-    echo "        Install Fedora System (needs sudo)"
+    echo "    $0 install:"
+    echo "        Install Fedora System"
     echo "    $0 update:"
     echo "        Update Fedora System"
     echo "    $0 dnf [arbitrary DNF command]:"
@@ -21,7 +21,14 @@ chc() {
     test $? -eq 0 || return 1
 
     mv "$1"{.1,}
+    return $?
+}
+sudo_chc() {
+    sudo gawk -v OFS== -v FS== -e 'BEGIN { ARGC = 1 } $1 == ARGV[2] { print ARGV[4] ? ARGV[4] : $1, ARGV[3]; next } 1' "$@" <"$1" >"$1.1"
     test $? -eq 0 || return 1
+
+    sudo mv "$1"{.1,}
+    return $?
 }
 
 # Usage: config_set filename key value
@@ -37,10 +44,28 @@ config_set() {
     # create key if not exists
     if ! grep -q "^${key}=" "${file}"; then
         # insert a newline just in case the file does not end with one
-        printf "\n%s=" "${key}" >>"${file}"
+        printf "\n%s=" "${key}" | tee -a "${file}"
     fi
 
     chc "$file" "$key" "$val"
+    return $?
+}
+sudo_config_set() {
+    local file key val
+    file="$1"
+    key="$2"
+    val="$3"
+
+    # check file exists
+    [ ! -f "$file" ] && return 1
+
+    # create key if not exists
+    if ! grep -q "^${key}=" "${file}"; then
+        # insert a newline just in case the file does not end with one
+        printf "\n%s=" "${key}" | sudo tee -a "${file}"
+    fi
+
+    sudo_chc "$file" "$key" "$val"
     return $?
 }
 
@@ -52,20 +77,14 @@ fedora_install() {
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
-    # Check if we are root
-    if ! [ "$(id -u)" = 0 ]; then
-        echo "The install command needs to run as root." >&2
-        usage 1
-    fi
-
     # Check to see if Dialog is installed, if not install it
     if [ "$(rpm -q dialog 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
-        dnf install -y dialog
+        sudo dnf install -y dialog
     fi
 
     # Check to see if libnotify is installed, if not install it
     if [ "$(rpm -q libnotify 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
-        dnf install -y libnotify
+        sudo dnf install -y libnotify
     fi
 
     OPTIONS=(
@@ -165,136 +184,128 @@ fedora_install() {
                 ;;
             2)
                 echo "2) Setting up DNF"
-                echo 'fastestmirror=true' | tee -a /etc/dnf/dnf.conf
-                echo 'max_parallel_downloads=10' | tee -a /etc/dnf/dnf.conf
+                echo 'fastestmirror=true' | sudo tee -a /etc/dnf/dnf.conf
+                echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
 
-                dnf upgrade --refresh
-                dnf check
-                dnf autoremove
+                sudo dnf upgrade -y --refresh
+                sudo dnf autoremove -y
                 read -p "2) DNF config has now been amended. Press enter to continue..."
                 ;;
             3)
                 echo "3) Enabling RPM Fusion"
-                dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
+                sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
                     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
-                dnf upgrade --refresh
-                dnf -y groupupdate core
-                dnf install -y rpmfusion-free-release-tainted
-                dnf install -y rpmfusion-nonfree-release-tainted
-                dnf install -y dnf-plugins-core
-                dnf install -y \*-firmware
+                sudo dnf upgrade -y --refresh
+                sudo dnf -y groupupdate core
+                sudo dnf install -y rpmfusion-free-release-tainted
+                sudo dnf install -y rpmfusion-nonfree-release-tainted
+                sudo dnf install -y dnf-plugins-core
+                sudo dnf install -y \*-firmware
 
-                dnf upgrade --refresh
-                dnf check
-                dnf autoremove
+                sudo dnf upgrade -y --refresh
+                sudo dnf autoremove -y
                 read -p "3) RPM Fusion has been enabled. Press enter to continue..."
                 ;;
             4)
                 echo "4) Updating Keyrnel and Firmware"
-                dnf install -y gcc kernel-headers kernel-devel
-                fwupdmgr get-devices
-                fwupdmgr refresh --force
-                fwupdmgr get-updates
-                fwupdmgr update
+                sudo dnf install -y gcc kernel-headers kernel-devel
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
 
-                dnf upgrade --refresh
-                dnf check
-                dnf autoremove
-
+                sudo dnf upgrade -y --refresh
+                dnf autoremove -y
                 read -p "4) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
                 ;;
             5)
                 echo "5) Installing NVIDIA Drivers. We need to disable secure boot on the bios for NVIDIA Drivers to be loaded."
 
                 # Using RPM Fusion
-                dnf install -y akmod-nvidia
-                dnf install -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs
-                dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs
-                dnf install -y vdpauinfo libva-vdpau-driver libva-utils
-                dnf install -y vulkan vulkan-tools
-                dnf install -y xorg-x11-drv-nvidia-power
+                sudo dnf install -y akmod-nvidia
+                sudo dnf install -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs
+                sudo dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs
+                sudo dnf install -y vdpauinfo libva-vdpau-driver libva-utils
+                sudo dnf install -y vulkan vulkan-tools
+                sudo dnf install -y xorg-x11-drv-nvidia-power
                 systemctl enable nvidia-{suspend,resume,hibernate}
 
-                dnf upgrade --refresh
-                dnf check
-                dnf autoremove
+                sudo dnf upgrade -y --refresh
+                sudo dnf autoremove -y
                 read -p "5) NVIDIA Drivers installed, we need to reboot to finalize driver installation. Press enter to continue..."
                 ;;
             6)
                 echo "6) Installing Software"
+
                 # general
-                dnf install -y dnf-plugins-core copr-cli
-                dnf groupinstall -y "Development Tools" "Development Libraries"
-                dnf install -y git ripgrep fd-find xclip util-linux-user xprop xwininfo htop btop
-                dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
-                dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
-                dnf install -y curl dconf-editor dnsutils dos2unix doxygen msmtp neofetch
-                dnf install -y graphviz htop mercurial exa ninja-build pass
-                dnf install -y nodejs npm python3 python3-pip pandoc poppler-utils poppler-data
-                dnf install -y subversion tldr tree w3m wget libtool ranger texinfo
-                dnf install -y wordnet shfmt editorconfig glslang ShellCheck xdotool parallel
-                dnf install -y llvm clang clang-tools-extra libpcap libpcap-devel
-                dnf install -y pkg-config openssl openssl-devel flex bison unar unrar unzip p7zip p7zip-plugins
-                dnf install -y ImageMagick ImageMagick-devel sqlite
-                dnf install -y valgrind minicom mc strace tidy
+                sudo dnf install -y dnf-plugins-core copr-cli
+                sudo dnf groupinstall -y "Development Tools" "Development Libraries"
+                sudo dnf install -y git ripgrep fd-find xclip util-linux-user xprop xwininfo htop btop
+                sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
+                sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
+                sudo dnf install -y curl dconf-editor dnsutils dos2unix doxygen msmtp neofetch
+                sudo dnf install -y graphviz htop mercurial exa ninja-build pass
+                sudo dnf install -y nodejs npm python3 python3-pip pandoc poppler-utils poppler-data
+                sudo dnf install -y subversion tldr tree w3m wget libtool ranger texinfo
+                sudo dnf install -y wordnet shfmt editorconfig glslang ShellCheck xdotool parallel
+                sudo dnf install -y llvm clang clang-tools-extra libpcap libpcap-devel
+                sudo dnf install -y pkg-config openssl openssl-devel flex bison unar unrar unzip p7zip p7zip-plugins
+                sudo dnf install -y ImageMagick ImageMagick-devel sqlite
+                sudo dnf install -y valgrind minicom mc strace tidy
 
                 # Wayland stuff
-                dnf install -y egl-wayland egl-wayland-devel wl-clipboard
+                sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
 
                 # tmux: A terminal multiplexer
-                dnf install -y tmux
+                sudo dnf install -y tmux
 
                 # zellij: A terminal workspace with batteries included (like tmux)
                 # dnf copr enable varlad/zellij
                 # dnf install zellij
 
                 # Alacritty
-                dnf install -y alacritty
+                sudo dnf install -y alacritty
 
                 # Starship Prompt
                 curl -sS https://starship.rs/install.sh | sh
 
                 # gpg
-                dnf install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc pcsc-lite-ccid
+                sudo dnf install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc pcsc-lite-ccid
                 systemctl enable pcscd
-                systemctl start pcscd
-                systemctl restart pcscd
 
                 # yubikey
-                dnf install -y yubikey-manager
+                sudo dnf install -y yubikey-manager
 
                 # mail
-                dnf install -y isync mu maildir-utils
+                sudo dnf install -y isync mu maildir-utils
 
                 # ncdu (text-based disk usage viewer)
-                dnf install -y ncdu
+                sudo dnf install -y ncdu
 
                 # Borg Backup
-                dnf install -y borgbackup
+                sudo dnf install -y borgbackup
 
                 # Command Line Fuzzy Finder
                 # dnf install -y skim
-                dnf install -y fzf
+                sudo dnf install -y fzf
 
                 # Gnome Software
-                dnf -y install gnome-tweaks
+                sudo dnf -y install gnome-tweaks
 
                 # Neovim nightly
-                dnf copr enable agriffis/neovim-nightly -y
-                dnf install -y neovim python3-neovim
+                sudo dnf copr enable agriffis/neovim-nightly -y
+                sudo dnf install -y neovim python3-neovim
 
                 # Firewall GUI to manage firewalld
-                dnf install -y firewall-config
+                sudo dnf install -y firewall-config
 
                 # Profile sync daemon
-                dnf install -y profile-sync-daemon
-                cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                sudo dnf install -y profile-sync-daemon
+                sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
                 systemctl --user enable psd.service
-                systemctl --user start psd.service
-                systemctl --user restart psd.service
 
                 # Go
-                # dnf install go
+                # sudo dnf install go
 
                 # non dnf software
                 pip install cmake-language-server
@@ -305,66 +316,63 @@ fedora_install() {
                 npm install --global dockerfile-language-server-nodejs
                 npm install --global bash-language-server
 
-                dnf upgrade --refresh
-                dnf check
-                dnf autoremove
+                sudo dnf upgrade -y --refresh
+                sudo dnf autoremove -y
                 read -p "6) Software has been installed. Press enter to continue..."
                 ;;
             7)
                 echo "7) Installing Extras"
 
                 # Multimedia
-                dnf groupupdate -y sound-and-video
-                dnf install -y libdvdcss
-                dnf install -y gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} \
+                sudo dnf groupupdate -y sound-and-video
+                sudo dnf install -y libdvdcss
+                sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} \
                     gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel ffmpeg gstreamer-ffmpeg
-                dnf install -y lame\* --exclude=lame-devel
-                dnf config-manager --set-enabled fedora-cisco-openh264
-                dnf install -y gstreamer1-plugin-openh264 mozilla-openh264
-                dnf group upgrade -y --with-optional Multimedia
+                sudo dnf install -y lame\* --exclude=lame-devel
+                sudo dnf config-manager --set-enabled fedora-cisco-openh264
+                sudo dnf install -y gstreamer1-plugin-openh264 mozilla-openh264
+                sudo dnf group upgrade -y --with-optional Multimedia
 
                 # TLP
                 # Install TLP and remove power profiles
-                dnf remove -y power-profiles-daemon
-                dnf install -y tlp tlp-rdw
+                sudo dnf remove -y power-profiles-daemon
+                sudo dnf install -y tlp tlp-rdw
 
                 # Create TLP config
-                mkdir -p /etc/tlp.d
-                cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
-                vim /etc/tlp.d/01-myconfig.conf
+                sudo mkdir -p /etc/tlp.d
+                sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
 
                 # Set TLP config values
-                config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
-                config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
-                config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
+                sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
+                sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
+                sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
 
                 # Enable TLP service
                 systemctl enable tlp.service
                 systemctl mask systemd-rfkill.service systemd-rfkill.socket
 
                 # Fonts
-                dnf -y copr enable peterwu/iosevka
-                dnf -y copr enable dawid/better_fonts
-                dnf update -y
-                dnf install -y --skip-broken fontconfig-font-replacements
-                dnf install -y --skip-broken fontconfig-enhanced-defaults
-                dnf install -y libreoffice-opensymbol-fonts
-                dnf install -y adobe-source-code-pro-fonts
-                dnf install -y jetbrains-mono-fonts-all
-                dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
-                dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
-                dnf install -y terminus-fonts terminus-fonts-console google-noto-fonts-common mscore-fonts-all
-                dnf install -y fira-code-fonts 'mozilla-fira*' 'google-roboto*'
+                sudo dnf -y copr enable peterwu/iosevka
+                sudo dnf -y copr enable dawid/better_fonts
+                sudo dnf update -y
+                sudo dnf install -y --skip-broken fontconfig-font-replacements
+                sudo dnf install -y --skip-broken fontconfig-enhanced-defaults
+                sudo dnf install -y libreoffice-opensymbol-fonts
+                sudo dnf install -y adobe-source-code-pro-fonts
+                sudo dnf install -y jetbrains-mono-fonts-all
+                sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
+                sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
+                sudo dnf install -y terminus-fonts terminus-fonts-console google-noto-fonts-common mscore-fonts-all
+                sudo dnf install -y fira-code-fonts 'mozilla-fira*' 'google-roboto*'
 
                 # Gnome Font Settings
                 gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
 
                 # Latex
-                dnf install -y texlive-scheme-full
+                sudo dnf install -y texlive-scheme-full
 
-                dnf upgrade --refresh
-                dnf check
-                dnf autoremove
+                sudo dnf upgrade -y --refresh
+                sudo dnf autoremove -y
                 read -p "7) Multimedia, TLP, fonts and others has been installed. Press enter to continue..."
                 ;;
             8)
@@ -395,17 +403,19 @@ fedora_install() {
                 ;;
             9)
                 echo "9) Installing Docker"
-                dnf install -y dnf-plugins-core
-                dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-                dnf install -y docker-ce docker-ce-cli containerd.io
 
+                # Install Docker
+                sudo dnf install -y dnf-plugins-core
+                sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+                sudo dnf install -y docker-ce docker-ce-cli containerd.io
+
+                # Enabled it and run it
                 systemctl enable docker
                 systemctl start docker
-                docker run hello-world
+                sudo docker run hello-world
 
-                dnf upgrade --refresh
-                dnf check
-                dnf autoremove
+                sudo dnf upgrade -y --refresh
+                sudo dnf autoremove -y
                 read -p "9) Docker has been installed. Press enter to continue..."
                 ;;
             10)
@@ -420,7 +430,7 @@ fedora_install() {
                     sh <(curl -L https://nixos.org/nix/install) --daemon
 
                     # Set current user as trusted user
-                    echo "trusted-users = root ${USER}" | tee -a /etc/nix/nix.conf && pkill nix-daemon
+                    echo "trusted-users = root ${USER}" | sudo tee -a /etc/nix/nix.conf && pkill nix-daemon
 
                     source "$HOME/.bashrc"
 
@@ -435,7 +445,7 @@ fedora_install() {
 
                     # Check to see if curl is installed, if not install it
                     if [ "$(rpm -q curl 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
-                        dnf install -y curl
+                        sudo dnf install -y curl
                     fi
 
                     nix-env -iA cachix -f https://cachix.org/api/v1/install
@@ -498,9 +508,9 @@ fedora_install() {
                 hash emacs 2>/dev/null && notify-send "12) Emacs is already installed" --expire-time=20 && continue
 
                 # Using corp
-                dnf copr enable deathwish/emacs-pgtk-nativecomp
-                dnf update -y
-                dnf install -y emacs
+                sudo dnf copr enable deathwish/emacs-pgtk-nativecomp
+                sudo dnf update -y
+                sudo dnf install -y emacs
 
                 read -p "12) Emacs has been installed. Press enter to continue..."
                 ;;
@@ -514,18 +524,18 @@ fedora_install() {
                     notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
                     continue
                 }
-                make uninstall
+                sudo make uninstall
                 make clean
                 git reset --hard HEAD # Remove all local changes to tracked files
-                git clean -dfx        # Remove all untracked files and directories
+                sudo git clean -dfx   # Remove all untracked files and directories
                 git pull
 
                 # Install
                 make -j16
-                make install
+                sudo make install
 
                 # Copy Configuration
-                cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
+                sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
 
                 # Enable the daemon
                 systemctl enable keyd && systemctl start keyd
@@ -542,7 +552,7 @@ fedora_install() {
 }
 
 fedora_update() {
-    sudo dnf -y upgrade --refresh
+    sudo dnf -y --refresh upgrade
     test $? -eq 0 || usage 1
 
     sudo dnf -y distro-sync
