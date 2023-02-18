@@ -202,7 +202,6 @@ fedora_install() {
                 dnf autoremove
 
                 read -p "4) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
-                systemctl reboot
                 ;;
             5)
                 echo "5) Installing NVIDIA Drivers. We need to disable secure boot on the bios for NVIDIA Drivers to be loaded."
@@ -220,7 +219,6 @@ fedora_install() {
                 dnf check
                 dnf autoremove
                 read -p "5) NVIDIA Drivers installed, we need to reboot to finalize driver installation. Press enter to continue..."
-                systemctl reboot
                 ;;
             6)
                 echo "6) Installing Software"
