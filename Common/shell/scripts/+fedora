@@ -15,60 +15,6 @@ usage() {
     exit "$1"
 }
 
-# thanks to ixz in #bash on irc.freenode.net
-chc() {
-    gawk -v OFS== -v FS== -e 'BEGIN { ARGC = 1 } $1 == ARGV[2] { print ARGV[4] ? ARGV[4] : $1, ARGV[3]; next } 1' "$@" <"$1" >"$1.1"
-    test $? -eq 0 || return 1
-
-    mv "$1"{.1,}
-    return $?
-}
-sudo_chc() {
-    sudo gawk -v OFS== -v FS== -e 'BEGIN { ARGC = 1 } $1 == ARGV[2] { print ARGV[4] ? ARGV[4] : $1, ARGV[3]; next } 1' "$@" <"$1" >"$1.1"
-    test $? -eq 0 || return 1
-
-    sudo mv "$1"{.1,}
-    return $?
-}
-
-# Usage: config_set filename key value
-config_set() {
-    local file key val
-    file="$1"
-    key="$2"
-    val="$3"
-
-    # check file exists
-    [ ! -f "$file" ] && return 1
-
-    # create key if not exists
-    if ! grep -q "^${key}=" "${file}"; then
-        # insert a newline just in case the file does not end with one
-        printf "\n%s=" "${key}" | tee -a "${file}"
-    fi
-
-    chc "$file" "$key" "$val"
-    return $?
-}
-sudo_config_set() {
-    local file key val
-    file="$1"
-    key="$2"
-    val="$3"
-
-    # check file exists
-    [ ! -f "$file" ] && return 1
-
-    # create key if not exists
-    if ! grep -q "^${key}=" "${file}"; then
-        # insert a newline just in case the file does not end with one
-        printf "\n%s=" "${key}" | sudo tee -a "${file}"
-    fi
-
-    sudo_chc "$file" "$key" "$val"
-    return $?
-}
-
 fedora_install() {
     HEIGHT=25
     WIDTH=100
@@ -343,9 +289,9 @@ fedora_install() {
                 sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
 
                 # Set TLP config values
-                sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
-                sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
-                sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
+                # sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
+                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
+                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
 
                 # Enable TLP service
                 systemctl enable tlp.service
