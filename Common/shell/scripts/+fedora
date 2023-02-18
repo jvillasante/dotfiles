@@ -226,7 +226,7 @@ fedora_install() {
                 dnf install -y dnf-plugins-core copr-cli
                 dnf groupinstall -y "Development Tools" "Development Libraries"
                 dnf install -y git ripgrep fd-find xclip util-linux-user xprop xwininfo htop btop
-                dnf ipnstall -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
+                dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
                 dnf install -y curl dconf-editor dnsutils dos2unix doxygen msmtp neofetch
                 dnf install -y graphviz htop mercurial exa ninja-build pass
