@@ -348,8 +348,8 @@ fedora_install() {
                 dnf -y copr enable peterwu/iosevka
                 dnf -y copr enable dawid/better_fonts
                 dnf update -y
-                dnf install -y fontconfig-font-replacements
-                dnf install -y fontconfig-enhanced-defaults
+                dnf install -y --skip-broken fontconfig-font-replacements
+                dnf install -y --skip-broken fontconfig-enhanced-defaults
                 dnf install -y libreoffice-opensymbol-fonts
                 dnf install -y adobe-source-code-pro-fonts
                 dnf install -y jetbrains-mono-fonts-all
@@ -479,7 +479,7 @@ fedora_install() {
                 "./+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
                 [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" --expire-time=20 && continue
                 mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
-                cp "$KEYS_DIR"/gpg/coonfig/*.conf ~/.gnupg
+                cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
                 gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
                 rm -rf "$KEYS_DIR"/gpg
 
