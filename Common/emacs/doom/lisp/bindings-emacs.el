@@ -102,6 +102,7 @@
     (:when (modulep! :term vterm)
         (:when 'vterm
             :map vterm-mode-map
+            "C-x [" #'vterm-copy-mode
             "M-[" #'vterm-copy-mode
             "C-y" #'vterm-yank
             "C-q" #'vterm-send-next-key))
