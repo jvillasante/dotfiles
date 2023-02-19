@@ -7,9 +7,11 @@ usage() {
     echo "    $0 help:"
     echo "        Show this help message"
     echo "    $0 arkenfox:"
-    echo "        Update firefox Default profile with arkenfox"
+    echo "        Update Firefox Default profile with arkenfox overrides"
     echo "    $0 non-arkenfox:"
-    echo "        Update firefox Default profile without arkenfox"
+    echo "        Update Firefox Default profile without arkenfox overrides"
+    echo "    $0 clean:"
+    echo "        Cleanup Firefox Default profile overrides"
     echo "    e.g: $0 arkenfox"
     echo
     exit "$1"
@@ -25,6 +27,25 @@ firefox_default_profile() {
     [ -d "$PROFILE" ] || usage 1
 
     echo "$PROFILE"
+}
+
+cleanup() {
+    if pgrep -x firefox >/dev/null; then
+        echo ">>> Firefox is running. Close Firefox and try again."
+        usage 1
+    fi
+
+    local PROFILE
+    PROFILE=$(firefox_default_profile)
+    test $? -eq 0 || usage 1
+
+    echo ">>> Cleaning 'user.js' file for $PROFILE"
+
+    [ -f "${PROFILE}"/user.js ] && rm -f "${PROFILE}"/user.js
+    [ -f "${PROFILE}"/user-overrides.js ] && rm -f "${PROFILE}"/user-overrides.js
+
+    echo "All done!"
+    echo ""
 }
 
 #
@@ -131,6 +152,12 @@ update_non_arkenfox() {
 *
 **********************************************************************/
 
+// Some Defaults
+user_pref("browser.startup.page", 1);
+user_pref("browser.startup.homepage", "about:home");
+user_pref("browser.newtabpage.enabled", true);
+user_pref("browser.newtab.preload", true);
+
 // Disables Pocket extension.
 user_pref("extensions.pocket.enabled", false);
 
@@ -170,6 +197,10 @@ case $cmd in
     non-arkenfox)
         [ "$nargs" -eq 1 ] || usage 1
         update_non_arkenfox "$@"
+        ;;
+    clean)
+        [ "$nargs" -eq 1 ] || usage 1
+        cleanup "$@"
         ;;
     help | --help | -h)
         usage 0
