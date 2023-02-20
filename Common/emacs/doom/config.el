@@ -361,7 +361,7 @@
     (add-hook 'ediff-keymap-setup-hook '+my/add-d-to-ediff-mode-map))
 
 (after! magit
-    (setq! git-commit-summary-max-length 80))
+    (setq! git-commit-summary-max-length 50))
 
 (after! dired
     (setq! dired-ls-F-marks-symlinks t) ;; mark symlinks
