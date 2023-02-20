@@ -3,6 +3,8 @@
     email = jvillasantegomez@gmail.com
 [includeIf "gitdir:~/Workspace/Work/"]
     path = ~/Workspace/Work/.gitconfig
+[commit]
+    template = ~/.config/git/commit_template
 [credential]
     helper = cache --timeout=3600
 [pull]
