@@ -212,6 +212,9 @@ fedora_install() {
                 # Alacritty
                 sudo dnf install -y alacritty
 
+                # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
+                # sudo dnf install -y foot
+
                 # Starship Prompt
                 curl -sS https://starship.rs/install.sh | sh
 
