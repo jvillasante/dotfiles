@@ -92,11 +92,6 @@ install_emacs() {
     fi
 }
 
-install_vim() {
-    # TODO: Try to install nvim here if it is not installed already
-    echo ">>> Installing vim... (TODO)"
-}
-
 install_tmuxifier() {
     if [ ! -d "$DOTFILES_DIR/.tmuxifier" ]; then
         git clone --depth 1 git@github.com:jimeh/tmuxifier.git "$DOTFILES_DIR/.tmuxifier"
@@ -106,7 +101,6 @@ install_tmuxifier() {
 
 install_shell "bash"
 install_emacs
-install_vim
 install_tmuxifier
 
 echo ">>> Linking global files in $HOME"
