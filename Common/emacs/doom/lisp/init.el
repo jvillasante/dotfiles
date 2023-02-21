@@ -60,6 +60,7 @@
 (setenv "PAGER" "cat")
 
 ;; encryption
+(setq! auth-source-save-behavior nil)
 (progn
     (require 'epa-file)
     (epa-file-enable)

@@ -31,9 +31,6 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-# check the window size after each command and, if necessary, update the values of LINES and COLUMNS
-shopt -s checkwinsize
-
 # PS1
 eval "$(starship init bash)"
 
@@ -57,10 +54,8 @@ if type emacs >/dev/null 2>/dev/null; then
 fi
 
 # vim
-if type nvim >/dev/null 2>&1; then
-    alias vim='nvim'
-fi
-alias vi=vim
+type nvim >/dev/null 2>&1 && alias vim=nvim
+type vim >/dev/null 2>&1 && alias vi=vim
 
 # ssh
 alias ssh="TERM=xterm-256color ssh"
