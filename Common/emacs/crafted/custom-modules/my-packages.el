@@ -170,7 +170,6 @@
     (push (list (expand-file-name ".emacs.crafted/" +my/dotfiles-path)) recentf-exclude)
     (push (list (expand-file-name ".emacs.d/" +my/dotfiles-path)) recentf-exclude)
     (push (list (expand-file-name ".emacs.doom/" +my/dotfiles-path)) recentf-exclude)
-    (push (list (expand-file-name ".tmuxifier/" +my/dotfiles-path)) recentf-exclude)
     (push "~/.mail" recentf-exclude)
     (push "\\.git" recentf-exclude)
     (push "/tmp/" recentf-exclude)

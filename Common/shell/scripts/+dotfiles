@@ -11,8 +11,6 @@ usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
-    echo "    $0 tmuxifier sync:"
-    echo "        Update tmuxifier"
     echo "    $0 dotfiles [pull | sync]:"
     echo "        Update personal dotfiles (pull from remote or sync on local)"
     echo "    $0 chemacs sync:"
@@ -80,25 +78,6 @@ do_chemacs() {
     esac
 }
 
-do_tmuxifier() {
-    case $1 in
-        sync)
-            if [ -d "$DOTFILES_DIR/.tmuxifier" ]; then
-                git -C "$DOTFILES_DIR/.tmuxifier" status
-                test $? -eq 0 || usage 1
-
-                if ask "Do you want to pull?"; then
-                    git -C "${DOTFILES_DIR}/.tmuxifier" pull
-                    test $? -eq 0 || usage 1
-                fi
-            fi
-            ;;
-        *)
-            usage 1
-            ;;
-    esac
-}
-
 do_emacs() {
     case $1 in
         kill)
@@ -149,10 +128,6 @@ case $cmd in
     dotfiles)
         [ "$nargs" -eq 2 ] || usage 1
         do_dotfiles "$@"
-        ;;
-    tmuxifier)
-        [ "$nargs" -eq 2 ] || usage 1
-        do_tmuxifier "$@"
         ;;
     chemacs)
         [ "$nargs" -eq 2 ] || usage 1

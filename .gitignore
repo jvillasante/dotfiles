@@ -1,5 +1,4 @@
 /.emacs.*
-/.tmuxifier
 .DS_Store
 *flycheck_tmp_*
 *~

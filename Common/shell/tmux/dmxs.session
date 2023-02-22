@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
+selected="$1"
+selected_name="$2"
+tmux_running=$(pgrep tmux)
+
+configure() {
+    tmux send-keys -t "$selected_name" "git status" Enter
+    tmux split-window -v -p 80 -t "$selected_name" -c "$selected"
+    tmux send-keys -t "$selected_name" "docker run --rm --interactive --tty --volume $selected:/tmp/sm -u jenkins -w /tmp/sm --name dmxs sm:latest /bin/bash" Enter
+    tmux send-keys -t "$selected_name" "clear" Enter
+}
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s "$selected_name" -c "$selected"
+    configure
+else
+    if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+        tmux new-session -ds "$selected_name" -c "$selected"
+        tmux switch-client -t "$selected_name"
+        configure
+    fi
+fi

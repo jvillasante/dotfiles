@@ -33,6 +33,31 @@ if type fzf >/dev/null 2>/dev/null; then
     #
 
     # switch to a project
+    fproject() {
+        local selected tmux_running selected_name
+        selected=$(find "$HOME"/Workspace/Private/Projects/**/ "$HOME"/Workspace/Public \
+            "$HOME"/Workspace/Work/Projects -mindepth 1 -maxdepth 1 -type d | fzf)
+        [[ -z $selected ]] && return
+
+        selected_name=$(basename "$selected" | tr . _)
+        [[ -z $selected ]] && return
+
+        if [[ dmxs = "$selected_name" ]]; then
+            "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/dmxs.session" "$selected" "$selected_name"
+            return
+        fi
+
+        tmux_running=$(pgrep tmux)
+        if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+            tmux new-session -s "$selected_name" -c "$selected"
+        else
+            if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+                tmux new-session -ds "$selected_name" -c "$selected"
+                tmux switch-client -t "$selected_name"
+            fi
+        fi
+    }
+
     fproj() {
         cd "$(find ~/Workspace/Private/Projects/ -maxdepth 2 -type d | fzf)" || return
     }

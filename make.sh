@@ -92,19 +92,11 @@ install_emacs() {
     fi
 }
 
-install_tmuxifier() {
-    if [ ! -d "$DOTFILES_DIR/.tmuxifier" ]; then
-        git clone --depth 1 git@github.com:jimeh/tmuxifier.git "$DOTFILES_DIR/.tmuxifier"
-        check $?
-    fi
-}
-
 install_shell "bash"
 install_emacs
-install_tmuxifier
 
 echo ">>> Linking global files in $HOME"
-files=".emacs.d .tmuxifier"
+files=".emacs.d"
 for file in $files; do
     [ -L "$HOME/$file" ] && unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/$file" "$HOME/"
