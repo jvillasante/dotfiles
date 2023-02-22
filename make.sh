@@ -106,7 +106,7 @@ install_tmuxifier
 echo ">>> Linking global files in $HOME"
 files=".emacs.d .tmuxifier"
 for file in $files; do
-    unlink "$HOME/$file"
+    [ -L "$HOME/$file" ] && unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/$file" "$HOME/"
 done
 
@@ -115,36 +115,47 @@ files=".inputrc .editorconfig .emacs-profiles.el .sbclrc .mbsyncrc .msmtprc .tid
 [ -n "$BASH_VERSION" ] && files+=" .bash_profile .bashrc"
 [ -n "$ZSH_VERSION" ] && files+=" .zshenv .zshrc"
 for file in $files; do
-    unlink "$HOME/$file"
+    [ -L "$HOME/$file" ] && unlink "$HOME/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
 done
 
 echo ">>> Linking common files in $HOME/.config..."
 files="git nyxt alacritty foot shell tmux zellij ranger rofi nvim psd i3 nushell starship.toml"
 for file in $files; do
-    unlink "$HOME/.config/$file"
+    [ -L "$HOME/.config/$file" ] && unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
 done
 
 echo ">>> Linking scripts files in $HOME/.local/bin..."
 files="+backup +colors +crypt +dmxs +dotfiles +fedora +firefox +fs +go +mac +openbb +pass +project +rust +spell +stocks +ubuntu +zig +zombie"
 for file in $files; do
-    unlink "$HOME/.local/bin/$file"
+    [ -L "$HOME/.local/bin/$file" ] && unlink "$HOME/.local/bin/$file"
     ln -s "$DOTFILES_DIR/Common/shell/scripts/$file" "$HOME/.local/bin"
 done
 
 echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."
 files="emacs.service"
 for file in $files; do
-    unlink "$HOME/.config/systemd/user/$file"
+    [ -L "$HOME/.config/systemd/user/$file" ] && unlink "$HOME/.config/systemd/user/$file"
     ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"
 done
 
 echo ">>> Linking desktop application files in $HOME/.local/share/applications..."
 files="emacs.desktop emacsclient.desktop"
 for file in $files; do
-    unlink "$HOME/.local/share/applications/$file"
+    [ -L "$HOME/.local/share/applications/$file" ] && unlink "$HOME/.local/share/applications/$file"
     ln -s "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
 done
+
+echo ">>> Linking work files in $HOME/Workspace/Work..."
+if [ -d "$HOME/Workspace/Work" ]; then
+    [ -L "$HOME/Workspace/Work/.gitconfig" ] && unlink "$HOME/Workspace/Work/.gitconfig"
+    ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/"
+
+    if [ -d "$HOME/Workspace/Work/Projects/dmxs" ]; then
+        [ -L "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt" ] && unlink "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
+        ln -s "$DOTFILES_DIR/Misc/work/compile_flags.txt" "$HOME/Workspace/Work/Projects/dmxs/"
+    fi
+fi
 
 echo ">>> All Done!"
