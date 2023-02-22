@@ -33,7 +33,7 @@ if type fzf >/dev/null 2>/dev/null; then
     #
 
     # switch to a project
-    fproject() {
+    fproj() {
         local selected tmux_running selected_name
         selected=$(find "$HOME"/Workspace/Private/Projects/**/ "$HOME"/Workspace/Public \
             "$HOME"/Workspace/Work/Projects -mindepth 1 -maxdepth 1 -type d | fzf)
@@ -53,18 +53,9 @@ if type fzf >/dev/null 2>/dev/null; then
         else
             if ! tmux has-session -t="$selected_name" 2>/dev/null; then
                 tmux new-session -ds "$selected_name" -c "$selected"
-                tmux switch-client -t "$selected_name"
             fi
+            tmux switch-client -t "$selected_name"
         fi
-    }
-
-    fproj() {
-        cd "$(find ~/Workspace/Private/Projects/ -maxdepth 2 -type d | fzf)" || return
-    }
-
-    # switch to a work project
-    fwproj() {
-        cd "$(find ~/Workspace/Work/Projects/ -maxdepth 2 -type d | fzf)" || return
     }
 
     # change to an arbitrary subdirectory
@@ -100,8 +91,7 @@ if type fzf >/dev/null 2>/dev/null; then
             pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
         fi
 
-        if [ "x$pid" != "x" ]
-        then
+        if [ "x$pid" != "x" ]; then
             echo "$pid" | xargs kill -"${1:-9}"
         fi
     }
@@ -114,7 +104,7 @@ if type fzf >/dev/null 2>/dev/null; then
     fbr() {
         local branches branch
         branches=$(git branch --all | grep -v HEAD) &&
-            branch=$(echo "$branches" | fzf -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+            branch=$(echo "$branches" | fzf -d $((2 + $(wc -l <<<"$branches"))) +m) &&
             git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
     }
 
@@ -123,14 +113,19 @@ if type fzf >/dev/null 2>/dev/null; then
         local tags branches target
         branches=$(
             git --no-pager branch --all \
-                --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
-                | sed '/^$/d') || return
+                --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" |
+                sed '/^$/d'
+        ) || return
         tags=$(git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
         target=$(
-            (echo "$branches"; echo "$tags") |
+            (
+                echo "$branches"
+                echo "$tags"
+            ) |
                 fzf --no-hscroll --no-multi -n 2 \
-                    --ansi) || return
-        git checkout "$(awk '{print $2}' <<<"$target" )"
+                    --ansi
+        ) || return
+        git checkout "$(awk '{print $2}' <<<"$target")"
     }
 
     # fcoc - checkout git commit
@@ -152,66 +147,6 @@ if type fzf >/dev/null 2>/dev/null; then
                 {}
 FZF-EOF"
     }
-
-    #
-    # Tmux
-    #
-    if type tmux >/dev/null 2>/dev/null; then
-        # `ftm_session_new` - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
-        # `ftm_session_new` will allow you to select your tmux session via fzf.
-        # `ftm_session_new irc` will attach to the irc session (if it exists), else it will create it.
-        ftm_session_new() {
-            [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-            if [ "$1" ]; then
-                tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s "$1" && tmux $change -t "$1"); return
-            fi
-            session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
-        }
-
-
-        # zsh; needs setopt re_match_pcre. You can, of course, adapt it to your own shell easily.
-        ftm_session_kill() {
-            local sessions i
-            sessions="$(tmux ls|fzf --exit-0 --multi)"  || return $?
-            for i in "${(f@)sessions}"
-            do
-                [[ $i =~ ([^:]*):.* ]] && {
-                    echo "Killing $match[1]"
-                    tmux kill-session -t "$match[1]"
-                }
-            done
-        }
-
-        # ftm_session_switch [FUZZY PATTERN] - Select selected tmux session
-        #   - Bypass fuzzy finder if there's only one match (--select-1)
-        #   - Exit if there's no match (--exit-0)
-        ftm_session_switch() {
-            local session
-            session=$(tmux list-sessions -F "#{session_name}" | \
-                fzf --query="$1" --select-1 --exit-0) &&
-                tmux switch-client -t "$session"
-        }
-
-        # ftn_pane_switch - switch pane
-        ftm_pane_switch() {
-            local panes current_window current_pane target target_window target_pane
-            panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
-            current_pane=$(tmux display-message -p '#I:#P')
-            current_window=$(tmux display-message -p '#I')
-
-            target=$(echo "$panes" | grep -v "$current_pane" | fzf +m --reverse) || return
-
-            target_window=$(echo "$target" | awk 'BEGIN{FS=":|-"} {print$1}')
-            target_pane=$(echo "$target" | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
-
-            if [[ $current_window -eq $target_window ]]; then
-                tmux select-pane -t "${target_window}"."${target_pane}"
-            else
-                tmux select-pane -t "${target_window}"."${target_pane}" &&
-                    tmux select-window -t "$target_window"
-            fi
-        }
-    fi
 
     #
     # Pass
@@ -236,19 +171,22 @@ FZF-EOF"
                         ;;
                     "Copy Password and Quit")
                         pass --clip "${passfile}"
-                        break ;;
+                        break
+                        ;;
                     "View File")
                         pass "${passfile}"
                         ;;
                     "View File and Quit")
                         pass "${passfile}"
-                        break ;;
+                        break
+                        ;;
                     "Edit File")
                         pass edit "${passfile}"
                         ;;
                     "Edit File and Quit")
                         pass edit "${passfile}"
-                        break ;;
+                        break
+                        ;;
                     "Quit") break ;;
                     *) break ;;
                 esac

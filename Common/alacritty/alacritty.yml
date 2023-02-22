@@ -295,7 +295,7 @@ shell:
     args:
         - -l
         - -c
-        - "tmux attach || tmux new -s Default -n Default"
+        - "tmux attach || tmux new -s Default"
 
 # Startup directory
 #

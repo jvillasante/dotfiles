@@ -25,5 +25,7 @@ else
         tmux new-session -ds "$selected_name" -c "$selected"
         tmux switch-client -t "$selected_name"
         configure
+    else
+        tmux switch-client -t "$selected_name"
     fi
 fi
