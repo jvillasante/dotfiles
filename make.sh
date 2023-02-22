@@ -150,6 +150,9 @@ if [ -d "$HOME/Workspace/Work" ]; then
 
         [ -L "$HOME/Workspace/Work/Projects/dmxs/.dir-locals.el" ] && unlink "$HOME/Workspace/Work/Projects/dmxs/.dir-locals.el"
         ln -s "$DOTFILES_DIR/Misc/work/dmxs/.dir-locals.el" "$HOME/Workspace/Work/Projects/dmxs/"
+
+        [ -L "$HOME/Workspace/Work/Projects/smi/.dir-locals.el" ] && unlink "$HOME/Workspace/Work/Projects/smi/.dir-locals.el"
+        ln -s "$DOTFILES_DIR/Misc/work/smi/.dir-locals.el" "$HOME/Workspace/Work/Projects/smi/"
     fi
 fi
 
