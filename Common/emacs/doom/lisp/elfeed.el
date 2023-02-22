@@ -93,6 +93,7 @@
              "https://h2x.sh/atom.xml"
              "https://kerkour.com/feed.xml"
              "https://cliffle.com/rss.xml"
+             "https://nigeltao.github.io/feed.xml"
              "https://www.thecodedmessage.com/index.xml"))
 
     (setq! elfeed-search-title-min-width 60)
