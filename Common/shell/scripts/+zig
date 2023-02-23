@@ -5,7 +5,7 @@ set -o nounset
 set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 cd "$(dirname "$0")" || exit 1
-. "$HOME/.config/shell/system/common.sh"
+. "$HOME/.config/shell/common.sh"
 
 update_zig() {
     local ZIG_DIR="${HOME}/Workspace/Software/zig"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. "$HOME/.config/shell/system/common.sh"
+. "$HOME/.config/shell/common.sh"
 
 usage() {
     echo "Usage:"

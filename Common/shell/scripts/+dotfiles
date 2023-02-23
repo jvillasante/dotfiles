@@ -4,7 +4,7 @@
 # This is how I manage my dotfiles
 #
 
-. "$HOME/.config/shell/system/common.sh"
+. "$HOME/.config/shell/common.sh"
 DOTFILES_DIR="$(find_dotfiles)"
 
 usage() {
