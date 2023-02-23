@@ -23,7 +23,8 @@ install_shell() {
                 fi
             else
                 # Bash not installed
-                sudo dnf install bash || exit 1
+                [ -f /etc/fedora-release ] && sudo dnf install bash || exit 1
+                [ -f /etc/debian_version ] && sudo apt install bash || exit 1
 
                 # Run again
                 install_shell "bash"
@@ -38,7 +39,8 @@ install_shell() {
                 fi
             else
                 # Zsh not installed
-                sudo dnf install zsh || exit 1
+                [ -f /etc/fedora-release ] && sudo dnf install zsh || exit 1
+                [ -f /etc/debian_version ] && sudo apt install zsh || exit 1
 
                 # Run again
                 install_shell "zsh"
