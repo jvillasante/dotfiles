@@ -23,23 +23,20 @@ debian_install() {
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
-    # Check to see if Dialog is installed, if not install it
-    if ! hash dialog 2>/dev/null; then
-        sudo apt install -y dialog
-    fi
-
-    # Check to see if libnotify is installed, if not install it
-    if ! hash notify-send 2>/dev/null; then
-        sudo apt install -y libnotify-bin libnotify-dev
-    fi
+    # Check to see if dialog and libnotify are installed, if not install them
+    type dialog 2>/dev/null || sudo apt install -y dialog
+    type notify-send 2>/dev/null || sudo apt install -y libnotify-bin libnotify-dev
 
     OPTIONS=(
         1 "Set Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
-        2 "Setup secrets - Setup both ssh and gpg from backups"
-        3 "Install Emacs - Install emac28 from source"
-        4 "Install Keyd - Install Keyd from source"
-        5 "Quit"
-    )
+        2 "Install Software - Installs a bunch of my most used software"
+        3 "Install Extras - TLP, Fonts, etc"
+        4 "Enable Flatpak - Enables the Flatpak repo and installs packages"
+        5 "Install Docker - Install docker"
+        6 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
+        7 "Install Emacs - Install Emacs"
+        8 "Install Keyd - Install Keyd from source"
+        9 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -55,14 +52,15 @@ debian_install() {
         case $CHOICE in
             1)
                 echo "1) Setting Defaults"
-                # hostname
-                read -r -p "Enter pretty hostname (defaults to '$(hostnamectl --pretty)'): " HOSTNAME_PRETTY
-                [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
-                sudo hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
 
-                read -r -p "Enter static hostname (defaults to '$(hostnamectl --static)'): " HOSTNAME_STATIC
-                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="fedora-xps-9710"
-                sudo hostnamectl set-hostname --static "$HOSTNAME_STATIC"
+                # hostname
+                read -r -p "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
+                [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
+                hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
+
+                read -r -p "Enter static hostname (defaults to 'debian-xps-9710'): " HOSTNAME_STATIC
+                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="debian-xps-9710"
+                hostnamectl set-hostname --static "$HOSTNAME_STATIC"
 
                 # xdg
                 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
@@ -89,9 +87,12 @@ debian_install() {
                 mkdir -p "$HOME/Workspace/Work/Software"
                 mkdir -p "$HOME/Workspace/Work/Stuff"
 
-                # View current settings - gsettings list-recursively org.gnome.desktop.interface
+                # Gsettings - dconf-editor
+                #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
+                #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
+
                 # Clock Settings
-                gsettings set org.gnome.desktop.interface clock-format '24h'
+                gsettings set org.gnome.desktop.interface clock-format '12h'
                 gsettings set org.gnome.desktop.interface clock-show-date true
                 gsettings set org.gnome.desktop.interface clock-show-seconds false
                 gsettings set org.gnome.desktop.interface clock-show-weekday false
@@ -106,15 +107,164 @@ debian_install() {
                 gsettings set org.gnome.desktop.interface show-battery-percentage true
 
                 # Enable window buttons
-                gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
+                gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
 
                 # Set new windows centered
                 gsettings set org.gnome.mutter center-new-windows true
 
-                notify-send "1) Defaults has been set" --expire-time=20
+                # Set list-view for Nautilius
+                gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
+
+                read -p "1) Defaults has been set. Press enter to continue..."
                 ;;
             2)
-                echo "2) Setting up secrets"
+                echo ") Installing Software"
+
+                # General
+                sudo apt install -y build-essential binutils coreutils
+                sudo apt install -y rar unrar p7zip-full p7zip-rar zip unzip rsync xclip
+                sudo apt install -y silversearcher-ag aspell aspell-en aspell-es autojump atool autoconf automake
+                sudo apt install -y bat cmake curl dconf-editor dnsutils dos2unix doxygen fd-find font-manager
+                sudo apt install -y btop htop isync libpcap-dev make mercurial msmtp neofetch
+                sudo apt install -y vim neovim nodejs npm pandoc pass poppler-utils poppler-data ripgrep
+                sudo apt install -y scdaemon subversion telnet texlive-full tldr tree w3m wget
+                sudo apt install -y wordnet imagemagick exa ninja-build
+                sudo apt install -y python3 python3-pip pandoc poppler-utils poppler-data libtool
+                sudo apt install -y shfmt editorconfig glslang-tools glslang-dev shellcheck xdotool parallel
+                sudo apt install -y llvm clang clangd clang-tools tidy sqlite3
+                sudo apt install -y pkg-config openssl flex bison
+                sudo apt install -y valgrind minicom mc strace
+
+                # Wayland stuff
+                sudo apt install -y wl-clipboard
+
+                # tmux: A terminal multiplexer
+                sudo apt install -y tmux
+
+                # Git
+                sudo apt install git
+
+                # Alacritty
+                sudo apt install alacritty
+
+                # FZF
+                sudo apt install fzf
+                # dpkg -L fzf | grep bindings # Source both completion and keybindings from output of
+
+                # gpg
+                sudo apt install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc vsmartcard-vpcd
+                sudo systemctl enable pcscd && sudo systemctl start pcscd
+
+                # yubikey
+                sudo apt install -y yubikey-manager
+
+                # starship (https://starship.rs/)
+                curl -sS https://starship.rs/install.sh | sh
+
+                # ncdu (text-based disk usage viewer)
+                sudo apt install -y ncdu
+
+                # borg
+                sudo apt install -y borgbackup
+
+                # profile sync daemon
+                sudo apt install -y profile-sync-daemon
+                [ -f /usr/share/psd/contrib/brave ] && sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                systemctl --user enable psd.service && systemctl --user start psd.service
+
+                # Gnome Software
+                sudo apt -y install gnome-tweaks
+
+                # Neovim nightly
+                sudo apt install -y neovim
+
+                # latex
+                # sudo apt install -y texlive-base texinfo
+
+                # non apt software
+                # pip install cmake-language-server
+                sudo npm install --global npm@latest
+                sudo npm install --global prettier
+                sudo npm install --global js-beautify
+                sudo npm install --global typescript-language-server typescript
+                sudo npm install --global dockerfile-language-server-nodejs
+                sudo npm install --global bash-language-server
+
+                sudo apt update -y && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y
+                read -p "2) Software has been installed. Press enter to continue..."
+                ;;
+            3)
+                echo "3) Installing Extras"
+
+                # Multimedia: TODO
+
+                # TLP
+                # Install TLP and remove power profiles
+                sudo apt remove -y power-profiles-daemon
+                sudo apt install -y tlp tlp-rdw
+
+                # Create TLP config
+                sudo mkdir -p /etc/tlp.d
+                sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
+
+                # Set TLP config values
+                # sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
+                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
+                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
+
+                # Enable TLP service
+                systemctl mask systemd-rfkill.service systemd-rfkill.socket
+                systemctl enable tlp.service && systemctl start tlp.service
+
+                # Fonts
+                sudo apt install -y fonts-ibm-plex
+                sudo apt install -y fonts-jetbrains-mono
+
+                # Gnome Font Settings
+                # gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+
+                # Latex: TODO
+
+                sudo apt update -y && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y
+                read -p "3) Extras installed. Press enter to continue..."
+                ;;
+            4)
+                echo ") Enabling Flatpak"
+
+                sudo apt install -y flatpak
+                flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                flatpak update
+                flatpak install -y flathub org.gnome.Extensions
+                flatpak install -y flathub org.gnome.Firmware
+                flatpak install -y flathub com.discordapp.Discord
+                flatpak install -y flathub com.dropbox.Client
+                flatpak install -y flathub com.skype.Client
+                flatpak install -y flathub com.slack.Slack
+                flatpak install -y flathub org.telegram.desktop
+                flatpak install -y flathub org.videolan.VLC
+                flatpak install -y flathub com.transmissionbt.Transmission
+                flatpak install -y flathub org.gimp.GIMP
+                flatpak install -y flathub org.wireshark.Wireshark
+                flatpak install -y flathub com.github.tchx84.Flatseal
+                flatpak install -y flathub org.shotcut.Shotcut
+                # flatpak install -y flathub com.brave.Browser
+                # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
+                # flatpak install -y flathub org.signal.Signal
+                # flatpak install -y flathub com.microsoft.Edge
+                # flatpak install -y flathub com.visualstudio.code
+                # flatpak install -y flathub com.github.GradienceTeam.Gradience
+
+                read -p "4) Flatpak has now been enabled. Press enter to continue..."
+                ;;
+            5)
+                echo "5) Installing Docker"
+
+                # Install Docker: TODO
+
+                read -p "5) Docker has been installed. Press enter to continue..."
+                ;;
+            6)
+                echo "6) Setting up secrets and repos"
                 read -r -p "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
                 [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
@@ -138,7 +288,7 @@ debian_install() {
                 "./+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
                 [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" --expire-time=20 && continue
                 mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
-                cp "$KEYS_DIR"/gpg/coonfig/*.conf ~/.gnupg
+                cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
                 gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
                 rm -rf "$KEYS_DIR"/gpg
 
@@ -153,42 +303,20 @@ debian_install() {
                 [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
                 [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
-                notify-send "2) Secrets are set" --expire-time=20
+                read -p "6) Secrets and repos are set. Press enter to continue..."
                 ;;
-            3)
-                echo "3) Installing Emacs"
+            7)
+                echo "7) Installing Emacs"
 
-                # Install needed dependencies
-                sudo apt -y build-dep emacs
-                sudo apt install -y libgccjit0 libgccjit-10-dev
+                # Is it already installed?
+                hash emacs 2>/dev/null && notify-send "12) Emacs is already installed" --expire-time=20 && continue
 
-                # Prepare git repo
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                [ ! -d "$HOME"/Workspace/Software/emacs ] && git clone git://git.sv.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
-                cd "$HOME"/Workspace/Software/emacs || {
-                    notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
-                    continue
-                }
-                git checkout emacs-28
-                sudo make uninstall
-                make clean
-                make distclean
-                git reset --hard HEAD # Remove all local changes to tracked files
-                sudo git clean -dfx   # Remove all untracked files and directories
-                git pull
+                # Install: TODO
 
-                # Install
-                ./autogen.sh
-                ./configure --with-native-compilation --with-json --with-mailutils \
-                    CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
-                make -j16
-                sudo make install
-
-                cd - || notify-send "Can't cd to previous directory" --expire-time=20
-                notify-send "3) Emacs has been installed" --expire-time=20
+                read -p "7) Emacs has been installed. Press enter to continue..."
                 ;;
-            4)
-                echo "4) Installing Keyd"
+            8)
+                echo "8) Installing Keyd"
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -211,13 +339,13 @@ debian_install() {
                 sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
 
                 # Enable the daemon
-                sudo systemctl enable keyd && sudo systemctl start keyd
+                systemctl enable keyd && systemctl start keyd
                 sudo keyd reload
 
                 cd - || notify-send "Can't cd to previous directory" --expire-time=20
-                notify-send "4) Keyd daemon has been installed" --expire-time=20
+                read -p "8) Keyd daemon has been installed. Press enter to continue..."
                 ;;
-            5)
+            9)
                 exit 0
                 ;;
         esac
