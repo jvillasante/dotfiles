@@ -34,6 +34,11 @@ find_host() {
                 CURRENT_HOST="$HOST"
             }
             ;;
+        "opensuse-xps-9710")
+            {
+                CURRENT_HOST="$HOST"
+            }
+            ;;
         "fedora-precision-5560")
             {
                 CURRENT_HOST="$HOST"
@@ -89,6 +94,8 @@ find_dotfiles() {
     if [ "$CURRENT_HOST" = "Julios-MacBook-Pro.local" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-xps-9710" ]; then
+        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
+    elif [ "$CURRENT_HOST" = "opensuse-xps-9710" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
     elif [ "$CURRENT_HOST" = "fedora-precision-5560" ]; then
         DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory

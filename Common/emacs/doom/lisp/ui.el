@@ -5,8 +5,8 @@
 (setq! doom-font (font-spec :family "Iosevka" :size 16.0))
 (setq! doom-big-font (font-spec :family "Iosevka" :size 18.0))
 (setq! doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16.0))
-(setq! doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16.0))
-(setq! doom-serif-font (font-spec :family "IBM Plex Serif" :size 14.0))
+(setq! doom-unicode-font (font-spec :family "Iosevka Aile" :size 16.0))
+(setq! doom-serif-font (font-spec :family "Iosevka Aile" :size 14.0))
 
 ;; frame title
 (setq! frame-title-format
