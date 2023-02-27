@@ -15,6 +15,9 @@
         (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
         (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)))
 
+;; the mark ring
+(setq-default set-mark-command-repeat-pop t)
+
 ;; enable repeat-mode, see: `describe-repeat-maps'
 (when (> emacs-major-version 27)
     (repeat-mode +1))
