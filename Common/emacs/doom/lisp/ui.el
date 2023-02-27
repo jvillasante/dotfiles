@@ -129,7 +129,7 @@
     (setq! doom-modeline-lsp t))
 
 (after! anzu
-    (global-anzu-mode))
+    (global-anzu-mode +1))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
