@@ -1,43 +1,61 @@
 [user]
     name = Julio C. Villasante
     email = jvillasantegomez@gmail.com
+
 [includeIf "gitdir:~/Workspace/Work/"]
     path = ~/Workspace/Work/.gitconfig
+
 [commit]
     template = ~/.config/git/commit_template
-[credential]
-    helper = cache --timeout=3600
-[pull]
-    rebase = false
-[push]
-    default = matching
-[branch]
-    autosetuprebase = always
-[color]
-    ui = true
-    status = auto
-    branch = auto
-[core]
-    autocrlf = false
-    safecrlf = true
-[merge]
-    tool = kdiff3
+
 [alias]
-    # abbrevations
-    co = checkout
-    br = branch
-    ci = commit
-    st = status
+    prune = fetch --prune
+    # Because I constantly forget how to do this
+    # https://git-scm.com/docs/git-fetch#git-fetch--p
 
-    # better logs
-    hist = "log --pretty=format:'%ad | %s%d [%an]' --graph --date=short"
-    lol = "log --graph --decorate --pretty=oneline --abbrev-commit"
+    undo = reset --soft HEAD^
+    # Not quite as common as an amend, but still common
+    # https://git-scm.com/docs/git-reset#git-reset-emgitresetemltmodegtltcommitgt
 
-    # list all branches
-    branches = "branch -a  --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:blue)(%(committerdate:short)) [%(authorname)]' --sort=-committerdate"
-[github]
-    user = jvillasante
-    password = p
-    oauth-token =
-[fetch]
-    prune = true
+    stash-all = stash save --include-untracked
+    # We wanna grab those pesky un-added files!
+    # https://git-scm.com/docs/git-stash
+
+    glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    # No need for a GUI - a nice, colorful, graphical representation
+    # https://git-scm.com/docs/git-log
+    # via https://medium.com/@payload.dd/thanks-for-the-git-st-i-will-use-this-4da5839a21a4
+
+[merge]
+    ff = only
+    # I pretty much never mean to do a real merge, since I use a rebase workflow.
+    # Note: this global option applies to all merges, including those done during a git pull
+    # https://git-scm.com/docs/git-config#git-config-mergeff
+
+    conflictstyle = diff3
+    # Standard diff is two sets of final changes. This introduces the original text before each side's changes.
+    # https://git-scm.com/docs/git-config#git-config-mergeconflictStyle
+
+[push]
+    default = simple
+    # "push the current branch back to the branch whose changes are usually integrated into the current branch"
+    # "refuse to push if the upstream branch’s name is different from the local one"
+    # https://git-scm.com/docs/git-config#git-config-pushdefault
+
+    followTags = true
+    # Because I get sick of telling git to do it manually
+    # https://git-scm.com/docs/git-config#git-config-pushfollowTags
+
+[status]
+    showUntrackedFiles = all
+    # Sometimes a newly-added folder, since it's only one line in git status, can slip under the radar.
+    # https://git-scm.com/docs/git-config#git-config-statusshowUntrackedFiles
+
+[transfer]
+    fsckobjects = true
+    # To combat repository corruption!
+    # Note: this global option applies during receive and transmit
+    # https://git-scm.com/docs/git-config#git-config-transferfsckObjects
+    # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
+
+
