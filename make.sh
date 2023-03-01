@@ -121,10 +121,9 @@ for file in $files; do
 done
 
 echo ">>> Linking scripts files in $HOME/.local/bin..."
-files="+backup +colors +crypt +dotfiles +fedora +firefox +fs +go +mac +pass +project +rust +spell +stocks +suse +ubuntu +zig +zombie"
-for file in $files; do
-    [ -L "$HOME/.local/bin/$file" ] && unlink "$HOME/.local/bin/$file"
-    ln -s "$DOTFILES_DIR/Common/shell/scripts/$file" "$HOME/.local/bin"
+for file in "$DOTFILES_DIR"/Common/shell/scripts/*; do
+    [ -L "$HOME"/.local/bin/"$(basename "$file")" ] && unlink "$HOME"/.local/bin/"$(basename "$file")"
+    ln -s "$file" "$HOME"/.local/bin
 done
 
 echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."
