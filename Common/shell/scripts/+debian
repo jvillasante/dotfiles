@@ -267,101 +267,11 @@ debian_install() {
             2)
                 echo ") Installing Software"
 
-                # General
-                sudo apt install -y build-essential binutils coreutils openssl libssl-dev
-                sudo apt install -y rar unrar p7zip-full p7zip-rar zip unzip rsync xclip
-                sudo apt install -y silversearcher-ag aspell aspell-en aspell-es autojump atool autoconf automake
-                sudo apt install -y bat cmake curl dconf-editor dnsutils dos2unix doxygen fd-find font-manager
-                sudo apt install -y btop htop isync libpcap-dev make mercurial msmtp neofetch
-                sudo apt install -y vim neovim nodejs npm pandoc pass poppler-utils poppler-data ripgrep
-                sudo apt install -y scdaemon subversion telnet texlive-full tldr tree w3m wget
-                sudo apt install -y wordnet imagemagick exa ninja-build
-                sudo apt install -y python3 python3-pip pandoc poppler-utils poppler-data libtool
-                sudo apt install -y shfmt editorconfig glslang-tools glslang-dev shellcheck xdotool parallel
-                sudo apt install -y llvm clang clangd clang-tools tidy sqlite3
-                sudo apt install -y pkg-config flex bison
-                sudo apt install -y valgrind minicom mc strace
-
-                # Wayland stuff
-                sudo apt install -y wl-clipboard
-
-                # tmux: A terminal multiplexer
-                sudo apt install -y tmux
-
-                # Git
-                sudo apt install git
-
-                # Alacritty
-                sudo apt install alacritty
-
-                # FZF
-                sudo apt install fzf
-                # dpkg -L fzf | grep bindings # Source both completion and keybindings from output of
-
-                # gpg
-                sudo apt install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc vsmartcard-vpcd
-                sudo systemctl enable pcscd && sudo systemctl start pcscd
-
-                # yubikey
-                sudo apt install -y yubikey-manager
-
-                # starship (https://starship.rs/)
-                curl -sS https://starship.rs/install.sh | sh
-
-                # ncdu (text-based disk usage viewer)
-                sudo apt install -y ncdu
-
-                # borg
-                sudo apt install -y borgbackup
-
-                # profile sync daemon
-                sudo apt install -y profile-sync-daemon
-                [ -f /usr/share/psd/contrib/brave ] && sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-                systemctl --user enable psd.service && systemctl --user start psd.service
-
-                # Gnome Software
-                sudo apt -y install gnome-tweaks
-
-                # Neovim nightly
-                sudo apt install -y neovim
-
-                # latex
-                # sudo apt install -y texlive-base texinfo
-
-                # non apt software
-                pip install cmake-language-server
-                sudo npm install --global npm@latest
-                sudo npm install --global prettier
-                sudo npm install --global js-beautify
-                sudo npm install --global typescript-language-server typescript
-                sudo npm install --global dockerfile-language-server-nodejs
-                sudo npm install --global bash-language-server
-
                 sudo apt update -y && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y
                 read -p "2) Software has been installed. Press enter to continue..."
                 ;;
             3)
                 echo "3) Installing Extras"
-
-                # Multimedia: TODO
-
-                # TLP
-                # Install TLP and remove power profiles
-                sudo apt remove -y power-profiles-daemon
-                sudo apt install -y tlp tlp-rdw
-
-                # Create TLP config
-                sudo mkdir -p /etc/tlp.d
-                sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
-
-                # Set TLP config values
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
-
-                # Enable TLP service
-                systemctl mask systemd-rfkill.service systemd-rfkill.socket
-                systemctl enable tlp.service && systemctl start tlp.service
 
                 # Fonts
                 sudo apt install -y fonts-ibm-plex
@@ -378,37 +288,10 @@ debian_install() {
                 ;;
             4)
                 echo ") Enabling Flatpak"
-
-                sudo apt install -y flatpak
-                flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-                flatpak update
-                flatpak install -y flathub org.gnome.Extensions
-                flatpak install -y flathub org.gnome.Firmware
-                flatpak install -y flathub com.discordapp.Discord
-                flatpak install -y flathub com.dropbox.Client
-                flatpak install -y flathub com.skype.Client
-                flatpak install -y flathub com.slack.Slack
-                flatpak install -y flathub org.telegram.desktop
-                flatpak install -y flathub org.videolan.VLC
-                flatpak install -y flathub com.transmissionbt.Transmission
-                flatpak install -y flathub org.gimp.GIMP
-                flatpak install -y flathub org.wireshark.Wireshark
-                flatpak install -y flathub com.github.tchx84.Flatseal
-                flatpak install -y flathub org.shotcut.Shotcut
-                # flatpak install -y flathub com.brave.Browser
-                # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
-                # flatpak install -y flathub org.signal.Signal
-                # flatpak install -y flathub com.microsoft.Edge
-                # flatpak install -y flathub com.visualstudio.code
-                # flatpak install -y flathub com.github.GradienceTeam.Gradience
-
                 read -p "4) Flatpak has now been enabled. Press enter to continue..."
                 ;;
             5)
                 echo "5) Installing Docker"
-
-                # Install Docker: TODO
-
                 read -p "5) Docker has been installed. Press enter to continue..."
                 ;;
             6)
@@ -459,8 +342,6 @@ debian_install() {
                 # Is it already installed?
                 hash emacs 2>/dev/null && notify-send "12) Emacs is already installed" --expire-time=20 && continue
 
-                # Install: TODO
-
                 read -p "7) Emacs has been installed. Press enter to continue..."
                 ;;
             8)
@@ -501,21 +382,20 @@ debian_install() {
 }
 
 debian_update() {
-    sudo apt update -y
-    test $? -eq 0 || usage 1
-
-    sudo apt upgrade -y
-    test $? -eq 0 || usage 1
-
-    sudo apt full-upgrade -y
-    test $? -eq 0 || usage 1
-
-    sudo apt autoremove -y
-    test $? -eq 0 || usage 1
-
     flatpak update -y
     test $? -eq 0 || usage 1
 
+    sudo apt update -y
+    test $? -eq 0 || usage 1
+
+    sudo apt upgrade
+    test $? -eq 0 || usage 1
+
+    sudo apt full-upgrade
+    test $? -eq 0 || usage 1
+
+    sudo apt autoremove
+    test $? -eq 0 || usage 1
 }
 
 set -o errexit
