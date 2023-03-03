@@ -6,57 +6,13 @@
 #
 find_current_shell() {
     local CURRENT_SHELL
-    CURRENT_SHELL="unknown"
+    CURRENT_SHELL="UNKNOWN"
     if [[ -n ${ZSH_VERSION} ]]; then
         CURRENT_SHELL="zsh $ZSH_VERSION"
     elif [[ -n $BASH_VERSION ]]; then
         CURRENT_SHELL="bash $BASH_VERSION"
     fi
     echo "$CURRENT_SHELL"
-}
-
-#
-# Find current host based on `hostname`
-# Call it like: CURRENT_HOST=$(find_host)
-#
-find_host() {
-    local CURRENT_HOST HOST
-    CURRENT_HOST="UNSUPPORTED"
-    HOST="$(hostname)"
-    case "$HOST" in
-        "Julios-MacBook-Pro.local")
-            {
-                CURRENT_HOST="$HOST"
-            }
-            ;;
-        "fedora-xps-9710")
-            {
-                CURRENT_HOST="$HOST"
-            }
-            ;;
-        "debian-xps-9710")
-            {
-                CURRENT_HOST="$HOST"
-            }
-            ;;
-        "fedora-precision-5560")
-            {
-                CURRENT_HOST="$HOST"
-            }
-            ;;
-        "debian-precision-5560")
-            {
-                CURRENT_HOST="$HOST"
-            }
-            ;;
-        *)
-            {
-                echo ">> Unsupported HOST: '$HOST', exiting..."
-                exit 1
-            }
-            ;;
-    esac
-    echo "$CURRENT_HOST"
 }
 
 #
@@ -93,20 +49,9 @@ find_os() {
 # Call it like: DOTFILES_DIR=$(find_dotfiles)
 #
 find_dotfiles() {
-    local DOTFILES_DIR CURRENT_HOST
+    local DOTFILES_DIR
     DOTFILES_DIR="NOT_FOUND"
-    CURRENT_HOST="$(find_host)"
-    if [ "$CURRENT_HOST" = "Julios-MacBook-Pro.local" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_HOST" = "fedora-xps-9710" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_HOST" = "debian-xps-9710" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_HOST" = "fedora-precision-5560" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    elif [ "$CURRENT_HOST" = "debian-precision-5560" ]; then
-        DOTFILES_DIR="${HOME}/Workspace/Public/dotfiles" # dotfiles directory
-    fi
+    [ -d "$HOME"/Workspace/Public/dotfiles ] && DOTFILES_DIR="$HOME"/Workspace/Public/dotfiles
     echo "$DOTFILES_DIR"
 }
 

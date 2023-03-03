@@ -7,7 +7,7 @@
 
 . "$(dirname "$0")/Common/shell/common.sh"
 CURRENT_SHELL=$(find_current_shell)
-CURRENT_HOST=$(find_host)
+CURRENT_HOST=$(hostname)
 CURRENT_OS=$(find_os)
 DOTFILES_DIR=$(find_dotfiles)
 echo ">>> Running ($CURRENT_SHELL) for '$CURRENT_HOST' on '$CURRENT_OS' at '$DOTFILES_DIR'."

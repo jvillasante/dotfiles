@@ -7,7 +7,6 @@ set -o pipefail
 cd "$(dirname "$0")" || exit 1
 
 . "$HOME/.config/shell/common.sh"
-CURRENT_HOST=$(find_host)
 
 create_c_project_gcc() {
     read -r -p "Enter project name: " PROJECT_NAME
