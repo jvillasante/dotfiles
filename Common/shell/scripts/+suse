@@ -119,21 +119,21 @@ suse_install() {
             2)
                 echo "2) Enabling Flatpak"
                 sudo zypper install -y flatpak
-                sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-                sudo flatpak update
-                sudo flatpak install -y flathub org.gnome.Extensions
-                sudo flatpak install -y flathub org.gnome.Firmware
-                sudo flatpak install -y flathub com.discordapp.Discord
-                sudo flatpak install -y flathub com.dropbox.Client
-                sudo flatpak install -y flathub com.skype.Client
-                sudo flatpak install -y flathub com.slack.Slack
-                sudo flatpak install -y flathub org.telegram.desktop
-                sudo flatpak install -y flathub org.videolan.VLC
-                sudo flatpak install -y flathub com.transmissionbt.Transmission
-                sudo flatpak install -y flathub org.gimp.GIMP
-                sudo flatpak install -y flathub org.wireshark.Wireshark
-                sudo flatpak install -y flathub com.github.tchx84.Flatseal
-                sudo flatpak install -y flathub org.shotcut.Shotcut
+                flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                flatpak update
+                flatpak install -y flathub org.gnome.Extensions
+                flatpak install -y flathub org.gnome.Firmware
+                flatpak install -y flathub com.discordapp.Discord
+                flatpak install -y flathub com.dropbox.Client
+                flatpak install -y flathub com.skype.Client
+                flatpak install -y flathub com.slack.Slack
+                flatpak install -y flathub org.telegram.desktop
+                flatpak install -y flathub org.videolan.VLC
+                flatpak install -y flathub com.transmissionbt.Transmission
+                flatpak install -y flathub org.gimp.GIMP
+                flatpak install -y flathub org.wireshark.Wireshark
+                flatpak install -y flathub com.github.tchx84.Flatseal
+                flatpak install -y flathub org.shotcut.Shotcut
                 # flatpak install -y flathub com.brave.Browser
                 # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
                 # flatpak install -y flathub org.signal.Signal
