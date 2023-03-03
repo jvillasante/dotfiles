@@ -74,45 +74,43 @@
 (setq! all-the-icons-scale-factor 1.1)
 
 ;; theme
-(remove-hook 'window-setup-hook #'doom-init-theme-h)
-(add-hook 'after-init-hook #'doom-init-theme-h 'append)
-(delq! t custom-theme-load-path)
-(use-package! modus-themes
-    :demand t
-    :init
-    (setq! modus-themes-italic-constructs t)
-    (setq! modus-themes-bold-constructs t)
-    (setq! modus-themes-variable-pitch-ui t)
-    (setq! modus-themes-mixed-fonts t)
+(progn
+    (remove-hook 'window-setup-hook #'doom-init-theme-h)
+    (add-hook 'after-init-hook #'doom-init-theme-h 'append)
+    (delq! t custom-theme-load-path)
+    (use-package! modus-themes
+        :demand t
+        :init
+        (setq! modus-themes-italic-constructs t)
+        (setq! modus-themes-bold-constructs t)
+        (setq! modus-themes-variable-pitch-ui t)
+        (setq! modus-themes-mixed-fonts t)
 
-    ;; Color customizations
-    (setq! modus-themes-prompts '(italic bold))
-    (setq! modus-themes-completions
-        '((matches . (extrabold))
-             (selection . (semibold italic text-also))))
-    (setq! modus-themes-org-blocks 'gray-background)
+        ;; Color customizations
+        (setq! modus-themes-prompts '(italic bold))
+        (setq! modus-themes-completions
+            '((matches . (extrabold))
+                 (selection . (semibold italic text-also))))
+        (setq! modus-themes-org-blocks 'gray-background)
 
-    ;; Font sizes for titles and headings, including org
-    (setq! modus-themes-headings '((1 . (variable-pitch 1.5))
-                                      (2 . (1.3))
-                                      (agenda-date . (1.3))
-                                      (agenda-structure . (variable-pitch light 1.8))
-                                      (t . (1.1))))
+        ;; Font sizes for titles and headings, including org
+        (setq! modus-themes-headings '((1 . (variable-pitch 1.5))
+                                          (2 . (1.3))
+                                          (agenda-date . (1.3))
+                                          (agenda-structure . (variable-pitch light 1.8))
+                                          (t . (1.1))))
 
-    ;; Theme overrides
-    (customize-set-variable 'modus-themes-common-palette-overrides
-        `(
-             ;; Make the mode-line borderless
-             (bg-mode-line-active bg-inactive)
-             (fg-mode-line-active fg-main)
-             (bg-mode-line-inactive bg-inactive)
-             (fg-mode-line-active fg-dim)
-             (border-mode-line-active bg-inactive)
-             (border-mode-line-inactive bg-main)))
-    :config
-    (setq +my/dark-theme (if (eq window-system 'x) 'modus-vivendi-tinted 'modus-vivendi))
-    (setq +my/light-theme (if (eq window-system 'x) 'modus-operandi-tinted 'modus-operandi))
-    (+my/switch-theme +my/light-theme))
+        ;; Theme overrides
+        (customize-set-variable 'modus-themes-common-palette-overrides
+            `(
+                 ;; Make the mode-line borderless
+                 (bg-mode-line-active bg-inactive)
+                 (fg-mode-line-active fg-main)
+                 (bg-mode-line-inactive bg-inactive)
+                 (fg-mode-line-active fg-dim)
+                 (border-mode-line-active bg-inactive)
+                 (border-mode-line-inactive bg-main))))
+    (+my/switch-theme 'modus-operandi))
 
 ;; modeline
 (after! doom-modeline
