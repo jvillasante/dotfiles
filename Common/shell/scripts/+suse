@@ -1,0 +1,279 @@
+#!/usr/bin/env bash
+
+usage() {
+    echo "Usage:"
+    echo "    $0 help:"
+    echo "        Show this help message"
+    echo "    $0 install:"
+    echo "        Install OpenSuse System"
+    echo "    $0 update:"
+    echo "        Update OpenSuse System"
+    echo "    $0 zipper [arbitrary zipper command]:"
+    echo "        Run arbitrary zipper command"
+    echo
+    echo " e.g: $0 zipper update"
+    exit "$1"
+}
+
+suse_install() {
+    HEIGHT=25
+    WIDTH=100
+    CHOICE_HEIGHT=4
+    BACKTITLE="OpenSuse Setup Util"
+    TITLE="Please Make a selection"
+    MENU="Please Choose one of the following options:"
+
+    # Check to see if dialog and libnotify are installed, if not install them
+    type dialog 2>/dev/null || sudo zypper install -y dialog
+    type notify-send 2>/dev/null || sudo zypper install -y libnotify
+
+    OPTIONS=(
+        1 "Set Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
+        2 "Enable Flatpak - Enables the Flatpak repo and installs packages"
+        3 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
+        4 "Install Keyd - Install Keyd from source"
+        5 "Quit")
+
+    while true; do
+        CHOICE=$(dialog --clear \
+            --backtitle "$BACKTITLE" \
+            --title "$TITLE" \
+            --nocancel \
+            --menu "$MENU" \
+            $HEIGHT $WIDTH $CHOICE_HEIGHT \
+            "${OPTIONS[@]}" \
+            2>&1 >/dev/tty)
+
+        clear
+        case $CHOICE in
+            1)
+                echo "1) Setting Defaults"
+
+                # hostname
+                read -r -p "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
+                [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
+                hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
+
+                read -r -p "Enter static hostname (defaults to 'fedora-xps-9710'): " HOSTNAME_STATIC
+                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="fedora-xps-9710"
+                hostnamectl set-hostname --static "$HOSTNAME_STATIC"
+
+                # xdg
+                export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+                export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+                export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+                export XDG_LIB_HOME="${XDG_DATA_HOME:-$HOME/.local/lib}"
+                export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+                mkdir -p \
+                    "${XDG_CACHE_HOME}" \
+                    "${XDG_CONFIG_HOME}" \
+                    "${XDG_DATA_HOME}" \
+                    "${XDG_LIB_HOME}" \
+                    "${XDG_STATE_HOME}"
+
+                # Folder structure
+                mkdir -p "$HOME/Workspace"
+                mkdir -p "$HOME/Workspace/Books"
+                mkdir -p "$HOME/Workspace/Private/Projects"
+                mkdir -p "$HOME/Workspace/Public"
+                mkdir -p "$HOME/Workspace/Software"
+                mkdir -p "$HOME/Workspace/Stuff"
+                mkdir -p "$HOME/Workspace/Work"
+                mkdir -p "$HOME/Workspace/Work/Projects"
+                mkdir -p "$HOME/Workspace/Work/Software"
+                mkdir -p "$HOME/Workspace/Work/Stuff"
+
+                # Gsettings - dconf-editor
+                #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
+                #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
+
+                # Clock Settings
+                gsettings set org.gnome.desktop.interface clock-format '12h'
+                gsettings set org.gnome.desktop.interface clock-show-date true
+                gsettings set org.gnome.desktop.interface clock-show-seconds false
+                gsettings set org.gnome.desktop.interface clock-show-weekday false
+
+                # No hot corners
+                gsettings set org.gnome.desktop.interface enable-hot-corners false
+
+                # Emacs please
+                gsettings set org.gnome.desktop.interface gtk-key-theme 'Emacs'
+
+                # Show battery
+                gsettings set org.gnome.desktop.interface show-battery-percentage true
+
+                # Enable window buttons
+                gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
+
+                # Set new windows centered
+                gsettings set org.gnome.mutter center-new-windows true
+
+                # Set list-view for Nautilius
+                gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
+
+                # Set fractional scaling (only for wayland)
+                # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+
+                read -p "1) Defaults has been set. Press enter to continue..."
+                ;;
+            2)
+                echo "2) Enabling Flatpak"
+                sudo zypper install -y flatpak
+                sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                sudo flatpak update
+                sudo flatpak install -y flathub org.gnome.Extensions
+                sudo flatpak install -y flathub org.gnome.Firmware
+                sudo flatpak install -y flathub com.discordapp.Discord
+                sudo flatpak install -y flathub com.dropbox.Client
+                sudo flatpak install -y flathub com.skype.Client
+                sudo flatpak install -y flathub com.slack.Slack
+                sudo flatpak install -y flathub org.telegram.desktop
+                sudo flatpak install -y flathub org.videolan.VLC
+                sudo flatpak install -y flathub com.transmissionbt.Transmission
+                sudo flatpak install -y flathub org.gimp.GIMP
+                sudo flatpak install -y flathub org.wireshark.Wireshark
+                sudo flatpak install -y flathub com.github.tchx84.Flatseal
+                sudo flatpak install -y flathub org.shotcut.Shotcut
+                # flatpak install -y flathub com.brave.Browser
+                # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
+                # flatpak install -y flathub org.signal.Signal
+                # flatpak install -y flathub com.microsoft.Edge
+                # flatpak install -y flathub com.visualstudio.code
+                # flatpak install -y flathub com.github.GradienceTeam.Gradience
+
+                read -p "2) Flatpak has now been enabled. Press enter to continue..."
+                ;;
+            3)
+                echo "3) Setting up secrets and repos"
+                read -r -p "Enter keys backup directory: " KEYS_DIR
+                KEYS_DIR=${KEYS_DIR%/}
+                [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
+                [ ! -f "+crypt" ] && notify-send "$(pwd)/+crypt script does not exists" --expire-time=20 && continue
+                [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" --expire-time=20 && continue
+                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" --expire-time=20 && continue
+
+                echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
+                "./+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
+                [ ! -d "$KEYS_DIR"/ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" --expire-time=20 && continue
+                mkdir -p ~/.ssh && rm -rf ~/.ssh/*
+                cp "$KEYS_DIR"/ssh/id_* ~/.ssh
+                cp "$KEYS_DIR"/ssh/config ~/.ssh
+                chmod 700 ~/.ssh
+                chmod 644 ~/.ssh/config
+                chmod 600 ~/.ssh/id_*
+                chmod 644 ~/.ssh/id_*.pub
+                rm -rf "$KEYS_DIR"/ssh
+
+                echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
+                "./+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
+                [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" --expire-time=20 && continue
+                mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
+                cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
+                gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
+                rm -rf "$KEYS_DIR"/gpg
+
+                echo "Editing gpg key 0xB3F..., you should trust ultimately (Option 5) and type 'quit'"
+                gpg --edit-key 0xB3F739419D91C7F3
+
+                # Remove keys
+                rm -rf "$KEYS_DIR"
+
+                # With the new keys we can go ahead and download some repos
+                [ ! -d "$HOME/.password-store" ] && git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
+                [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
+                [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
+
+                read -p "3) Secrets and repos are set. Press enter to continue..."
+                ;;
+            4)
+                echo "13) Installing Keyd"
+
+                # Prepare git repo
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                [ ! -d "$HOME"/Workspace/Software/keyd ] && git clone git@github.com:rvaiya/keyd.git "$HOME"/Workspace/Software/keyd
+                cd "$HOME"/Workspace/Software/keyd || {
+                    notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
+                    continue
+                }
+                sudo make uninstall
+                make clean
+                git reset --hard HEAD # Remove all local changes to tracked files
+                sudo git clean -dfx   # Remove all untracked files and directories
+                git pull
+
+                # Install
+                make -j16
+                sudo make install
+
+                # Copy Configuration
+                sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
+
+                # Enable the daemon
+                systemctl enable keyd && systemctl start keyd
+                sudo keyd reload
+
+                cd - || notify-send "Can't cd to previous directory" --expire-time=20
+                read -p "4) Keyd daemon has been installed. Press enter to continue..."
+                ;;
+            5)
+                exit 0
+                ;;
+        esac
+    done
+}
+
+suse_update() {
+    sudo flatpak update -y
+    test $? -eq 0 || usage 1
+
+    sudo zypper ref
+    test $? -eq 0 || usage 1
+
+    sudo zypper update
+    test $? -eq 0 || usage 1
+
+    sudo zypper dup
+    test $? -eq 0 || usage 1
+}
+
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
+if [ ! -f /etc/products.d/openSUSE.prod ]; then
+    echo "Error: OpenSuse is not running on this system, exiting..."
+    exit 1
+fi
+
+if ! hash zypper 2>/dev/null; then
+    echo "Error: zypper not installed on this system, exiting..."
+    exit 1
+fi
+
+nargs=$#
+cmd=${1-}
+rc=0
+if [ "$#" -gt 0 ]; then shift; fi
+case $cmd in
+    install)
+        [ "$nargs" -eq 1 ] || usage 1
+        suse_install "$@"
+        ;;
+    update)
+        [ "$nargs" -eq 1 ] || usage 1
+        suse_update "$@"
+        ;;
+    zypper)
+        [ "$nargs" -lt 2 ] && usage 1
+        zypper "$@"
+        ;;
+    help | --help | -h)
+        usage 0
+        ;;
+    *)
+        usage 1
+        ;;
+esac
+exit $rc
