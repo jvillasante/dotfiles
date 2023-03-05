@@ -23,16 +23,23 @@ suse_install() {
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
-    # Check to see if dialog and libnotify are installed, if not install them
-    type dialog 2>/dev/null || sudo zypper install -y dialog
-    type notify-send 2>/dev/null || sudo zypper install -y libnotify
+    # Check to see if Dialog is installed, if not install it
+    hash dialog 2>/dev/null || sudo zypper install -y dialog
+    hash notify-send 2>/dev/null || sudo zypper install -y libnotify
 
     OPTIONS=(
-        1 "Set Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
-        2 "Enable Flatpak - Enables the Flatpak repo and installs packages"
-        3 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
-        4 "Install Keyd - Install Keyd from source"
-        5 "Quit")
+        1 "Do a full system upgrade - Do a full system upgrade (reboot if needed)"
+        2 "Setup Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
+        3 "Post Install  - Post install setup (zram, etc)"
+        4 "Firmware Update - Update Firmware (reboot needed)"
+        5 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
+        6 "Install Software - Installs a bunch of my most used software"
+        7 "Install Extras - Themes Fonts and Codecs"
+        8 "Enable Flatpak - Enables the Flatpak repo and installs packages"
+        9 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
+        10 "Install Emacs - Install Emacs"
+        11 "Install Keyd - Install Keyd from source"
+        12 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -47,15 +54,23 @@ suse_install() {
         clear
         case $CHOICE in
             1)
-                echo "1) Setting Defaults"
+                echo "$CHOICE) Full System Upgrade"
+                sudo zypper ref
+                sudo zypper update
+                sudo zypper dup
+
+                read -p "$CHOICE) Full System Upgrade Done (May need to reboot). Press enter to continue..."
+                ;;
+            2)
+                echo "$CHOICE) Setting Defaults"
 
                 # hostname
                 read -r -p "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
                 [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
                 hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
 
-                read -r -p "Enter static hostname (defaults to 'fedora-xps-9710'): " HOSTNAME_STATIC
-                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="fedora-xps-9710"
+                read -r -p "Enter static hostname (defaults to 'opensuse'): " HOSTNAME_STATIC
+                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="opensuse"
                 hostnamectl set-hostname --static "$HOSTNAME_STATIC"
 
                 # xdg
@@ -117,10 +132,169 @@ suse_install() {
                 # Stop Gnome Software downloading updates
                 gsettings set org.gnome.software download-updates false
 
-                read -p "1) Defaults has been set. Press enter to continue..."
+                read -p "$CHOICE) Defaults has been set. Press enter to continue..."
                 ;;
-            2)
-                echo "2) Enabling Flatpak"
+            3)
+                echo "$CHOICE) Post Install Setup"
+
+                # Setup zram (even with swap zram will have a higher priority)
+                if ! test "$(cat /proc/swaps | grep /dev/zram)"; then
+                    sudo zypper in systemd-zram-service
+                    echo -e "\n#Custom Settings" | sudo tee -a /etc/sysctl.conf
+                    echo -e "\nvm.vfs_cache_pressure=500 # increase frequency of clearing caches to free RAM" | sudo tee -a /etc/sysctl.conf
+                    echo -e "\nvm.swappiness=150 # increase percentage to start using zram earlier" | sudo tee -a /etc/sysctl.conf
+                    echo -e "\nvm.dirty_background_ratio=1 # amount of memory pages permitted to be 'dirty' before writing to zram" | sudo tee -a /etc/sysctl.conf
+                    echo -e "\nvm.dirty_ratio=50 # amount of memory pages permitted to be 'dirty' before writing to zram" | sudo tee -a /etc/sysctl.conf
+                    sudo systemctl enable zramswap.service && sudo systemctl start zramswap.service
+                fi
+
+                sudo zypper -y ref && sudo zypper -y update
+                read -p "$CHOICE) Post Install Setup Complete . Press enter to continue..."
+                ;;
+            4)
+                echo "$CHOICE) Updating Firmware"
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
+
+                sudo zypper -y ref && sudo zypper -y update
+                read -p "$CHOICE) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
+                ;;
+            5)
+                echo "$CHOICE) Installing NVIDIA Drivers. We need to disable secure boot on the bios for NVIDIA Drivers to be loaded."
+
+                # TODO
+
+                read -p "$CHOICE) NVIDIA Drivers installed, we need to reboot to finalize driver installation. Press enter to continue..."
+                ;;
+            6)
+                echo "$CHOICE) Installing Software"
+
+                # general
+                sudo zypper install -y -t pattern devel_basis
+                sudo zypper install -y -t pattern devel_C_C++
+                sudo zypper install -y rpmdevtools make gcc-c++ gcc gdb automake autoconf libtool
+                sudo zypper install -y git ripgrep fd xclip xprop xwininfo htop btop
+                sudo zypper install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
+                sudo zypper install -y curl dconf-editor dos2unix doxygen msmtp neofetch
+                sudo zypper install -y graphviz htop mercurial exa ninja password-store
+                sudo zypper install -y nodejs19 npm19 pandoc poppler-tools poppler-data
+                sudo zypper install -y subversion tree w3m wget libtool texinfo
+                sudo zypper install -y wordnet shfmt editorconfig ShellCheck xdotool
+                sudo zypper install -y llvm clang clang-tools libpcap libpcap-devel
+                sudo zypper install -y pkg-config openssl openssl-devel flex bison unar unrar unzip
+                sudo zypper install -y ImageMagick ImageMagick-devel sqlite
+                sudo zypper install -y valgrind minicom mc strace tidy
+
+                # wayland stuff
+                sudo zypper install -y wl-clipboard
+
+                # tmux: A terminal multiplexer
+                sudo zypper install -y tmux
+
+                # alacritty
+                sudo zypper install -y alacritty
+
+                # Starship Prompt
+                curl -sS https://starship.rs/install.sh | sh
+
+                # gpg
+                sudo zypper install -y pcsc-tools opensc pcsc-lite pcsc-ccid
+                sudo systemctl enable pcscd && sudo systemctl start pcscd
+
+                # yubikey
+                sudo zypper install -y yubikey-manager
+
+                # ncdu (text-based disk usage viewer)
+                sudo zypper install -y ncdu
+
+                # Borg Backup
+                sudo zypper install -y borgbackup
+
+                # Command Line Fuzzy Finder
+                sudo zypper install -y fzf
+
+                # Neovim
+                sudo zypper install -y neovim python3-neovim
+
+                # Profile sync daemon
+                sudo zypper install -y profile-sync-daemon
+                [ -f /usr/share/psd/contrib/brave ] && sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                systemctl --user enable psd.service && systemctl --user start psd.service
+
+                # non zypper software
+                pip install cmake-language-server
+                sudo npm install --global npm@latest
+                sudo npm install --global prettier
+                sudo npm install --global js-beautify
+                sudo npm install --global typescript-language-server typescript
+                sudo npm install --global dockerfile-language-server-nodejs
+                sudo npm install --global bash-language-server
+
+                sudo zypper -y ref && sudo zypper -y update
+                read -p "$CHOICE) Software has been installed. Press enter to continue..."
+                ;;
+            7)
+                echo "$CHOICE) Installing Extras"
+
+                #
+                # Multimedia codecs
+                #
+                sudo zypper -y in opi
+                opi codecs
+
+                #
+                # TLP
+                #
+                hash tlp 2>/dev/null || sudo zypper install -y tlp tlp-rdw
+
+                # Create TLP config
+                sudo mkdir -p /etc/tlp.d
+                sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
+
+                # Set TLP config values
+                # sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
+                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
+                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
+
+                # Enable TLP service
+                sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
+                sudo systemctl enable tlp.service && sudo systemctl start tlp.service
+
+                #
+                # Fonts
+                #
+                sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts adobe-sourcecodepro-font
+
+                # Gnome Font Settings
+                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+
+                #
+                # Docker
+                #
+
+                # Install and Enable Docker
+                sudo zypper install -y docker
+                sudo systemctl enable docker && sudo systemctl start docker
+
+                # add user
+                sudo usermod -G docker -a $USER
+                sudo systemctl restart docker
+
+                # test we can run docker without `sudo`
+                docker run hello-world
+
+                #
+                # Latex
+                #
+                # sudo zypper install -y texlive-scheme-full
+
+                sudo zypper -y ref && sudo zypper -y update
+                read -p "$CHOICE) Multimedia, TLP, fonts and others has been installed. Press enter to continue..."
+                ;;
+            8)
+                echo "$CHOICE) Enabling Flatpak"
                 sudo zypper install -y flatpak
                 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 flatpak update
@@ -144,10 +318,10 @@ suse_install() {
                 # flatpak install -y flathub com.visualstudio.code
                 # flatpak install -y flathub com.github.GradienceTeam.Gradience
 
-                read -p "2) Flatpak has now been enabled. Press enter to continue..."
+                read -p "$CHOICE) Flatpak has now been enabled. Press enter to continue..."
                 ;;
-            3)
-                echo "3) Setting up secrets and repos"
+            9)
+                echo "$CHOICE) Setting up secrets and repos"
                 read -r -p "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
                 [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
@@ -175,7 +349,7 @@ suse_install() {
                 gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
                 rm -rf "$KEYS_DIR"/gpg
 
-                echo "Editing gpg key 0xB3F..., you should trust ultimately (Option 5) and type 'quit'"
+                echo "Editing gpg key 0xB3F..., you should 'trust' ultimately (Option 5) and 'quit'"
                 gpg --edit-key 0xB3F739419D91C7F3
 
                 # Remove keys
@@ -186,23 +360,77 @@ suse_install() {
                 [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
                 [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
-                read -p "3) Secrets and repos are set. Press enter to continue..."
+                read -p "$CHOICE) Secrets and repos are set. Press enter to continue..."
                 ;;
-            4)
-                echo "13) Installing Keyd"
+            10)
+                echo "$CHOICE) Installing Emacs"
+
+                # Is it already installed?
+                hash emacs 2>/dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
+
+                # Install dependencies
+                sudo zypper install -y libgccjit0-devel-gcc12 # check it is the same version as installed gcc (gcc --version)
+                sudo zypper install -y gtk3-devel libgnutls-devel libxml2-devel libjansson-devel giflib-devel libtiff-devel libotf-devel
+                sudo zypper install -y tree-sitter tree-sitter-devel
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                [ ! -d "$HOME"/Workspace/Software/keyd ] && git clone git@github.com:rvaiya/keyd.git "$HOME"/Workspace/Software/keyd
-                cd "$HOME"/Workspace/Software/keyd || {
-                    notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
-                    continue
-                }
-                sudo make uninstall
-                make clean
-                git reset --hard HEAD # Remove all local changes to tracked files
-                sudo git clean -dfx   # Remove all untracked files and directories
-                git pull
+                if [ ! -d "$HOME"/Workspace/Software/emacs ]; then
+                    git clone git://git.sv.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
+                    pushd "$HOME"/Workspace/Software/emacs || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
+                        continue
+                    }
+                else
+                    pushd "$HOME"/Workspace/Software/emacs || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
+                        continue
+                    }
+
+                    sudo make uninstall
+                    make clean && make distclean
+                    git reset --hard HEAD
+                    sudo git clean -dfx
+                    git pull
+                fi
+
+                # Build and install (emacs-29)
+                git checkout emacs-29
+                ./autogen.sh
+                ./configure --with-pgtk --with-native-compilation --with-tree-sitter --with-json \
+                    CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
+                make -j16
+                sudo make install
+
+                popd || notify-send "Can't cd to previous directory" --expire-time=20
+                read -p "$CHOICE) Emacs has been installed. Press enter to continue..."
+                ;;
+            11)
+                echo "$CHOICE) Installing Keyd"
+
+                # Is it already installed?
+                hash keyd 2>/dev/null && notify-send "Keyd is already installed" --expire-time=20 && continue
+
+                # Prepare git repo
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                if [ ! -d "$HOME"/Workspace/Software/keyd ]; then
+                    git clone git@github.com:rvaiya/keyd.git "$HOME"/Workspace/Software/keyd
+                    pushd "$HOME"/Workspace/Software/keyd || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
+                        continue
+                    }
+                else
+                    pushd "$HOME"/Workspace/Software/keyd || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
+                        continue
+                    }
+
+                    sudo make uninstall
+                    make clean && make distclean
+                    git reset --hard HEAD
+                    sudo git clean -dfx
+                    git pull
+                fi
 
                 # Install
                 make -j16
@@ -212,13 +440,13 @@ suse_install() {
                 sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
 
                 # Enable the daemon
-                systemctl enable keyd && systemctl start keyd
+                sudo systemctl enable keyd && sudo systemctl start keyd
                 sudo keyd reload
 
-                cd - || notify-send "Can't cd to previous directory" --expire-time=20
-                read -p "4) Keyd daemon has been installed. Press enter to continue..."
+                popd || notify-send "Can't cd to previous directory" --expire-time=20
+                read -p "$CHOICE) Keyd daemon has been installed. Press enter to continue..."
                 ;;
-            5)
+            12)
                 exit 0
                 ;;
         esac
