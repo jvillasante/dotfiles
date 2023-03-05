@@ -297,6 +297,7 @@ suse_install() {
                 echo "$CHOICE) Enabling Flatpak"
 
                 # Remove firefox
+                # Remove gnome-extensions
                 # Remove Gimp
 
                 sudo zypper install -y flatpak
