@@ -241,7 +241,7 @@ suse_install() {
                 #
                 # Multimedia codecs
                 #
-                sudo zypper -y in opi
+                sudo zypper install -y opi
                 opi codecs
 
                 #
@@ -265,7 +265,7 @@ suse_install() {
                 #
                 # Fonts
                 #
-                sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts adobe-sourcecodepro-font
+                sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts
 
                 # Gnome Font Settings
                 gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
