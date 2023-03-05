@@ -18,6 +18,7 @@
              "https://www.masteringemacs.org/feed"
              "https://irreal.org/blog/?feed=rss2"
              "https://olddeuteronomy.github.io/index.xml"
+             "https://bzoltan1.github.io/index.xml"
              ;; Embedded
              "http://www.embeddedrelated.com/blogs_rss.php"
              ;; C++
