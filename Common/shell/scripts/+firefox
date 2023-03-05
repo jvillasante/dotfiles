@@ -18,12 +18,20 @@ usage() {
 }
 
 firefox_default_profile() {
-    local PROFILE_NAME PROFILE
+    local PROFILE_DIR PROFILE_NAME PROFILE
 
-    PROFILE_NAME=$(grep "Default=.*\.default*" "$HOME/.mozilla/firefox/profiles.ini" | cut -d"=" -f2)
+    # flatpak firefox takes precedence
+    if [ -d "$HOME"/.var/app/org.mozilla.firefox/.mozilla/firefox ]; then
+        PROFILE_DIR="$HOME"/.var/app/org.mozilla.firefox/.mozilla/firefox
+    else
+        PROFILE_DIR="$HOME"/.mozilla/firefox
+    fi
+    [ -z "$PROFILE_DIR" ] && usage 1
+
+    PROFILE_NAME=$(grep "Default=.*\.default*" "$PROFILE_DIR/profiles.ini" | cut -d"=" -f2)
     [ -z "$PROFILE_NAME" ] && usage 1
 
-    PROFILE="$HOME/.mozilla/firefox/$PROFILE_NAME"
+    PROFILE="$PROFILE_DIR/$PROFILE_NAME"
     [ -d "$PROFILE" ] || usage 1
 
     echo "$PROFILE"
