@@ -283,7 +283,7 @@ suse_install() {
                 sudo systemctl restart docker
 
                 # test we can run docker without `sudo`
-                docker run hello-world
+                # docker run hello-world
 
                 #
                 # Latex
