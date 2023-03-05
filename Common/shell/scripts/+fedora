@@ -371,8 +371,12 @@ fedora_install() {
                 ;;
             7)
                 echo "$CHOICE) Enabling Flatpak"
+
+                # Remove firefox
+
                 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 flatpak update
+                flatpak install -y flathub org.mozilla.firefox
                 flatpak install -y flathub org.gnome.Extensions
                 flatpak install -y flathub org.gnome.Firmware
                 flatpak install -y flathub com.discordapp.Discord

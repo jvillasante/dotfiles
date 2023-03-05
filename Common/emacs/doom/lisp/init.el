@@ -33,10 +33,10 @@
         (setq! vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
 
 ;; firefox default - https://www.emacswiki.org/emacs/BrowseUrl
-(when (executable-find "firefox")
-    (setq! browse-url-browser-function 'browse-url-firefox)
-    (setq! browse-url-new-window-flag  t)
-    (setq! browse-url-firefox-new-window-is-tab t))
+;; (when (executable-find "firefox")
+;;     (setq! browse-url-browser-function 'browse-url-firefox)
+;;     (setq! browse-url-new-window-flag  t)
+;;     (setq! browse-url-firefox-new-window-is-tab t))
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
