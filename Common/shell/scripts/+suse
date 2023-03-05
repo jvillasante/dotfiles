@@ -139,7 +139,7 @@ suse_install() {
 
                 # Setup zram (even with swap zram will have a higher priority)
                 if ! test "$(cat /proc/swaps | grep /dev/zram)"; then
-                    sudo zypper in systemd-zram-service
+                    sudo zypper -y in systemd-zram-service
                     echo -e "\n#Custom Settings" | sudo tee -a /etc/sysctl.conf
                     echo -e "\nvm.vfs_cache_pressure=500 # increase frequency of clearing caches to free RAM" | sudo tee -a /etc/sysctl.conf
                     echo -e "\nvm.swappiness=150 # increase percentage to start using zram earlier" | sudo tee -a /etc/sysctl.conf
@@ -148,7 +148,7 @@ suse_install() {
                     sudo systemctl enable zramswap.service && sudo systemctl start zramswap.service
                 fi
 
-                sudo zypper -y ref && sudo zypper -y update
+                sudo zypper ref && sudo zypper update
                 read -p "$CHOICE) Post Install Setup Complete . Press enter to continue..."
                 ;;
             4)
@@ -158,7 +158,7 @@ suse_install() {
                 sudo fwupdmgr get-updates
                 sudo fwupdmgr update
 
-                sudo zypper -y ref && sudo zypper -y update
+                sudo zypper ref && sudo zypper update
                 read -p "$CHOICE) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
                 ;;
             5)
@@ -232,7 +232,7 @@ suse_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
-                sudo zypper -y ref && sudo zypper -y update
+                sudo zypper ref && sudo zypper update
                 read -p "$CHOICE) Software has been installed. Press enter to continue..."
                 ;;
             7)
@@ -290,7 +290,7 @@ suse_install() {
                 #
                 # sudo zypper install -y texlive-scheme-full
 
-                sudo zypper -y ref && sudo zypper -y update
+                sudo zypper ref && sudo zypper update
                 read -p "$CHOICE) Multimedia, TLP, fonts and others has been installed. Press enter to continue..."
                 ;;
             8)
