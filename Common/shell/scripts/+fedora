@@ -126,6 +126,12 @@ fedora_install() {
                 # Set list-view for Nautilius
                 gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 
+                # Set fractional scaling (only for wayland)
+                # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+
+                # Stop Gnome Software downloading updates
+                gsettings set org.gnome.software download-updates false
+
                 read -p "1) Defaults has been set. Press enter to continue..."
                 ;;
             2)
