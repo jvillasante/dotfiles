@@ -46,6 +46,9 @@
     # Because I get sick of telling git to do it manually
     # https://git-scm.com/docs/git-config#git-config-pushfollowTags
 
+[pull]
+	ff = only
+
 [status]
     showUntrackedFiles = all
     # Sometimes a newly-added folder, since it's only one line in git status, can slip under the radar.
@@ -57,5 +60,3 @@
     # Note: this global option applies during receive and transmit
     # https://git-scm.com/docs/git-config#git-config-transferfsckObjects
     # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
-
-
