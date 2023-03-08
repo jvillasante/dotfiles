@@ -284,7 +284,7 @@ suse_install() {
                 #
                 # sudo zypper install -y texlive-scheme-full
 
-                #                #
+                #
                 # Fonts
                 #
                 sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts
