@@ -139,7 +139,7 @@ suse_install() {
 
                 # Setup zram (even with swap zram will have a higher priority)
                 if ! test "$(cat /proc/swaps | grep /dev/zram)"; then
-                    sudo zypper -y in systemd-zram-service
+                    sudo zypper in -y systemd-zram-service
                     echo -e "\n#Custom Settings" | sudo tee -a /etc/sysctl.conf
                     echo -e "\nvm.vfs_cache_pressure=500 # increase frequency of clearing caches to free RAM" | sudo tee -a /etc/sysctl.conf
                     echo -e "\nvm.swappiness=150 # increase percentage to start using zram earlier" | sudo tee -a /etc/sysctl.conf
