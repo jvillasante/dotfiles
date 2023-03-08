@@ -49,6 +49,7 @@
 
 ;; org-directory needs to be set early
 (setq! org-directory (expand-file-name "Apps/org" +my/dropbox-path))
+(setq! org-agenda-files (list "inbox.org" "agenda.org" "notes.org"))
 
 ;; Don’t compact font caches during GC.
 (setq! inhibit-compacting-font-caches t)
