@@ -377,7 +377,7 @@ suse_install() {
                 hash emacs 2>/dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
 
                 # Install dependencies
-                sudo zypper install -y libgccjit0-devel-gcc12 # check it is the same version as installed gcc (gcc --version)
+                sudo zypper install -y libgccjit0 libgccjit0-devel
                 sudo zypper install -y gtk3-devel libgnutls-devel libxml2-devel libjansson-devel giflib-devel libtiff-devel libotf-devel
                 sudo zypper install -y tree-sitter tree-sitter-devel
 
