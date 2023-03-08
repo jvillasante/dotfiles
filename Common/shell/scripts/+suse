@@ -29,17 +29,18 @@ suse_install() {
 
     OPTIONS=(
         1 "Do a full system upgrade - Do a full system upgrade (reboot if needed)"
-        2 "Setup Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
-        3 "Post Install  - Post install setup (zram, etc)"
-        4 "Firmware Update - Update Firmware (reboot needed)"
-        5 "Install Third Parties - Install NVIDIA Drivers etc (reboot needed)"
-        6 "Install Software - Installs a bunch of my most used software"
-        7 "Install Extras - Themes Fonts and Codecs"
-        8 "Enable Flatpak - Enables the Flatpak repo and installs packages"
-        9 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
-        10 "Install Emacs - Install Emacs"
-        11 "Install Keyd - Install Keyd from source"
-        12 "Quit")
+        2 "Setup Packman - Set up packman repository and upgrade (reboot if needed)"
+        3 "Setup NVIDIA - Setup and install NVIDIA drivers (reboot if needed)"
+        4 "Firmware Update - Update Firmware (reboot if needed)"
+        5 "Setup Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
+        6 "Install Software Needed - Post install setup (zram, etc)"
+        7 "Install Software General - Installs a bunch of my most used software"
+        8 "Install Software Extras - Themes Fonts and Codecs"
+        9 "Enable Flatpak - Enables the Flatpak repo and installs packages"
+        10 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
+        11 "Install Emacs - Install Emacs"
+        12 "Install Keyd - Install Keyd from source"
+        13 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -57,9 +58,32 @@ suse_install() {
                 echo "$CHOICE) Full System Upgrade"
                 sudo zypper dup
 
-                read -p "$CHOICE) Full System Upgrade Done (May need to reboot). Press enter to continue..."
+                read -p "$CHOICE) Done (May need to reboot). Press enter to continue..."
                 ;;
             2)
+                echo "$CHOICE) Setup Packman Repository"
+                sudo zypper ar -cfp 90 https://ftp.fau.de/packman/suse/openSUSE_Tumbleweed/ packman
+                sudo zypper dup --from packman --allow-vendor-change
+
+                read -p "$CHOICE) Done (May need to reboot). Press enter to continue..."
+                ;;
+            3)
+                echo "$CHOICE) Setup NVIDIA"
+                sudo zypper ar -f https://download.nvidia.com/opensuse/tumbleweed nvidia
+                sudo zypper inr
+
+                read -p "$CHOICE) Done (May need to reboot). Press enter to continue..."
+                ;;
+            4)
+                echo "$CHOICE) Firmware Update"
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
+
+                read -p "$CHOICE) Done (May need to reboot). Press enter to continue..."
+                ;;
+            5)
                 echo "$CHOICE) Setting Defaults"
 
                 # hostname
@@ -134,8 +158,8 @@ suse_install() {
 
                 read -p "$CHOICE) Defaults has been set. Press enter to continue..."
                 ;;
-            3)
-                echo "$CHOICE) Post Install Setup"
+            6)
+                echo "$CHOICE) Installing Needed Software"
 
                 # Setup zram (even with swap zram will have a higher priority)
                 if ! test "$(cat /proc/swaps | grep /dev/zram)"; then
@@ -148,32 +172,10 @@ suse_install() {
                     sudo systemctl enable zramswap.service && sudo systemctl start zramswap.service
                 fi
 
-                read -p "$CHOICE) Post Install Setup Complete . Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
-            4)
-                echo "$CHOICE) Updating Firmware"
-                sudo fwupdmgr get-devices
-                sudo fwupdmgr refresh --force
-                sudo fwupdmgr get-updates
-                sudo fwupdmgr update
-
-                read -p "$CHOICE) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
-                ;;
-            5)
-                echo "$CHOICE) Installing NVIDIA Drivers, etc. We need to disable secure boot on the bios for NVIDIA Drivers to be loaded."
-
-                # Add Packman
-                # sudo zypper ar -cfp 90 https://ftp.fau.de/packman/suse/openSUSE_Tumbleweed/ packman
-                # sudo zypper dup --from packman --allow-vendor-change
-
-                # Add NVIDIA
-                # sudo zypper ar -f https://download.nvidia.com/opensuse/tumbleweed nvidia
-                # sudo zypper inr
-
-                read -p "$CHOICE) NVIDIA Drivers installed, we need to reboot to finalize driver installation. Press enter to continue..."
-                ;;
-            6)
-                echo "$CHOICE) Installing Software"
+            7)
+                echo "$CHOICE) Installing General Software"
 
                 # general
                 sudo zypper install -y -t pattern devel_basis
@@ -236,9 +238,9 @@ suse_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
-                read -p "$CHOICE) Software has been installed. Press enter to continue..."
+                read -p "$CHOICE) General software has been installed. Press enter to continue..."
                 ;;
-            7)
+            8)
                 echo "$CHOICE) Installing Extras"
 
                 #
@@ -292,14 +294,10 @@ suse_install() {
                 # Gnome Font Settings
                 gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
 
-                read -p "$CHOICE) Multimedia, TLP, fonts and others has been installed. Press enter to continue..."
+                read -p "$CHOICE) Extras installed. Press enter to continue..."
                 ;;
-            8)
+            9)
                 echo "$CHOICE) Enabling Flatpak"
-
-                # Remove firefox
-                # Remove gnome-extensions
-                # Remove Gimp
 
                 sudo zypper install -y flatpak
                 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -328,7 +326,7 @@ suse_install() {
 
                 read -p "$CHOICE) Flatpak has now been enabled. Press enter to continue..."
                 ;;
-            9)
+            10)
                 echo "$CHOICE) Setting up secrets and repos"
                 read -r -p "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
@@ -370,7 +368,7 @@ suse_install() {
 
                 read -p "$CHOICE) Secrets and repos are set. Press enter to continue..."
                 ;;
-            10)
+            11)
                 echo "$CHOICE) Installing Emacs"
 
                 # Is it already installed?
@@ -413,7 +411,7 @@ suse_install() {
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
                 read -p "$CHOICE) Emacs has been installed. Press enter to continue..."
                 ;;
-            11)
+            12)
                 echo "$CHOICE) Installing Keyd"
 
                 # Is it already installed?
@@ -454,7 +452,7 @@ suse_install() {
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
                 read -p "$CHOICE) Keyd daemon has been installed. Press enter to continue..."
                 ;;
-            12)
+            13)
                 exit 0
                 ;;
         esac
