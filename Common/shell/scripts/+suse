@@ -32,7 +32,7 @@ suse_install() {
         2 "Setup Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
         3 "Post Install  - Post install setup (zram, etc)"
         4 "Firmware Update - Update Firmware (reboot needed)"
-        5 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
+        5 "Install Third Parties - Install NVIDIA Drivers etc (reboot needed)"
         6 "Install Software - Installs a bunch of my most used software"
         7 "Install Extras - Themes Fonts and Codecs"
         8 "Enable Flatpak - Enables the Flatpak repo and installs packages"
@@ -160,9 +160,15 @@ suse_install() {
                 read -p "$CHOICE) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
                 ;;
             5)
-                echo "$CHOICE) Installing NVIDIA Drivers. We need to disable secure boot on the bios for NVIDIA Drivers to be loaded."
+                echo "$CHOICE) Installing NVIDIA Drivers, etc. We need to disable secure boot on the bios for NVIDIA Drivers to be loaded."
 
-                # TODO
+                # Add Packman
+                # sudo zypper ar -cfp 90 https://ftp.fau.de/packman/suse/openSUSE_Tumbleweed/ packman
+                # sudo zypper dup --from packman --allow-vendor-change
+
+                # Add NVIDIA
+                # sudo zypper ar -f https://download.nvidia.com/opensuse/tumbleweed nvidia
+                # sudo zypper inr
 
                 read -p "$CHOICE) NVIDIA Drivers installed, we need to reboot to finalize driver installation. Press enter to continue..."
                 ;;
