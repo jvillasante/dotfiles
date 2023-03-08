@@ -55,8 +55,6 @@ suse_install() {
         case $CHOICE in
             1)
                 echo "$CHOICE) Full System Upgrade"
-                sudo zypper ref
-                sudo zypper update
                 sudo zypper dup
 
                 read -p "$CHOICE) Full System Upgrade Done (May need to reboot). Press enter to continue..."
@@ -130,7 +128,9 @@ suse_install() {
                 # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
                 # Stop Gnome Software downloading updates
+                gsettings set org.gnome.software allow-updates false
                 gsettings set org.gnome.software download-updates false
+                gsettings set org.gnome.software download-updates-notify false
 
                 read -p "$CHOICE) Defaults has been set. Press enter to continue..."
                 ;;
@@ -148,7 +148,6 @@ suse_install() {
                     sudo systemctl enable zramswap.service && sudo systemctl start zramswap.service
                 fi
 
-                sudo zypper ref && sudo zypper update
                 read -p "$CHOICE) Post Install Setup Complete . Press enter to continue..."
                 ;;
             4)
@@ -158,7 +157,6 @@ suse_install() {
                 sudo fwupdmgr get-updates
                 sudo fwupdmgr update
 
-                sudo zypper ref && sudo zypper update
                 read -p "$CHOICE) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
                 ;;
             5)
@@ -232,17 +230,16 @@ suse_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
-                sudo zypper ref && sudo zypper update
                 read -p "$CHOICE) Software has been installed. Press enter to continue..."
                 ;;
             7)
                 echo "$CHOICE) Installing Extras"
 
                 #
-                # Multimedia codecs
+                # Multimedia codecs (using firefox from flatpak anyways)
                 #
-                sudo zypper install -y opi
-                opi codecs
+                # sudo zypper install -y opi
+                # opi codecs
 
                 #
                 # TLP
@@ -263,17 +260,8 @@ suse_install() {
                 sudo systemctl enable tlp.service && sudo systemctl start tlp.service
 
                 #
-                # Fonts
-                #
-                sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts
-
-                # Gnome Font Settings
-                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
-
-                #
                 # Docker
                 #
-
                 # Install and Enable Docker
                 sudo zypper install -y docker
                 sudo systemctl enable docker && sudo systemctl start docker
@@ -290,7 +278,14 @@ suse_install() {
                 #
                 # sudo zypper install -y texlive-scheme-full
 
-                sudo zypper ref && sudo zypper update
+                #                #
+                # Fonts
+                #
+                sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts
+
+                # Gnome Font Settings
+                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+
                 read -p "$CHOICE) Multimedia, TLP, fonts and others has been installed. Press enter to continue..."
                 ;;
             8)
@@ -464,12 +459,11 @@ suse_update() {
     sudo flatpak update -y
     test $? -eq 0 || usage 1
 
-    sudo zypper ref
-    test $? -eq 0 || usage 1
+    # For Leap
+    # sudo zypper ref && sudo zypper update
+    # test $? -eq 0 || usage 1
 
-    sudo zypper update
-    test $? -eq 0 || usage 1
-
+    # For Tumbleweed
     sudo zypper dup
     test $? -eq 0 || usage 1
 }

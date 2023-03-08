@@ -127,7 +127,9 @@ fedora_install() {
                 # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
                 # Stop Gnome Software downloading updates
+                gsettings set org.gnome.software allow-updates false
                 gsettings set org.gnome.software download-updates false
+                gsettings set org.gnome.software download-updates-notify false
 
                 read -p "$CHOICE) Defaults has been set. Press enter to continue..."
                 ;;
