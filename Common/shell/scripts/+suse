@@ -304,7 +304,7 @@ suse_install() {
                 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 flatpak update
                 flatpak install -y flathub org.mozilla.firefox
-                flatpak install -y flathub org.gnome.Extensions
+                flatpak install -y flathub com.mattjakeman.ExtensionManager
                 flatpak install -y flathub org.gnome.Firmware
                 flatpak install -y flathub com.discordapp.Discord
                 flatpak install -y flathub com.dropbox.Client
@@ -317,6 +317,7 @@ suse_install() {
                 flatpak install -y flathub org.wireshark.Wireshark
                 flatpak install -y flathub com.github.tchx84.Flatseal
                 flatpak install -y flathub org.shotcut.Shotcut
+                # flatpak install -y flathub org.gnome.Extensions
                 # flatpak install -y flathub com.brave.Browser
                 # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
                 # flatpak install -y flathub org.signal.Signal
