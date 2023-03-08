@@ -302,6 +302,7 @@ suse_install() {
                 sudo zypper install -y flatpak
                 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 flatpak update
+                flatpak install -y flathub org.gnome.TextEditor
                 flatpak install -y flathub org.mozilla.firefox
                 flatpak install -y flathub com.mattjakeman.ExtensionManager
                 flatpak install -y flathub org.gnome.Firmware
