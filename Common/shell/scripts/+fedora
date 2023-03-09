@@ -332,20 +332,6 @@ fedora_install() {
                 systemctl enable tlp.service && systemctl start tlp.service
 
                 #
-                # Fonts
-                #
-                sudo dnf -y copr enable peterwu/iosevka
-                sudo dnf update -y
-                sudo dnf install -y libreoffice-opensymbol-fonts
-                sudo dnf install -y adobe-source-code-pro-fonts
-                sudo dnf install -y jetbrains-mono-fonts-all
-                sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
-                sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
-
-                # Gnome Font Settings
-                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
-
-                #
                 # Docker
                 #
 
@@ -366,6 +352,20 @@ fedora_install() {
                 # Latex
                 #
                 # sudo dnf install -y texlive-scheme-full
+
+                #
+                # Fonts
+                #
+                sudo dnf -y copr enable peterwu/iosevka
+                sudo dnf update -y
+                sudo dnf install -y libreoffice-opensymbol-fonts
+                sudo dnf install -y adobe-source-code-pro-fonts
+                sudo dnf install -y jetbrains-mono-fonts-all
+                sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
+                sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
+
+                # Gnome Font Settings
+                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
 
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
