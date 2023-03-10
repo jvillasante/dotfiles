@@ -504,16 +504,16 @@
 
 (after! org
     ;; Capture templates
-    (setq! org-capture-templates
-        `(("i" "Inbox (inbox.org)" entry  (file "inbox.org")
-              ,(concat "* TODO %?\n"
-                   "/Entered on/ %U"))
-             ("m" "Meeting (agenda.org)" entry  (file+headline "agenda.org" "Future")
-                 ,(concat "* %? :meeting:\n"
-                      "<%<%Y-%m-%d %a %H:00>>"))
-             ("n" "Note (notes.org)" entry  (file "notes.org")
-                 ,(concat "* Note (%a)\n"
-                      "/Entered on/ %U\n" "\n" "%?"))))
+    ;; (setq! org-capture-templates
+    ;;     `(("i" "Inbox (inbox.org)" entry  (file "inbox.org")
+    ;;           ,(concat "* TODO %?\n"
+    ;;                "/Entered on/ %U"))
+    ;;          ("m" "Meeting (agenda.org)" entry  (file+headline "agenda.org" "Future")
+    ;;              ,(concat "* %? :meeting:\n"
+    ;;                   "<%<%Y-%m-%d %a %H:00>>"))
+    ;;          ("n" "Note (notes.org)" entry  (file "notes.org")
+    ;;              ,(concat "* Note (%a)\n"
+    ;;                   "/Entered on/ %U\n" "\n" "%?"))))
 
     ;; Agenda
     (setq! org-agenda-hide-tags-regexp ".")

@@ -32,12 +32,6 @@
         (setq! +my/msmtp-path "/usr/bin/msmtp")
         (setq! vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
 
-;; firefox default - https://www.emacswiki.org/emacs/BrowseUrl
-;; (when (executable-find "firefox")
-;;     (setq! browse-url-browser-function 'browse-url-firefox)
-;;     (setq! browse-url-new-window-flag  t)
-;;     (setq! browse-url-firefox-new-window-is-tab t))
-
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
@@ -49,7 +43,7 @@
 
 ;; org-directory needs to be set early
 (setq! org-directory (expand-file-name "Apps/org" +my/dropbox-path))
-(setq! org-agenda-files (list "inbox.org" "agenda.org" "notes.org"))
+;; (setq! org-agenda-files (list "inbox.org" "agenda.org" "notes.org"))
 
 ;; Don’t compact font caches during GC.
 (setq! inhibit-compacting-font-caches t)
