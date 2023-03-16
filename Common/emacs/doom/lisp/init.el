@@ -96,17 +96,20 @@
 
 ;; Whitespace settings
 (setq! show-trailing-whitespace t)
-(setq! whitespace-action '(auto-cleanup))
-(setq! whitespace-style '(indentation::space
-                             space-after-tab
-                             space-before-tab
-                             trailing
-                             lines-tail
-                             tab-mark
-                             face
-                             tabs))
-
-(setq! doc-view-continuous t)
+(setq! whitespace-action
+    '(cleanup auto-cleanup))
+(setq! whitespace-style
+    '(face spaces empty tabs newline trailing space-mark tab-mark newline-mark))
+(setq! whitespace-global-modes
+    '(not shell-mode
+         vterm-mode
+         eshell-mode
+         help-mode
+         magit-mode
+         magit-diff-mode
+         ibuffer-mode
+         dired-mode
+         occur-mode))
 
 ;; LaTeX
 (setq! font-latex-fontify-script nil)
@@ -143,9 +146,6 @@
 
 ;; write over selected text on input... like all modern editors do
 (delete-selection-mode t)
-
-;; no whitespace-mode, just enabled for makefiles
-(advice-add #'doom-highlight-non-default-indentation-h :override #'ignore)
 
 ;; auto revert mode; automatically update a buffer if a file changes on disk
 (global-auto-revert-mode t)
@@ -227,13 +227,10 @@
 (define-key kmacro-keymap (kbd "I") #'kmacro-insert-macro)
 
 ;; Hooks
-(add-hook 'phyton-mode-hook #'whitespace-mode)
-(add-hook 'makefile-mode-hook #'whitespace-mode)
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)    ;; auto-fill insert hard line breaks
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
 (add-hook 'prog-mode-hook '+my/comment-auto-fill)    ;; ... but add comment auto-fill in prog-mode
 
 ;; Minibuffer setup
 (add-hook 'minibuffer-setup-hook (lambda ()
-                                     (setq! show-trailing-whitespace nil)
                                      (setq! line-spacing 1)))
