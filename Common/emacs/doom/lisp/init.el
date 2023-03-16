@@ -73,7 +73,6 @@
 ;; Some default
 (setq! delete-by-moving-to-trash t)      ; Delete files to trash
 (setq! window-combination-resize t)      ; take new window space from all other windows (not just current)
-(setq! delete-trailing-lines t)          ; `M-x delete-trailing-whitespace' deletes trailing lines
 (setq! x-stretch-cursor nil)             ; Stretch cursor to the glyph width
 (setq! undo-limit 80000000)             ; Raise undo-limit to 80Mb
 (setq! suggest-key-bindings nil)        ; very annoying
@@ -92,14 +91,13 @@
 ;; set appearance of a tab that is represented by 4 spaces
 (setq! tab-width 4)
 (setq! standard-indent 4)
-(setq! highlight-tabs t)  ; show those ugly tabs
 
 ;; Whitespace settings
-(setq! show-trailing-whitespace t)
-(setq! whitespace-action
-    '(cleanup auto-cleanup))
+(setq! delete-trailing-lines t)          ; `M-x delete-trailing-whitespace' deletes trailing lines
+(setq! show-trailing-whitespace t)       ; show those whitespace we need to delete
 (setq! whitespace-style
-    '(face spaces empty tabs newline trailing space-mark tab-mark newline-mark))
+    '(face spaces empty tabs newline trailing lines-tail space-mark tab-mark newline-mark))
+(setq! whitespace-action '(cleanup auto-cleanup))
 (setq! whitespace-global-modes
     '(not shell-mode
          vterm-mode
