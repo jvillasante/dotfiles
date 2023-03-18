@@ -214,14 +214,10 @@
     ;; Do not format with lsp, use `format` instead
     (setq! +format-with-lsp nil))
 
-(after! ws-butler
-    (setq! ws-butler-global-exempt-modes
-        (append ws-butler-global-exempt-modes
-            '(prog-mode org-mode))))
-
 (progn
     (setq! c-default-style "linux")
     (setq! c-basic-offset 4)
+    (c-set-offset 'comment-intro 0)
     (after! cc
         (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
         (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
