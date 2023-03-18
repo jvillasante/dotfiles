@@ -11,17 +11,17 @@
 ;; frame title
 (setq! frame-title-format
     '(:eval
-     (format "%s@%s: %s"
-     (or (file-remote-p default-directory 'user)
-     user-real-login-name)
-     (or (file-remote-p default-directory 'host)
-     system-name)
-     (cond
-     (buffer-file-truename
-     (concat buffer-file-truename))
-     (dired-directory
-     (concat dired-directory))
-     (t (buffer-name))))))
+         (format "%s@%s: %s"
+             (or (file-remote-p default-directory 'user)
+                 user-real-login-name)
+             (or (file-remote-p default-directory 'host)
+                 system-name)
+             (cond
+                 (buffer-file-truename
+                     (concat buffer-file-truename))
+                 (dired-directory
+                     (concat dired-directory))
+                 (t (buffer-name))))))
 
 ;; Emacs 29 improved scrolling
 (when (> emacs-major-version 28)
@@ -38,37 +38,37 @@
 (setq! fancy-splash-image +my/splash-path)
 (setq! +doom-dashboard-functions
     '(doom-dashboard-widget-banner
-     doom-dashboard-widget-shortmenu
-     doom-dashboard-widget-loaded))
+         doom-dashboard-widget-shortmenu
+         doom-dashboard-widget-loaded))
 (setq! +doom-dashboard-menu-sections
     '(("Reload last session"
-      :icon nil
-      :when (cond ((modulep! :ui workspaces)
-      (file-exists-p (expand-file-name persp-auto-save-fname persp-save-dir)))
-    ((require 'desktop nil t)
-    (file-exists-p (desktop-full-file-name))))
-      :face (:inherit (doom-dashboard-menu-title bold))
-      :action doom/quickload-session)
-     ("Open org-agenda"
-     :icon nil
-     :when (fboundp 'org-agenda)
-     :action org-agenda)
-     ("Recently opened files"
-     :icon nil
-     :action recentf-open-files)
-     ("Open project"
-     :icon nil
-     :action projectile-switch-project)
-     ("Jump to bookmark"
-     :icon nil
-     :action bookmark-jump)
-     ("Open private configuration"
-     :icon nil
-     :when (file-directory-p doom-user-dir)
-     :action doom/open-private-config)
-     ("Open documentation"
-     :icon nil
-     :action doom/help)))
+          :icon nil
+          :when (cond ((modulep! :ui workspaces)
+                          (file-exists-p (expand-file-name persp-auto-save-fname persp-save-dir)))
+                    ((require 'desktop nil t)
+                        (file-exists-p (desktop-full-file-name))))
+          :face (:inherit (doom-dashboard-menu-title bold))
+          :action doom/quickload-session)
+         ("Open org-agenda"
+             :icon nil
+             :when (fboundp 'org-agenda)
+             :action org-agenda)
+         ("Recently opened files"
+             :icon nil
+             :action recentf-open-files)
+         ("Open project"
+             :icon nil
+             :action projectile-switch-project)
+         ("Jump to bookmark"
+             :icon nil
+             :action bookmark-jump)
+         ("Open private configuration"
+             :icon nil
+             :when (file-directory-p doom-user-dir)
+             :action doom/open-private-config)
+         ("Open documentation"
+             :icon nil
+             :action doom/help)))
 
 ;; all-the-icons
 (setq! all-the-icons-scale-factor 1.1)
@@ -116,10 +116,10 @@
     :demand
     :config
     (progn
-    (with-eval-after-load 'minions
-    (push 'flycheck-mode minions-prominent-modes)
-    (push 'overwrite-mode minions-prominent-modes))
-    (add-hook 'after-init-hook 'minions-mode)))
+        (with-eval-after-load 'minions
+            (push 'flycheck-mode minions-prominent-modes)
+            (push 'overwrite-mode minions-prominent-modes))
+        (add-hook 'after-init-hook 'minions-mode)))
 
 ;; modeline
 (after! doom-modeline
@@ -144,19 +144,19 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq! display-line-numbers-type t)
 (dolist (mode '(org-mode-hook
-       vterm-mode-hook
-       term-mode-hook
-       shell-mode-hook
-       eshell-mode-hook))
+                   vterm-mode-hook
+                   term-mode-hook
+                   shell-mode-hook
+                   eshell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; popup windows & rules
 (when (modulep! :ui popup)
     (setq! +popup-default-parameters
-    '((transient . t)   ; remove later
-     (quit . t)        ; remove later
-     (select . ignore) ; remove later
-     (no-other-window . nil))) ;; Allow `other-window'
+        '((transient . t)   ; remove later
+             (quit . t)        ; remove later
+             (select . ignore) ; remove later
+             (no-other-window . nil))) ;; Allow `other-window'
 
     (set-popup-rule! "^\\*doom:scratch*" :size 0.4 :ttl 0 :quit t)
     (set-popup-rule! "^\\*ielm" :size 0.4 :quit t :ttl 0)

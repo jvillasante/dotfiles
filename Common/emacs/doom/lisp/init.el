@@ -95,9 +95,9 @@
 ;; Whitespace settings
 (setq! delete-trailing-lines t)          ; `M-x delete-trailing-whitespace' deletes trailing lines
 (setq! show-trailing-whitespace t)       ; show those whitespace we need to delete
+(setq! whitespace-action '(cleanup auto-cleanup))
 (setq! whitespace-style
     '(face spaces empty tabs newline trailing lines-tail space-mark tab-mark newline-mark))
-(setq! whitespace-action '(cleanup auto-cleanup))
 (setq! whitespace-global-modes
     '(not shell-mode
          vterm-mode

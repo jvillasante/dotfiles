@@ -42,13 +42,13 @@
         "o p" nil ;; <leader> o p is remapped to password store
         "o P" nil ;; <leader> o P is not used
 
-        ;;;; Buffers
+    ;;;; Buffers
         (:prefix ("b" . "Buffers")
             :desc "Rename buffer" :n "R" #'rename-buffer
             :desc "Kill buffer"   :n "d" #'kill-this-buffer ; consistency with `SPC w d'
             :desc "Ibuffer"       :n "I" #'+ibuffer/open-for-current-workspace)
 
-        ;;;; Open
+    ;;;; Open
         (:prefix ("o" . "Open")
             :desc "Dired Jump" :n "d" #'dired-jump
             :desc "Dired"      :n "D" #'dired
@@ -75,13 +75,13 @@
                 :desc "Elfeed Rss Reader"  :n "f" #'elfeed
                 :desc "Deft"               :n "n" #'deft))
 
-        ;;;; Windows
+    ;;;; Windows
         (:prefix ("w" . "Windows")
             :desc "Popup raise"    :n "p" #'+popup/raise
             :desc "Maximize frame" :n "M" #'toggle-frame-maximized
             :desc "Delete window"  :n "d" #'evil-quit)
 
-        ;;;; Doom
+    ;;;; Doom
         (:prefix ("d" . "Doom")
             :desc "Dashboard"                 :n  "d" #'+doom-dashboard/open
             :desc "Reload Private Config"     :n  "R" #'doom/reload
@@ -98,7 +98,7 @@
             :desc "Sudo find file"            :n  "U" #'doom/sudo-find-file
             :desc "Toggle frame fullscreen"   :n  "F" #'toggle-frame-fullscreen)
 
-        ;;;; Code
+    ;;;; Code
         (:prefix ("c" . "Code")
             :desc "Make run"                  :n "m" #'+make/run
             :desc "Make run last"             :n "M" #'+make/run-last
@@ -110,18 +110,18 @@
                 :desc "Show"                  :n "m" #'lsp-ui-imenu
                 :desc "Hide"                  :n "q" #'lsp-ui-imenu--kill))
 
-        ;;; Notes
+    ;;; Notes
         (:prefix ("n" . "Notes")
             :desc "Open deft" :n "D" #'deft
             :desc "Find deft file" :n "d" #'deft-find-file)
 
-        ;;;; Quit
+    ;;;; Quit
         (:prefix ("q" . "Quit")
             :desc "Restart Emacs"                "r" #'doom/restart
             :desc "Restart & restore Emacs"      "R" #'doom/restart-and-restore
             :desc "Save buffers and kill server" "Q" #'save-buffers-kill-emacs)
 
-        ;;;; Hydra
+    ;;;; Hydra
         (:leader
             (:when (modulep! :ui hydra)
                 (:prefix "w"
@@ -129,32 +129,32 @@
                 (:prefix ("z" . "zoom")
                     :desc "Text"                "t" #'+hydra/text-zoom/body)))
 
-        ;;;; Isearch
+    ;;;; Isearch
         (:after isearch
             (:map isearch-mode-map
                 [return] #'+isearch-exit-start-of-match
                 "RET"    #'+isearch-exit-start-of-match
                 "C-RET"  #'isearch-exit))
 
-        ;;;; Ivy
+    ;;;; Ivy
         (:after ivy
             (:map ivy-minibuffer-map
                 [return] #'ivy-alt-done
                 "RET"    #'ivy-alt-done))
 
-        ;;;; LSP UI
+    ;;;; LSP UI
         (:after lsp-ui
             (:map lsp-ui-mode-map
                 [remap xref-find-definitions] #'lsp-ui-peek-find-definitions
                 [remap xref-find-references] #'lsp-ui-peek-find-references))
 
-        ;;;; Flycheck
+    ;;;; Flycheck
         (:after flycheck
             (:map flycheck-mode-map
                 "M-n" #'flycheck-next-error
                 "M-p" #'flycheck-previous-error))
 
-        ;;;;; Rust
+    ;;;;; Rust
         (:after rustic
             (:map rustic-mode-map
                 :localleader
