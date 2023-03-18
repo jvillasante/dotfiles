@@ -57,37 +57,75 @@ There are two things you can do about this warning:
 (defconst +my/software-path (expand-file-name "Workspace/Software/" +my/home-path))
 (defconst +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
 (defconst +my/savefile-dir (expand-file-name "savefile" user-emacs-directory))
-(unless (file-exists-p +my/savefile-dir)
-    (make-directory +my/savefile-dir)) ;; create the savefile dir if it doesn't exist
+(unless (file-exists-p +my/savefile-dir) (make-directory +my/savefile-dir))
+(defconst +my/config-dir (expand-file-name "lisp" user-emacs-directory))
+(push +my/config-dir load-path)
+(require 'my-functions)
 
 ;; org-directory needs to be set early
 (setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
 ;; (setq org-agenda-files (list "inbox.org" "agenda.org" "notes.org"))
 
-;; linux stuff
-(if (eq system-type 'gnu/linux)
-    (setq browse-url-browser-function 'browse-url-generic)
-    (setq browse-url-generic-program "xdg-open")
-    (setq +my/clang-path "/usr/bin/clang")
-    (setq +my/mu-path "/usr/bin/mu")
-    (setq +my/msmtp-path "/usr/bin/msmtp")
-    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))
+(cond
+    (IS-MAC
+        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+        (setq browse-url-browser-function 'browse-url-generic)
+        (setq browse-url-generic-program "open")
+        (setq +my/clang-path "/usr/local/opt/llvm/bin/clang")
+        (setq +my/mu-path "/usr/local/bin/mu")
+        (setq +my/msmtp-path "/usr/local/bin/msmtp")
+        (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
+        (setq ns-use-proxy-icon nil)
+        (setq ns-use-thin-smoothing t)
+        (setq ns-alternate-modifier nil)
+        (setq mac-command-modifier 'meta)
+        (setq mac-option-modifier 'alt)
+        (setq! mac-right-option-modifier 'alt))
+    (IS-LINUX
+        (setq browse-url-browser-function 'browse-url-generic)
+        (setq browse-url-generic-program "xdg-open")
+        (setq +my/clang-path "/usr/bin/clang")
+        (setq +my/mu-path "/usr/bin/mu")
+        (setq +my/msmtp-path "/usr/bin/msmtp")
+        (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")))
 
-;; mac stuff
-(if (eq system-type 'darwin)
-    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-    (setq browse-url-browser-function 'browse-url-generic)
-    (setq browse-url-generic-program "open")
-    (setq +my/clang-path "/usr/local/opt/llvm/bin/clang")
-    (setq +my/mu-path "/usr/local/bin/mu")
-    (setq +my/msmtp-path "/usr/local/bin/msmtp")
-    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
-    (setq ns-use-proxy-icon nil)
-    (setq ns-use-thin-smoothing t)
-    (setq ns-alternate-modifier nil)
-    (setq mac-command-modifier 'meta)
-    (setq mac-option-modifier 'alt)
-    (setq mac-right-option-modifier 'alt))
+(defvar +my/side-window-slots
+    '((helpful . 1) ;; 0 is the default
+         (vterm . -1)
+         (eldoc . 1)
+         (python . -1)
+         (R . -1)
+         (Rhelp . 1)
+         (Rdired . -1)
+         (RWatch . -2)
+         (xwidget-plot . -1)
+         (dired-sidebar . -1))
+    "The slot for different mode if used as side window.
+This is for configuring `display-buffer-in-side-window',
+configuring this would avoid buffer swallows other buffer's window
+if they are side window.")
+
+(defvar +my/side-window-sides
+    '((helpful . bottom) ;;bottom is the default
+         (vterm . bottom)
+         (eldoc . bottom)
+         (python . bottom)
+         (R . bottom)
+         (Rhelp . bottom)
+         (Rdired . right)
+         (RWatch . right)                  ;
+         (xwidget-plot . right)
+         (dired-sidebar . left)
+         (pdf-outline . left))
+    "The side different mode if used as side window.
+This is for configuring `display-buffer-in-side-window',
+configuring this would avoid buffer swallows other buffer's window
+if they are side window.")
+
+(setq window-combination-resize t
+    ;; unless you have a really wide screen, always prefer
+    ;; horizontal split (ale `split-window-below')
+    split-width-threshold 300)
 
 ;; frame title
 (setq-default frame-title-format
@@ -244,16 +282,6 @@ There are two things you can do about this warning:
 (use-package modus-themes
     :demand t
     :config
-    (defun +my/switch-theme (theme)
-        "This interactive call is taken from `load-theme'."
-        (interactive
-            (list
-                (intern (completing-read "Load custom theme: "
-                            (mapcar 'symbol-name
-                                (custom-available-themes))))))
-        (mapc #'disable-theme custom-enabled-themes)
-        (load-theme theme t))
-
     (setq modus-themes-italic-constructs t)
     (setq modus-themes-bold-constructs t)
     (setq modus-themes-variable-pitch-ui t)
@@ -288,12 +316,10 @@ There are two things you can do about this warning:
 
 (use-package emacs
     :ensure nil  ; emacs built-in
-    ;; TODO
-    ;; (remove-hook 'text-mode-hook #'turn-on-auto-fill)    ;; auto-fill insert hard line breaks
-    ;; (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
-    ;; (add-hook 'prog-mode-hook '+my/comment-auto-fill)    ;; ... but add comment auto-fill in prog-mode
-    :hook ((text-mode-hook . (lambda() (visual-line-mode))))
     :config
+    (remove-hook 'text-mode-hook #'turn-on-auto-fill)    ;; auto-fill insert hard line breaks
+    (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
+    (add-hook 'prog-mode-hook '+my/comment-auto-fill)    ;; ... but add comment auto-fill in prog-mode
     (dolist (hook '(special-mode-hook
                        term-mode-hook
                        comint-mode-hook
@@ -360,19 +386,11 @@ There are two things you can do about this warning:
         recentf-auto-cleanup 'never)
     (recentf-mode +1))
 
-;;;; projectile : project interaction library for Emacs.
-;; TODO: use project.el
-;; (use-package projectile
-;;     :demand t
-;;     :init
-;;     (setq projectile-project-search-path '("~/Workspace/Private/Projects/" "~/Workspace/Public/" "~/Workspace/Work/Projects")
-;;         projectile-switch-project-action 'projectile-dired
-;;         projectile-require-project-root t
-;;         projectile-project-root-files-bottom-up '(".projectile" ".git")
-;;         projectile-sort-order 'recentf
-;;         projectile-indexing-method 'hybrid)
-;;     :config
-;;     (projectile-mode +1))
+;;;; project.el : default project manager
+(use-package project
+    :config
+    (add-to-list 'project-switch-commands
+        '(project-dired "Dired at root")))
 
 ;;;; Dired : built-in navigation of folders
 (use-package dired
@@ -395,6 +413,20 @@ There are two things you can do about this warning:
                                      "-alhvF --group-directories-first"))
 
     (require 'dired-x)) ;; enable some really cool extensions like C-x C-j(dired-jump)
+
+(use-package dired-sidebar
+    :defer t
+    :init
+    (add-hook 'dired-sidebar-mode-hook (display-line-numbers-mode nil))
+    :config
+    (setq dired-sidebar-display-alist
+        `((window-width . 0.25)
+             (side . ,(alist-get 'dired-sidebar +my/side-window-sides))
+             (slot . ,(alist-get 'dired-sidebar +my/side-window-slots)))
+        dired-sidebar-resize-on-open nil
+        dired-sidebar-window-fixed nil
+        dired-sidebar-theme 'ascii
+        dired-sidebar-use-custom-modeline nil))
 
 ;;;; whitespace : visualize blanks (tabs, spaces, newline, etc)
 (use-package whitespace
@@ -422,6 +454,7 @@ There are two things you can do about this warning:
 (use-package editorconfig
     :demand t
     :config
+    (diminish 'editorconfig-mode)
     (editorconfig-mode 1))
 
 ;;;; exec-path-from-shell : Sane environment variables
@@ -448,6 +481,7 @@ There are two things you can do about this warning:
 (use-package diminish
     :demand t
     :config
+    (diminish 'auto-fill-mode)
     (diminish 'eldoc-mode)
     (diminish 'flycheck-mode)
     (diminish 'flyspell-mode)
@@ -539,6 +573,7 @@ There are two things you can do about this warning:
 (use-package anzu
     :demand t
     :config
+    (diminish 'anzu-mode)
     (global-anzu-mode +1))
 
 ;;;; easy-kill : kill things easily
@@ -574,9 +609,16 @@ There are two things you can do about this warning:
 (use-package vertico
     :demand t
     :init (vertico-mode)
-    :custom
-    (vertico-cycle t)
-    (vertico-count 15))
+    :config
+    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+    (setq vertico-resize nil
+        vertico-count 17
+        vertico-cycle t)
+
+    ;; Cleans up path when moving directories with shadowed paths syntax, e.g.
+    ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
+    (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
+    (add-hook 'minibuffer-setup-hook #'vertico-repeat-save))
 
 ;;;; Marginalia : Display additional completion data (doc strings, file permissions...)
 (use-package marginalia
@@ -730,40 +772,6 @@ There are two things you can do about this warning:
 ;;;; rainbow-delimiters : Parenthesis color based on depth
 (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
-
-;;;; neotree : A Emacs tree plugin like NerdTree for Vim.
-(use-package neotree
-    :config
-    (setq neo-theme 'ascii
-        neo-window-width 42
-        neo-smart-open t
-        neo-create-file-auto-open nil
-        neo-show-updir-line t
-        neo-show-hidden-files t
-        neo-auto-indent-point t
-        neo-vc-integration nil
-        neo-autorefresh nil
-        neo-hidden-regexp-list
-        '(;; vcs folders
-             "^\\.\\(?:git\\|hg\\|svn\\)$"
-             ;; compiled files
-             "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
-             ;; generated files, caches or local pkgs
-             "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
-             ;; org-mode folders
-             "^\\.\\(?:sync\\|export\\|attach\\)$"
-             ;; temp files
-             "~$"
-             "^#.*#$"
-             ;; Others
-             "^\\.\\(cache\\|tox\\|coverage\\)$"
-             "^\\.\\(DS_Store\\|python\\-version\\)"
-             "^\\(htmlcov\\)$" "\\.elcs$"
-             "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-             "^\\.#.*$" "^__pycache__$"
-             "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-             "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-             "\\.egg\-info$")))
 
 ;;;; deft : plain text notes
 (use-package deft
@@ -941,45 +949,71 @@ There are two things you can do about this warning:
                    ;; haskell-mode    ; haskell-language-server
                    ) . lsp-deferred))
     :config
-    (setq lsp-restart 'ignore
-        lsp-headerline-breadcrumb-enable nil
-        lsp-enable-symbol-highlighting t
-        lsp-enable-indentation nil
-        lsp-eldoc-enable-hover t
-        lsp-eldoc-render-all nil
-        lsp-signature-render-documentation nil
-        lsp-signature-auto-activate nil
-        lsp-signature-doc-lines 1
-        lsp-auto-guess-root nil
-        lsp-enable-file-watchers nil
-        lsp-enable-on-type-formatting nil)
+    ;; Rust hack!
+    (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
+        (-let* (((&hash "value") contents)
+                   (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
+                   (sig_group (if (s-equals? "```rust" (car (-third-item groups)))
+                                  (-third-item groups)
+                                  (car groups)))
+                   (sig (--> sig_group
+                            (--drop-while (s-equals? "```rust" it) it)
+                            (--take-while (not (s-equals? "```" it)) it)
+                            (--map (s-trim it) it)
+                            (s-join " " it))))
+            (lsp--render-element (concat "```rust\n" sig "\n```"))))
+
+    ;; General
+    (setq lsp-idle-delay 0.5)
+    (setq lsp-file-watch-threshold 15000)
+    (setq lsp-auto-guess-root t)
+    (setq lsp-log-io nil)
+    (setq lsp-restart 'ignore)
+    (setq lsp-enable-symbol-highlighting t)
+    (setq lsp-lens-enable nil)
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-modeline-code-actions-enable t)
+    (setq lsp-modeline-diagnostics-enable t)
+    (setq lsp-eldoc-enable-hover t)
+    (setq lsp-signature-auto-activate t)
+    (setq lsp-signature-render-documentation nil)
+    (setq lsp-completion-show-detail t)
+    (setq lsp-completion-show-kind nil)
+    (setq read-process-output-max (* 1024 1024)) ;; 1MB
+
+    ;; Rust
+    (setq lsp-rust-analyzer-cargo-watch-command "clippy")
+    (setq lsp-rust-analyzer-completion-auto-import-enable nil)
 
     ;; Zig
-    ;; (setq lsp-zig-zls-executable (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
+    (setq lsp-zig-zls-executable
+        (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
 
     ;; C++
-    (with-eval-after-load "c++-mode"
-        (setq lsp-clients-clangd-args
-            '("-j=4"
-                 "--malloc-trim"
-                 "--log=error"
-                 "--background-index"
-                 "--clang-tidy"
-                 "--cross-file-rename"
-                 "--completion-style=detailed"
-                 "--pch-storage=memory"
-                 "--header-insertion=never"
-                 "--header-insertion-decorators=0"))))
+    (setq lsp-clients-clangd-args
+        '("-j=8"
+             "--log=error"
+             "--malloc-trim"
+             "--background-index"
+             "--clang-tidy"
+             "--cross-file-rename"
+             "--completion-style=detailed"
+             "--pch-storage=memory"
+             "--header-insertion=never"
+             "--header-insertion-decorators=0"))
+    (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
+    (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
+    (with-eval-after-load "lsp-clangd" (set-lsp-priority! 'clangd 2)))
 
 ;;;; lsp-ui : annoying ui for lsp
 (use-package lsp-ui
     :config
-    (setq lsp-ui-doc-enable nil)
-    (setq lsp-ui-doc-header t)
-    (setq lsp-ui-doc-include-signature t)
-    (setq lsp-ui-doc-border (face-foreground 'default))
-    (setq lsp-ui-sideline-show-code-actions t)
-    (setq lsp-ui-sideline-delay 0.05))
+    (setq! lsp-ui-doc-enable nil)
+    (setq! lsp-ui-doc-show-with-cursor nil)
+    (setq! lsp-ui-doc-show-with-mouse nil)
+    (setq! lsp-ui-sideline-enable nil)
+    (setq! lsp-ui-sideline-show-code-actions nil)
+    (setq! lsp-ui-sideline-show-hover nil))
 
 ;;;; lsp-pyright : An LSP backend for python
 (use-package lsp-pyright
@@ -992,11 +1026,9 @@ There are two things you can do about this warning:
     :config
     (setq
         rustic-lsp-server 'rust-analyzer
-        rustic-format-on-save nil
-        lsp-rust-analyzer-cargo-watch-command "clippy"
-        lsp-rust-analyzer-inlay-hints-mode nil
-        lsp-rust-analyzer-server-display-inlay-hints nil))
+        rustic-format-on-save nil))
 
+;;;; format-all :
 (use-package format-all
     :hook ((c-mode . format-all-mode)
               (c++-mode . format-all-mode)
@@ -1018,78 +1050,76 @@ There are two things you can do about this warning:
     ;; specified (because ":keymaps 'global" is the default)
     ;; kbd is not necessary and arbitrary amount of key def pairs are allowed
     (general-define-key
-        ;;;; general keys
+        ;; general keys
         "C-x C-m" 'execute-extended-command ; ALT may or may not be available
         "C-c C-m" 'execute-extended-command ; ALT may or may not be available
         "C-c u" 'browse-url-at-point ; simple browse url
         "C-x k" 'kill-this-buffer ; kill buffer without prompt
         "C-x K" 'kill-buffer ; prompt for buffer to kill
-        ;; TODO: "C-x S"   #'+my/save-all              ;; save some buffers without prompt
+        "C-x S"   #'+my/save-all              ;; save some buffers without prompt
         "C-z"     nil                         ;; suspend frame should go away
         "C-x C-z" nil                         ;; same
 
-        ;;; M is a Ctrl on steroids
+        ;; M is a Ctrl on steroids
         "M-n" 'forward-paragraph
         "M-p" 'backward-paragraph
 
-        ;;; I use this all the time
+        ;; I use this all the time
         "C-<" 'beginning-of-buffer
         "C->" 'end-of-buffer
 
-        ;;; upcase, downcase and capitalize
+        ;; upcase, downcase and capitalize
         "M-u" 'upcase-dwim
         "M-l" 'downcase-dwim
         "M-c" 'capitalize-dwim
 
-        ;; TODO
-        ;;; better comment/un-comment
-        ;; "M-;" '+my/comment-or-uncomment
-        ;; "C-x C-;" '+my/comment-or-uncomment
+        ;; better comment/un-comment
+        "M-;" '+my/comment-or-uncomment
+        "C-x C-;" '+my/comment-or-uncomment
 
-        ;;; zap
+        ;; zap
         "M-S-z" 'zap-up-to-char ;; New in Emacs 28
 
-        ;;; ibuffer is better then list-buffers
+        ;; ibuffer is better then list-buffers
         [remap list-buffers] 'ibuffer
 
-        ;;; hippie-expand is a better dabbrev
+        ;; hippie-expand is a better dabbrev
         [remap dabbrev-expand] 'hippie-expand
 
-        ;;;; easy-kill
+    ;;; easy-kill
         [remap kill-ring-save] 'easy-kill
 
-        ;;; TODO
-        ;;; fill-unfill
-        ;; [remap fill-paragraph] '+my/fill-or-unfill
-        ;; "M-Q"                  '+my/unfill-paragraph
-        ;; "C-M-Q"                '+my/unfill-region
+        ;; fill-unfill
+        [remap fill-paragraph] '+my/fill-or-unfill
+        "M-Q"                  '+my/unfill-paragraph
+        "C-M-Q"                '+my/unfill-region
 
-        ;;;; avy
+        ;; avy
         "M-j" 'avy-goto-char-timer ; most usefull avy function
 
-        ;;;; ace-window
+        ;; ace-window
         ;; [remap other-window] 'ace-window ; better other window
 
-        ;;;; anzu
+        ;; anzu
         "M-%" 'anzu-query-replace
         "C-M-%" 'anzu-query-replace-regexp
 
-        ;;;; expand-region
+        ;; expand-region
         "C-=" 'er/expand-region
         "C--" 'er/contract-region
 
-        ;;;; magit
+        ;; magit
         "C-x g" 'magit-status
 
-        ;;;; embark
+        ;; embark
         "C-." 'embark-act        ; pick some comfortable binding
         "C-;" 'embark-dwim       ; good alternative: "M-."
         "C-h B" 'embark-bindings ; alternative for `describe-bindings'
 
-        ;;;; projectile
+        ;; projectile
         ;; "C-c p" 'projectile-command-map
 
-        ;;;; helpful
+        ;; helpful
         ;; (define-key helpful-mode-map [remap revert-buffer] #'helpful-update)
         [remap describe-command] 'helpful-command
         [remap describe-function] 'helpful-callable
@@ -1099,7 +1129,19 @@ There are two things you can do about this warning:
         "C-h F" 'helpful-function
         "C-h K" 'describe-keymap
 
-        ;;;; consult
+        ;; consult
+        [remap apropos] #'consult-apropos
+        [remap bookmark-jump] #'consult-bookmark
+        [remap goto-line] #'consult-goto-line
+        [remap imenu] #'consult-imenu
+        [remap locate] #'consult-locate
+        [remap load-theme] #'consult-theme
+        [remap man] #'consult-man
+        [remap recentf-open-files] #'consult-recent-file
+        [remap switch-to-buffer] #'consult-buffer
+        [remap switch-to-buffer-other-window] #'consult-buffer-other-window
+        [remap switch-to-buffer-other-frame] #'consult-buffer-other-frame
+        [remap yank-pop] #'consult-yank-pop
         ;; C-c bindings (mode-specific-map)
         "C-c h" 'consult-history
         "C-c m" 'consult-mode-command
@@ -1142,7 +1184,7 @@ There are two things you can do about this warning:
         ;; Isearch integration
         "M-s e" 'consult-isearch-history
 
-        ;;;; crux
+        ;; crux
         ;; "C-c o" 'crux-open-with
         ;; "C-c u" 'crux-view-url
         "C-o" 'crux-smart-open-line
@@ -1164,7 +1206,6 @@ There are two things you can do about this warning:
         "C-^" 'crux-top-join-line
         "C-c s" 'crux-ispell-word-then-abbrev
         "C-k" 'crux-smart-kill-line
-        "C-<backspace>" 'crux-kill-line-backwards
         "C-x 4 t" 'crux-transpose-windows
         "C-x C-u" 'crux-upcase-region
         "C-x C-l" 'crux-downcase-region
@@ -1186,15 +1227,14 @@ There are two things you can do about this warning:
         "c" 'calc
         "C" 'quick-calc
         "f" 'elfeed
-        "p" 'neotree-toggle
+        "p" 'dired-sidebar-toggle-sidebar
         "t" 'vterm
         "e" 'eshell)
 
     ;; * Mode Keybindings
     ;; `general-define-key' is comparable to `define-key' when :keymaps is specified
     (general-define-key :keymaps 'org-mode-map
-        ;; TODO: [remap fill-paragraph] #'+my/org-fill-or-unfill
-        )
+        [remap fill-paragraph] #'+my/org-fill-or-unfill)
     (general-define-key :keymaps 'ibuffer-mode-map
         "q" 'kill-this-buffer)
     (general-define-key :keymaps 'dired-mode-map
@@ -1213,8 +1253,6 @@ There are two things you can do about this warning:
         "M-[" 'vterm-copy-mode
         "C-y" 'vterm-yank
         "C-q" 'vterm-send-next-key)
-    (general-define-key :keymaps 'neotree-mode-map
-        [tab] 'neotree-stretch-toggle)
     (general-define-key :keymaps 'minibuffer-local-map
         "M-s" 'consult-history       ; orig. next-matching-history-element
         "M-r" 'consult-history))     ; orig. previous-matching-history-element
