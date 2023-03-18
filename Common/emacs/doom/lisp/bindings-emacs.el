@@ -39,73 +39,73 @@
     "M-Q"                  #'+my/unfill-paragraph
     "C-M-Q"                #'+my/unfill-region
     (:after org
-        :map org-mode-map
-        [remap fill-paragraph] #'+my/org-fill-or-unfill)
+    :map org-mode-map
+    [remap fill-paragraph] #'+my/org-fill-or-unfill)
 
     ;;; windows
     (:map ctl-x-4-map
-        "t" #'+my/toggle-window-split)
+    "t" #'+my/toggle-window-split)
 
     ;;; avy
     (:when 'avy
-        "C-." #'avy-goto-char-timer)
+    "C-." #'avy-goto-char-timer)
 
     ;;; anzu
     (:when 'anzu
-        "M-%" #'anzu-query-replace
-        "C-M-%" #'anzu-query-replace-regexp)
+    "M-%" #'anzu-query-replace
+    "C-M-%" #'anzu-query-replace-regexp)
 
     ;;; expand-region
     (:when 'expand-region
-        "C-=" #'er/expand-region
-        "C--" #'er/contract-region)
+    "C-=" #'er/expand-region
+    "C--" #'er/contract-region)
 
     ;;; crux
     (:when 'crux
-        "C-o" #'crux-smart-open-line
-        "C-^" #'crux-top-join-line
-        "C-k" #'crux-smart-kill-line
-        [remap kill-whole-line] #'crux-kill-whole-line)
+    "C-o" #'crux-smart-open-line
+    "C-^" #'crux-top-join-line
+    "C-k" #'crux-smart-kill-line
+    [remap kill-whole-line] #'crux-kill-whole-line)
 
     ;;; consult
     (:when 'consult
-        "C-x C-r" #'consult-recent-file)
+    "C-x C-r" #'consult-recent-file)
 
     ;;; isearch
     (:after isearch
-        :map isearch-mode-map
-        ;; Prevents issue where you have to press backspace twice when
-        ;; trying to remove the first character that fails a search
-        [remap isearch-delete-char] #'isearch-del-char
+    :map isearch-mode-map
+    ;; Prevents issue where you have to press backspace twice when
+    ;; trying to remove the first character that fails a search
+    [remap isearch-delete-char] #'isearch-del-char
 
-        ;; Better navigation
-        "C-n" #'isearch-repeat-forward
-        "C-p" #'isearch-repeat-backward)
+    ;; Better navigation
+    "C-n" #'isearch-repeat-forward
+    "C-p" #'isearch-repeat-backward)
 
     ;;; ibuffer
     (:after ibuffer
-        :map ibuffer-mode-map
-        "q" #'kill-this-buffer)
+    :map ibuffer-mode-map
+    "q" #'kill-this-buffer)
 
     ;;; smartparens
     (:after smartparens
-        :map smartparens-mode-map
-        "C-M-<backspace>" #'sp-backward-kill-sexp)
+    :map smartparens-mode-map
+    "C-M-<backspace>" #'sp-backward-kill-sexp)
 
     ;;; undo
     (:when (modulep! :emacs undo)
-        (:when 'undo-fu
-            "C-/" #'undo-fu-only-undo
-            "C-?" #'undo-fu-only-redo))
+    (:when 'undo-fu
+        "C-/" #'undo-fu-only-undo
+        "C-?" #'undo-fu-only-redo))
 
     ;;; vterm
     (:when (modulep! :term vterm)
-        (:when 'vterm
-            :map vterm-mode-map
-            "C-x [" #'vterm-copy-mode
-            "M-[" #'vterm-copy-mode
-            "C-y" #'vterm-yank
-            "C-q" #'vterm-send-next-key))
+    (:when 'vterm
+        :map vterm-mode-map
+        "C-x [" #'vterm-copy-mode
+        "M-[" #'vterm-copy-mode
+        "C-y" #'vterm-yank
+        "C-q" #'vterm-send-next-key))
 
     ;;; dired
     (:after dired
@@ -115,47 +115,48 @@
 
     ;;; neotree
     (:when (modulep! :ui neotree)
-        (:after neotree
-            :map neotree-mode-map
-            :desc "Neotree stretch" [tab] #'neotree-stretch-toggle))
+    (:after neotree
+        :map neotree-mode-map
+        :desc "Neotree stretch" [tab] #'neotree-stretch-toggle))
     )
 
 ;;; Leader key bindings (C-c)
 (map! :leader
     (:prefix ("f" . "file")
-        :desc "Save file" "s" #'save-buffer
-        :desc "Save all"  "S" #'+my/save-all)
+    :desc "Save file" "s" #'save-buffer
+    :desc "Save all"  "S" #'+my/save-all)
 
     (:prefix ("o" . "open")
-        "p" nil ;; unbind project drawer
-        "P" nil ;; unbind project drawer
+    "p" nil ;; unbind project drawer
+    "P" nil ;; unbind project drawer
 
-        :desc "Calc"       "c" #'calc
-        :desc "Quick Calc" "C" #'quick-calc
-        :desc "Elfeed"     "f" #'elfeed
-        (:when (modulep! :ui neotree)
-            :desc "Toggle Neotree"       "p" #'neotree-toggle
-            :desc "Find file in Neotree" "P" #'+neotree/find-this-file)
-        (:when (modulep! :ui treemacs)
-            :desc "Toggle Treemacs"       "p" #'treemacs
-            :desc "Doom toggle Treemacs"  "P" #'+treemacs/toggle))
+    :desc "Calc"       "c" #'calc
+    :desc "Quick Calc" "C" #'quick-calc
+    :desc "Elfeed"     "f" #'elfeed
+    :desc "Sidebar"    "p" #'dired-sidebar-toggle-sidebar
+    (:when (modulep! :ui neotree)
+        :desc "Toggle Neotree"       "p" #'neotree-toggle
+        :desc "Find file in Neotree" "P" #'+neotree/find-this-file)
+    (:when (modulep! :ui treemacs)
+        :desc "Toggle Treemacs"       "p" #'treemacs
+        :desc "Doom toggle Treemacs"  "P" #'+treemacs/toggle))
 
     (:prefix ("c" . "Code")
-        :desc "Make run"                  "m" #'+make/run
-        :desc "Make run last"             "M" #'+make/run-last
-        :desc "Lookup zeal documentation" "z" #'zeal-at-point)
+    :desc "Make run"                  "m" #'+make/run
+    :desc "Make run last"             "M" #'+make/run-last
+    :desc "Lookup zeal documentation" "z" #'zeal-at-point)
 
     (:prefix ("n" . "Notes")
-        "d" nil ;; unbind deft
+    "d" nil ;; unbind deft
 
-        :desc "Find deft file" "d" #'deft-find-file
-        :desc "Open deft"      "D" #'deft)
+    :desc "Find deft file" "d" #'deft-find-file
+    :desc "Open deft"      "D" #'deft)
     )
 
 ;;; hooks
 (add-hook 'c-mode-common-hook
     (lambda()
-        (local-set-key  (kbd "C-c C-o") #'ff-find-other-file)))
+    (local-set-key  (kbd "C-c C-o") #'ff-find-other-file)))
 
 ;;; Projectile prefix on `C-x p'
 (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)

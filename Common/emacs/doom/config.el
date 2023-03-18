@@ -536,6 +536,19 @@
                     "-w /tmp/sm"
                     "--name dmxs" . ,docker-image-run-default-args))))
 
+;; neotree but with dired
+(use-package! dired-sidebar
+    :demand
+    :commands (dired-sidebar-toggle-sidebar)
+    :config
+    (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+    (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+    (setq dired-sidebar-window-fixed nil)
+    (setq dired-sidebar-use-custom-modeline nil)
+    (setq dired-sidebar-resize-on-open nil)
+    (setq dired-sidebar-theme 'ascii)
+    (setq dired-sidebar-use-term-integration t))
+
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (use-package! org-crypt
     :after org
