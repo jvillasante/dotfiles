@@ -4,16 +4,16 @@
 
 (when (modulep! :editor evil)
     (after! evil
-        (setq! evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
-        (setq! evil-cross-lines t)    ;; Make horizontal movement cross lines
-        (setq! evil-shift-width 4)    ;; evil shift width
-        (setq! evil-ex-search-persistent-highlight nil) ;; No highlight persistence on evil search
+    (setq! evil-want-fine-undo t) ;; By default while in insert all changes are one big blob. Be more granular
+    (setq! evil-cross-lines t)    ;; Make horizontal movement cross lines
+    (setq! evil-shift-width 4)    ;; evil shift width
+    (setq! evil-ex-search-persistent-highlight nil) ;; No highlight persistence on evil search
 
-        ;; Make movement keys work like they should
-        (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
-        (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-        (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
-        (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)))
+    ;; Make movement keys work like they should
+    (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+    (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+    (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+    (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)))
 
 ;; the mark ring
 (setq-default set-mark-command-repeat-pop t)
@@ -24,19 +24,19 @@
 
 (when noninteractive
     (after! undo-tree
-        (global-undo-tree-mode -1)))
+    (global-undo-tree-mode -1)))
 
 (after! which-key
     (setq! which-key-popup-type 'minibuffer))
 
 (after! isearch
     (defadvice isearch-search (after isearch-no-fail activate)
-        (unless isearch-success
-            (ad-disable-advice 'isearch-search 'after 'isearch-no-fail)
-            (ad-activate 'isearch-search)
-            (isearch-repeat (if isearch-forward 'forward))
-            (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
-            (ad-activate 'isearch-search))))
+    (unless isearch-success
+        (ad-disable-advice 'isearch-search 'after 'isearch-no-fail)
+        (ad-activate 'isearch-search)
+        (isearch-repeat (if isearch-forward 'forward))
+        (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
+        (ad-activate 'isearch-search))))
 
 (after! vterm
     (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh")))
@@ -53,16 +53,16 @@
 
     ;; Aliases
     (add-hook 'eshell-mode-hook
-        (lambda ()
-            ;; The 'ls' executable requires the Gnu version on the Mac
-            (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                          "/usr/local/bin/gls"
-                          "/bin/ls")))
-                (eshell/alias "ls" (concat ls " --group-directories-first --color"))
-                (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
-            (eshell/alias "ff" "find-file $1")
-            (eshell/alias "e" "find-file-other-window $1")
-            (eshell/alias "d" "dired $1"))))
+    (lambda ()
+        ;; The 'ls' executable requires the Gnu version on the Mac
+        (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+              "/usr/local/bin/gls"
+              "/bin/ls")))
+        (eshell/alias "ls" (concat ls " --group-directories-first --color"))
+        (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
+        (eshell/alias "ff" "find-file $1")
+        (eshell/alias "e" "find-file-other-window $1")
+        (eshell/alias "d" "dired $1"))))
 
 (after! persp-mode
     (setq! persp-emacsclient-init-frame-behaviour-override "main"))
@@ -71,23 +71,23 @@
     (setq! tramp-verbose 2)
     (setq! tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq! tramp-password-prompt-regexp   ; Add verification code support.
-        (concat
-            "^.*"
-            (regexp-opt
-                '("passphrase" "Passphrase"
-                     "password" "Password"
-                     "Verification code")
-                t)
-            ".*:\0? *")))
+    (concat
+        "^.*"
+        (regexp-opt
+        '("passphrase" "Passphrase"
+             "password" "Password"
+             "Verification code")
+        t)
+        ".*:\0? *")))
 
 (after! emacs-everywhere
     (remove-hook 'emacs-everywhere-init-hooks #'org-mode)
     (add-hook 'emacs-everywhere-init-hooks #'markdown-mode)
 
     (setq! emacs-everywhere-frame-parameters
-        `((name . "emacs-everywhere")
-             (width . 120)
-             (height . 20))))
+    `((name . "emacs-everywhere")
+         (width . 120)
+         (height . 20))))
 
 (after! yasnippet
     (push (expand-file-name "snippets/" doom-user-dir) yas-snippet-dirs))
@@ -124,18 +124,18 @@
     (setq! projectile-project-root-files-bottom-up '(".projectile" ".git"))
     (setq! projectile-sort-order 'recentf)
     (setq! projectile-ignored-project-function
-        (lambda (project-root)
-            (or (file-remote-p project-root)
-                (string-prefix-p temporary-file-directory project-root)
-                (string-prefix-p (expand-file-name ".password-store/" +my/home-path) project-root)
-                (string-prefix-p (expand-file-name ".emacs.d/" +my/home-path) project-root)
-                (string-prefix-p (expand-file-name ".emacs.d/" +my/dotfiles-path) project-root)
-                (string-prefix-p (expand-file-name ".emacs.doom/" +my/dotfiles-path) project-root)
-                (string-prefix-p (expand-file-name ".emacs.chemacs2/" +my/dotfiles-path) project-root)
-                (string-prefix-p (expand-file-name ".emacs.crafted/" +my/dotfiles-path) project-root)
-                (string-prefix-p (expand-file-name "Workspace/Software/zig/" +my/home-path) project-root)
-                (string-prefix-p (expand-file-name ".cargo/" +my/home-path) project-root)
-                (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root)))))
+    (lambda (project-root)
+        (or (file-remote-p project-root)
+        (string-prefix-p temporary-file-directory project-root)
+        (string-prefix-p (expand-file-name ".password-store/" +my/home-path) project-root)
+        (string-prefix-p (expand-file-name ".emacs.d/" +my/home-path) project-root)
+        (string-prefix-p (expand-file-name ".emacs.d/" +my/dotfiles-path) project-root)
+        (string-prefix-p (expand-file-name ".emacs.doom/" +my/dotfiles-path) project-root)
+        (string-prefix-p (expand-file-name ".emacs.chemacs2/" +my/dotfiles-path) project-root)
+        (string-prefix-p (expand-file-name ".emacs.crafted/" +my/dotfiles-path) project-root)
+        (string-prefix-p (expand-file-name "Workspace/Software/zig/" +my/home-path) project-root)
+        (string-prefix-p (expand-file-name ".cargo/" +my/home-path) project-root)
+        (string-prefix-p (expand-file-name ".rustup/" +my/home-path) project-root)))))
 
 (after! ivy
     (setq! ivy-display-style nil)
@@ -152,8 +152,8 @@
     (setq! ivy-read-action-function #'ivy-hydra-read-action)
 
     (setq! ivy-display-functions-alist
-        '((counsel-irony . ivy-display-function-overlay)
-             (ivy-completion-in-region . ivy-display-function-overlay))))
+    '((counsel-irony . ivy-display-function-overlay)
+         (ivy-completion-in-region . ivy-display-function-overlay))))
 
 (after! avy
     (setq! avy-all-windows t))
@@ -169,15 +169,15 @@
 
     ;; c++
     (sp-with-modes '(c-mode c++-mode)
-        (sp-local-pair "<" ">" :actions nil)
+    (sp-local-pair "<" ">" :actions nil)
 
-        ;; when you press RET, the curly braces automatically add another newline
-        (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
-        (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC") ("* ||\n[i]" "RET"))))
+    ;; when you press RET, the curly braces automatically add another newline
+    (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+    (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC") ("* ||\n[i]" "RET"))))
 
     ;; rust
     (sp-with-modes '(rustic-mode)
-        (sp-local-pair "|" "|" :actions nil)))
+    (sp-local-pair "|" "|" :actions nil)))
 
 (after! flyspell
     (setq! flyspell-lazy-idle-seconds 2)) ; default is 2
@@ -185,8 +185,8 @@
 (after! spell-fu
     (setq! spell-fu-idle-delay 0.5) ; default is 0.25
     (add-hook! 'spell-fu-mode-hook
-        (lambda ()
-            (spell-fu-dictionary-add (spell-fu-get-ispell "es")))))
+    (lambda ()
+        (spell-fu-dictionary-add (spell-fu-get-ispell "es")))))
 
 (after! flycheck
     (setq! flycheck-temp-prefix "flycheck_tmp")
@@ -198,8 +198,8 @@
     (setq! company-tooltip-align-annotations t)
 
     (when (modulep! :editor evil)
-        ;; make aborting less annoying.
-        (add-hook! evil-normal-state-entry #'company-abort)))
+    ;; make aborting less annoying.
+    (add-hook! evil-normal-state-entry #'company-abort)))
 
 (after! format
     (setq! +format-on-save-enabled-modes
@@ -216,22 +216,22 @@
 
 (after! ws-butler
     (setq! ws-butler-global-exempt-modes
-        (append ws-butler-global-exempt-modes
-            '(prog-mode org-mode))))
+    (append ws-butler-global-exempt-modes
+        '(prog-mode org-mode))))
 
 (progn
     (setq! c-default-style "linux")
     (setq! c-basic-offset 4)
     (after! cc
-        (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-        (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
-        (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
-        (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
-        (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
-        (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
-        (setq-default flycheck-c/c++-clang-executable +my/clang-path)
-        (setq-default flycheck-clang-standard-library "libc++")
-        (setq-default flycheck-clang-language-standard "c++20")))
+    (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.C\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
+    (setq-default flycheck-c/c++-clang-executable +my/clang-path)
+    (setq-default flycheck-clang-standard-library "libc++")
+    (setq-default flycheck-clang-language-standard "c++20")))
 
 (after! python
     (setq! python-shell-interpreter "python3"))
@@ -243,13 +243,13 @@
     (setq! inferior-lisp-program "/usr/local/bin/sbcl")
 
     (setq! slime-lisp-implementations
-        `((ccl ("~/.cim/bin/ccl-1.9") :coding-system utf-8-unix)
-             (alisp ("/usr/local/bin/alisp") :coding-system utf-8-unix)
-             (ecl ("/usr/local/bin/ecl"))  ; :coding-system utf-8-unix)
-             (cmucl ("/usr/local/bin/cmucl") :coding-system utf-8-unix)
-             (sbcl ("/usr/local/bin/sbcl" "+R" "-l" "~/.sbclrc") :coding-system utf-8-unix)
-             (abcl ("~/.cim/bin/abcl-1.3.1" "-XX:MaxPermSize=256m" "-Dfile.encoding=UTF-8") :coding-system utf-8-unix)
-             (clisp ("/usr/local/bin/clisp") :coding-system utf-8-unix)))
+    `((ccl ("~/.cim/bin/ccl-1.9") :coding-system utf-8-unix)
+         (alisp ("/usr/local/bin/alisp") :coding-system utf-8-unix)
+         (ecl ("/usr/local/bin/ecl"))  ; :coding-system utf-8-unix)
+         (cmucl ("/usr/local/bin/cmucl") :coding-system utf-8-unix)
+         (sbcl ("/usr/local/bin/sbcl" "+R" "-l" "~/.sbclrc") :coding-system utf-8-unix)
+         (abcl ("~/.cim/bin/abcl-1.3.1" "-XX:MaxPermSize=256m" "-Dfile.encoding=UTF-8") :coding-system utf-8-unix)
+         (clisp ("/usr/local/bin/clisp") :coding-system utf-8-unix)))
 
     (setq! slime-default-lisp 'sbcl)
     (setq! slime-net-coding-system 'utf-8-unix))
@@ -260,17 +260,17 @@
 (after! lsp-mode
     ;; Rust hack!
     (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
-        (-let* (((&hash "value") contents)
-                   (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
-                   (sig_group (if (s-equals? "```rust" (car (-third-item groups)))
-                                  (-third-item groups)
-                                  (car groups)))
-                   (sig (--> sig_group
-                            (--drop-while (s-equals? "```rust" it) it)
-                            (--take-while (not (s-equals? "```" it)) it)
-                            (--map (s-trim it) it)
-                            (s-join " " it))))
-            (lsp--render-element (concat "```rust\n" sig "\n```"))))
+    (-let* (((&hash "value") contents)
+           (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
+           (sig_group (if (s-equals? "```rust" (car (-third-item groups)))
+                  (-third-item groups)
+                  (car groups)))
+           (sig (--> sig_group
+                (--drop-while (s-equals? "```rust" it) it)
+                (--take-while (not (s-equals? "```" it)) it)
+                (--map (s-trim it) it)
+                (s-join " " it))))
+        (lsp--render-element (concat "```rust\n" sig "\n```"))))
 
     ;; General
     (setq! lsp-idle-delay 0.5)
@@ -296,20 +296,20 @@
 
     ;; Zig
     (setq! lsp-zig-zls-executable
-        (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
+    (expand-file-name "zig/zls/zig-out/bin/zls" +my/software-path))
 
     ;; C++
     (setq! lsp-clients-clangd-args
-        '("-j=8"
-             "--log=error"
-             "--malloc-trim"
-             "--background-index"
-             "--clang-tidy"
-             "--cross-file-rename"
-             "--completion-style=detailed"
-             "--pch-storage=memory"
-             "--header-insertion=never"
-             "--header-insertion-decorators=0"))
+    '("-j=8"
+         "--log=error"
+         "--malloc-trim"
+         "--background-index"
+         "--clang-tidy"
+         "--cross-file-rename"
+         "--completion-style=detailed"
+         "--pch-storage=memory"
+         "--header-insertion=never"
+         "--header-insertion-decorators=0"))
     (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
     (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
     (after! lsp-clangd (set-lsp-priority! 'clangd 2)))
@@ -327,24 +327,24 @@
     (setq! eglot-autoshutdown t)
     (setq! eglot-extend-to-xref t)
     (setq! eglot-ignored-server-capabilities
-        (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
+    (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
     (add-to-list 'eglot-server-programs
-        '(c-mode c++-mode
-             . ("clangd"
-                   "-j=8"
-                   "--log=error"
-                   "--malloc-trim"
-                   "--background-index"
-                   "--clang-tidy"
-                   "--cross-file-rename"
-                   "--completion-style=detailed"
-                   "--pch-storage=memory"
-                   "--header-insertion=never"
-                   "--header-insertion-decorators=0"))))
+    '(c-mode c++-mode
+         . ("clangd"
+           "-j=8"
+           "--log=error"
+           "--malloc-trim"
+           "--background-index"
+           "--clang-tidy"
+           "--cross-file-rename"
+           "--completion-style=detailed"
+           "--pch-storage=memory"
+           "--header-insertion=never"
+           "--header-insertion-decorators=0"))))
 
 (after! rustic
     (when (modulep! :tools lsp +eglot)
-        (setq! rustic-lsp-client 'eglot))
+    (setq! rustic-lsp-client 'eglot))
     (setq! rustic-format-on-save nil))
 
 (after! evil-snipe
@@ -353,11 +353,11 @@
 
 (after! ediff
     (defun +my/ediff-copy-both-to-C ()
-        (interactive)
-        (ediff-copy-diff ediff-current-difference nil 'C nil
-            (concat
-                (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
-                (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+    (interactive)
+    (ediff-copy-diff ediff-current-difference nil 'C nil
+        (concat
+        (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+        (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
     (defun +my/add-d-to-ediff-mode-map () (define-key ediff-mode-map "C" '+my/ediff-copy-both-to-C))
     (add-hook 'ediff-keymap-setup-hook '+my/add-d-to-ediff-mode-map))
 
@@ -373,7 +373,7 @@
     (setq! wdired-allow-to-change-permissions t) ;; allow to edit permissions in wdired
 
     (let ((gls "/usr/local/bin/gls"))
-        (if (file-exists-p gls) (setq! insert-directory-program gls)))
+    (if (file-exists-p gls) (setq! insert-directory-program gls)))
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
@@ -382,8 +382,8 @@
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
     (setq! dired-listing-switches (if (eq system-type 'windows-nt)
-                                      "-alh"
-                                      "-alhvF --group-directories-first")))
+                      "-alh"
+                      "-alhvF --group-directories-first")))
 
 (after! dired-quick-sort
     (dired-quick-sort-setup))
@@ -392,9 +392,9 @@
     (pdf-tools-install)
 
     (defun +my/config-pdf ()
-        (if (eq (modus-themes--current-theme) 'modus-vivendi)
-            (pdf-view-midnight-minor-mode 1)
-            (pdf-view-midnight-minor-mode -1)))
+    (if (eq (modus-themes--current-theme) 'modus-vivendi)
+        (pdf-view-midnight-minor-mode 1)
+        (pdf-view-midnight-minor-mode -1)))
     (add-hook! 'pdf-view-mode-hook '+my/config-pdf))
 
 (after! neotree
@@ -410,74 +410,74 @@
 
     ;; Hidden files
     (setq! neo-hidden-regexp-list
-        '(;; vcs folders
-             "^\\.\\(?:git\\|hg\\|svn\\)$"
-             ;; compiled files
-             "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
-             ;; generated files, caches or local pkgs
-             "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
-             ;; org-mode folders
-             "^\\.\\(?:sync\\|export\\|attach\\)$"
-             ;; temp files
-             "~$"
-             "^#.*#$"
-             ;; Others
-             "^\\.\\(cache\\|tox\\|coverage\\)$"
-             "^\\.\\(DS_Store\\|python\\-version\\)"
-             "^\\(htmlcov\\)$" "\\.elcs$"
-             "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-             "^\\.#.*$" "^__pycache__$"
-             "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-             "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-             "^\\.log$"
-             "^\\.egg\-info$")))
+    '(;; vcs folders
+         "^\\.\\(?:git\\|hg\\|svn\\)$"
+         ;; compiled files
+         "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
+         ;; generated files, caches or local pkgs
+         "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+         ;; org-mode folders
+         "^\\.\\(?:sync\\|export\\|attach\\)$"
+         ;; temp files
+         "~$"
+         "^#.*#$"
+         ;; Others
+         "^\\.\\(cache\\|tox\\|coverage\\)$"
+         "^\\.\\(DS_Store\\|python\\-version\\)"
+         "^\\(htmlcov\\)$" "\\.elcs$"
+         "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+         "^\\.#.*$" "^__pycache__$"
+         "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+         "^\\.cproject$" "^\\.project$" "^\\.projectile$"
+         "^\\.log$"
+         "^\\.egg\-info$")))
 
 (after! treemacs
     (setq! treemacs-no-png-images t)
     (defvar treemacs-file-ignore-extensions '()
-        "File extension which `treemacs-ignore-filter' will ensure are ignored")
+    "File extension which `treemacs-ignore-filter' will ensure are ignored")
     (defvar treemacs-file-ignore-globs '()
-        "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
+    "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
     (defvar treemacs-file-ignore-regexps '()
-        "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
+    "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
     (setq! treemacs-file-ignore-extensions
-        '(;; LaTeX
-             "aux"
-             "ptc"
-             "fdb_latexmk"
-             "fls"
-             "synctex.gz"
-             "toc"
-             ;; LaTeX - glossary
-             "glg"
-             "glo"
-             "gls"
-             "glsdefs"
-             "ist"
-             "acn"
-             "acr"
-             "alg"
-             ;; LaTeX - pgfplots
-             "mw"
-             ;; LaTeX - pdfx
-             "pdfa.xmpi"))
+    '(;; LaTeX
+         "aux"
+         "ptc"
+         "fdb_latexmk"
+         "fls"
+         "synctex.gz"
+         "toc"
+         ;; LaTeX - glossary
+         "glg"
+         "glo"
+         "gls"
+         "glsdefs"
+         "ist"
+         "acn"
+         "acr"
+         "alg"
+         ;; LaTeX - pgfplots
+         "mw"
+         ;; LaTeX - pdfx
+         "pdfa.xmpi"))
     (setq! treemacs-file-ignore-globs
-        '(;; LaTeX
-             "*/_minted-*"
-             ;; AucTeX
-             "*/.auctex-auto"
-             "*/_region_.log"
-             "*/_region_.tex"))
+    '(;; LaTeX
+         "*/_minted-*"
+         ;; AucTeX
+         "*/.auctex-auto"
+         "*/_region_.log"
+         "*/_region_.tex"))
     (defun treemacs-file-ignore-generate-regexps ()
-        "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
-        (setq! treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
+    "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
+    (setq! treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
     (if (equal treemacs-file-ignore-globs '()) nil (treemacs-file-ignore-generate-regexps))
     (defun treemacs-ignore-filter (file full-path)
-        "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
-        (or (member (file-name-extension file) treemacs-file-ignore-extensions)
-            (let ((ignore-file nil))
-                (dolist (regexp treemacs-file-ignore-regexps ignore-file)
-                    (setq! ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
+    "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
+    (or (member (file-name-extension file) treemacs-file-ignore-extensions)
+        (let ((ignore-file nil))
+        (dolist (regexp treemacs-file-ignore-regexps ignore-file)
+            (setq! ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
     (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
 
 (after! pass
@@ -494,8 +494,8 @@
     (setq! deft-use-filename-as-title nil)
     (setq! deft-use-filter-string-for-filename t)
     (setq! deft-file-naming-rules '((noslash . "-")
-                                       (nospace . "-")
-                                       (case-fn . downcase)))
+                       (nospace . "-")
+                       (case-fn . downcase)))
     (setq! deft-auto-save-interval 0))
 
 (after! org-roam
@@ -505,23 +505,23 @@
 (after! org
     ;; Capture templates
     (setq! org-capture-templates
-        `(("i" "Inbox (inbox.org)" entry  (file "inbox.org")
-              ,(concat "* TODO %?\n"
-                   "/Entered on/ %U"))
-             ;; ("m" "Meeting (agenda.org)" entry  (file+headline "agenda.org" "Future")
-             ;;     ,(concat "* %? :meeting:\n"
-             ;;          "<%<%Y-%m-%d %a %H:00>>"))
-             ("n" "Note (notes.org)" entry  (file "notes.org")
-                 ,(concat "* Note (%a)\n"
-                      "/Entered on/ %U\n" "\n" "%?"))))
+    `(("i" "Inbox (inbox.org)" entry  (file "inbox.org")
+          ,(concat "* TODO %?\n"
+           "/Entered on/ %U"))
+         ;; ("m" "Meeting (agenda.org)" entry  (file+headline "agenda.org" "Future")
+         ;;     ,(concat "* %? :meeting:\n"
+         ;;          "<%<%Y-%m-%d %a %H:00>>"))
+         ("n" "Note (notes.org)" entry  (file "notes.org")
+         ,(concat "* Note (%a)\n"
+              "/Entered on/ %U\n" "\n" "%?"))))
 
     ;; Agenda
     (setq! org-agenda-hide-tags-regexp ".")
     (setq org-agenda-prefix-format
-        '((agenda . " %i %-12:c%?-12t% s")
-             (todo   . " ")
-             (tags   . " %i %-12:c")
-             (search . " %i %-12:c")))
+    '((agenda . " %i %-12:c%?-12t% s")
+         (todo   . " ")
+         (tags   . " %i %-12:c")
+         (search . " %i %-12:c")))
 
     ;; General Config
     (setq! org-return-follows-link  t)
@@ -531,10 +531,10 @@
 (after! docker
     (setq! docker-container-shell-file-name "/bin/bash")
     (add-to-list 'docker-image-run-custom-args
-        `("^sm" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm"
-                    "-u jenkins"
-                    "-w /tmp/sm"
-                    "--name dmxs" . ,docker-image-run-default-args))))
+    `("^sm" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm"
+            "-u jenkins"
+            "-w /tmp/sm"
+            "--name dmxs" . ,docker-image-run-default-args))))
 
 ;; neotree but with dired
 (use-package! dired-sidebar
@@ -568,21 +568,21 @@
     :demand
     :bind
     (([remap shell-command] . dwim-shell-command)
-        ([remap async-shell-command] . dwim-shell-command)
-        :map dired-mode-map
-        ([remap dired-do-async-shell-command] . dwim-shell-command)
-        ([remap dired-do-shell-command] . dwim-shell-command)
-        ([remap dired-smart-shell-command] . dwim-shell-command))
+    ([remap async-shell-command] . dwim-shell-command)
+    :map dired-mode-map
+    ([remap dired-do-async-shell-command] . dwim-shell-command)
+    ([remap dired-do-shell-command] . dwim-shell-command)
+    ([remap dired-smart-shell-command] . dwim-shell-command))
     :init
     (require 'dwim-shell-commands)
     :config
     (defun my/dwim-shell-command-convert-to-gif ()
-        "Convert all marked videos to optimized gif(s)."
-        (interactive)
-        (dwim-shell-command-on-marked-files
-            "Convert to gif"
-            "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
-            :utils "ffmpeg")))
+    "Convert all marked videos to optimized gif(s)."
+    (interactive)
+    (dwim-shell-command-on-marked-files
+        "Convert to gif"
+        "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
+        :utils "ffmpeg")))
 
 (use-package! file-info
     :demand
@@ -590,10 +590,10 @@
     :config
     (setq hydra-hint-display-type 'posframe)
     (setq hydra-posframe-show-params `(:poshandler posframe-poshandler-frame-center
-                                          :internal-border-width 2
-                                          :internal-border-color "#61AFEF"
-                                          :left-fringe 16
-                                          :right-fringe 16)))
+                      :internal-border-width 2
+                      :internal-border-color "#61AFEF"
+                      :left-fringe 16
+                      :right-fringe 16)))
 
 (load! "lisp/ui")
 (load! "lisp/elfeed")
