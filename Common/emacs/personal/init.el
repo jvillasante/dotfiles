@@ -1,6 +1,10 @@
 ;;; init.el --- personal init -*- lexical-binding: t; -*-
+;; Author: Julio C. Villasante <jvillasantegomez@gmail.com>
+;; URL: https://github.com/jvillasante/dotfiles
+;; Keywords: dotfiles emacs
 
 ;;; Commentary:
+;; This is my personal Emacs configuration.
 
 ;;; Code:
 
@@ -10,9 +14,14 @@
 (add-hook 'after-init-hook #'(lambda ()(setq gc-cons-threshold 800000)))
 
 ;;;; Enable MELPA : Add the main user repository of packages
-;; cf Getting Started https://melpa.org/
-;; ELPA, the default repository, has much less available
 (require 'package)
+;; (add-to-list 'package-archives
+;;     '("melpa" . "https://melpa.org/packages/") t)
+;; (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
+;; (package-initialize)
+;; (unless package-archive-contents
+;;     (package-refresh-contents))
+;;
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                    (not (gnutls-available-p))))
           (proto (if no-ssl "http" "https")))
@@ -29,7 +38,6 @@ There are two things you can do about this warning:
     (when (< emacs-major-version 24)
         ;; For important compatibility libraries like cl-lib
         (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
-(package-initialize)
 
 ;;;; use-package : Use package will be used as a package loader in this file
 ;; Install use-package if not installed yet
@@ -44,9 +52,42 @@ There are two things you can do about this warning:
     (use-package-always-defer t)) ; Lazy load by default, use :demand otherwise
 
 ;;;; Misc
+(defconst +my/home-path (expand-file-name "~/"))
+(defconst +my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" +my/home-path))
+(defconst +my/software-path (expand-file-name "Workspace/Software/" +my/home-path))
+(defconst +my/dropbox-path (expand-file-name "Dropbox/" +my/home-path))
 (defconst +my/savefile-dir (expand-file-name "savefile" user-emacs-directory))
 (unless (file-exists-p +my/savefile-dir)
     (make-directory +my/savefile-dir)) ;; create the savefile dir if it doesn't exist
+
+;; org-directory needs to be set early
+(setq org-directory (expand-file-name "Apps/org" +my/dropbox-path))
+;; (setq org-agenda-files (list "inbox.org" "agenda.org" "notes.org"))
+
+;; linux stuff
+(if (eq system-type 'gnu/linux)
+    (setq browse-url-browser-function 'browse-url-generic)
+    (setq browse-url-generic-program "xdg-open")
+    (setq +my/clang-path "/usr/bin/clang")
+    (setq +my/mu-path "/usr/bin/mu")
+    (setq +my/msmtp-path "/usr/bin/msmtp")
+    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))
+
+;; mac stuff
+(if (eq system-type 'darwin)
+    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+    (setq browse-url-browser-function 'browse-url-generic)
+    (setq browse-url-generic-program "open")
+    (setq +my/clang-path "/usr/local/opt/llvm/bin/clang")
+    (setq +my/mu-path "/usr/local/bin/mu")
+    (setq +my/msmtp-path "/usr/local/bin/msmtp")
+    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
+    (setq ns-use-proxy-icon nil)
+    (setq ns-use-thin-smoothing t)
+    (setq ns-alternate-modifier nil)
+    (setq mac-command-modifier 'meta)
+    (setq mac-option-modifier 'alt)
+    (setq mac-right-option-modifier 'alt))
 
 ;; frame title
 (setq-default frame-title-format
@@ -72,6 +113,14 @@ There are two things you can do about this warning:
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
+
+;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+(setq world-clock-list
+    '(("UTC" "UTC")
+         ("America/New_York" "Tampa")
+         ("Europe/Ljubljana" "Slovenia")
+         ("America/Havana" "Havana")))
+(setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; hippie expand is dabbrev expand on steroids
 (setq hippie-expand-try-functions-list
@@ -110,7 +159,6 @@ There are two things you can do about this warning:
     (setq large-file-warning-threshold 100000000) ;; warn when opening files bigger than 100MB
     (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
     (savehist-mode) ; Save history for commands
-    (setq isearch-resume-in-command-history t) ; Use history for isearch as well
     (setq-default auto-revert-verbose t) ; show message when file changes
     (setq-default auto-revert-avoid-polling t) ; use save signal
     (global-auto-revert-mode t) ; Refresh files automatically when modified from outside emacs
@@ -119,9 +167,9 @@ There are two things you can do about this warning:
     (setq ring-bell-function 'ignore) ; Disable the bell for emacs
     (setq debug-on-error nil) ; Display the stacktrace if error encountered in one of the lisp method
     (setq completions-detailed t) ; Detailed description for the built in describe symbol etc
-    (column-number-mode t) ; Display column numbers in the status line
-    (global-display-line-numbers-mode t) ; Display line numbers on the left
     (line-number-mode t) ; Display line number
+    (global-display-line-numbers-mode t) ; Display line numbers on the left
+    (column-number-mode t) ; Display column numbers in the status line
     (size-indication-mode t) ; Display size indication
     (delete-selection-mode 1) ; If text is selected, we expect that typing will replace the selection
     (save-place-mode +1) ; Remember point in files
@@ -130,11 +178,10 @@ There are two things you can do about this warning:
     (global-so-long-mode +1) ; long files
     (setq kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
     (setq auto-save-default nil) ; Don't autosave files with default Emacs package (we'll use `super-save' pacakge isntead)
-    (setq search-whitespace-regexp ".*?") ;; Isearch convenience, space matches anything (non-greedy)
     (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
     (setq use-short-answers t) ; Abreviate Yes/No to y or n
     (setq require-final-newline t) ;; Newline at end of file
-    (setq-default fill-column 135) ;; Wrap lines at 135 characters
+    (setq-default fill-column 132) ;; Wrap lines at 132 characters
     (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
     (setq-default tab-width 4)            ;; but maintain correct appearance
     (setq indent-line-function 'insert-tab) ;; indent the current line
@@ -147,6 +194,18 @@ There are two things you can do about this warning:
     (setq make-backup-files nil) ; Do not use backup files (filename~)
     (setq create-lockfiles nil)) ; Do not use lock files (.#filename)
 
+;; macros
+(require 'kmacro)
+(defalias 'kmacro-insert-macro 'insert-kbd-macro)
+(define-key kmacro-keymap (kbd "I") #'kmacro-insert-macro)
+
+;; the mark ring
+(setq-default set-mark-command-repeat-pop t)
+
+;; enable repeat-mode, see: `describe-repeat-maps'
+(when (> emacs-major-version 27)
+    (repeat-mode +1))
+
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
@@ -156,7 +215,7 @@ There are two things you can do about this warning:
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-;; Don’t compact font caches during GC.
+;; Don't compact font caches during GC.
 (setq inhibit-compacting-font-caches t)
 
 ;; Auto-save on focus lost - https://www.emacswiki.org/emacs/AutoSave
@@ -165,7 +224,7 @@ There are two things you can do about this warning:
 
 ;; Prevent killing scratch buffer
 (with-current-buffer "*scratch*"
-          (emacs-lock-mode 'kill))
+    (emacs-lock-mode 'kill))
 
 ;; Default font
 (if (daemonp)
@@ -174,64 +233,65 @@ There are two things you can do about this warning:
             (with-selected-frame frame
                 (progn
                     (set-face-font 'default "Iosevka 16")
-                    (set-face-font 'variable-pitch "Iosevka 16")
+                    (set-face-font 'variable-pitch "Iosevka Aile 16")
                     (copy-face 'default 'fixed-pitch)))))
     (progn
         (set-face-font 'default "Iosevka 16")
-        (set-face-font 'variable-pitch "Iosevka 22")
+        (set-face-font 'variable-pitch "Iosevka Aile 16")
         (copy-face 'default 'fixed-pitch)))
 
 ;;;; Main color theme : modus-themes
 (use-package modus-themes
-    :demand
-    :init
-    ;; Add all your customizations prior to loading the themes
-    (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-region '(bg-only no-extend))
-
-    ;; Load the theme files before enabling a theme
-    (modus-themes-load-themes)
+    :demand t
     :config
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-            (lambda (frame)
-                (with-selected-frame frame
-                    (modus-themes-load-operandi)))) ;; OR (modus-themes-load-vivendi)
-        (modus-themes-load-operandi))) ;; OR (modus-themes-load-vivendi))
+    (defun +my/switch-theme (theme)
+        "This interactive call is taken from `load-theme'."
+        (interactive
+            (list
+                (intern (completing-read "Load custom theme: "
+                            (mapcar 'symbol-name
+                                (custom-available-themes))))))
+        (mapc #'disable-theme custom-enabled-themes)
+        (load-theme theme t))
 
-;;;; modeline : mini-modeline
-(use-package mini-modeline
-    :demand
-    :init
-    (setq mode-line-position (list "%l:%c %p"))
-    (setq mode-line-modes (list "%m"))
-    (setq mini-modeline-enhance-visual t)
-    (setq mini-modeline-display-gui-line t)
-    (setq mini-modeline-echo-duration 10)
-    (setq mini-modeline-right-padding 1)
-    (setq mini-modeline-l-format nil)
-    (setq mini-modeline-r-format
-        '("%e"
-             mode-line-front-space
-             mode-line-position
-             " "
-             mode-line-mule-info     ; Information on character sets, encodings, and other human-language details
-             mode-line-client        ; Identifies frames created by emacsclient
-             mode-line-modified      ; Modified and read-only status
-             mode-line-remote        ; At-sign (@) for buffers visiting remote files, otherwise a dash
-             " "
-             mode-line-modes))
-    :config
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-            (lambda (frame)
-                (with-selected-frame frame
-                    (mini-modeline-mode t))))
-        (mini-modeline-mode t)))
+    (setq modus-themes-italic-constructs t)
+    (setq modus-themes-bold-constructs t)
+    (setq modus-themes-variable-pitch-ui t)
+    (setq modus-themes-mixed-fonts t)
+
+    ;; Color customizations
+    (setq modus-themes-prompts '(italic bold))
+    (setq modus-themes-completions
+        '((matches . (extrabold))
+             (selection . (semibold italic text-also))))
+    (setq modus-themes-org-blocks 'gray-background)
+
+    ;; Font sizes for titles and headings, including org
+    (setq modus-themes-headings '((1 . (variable-pitch 1.5))
+                                     (2 . (1.3))
+                                     (agenda-date . (1.3))
+                                     (agenda-structure . (variable-pitch light 1.8))
+                                     (t . (1.1))))
+
+    ;; Theme overrides
+    (customize-set-variable 'modus-themes-common-palette-overrides
+        `(;; Make the mode-line borderless
+             (bg-mode-line-active bg-inactive)
+             (fg-mode-line-active fg-main)
+             (bg-mode-line-inactive bg-inactive)
+             (fg-mode-line-active fg-dim)
+             (border-mode-line-active bg-inactive)
+             (border-mode-line-inactive bg-main)))
+
+    ;; Load theme
+    (+my/switch-theme 'modus-operandi))
 
 (use-package emacs
     :ensure nil  ; emacs built-in
+    ;; TODO
+    ;; (remove-hook 'text-mode-hook #'turn-on-auto-fill)    ;; auto-fill insert hard line breaks
+    ;; (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
+    ;; (add-hook 'prog-mode-hook '+my/comment-auto-fill)    ;; ... but add comment auto-fill in prog-mode
     :hook ((text-mode-hook . (lambda() (visual-line-mode))))
     :config
     (dolist (hook '(special-mode-hook
@@ -242,9 +302,28 @@ There are two things you can do about this warning:
         (add-hook hook
             (lambda () (setq show-trailing-whitespace nil)))))
 
+;; isearch emacs builtin
+(use-package isearch
+    :ensure nil  ; emacs built-in
+    :config
+    (setq isearch-resume-in-command-history t) ; use history for isearch as well
+    (setq search-whitespace-regexp ".*?") ; isearch convenience, space matches anything (non-greedy)
+    (setq isearch-lax-whitespace t)
+    (setq isearch-allow-motion t) ; enable Emacs28 isearch motions
+    :init
+    (defadvice isearch-search (after isearch-no-fail activate)
+        (unless isearch-success
+            (ad-disable-advice 'isearch-search 'after 'isearch-no-fail)
+            (ad-activate 'isearch-search)
+            (isearch-repeat (if isearch-forward 'forward))
+            (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
+            (ad-activate 'isearch-search))))
+
 ;; persistent-scratch : preserve scratch buffer across sessions
 (use-package persistent-scratch
+    :ensure t
     :config
+    (setq persistent-scratch-save-file (expand-file-name "persistent-scratch" +my/savefile-dir))
     (persistent-scratch-setup-default)
     (persistent-scratch-autosave-mode 1))
 
@@ -282,17 +361,18 @@ There are two things you can do about this warning:
     (recentf-mode +1))
 
 ;;;; projectile : project interaction library for Emacs.
-(use-package projectile
-    :demand
-    :init
-    (setq projectile-project-search-path '("~/Workspace/Private/Projects/" "~/Workspace/Public/" "~/Workspace/Work/Projects")
-        projectile-switch-project-action 'projectile-dired
-        projectile-require-project-root t
-        projectile-project-root-files-bottom-up '(".projectile" ".git")
-        projectile-sort-order 'recentf
-        projectile-indexing-method 'hybrid)
-    :config
-    (projectile-mode +1))
+;; TODO: use project.el
+;; (use-package projectile
+;;     :demand t
+;;     :init
+;;     (setq projectile-project-search-path '("~/Workspace/Private/Projects/" "~/Workspace/Public/" "~/Workspace/Work/Projects")
+;;         projectile-switch-project-action 'projectile-dired
+;;         projectile-require-project-root t
+;;         projectile-project-root-files-bottom-up '(".projectile" ".git")
+;;         projectile-sort-order 'recentf
+;;         projectile-indexing-method 'hybrid)
+;;     :config
+;;     (projectile-mode +1))
 
 ;;;; Dired : built-in navigation of folders
 (use-package dired
@@ -303,7 +383,6 @@ There are two things you can do about this warning:
     (setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
     (setq dired-dwim-target t) ;; makes dired guess the target directory
     (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
-    (setq projectile-switch-project-action 'projectile-dired) ;; dired loads on project switch
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
@@ -321,31 +400,40 @@ There are two things you can do about this warning:
 (use-package whitespace
     :ensure nil  ; emacs built-in
     :init
-    (add-hook 'phyton-mode-hook #'whitespace-mode)
-    (add-hook 'makefile-mode-hook #'whitespace-mode)
     (add-hook 'before-save-hook #'whitespace-cleanup)
     :config
-    (setq show-trailing-whitespace t)
-    (setq whitespace-action '(auto-cleanup))
-    (setq whitespace-line-column 135) ;; limit line length
-    (setq whitespace-style '(face tabs empty trailing lines-tail)))
+    (setq delete-trailing-lines t)      ; `M-x delete-trailing-whitespace' deletes trailing lines
+    (setq show-trailing-whitespace t)   ; show those whitespace we need to delete
+    (setq whitespace-style
+        '(face spaces empty tabs newline trailing lines-tail space-mark tab-mark newline-mark))
+    (setq whitespace-action '(cleanup auto-cleanup))
+    (setq whitespace-global-modes
+        '(not shell-mode
+             vterm-mode
+             eshell-mode
+             help-mode
+             magit-mode
+             magit-diff-mode
+             ibuffer-mode
+             dired-mode
+             occur-mode)))
 
 ;;;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
-    :demand
+    :demand t
     :config
     (editorconfig-mode 1))
 
 ;;;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
-    :demand
+    :demand t
     :config
     (when (daemonp)
         (exec-path-from-shell-initialize)))
 
 ;;;; pulsar : Pulse highlight line on demand or after running select functions
 (use-package pulsar
-    :demand
+    :demand t
     :disabled t  ; does not work well in terminal
     :config
     (setq pulsar-pulse-on-window-change t)
@@ -358,7 +446,7 @@ There are two things you can do about this warning:
 
 ;;;; diminish : Hide the mode line string for modes (called the lighter)
 (use-package diminish
-    :demand
+    :demand t
     :config
     (diminish 'eldoc-mode)
     (diminish 'flycheck-mode)
@@ -368,14 +456,14 @@ There are two things you can do about this warning:
 
 ;;;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
-    :demand
+    :demand t
     :config
     (setq avy-all-windows t)
     (setq avy-background t))
 
 ;;;; super-save : auto-saves your buffers, when certain events happen
 (use-package super-save
-    :demand
+    :demand t
     :config
     ;; add integration with ace-window
     (add-to-list 'super-save-triggers 'ace-window)
@@ -384,7 +472,7 @@ There are two things you can do about this warning:
 
 ;;;; diff-hl : highlights uncommitted changes on the left side of the window
 (use-package diff-hl
-    :demand
+    :demand t
     :config
     (global-diff-hl-mode +1)
     (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
@@ -392,56 +480,85 @@ There are two things you can do about this warning:
 
 ;;;; ace-window : GNU Emacs package for selecting a window to switch to
 (use-package ace-window
-    :demand)
+    :demand t)
 
 ;;;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (use-package crux
-    :demand)
+    :demand t)
 
 ;;;; vterm : terminal emulator
 (use-package vterm
-    :demand
+    :defer t
     :hook (vterm-mode . (lambda()
-                            (setq-local global-hl-line-mode nil)
-                            (display-line-numbers-mode 0)))
+                            (display-line-numbers-mode nil)
+                            (setq-local global-hl-line-mode nil)))
     :config
+    (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
     (setq vterm-shell "/usr/bin/bash"))
 
-;;;; anzy : displays current match and total matches information in the mode-line in various search modes
-(use-package anzu
-    :demand
+;;;; eshell : the emacs shell
+(use-package eshell
+    :ensure nil  ; emacs built-in
+    :hook ((eshell-mode-hook . (lambda()
+                                   (display-line-numbers-mode nil) ;; no line numbers
+                                   (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                                                 "/usr/local/bin/gls"
+                                                 "/bin/ls")))
+                                       (eshell/alias "ls" (concat ls " --group-directories-first --color"))
+                                       (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
+                                   (eshell/alias "ff" "find-file $1")
+                                   (eshell/alias "e" "find-file-other-window $1")
+                                   (eshell/alias "d" "dired $1"))))
     :config
-    (global-anzu-mode))
+    (setq eshell-highlight-prompt nil)
+    (setq eshell-scroll-to-bottom-on-input nil)
+    (setq eshell-scroll-to-bottom-on-output nil)
+    (setq eshell-prefer-lisp-functions nil)
+    (setq eshell-error-if-no-glob t)
+    (setq eshell-hist-ignoredups t)
+    (setq eshell-save-history-on-exit t)
+    (setq eshell-destroy-buffer-when-process-dies t))
+
+;;;; tramp : Transparent Remote Access, Multiple Protocols
+(use-package tramp
+    :ensure nil  ; emacs built-in
+    :init
+    (setq tramp-verbose 2)
+    (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (setq tramp-password-prompt-regexp   ; Add verification code support.
+        (concat
+            "^.*"
+            (regexp-opt
+                '("passphrase" "Passphrase"
+                     "password" "Password"
+                     "Verification code")
+                t)
+            ".*:\0? *")))
+
+;;;; anzu : displays current match and total matches information in the mode-line in various search modes
+(use-package anzu
+    :demand t
+    :config
+    (global-anzu-mode +1))
 
 ;;;; easy-kill : kill things easily
 (use-package easy-kill
-    :demand)
+    :demand t)
 
 ;;;; magit : Git front end (amazing!)
 (use-package magit
-    :config
-    ;; Have magit-status go full screen and quit to previous configuration.
-    ;; Taken from http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
-    ;; and http://irreal.org/blog/?p=2253
-    (defadvice magit-status (around magit-fullscreen activate)
-        (window-configuration-to-register :magit-fullscreen)
-        ad-do-it
-        (delete-other-windows))
-    (defadvice magit-quit-window (after magit-restore-screen activate)
-        (jump-to-register :magit-fullscreen))
-
-    (setq git-commit-summary-max-length 80
-        vc-handled-backends (delq 'Git vc-handled-backends)))
+    :init
+    (setq git-commit-summary-max-length 50))
 
 ;;;; which-key : Displays command shortcuts when typing commands
 (use-package which-key
-    :demand
+    :demand t
     :config (which-key-mode +1)
     (diminish 'which-key-mode))
 
 ;;;; undo-tree : treat undo history as a tree
 (use-package undo-tree
-    :demand
+    :demand t
     :config
     ;; autosave the undo-tree history
     (setq undo-tree-history-directory-alist
@@ -455,7 +572,7 @@ There are two things you can do about this warning:
 
 ;;;; Vertico : Completion for commands in a vertical way
 (use-package vertico
-    :demand
+    :demand t
     :init (vertico-mode)
     :custom
     (vertico-cycle t)
@@ -463,12 +580,12 @@ There are two things you can do about this warning:
 
 ;;;; Marginalia : Display additional completion data (doc strings, file permissions...)
 (use-package marginalia
-    :demand
+    :demand t
     :config (marginalia-mode))
 
 ;;;; Orderless : Matching of several patterns without order in completion
 (use-package orderless
-    :demand
+    :demand t
     :custom
     ((completion-styles '(orderless basic))
         (completion-category-defaults nil)
@@ -476,7 +593,7 @@ There are two things you can do about this warning:
 
 ;;;; Consult : a collection of commands that improve emacs defaults
 (use-package consult
-    :demand
+    :demand t
     ;; Enable automatic preview at point in the *Completions* buffer. This is
     ;; relevant when you use the default completion UI.
     :hook (completion-list-mode . consult-preview-at-point-mode)
@@ -518,7 +635,7 @@ There are two things you can do about this warning:
 
 ;;;; embard : Emacs Mini-Buffer Actions Rooted in Keymaps
 (use-package embark
-    :demand
+    :demand t
     :init
     ;; Optionally replace the key help with a completing-read interface
     (setq prefix-help-command #'embark-prefix-help-command)
@@ -533,18 +650,18 @@ There are two things you can do about this warning:
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
     :after (embark consult)
-    :demand
+    :demand t
     ;; if you want to have consult previews as you move around an
     ;; auto-updating embark collect buffer
     :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 ;;;; Expand Region : expand or contract selection
 (use-package expand-region
-    :demand)
+    :demand t)
 
 ;;;; Helpful : nice looking and more complete help buffers
 (use-package helpful
-    :demand)
+    :demand t)
 
 ;;;; Org mode : Base mode for note taking
 (use-package org
@@ -556,7 +673,27 @@ There are two things you can do about this warning:
     (setq org-startup-indented t)
     (setq org-startup-folded t)
     (setq org-hide-emphasis-markers t) ;; hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
+    ;; Capture templates
+    (setq org-capture-templates
+        `(("i" "Inbox (inbox.org)" entry  (file "inbox.org")
+              ,(concat "* TODO %?\n"
+                   "/Entered on/ %U"))
+             ;; ("m" "Meeting (agenda.org)" entry  (file+headline "agenda.org" "Future")
+             ;;     ,(concat "* %? :meeting:\n"
+             ;;          "<%<%Y-%m-%d %a %H:00>>"))
+             ("n" "Note (notes.org)" entry  (file "notes.org")
+                 ,(concat "* Note (%a)\n"
+                      "/Entered on/ %U\n" "\n" "%?"))))
+
+    ;; Agenda
+    (setq org-agenda-hide-tags-regexp ".")
+    (setq org-agenda-prefix-format
+        '((agenda . " %i %-12:c%?-12t% s")
+             (todo   . " ")
+             (tags   . " %i %-12:c")
+             (search . " %i %-12:c")))
     :hook (org-mode . (lambda()
+                          (display-line-numbers-mode nil) ;; no line numbers in org-mode
                           ;; disable auto-pairing of "<" in org-mode
                           (setq-local electric-pair-inhibit-predicate
                               `(lambda (c) (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))
@@ -564,23 +701,20 @@ There are two things you can do about this warning:
                           (variable-pitch-mode)
                           (visual-line-mode))))
 
-;;;; Org bullets : Pretty mode for org
-(use-package org-bullets
-    :hook (org-mode . org-bullets-mode))
-
-;;;; org-appear : toggle visibility of hidden elements
-(use-package org-appear
-    :hook (org-mode . org-appear-mode))
 
 ;;;; encryption
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (progn
+    (setq auth-source-save-behavior nil)
+
+    ;; setup epa
     (require 'epa-file)
     (epa-file-enable)
     (setq epa-file-encrypt-to user-mail-address
         epa-file-select-keys 'silent
         epa-file-cache-passphrase-for-symmetric-encryption nil)
 
+    ;; setup org-crypt
     (require 'org-crypt)
     (org-crypt-use-before-save-magic)
     (setq org-crypt-disable-auto-save nil
@@ -609,7 +743,6 @@ There are two things you can do about this warning:
         neo-auto-indent-point t
         neo-vc-integration nil
         neo-autorefresh nil
-        projectile-switch-project-action 'neotree-projectile-action
         neo-hidden-regexp-list
         '(;; vcs folders
              "^\\.\\(?:git\\|hg\\|svn\\)$"
@@ -657,10 +790,10 @@ There are two things you can do about this warning:
     (setq elfeed-db-directory "~/Dropbox/Apps/elfeed/elfeed_db"))
 
 ;;;; elfeed-org : rss
-(use-package elfeed-org
-    :init (elfeed-org)
-    :config
-    (setq rmh-elfeed-org-files (list "~/Dropbox/Apps/elfeed/elfeed.org")))
+;; (use-package elfeed-org
+;;     :init (elfeed-org)
+;;     :config
+;;     (setq rmh-elfeed-org-files (list "~/Dropbox/Apps/elfeed/elfeed.org")))
 
 ;;;; markdown-mode : edit markdown-formatted text
 (use-package markdown-mode
@@ -712,21 +845,56 @@ There are two things you can do about this warning:
     :config
     (advice-add 'c-update-modeline :override #'ignore)) ;; Don't use a modeline suffix (i.e C++//l)
 
+(use-package corfu
+    :ensure t
+    ;; Optional customizations
+    :custom
+    (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+    (corfu-auto t)                 ;; Enable auto completion
+    ;; (corfu-separator ?\s)          ;; Orderless field separator
+    ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+    ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+    ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+    ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+    ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+    ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+    ;; Enable Corfu only for certain modes.
+    ;; :hook ((prog-mode . corfu-mode)
+    ;;        (shell-mode . corfu-mode)
+    ;;        (eshell-mode . corfu-mode))
+
+    ;; Recommended: Enable Corfu globally.
+    ;; This is recommended since Dabbrev can be used globally (M-/).
+    ;; See also `corfu-excluded-modes'.
+    :init
+    (global-corfu-mode))
+
+;; Use Dabbrev with Corfu!
+(use-package dabbrev
+    ;; Swap M-/ and C-M-/
+    :bind (("M-/" . dabbrev-completion)
+              ("C-M-/" . dabbrev-expand))
+    ;; Other useful Dabbrev configurations.
+    :custom
+    (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+
 ;;;; company : Completion frontend, used by lsp
-(use-package company
-    :demand
-    :config
-    (setq company-idle-delay 0.1)
-    (setq company-show-quick-access t)
-    (setq company-tooltip-limit 10)
-    (setq company-minimum-prefix-length 2)
-    (setq company-tooltip-align-annotations t)
-    (global-company-mode)
-    (diminish 'company-mode))
+;; TODO: use corfu
+;; (use-package company
+;;     :demand t
+;;     :config
+;;     (setq company-idle-delay 0.1)
+;;     (setq company-show-quick-access t)
+;;     (setq company-tooltip-limit 10)
+;;     (setq company-minimum-prefix-length 2)
+;;     (setq company-tooltip-align-annotations t)
+;;     (global-company-mode)
+;;     (diminish 'company-mode))
 
 ;;;; hl-todo : highlight TODO and similar keywords in comments and strings
 (use-package hl-todo
-    :demand
+    :demand t
     :config
     (setq hl-todo-highlight-punctuation ":")
     (global-hl-todo-mode))
@@ -750,13 +918,13 @@ There are two things you can do about this warning:
 
 ;;;; flycheck : Syntax highlighting, used by lsp
 (use-package flycheck
-    :demand
+    :demand t
     :config
     (setq flycheck-temp-prefix "flycheck_tmp")
     (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package flycheck-eldev
-    :demand)
+    :demand t)
 
 ;;;; lsp-mode : Completion and syntax highlighting backend API, available for most languages
 (use-package lsp-mode
@@ -815,9 +983,9 @@ There are two things you can do about this warning:
 
 ;;;; lsp-pyright : An LSP backend for python
 (use-package lsp-pyright
-  :hook (python-mode . (lambda () (require 'lsp-pyright)))
-  :init (when (executable-find "python3")
-          (setq lsp-pyright-python-executable-cmd "python3")))
+    :hook (python-mode . (lambda () (require 'lsp-pyright)))
+    :init (when (executable-find "python3")
+              (setq lsp-pyright-python-executable-cmd "python3")))
 
 ;;;; rustic : blazingly fast
 (use-package rustic
@@ -839,14 +1007,11 @@ There are two things you can do about this warning:
         '(format-all-formatters (quote (("C++" clang-format)
                                            ("Python" black))))))
 
-(use-package docker
-    :demand t)
-
 ;;;; general : binding keys
 ;; TODO: from Steve Yegge: Bind `kill-region' to "C-x C-k" and "C-c C-k"
 ;; TODO: from Steve Yegge: Bind `backward-kill-word' to "C-w"
 (use-package general
-    :demand
+    :demand t
     :config
     ;; * Global Keybindings
     ;; `general-define-key' acts like `global-set-key' when :keymaps is not
@@ -859,17 +1024,51 @@ There are two things you can do about this warning:
         "C-c u" 'browse-url-at-point ; simple browse url
         "C-x k" 'kill-this-buffer ; kill buffer without prompt
         "C-x K" 'kill-buffer ; prompt for buffer to kill
-        "M-/" 'hippie-expand ; use hippie-expand instead of debbrev
-        [remap list-buffers] 'ibuffer ; ibuffer is better than list-buffers
+        ;; TODO: "C-x S"   #'+my/save-all              ;; save some buffers without prompt
+        "C-z"     nil                         ;; suspend frame should go away
+        "C-x C-z" nil                         ;; same
+
+        ;;; M is a Ctrl on steroids
+        "M-n" 'forward-paragraph
+        "M-p" 'backward-paragraph
+
+        ;;; I use this all the time
+        "C-<" 'beginning-of-buffer
+        "C->" 'end-of-buffer
+
+        ;;; upcase, downcase and capitalize
+        "M-u" 'upcase-dwim
+        "M-l" 'downcase-dwim
+        "M-c" 'capitalize-dwim
+
+        ;; TODO
+        ;;; better comment/un-comment
+        ;; "M-;" '+my/comment-or-uncomment
+        ;; "C-x C-;" '+my/comment-or-uncomment
+
+        ;;; zap
+        "M-S-z" 'zap-up-to-char ;; New in Emacs 28
+
+        ;;; ibuffer is better then list-buffers
+        [remap list-buffers] 'ibuffer
+
+        ;;; hippie-expand is a better dabbrev
+        [remap dabbrev-expand] 'hippie-expand
 
         ;;;; easy-kill
         [remap kill-ring-save] 'easy-kill
+
+        ;;; TODO
+        ;;; fill-unfill
+        ;; [remap fill-paragraph] '+my/fill-or-unfill
+        ;; "M-Q"                  '+my/unfill-paragraph
+        ;; "C-M-Q"                '+my/unfill-region
 
         ;;;; avy
         "M-j" 'avy-goto-char-timer ; most usefull avy function
 
         ;;;; ace-window
-        [remap other-window] 'ace-window ; better other window
+        ;; [remap other-window] 'ace-window ; better other window
 
         ;;;; anzu
         "M-%" 'anzu-query-replace
@@ -888,7 +1087,7 @@ There are two things you can do about this warning:
         "C-h B" 'embark-bindings ; alternative for `describe-bindings'
 
         ;;;; projectile
-        "C-c p" 'projectile-command-map
+        ;; "C-c p" 'projectile-command-map
 
         ;;;; helpful
         ;; (define-key helpful-mode-map [remap revert-buffer] #'helpful-update)
@@ -986,40 +1185,44 @@ There are two things you can do about this warning:
     (general-define-key :prefix "C-c o" ; open
         "c" 'calc
         "C" 'quick-calc
-        "e" 'elfeed
-        "n" 'neotree-toggle
-        "v" 'vterm)
+        "f" 'elfeed
+        "p" 'neotree-toggle
+        "t" 'vterm
+        "e" 'eshell)
 
     ;; * Mode Keybindings
     ;; `general-define-key' is comparable to `define-key' when :keymaps is specified
+    (general-define-key :keymaps 'org-mode-map
+        ;; TODO: [remap fill-paragraph] #'+my/org-fill-or-unfill
+        )
+    (general-define-key :keymaps 'ibuffer-mode-map
+        "q" 'kill-this-buffer)
     (general-define-key :keymaps 'dired-mode-map
-        "C-c o" 'crux-open-with)
+        "C-u RET" 'crux-open-with
+        "C-u return" 'crux-open-with)
     (general-define-key :keymaps 'isearch-mode-map
+        [remap isearch-delete-char] 'isearch-del-char
+        "C-n" 'isearch-repeat-forward          ; move forward
+        "C-p" 'isearch-repeat-backward         ; move backward
         "M-e" 'consult-isearch-history         ; orig. isearch-edit-string
         "M-s e" 'consult-isearch-history       ; orig. isearch-edit-string
         "M-s l" 'consult-line                  ; needed by consult-line to detect isearch
         "M-s L" 'consult-line-multi)           ; needed by consult-line to detect isearch
+    (general-define-key :keymaps 'vterm-mode-map
+        "C-x [" 'vterm-copy-mode
+        "M-[" 'vterm-copy-mode
+        "C-y" 'vterm-yank
+        "C-q" 'vterm-send-next-key)
+    (general-define-key :keymaps 'neotree-mode-map
+        [tab] 'neotree-stretch-toggle)
     (general-define-key :keymaps 'minibuffer-local-map
-        "M-s" 'consult-history                 ; orig. next-matching-history-element
-        "M-r" 'consult-history)                ; orig. previous-matching-history-element
-    )
+        "M-s" 'consult-history       ; orig. next-matching-history-element
+        "M-r" 'consult-history))     ; orig. previous-matching-history-element
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(format-all-formatters '(("C++" clang-format) ("Python" black)) t)
- '(package-selected-packages
-    '(docker persistent-scratch org-crypt epa-file general elfeed-org elfeed guru-mode org-appear pulsar neotree yasnippet yaml-mode which-key web-mode use-package undo-tree super-save rainbow-delimiters prettier-js org-bullets orderless lsp-treemacs lsp-pyright hl-todo flycheck-eldev expand-region exec-path-from-shell editorconfig easy-kill diminish crux anzu ag adoc-mode))
- '(tab-stop-list
-    '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; config changes made through the customize UI will be stored here
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+    (load custom-file))
 
 (provide 'init)
 ;;; init.el ends here
