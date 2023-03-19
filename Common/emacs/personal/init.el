@@ -13,13 +13,11 @@
 (setq gc-cons-threshold most-positive-fixnum)
 
 ;; files and paths constants
-(defconst my/savefile-dir (expand-file-name "savefile" user-emacs-directory))
 (defconst my/config-dir (file-name-concat user-emacs-directory "lisp"))
 (defconst my/home-path (expand-file-name "~/"))
 (defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
 (defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
 (defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
-(unless (file-exists-p my/savefile-dir) (make-directory my/savefile-dir))
 (push my/config-dir load-path)
 (setq custom-file (file-name-concat user-emacs-directory "custom.el"))
 

@@ -63,7 +63,7 @@
 ;; saveplace : remembers your location in a file when saving files
 (use-package saveplace
     :config
-    (setq save-place-file (expand-file-name "saveplace" my/savefile-dir))
+    (setq save-place-file (expand-file-name "saveplace" no-littering-var-directory))
     (save-place-mode +1))
 
 ;; savehist : save minibuffer history
@@ -73,7 +73,7 @@
         '(search-ring regexp-search-ring) ;; search entries
         savehist-save-minibuffer-history t
         savehist-autosave-interval 60 ;; save every minute
-        savehist-file (expand-file-name "savehist" my/savefile-dir)) ;; keep the home clean
+        savehist-file (expand-file-name "savehist" no-littering-var-directory))
     (savehist-mode +1))
 
 ;; recentf : recent files
@@ -81,10 +81,12 @@
     :init
     (add-hook 'pre-command-hook 'recentf-mode)
     :config
-    (setq recentf-save-file (expand-file-name "recentf" my/savefile-dir)
+    (setq recentf-save-file (expand-file-name "recentf" no-littering-var-directory)
         recentf-max-saved-items 500
         recentf-max-menu-items 15
         recentf-auto-cleanup 'never)
+    (add-to-list 'recentf-exclude no-littering-var-directory)
+    (add-to-list 'recentf-exclude no-littering-etc-directory)
     (push (list (expand-file-name ".emacs.chemacs2/" my/dotfiles-path)) recentf-exclude)
     (push (list (expand-file-name ".emacs.crafted/" my/dotfiles-path)) recentf-exclude)
     (push (list (expand-file-name ".emacs.d/" my/dotfiles-path)) recentf-exclude)
@@ -105,7 +107,7 @@
 ;; project.el : default project manager
 (use-package project
     :config
-    (setq project-list-file (expand-file-name "projects" my/savefile-dir))
+    (setq project-list-file (expand-file-name "projects" no-littering-var-directory))
     (add-to-list 'project-switch-commands
         '(project-dired "Dired at root")))
 
@@ -198,7 +200,7 @@
 (use-package persistent-scratch
     :demand t
     :config
-    (setq persistent-scratch-save-file (expand-file-name "persistent-scratch" my/savefile-dir))
+    (setq persistent-scratch-save-file (expand-file-name "persistent-scratch" no-littering-var-directory))
     (persistent-scratch-setup-default)
     (persistent-scratch-autosave-mode 1))
 

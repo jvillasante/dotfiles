@@ -16,6 +16,10 @@
          (vertical-scroll-bars)))
 
 (setq native-comp-async-report-warnings-errors 'silent)
+(when (fboundp 'startup-redirect-eln-cache)
+    (startup-redirect-eln-cache
+        (convert-standard-filename
+            (expand-file-name  "var/eln-cache/" user-emacs-directory))))
 
 (provide 'early-init)
 ;;; early-init.el ends here
