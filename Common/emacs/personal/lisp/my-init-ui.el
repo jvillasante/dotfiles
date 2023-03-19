@@ -187,37 +187,6 @@ if they are side window.")
         tab-bar-new-button-show nil
         tab-bar-format '(tab-bar-format-tabs-groups
                             tab-bar-separator))
-
-    (general-create-definer my/tab-map
-        :prefix "C-c TAB"
-        :prefix-map 'my/tab-map)
-
-    (my/tab-map
-        :keymaps 'override
-        "" '(:ignore t :which-key "Tab")
-        "n" #'tab-bar-new-tab
-        "c" #'tab-bar-close-tab
-        "o" #'tab-bar-close-other-tabs
-        "]" #'tab-bar-switch-to-next-tab
-        "[" #'tab-bar-switch-to-prev-tab
-        "{" #'tab-bar-history-back
-        "}" #'tab-bar-history-forward
-        "b" #'tab-bar-move-window-to-tab
-        ;; move current window to a new tab (break current tab)
-        "l" #'tab-bar-move-tab ;; move tab to the right
-        "h" #'tab-bar-move-tab-backward ;; move tab to the left
-        "g" #'tab-bar-change-tab-group ;; make group
-        "TAB" #'tab-bar-switch-to-tab
-        "1" (my/tab-bar-go-to-tab-macro 1)
-        "2" (my/tab-bar-go-to-tab-macro 2)
-        "3" (my/tab-bar-go-to-tab-macro 3)
-        "4" (my/tab-bar-go-to-tab-macro 4)
-        "5" (my/tab-bar-go-to-tab-macro 5)
-        "6" (my/tab-bar-go-to-tab-macro 6)
-        "7" (my/tab-bar-go-to-tab-macro 7)
-        "8" (my/tab-bar-go-to-tab-macro 8)
-        "9" (my/tab-bar-go-to-tab-macro 9))
-
     (add-hook 'pre-command-hook 'tab-bar-history-mode)
     (advice-add #'tab-bar-new-tab :around #'my/set-scratch-directory))
 

@@ -1,7 +1,9 @@
 (
-    ("default" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/.emacs.doom")
-                     (custom-file . "~/Workspace/Public/dotfiles/Common/emacs/doom/custom.el")
-                     (env . (("DOOMDIR" . "~/Workspace/Public/dotfiles/Common/emacs/doom")))))
+    ;; ("default" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/.emacs.doom")
+    ;;                  (custom-file . "~/Workspace/Public/dotfiles/Common/emacs/doom/custom.el")
+    ;;                  (env . (("DOOMDIR" . "~/Workspace/Public/dotfiles/Common/emacs/doom")))))
+    ("default" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/Common/emacs/personal")
+                     (custom-file . "~/Workspace/Public/dotfiles/Common/emacs/personal/custom.el")))
     ("doom" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/.emacs.doom")
                   (custom-file . "~/Workspace/Public/dotfiles/Common/emacs/doom/custom.el")
                   (env . (("DOOMDIR" . "~/Workspace/Public/dotfiles/Common/emacs/doom")))))
