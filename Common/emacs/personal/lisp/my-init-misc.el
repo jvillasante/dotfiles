@@ -280,6 +280,12 @@
     (setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
     (setq dired-dwim-target t) ;; makes dired guess the target directory
     (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
+    (setq dired-hide-details-hide-symlink-targets nil
+        ;; Ask whether destination dirs should get created when copying/removing files.
+        dired-create-destination-dirs 'ask
+        ;; Disable the prompt about whether I want to kill the Dired buffer for a
+        ;; deleted directory. Of course I do!
+        dired-clean-confirm-killing-deleted-buffers nil)
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
@@ -291,7 +297,19 @@
                                      "-alh"
                                      "-alhvF --group-directories-first"))
 
-    (require 'dired-x)) ;; enable some really cool extensions like C-x C-j(dired-jump)
+    ;; Make dired use the same buffer for viewing directory
+    (if (< emacs-major-version 28)
+        (progn
+            (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
+            (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))) ; was dired-up-directory
+        (progn
+            (setq dired-kill-when-opening-new-dired-buffer t)))
+
+    ;; enable some really cool extensions like C-x C-j(dired-jump)
+    (if (< emacs-major-version 28)
+        (progn
+            (require 'dired-x))
+        nil))
 
 (use-package diredfl
     :hook (dired-mode . diredfl-mode))
