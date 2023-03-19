@@ -117,8 +117,6 @@
 (setq ring-bell-function 'ignore) ; Disable the bell for emacs
 (setq debug-on-error nil) ; Display the stacktrace if error encountered in one of the lisp method
 (setq completions-detailed t) ; Detailed description for the built in describe symbol etc
-(line-number-mode t) ; Display line number
-(global-display-line-numbers-mode t) ; Display line numbers on the left
 (column-number-mode t) ; Display column numbers in the status line
 (size-indication-mode t) ; Display size indication
 (delete-selection-mode +1) ; If text is selected, we expect that typing will replace the selection

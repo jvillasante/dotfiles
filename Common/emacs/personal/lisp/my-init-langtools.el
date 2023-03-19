@@ -2,7 +2,8 @@
 
 (straight-use-package 'eglot)
 (straight-use-package 'consult-eglot)
-(straight-use-package 'edit-indirect)
+(straight-use-package 'format-all)
+(straight-use-package 'prettier-js)
 
 (use-package eldoc
     :init
@@ -25,9 +26,11 @@
 (use-package eglot
     :init
     (setq eglot-stay-out-of '(company)
-        eglot-workspace-configuration
-        '(:pyright (:useLibraryCodeForTypes t :openFilesOnly :json-false)
-             :r (:lsp (:diagnostics :json-false)))
+        eglot-autoshutdown t
+        eglot-extend-to-xref t
+        eglot-workspace-configuration '(:pyright (:useLibraryCodeForTypes t :openFilesOnly :json-false)
+                                           :r (:lsp (:diagnostics :json-false)))
+        eglot-ignored-server-capabilities (quote (:documentFormattingProvider :documentRangeFormattingProvider))
         read-process-output-max (* 1024 1024))
 
     :config
@@ -36,6 +39,12 @@
 
     (add-to-list 'eglot-server-programs
         '(sql-mode . ("sqls")))
+
+    (add-to-list 'eglot-server-programs
+        '(go-mode . ("gopls")))
+
+    (add-to-list 'eglot-server-programs
+        '(rustic-mode . ("rust-analyzer")))
 
     (add-to-list 'eglot-server-programs
         '(c-mode c++-mode
@@ -54,8 +63,13 @@
     (add-hook 'eglot-managed-mode-hook
         (setq-local eldoc-documentation-function #'eldoc-documentation-compose))
 
+    ;; format on save
+    ;; (add-hook 'c-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+    ;; (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+    ;; (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+
     (general-create-definer my/lsp-map
-        :prefix "C-c l"
+        :prefix "C-c c"
         :prefix-map 'my/lsp-map)
 
     (my/lsp-map
@@ -69,29 +83,35 @@
         "t" #'eglot-find-typeDefinition
         "i" #'eglot-find-implementation
         "[" #'xref-go-back
-        "]" #'xref-go-forward)
+        "]" #'xref-go-forward
+        "d" #'xref-find-definitions
+        "D" #'xref-find-references))
 
-    (general-define-key
-        :keymaps 'eglot-mode-map
-        "] d" #'flymake-goto-next-error
-        "[ d" #'flymake-goto-prev-error
-        ;; jump to next/prev location containing the references.
-        "[ r" (my/xref-move-in-original-src-macro xref-prev-line)
-        "] r" (my/xref-move-in-original-src-macro xref-next-line)
-        ;; jump to next/prev file containing the references.
-        "[ R" (my/xref-move-in-original-src-macro xref-prev-group)
-        "] R" (my/xref-move-in-original-src-macro xref-next-group)
-        "K" #'my/eldoc-buffer-dwim
-        "gd" #'xref-find-definitions
-        "gr" #'xref-find-references))
-
-(use-package edit-indiret
+;; format-all :
+(use-package format-all
     :init
-    (add-hook 'edit-indirect-after-creation-hook #'my/markdown-src-lsp-setup)
-    (add-to-list 'display-buffer-alist
-        '("\\*edit-indirect"
-             (display-buffer-at-bottom)
-             (window-height . 0.8))))
+    ;; (add-hook 'prog-mode-hook 'format-all-mode)
+    (dolist (mode '(c-mode-common-hook
+                       python-mode-hook
+                       rustic-mode-hook
+                       go-mode-hook
+                       js-mode-hook))
+        (add-hook mode 'format-all-mode))
+    (add-hook 'format-all-mode-hook #'format-all-ensure-formatter)
+    :config
+    (custom-set-variables
+        '(format-all-formatters (quote (("C++" clang-format)
+                                           ("Python" black))))))
+
+;; prettier-js : Formatting on save, used by my-ts-mode for .js and .ts files
+(use-package prettier-js
+    :custom
+    (prettier-js-show-errors nil)
+    (prettier-js-args '("--semi" "false"
+                           "--single-quote" "false"
+                           "--tab-width" "4"
+                           "--trailing-comma" "all"
+                           "--print-width" "150")))
 
 (provide 'my-init-langtools)
 ;;; my-init-langtools.el ends here

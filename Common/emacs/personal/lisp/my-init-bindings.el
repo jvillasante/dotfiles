@@ -170,7 +170,7 @@
 ;; * Prefix Keybindings
 ;; :prefix can be used to prevent redundant specification of prefix keys
 (general-define-key :prefix "C-c c" ; code
-    "d" 'lsp-describe-thing-at-point
+    ;; "d" 'lsp-describe-thing-at-point
     "f" 'format-all-buffer)
 (general-define-key :prefix "C-c n" ; notes
     "d" 'deft-find-file

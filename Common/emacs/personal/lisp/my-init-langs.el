@@ -5,13 +5,11 @@
 (straight-use-package 'yaml-mode)
 (straight-use-package 'web-mode)
 (straight-use-package '(c++-mode :type built-in))
-(straight-use-package 'prettier-js)
 (straight-use-package 'json-mode)
 (straight-use-package 'markdown-mode)
 (straight-use-package 'go-mode)
 (straight-use-package 'sql-indent)
 (straight-use-package 'rustic)
-(straight-use-package 'format-all)
 
 (setq-default c-default-style "linux")
 (setq-default c-basic-offset 4)
@@ -42,16 +40,6 @@
     :custom
     (web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
     (web-mode-markup-indent-offset 2)) ; For html : use an indent of size 2 (default is 4)
-
-;; prettier-js : Formatting on save, used by my-ts-mode for .js and .ts files
-(use-package prettier-js
-    :custom
-    (prettier-js-show-errors nil)
-    (prettier-js-args '("--semi" "false"
-                           "--single-quote" "false"
-                           "--tab-width" "4"
-                           "--trailing-comma" "all"
-                           "--print-width" "150")))
 
 ;; c/c++ mode
 (add-to-list 'c-mode-common-hook #'eglot-ensure)
@@ -120,17 +108,6 @@
         rustic-lsp-server 'rust-analyzer
         rustic-lsp-client 'eglot
         rustic-format-on-save nil))
-
-;;;; format-all :
-(use-package format-all
-    :hook ((c-mode . format-all-mode)
-              (c++-mode . format-all-mode)
-              (python-mode . format-all-mode)
-              (format-all-mode . format-all-ensure-formatter))
-    :config
-    (custom-set-variables
-        '(format-all-formatters (quote (("C++" clang-format)
-                                           ("Python" black))))))
 
 (provide 'my-init-langs)
 ;;; my-init-langs.el ends here

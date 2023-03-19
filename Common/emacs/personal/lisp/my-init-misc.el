@@ -1,14 +1,6 @@
 ;;; my-init-misc.el -*- lexical-binding: t; -*-
 
-(straight-use-package '(emacs :type built-in))
-(straight-use-package '(isearch :type built-in))
-(straight-use-package '(saveplace :type built-in))
-(straight-use-package '(savehist :type built-in))
-(straight-use-package '(recentf :type built-in))
-(straight-use-package '(project :type built-in))
-(straight-use-package '(whitespace :type built-in))
-(straight-use-package '(eshell :type built-in))
-(straight-use-package '(tramp :type built-in))
+;; misc
 (straight-use-package 'rainbow-delimiters)
 (straight-use-package 'vterm)
 (straight-use-package 'ibuffer-vc)
@@ -114,7 +106,6 @@
 ;; eshell : the emacs shell
 (use-package eshell
     :hook ((eshell-mode-hook . (lambda()
-                                   (display-line-numbers-mode nil) ;; no line numbers
                                    (let ((ls (if (file-exists-p "/usr/local/bin/gls")
                                                  "/usr/local/bin/gls"
                                                  "/bin/ls")))
@@ -180,9 +171,10 @@
         :keymaps 'vterm-mode-map
         "C-c <escape>" #'vterm-send-escape)
 
-    (add-hook 'vterm-mode-hook (setq-local confirm-kill-processes nil))
-    (add-hook 'vterm-mode-hook (setq-local hscroll-margin 0))
-    (add-hook 'vterm-mode-hook (display-line-numbers-mode nil)))
+    (add-hook 'vterm-mode-hook
+        (lambda ()
+            (setq-local confirm-kill-processes nil)
+            (setq-local hscroll-margin 0))))
 
 (use-package auto-revert
     :init
@@ -228,7 +220,6 @@
 (use-package super-save
     :demand t
     :config
-    (add-to-list 'super-save-triggers 'ace-window) ;; add integration with ace-window
     (super-save-mode +1))
 
 ;; undo-tree : treat undo history as a tree
@@ -245,8 +236,7 @@
 (use-package hydra :demand t)
 
 ;; Expand Region : expand or contract selection
-(use-package expand-region
-    :demand t)
+(use-package expand-region :demand t)
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
@@ -321,8 +311,10 @@
 
 (use-package dired-sidebar
     :init
-    (add-hook 'dired-sidebar-mode-hook (display-line-numbers-mode nil))
-    (add-hook 'dired-sidebar-mode-hook 'my:font-set-small-mono-font)
+    (add-hook 'dired-sidebar-mode-hook
+        (lambda ()
+            (my:font-set-small-mono-font)
+            (display-line-numbers-mode 0)))
     :config
     (setq dired-sidebar-display-alist
         `((window-width . 0.25)
