@@ -1,6 +1,6 @@
 ;;; early-init.el --- -*- lexical-binding: t -*-
 
-;; (setq package-enable-at-startup nil)
+(setq package-enable-at-startup nil)
 
 ;; increase gc threshold to speedup starting up
 (setq gc-cons-percentage 0.6)
