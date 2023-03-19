@@ -10,11 +10,11 @@
 
 (defun my:font-set-small-mono-font ()
     "Set the default font to a smaller sized font for current buffer."
-    (face-remap-add-relative 'default :height 140))
+    (face-remap-add-relative 'default :height 145))
 
 (defun my:font-set-small-variable-font ()
     "Set the default font to a smaller sized font for current buffer."
-    (face-remap-add-relative 'default :height 140 :family "Iosevka Aile"))
+    (face-remap-add-relative 'default :height 145 :family "Iosevka Aile"))
 
 (defmacro my/tab-bar-go-to-tab-macro (number)
     (let ((fun (intern (format "my/tab-bar-go-to-tab-%d" number))))
