@@ -237,7 +237,7 @@
     :config
     ;; autosave the undo-tree history
     (setq undo-tree-history-directory-alist
-        `((".*" . ,temporary-file-directory)))
+        `((".*" . ,no-littering-var-directory)))
     (setq undo-tree-auto-save-history t)
     (global-undo-tree-mode +1))
 

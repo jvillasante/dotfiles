@@ -6,7 +6,7 @@
 (straight-use-package 'minions)
 (straight-use-package 'anzu)
 
-; Start maximized
+;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 ;; Select and raise the frame, always

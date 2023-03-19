@@ -98,8 +98,8 @@
     user-mail-address "jvillasantegomez@gmail.com"
     user-login-name "jvillasante")
 (setq scroll-step 1 ;; smooth scroll
-      scroll-conservatively 10000
-      auto-window-vscroll nil)
+    scroll-conservatively 10000
+    auto-window-vscroll nil)
 (setq load-prefer-newer t) ;; Always load newest byte code
 (setq visible-cursor nil) ;; make it work in terminal too
 (setq inhibit-startup-screen t) ; Hide the startup screen
