@@ -26,7 +26,6 @@
         company-selection-wrap-around t)
 
     (add-hook 'after-init-hook 'global-company-mode)
-    (add-hook 'after-init-hook 'company-tng-mode)
     :config
     (unless (display-graphic-p)
         ;; Don't persist company popups when switching back to normal mode.
@@ -58,7 +57,7 @@
 (use-package company-box
     :config
     (setq company-box-max-candidates 50
-        company-frontends '(company-tng-frontend company-box-frontend)
+        company-frontends '(company-box-frontend)
         company-box-icons-alist 'company-box-icons-all-the-icons))
 
 (use-package yasnippet
