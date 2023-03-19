@@ -53,11 +53,11 @@
                            "--trailing-comma" "all"
                            "--print-width" "150")))
 
-;; c++ mode
+;; c/c++ mode
+(add-to-list 'c-mode-common-hook #'eglot-ensure)
 (use-package c++-mode
     :mode ("\\.h\\'" "\\.cpp\\'" "\\.hpp\\'" "\\.hxx\\'" "\\.cxx\\'" "\\.cc\\'" "\\.C\\'")
     :config
-    (add-hook 'c++-mode-hook #'eglot-ensure)
     (advice-add 'c-update-modeline :override #'ignore)) ;; Don't use a modeline suffix (i.e C++//l)
 
 (use-package python
@@ -102,7 +102,7 @@
 (use-package go-mode
     :config
     (add-hook 'go-mode-hook (my/setq-locally tab-width 4))
-    (add-hook 'go-mode-hook #'eglot-ensure))
+    (add-to-list 'go-mode-common-hook #'eglot-ensure))
 
 (use-package sql
     :init
@@ -110,12 +110,12 @@
 
     :config
     (add-hook 'sql-mode-hook (my/setq-locally tab-width 4))
-    (add-hook 'sql-mode-hook #'eglot-ensure))
+    (add-to-list 'sql-mode-hook #'eglot-ensure))
 
 ;; rustic : blazingly fast
 (use-package rustic
     :config
-    (add-hook 'rustic-mode-hook #'eglot-ensure)
+    (add-to-list 'rustic-mode-hook #'eglot-ensure)
     (setq
         rustic-lsp-server 'rust-analyzer
         rustic-lsp-client 'eglot

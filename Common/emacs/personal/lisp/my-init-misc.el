@@ -78,6 +78,8 @@
 
 ;; recentf : recent files
 (use-package recentf
+    :init
+    (my/run-hook-once pre-command-hook recentf-mode)
     :config
     (setq recentf-save-file (expand-file-name "recentf" my/savefile-dir)
         recentf-max-saved-items 500
@@ -98,12 +100,12 @@
     (push "/usr" recentf-exclude)
     (push "\\.?ido\\.last$" recentf-exclude)
     (push "^/nix/store/" recentf-exclude)
-    (push ".+\\.mp3$" recentf-exclude)
-    (recentf-mode +1))
+    (push ".+\\.mp3$" recentf-exclude))
 
 ;; project.el : default project manager
 (use-package project
     :config
+    (setq project-list-file (expand-file-name "projects" my/savefile-dir))
     (add-to-list 'project-switch-commands
         '(project-dired "Dired at root")))
 

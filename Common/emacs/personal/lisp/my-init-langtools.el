@@ -1,49 +1,8 @@
 ;;; my-init-langtools.el -*- lexical-binding: t; -*-
 
-(straight-use-package 'citre)
 (straight-use-package 'eglot)
 (straight-use-package 'consult-eglot)
 (straight-use-package 'edit-indirect)
-
-(use-package citre
-    :init
-    (require 'citre-config)
-    (setq citre-tags-completion-case-sensitive nil)
-
-    (add-hook 'emacs-lisp-mode-hook (my/setq-locally citre-enable-imenu-integration nil))
-    (add-hook 'emacs-lisp-mode-hook (my/setq-locally citre-enable-capf-integration nil))
-    (add-hook 'emacs-lisp-mode-hook (my/setq-locally citre-enable-xref-integration nil))
-    (add-hook 'org-mode-hook (my/setq-locally citre-enable-imenu-integration nil))
-    (add-hook 'org-mode-hook (my/setq-locally citre-enable-capf-integration nil))
-    (add-hook 'markdown-mode-hook (my/setq-locally citre-enable-imenu-integration nil))
-
-    :config
-    (general-define-key
-        :keymaps 'citre-mode-map
-        "C-]" #'citre-jump
-        "C-t" #'citre-jump-back)
-
-    (general-define-key
-        :keymaps 'citre-mode-map
-        "C-w ]" #'citre-peek)
-
-    (general-define-key
-        :prefix "C-c w"
-        :keymaps 'citre-mode-map
-        "]" #'citre-peek)
-
-    (general-define-key
-        :keymaps 'citre-peek-keymap
-        "q" #'citre-peek-abort
-        "RET" #'citre-peek-jump
-        "[t" #'citre-peek-prev-definition
-        "]t" #'citre-peek-next-definition
-        "M-[" #'citre-peek-prev-line
-        "M-]" #'citre-peek-next-line
-        "M-{" #'citre-peek-prev-branch
-        "M-}" #'citre-peek-next-branch)
-
-    (add-hook 'citre-after-jump-hook #'better-jumper-set-jump))
 
 (use-package eldoc
     :init
@@ -91,9 +50,6 @@
                    "--pch-storage=memory"
                    "--header-insertion=never"
                    "--header-insertion-decorators=0")))
-
-    (add-hook
-        'eglot-managed-mode-hook #'my/toggle-citre-eglot-capf)
 
     (add-hook 'eglot-managed-mode-hook
         (my/setq-locally eldoc-documentation-function #'eldoc-documentation-compose))

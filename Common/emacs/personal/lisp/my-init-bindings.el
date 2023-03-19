@@ -39,7 +39,7 @@
     [remap dabbrev-expand] 'hippie-expand
 
     ;;; easy-kill
-    [remap kill-ring-save] 'easy-kill
+    ;; [remap kill-ring-save] 'easy-kill
 
     ;; fill-unfill
     [remap fill-paragraph] 'my/fill-or-unfill
