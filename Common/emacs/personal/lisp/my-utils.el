@@ -431,8 +431,7 @@ is called."
                           collect buf))))
         (save-excursion
             (save-some-buffers t)
-            ;; (message "%d buffer(s) saved" modified-count)
-            )))
+            (message "%d buffer(s) saved" modified-count))))
 
 (defun my/comment-auto-fill ()
     (setq-local comment-auto-fill-only-comments t)
