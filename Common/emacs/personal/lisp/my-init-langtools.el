@@ -52,7 +52,7 @@
                    "--header-insertion-decorators=0")))
 
     (add-hook 'eglot-managed-mode-hook
-        (my/setq-locally eldoc-documentation-function #'eldoc-documentation-compose))
+        (setq-local eldoc-documentation-function #'eldoc-documentation-compose))
 
     (general-create-definer my/lsp-map
         :prefix "C-c l"

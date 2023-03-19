@@ -14,7 +14,7 @@
 
 (use-package vertico
     :init
-    (my/run-hook-once pre-command-hook vertico-mode)
+    (add-hook 'pre-command-hook 'vertico-mode)
 
     (general-create-definer my/find-map
         :prefix "C-c f"
@@ -76,7 +76,7 @@
 
 (use-package marginalia
     :init
-    (my/run-hook-once pre-command-hook marginalia-mode)
+    (add-hook 'pre-command-hook 'marginalia-mode)
     :config
     (if (display-graphic-p)
         (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)))

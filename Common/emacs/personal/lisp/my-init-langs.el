@@ -101,15 +101,15 @@
 
 (use-package go-mode
     :config
-    (add-hook 'go-mode-hook (my/setq-locally tab-width 4))
-    (add-to-list 'go-mode-common-hook #'eglot-ensure))
+    (add-hook 'go-mode-hook (setq-local tab-width 4))
+    (add-to-list 'go-mode-hook #'eglot-ensure))
 
 (use-package sql
     :init
     (setq sqlind-basic-offset 4)
 
     :config
-    (add-hook 'sql-mode-hook (my/setq-locally tab-width 4))
+    (add-hook 'sql-mode-hook (setq-local tab-width 4))
     (add-to-list 'sql-mode-hook #'eglot-ensure))
 
 ;; rustic : blazingly fast

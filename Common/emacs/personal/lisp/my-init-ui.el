@@ -218,12 +218,12 @@ if they are side window.")
         "8" (my/tab-bar-go-to-tab-macro 8)
         "9" (my/tab-bar-go-to-tab-macro 9))
 
-    (my/run-hook-once pre-command-hook tab-bar-history-mode)
+    (add-hook 'pre-command-hook 'tab-bar-history-mode)
     (advice-add #'tab-bar-new-tab :around #'my/set-scratch-directory))
 
 (use-package which-key
     :init
-    (my/run-hook-once pre-command-hook which-key-mode)
+    (add-hook 'pre-command-hook 'which-key-mode)
 
     :config
     (setq which-key-idle-delay 1

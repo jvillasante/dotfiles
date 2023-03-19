@@ -25,8 +25,8 @@
         company-dabbrev-downcase nil
         company-selection-wrap-around t)
 
-    (my/run-hook-once after-init-hook global-company-mode)
-    (my/run-hook-once after-init-hook company-tng-mode)
+    (add-hook 'after-init-hook 'global-company-mode)
+    (add-hook 'after-init-hook 'company-tng-mode)
     :config
     (unless (display-graphic-p)
         ;; Don't persist company popups when switching back to normal mode.

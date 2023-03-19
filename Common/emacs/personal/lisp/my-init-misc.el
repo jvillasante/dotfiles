@@ -79,7 +79,7 @@
 ;; recentf : recent files
 (use-package recentf
     :init
-    (my/run-hook-once pre-command-hook recentf-mode)
+    (add-hook 'pre-command-hook 'recentf-mode)
     :config
     (setq recentf-save-file (expand-file-name "recentf" my/savefile-dir)
         recentf-max-saved-items 500
@@ -151,7 +151,7 @@
 
 (use-package elec-pair
     :init
-    (my/run-hook-once after-init-hook electric-pair-mode)
+    (add-hook 'after-init-hook 'electric-pair-mode)
 
     :config
     ;; more conservative on whether should also insert ) when typing
@@ -178,13 +178,13 @@
         :keymaps 'vterm-mode-map
         "C-c <escape>" #'vterm-send-escape)
 
-    (add-hook 'vterm-mode-hook (my/setq-locally confirm-kill-processes nil))
-    (add-hook 'vterm-mode-hook (my/setq-locally hscroll-margin 0))
-    (add-hook 'vterm-mode-hook (my/turn-off-mode display-line-numbers-mode)))
+    (add-hook 'vterm-mode-hook (setq-local confirm-kill-processes nil))
+    (add-hook 'vterm-mode-hook (setq-local hscroll-margin 0))
+    (add-hook 'vterm-mode-hook (display-line-numbers-mode nil)))
 
 (use-package auto-revert
     :init
-    (my/run-hook-once pre-command-hook global-auto-revert-mode))
+    (add-hook 'pre-command-hook 'global-auto-revert-mode))
 
 (use-package ibuffer-vc
     :init
@@ -319,7 +319,7 @@
 
 (use-package dired-sidebar
     :init
-    (add-hook 'dired-sidebar-mode-hook (my/turn-off-mode display-line-numbers-mode))
+    (add-hook 'dired-sidebar-mode-hook (display-line-numbers-mode nil))
     (add-hook 'dired-sidebar-mode-hook 'my:font-set-small-mono-font)
     :config
     (setq dired-sidebar-display-alist

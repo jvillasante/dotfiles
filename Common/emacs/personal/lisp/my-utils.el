@@ -6,77 +6,6 @@
 (defconst IS-LINUX (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
 (defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
 
-(defmacro my/run-hook-once (hook func &rest args)
-    "A wrapper to run a FUNC on a HOOK only once."
-    (let ((func-once (gensym (concat "my/" (symbol-name func)
-                                 "-" "at-" (symbol-name hook) "-" "once"))))
-        `(add-hook ',hook
-             (defun ,func-once ()
-                 (funcall #',func)
-                 (remove-hook ',hook #',func-once)) ,@args)))
-
-(defmacro my/advise-at-once (func advice where &rest props)
-    "A wrapper to ADVICE a FUNC only once."
-    (let ((advice-once (gensym
-                           (concat "my/" (symbol-name advice)
-                               (symbol-name where) "-" (symbol-name func) "-" "once"))))
-        `(advice-add #',func ,where
-             (defun ,advice-once (&rest _)
-                 (funcall #',advice)
-                 (advice-remove #',func #',advice-once)) ,@props)))
-
-(defmacro my/turn-off-mode (mode)
-    "Create a function to turn off MODE.
-Useful for attaching on some hooks that will turn off MODE locally."
-    (let ((func (intern (concat "my/turn-off-"
-                            (symbol-name mode)))))
-        `(if (fboundp #',func)
-             #',func
-             (defun ,func ()
-                 (,mode -1)))))
-
-(defmacro my/setq-locally (var val)
-    "Create a function to set VAR to VAL locally.
-Useful for attaching on some hooks that will change the variable locally.
-
-Use `my/setq-locally' when you want to set VAR to a simple VAL in many
-modes.  Use `my/setq-on-hook' when you want to set VAR to a complex
-VAL in only one mode.  Why don't I just directly use `(add-hook
-'foo-hook (lambda () (FORM)))'?  Because when you try to
-\\[describe-variable] `foo-hook RET', you will find those lambda
-functions unreadable. And using a named function in a hook makes the
-hook described much more nicely.  This is very helpful for debugging
-purpose if you want to examine a hook value."
-    (let ((func (intern (concat "my/set-"
-                            (symbol-name var)
-                            "-to-"
-                            (prin1-to-string val)
-                            "-locally"))))
-        `(if (fboundp #',func)
-             #',func
-             (defun ,func ()
-                 (setq-local ,var ,val)))))
-
-(defmacro my/setq-on-hook (hook var val)
-    "Create a function to set VAR to VAL on a HOOK.
-
-Use `my/setq-locally' when you want to set VAR to a simple VAL in many
-modes.  Use `my/setq-on-hook' when you want to set VAR to a complex
-VAL in only one mode.  Why don't I just directly use `(add-hook
-'foo-hook (lambda () (FORM)))'?  Because when you try to
-\\[describe-variable] `foo-hook RET', you will find those lambda
-functions unreadable. And using a named function in a hook makes the
-hook described much more nicely.  This is very helpful for debugging
-purpose if you want to examine a hook value."
-    (let ((func (intern (concat "my/set-"
-                            (symbol-name var)
-                            "-on-"
-                            (symbol-name hook)))))
-        `(add-hook ',hook (if (fboundp #',func)
-                              #',func
-                              (defun ,func ()
-                                  (setq-local ,var ,val))))))
-
 ;;; UI
 
 (defun my:font-set-small-mono-font ()
@@ -254,15 +183,6 @@ after `org-agenda' has finalized."
 
 ;;; langs
 
-;; (defalias #'my/eglot-citre-capf
-;;     (cape-super-capf #'eglot-completion-at-point #'citre-completion-at-point))
-
-(defun my/toggle-citre-eglot-capf ()
-    (if (eglot-managed-p)
-        (add-to-list 'completion-at-point-functions #'my/eglot-citre-capf)
-        (setq-local completion-at-point-functions
-            (delq #'my/eglot-citre-capf completion-at-point-functions))))
-
 (defun my/eldoc-buffer-dwim-fallback ()
     "When eldoc buffer window is not opened, display the eldoc
 window. Pressing \\[my/eldoc-buffer-dwim] again within a short
@@ -439,8 +359,7 @@ like plotly."
             (advice-remove #'python-shell-send-statement
                            #'my/refresh-xwidget-after-eval-python)
             (advice-remove #'python-shell-send-region
-                           #'my/refresh-xwidget-after-eval-python)))
-    )
+                           #'my/refresh-xwidget-after-eval-python))))
 
 (defvar my/xwidget-side-window-display
     '("\\*xwidget"
@@ -476,8 +395,7 @@ xwdiget to display plots at the side window."
         (progn
             (setq display-buffer-alist (remove my/xwidget-side-window-display display-buffer-alist))
             (advice-remove #'xwidget-webkit-new-session #'my/switch-to-buffer-obey-display-actions)
-            (advice-remove #'xwidget-webkit-goto-url #'my/switch-to-buffer-obey-display-actions)))
-    )
+            (advice-remove #'xwidget-webkit-goto-url #'my/switch-to-buffer-obey-display-actions))))
 
 (define-minor-mode my/xwidget-force-display-mode
     "`xwidget-webkit-browse-url' won't display its buffer in current
@@ -491,8 +409,7 @@ ensure such behavior. This is helpful for viewing web contents with
             (progn
                 (advice-add #'xwidget-webkit-goto-url :after #'my/xwidget-force-display))
         (progn
-            (advice-remove #'xwidget-webkit-goto-url #'my/xwidget-force-display)))
-    )
+            (advice-remove #'xwidget-webkit-goto-url #'my/xwidget-force-display))))
 
 (defun my:elfeed-delete-window-after-kill-buffer (&rest args)
     (delete-window (selected-window)))
