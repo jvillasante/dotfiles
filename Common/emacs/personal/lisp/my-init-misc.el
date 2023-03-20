@@ -173,6 +173,7 @@
 
     (add-hook 'vterm-mode-hook
         (lambda ()
+            (setq-local mode-line-format nil)
             (setq-local confirm-kill-processes nil)
             (setq-local hscroll-margin 0))))
 
