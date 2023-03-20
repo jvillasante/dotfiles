@@ -41,7 +41,6 @@
 
     :config
     (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
     (setq vertico-resize nil
         vertico-count 17
         vertico-cycle t)

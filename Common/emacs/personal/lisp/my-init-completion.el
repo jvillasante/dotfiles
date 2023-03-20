@@ -55,6 +55,7 @@
     (yas-global-mode))
 
 (use-package company-box
+    :demand t
     :config
     (setq company-box-max-candidates 50
         company-frontends '(company-box-frontend)

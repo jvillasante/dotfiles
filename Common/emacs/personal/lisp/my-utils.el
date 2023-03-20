@@ -6,6 +6,26 @@
 (defconst IS-LINUX (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
 (defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
 
+(defmacro setq! (&rest settings)
+    "A more sensible `setopt' for setting customizable variables.
+
+This can be used as a drop-in replacement for `setq' and *should* be used
+instead of `setopt'. Unlike `setq', this triggers custom setters on variables.
+Unlike `setopt', this won't needlessly pull in dependencies."
+    (macroexp-progn
+        (cl-loop for (var val) on settings by 'cddr
+            collect `(funcall (or (get ',var 'custom-set) #'set-default-toplevel-value)
+                         ',var ,val))))
+
+(defmacro delq! (elt list &optional fetcher)
+    "`delq' ELT from LIST in-place.
+
+If FETCHER is a function, ELT is used as the key in LIST (an alist)."
+    `(setq ,list (delq ,(if fetcher
+                            `(funcall ,fetcher ,elt ,list)
+                            elt)
+                     ,list)))
+
 ;;; UI
 
 (defun my:font-set-small-mono-font ()

@@ -25,7 +25,7 @@
 (straight-use-package 'dired-git-info)
 
 (use-package emacs
-    :config
+    :init
     (remove-hook 'text-mode-hook 'turn-on-auto-fill)     ;; auto-fill insert hard line breaks
     (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
     (add-hook 'prog-mode-hook 'my/comment-auto-fill)     ;; ... but add comment auto-fill in prog-mode
@@ -35,15 +35,14 @@
                        compilation-mode-hook
                        minibuffer-setup-hook))
         (add-hook hook
-            (lambda () (setq show-trailing-whitespace nil)))))
+            (lambda () (setq-local show-trailing-whitespace nil)))))
 
 (use-package isearch
-    :config
+    :init
     (setq isearch-resume-in-command-history t) ; use history for isearch as well
     (setq search-whitespace-regexp ".*?") ; isearch convenience, space matches anything (non-greedy)
     (setq isearch-lax-whitespace t)
     (setq isearch-allow-motion t) ; enable Emacs28 isearch motions
-    :init
     (defadvice isearch-search (after isearch-no-fail activate)
         (unless isearch-success
             (ad-disable-advice 'isearch-search 'after 'isearch-no-fail)
@@ -54,13 +53,13 @@
 
 ;; saveplace : remembers your location in a file when saving files
 (use-package saveplace
-    :config
+    :init
     (setq save-place-file (expand-file-name "saveplace" no-littering-var-directory))
     (save-place-mode +1))
 
 ;; savehist : save minibuffer history
 (use-package savehist
-    :config
+    :init
     (setq savehist-additional-variables
         '(search-ring regexp-search-ring) ;; search entries
         savehist-save-minibuffer-history t
@@ -146,7 +145,6 @@
     :init
     (add-hook 'after-init-hook 'electric-pair-mode)
 
-    :config
     ;; more conservative on whether should also insert ) when typing
     ;; (, for example, prevent from inserting ) when point is on a
     ;; word.
@@ -241,12 +239,12 @@
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
-    :config
+    :init
     (whole-line-or-region-global-mode))
 
 ;; better shell commands
 (use-package dwim-shell-command
-    :demand
+    :demand t
     :bind
     (([remap shell-command] . dwim-shell-command)
         ([remap async-shell-command] . dwim-shell-command)
@@ -267,7 +265,7 @@
 
 ;; Dired : built-in navigation of folders
 (use-package dired
-    :config
+    :init
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
     (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
     (setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory

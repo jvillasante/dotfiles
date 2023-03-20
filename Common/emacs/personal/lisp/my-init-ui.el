@@ -1,9 +1,9 @@
 ;;; my-init-ui.el -*- lexical-binding: t; -*-
 
 (straight-use-package 'all-the-icons)
-(straight-use-package 'which-key)
 (straight-use-package 'modus-themes)
 (straight-use-package 'minions)
+(straight-use-package 'which-key)
 (straight-use-package 'anzu)
 
 ;; Start maximized
@@ -52,39 +52,6 @@
                      (concat dired-directory))
                  (t (buffer-name))))))
 
-;; display line numbers in the left margin of the window.
-(use-package display-line-numbers
-    :init
-    (setq display-line-numbers-type t)
-    (global-display-line-numbers-mode)
-    :config
-    (dolist (mode '(org-mode-hook
-                       vterm-mode-hook
-                       term-mode-hook
-                       shell-mode-hook
-                       eshell-mode-hook))
-        (add-hook mode (lambda () (display-line-numbers-mode 0)))))
-
-;; whitespace : visualize blanks (tabs, spaces, newline, etc)
-(use-package whitespace
-    :init
-    (add-hook 'before-save-hook #'whitespace-cleanup)
-    :config
-    (setq delete-trailing-lines t)      ; `M-x delete-trailing-whitespace' deletes trailing lines
-    (setq show-trailing-whitespace t)   ; show those whitespace we need to delete
-    (setq whitespace-style
-        '(face spaces empty tabs newline trailing lines-tail space-mark tab-mark newline-mark))
-    (setq whitespace-action '(cleanup auto-cleanup))
-    (setq whitespace-global-modes '(not shell-mode
-                                       vterm-mode
-                                       eshell-mode
-                                       help-mode
-                                       magit-mode
-                                       magit-diff-mode
-                                       ibuffer-mode
-                                       dired-mode
-                                       occur-mode)))
-
 (defvar my/side-window-slots
     '((helpful . 1)     ;; 1 is the default
          (vterm . -1)
@@ -122,6 +89,67 @@ if they are side window.")
     ;; unless you have a really wide screen, always prefer
     ;; horizontal split (ale `split-window-below')
     split-width-threshold 300)
+
+;; Whitespace settings
+;; (setq delete-trailing-lines t)          ; `M-x delete-trailing-whitespace' deletes trailing lines
+;; (setq show-trailing-whitespace t)       ; show those whitespace we need to delete
+;; (setq whitespace-action '(cleanup auto-cleanup))
+;; (setq whitespace-style
+;;     '(face spaces empty tabs newline trailing lines-tail space-mark tab-mark newline-mark))
+;; (setq whitespace-global-modes
+;;     '(not shell-mode
+;;          vterm-mode
+;;          eshell-mode
+;;          help-mode
+;;          magit-mode
+;;          magit-diff-mode
+;;          ibuffer-mode
+;;          dired-mode
+;;          occur-mode))
+
+;; display line numbers in the left margin of the window.
+(use-package display-line-numbers
+    :init
+    (setq display-line-numbers-type t)
+    (global-display-line-numbers-mode)
+    :config
+    (dolist (mode '(org-mode-hook
+                       vterm-mode-hook
+                       term-mode-hook
+                       shell-mode-hook
+                       eshell-mode-hook))
+        (add-hook mode (lambda () (display-line-numbers-mode 0)))))
+
+;; whitespace : visualize blanks (tabs, spaces, newline, etc)
+(use-package whitespace
+    :init
+    (add-hook 'before-save-hook #'whitespace-cleanup)
+    (setq-default delete-trailing-lines t)      ; `M-x delete-trailing-whitespace' deletes trailing lines
+    (setq-default show-trailing-whitespace t)   ; show those whitespace we need to delete
+    (setq whitespace-style
+        '(face spaces empty tabs newline trailing lines-tail space-mark tab-mark newline-mark))
+    (setq whitespace-action '(cleanup auto-cleanup))
+    (setq whitespace-global-modes '(not shell-mode
+                                       vterm-mode
+                                       eshell-mode
+                                       help-mode
+                                       magit-mode
+                                       magit-diff-mode
+                                       ibuffer-mode
+                                       dired-mode
+                                       occur-mode)))
+
+(use-package tab-bar
+    :init
+    (setq tab-bar-show 1
+        tab-bar-close-button-show nil
+        tab-bar-new-tab-choice "*scratch*"
+        tab-bar-tab-hints t
+        tab-bar-new-button-show nil
+        tab-bar-format '(tab-bar-format-tabs-groups
+                            tab-bar-separator))
+    (add-hook 'pre-command-hook 'tab-bar-history-mode)
+    (advice-add #'tab-bar-new-tab :around #'my/set-scratch-directory))
 
 (use-package all-the-icons
     :if (display-graphic-p)
@@ -169,25 +197,13 @@ if they are side window.")
 
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
-    :demand
+    :demand t
     :config
     (progn
         (with-eval-after-load 'minions
-            (push 'flycheck-mode minions-prominent-modes)
+            (push 'flymake-mode minions-prominent-modes)
             (push 'overwrite-mode minions-prominent-modes))
         (add-hook 'after-init-hook 'minions-mode)))
-
-(use-package tab-bar
-    :init
-    (setq tab-bar-show 1
-        tab-bar-close-button-show nil
-        tab-bar-new-tab-choice "*scratch*"
-        tab-bar-tab-hints t
-        tab-bar-new-button-show nil
-        tab-bar-format '(tab-bar-format-tabs-groups
-                            tab-bar-separator))
-    (add-hook 'pre-command-hook 'tab-bar-history-mode)
-    (advice-add #'tab-bar-new-tab :around #'my/set-scratch-directory))
 
 (use-package which-key
     :init

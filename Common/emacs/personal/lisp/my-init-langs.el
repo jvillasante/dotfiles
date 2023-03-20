@@ -105,15 +105,13 @@
 (use-package rustic
     :config
     (add-to-list 'rustic-mode-hook #'eglot-ensure)
-    (setq
-        rustic-lsp-server 'rust-analyzer
+    (setq rustic-lsp-server 'rust-analyzer
         rustic-lsp-client 'eglot
         rustic-format-on-save nil))
 
 ;; js is everywhere
 ;; TODO: Add LSP support
 (use-package js2-mode
-    :ensure t
     :init
     (setq js-basic-indent 2)
     (setq-default js2-basic-indent 2
