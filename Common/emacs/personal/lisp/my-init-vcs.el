@@ -4,6 +4,9 @@
 (straight-use-package 'git-gutter)
 (straight-use-package 'hl-todo)
 
+;; always follow symlinks
+(setq vc-follow-symlinks t)
+
 (general-create-definer my/git-map
     :prefix "C-c g"
     :prefix-map 'my/git-map)

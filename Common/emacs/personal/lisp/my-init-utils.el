@@ -1,10 +1,7 @@
 ;;; my-init-utils.el -*- lexical-binding: t; -*-
 
-(straight-use-package 'no-littering)
 (straight-use-package 'use-package)
 (straight-use-package 'general)
-
-(use-package no-littering :demand t)
 
 (general-create-definer my/leader
     :prefix "C-c")
