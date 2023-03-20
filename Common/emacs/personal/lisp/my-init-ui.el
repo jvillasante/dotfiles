@@ -119,7 +119,6 @@ if they are side window.")
                                        magit-mode
                                        magit-diff-mode
                                        ibuffer-mode
-                                       elfeed-show-mode
                                        dired-mode
                                        occur-mode)))
 
