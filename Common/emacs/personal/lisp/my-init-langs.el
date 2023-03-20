@@ -45,9 +45,7 @@
 ;; c/c++ mode
 (add-to-list 'c-mode-common-hook #'eglot-ensure)
 (use-package c++-mode
-    :mode ("\\.h\\'" "\\.cpp\\'" "\\.hpp\\'" "\\.hxx\\'" "\\.cxx\\'" "\\.cc\\'" "\\.C\\'")
-    :config
-    (advice-add 'c-update-modeline :override #'ignore)) ;; Don't use a modeline suffix (i.e C++//l)
+    :mode ("\\.h\\'" "\\.cpp\\'" "\\.hpp\\'" "\\.hxx\\'" "\\.cxx\\'" "\\.cc\\'" "\\.C\\'"))
 
 (use-package python
     :init
