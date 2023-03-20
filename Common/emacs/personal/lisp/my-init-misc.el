@@ -104,15 +104,16 @@
 
 ;; eshell : the emacs shell
 (use-package eshell
-    :hook ((eshell-mode-hook . (lambda()
-                                   (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                                                 "/usr/local/bin/gls"
-                                                 "/bin/ls")))
-                                       (eshell/alias "ls" (concat ls " --group-directories-first --color"))
-                                       (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
-                                   (eshell/alias "ff" "find-file $1")
-                                   (eshell/alias "e" "find-file-other-window $1")
-                                   (eshell/alias "d" "dired $1"))))
+    :init
+    (add-hook 'eshell-mode-hook (lambda()
+                                    (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                                                  "/usr/local/bin/gls"
+                                                  "/bin/ls")))
+                                        (eshell/alias "ls" (concat ls " --group-directories-first --color"))
+                                        (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
+                                    (eshell/alias "ff" "find-file $1")
+                                    (eshell/alias "e" "find-file-other-window $1")
+                                    (eshell/alias "d" "dired $1")))
     :config
     (setq eshell-highlight-prompt nil)
     (setq eshell-scroll-to-bottom-on-input nil)
@@ -139,7 +140,8 @@
             ".*:\0? *")))
 
 (use-package hideshow
-    :hook (prog-mode . hs-minor-mode))
+    :init
+    (add-hook 'prog-mode-hook 'hs-minor-mode))
 
 (use-package elec-pair
     :init
@@ -151,7 +153,8 @@
     (setq electric-pair-inhibit-predicate #'electric-pair-conservative-inhibit))
 
 (use-package rainbow-delimiters
-    :hook (prog-mode . rainbow-delimiters-mode))
+    :init
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package vterm
     :config
@@ -303,10 +306,12 @@
         nil))
 
 (use-package diredfl
-    :hook (dired-mode . diredfl-mode))
+    :init
+    (add-hook 'dired-mode-hook 'diredfl-mode))
 
 (use-package all-the-icons-dired
-    :hook (dired-mode . all-the-icons-dired-mode))
+    :init
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (use-package dired-sidebar
     :init

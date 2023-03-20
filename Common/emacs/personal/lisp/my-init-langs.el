@@ -30,14 +30,7 @@
 
 ;; web-mode : Support various web files
 (use-package web-mode
-    :preface
-    (defun my/match-buffer-extension(&rest extensions)
-        "Returns t if the current buffer has an extension in EXTENSIONS"
-        (if (member (file-name-extension (buffer-name)) extensions)
-            t))
     :mode ("\\.css\\'" "\\.html\\'" "\\.ts\\'" "\\.js\\'" "\\.vue\\'")
-    :hook (web-mode . (lambda () (when (my/match-buffer-extension "ts" "js" "vue")
-                                     (setq-local lsp-auto-format t))))
     :custom
     (web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
     (web-mode-markup-indent-offset 2)) ; For html : use an indent of size 2 (default is 4)
@@ -111,6 +104,13 @@
 ;; TODO: Add LSP support
 (use-package js2-mode
     :init
+    (add-hook 'js2-mode-hook
+        (lambda ()
+            (push '("function" . ?ƒ) prettify-symbols-alist)))
+
+    (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+    :config
     (setq js-basic-indent 2)
     (setq-default js2-basic-indent 2
         js2-basic-offset 2
@@ -118,13 +118,7 @@
         js2-cleanup-whitespace t
         js2-enter-indents-newline t
         js2-indent-on-enter-key t
-        js2-global-externs (list "window" "module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "jQuery" "$"))
-
-    (add-hook 'js2-mode-hook
-        (lambda ()
-            (push '("function" . ?ƒ) prettify-symbols-alist)))
-
-    (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
+        js2-global-externs (list "window" "module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "jQuery" "$")))
 
 (provide 'my-init-langs)
 ;;; my-init-langs.el ends here

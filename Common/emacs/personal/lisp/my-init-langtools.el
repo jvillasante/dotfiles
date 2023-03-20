@@ -4,6 +4,27 @@
 (straight-use-package 'consult-eglot)
 (straight-use-package 'apheleia)
 
+;; hideshow
+(progn
+    (add-hook 'prog-mode-hook 'hs-minor-mode)
+    (defun +my/toggle-fold ()
+        (interactive)
+        (save-excursion
+            (end-of-line)
+            (hs-toggle-hiding))))
+
+;; flymake
+(progn
+    ;; Underline warnings and errors from Flymake
+    (custom-set-faces
+        '(flymake-errline ((((class color)) (:underline "red"))))
+        '(flymake-warnline ((((class color)) (:underline "yellow")))))
+
+    ;; Display error and warning messages in minibuffer.
+    (custom-set-variables
+        '(help-at-pt-timer-delay 0.5)
+        '(help-at-pt-display-when-idle '(flymake-overlay))))
+
 (use-package eldoc
     :init
     (setq eldoc-echo-area-use-multiline-p nil

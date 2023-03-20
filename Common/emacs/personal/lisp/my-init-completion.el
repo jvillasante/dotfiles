@@ -4,6 +4,7 @@
 (straight-use-package 'company-box)
 (straight-use-package 'cape)
 (straight-use-package 'yasnippet)
+(straight-use-package 'yasnippet-snippets)
 
 (use-package company
     :init
@@ -51,8 +52,7 @@
         ;; manually invoke the completion
         "M-i" #'company-complete)
 
-    (advice-add #'company-capf :around #'my/company-completion-styles)
-    (yas-global-mode))
+    (advice-add #'company-capf :around #'my/company-completion-styles))
 
 (use-package company-box
     :demand t
@@ -63,7 +63,8 @@
 
 (use-package yasnippet
     :init
-    ;; TODO: (push (expand-file-name "snippets/" user-emacs-directory) yas-snippet-dirs)
+    (yas-global-mode +1)
+    :config
     (setq yas-verbosity 2))
 
 (provide 'my-init-completion)
