@@ -95,7 +95,7 @@
                        python-mode-hook
                        rustic-mode-hook
                        go-mode-hook
-                       js-mode-hook))
+                       js2-mode-hook))
         (add-hook mode 'format-all-mode))
     (add-hook 'format-all-mode-hook #'format-all-ensure-formatter)
     :config
