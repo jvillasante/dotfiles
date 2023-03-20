@@ -75,16 +75,15 @@
     (setq whitespace-style
         '(face spaces empty tabs newline trailing lines-tail space-mark tab-mark newline-mark))
     (setq whitespace-action '(cleanup auto-cleanup))
-    (setq whitespace-global-modes
-        '(not shell-mode
-             vterm-mode
-             eshell-mode
-             help-mode
-             magit-mode
-             magit-diff-mode
-             ibuffer-mode
-             dired-mode
-             occur-mode)))
+    (setq whitespace-global-modes '(not shell-mode
+                                       vterm-mode
+                                       eshell-mode
+                                       help-mode
+                                       magit-mode
+                                       magit-diff-mode
+                                       ibuffer-mode
+                                       dired-mode
+                                       occur-mode)))
 
 (defvar my/side-window-slots
     '((helpful . 1)     ;; 1 is the default
