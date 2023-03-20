@@ -2,8 +2,7 @@
 
 (straight-use-package 'eglot)
 (straight-use-package 'consult-eglot)
-(straight-use-package 'format-all)
-(straight-use-package 'prettier-js)
+(straight-use-package 'apheleia)
 
 (use-package eldoc
     :init
@@ -87,31 +86,10 @@
         "d" #'xref-find-definitions
         "D" #'xref-find-references))
 
-;; format-all :
-(use-package format-all
+;; apheleia : Good code is automatically formatted
+(use-package apheleia
     :init
-    ;; (add-hook 'prog-mode-hook 'format-all-mode)
-    (dolist (mode '(c-mode-common-hook
-                       python-mode-hook
-                       rustic-mode-hook
-                       go-mode-hook
-                       js2-mode-hook))
-        (add-hook mode 'format-all-mode))
-    (add-hook 'format-all-mode-hook #'format-all-ensure-formatter)
-    :config
-    (custom-set-variables
-        '(format-all-formatters (quote (("C++" clang-format)
-                                           ("Python" black))))))
-
-;; prettier-js : Formatting on save, used by my-ts-mode for .js and .ts files
-(use-package prettier-js
-    :custom
-    (prettier-js-show-errors nil)
-    (prettier-js-args '("--semi" "false"
-                           "--single-quote" "false"
-                           "--tab-width" "4"
-                           "--trailing-comma" "all"
-                           "--print-width" "150")))
+    (apheleia-global-mode +1))
 
 (provide 'my-init-langtools)
 ;;; my-init-langtools.el ends here
