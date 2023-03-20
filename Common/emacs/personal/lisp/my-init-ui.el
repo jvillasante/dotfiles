@@ -90,23 +90,6 @@ if they are side window.")
     ;; horizontal split (ale `split-window-below')
     split-width-threshold 300)
 
-;; Whitespace settings
-;; (setq delete-trailing-lines t)          ; `M-x delete-trailing-whitespace' deletes trailing lines
-;; (setq show-trailing-whitespace t)       ; show those whitespace we need to delete
-;; (setq whitespace-action '(cleanup auto-cleanup))
-;; (setq whitespace-style
-;;     '(face spaces empty tabs newline trailing lines-tail space-mark tab-mark newline-mark))
-;; (setq whitespace-global-modes
-;;     '(not shell-mode
-;;          vterm-mode
-;;          eshell-mode
-;;          help-mode
-;;          magit-mode
-;;          magit-diff-mode
-;;          ibuffer-mode
-;;          dired-mode
-;;          occur-mode))
-
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
     :init
@@ -136,6 +119,7 @@ if they are side window.")
                                        magit-mode
                                        magit-diff-mode
                                        ibuffer-mode
+                                       elfeed-show-mode
                                        dired-mode
                                        occur-mode)))
 

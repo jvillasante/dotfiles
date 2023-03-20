@@ -171,7 +171,7 @@
 ;; :prefix can be used to prevent redundant specification of prefix keys
 (general-define-key :prefix "C-c c" ; code
     ;; "d" 'lsp-describe-thing-at-point
-    "f" 'format-all-buffer)
+    "f" 'my/toggle-fold)
 (general-define-key :prefix "C-c n" ; notes
     "d" 'deft-find-file
     "D" 'deft)

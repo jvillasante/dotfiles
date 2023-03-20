@@ -7,7 +7,7 @@
 ;; hideshow
 (progn
     (add-hook 'prog-mode-hook 'hs-minor-mode)
-    (defun +my/toggle-fold ()
+    (defun my/toggle-fold ()
         (interactive)
         (save-excursion
             (end-of-line)

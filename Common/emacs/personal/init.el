@@ -1,4 +1,5 @@
 ;;; init.el --- -*- lexical-binding: t -*-
+
 ;; Author: Julio C. Villasante <jvillasantegomez@gmail.com>
 ;; URL: https://github.com/jvillasante/dotfiles
 ;; Keywords: dotfiles emacs
@@ -22,9 +23,6 @@
 (setq custom-file (file-name-concat user-emacs-directory "custom.el"))
 
 (setq use-package-expand-minimally t
-    ;; use-package is a macro. Don't let the macro expands into
-    ;; codes with too much of irrelevant checks.
-    use-package-always-ensure nil
     ;; Straight is my package manager, don't let package.el get
     ;; involved.
     use-package-always-defer t
