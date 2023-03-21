@@ -160,12 +160,15 @@
     "M-x" 'my/web-search-xwidget
     "M-w" 'my/web-search-eww
     "M-b" 'my/web-search-browser)
+
 (general-define-key :prefix "C-c c" ; code
     ;; "d" 'lsp-describe-thing-at-point
     "f" 'my/toggle-fold)
+
 (general-define-key :prefix "C-c n" ; notes
     "d" 'deft-find-file
     "D" 'deft)
+
 (general-define-key :prefix "C-c o" ; open
     "c" 'calc
     "C" 'quick-calc
@@ -178,11 +181,14 @@
 ;; `general-define-key' is comparable to `define-key' when :keymaps is specified
 (general-define-key :keymaps 'org-mode-map
     [remap fill-paragraph] #'my/org-fill-or-unfill)
+
 (general-define-key :keymaps 'ibuffer-mode-map
     "q" 'kill-this-buffer)
+
 (general-define-key :keymaps 'dired-mode-map
     "C-u RET" 'crux-open-with
     "C-u return" 'crux-open-with)
+
 (general-define-key :keymaps 'isearch-mode-map
     [remap isearch-delete-char] 'isearch-del-char
     "C-n" 'isearch-repeat-forward          ; move forward
@@ -191,11 +197,13 @@
     "M-s e" 'consult-isearch-history       ; orig. isearch-edit-string
     "M-s l" 'consult-line                  ; needed by consult-line to detect isearch
     "M-s L" 'consult-line-multi)           ; needed by consult-line to detect isearch
+
 (general-define-key :keymaps 'vterm-mode-map
     "C-x [" 'vterm-copy-mode
     "M-[" 'vterm-copy-mode
     "C-y" 'vterm-yank
     "C-q" 'vterm-send-next-key)
+
 (general-define-key :keymaps 'minibuffer-local-map
     "M-s" 'consult-history       ; orig. next-matching-history-element
     "M-r" 'consult-history)     ; orig. previous-matching-history-element
