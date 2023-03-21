@@ -5,15 +5,7 @@
 
 (use-package eww
     :init
-    ;; use brave as default engine to search keyword.
-    (setq eww-search-prefix "https://search.brave.com/search?q=")
-
-    :config
-    (my/localleader
-        :keymaps 'eww-mode-map
-        "y" #'eww-copy-page-url
-        ;; get the url of current visiting page
-        "g" #'my/web-search-eww))
+    (setq eww-search-prefix "https://search.brave.com/search?q="))
 
 (use-package xwidget
     :init

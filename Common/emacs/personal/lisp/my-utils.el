@@ -104,7 +104,7 @@ other buffer."
     (interactive)
     (helpful-symbol (symbol-at-point)))
 
-(defun my/elisp-loop-up-symbol (beg end)
+(defun my/elisp-look-up-symbol (beg end)
     "Look up for the symbol under point, if region is active, use
         the selected region as the symbol" (interactive "r")
     (if (use-region-p)
@@ -265,11 +265,11 @@ prefix with C-u to open the url with a new xwidget session"
                   (url (url-encode-url (concat "https://search.brave.com/search?q=" keyword))))
             (funcall browser-func url new-session))))
 
-(defalias #'my/web-search-browser (my/web-search-wrapper #'browse-url-browser)
+(defalias #'my/web-search-browser (my/web-search-wrapper #'browse-url)
     "Search web keywords by `eww'.
 If region is active, use the region as keyword of initial input, otherwise use `current-word'.")
 
-(defalias #'1my/web-search-eww (my/web-search-wrapper #'eww)
+(defalias #'my/web-search-eww (my/web-search-wrapper #'eww)
     "Search web keywords by `eww'.
 If region is active, use the region as keyword of initial input, otherwise use `current-word'.")
 

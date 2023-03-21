@@ -47,11 +47,6 @@
         ;; without input of additional character.
         "C-y" #'company-complete-selection)
 
-    (general-define-key
-        :keymaps 'company-mode-map
-        ;; manually invoke the completion
-        "M-i" #'company-complete)
-
     (advice-add #'company-capf :around #'my/company-completion-styles))
 
 (use-package company-box

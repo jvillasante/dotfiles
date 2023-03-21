@@ -12,15 +12,7 @@
 
 (use-package helpful
     :init
-    (general-define-key
-        [remap describe-function] #'helpful-callable
-        [remap describe-command] #'helpful-command
-        [remap describe-variable] #'helpful-variable
-        [remap describe-key] #'helpful-key
-        [remap describe-symbol] #'helpful-symbol)
-
     (setq helpful-switch-buffer-function #'my/helpful-display-buffer)
-
     :config
     (general-define-key
         :keymaps 'helpful-mode-map
@@ -42,7 +34,7 @@
 
     (general-define-key
         :keymaps 'emacs-lisp-mode-map
-        "K" #'my/elisp-loop-up-symbol)
+        "K" #'my/elisp-look-up-symbol)
 
     (my/localleader
         :keymaps 'emacs-lisp-mode-map

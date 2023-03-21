@@ -169,6 +169,10 @@
 
 ;; * Prefix Keybindings
 ;; :prefix can be used to prevent redundant specification of prefix keys
+(general-define-key :prefix "M-s" ; search
+    "M-x" 'my/web-search-xwidget
+    "M-w" 'my/web-search-eww
+    "M-b" 'my/web-search-browser)
 (general-define-key :prefix "C-c c" ; code
     ;; "d" 'lsp-describe-thing-at-point
     "f" 'my/toggle-fold)
