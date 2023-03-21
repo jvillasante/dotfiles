@@ -27,13 +27,13 @@
 
 (use-package eldoc
     :init
-    (setq eldoc-echo-area-use-multiline-p nil
-        eldoc-documentation-strategy #'eldoc-documentation-compose)
+    (setq eldoc-echo-area-use-multiline-p nil)
+
     ;; eglot has 3 eldoc functions: `eglot-hover-eldoc-function', and
     ;; `eglot-signature-eldoc-function', using the default strategy
     ;; will only show one information, setting to the following option
     ;; allows the possibility to show both information in eldoc
-    ;; buffer.
+    (setq eldoc-documentation-strategy #'eldoc-documentation-compose)
 
     :config
     (add-to-list 'display-buffer-alist
@@ -44,13 +44,21 @@
              (slot . ,(alist-get 'eldoc my/side-window-slots)))))
 
 (use-package eglot
-    :config
-    (setq eglot-autoshutdown t)
-    (setq eglot-extend-to-xref t)
+    :init
+    (setq eglot-sync-connect 1
+        eglot-extend-to-xref t
+        eglot-connect-timeout 10
+        eglot-autoshutdown t
+        eglot-send-changes-idle-time 0.5
+        ;; NOTE We disable eglot-auto-display-help-buffer because :select t in
+        ;;      its popup rule causes eglot to steal focus too often.
+        eglot-auto-display-help-buffer nil)
+    (setq eglot-stay-out-of '(flymake))
     (setq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
     (setq  read-process-output-max (* 1024 1024))
 
+    :config
     (add-to-list 'eglot-server-programs
         '(python-mode . ("pyright-langserver" "--stdio")))
 

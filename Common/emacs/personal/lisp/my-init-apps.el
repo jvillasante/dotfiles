@@ -24,6 +24,7 @@
     :init
     (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
         elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
+
     :config
     (setq elfeed-search-title-min-width 60)
     (setq elfeed-search-title-max-width 100)

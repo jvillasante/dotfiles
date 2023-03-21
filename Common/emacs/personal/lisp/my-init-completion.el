@@ -18,58 +18,17 @@
 (use-package vertico
     :init
     (add-hook 'pre-command-hook 'vertico-mode)
-
-    (general-create-definer my/find-map
-        :prefix "C-c f"
-        :prefix-map 'my/find-map)
-
-    (my/find-map
-        :keymaps 'override
-        "" '(:ignore t :which-key "find")
-        "f" #'project-find-file
-        "F" #'find-file
-        "D" #'project-dired
-        "o" #'consult-recent-file
-        "r" #'consult-yank-from-kill-ring
-        "b" #'consult-buffer
-        "p" #'project-switch-project
-        "g" #'consult-ripgrep
-        "a" #'embark-act
-        "j" #'evil-collection-consult-jump-list
-        "m" #'evil-collection-consult-mark
-        "i" #'consult-imenu
-        "I" #'consult-imenu-multi
-        "l" #'consult-line
-        "L" #'consult-line-multi)
-
     :config
-    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
     (setq vertico-resize nil
         vertico-count 17
         vertico-cycle t)
-
+    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
     (setq-default completion-in-region-function #'my/completion-in-region)
 
     ;; Cleans up path when moving directories with shadowed paths syntax, e.g.
     ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
     (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
-    (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
-
-    (general-define-key
-        :keymaps 'vertico-map
-        "DEL" #'vertico-directory-delete-char
-        "C-k" #'kill-line
-        "C-p" #'previous-line-or-history-element
-        "C-n" #'next-line-or-history-element
-        "C-u" #'evil-delete-back-to-indentation)
-
-    (general-define-key
-        :keymaps '(minibuffer-local-map read-expression-map)
-        "C-k" #'kill-line
-        "C-p" #'previous-line-or-history-element
-        "C-n" #'next-line-or-history-element
-        "<escape>" #'abort-recursive-edit
-        "C-u" #'evil-delete-back-to-indentation))
+    (add-hook 'minibuffer-setup-hook #'vertico-repeat-save))
 
 (use-package orderless
     :init
@@ -84,24 +43,6 @@
         (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)))
 
 (use-package consult
-    :init
-    (general-define-key
-        [remap apropos] #'consult-apropos
-        [remap bookmark-jump] #'consult-bookmark
-        [remap evil-show-marks] #'consult-mark
-        [remap evil-show-jumps] #'evil-collection-consult-jump-list
-        [remap evil-show-registers] #'consult-register
-        [remap goto-line] #'consult-goto-line
-        [remap imenu] #'consult-imenu
-        [remap locate] #'consult-locate
-        [remap load-theme] #'consult-theme
-        [remap man] #'consult-man
-        [remap recentf-open-files] #'consult-recent-file
-        [remap switch-to-buffer] #'consult-buffer
-        [remap switch-to-buffer-other-window] #'consult-buffer-other-window
-        [remap switch-to-buffer-other-frame] #'consult-buffer-other-frame
-        [remap yank-pop] #'consult-yank-pop)
-
     :config
     (setq consult-narrow-key "<"
         consult-line-numbers-widen t
@@ -127,25 +68,20 @@
 
 (use-package embark
     :init
-    (general-define-key
-        [remap describe-bindings] #'embark-bindings)
-
     (setq which-key-use-C-h-commands nil
         prefix-help-command #'embark-prefix-help-command)
-
-    (general-define-key
-        :kemaps 'minibuffer-local-map
-        "C-;" #'embark-act
-        "C-c C-a" #'embark-act
-        "C-c C-e" #'embark-export
-        "C-c C-l" #'embark-collect)
-
-    (my/leader
-        :keymaps 'override
-        "a" #'embark-act)
-
+    (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
     :config
-    (require 'consult))
+    ;; Hide the mode line of the Embark live/completions buffers
+    (add-to-list 'display-buffer-alist
+        '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+             nil
+             (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+    :ensure t ; only need to install it, embark loads it after consult if found
+    :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package corfu
     :demand t

@@ -54,8 +54,8 @@
     "C-x g" 'magit-status
 
     ;; embark
-    "C-." 'embark-act        ; pick some comfortable binding
-    "C-;" 'embark-dwim       ; good alternative: "M-."
+    "C-;" 'embark-act        ; pick some comfortable binding
+    ;; "C-;" 'embark-dwim       ; good alternative: "M-."
     "C-h B" 'embark-bindings ; alternative for `describe-bindings'
 
     ;; helpful
@@ -86,6 +86,7 @@
     "C-c m" 'consult-mode-command
     ;; "C-c k" 'consult-kmacro
     ;; C-x bindings (Ctl-x-map)
+    "C-x C-r" 'consult-recent-file
     "C-x M-:" 'consult-complex-command     ; orig. repeat-complex-command
     "C-x b" 'consult-buffer                ; orig. switch-to-buffer
     "C-x 4 b" 'consult-buffer-other-window ; orig. switch-to-buffer-other-window
@@ -128,18 +129,18 @@
     ;; "C-c u" 'crux-view-url
     "C-o" 'crux-smart-open-line
     "M-o" 'crux-smart-open-line-above
-    "C-x C-r" 'crux-recentf-find-file
-    "C-c f" 'crux-recentf-find-file
-    "C-c F" 'crux-recentf-find-directory
+    ;; "C-x C-r" 'crux-recentf-find-file
+    ;; "C-c f" 'crux-recentf-find-file
+    ;; "C-c F" 'crux-recentf-find-directory
     ;; "C-c n" 'crux-cleanup-buffer-or-region
     "C-M-z" 'crux-indent-defun
     "C-c e" 'crux-eval-and-replace
     "C-c w" 'crux-swap-windows
     "C-c D" 'crux-delete-file-and-buffer
     "C-c r" 'crux-rename-buffer-and-file
-    "C-c t" 'crux-visit-term-buffer
+    ;; "C-c t" 'crux-visit-term-buffer
     "C-c k" 'crux-kill-other-buffers
-    "C-c TAB" 'crux-indent-rigidly-and-copy-to-clipboard
+    ;; "C-c TAB" 'crux-indent-rigidly-and-copy-to-clipboard
     "C-c I" 'crux-find-user-custom-file
     "C-c S" ' crux-find-shell-init-file
     "C-^" 'crux-top-join-line
@@ -160,6 +161,23 @@
     "M-x" 'my/web-search-xwidget
     "M-w" 'my/web-search-eww
     "M-b" 'my/web-search-browser)
+
+(general-define-key :prefix "C-c f" ; find
+    "f" #'project-find-file
+    "F" #'find-file
+    "D" #'project-dired
+    "o" #'consult-recent-file
+    "r" #'consult-yank-from-kill-ring
+    "b" #'consult-buffer
+    "p" #'project-switch-project
+    "g" #'consult-ripgrep
+    "a" #'embark-act
+    "j" #'evil-collection-consult-jump-list
+    "m" #'evil-collection-consult-mark
+    "i" #'consult-imenu
+    "I" #'consult-imenu-multi
+    "l" #'consult-line
+    "L" #'consult-line-multi)
 
 (general-define-key :prefix "C-c c" ; code
     ;; "d" 'lsp-describe-thing-at-point
