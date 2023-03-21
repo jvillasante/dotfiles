@@ -120,6 +120,7 @@
              "https://blog.adamchalmers.com/atom.xml"
              "https://itsallaboutthebit.com/atom.xml"
              ;; Misc
+             "https://blog.orhun.dev/rss.xml"
              "https://ibob.bg/feed.xml"
              "https://rigtorp.se/index.xml"
              "http://www.norvig.com/rss-feed.xml"
