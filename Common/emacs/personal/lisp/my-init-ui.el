@@ -1,4 +1,4 @@
-;;; my-init-ui.el -*- lexical-binding: t; -*-
+;; my-init-ui.el -*- lexical-binding: t; -*-
 
 (straight-use-package 'all-the-icons)
 (straight-use-package 'modus-themes)
@@ -29,6 +29,11 @@
 ;; see discussion here: URL `https://emacs.stackexchange.com/questions/54817/remove-dollar-sign-at-beginning-of-line'
 (add-hook 'prog-mode-hook #'my/display-truncation-and-wrap-indicator-as-whitespace)
 (add-hook 'text-mode-hook #'my/display-truncation-and-wrap-indicator-as-whitespace)
+
+;; setup autofill and visual-line
+(remove-hook 'text-mode-hook 'turn-on-auto-fill)     ;; auto-fill insert hard line breaks
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
+(add-hook 'prog-mode-hook 'my/comment-auto-fill)     ;; ... but add comment auto-fill in prog-mode
 
 ;; set default font
 (add-to-list 'default-frame-alist
@@ -107,20 +112,12 @@ if they are side window.")
 (use-package whitespace
     :init
     (add-hook 'before-save-hook #'whitespace-cleanup)
-    (setq-default delete-trailing-lines t)      ; `M-x delete-trailing-whitespace' deletes trailing lines
-    (setq-default show-trailing-whitespace t)   ; show those whitespace we need to delete
-    (setq whitespace-style
-        '(face spaces empty tabs newline trailing lines-tail space-mark tab-mark newline-mark))
-    (setq whitespace-action '(cleanup auto-cleanup))
-    (setq whitespace-global-modes '(not shell-mode
-                                       vterm-mode
-                                       eshell-mode
-                                       help-mode
-                                       magit-mode
-                                       magit-diff-mode
-                                       ibuffer-mode
-                                       dired-mode
-                                       occur-mode)))
+    (global-whitespace-mode)
+    :config
+    (setq-default whitespace-style '(face trailing tab-mark lines-tail))
+    (setq-default whitespace-display-mappings
+        '(;; tabs -> » else >
+             (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 
 (use-package tab-bar
     :init
@@ -191,7 +188,6 @@ if they are side window.")
 (use-package which-key
     :init
     (add-hook 'pre-command-hook 'which-key-mode)
-
     :config
     (setq which-key-idle-delay 1
         which-key-popup-type 'minibuffer))

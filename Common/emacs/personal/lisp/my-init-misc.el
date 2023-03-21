@@ -24,19 +24,6 @@
 (straight-use-package 'all-the-icons-dired)
 (straight-use-package 'dired-git-info)
 
-(use-package emacs
-    :init
-    (remove-hook 'text-mode-hook 'turn-on-auto-fill)     ;; auto-fill insert hard line breaks
-    (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
-    (add-hook 'prog-mode-hook 'my/comment-auto-fill)     ;; ... but add comment auto-fill in prog-mode
-    (dolist (hook '(special-mode-hook
-                       term-mode-hook
-                       comint-mode-hook
-                       compilation-mode-hook
-                       minibuffer-setup-hook))
-        (add-hook hook
-            (lambda () (setq-local show-trailing-whitespace nil)))))
-
 (use-package isearch
     :init
     (setq isearch-resume-in-command-history t) ; use history for isearch as well
