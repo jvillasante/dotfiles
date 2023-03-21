@@ -114,7 +114,7 @@ if they are side window.")
     (add-hook 'before-save-hook #'whitespace-cleanup)
     (global-whitespace-mode)
     :config
-    (setq-default whitespace-style '(face trailing tab-mark lines-tail))
+    (setq-default whitespace-style '(face trailing tab-mark))
     (setq-default whitespace-display-mappings
         '(;; tabs -> » else >
              (tab-mark ?\t [187 ?\t] [62 ?\t]))))

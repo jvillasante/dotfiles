@@ -213,13 +213,13 @@
 
 ;; undo-tree : treat undo history as a tree
 (use-package undo-tree
-    :demand t
+    :init
+    (global-undo-tree-mode +1)
     :config
     ;; autosave the undo-tree history
     (setq undo-tree-history-directory-alist
         `((".*" . ,no-littering-var-directory)))
-    (setq undo-tree-auto-save-history t)
-    (global-undo-tree-mode +1))
+    (setq undo-tree-auto-save-history nil))
 
 ;; hydra : Keybindings combinations
 (use-package hydra :demand t)
