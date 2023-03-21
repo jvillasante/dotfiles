@@ -97,7 +97,8 @@
 (setq user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
     user-login-name "jvillasante")
-(setq scroll-step 1 ;; smooth scroll
+(setq scroll-margin 3
+    scroll-step 1
     scroll-conservatively 10000
     auto-window-vscroll nil)
 (setq load-prefer-newer t) ;; Always load newest byte code

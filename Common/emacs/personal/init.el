@@ -66,7 +66,6 @@
 (require 'my-init-os)
 (require 'my-init-ui)
 (require 'my-init-completion)
-(require 'my-init-minibuffer)
 (require 'my-init-vcs)
 (require 'my-init-elisp)
 (require 'my-init-org)

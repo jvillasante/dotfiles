@@ -36,18 +36,16 @@
     (web-mode-markup-indent-offset 2)) ; For html : use an indent of size 2 (default is 4)
 
 ;; c/c++ mode
-(add-to-list 'c-mode-common-hook #'eglot-ensure)
 (use-package c++-mode
+    :init (add-to-list 'c-mode-common-hook #'eglot-ensure)
     :mode ("\\.h\\'" "\\.cpp\\'" "\\.hpp\\'" "\\.hxx\\'" "\\.cxx\\'" "\\.cc\\'" "\\.C\\'"))
 
 (use-package python
-    :init
+    :config
+    (add-to-list 'python-mode-hook #'eglot-ensure)
     (defvar my/python-enable-ipython t
         "use ipython as the embedded REPL.")
     (setq python-indent-offset 4)
-
-    :config
-    (add-to-list 'python-mode-hook #'eglot-ensure)
 
     (when my/python-enable-ipython
         (setq python-shell-interpreter "ipython3")
@@ -81,16 +79,14 @@
 
 (use-package go-mode
     :config
-    (add-hook 'go-mode-hook (setq-local tab-width 4))
-    (add-to-list 'go-mode-hook #'eglot-ensure))
+    (add-to-list 'go-mode-hook #'eglot-ensure)
+    (add-hook 'go-mode-hook (setq-local tab-width 4)))
 
 (use-package sql
-    :init
-    (setq sqlind-basic-offset 4)
-
     :config
-    (add-hook 'sql-mode-hook (setq-local tab-width 4))
-    (add-to-list 'sql-mode-hook #'eglot-ensure))
+    (add-to-list 'sql-mode-hook #'eglot-ensure)
+    (setq sqlind-basic-offset 4)
+    (add-hook 'sql-mode-hook (setq-local tab-width 4)))
 
 ;; rustic : blazingly fast
 (use-package rustic
