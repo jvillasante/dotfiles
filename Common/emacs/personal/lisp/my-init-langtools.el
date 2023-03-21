@@ -44,16 +44,13 @@
              (slot . ,(alist-get 'eldoc my/side-window-slots)))))
 
 (use-package eglot
-    :init
-    (setq eglot-stay-out-of '(company)
-        eglot-autoshutdown t
-        eglot-extend-to-xref t
-        eglot-workspace-configuration '(:pyright (:useLibraryCodeForTypes t :openFilesOnly :json-false)
-                                           :r (:lsp (:diagnostics :json-false)))
-        eglot-ignored-server-capabilities (quote (:documentFormattingProvider :documentRangeFormattingProvider))
-        read-process-output-max (* 1024 1024))
-
     :config
+    (setq eglot-autoshutdown t)
+    (setq eglot-extend-to-xref t)
+    (setq eglot-ignored-server-capabilities
+        (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
+    (setq  read-process-output-max (* 1024 1024))
+
     (add-to-list 'eglot-server-programs
         '(python-mode . ("pyright-langserver" "--stdio")))
 
@@ -79,14 +76,6 @@
                    "--pch-storage=memory"
                    "--header-insertion=never"
                    "--header-insertion-decorators=0")))
-
-    (add-hook 'eglot-managed-mode-hook
-        (setq-local eldoc-documentation-function #'eldoc-documentation-compose))
-
-    ;; format on save
-    ;; (add-hook 'c-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-    ;; (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-    ;; (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
 
     (general-create-definer my/lsp-map
         :prefix "C-c c"

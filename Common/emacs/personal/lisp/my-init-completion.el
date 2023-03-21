@@ -1,66 +1,43 @@
 ;;; my-init-completion.el -*- lexical-binding: t; -*-
 
-(straight-use-package 'company)
-(straight-use-package 'company-box)
-(straight-use-package 'cape)
+(straight-use-package 'corfu)
 (straight-use-package 'yasnippet)
 (straight-use-package 'yasnippet-snippets)
 
-(use-package company
-    :init
-    (setq company-idle-delay 0.0
-        company-minimum-prefix-length 1
-        company-dabbrev-minimum-length 3
-        company-tooltip-limit 14
-        company-tooltip-align-annotations t
-        company-require-match 'never
-        company-files-exclusions '(".git/" ".DS_Store")
-        company-global-modes '(not vterm-mode)
-        company-frontends '(company-pseudo-tooltip-frontend
-                               ;; always show candidates in overlay tooltip
-                               company-echo-metadata-frontend)
-        company-backends '((company-files company-yasnippet company-capf :separate company-dabbrev-code))
-        company-auto-commit nil
-        company-dabbrev-other-buffers nil
-        company-dabbrev-ignore-case t
-        company-dabbrev-downcase nil
-        company-selection-wrap-around t)
-
-    (add-hook 'after-init-hook 'global-company-mode)
-    :config
-    (unless (display-graphic-p)
-        ;; Don't persist company popups when switching back to normal mode.
-        ;; `company-box' aborts on mode switch so it doesn't need this.
-        (add-hook 'after-init-hook #'my/company-abort))
-
-    (with-eval-after-load 'company-files
-        ;; Fix `company-files' completion for org file:* links
-        (add-to-list 'company-files--regexps "file:\\(\\(?:\\.\\{1,2\\}/\\|~/\\|/\\)[^\]\n]*\\)"))
-
-    (when (display-graphic-p)
-        (add-hook 'company-mode-hook #'company-box-mode))
-
-    (general-define-key
-        :keymaps 'company-active-map
-        "C-e" #'company-abort
-        ;; use C-y to enter yasnippet expansion
-        ;; without input of additional character.
-        "C-y" #'company-complete-selection)
-
-    (advice-add #'company-capf :around #'my/company-completion-styles))
-
-(use-package company-box
+(use-package corfu
     :demand t
+    :preface
+    (defun corfu-send-shell (&rest _)
+        "Send completion candidate when inside comint/eshell."
+        (cond
+            ((and (derived-mode-p 'eshell-mode) (fboundp 'eshell-send-input))
+                (eshell-send-input))
+            ((and (derived-mode-p 'comint-mode)  (fboundp 'comint-send-input))
+                (comint-send-input))))
+    :bind (:map corfu-map
+              ("C-n" . corfu-next)
+              ("C-p" . corfu-previous)
+              ("TAB" . nil)
+              ("RET" . corfu-insert))
     :config
-    (setq company-box-max-candidates 50
-        company-frontends '(company-box-frontend)
-        company-box-icons-alist 'company-box-icons-all-the-icons))
+    (setq corfu-cycle t
+        corfu-auto t
+        corfu-quit-no-match 'separator)
+    :init
+    (global-corfu-mode)
+    (global-set-key (kbd "M-i") #'completion-at-point)
+    (add-hook 'eshell-mode-hook
+        (lambda ()
+            (setq-local corfu-auto nil)
+            (corfu-mode)))
+    (advice-add #'corfu-insert :after #'corfu-send-shell))
 
 (use-package yasnippet
     :init
     (yas-global-mode +1)
     :config
-    (setq yas-verbosity 2))
+    (yas-reload-all)
+    (push (expand-file-name "snippets/" user-emacs-directory) yas-snippet-dirs))
 
 (provide 'my-init-completion)
 ;;; my-init-completion.el ends here
