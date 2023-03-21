@@ -12,10 +12,6 @@
     "C-z"     nil                         ;; suspend frame should go away
     "C-x C-z" nil                         ;; same
 
-    ;; M is a Ctrl on steroids
-    "M-n" 'forward-paragraph
-    "M-p" 'backward-paragraph
-
     ;; I use this all the time
     "C-<" 'beginning-of-buffer
     "C->" 'end-of-buffer
@@ -38,9 +34,6 @@
     ;; hippie-expand is a better dabbrev
     [remap dabbrev-expand] 'hippie-expand
 
-    ;;; easy-kill
-    ;; [remap kill-ring-save] 'easy-kill
-
     ;; fill-unfill
     [remap fill-paragraph] 'my/fill-or-unfill
     "M-Q"                  'my/unfill-paragraph
@@ -48,9 +41,6 @@
 
     ;; avy
     "M-j" 'avy-goto-char-timer ; most usefull avy function
-
-    ;; ace-window
-    ;; [remap other-window] 'ace-window ; better other window
 
     ;; anzu
     "M-%" 'anzu-query-replace
@@ -67,9 +57,6 @@
     "C-." 'embark-act        ; pick some comfortable binding
     "C-;" 'embark-dwim       ; good alternative: "M-."
     "C-h B" 'embark-bindings ; alternative for `describe-bindings'
-
-    ;; projectile
-    ;; "C-c p" 'projectile-command-map
 
     ;; helpful
     ;; (define-key helpful-mode-map [remap revert-buffer] #'helpful-update)

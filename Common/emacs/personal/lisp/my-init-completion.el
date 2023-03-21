@@ -162,12 +162,7 @@
         (let ((completion-extra-properties corfu--extra)
                  completion-cycle-threshold completion-cycling)
             (apply #'consult-completion-in-region completion-in-region--data)))
-    ;; :bind (:map corfu-map
-    ;;           ("C-n" . corfu-next)
-    ;;           ("C-p" . corfu-previous)
-    ;;           ("TAB" . nil)
-    ;;           ("RET" . corfu-insert))
-    :bind (:map corfu-map
+     :bind (:map corfu-map
               ("TAB" . corfu-next)
               ([tab] . corfu-next)
               ("S-TAB" . corfu-previous)
