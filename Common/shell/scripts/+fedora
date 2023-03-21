@@ -392,8 +392,8 @@ fedora_install() {
                 flatpak install -y flathub org.wireshark.Wireshark
                 flatpak install -y flathub com.github.tchx84.Flatseal
                 flatpak install -y flathub org.shotcut.Shotcut
+                flatpak install -y flathub com.brave.Browser
                 # flatpak install -y flathub org.gnome.Extensions
-                # flatpak install -y flathub com.brave.Browser
                 # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
                 # flatpak install -y flathub org.signal.Signal
                 # flatpak install -y flathub com.microsoft.Edge
