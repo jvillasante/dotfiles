@@ -1,6 +1,15 @@
 ;;; my-init-misc.el -*- lexical-binding: t; -*-
 
 ;; misc
+(straight-use-package '(isearch :type built-in))
+(straight-use-package '(saveplace :type built-in))
+(straight-use-package '(savehist :type built-in))
+(straight-use-package '(recentf :type built-in))
+(straight-use-package '(project :type built-in))
+(straight-use-package '(eshell :type built-in))
+(straight-use-package '(tramp :type built-in))
+(straight-use-package '(elec-pair :type built-in))
+(straight-use-package '(auto-revert :type built-in))
 (straight-use-package 'rainbow-delimiters)
 (straight-use-package 'vterm)
 (straight-use-package 'ibuffer-vc)
@@ -18,11 +27,11 @@
 
 ;; dired
 (straight-use-package '(dired :type built-in))
-(straight-use-package 'dired-sidebar)
 (straight-use-package 'dired-rsync)
+(straight-use-package 'dired-git-info)
 (straight-use-package 'diredfl)
 (straight-use-package 'all-the-icons-dired)
-(straight-use-package 'dired-git-info)
+(straight-use-package 'dired-sidebar)
 
 (use-package isearch
     :init
@@ -86,7 +95,7 @@
 
 ;; project.el : default project manager
 (use-package project
-    :config
+    :init
     (setq project-list-file (expand-file-name "projects" no-littering-var-directory))
     (add-to-list 'project-switch-commands
         '(project-dired "Dired at root")))
@@ -128,10 +137,6 @@
                 t)
             ".*:\0? *")))
 
-(use-package hideshow
-    :init
-    (add-hook 'prog-mode-hook 'hs-minor-mode))
-
 (use-package elec-pair
     :init
     (add-hook 'after-init-hook 'electric-pair-mode)
@@ -141,9 +146,11 @@
     ;; word.
     (setq electric-pair-inhibit-predicate #'electric-pair-conservative-inhibit))
 
+(use-package auto-revert
+    :init (global-auto-revert-mode +1))
+
 (use-package rainbow-delimiters
-    :init
-    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+    :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package vterm
     :config
@@ -167,17 +174,11 @@
             (setq-local confirm-kill-processes nil)
             (setq-local hscroll-margin 0))))
 
-(use-package auto-revert
-    :init
-    (add-hook 'pre-command-hook 'global-auto-revert-mode))
-
 (use-package ibuffer-vc
-    :init
-    (add-hook 'ibuffer-hook #'my/ibuffer-vc-setup))
+    :init (add-hook 'ibuffer-hook #'my/ibuffer-vc-setup))
 
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
-(use-package crux
-    :demand t)
+(use-package crux :demand t)
 
 ;; persistent-scratch : preserve scratch buffer across sessions
 (use-package persistent-scratch
@@ -189,34 +190,27 @@
 
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
-    :demand t
-    :config
-    (editorconfig-mode 1))
+    :init (editorconfig-mode 1))
 
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
-    :demand t
-    :config
+    :init
     (when (daemonp)
         (exec-path-from-shell-initialize)))
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
-    :demand t
-    :config
+    :init
     (setq avy-all-windows t)
     (setq avy-background t))
 
 ;; super-save : auto-saves your buffers, when certain events happen
 (use-package super-save
-    :demand t
-    :config
-    (super-save-mode +1))
+    :init (super-save-mode +1))
 
 ;; undo-tree : treat undo history as a tree
 (use-package undo-tree
-    :init
-    (global-undo-tree-mode +1)
+    :init (global-undo-tree-mode +1)
     :config
     ;; autosave the undo-tree history
     (setq undo-tree-history-directory-alist
@@ -231,8 +225,7 @@
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
-    :init
-    (whole-line-or-region-global-mode))
+    :init (whole-line-or-region-global-mode))
 
 ;; better shell commands
 (use-package dwim-shell-command
@@ -280,6 +273,9 @@
                                      "-alh"
                                      "-alhvF --group-directories-first"))
 
+    ;; global auto-revert only applies to buffers associated with files on the disk
+    (add-hook 'dired-mode-hook 'auto-revert-mode)
+
     ;; Make dired use the same buffer for viewing directory
     (if (< emacs-major-version 28)
         (progn
@@ -295,12 +291,10 @@
         nil))
 
 (use-package diredfl
-    :init
-    (add-hook 'dired-mode-hook 'diredfl-mode))
+    :init (add-hook 'dired-mode-hook 'diredfl-mode))
 
 (use-package all-the-icons-dired
-    :init
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+    :init (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (use-package dired-sidebar
     :init

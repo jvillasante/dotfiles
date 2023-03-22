@@ -1,10 +1,10 @@
 ;;; my-init-langs.el -*- lexical-binding: t; -*-
 
+(straight-use-package '(c++-mode :type built-in))
 (straight-use-package 'adoc-mode)
 (straight-use-package 'csv-mode)
 (straight-use-package 'yaml-mode)
 (straight-use-package 'web-mode)
-(straight-use-package '(c++-mode :type built-in))
 (straight-use-package 'json-mode)
 (straight-use-package 'markdown-mode)
 (straight-use-package 'go-mode)
@@ -12,9 +12,14 @@
 (straight-use-package 'rustic)
 (straight-use-package 'js2-mode)
 
-(setq-default c-default-style "linux")
-(setq-default c-basic-offset 4)
-(c-set-offset 'comment-intro 0)
+;; c/c++ mode
+(use-package c++-mode
+    :init
+    (setq-default c-default-style "linux")
+    (setq-default c-basic-offset 4)
+    (c-set-offset 'comment-intro 0)
+    (add-to-list 'c++-mode-hook #'eglot-ensure)
+    :mode ("\\.h\\'" "\\.cpp\\'" "\\.hpp\\'" "\\.hxx\\'" "\\.cxx\\'" "\\.cc\\'" "\\.C\\'"))
 
 ;; adoc-mode : ascii docs
 (use-package adoc-mode
@@ -34,11 +39,6 @@
     :custom
     (web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
     (web-mode-markup-indent-offset 2)) ; For html : use an indent of size 2 (default is 4)
-
-;; c/c++ mode
-(use-package c++-mode
-    :init (add-to-list 'c-mode-common-hook #'eglot-ensure)
-    :mode ("\\.h\\'" "\\.cpp\\'" "\\.hpp\\'" "\\.hxx\\'" "\\.cxx\\'" "\\.cc\\'" "\\.C\\'"))
 
 (use-package python
     :config

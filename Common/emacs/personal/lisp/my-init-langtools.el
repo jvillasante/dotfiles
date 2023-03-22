@@ -1,18 +1,23 @@
 ;;; my-init-langtools.el -*- lexical-binding: t; -*-
 
-(straight-use-package 'eglot)
+(straight-use-package '(hideshow :type built-in))
+(straight-use-package '(flymake :type built-in))
+(straight-use-package '(eldoc :type built-in))
+(straight-use-package '(eglot :type built-in))
 (straight-use-package 'consult-eglot)
 (straight-use-package 'apheleia)
 (straight-use-package 'fancy-compilation)
 
 ;; hideshow
-(progn
-    (add-hook 'prog-mode-hook 'hs-minor-mode)
+(use-package hideshow
+    :preface
     (defun my/toggle-fold ()
         (interactive)
         (save-excursion
             (end-of-line)
-            (hs-toggle-hiding))))
+            (hs-toggle-hiding)))
+    :init
+    (add-hook 'prog-mode-hook 'hs-minor-mode))
 
 ;; flymake
 (use-package flymake
@@ -73,7 +78,7 @@
         '(rustic-mode . ("rust-analyzer")))
 
     (add-to-list 'eglot-server-programs
-        '(c-mode c++-mode
+        '(c++-mode
              . ("clangd"
                    "-j=8"
                    "--log=error"

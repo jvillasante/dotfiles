@@ -1,6 +1,8 @@
 ;;; my-init-org.el -*- lexical-binding: t; -*-
 
 (straight-use-package '(org :type built-in))
+(straight-use-package '(org-capture :type built-in))
+(straight-use-package '(org-agenda :type built-in))
 (straight-use-package 'deft)
 
 (use-package org

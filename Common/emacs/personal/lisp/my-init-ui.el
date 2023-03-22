@@ -1,7 +1,10 @@
 ;; my-init-ui.el -*- lexical-binding: t; -*-
 
-(straight-use-package 'all-the-icons)
+(straight-use-package '(display-line-numbers :type built-in))
+(straight-use-package '(whitespace :type built-in))
+(straight-use-package '(tab-bar :type built-in))
 (straight-use-package 'modus-themes)
+(straight-use-package 'all-the-icons)
 (straight-use-package 'minions)
 (straight-use-package 'which-key)
 (straight-use-package 'anzu)
@@ -132,15 +135,6 @@ if they are side window.")
     (add-hook 'pre-command-hook 'tab-bar-history-mode)
     (advice-add #'tab-bar-new-tab :around #'my/set-scratch-directory))
 
-(use-package all-the-icons
-    :if (display-graphic-p)
-    :commands (all-the-icons-octicon
-                  all-the-icons-faicon
-                  all-the-icons-fileicon
-                  all-the-icons-wicon
-                  all-the-icons-material
-                  all-the-icons-alltheicon))
-
 (use-package modus-themes
     :demand t
     :config
@@ -175,6 +169,15 @@ if they are side window.")
 
     ;; Load theme
     (my/switch-theme 'modus-operandi))
+
+(use-package all-the-icons
+    :if (display-graphic-p)
+    :commands (all-the-icons-octicon
+                  all-the-icons-faicon
+                  all-the-icons-fileicon
+                  all-the-icons-wicon
+                  all-the-icons-material
+                  all-the-icons-alltheicon))
 
 ;; minions : menu that lists enabled minor-modes
 (use-package minions

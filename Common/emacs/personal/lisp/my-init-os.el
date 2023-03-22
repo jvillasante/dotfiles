@@ -1,7 +1,5 @@
 ;;; my-init-os.el -*- lexical-binding: t; -*-
 
-(straight-use-package 'xclip)
-
 (when IS-MAC
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
     (setq browse-url-browser-function 'browse-url-generic)

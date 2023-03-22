@@ -1,5 +1,7 @@
 ;;; my-init-apps.el -*- lexical-binding: t; -*-
 
+(straight-use-package '(eww :type built-in))
+(straight-use-package '(xwidget :type built-in))
 (straight-use-package 'elfeed)
 (straight-use-package 'pdf-tools)
 

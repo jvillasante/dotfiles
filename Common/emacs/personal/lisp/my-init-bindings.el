@@ -1,5 +1,7 @@
 ;;; my-init-bindings.el --- -*- lexical-binding: t; -*-
 
+(straight-use-package 'general)
+
 (general-define-key
     :keymaps 'override
     ;; general keys
