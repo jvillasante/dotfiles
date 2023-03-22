@@ -12,6 +12,8 @@
                      (env . (("CRAFTED_EMACS_HOME" . "~/Workspace/Public/dotfiles/Common/emacs/crafted")))))
     ("personal" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/Common/emacs/personal")
                       (custom-file . "~/Workspace/Public/dotfiles/Common/emacs/personal/custom.el")))
+    ("personal2" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/Common/emacs/personal2/")
+                      (custom-file . "~/Workspace/Public/dotfiles/Common/emacs/personal2/custom.el")))
     ("prelude" . ((user-emacs-directory . "~/Workspace/Public/dotfiles/.emacs.prelude")
                      (custom-file . "~/Workspace/Public/dotfiles/Common/emacs/prelude/custom.el")
                      (env . (("PRELUDE_PERSONAL_DIR" . "~/Workspace/Public/dotfiles/Common/emacs/prelude")))))
