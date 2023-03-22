@@ -70,7 +70,7 @@
     :init
     (setq which-key-use-C-h-commands nil
         prefix-help-command #'embark-prefix-help-command)
-    (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+    ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
     :config
     ;; Hide the mode line of the Embark live/completions buffers
     (add-to-list 'display-buffer-alist

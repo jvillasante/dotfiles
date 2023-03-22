@@ -3,6 +3,7 @@
 (straight-use-package 'eglot)
 (straight-use-package 'consult-eglot)
 (straight-use-package 'apheleia)
+(straight-use-package 'fancy-compilation)
 
 ;; hideshow
 (progn
@@ -14,14 +15,14 @@
             (hs-toggle-hiding))))
 
 ;; flymake
-(progn
-    ;; Underline warnings and errors from Flymake
-    (custom-set-faces
+(use-package flymake
+    :demand t
+    :config
+    (custom-set-faces ;; Underline warnings and errors from Flymake
         '(flymake-errline ((((class color)) (:underline "red"))))
         '(flymake-warnline ((((class color)) (:underline "yellow")))))
 
-    ;; Display error and warning messages in minibuffer.
-    (custom-set-variables
+    (custom-set-variables ;; Display error and warning messages in minibuffer.
         '(help-at-pt-timer-delay 0.5)
         '(help-at-pt-display-when-idle '(flymake-overlay))))
 
@@ -53,7 +54,7 @@
         ;; NOTE We disable eglot-auto-display-help-buffer because :select t in
         ;;      its popup rule causes eglot to steal focus too often.
         eglot-auto-display-help-buffer nil)
-    (setq eglot-stay-out-of '(flymake))
+    ;; (setq eglot-stay-out-of '(flymake))
     (setq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
     (setq  read-process-output-max (* 1024 1024))
@@ -108,6 +109,14 @@
 (use-package apheleia
     :init
     (apheleia-global-mode +1))
+
+(use-package fancy-compilation
+    :commands (fancy-compilation-mode)
+    :init
+    (custom-set-faces
+        '(fancy-compilation-default-face ((t (:inherit nil :background nil)))))
+    (with-eval-after-load 'compile
+        (fancy-compilation-mode)))
 
 (provide 'my-init-langtools)
 ;;; my-init-langtools.el ends here
