@@ -79,19 +79,19 @@ install_emacs() {
     fi
 
     # Install Crafted Emacs
-    if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
-        echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
-        git clone git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
-        check $?
-    fi
+    # if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
+    #     echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
+    #     git clone git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
+    #     check $?
+    # fi
 
     # Install Prelude
-    if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
-        echo ">>> Installing Prelude Emacs at $DOTFILES_DIR/.emacs.prelude"
-        curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh |
-            env PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" sh
-        check $?
-    fi
+    # if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
+    #     echo ">>> Installing Prelude Emacs at $DOTFILES_DIR/.emacs.prelude"
+    #     curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh |
+    #         env PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" sh
+    #     check $?
+    # fi
 }
 
 install_shell "bash"

@@ -34,13 +34,7 @@
 (use-package eldoc
     :init
     (setq eldoc-echo-area-use-multiline-p nil)
-
-    ;; eglot has 3 eldoc functions: `eglot-hover-eldoc-function', and
-    ;; `eglot-signature-eldoc-function', using the default strategy
-    ;; will only show one information, setting to the following option
-    ;; allows the possibility to show both information in eldoc
-    (setq eldoc-documentation-strategy #'eldoc-documentation-compose)
-
+    (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
     :config
     (add-to-list 'display-buffer-alist
         `("\\*eldoc\\*"
@@ -50,6 +44,11 @@
              (slot . ,(alist-get 'eldoc my/side-window-slots)))))
 
 (use-package eglot
+    :preface
+    (defun my/eglot-eldoc ()
+        (setq eldoc-documentation-strategy
+            'eldoc-documentation-compose-eagerly))
+    :hook ((eglot-managed-mode . my/eglot-eldoc))
     :init
     (setq eglot-sync-connect 1
         eglot-extend-to-xref t
@@ -117,7 +116,7 @@
     :commands (fancy-compilation-mode)
     :init
     (custom-set-faces
-        '(fancy-compilation-default-face ((t (:inherit nil :background nil)))))
+        '(fancy-compilation-default-face ((t (:inherit nil :background unspecified)))))
     (with-eval-after-load 'compile
         (fancy-compilation-mode)))
 

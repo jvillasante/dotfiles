@@ -12,8 +12,8 @@
 (straight-use-package 'cape)
 (straight-use-package 'corfu)
 (straight-use-package 'corfu-terminal)
-(straight-use-package 'yasnippet)
-(straight-use-package 'yasnippet-snippets)
+;; (straight-use-package 'yasnippet)
+;; (straight-use-package 'yasnippet-snippets)
 (straight-use-package 'all-the-icons-completion)
 
 (use-package emacs
@@ -200,12 +200,12 @@
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
 
-(use-package yasnippet
-    :init
-    (yas-global-mode +1)
-    :config
-    (yas-reload-all)
-    (push (expand-file-name "snippets/" user-emacs-directory) yas-snippet-dirs))
+;; (use-package yasnippet
+;;     :init
+;;     (yas-global-mode +1)
+;;     :config
+;;     (yas-reload-all)
+;;     (push (expand-file-name "snippets/" user-emacs-directory) yas-snippet-dirs))
 
 (provide 'my-init-completion)
 ;;; my-init-completion.el ends here
