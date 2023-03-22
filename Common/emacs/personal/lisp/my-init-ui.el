@@ -102,6 +102,7 @@ if they are side window.")
     (global-display-line-numbers-mode)
     :config
     (dolist (mode '(org-mode-hook
+                       compilation-mode-hook
                        vterm-mode-hook
                        term-mode-hook
                        shell-mode-hook
