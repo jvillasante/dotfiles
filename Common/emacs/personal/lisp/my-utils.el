@@ -61,22 +61,6 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
     (let ((completion-styles '(basic partial-completion emacs22)))
         (apply capf-fn args)))
 
-;;; Minibuffer
-
-(defun crm-indicator (args)
-    (cons (format "[CRM%s] %s"
-              (replace-regexp-in-string
-                  "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                  crm-separator)
-              (car args))
-        (cdr args)))
-
-(defun my/completion-in-region (&rest args)
-    (apply (if vertico-mode
-               #'consult-completion-in-region
-               #'completion--in-region)
-        args))
-
 ;;; VCS
 
 (defun my/project-todos ()
