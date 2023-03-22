@@ -126,6 +126,7 @@
         (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)))
 
 (use-package corfu-terminal
+    :after corfu
     :init
     (unless (display-graphic-p)
         (corfu-terminal-mode +1)))
