@@ -35,8 +35,16 @@
 
 ;; bootstrap straight.el, copied from
 ;; URL: `https://github.com/radian-software/straight.el#getting-started'
-(defvar bootstrap-version)
+(defvar straight-process-buffer)
+(setq-default straight-process-buffer " *straight-process*")
+
+(defvar straight-build-dir)
+(setq straight-build-dir (format "build-%s" emacs-version))
+
+(defvar straight-repository-branch)
 (setq straight-repository-branch "develop")
+
+(defvar bootstrap-version)
 (let ((bootstrap-file
           (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
          (bootstrap-version 6))

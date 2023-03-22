@@ -64,16 +64,6 @@
     (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
     (add-hook 'minibuffer-setup-hook #'vertico-repeat-save))
 
-;; Configure directory extension.
-(use-package vertico-directory
-    :after vertico
-    :ensure nil
-    ;; More convenient directory navigation commands
-    :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word)))
-
 (use-package orderless
     :init
     (setq completion-styles '(orderless basic)
