@@ -56,10 +56,10 @@
             ((my/font-installed-p "DejaVu Sans Mono")
                 (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans Mono")))
         (cond
-            ((my/font-installed-p "Iosevka Etoile")
-                (set-face-attribute 'variable-pitch nil :font "Iosevka Etoile"))
+            ((my/font-installed-p "Iosevka Aile")
+                (set-face-attribute 'variable-pitch nil :font "Iosevka Aile"))
             ((my/font-installed-p "DejaVu Sans")
-                (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans"))))
+                (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans")))))
 
 ;; set default frame title
 (setq-default frame-title-format
