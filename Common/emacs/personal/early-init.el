@@ -35,5 +35,6 @@
     (startup-redirect-eln-cache
         (convert-standard-filename
             (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+
 (provide 'early-init)
 ;;; early-init.el ends here

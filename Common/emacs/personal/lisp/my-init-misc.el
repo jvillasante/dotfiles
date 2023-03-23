@@ -9,7 +9,7 @@
 (straight-use-package '(eshell :type built-in))
 (straight-use-package '(tramp :type built-in))
 (straight-use-package '(elec-pair :type built-in))
-(straight-use-package '(auto-revert :type built-in))
+(straight-use-package '(autorevert :type built-in))
 (straight-use-package 'rainbow-delimiters)
 (straight-use-package 'vterm)
 (straight-use-package 'ibuffer-vc)
@@ -146,7 +146,7 @@
     ;; word.
     (setq electric-pair-inhibit-predicate #'electric-pair-conservative-inhibit))
 
-(use-package auto-revert
+(use-package autorevert
     :init (global-auto-revert-mode +1))
 
 (use-package rainbow-delimiters
