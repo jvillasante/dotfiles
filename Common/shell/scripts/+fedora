@@ -536,9 +536,6 @@ fedora_install() {
 }
 
 fedora_update() {
-    flatpak update -y
-    test $? -eq 0 || usage 1
-
     sudo dnf -y --refresh upgrade
     test $? -eq 0 || usage 1
 
@@ -546,6 +543,9 @@ fedora_update() {
     test $? -eq 0 || usage 1
 
     sudo dnf -y autoremove
+    test $? -eq 0 || usage 1
+
+    flatpak update -y
     test $? -eq 0 || usage 1
 }
 
