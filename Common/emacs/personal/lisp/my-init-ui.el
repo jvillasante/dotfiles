@@ -38,12 +38,28 @@
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
 (add-hook 'prog-mode-hook 'my/comment-auto-fill)     ;; ... but add comment auto-fill in prog-mode
 
-;; set default font
-(add-to-list 'default-frame-alist
-    '(font . "Iosevka-16"))
-
-;; set font for text that should be displayed more like prose.
-(set-face-attribute 'variable-pitch nil :family "Iosevka" :height 160)
+;; setup font
+(add-hook 'after-init-hook
+    (lambda ()
+        (cond
+            ((my/font-installed-p "Iosevka")
+                (set-face-attribute 'default nil :font "Iosevka" :height 160))
+            ((my/font-installed-p "JetBrainsMono")
+                (set-face-attribute 'default nil :font "JetBrainsMono" :height 160))
+            ((my/font-installed-p "Source Code Pro")
+                (set-face-attribute 'default nil :font "Source Code Pro" :height 160))
+            ((my/font-installed-p "DejaVu Sans Mono")
+                (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 160)))
+        (cond
+            ((my/font-installed-p "Iosevka Fixed")
+                (set-face-attribute 'fixed-pitch nil :font "Iosevka Fixed"))
+            ((my/font-installed-p "DejaVu Sans Mono")
+                (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans Mono")))
+        (cond
+            ((my/font-installed-p "Iosevka Etoile")
+                (set-face-attribute 'variable-pitch nil :font "Iosevka Etoile"))
+            ((my/font-installed-p "DejaVu Sans")
+                (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans"))))
 
 ;; set default frame title
 (setq-default frame-title-format
