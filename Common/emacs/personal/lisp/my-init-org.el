@@ -3,6 +3,7 @@
 (straight-use-package '(org :type built-in))
 (straight-use-package '(org-capture :type built-in))
 (straight-use-package '(org-agenda :type built-in))
+(straight-use-package 'org-superstar)
 (straight-use-package 'deft)
 
 (use-package org
@@ -95,7 +96,19 @@
 
     (run-with-idle-timer 2 nil #'my/load-org-extensions-idly))
 
+(use-package org-superstar
+    :init
+    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+    :config
+    (setq! org-superstar-remove-leading-stars t)
+    (setq! org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
+    (setq! org-superstar-special-todo-items t))
+
 (use-package org-capture
+    :init
+    ;; when refiling from org-capture, Emacs prompts to kill the
+    ;; underlying, modified buffer. This fixes that.
+    (add-hook 'org-after-refile-insert-hook #'save-buffer)
     :config
     (setq org-capture-templates
         `(("i" "Inbox (inbox.org)" entry  (file "inbox.org")
@@ -108,13 +121,23 @@
                  ,(concat "* Note (%a)\n"
                       "/Entered on/ %U\n" "\n" "%?"))))
 
-    (org-capture-put :kill-buffer t) ;; kill org capture buffer by default
-    ;; when refiling from org-capture, Emacs prompts to kill the
-    ;; underlying, modified buffer. This fixes that.
-    (add-hook 'org-after-refile-insert-hook #'save-buffer))
+    (org-capture-put :kill-buffer t)) ;; kill org capture buffer by default
 
 (use-package org-agenda
     :init
+    (advice-add #'org-get-agenda-file-buffer :around #'my/exclude-org-agenda-buffers-from-recentf)
+    (add-hook 'org-agenda-finalize-hook #'my/reload-org-agenda-buffers)
+
+    :config
+    ;; org-agenda will visit all org files listed
+    ;; in `org-agenda-files' to generate the org-agenda view.
+    ;; avoid too much files inside this directory.
+    ;; (setq! org-agenda-files (list "inbox.org" "agenda.org" "notes.org"))
+    (setq  org-agenda-files `(,org-directory
+                                 ,@(mapcar
+                                       (lambda (x) (file-name-concat org-directory x))
+                                       '("inbox" "agenda" "notes"))))
+
     ;; Different colors for different priority levels
     (setq org-agenda-deadline-faces '((1.001 . error)
                                          (1.0 . org-warning)
@@ -132,20 +155,7 @@
         '((agenda . " %i %-12:c%?-12t% s")
              (todo   . " ")
              (tags   . " %i %-12:c")
-             (search . " %i %-12:c")))
-
-    :config
-    ;; org-agenda will visit all org files listed
-    ;; in `org-agenda-files' to generate the org-agenda view.
-    ;; avoid too much files inside this directory.
-    ;; (setq! org-agenda-files (list "inbox.org" "agenda.org" "notes.org"))
-    (setq  org-agenda-files `(,org-directory
-                                 ,@(mapcar
-                                       (lambda (x) (file-name-concat org-directory x))
-                                       '("inbox" "agenda" "notes"))))
-
-    (advice-add #'org-get-agenda-file-buffer :around #'my/exclude-org-agenda-buffers-from-recentf)
-    (add-hook 'org-agenda-finalize-hook #'my/reload-org-agenda-buffers))
+             (search . " %i %-12:c"))))
 
 ;; deft : plain text notes
 (use-package deft

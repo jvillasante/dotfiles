@@ -7,6 +7,7 @@ if type fzf >/dev/null 2>/dev/null; then
     [ -f "$HOME"/.fzf.zsh ] && source "$HOME"/.fzf.zsh
     [ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
     [ -f /usr/share/bash-completion/completions/fzf-key-bindings ] && source /usr/share/bash-completion/completions/fzf-key-bindings
+    [ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
 
     # Use ~~ as the trigger sequence instead of the default **
     # export FZF_COMPLETION_TRIGGER='~~'
