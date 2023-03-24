@@ -29,12 +29,12 @@
     (setq inhibit-automatic-native-compilation nil)
 
     (defvar native-comp-async-report-warnings-errors)
-    (setq native-comp-async-report-warnings-errors 'silent))
+    (setq native-comp-async-report-warnings-errors 'silent)
 
-(when (fboundp 'startup-redirect-eln-cache)
-    (startup-redirect-eln-cache
-        (convert-standard-filename
-            (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+    (when (fboundp 'startup-redirect-eln-cache)
+        (startup-redirect-eln-cache
+            (convert-standard-filename
+                (expand-file-name  "var/eln-cache/" user-emacs-directory)))))
 
 (provide 'early-init)
 ;;; early-init.el ends here

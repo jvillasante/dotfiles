@@ -312,7 +312,6 @@
     )
 
 (use-package yasnippet
-    :disabled t ; FIXME: yasnippet is not working ATM
     :init
     (setq yas-verbosity 1)
     (yas-global-mode +1)
