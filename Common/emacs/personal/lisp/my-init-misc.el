@@ -24,6 +24,7 @@
 (straight-use-package 'expand-region)
 (straight-use-package 'whole-line-or-region)
 (straight-use-package 'dwim-shell-command)
+(straight-use-package 'multiple-cursors)
 
 ;; dired
 (straight-use-package '(dired :type built-in))
@@ -247,6 +248,15 @@
             "Convert to gif"
             "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
             :utils "ffmpeg")))
+
+(use-package multiple-cursors
+    :demand t
+    :bind (("H-SPC" . set-rectangular-region-anchor)
+              ("C-M-SPC" . set-rectangular-region-anchor)
+              ("C->" . mc/mark-next-like-this)
+              ("C-<" . mc/mark-previous-like-this)
+              ("C-c C->" . mc/mark-all-like-this)
+              ("C-S-c C-S-c" . mc/edit-lines)))
 
 ;; Dired : built-in navigation of folders
 (use-package dired

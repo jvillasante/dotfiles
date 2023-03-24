@@ -15,8 +15,8 @@
     "C-x C-z" nil                         ;; same
 
     ;; I use this all the time
-    "C-<" 'beginning-of-buffer
-    "C->" 'end-of-buffer
+    ;; "C-<" 'beginning-of-buffer
+    ;; "C->" 'end-of-buffer
 
     ;; upcase, downcase and capitalize
     "M-u" 'upcase-dwim
