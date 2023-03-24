@@ -4,11 +4,12 @@
 -Werror
 -DDEBUG
 -DDMX5_BUILD
--isystem/usr/lib/gcc/x86_64-redhat-linux/12/../../../../include/c++/12
--isystem/usr/lib/gcc/x86_64-redhat-linux/12/../../../../include/c++/12/x86_64-redhat-linux
--isystem/usr/lib/gcc/x86_64-redhat-linux/12/../../../../include/c++/12/backward
--isystem/usr/lib/gcc/x86_64-redhat-linux/12/include
+-isystem/usr/include/c++/12
+-isystem/usr/include/x86_64-linux-gnu/c++/12
+-isystem/usr/include/c++/12/backward
+-isystem/usr/lib/gcc/x86_64-linux-gnu/12/include
 -isystem/usr/local/include
+-isystem/usr/include/x86_64-linux-gnu
 -isystem/usr/include
 -I./
 -I./inc
