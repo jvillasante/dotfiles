@@ -38,28 +38,14 @@
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
 (add-hook 'prog-mode-hook 'my/comment-auto-fill)     ;; ... but add comment auto-fill in prog-mode
 
-;; setup font
-(add-hook 'after-init-hook
+;; Set the font
+(add-hook 'emacs-startup-hook
     (lambda ()
-        (cond
-            ((my/font-installed-p "Iosevka")
-                (set-face-attribute 'default nil :font "Iosevka" :height 160))
-            ((my/font-installed-p "JetBrainsMono")
-                (set-face-attribute 'default nil :font "JetBrainsMono" :height 160))
-            ((my/font-installed-p "Source Code Pro")
-                (set-face-attribute 'default nil :font "Source Code Pro" :height 160))
-            ((my/font-installed-p "DejaVu Sans Mono")
-                (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 160)))
-        (cond
-            ((my/font-installed-p "Iosevka Fixed")
-                (set-face-attribute 'fixed-pitch nil :font "Iosevka Fixed"))
-            ((my/font-installed-p "DejaVu Sans Mono")
-                (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans Mono")))
-        (cond
-            ((my/font-installed-p "Iosevka Aile")
-                (set-face-attribute 'variable-pitch nil :font "Iosevka Aile"))
-            ((my/font-installed-p "DejaVu Sans")
-                (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans")))))
+        (custom-set-faces
+            `(default ((t (:font "Iosevka 16"))))
+            `(fixed-pitch ((t (:inherit (default)))))
+            `(fixed-pitch-serif ((t (:inherit (default)))))
+            `(variable-pitch ((t (:font "Iosevka Aile")))))))
 
 ;; set default frame title
 (setq-default frame-title-format
