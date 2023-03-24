@@ -4,8 +4,9 @@
 -Werror
 -Wpedantic
 -DDEBUG
--isystem/usr/lib/gcc/x86_64-redhat-linux/12/include
+-isystem/usr/lib/gcc/x86_64-linux-gnu/12/include
 -isystem/usr/local/include
+-isystem/usr/include/x86_64-linux-gnu
 -isystem/usr/include
 -I./
 -I./include

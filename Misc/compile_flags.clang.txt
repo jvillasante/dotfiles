@@ -4,9 +4,12 @@
 -Werror
 -Wpedantic
 -DDEBUG
--isystem/usr/local/opt/llvm/bin/../include/c++/v1
--isystem/usr/local/Cellar/llvm/12.0.1/lib/clang/12.0.1/include
--isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
--isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
+-isystem/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12
+-isystem/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/x86_64-linux-gnu/c++/12
+-isystem/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/backward
+-isystem/usr/lib/llvm-14/lib/clang/14.0.6/include
+-isystem/usr/local/include
+-isystem/usr/include/x86_64-linux-gnu
+-isystem/usr/include
 -I./
 -I./include
