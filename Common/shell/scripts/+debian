@@ -266,14 +266,14 @@ debian_install() {
                 # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
                 # Stop Gnome Software downloading updates
+                gsettings set org.gnome.software allow-updates false
                 gsettings set org.gnome.software download-updates false
+                gsettings set org.gnome.software download-updates-notify false
 
                 read -p "1) Defaults has been set. Press enter to continue..."
                 ;;
             2)
                 echo ") Installing Software"
-
-                sudo apt update -y && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y
                 read -p "2) Software has been installed. Press enter to continue..."
                 ;;
             3)
@@ -285,15 +285,45 @@ debian_install() {
                 install_iosevka
 
                 # Gnome Font Settings
-                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+                # gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
 
                 # Latex: TODO
 
-                sudo apt update -y && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y
                 read -p "3) Extras installed. Press enter to continue..."
                 ;;
             4)
                 echo ") Enabling Flatpak"
+
+                # Uninstall Firefox
+                sudo apt purge firefox-esr
+                sudo apt autoremove
+
+                sudo dnf install -y flatpak
+                flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                flatpak update
+                flatpak install -y flathub org.gnome.TextEditor
+                flatpak install -y flathub org.mozilla.firefox
+                flatpak install -y flathub com.mattjakeman.ExtensionManager
+                flatpak install -y flathub org.gnome.Firmware
+                flatpak install -y flathub com.discordapp.Discord
+                flatpak install -y flathub com.dropbox.Client
+                flatpak install -y flathub com.skype.Client
+                flatpak install -y flathub com.slack.Slack
+                flatpak install -y flathub org.telegram.desktop
+                flatpak install -y flathub org.videolan.VLC
+                flatpak install -y flathub com.transmissionbt.Transmission
+                flatpak install -y flathub org.gimp.GIMP
+                flatpak install -y flathub org.wireshark.Wireshark
+                flatpak install -y flathub com.github.tchx84.Flatseal
+                # flatpak install -y flathub org.shotcut.Shotcut
+                # flatpak install -y flathub com.brave.Browser
+                # flatpak install -y flathub org.gnome.Extensions
+                # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
+                # flatpak install -y flathub org.signal.Signal
+                # flatpak install -y flathub com.microsoft.Edge
+                # flatpak install -y flathub com.visualstudio.code
+                # flatpak install -y flathub com.github.GradienceTeam.Gradience
+
                 read -p "4) Flatpak has now been enabled. Press enter to continue..."
                 ;;
             5)
@@ -302,6 +332,7 @@ debian_install() {
                 ;;
             6)
                 echo "6) Setting up secrets and repos"
+
                 read -r -p "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
                 [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
@@ -329,7 +360,7 @@ debian_install() {
                 gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
                 rm -rf "$KEYS_DIR"/gpg
 
-                echo "Editing gpg key 0xB3F..., you should trust ultimately (Option 5) and type 'quit'"
+                echo "Editing gpg key 0xB3F..., you should 'trust' ultimately (Option 5) and 'quit'"
                 gpg --edit-key 0xB3F739419D91C7F3
 
                 # Remove keys
@@ -353,18 +384,29 @@ debian_install() {
             8)
                 echo "8) Installing Keyd"
 
+                # Is it already installed?
+                hash keyd 2>/dev/null && notify-send "Keyd is already installed" --expire-time=20 && continue
+
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                [ ! -d "$HOME"/Workspace/Software/keyd ] && git clone git@github.com:rvaiya/keyd.git "$HOME"/Workspace/Software/keyd
-                cd "$HOME"/Workspace/Software/keyd || {
-                    notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
-                    continue
-                }
-                sudo make uninstall
-                make clean
-                git reset --hard HEAD # Remove all local changes to tracked files
-                sudo git clean -dfx   # Remove all untracked files and directories
-                git pull
+                if [ ! -d "$HOME"/Workspace/Software/keyd ]; then
+                    git clone git@github.com:rvaiya/keyd.git "$HOME"/Workspace/Software/keyd
+                    pushd "$HOME"/Workspace/Software/keyd || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
+                        continue
+                    }
+                else
+                    pushd "$HOME"/Workspace/Software/keyd || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
+                        continue
+                    }
+
+                    sudo make uninstall
+                    make clean && make distclean
+                    git reset --hard HEAD
+                    sudo git clean -dfx
+                    git pull
+                fi
 
                 # Install
                 make -j16
@@ -374,10 +416,10 @@ debian_install() {
                 sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
 
                 # Enable the daemon
-                systemctl enable keyd && systemctl start keyd
+                sudo systemctl enable keyd && sudo systemctl start keyd
                 sudo keyd reload
 
-                cd - || notify-send "Can't cd to previous directory" --expire-time=20
+                popd || notify-send "Can't cd to previous directory" --expire-time=20
                 read -p "8) Keyd daemon has been installed. Press enter to continue..."
                 ;;
             9)
@@ -388,9 +430,6 @@ debian_install() {
 }
 
 debian_update() {
-    flatpak update -y
-    test $? -eq 0 || usage 1
-
     sudo apt update -y
     test $? -eq 0 || usage 1
 
@@ -401,6 +440,9 @@ debian_update() {
     test $? -eq 0 || usage 1
 
     sudo apt autoremove
+    test $? -eq 0 || usage 1
+
+    flatpak update -y
     test $? -eq 0 || usage 1
 }
 
