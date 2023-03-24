@@ -4,11 +4,12 @@ BasedOnStyle: LLVM
 Language: Cpp
 
 # Things I like
-ColumnLimit: 135
+ColumnLimit: 132
 AlwaysBreakTemplateDeclarations: true
 Cpp11BracedListStyle: true
 AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortLoopsOnASingleLine: true
+BreakBeforeBraces: Stroustrup
 
 # Force pointers to the type for C++.
 DerivePointerAlignment: false

@@ -15,7 +15,7 @@
 ;; c/c++ mode
 (use-package c++-mode
     :init
-    (setq-default c-default-style "linux")
+    (setq-default c-default-style "stroustrup")
     (setq-default c-basic-offset 4)
     (c-set-offset 'comment-intro 0)
     (add-to-list 'c++-mode-hook #'eglot-ensure)
