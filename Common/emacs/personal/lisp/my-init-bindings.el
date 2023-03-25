@@ -18,6 +18,9 @@
     ;; "C-<" 'beginning-of-buffer
     ;; "C->" 'end-of-buffer
 
+    ;; Clone the current buffer in a new window with `q' to exit
+    "C-x 9" 'my/clone-buffer-in-new-window-readonly
+
     ;; upcase, downcase and capitalize
     "M-u" 'upcase-dwim
     "M-l" 'downcase-dwim

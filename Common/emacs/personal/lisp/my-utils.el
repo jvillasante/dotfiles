@@ -26,6 +26,20 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
                             elt)
                      ,list)))
 
+(defun my/clone-buffer-in-new-window-readonly ()
+    "Clone the current buffer in a new window, make it readonly, and set up a
+keybinding to close the window."
+    (interactive)
+    (let ((clone-buffer (clone-indirect-buffer (buffer-name) t)))
+        (with-current-buffer clone-buffer
+            (read-only-mode t)
+            (let ((map (make-sparse-keymap)))
+                (define-key map (kbd "q") (lambda ()
+                                              (interactive)
+                                              (kill-buffer-and-window)))
+                (use-local-map map)))
+        (switch-to-buffer-other-window clone-buffer)))
+
 ;;; UI
 
 (defun my/font-installed-p (font-name)
