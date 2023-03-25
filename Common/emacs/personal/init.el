@@ -49,13 +49,11 @@
 (push (expand-file-name "lisp" user-emacs-directory) load-path)
 
 (require 'my-utils)
-(require 'my-init-utils)
 (require 'my-init-basics)
 (require 'my-init-os)
 (require 'my-init-ui)
 (require 'my-init-completion)
 (require 'my-init-vcs)
-(require 'my-init-elisp)
 (require 'my-init-org)
 (require 'my-init-langs)
 (require 'my-init-langtools)

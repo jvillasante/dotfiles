@@ -19,21 +19,7 @@
     ;; variants thereof), since it requires no additional setup.
     (setq locate-command "mdfind"
         ;; Visit files opened outside of Emacs in existing frame, not a new one
-        ns-pop-up-frames nil)
-
-    (general-define-key
-        "C-s-f" #'toggle-frame-fullscreen
-        "s-w" #'my/macos-cmd-w
-        "s-t" #'tab-bar-new-tab
-        "s-1" #'my/tab-bar-go-to-tab-1
-        "s-2" #'my/tab-bar-go-to-tab-2
-        "s-3" #'my/tab-bar-go-to-tab-3
-        "s-4" #'my/tab-bar-go-to-tab-4
-        "s-5" #'my/tab-bar-go-to-tab-5
-        "s-6" #'my/tab-bar-go-to-tab-6
-        "s-7" #'my/tab-bar-go-to-tab-7
-        "s-8" #'my/tab-bar-go-to-tab-8
-        "s-9" #'my/tab-bar-go-to-tab-9))
+        ns-pop-up-frames nil))
 
 (when IS-LINUX
     (setq browse-url-browser-function 'browse-url-generic)

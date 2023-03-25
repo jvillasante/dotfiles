@@ -1,26 +1,12 @@
 ;;; my-init-apps.el -*- lexical-binding: t; -*-
 
 (straight-use-package '(eww :type built-in))
-(straight-use-package '(xwidget :type built-in))
 (straight-use-package 'elfeed)
 (straight-use-package 'pdf-tools)
 
 (use-package eww
     :init
     (setq eww-search-prefix "https://search.brave.com/search?q="))
-
-(use-package xwidget
-    :init
-    (setq my/xwidget-side-window-display
-        `("\\*xwidget"
-             (display-buffer-in-side-window display-buffer-reuse-window)
-             (window-width . 0.33)
-             (window-height . 0.5)
-             (side . ,(alist-get 'xwidget-plot my/side-window-sides))
-             (slot . ,(alist-get 'xwidget-plot my/side-window-slots))))
-
-    :config
-    (add-hook 'xwidget-webkit-mode-hook (lambda () (display-line-numbers-mode 0))))
 
 (use-package elfeed
     :init

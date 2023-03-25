@@ -1,6 +1,8 @@
 ;;; my-init-langs.el -*- lexical-binding: t; -*-
 
+(straight-use-package '(elisp-mode :type built-in))
 (straight-use-package '(c++-mode :type built-in))
+(straight-use-package '(elispfl :host github :repo "cireu/elispfl"))
 (straight-use-package 'adoc-mode)
 (straight-use-package 'csv-mode)
 (straight-use-package 'yaml-mode)
@@ -11,6 +13,15 @@
 (straight-use-package 'sql-indent)
 (straight-use-package 'rustic)
 (straight-use-package 'js2-mode)
+
+;; elisp
+(use-package elisp-mode
+    :init
+    (add-hook 'emacs-lisp-mode-hook #'my/elisp-setup)
+    :config
+    (elispfl-mode)
+    (setq lisp-body-indent 4
+        lisp-indent-function #'my/lisp-indent-function))
 
 ;; c/c++ mode
 (use-package c++-mode
@@ -71,11 +82,8 @@
     (setq markdown-fontify-code-blocks-natively t
         markdown-fontify-whole-heading-line t
         markdown-enable-math t)
-
-    :config
-    (general-define-key
-        :keymaps 'markdown-mode-map
-        "TAB" #'markdown-cycle))
+    :bind ((:map markdown-mode-map
+               ("TAB" . 'markdown-cycle))))
 
 (use-package go-mode
     :config

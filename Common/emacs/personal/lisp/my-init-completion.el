@@ -197,14 +197,10 @@
     )
 
 (use-package consult-dir
-    :init
-    (general-define-key
-        [remap list-directory] #'consult-dir)
-    (general-define-key
-        :keymaps 'vertico-map
-        "C-c C-d " #'consult-dir
-        "C-c C-j" #'consult-dir-jump-file)
-
+    :bind (([remap list-directory] . consult-dir)
+              :map vertico-map
+              ("C-c C-d" . 'consult-dir)
+              ("C-c C-j" . 'consult-dir-jump-file))
     :config
     ;; TODO: doomemacs configures docker paths for consult dir
     ;; when docker-tramp is configured, will take a reference from it.

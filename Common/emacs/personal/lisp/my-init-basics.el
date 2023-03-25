@@ -1,5 +1,8 @@
 ;;; my-init-basics.el -*- lexical-binding: t; -*-
 
+(straight-use-package '(use-package :type built-in))
+(straight-use-package 'helpful)
+
 (setq mac-right-option-modifier 'meta)
 (setq mac-option-modifier 'meta)
 (setq warning-minimum-level :error)
@@ -143,6 +146,10 @@
 (setq make-backup-files nil) ; Do not use backup files (filename~)
 (setq create-lockfiles nil) ; Do not use lock files (.#filename)
 (setq line-spacing 0.1) ;; line spacing
+
+(use-package helpful
+    :init
+    (setq helpful-switch-buffer-function #'my/helpful-display-buffer))
 
 (provide 'my-init-basics)
 ;;; my-init-basics ends here

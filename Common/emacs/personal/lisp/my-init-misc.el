@@ -164,11 +164,6 @@
              (window-height . 0.4)
              (window-width .0.5)
              (slot . ,(alist-get 'vterm my/side-window-slots))))
-
-    (general-define-key
-        :keymaps 'vterm-mode-map
-        "C-c <escape>" #'vterm-send-escape)
-
     (add-hook 'vterm-mode-hook
         (lambda ()
             (setq-local mode-line-format nil)
@@ -231,13 +226,12 @@
 ;; better shell commands
 (use-package dwim-shell-command
     :demand t
-    :bind
-    (([remap shell-command] . dwim-shell-command)
-        ([remap async-shell-command] . dwim-shell-command)
-        :map dired-mode-map
-        ([remap dired-do-async-shell-command] . dwim-shell-command)
-        ([remap dired-do-shell-command] . dwim-shell-command)
-        ([remap dired-smart-shell-command] . dwim-shell-command))
+    :bind (([remap shell-command] . dwim-shell-command)
+              ([remap async-shell-command] . dwim-shell-command)
+              :map dired-mode-map
+              ([remap dired-do-async-shell-command] . dwim-shell-command)
+              ([remap dired-do-shell-command] . dwim-shell-command)
+              ([remap dired-smart-shell-command] . dwim-shell-command))
     :init
     (require 'dwim-shell-commands)
     :config

@@ -86,26 +86,7 @@
                    "--completion-style=detailed"
                    "--pch-storage=memory"
                    "--header-insertion=never"
-                   "--header-insertion-decorators=0")))
-
-    (general-create-definer my/lsp-map
-        :prefix "C-c c"
-        :prefix-map 'my/lsp-map)
-
-    (my/lsp-map
-        :keymaps 'eglot-mode-map
-        "" '(:ignore t :which-key "lsp")
-        "f" #'eglot-format
-        "s" #'consult-eglot-symbols
-        "a" #'eglot-code-actions
-        "e" #'consult-flymake
-        "n" #'eglot-rename
-        "t" #'eglot-find-typeDefinition
-        "i" #'eglot-find-implementation
-        "[" #'xref-go-back
-        "]" #'xref-go-forward
-        "d" #'xref-find-definitions
-        "D" #'xref-find-references))
+                   "--header-insertion-decorators=0"))))
 
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
