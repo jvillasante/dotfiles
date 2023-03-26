@@ -230,6 +230,7 @@
 ;; C-c n : Notes
 (global-set-key (kbd "C-c n d") 'deft-find-file)
 (global-set-key (kbd "C-c n D") 'deft)
+(global-set-key (kbd "C-c n a") 'org-agenda)
 
 ;; C-c o : Open
 (global-set-key (kbd "C-c o c") 'calc)

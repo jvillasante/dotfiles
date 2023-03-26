@@ -10,6 +10,8 @@
 (use-package org
     :init
     ;; Some defaults
+    (setq org-directory (expand-file-name "Apps/org" my/dropbox-path))
+    (setq org-id-locations-file (file-name-concat org-directory ".orgids"))
     (setq org-pretty-entities t)
     (setq org-fontify-whole-heading-line t)
     (setq org-fontify-done-headline t)
