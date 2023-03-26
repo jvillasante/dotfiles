@@ -13,6 +13,11 @@
 (setq gc-cons-percentage 0.6)
 (setq gc-cons-threshold most-positive-fixnum)
 
+;; use custom.el
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+    (load custom-file 'noerror))
+
 ;; bootstrap straight.el, copied from
 ;; URL: `https://github.com/radian-software/straight.el#getting-started'
 (defvar straight-process-buffer)
@@ -70,11 +75,6 @@
         (setq gc-cons-threshold  67108864) ; 64M
         (setq gc-cons-percentage 0.1) ; original value
         (garbage-collect)))
-
-;; use custom.el
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-    (load custom-file 'noerror))
 
 (provide 'init)
 ;;; init.el ends here
