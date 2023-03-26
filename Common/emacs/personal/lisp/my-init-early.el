@@ -3,7 +3,6 @@
 (setq mac-right-option-modifier 'meta)
 (setq mac-option-modifier 'meta)
 (setq warning-minimum-level :error)
-(setq initial-major-mode 'fundamental-mode)
 
 ;; try to disable the auto backup behavior
 ;; (setq make-backup-files nil

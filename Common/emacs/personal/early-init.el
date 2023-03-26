@@ -9,7 +9,7 @@
 
 ;;; Code:
 
-;; straight does not like this
+;; straight needs this
 (setq package-enable-at-startup nil)
 
 ;; prefer loading newest compiled .el file
