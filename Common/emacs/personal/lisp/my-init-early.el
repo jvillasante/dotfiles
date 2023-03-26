@@ -1,4 +1,4 @@
-;;; my-init-basics.el -*- lexical-binding: t; -*-
+;;; my-init-early.el -*- lexical-binding: t; -*-
 
 (setq mac-right-option-modifier 'meta)
 (setq mac-option-modifier 'meta)
@@ -175,5 +175,5 @@
 
 (add-hook 'tty-setup-hook #'my/tty-setup)
 
-(provide 'my-init-basics)
+(provide 'my-init-early)
 ;;; my-init-basics ends here
