@@ -171,7 +171,7 @@
         consult--source-bookmark consult--source-file-register
         consult--source-recent-file consult--source-project-recent-file
         ;; :preview-key "M-."
-        :preview-key '(:debounce 0.5 any))
+        :preview-key '(:debounce 0.4 any))
 
     ;; Optionally configure the narrowing key.
     ;; Both < and C-+ work reasonably well.
