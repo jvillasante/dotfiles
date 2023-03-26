@@ -10,6 +10,7 @@
 (straight-use-package '(tramp :type built-in))
 (straight-use-package '(elec-pair :type built-in))
 (straight-use-package '(autorevert :type built-in))
+(straight-use-package 'helpful)
 (straight-use-package 'rainbow-delimiters)
 (straight-use-package 'vterm)
 (straight-use-package 'ibuffer-vc)
@@ -149,6 +150,10 @@
 
 (use-package autorevert
     :init (global-auto-revert-mode +1))
+
+(use-package helpful
+    :init
+    (setq helpful-switch-buffer-function #'my/helpful-display-buffer))
 
 (use-package rainbow-delimiters
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))

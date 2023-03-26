@@ -1,8 +1,5 @@
 ;;; my-init-basics.el -*- lexical-binding: t; -*-
 
-(straight-use-package '(use-package :type built-in))
-(straight-use-package 'helpful)
-
 (setq mac-right-option-modifier 'meta)
 (setq mac-option-modifier 'meta)
 (setq warning-minimum-level :error)
@@ -147,9 +144,36 @@
 (setq create-lockfiles nil) ; Do not use lock files (.#filename)
 (setq line-spacing 0.1) ;; line spacing
 
-(use-package helpful
-    :init
-    (setq helpful-switch-buffer-function #'my/helpful-display-buffer))
+(when IS-MAC
+    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+    (setq browse-url-browser-function 'browse-url-generic)
+    (setq browse-url-generic-program "open")
+    (setq my/clang-path "/usr/local/opt/llvm/bin/clang")
+    (setq my/mu-path "/usr/local/bin/mu")
+    (setq my/msmtp-path "/usr/local/bin/msmtp")
+    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
+    (setq ns-use-proxy-icon nil)
+    (setq ns-use-thin-smoothing t)
+    (setq ns-alternate-modifier nil)
+    (setq mac-command-modifier 'meta)
+    (setq mac-option-modifier 'alt)
+    (setq mac-right-option-modifier 'alt)
+
+    ;; Use spotlight search backend as a default for M-x locate (and helm/ivy
+    ;; variants thereof), since it requires no additional setup.
+    (setq locate-command "mdfind"
+        ;; Visit files opened outside of Emacs in existing frame, not a new one
+        ns-pop-up-frames nil))
+
+(when IS-LINUX
+    (setq browse-url-browser-function 'browse-url-generic)
+    (setq browse-url-generic-program "xdg-open")
+    (setq my/clang-path "/usr/bin/clang")
+    (setq my/mu-path "/usr/bin/mu")
+    (setq my/msmtp-path "/usr/bin/msmtp")
+    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))
+
+(add-hook 'tty-setup-hook #'my/tty-setup)
 
 (provide 'my-init-basics)
 ;;; my-init-basics ends here
