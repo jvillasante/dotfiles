@@ -1,9 +1,5 @@
 ;;; my-init-vcs.el -*- lexical-binding: t; -*-
 
-(straight-use-package 'magit)
-(straight-use-package 'git-gutter)
-(straight-use-package 'hl-todo)
-
 ;; always follow symlinks
 (setq vc-follow-symlinks t)
 

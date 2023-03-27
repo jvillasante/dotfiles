@@ -1,13 +1,7 @@
 ;;; my-init-org.el -*- lexical-binding: t; -*-
 
-(straight-use-package '(org :type built-in))
-(straight-use-package '(org-capture :type built-in))
-(straight-use-package '(org-agenda :type built-in))
-(straight-use-package 'org-appear)
-(straight-use-package 'org-superstar)
-(straight-use-package 'deft)
-
 (use-package org
+    :ensure nil ;; emacs built-in
     :init
     ;; Some defaults
     (setq org-directory (expand-file-name "Apps/org" my/dropbox-path))
@@ -36,15 +30,8 @@
                                      `(lambda (c)
                                           (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c)))))))
 
-(use-package org-superstar
-    :init
-    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
-    :config
-    (setq! org-superstar-remove-leading-stars nil)
-    (setq! org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
-    (setq! org-superstar-special-todo-items t))
-
 (use-package org-capture
+    :ensure nil ;; emacs built-in
     :init
     ;; when refiling from org-capture, Emacs prompts to kill the
     ;; underlying, modified buffer. This fixes that.
@@ -64,6 +51,7 @@
     (org-capture-put :kill-buffer t)) ;; kill org capture buffer by default
 
 (use-package org-agenda
+    :ensure nil ;; emacs built-in
     :init
     ;; (advice-add #'org-get-agenda-file-buffer :around #'my/exclude-org-agenda-buffers-from-recentf)
     ;; (add-hook 'org-agenda-finalize-hook #'my/reload-org-agenda-buffers)
@@ -96,6 +84,14 @@
              (todo   . " ")
              (tags   . " %i %-12:c")
              (search . " %i %-12:c"))))
+
+(use-package org-superstar
+    :init
+    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+    :config
+    (setq! org-superstar-remove-leading-stars nil)
+    (setq! org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
+    (setq! org-superstar-special-todo-items t))
 
 ;; deft : plain text notes
 (use-package deft

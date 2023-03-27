@@ -1,22 +1,7 @@
 ;;; my-init-completion.el -*- lexical-binding: t; -*-
 
-(straight-use-package '(emacs :type built-in))
-(straight-use-package '(vertico :host github :repo "minad/vertico" :files (:defaults "extensions/*")))
-(straight-use-package 'orderless)
-(straight-use-package 'consult)
-(straight-use-package 'compat)
-(straight-use-package 'consult-dir)
-(straight-use-package 'embark)
-(straight-use-package 'embark-consult)
-(straight-use-package 'marginalia)
-(straight-use-package 'cape)
-(straight-use-package 'corfu)
-(straight-use-package 'corfu-terminal)
-(straight-use-package 'yasnippet)
-(straight-use-package 'yasnippet-snippets)
-(straight-use-package 'all-the-icons-completion)
-
 (use-package emacs
+    :ensure nil ;; emacs built-in
     :preface
     ;; Add prompt indicator to `completing-read-multiple'.
     ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
@@ -69,6 +54,7 @@
     (setq completion-styles '(orderless basic)
         completion-category-overrides '((file (styles basic partial-completion)))))
 
+(use-package all-the-icons-completion)
 (use-package marginalia
     :init
     (add-hook 'pre-command-hook 'marginalia-mode)
@@ -225,7 +211,6 @@
     :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package corfu
-    :demand t
     :preface
     (defun corfu-send-shell (&rest _)
         "Send completion candidate when inside comint/eshell."
@@ -312,7 +297,7 @@
     (setq yas-verbosity 1)
     (yas-global-mode +1)
     :config
-    (use-package yasnippet-snippets :demand t)
+    (use-package yasnippet-snippets)
     (yas-reload-all)
     (push (expand-file-name "snippets/" user-emacs-directory) yas-snippet-dirs))
 

@@ -1,27 +1,10 @@
 ;;; my-init-langs.el -*- lexical-binding: t; -*-
 
-(straight-use-package '(elisp-mode :type built-in))
-(straight-use-package '(c++-mode :type built-in))
-(straight-use-package '(elispfl :host github :repo "cireu/elispfl"))
-(straight-use-package 'elisp-demos)
-(straight-use-package 'highlight-quoted)
-(straight-use-package 'macrostep)
-(straight-use-package 'adoc-mode)
-(straight-use-package 'csv-mode)
-(straight-use-package 'yaml-mode)
-(straight-use-package 'web-mode)
-(straight-use-package 'json-mode)
-(straight-use-package 'markdown-mode)
-(straight-use-package 'go-mode)
-(straight-use-package 'sql-indent)
-(straight-use-package 'rustic)
-(straight-use-package 'js2-mode)
-
 ;; elisp
 (use-package elisp-mode
+    :ensure nil ;; emacs built-in
     :init (add-hook 'emacs-lisp-mode-hook #'my/elisp-setup)
     :config
-    (elispfl-mode)
     (setq lisp-body-indent 4
         lisp-indent-function #'my/lisp-indent-function))
 
@@ -32,6 +15,7 @@
 
 ;; c/c++ mode
 (use-package c++-mode
+    :ensure nil ;; emacs built-in
     :init
     (setq-default c-default-style "stroustrup")
     (setq-default c-basic-offset 4)

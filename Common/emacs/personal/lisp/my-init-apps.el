@@ -1,18 +1,14 @@
 ;;; my-init-apps.el -*- lexical-binding: t; -*-
 
-(straight-use-package '(eww :type built-in))
-(straight-use-package 'elfeed)
-(straight-use-package 'pdf-tools)
-
 (use-package eww
+    :ensure nil ;; emacs built-in
     :init
     (setq eww-search-prefix "https://search.brave.com/search?q="))
 
 (use-package elfeed
     :init
-    (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
-        elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
-
+    (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory))
+    (setq elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
     :config
     (setq elfeed-search-title-min-width 60)
     (setq elfeed-search-title-max-width 100)
@@ -138,7 +134,6 @@
         pdf-view-use-scaling t
         pdf-view-use-imagemagick nil
         pdf-view-continuous nil)
-
     :config
     (add-to-list 'display-buffer-alist
         `("\\*[oO]utline.*pdf\\*"

@@ -1,5 +1,6 @@
 ;;; my-init-early.el -*- lexical-binding: t; -*-
 
+;; ???
 (setq mac-right-option-modifier 'meta)
 (setq mac-option-modifier 'meta)
 (setq warning-minimum-level :error)
@@ -125,7 +126,6 @@
 (show-paren-mode +1) ; Highlight the matching parenthesis
 (global-so-long-mode +1) ; long files
 (setq kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
-(setq auto-save-default nil) ; Don't autosave files with default Emacs package (we'll use `super-save' pacakge isntead)
 (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
 (setq use-short-answers t) ; Abreviate Yes/No to y or n
 (setq require-final-newline t) ;; Newline at end of file

@@ -121,8 +121,7 @@ Intended to replace `lisp-outline-level'."
 (defun my/elisp-setup ()
     (setq-local outline-regexp "[ \t]*;;;\\(;*\\**\\) [^ \t\n]"
         outline-level #'my/emacs-lisp-outline-level)
-    (outline-minor-mode +1)
-    (highlight-quoted-mode +1))
+    (outline-minor-mode +1))
 
 ;; DEPRECATED Remove when 28 support is dropped.
 (unless (fboundp 'lisp--local-defform-body-p)

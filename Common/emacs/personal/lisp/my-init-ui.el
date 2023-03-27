@@ -1,14 +1,5 @@
 ;; my-init-ui.el -*- lexical-binding: t; -*-
 
-(straight-use-package '(display-line-numbers :type built-in))
-(straight-use-package '(whitespace :type built-in))
-(straight-use-package '(tab-bar :type built-in))
-(straight-use-package 'modus-themes)
-(straight-use-package 'all-the-icons)
-(straight-use-package 'minions)
-(straight-use-package 'which-key)
-(straight-use-package 'anzu)
-
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
@@ -102,6 +93,7 @@ if they are side window.")
 
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
+    :ensure nil ;; emacs built-in
     :init
     (setq display-line-numbers-type t)
     (global-display-line-numbers-mode)
@@ -116,6 +108,7 @@ if they are side window.")
 
 ;; whitespace : visualize blanks (tabs, spaces, newline, etc)
 (use-package whitespace
+    :ensure nil ;; emacs built-in
     :init
     (add-hook 'before-save-hook #'whitespace-cleanup)
     (global-whitespace-mode)
@@ -126,6 +119,7 @@ if they are side window.")
              (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 
 (use-package tab-bar
+    :ensure nil ;; emacs built-in
     :init
     (setq tab-bar-show 1
         tab-bar-close-button-show nil
@@ -138,7 +132,6 @@ if they are side window.")
     (advice-add #'tab-bar-new-tab :around #'my/set-scratch-directory))
 
 (use-package modus-themes
-    :demand t
     :config
     (setq modus-themes-italic-constructs t)
     (setq modus-themes-bold-constructs t)
@@ -173,17 +166,10 @@ if they are side window.")
     (my/switch-theme 'modus-operandi))
 
 (use-package all-the-icons
-    :if (display-graphic-p)
-    :commands (all-the-icons-octicon
-                  all-the-icons-faicon
-                  all-the-icons-fileicon
-                  all-the-icons-wicon
-                  all-the-icons-material
-                  all-the-icons-alltheicon))
+    :if (display-graphic-p))
 
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
-    :demand t
     :config
     (progn
         (with-eval-after-load 'minions
@@ -200,7 +186,6 @@ if they are side window.")
 
 ;; anzu : displays current match and total matches information in the mode-line in various search modes
 (use-package anzu
-    :demand t
     :config
     (global-anzu-mode +1))
 

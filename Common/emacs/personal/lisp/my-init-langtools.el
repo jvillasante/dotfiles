@@ -1,15 +1,8 @@
 ;;; my-init-langtools.el -*- lexical-binding: t; -*-
 
-(straight-use-package '(hideshow :type built-in))
-(straight-use-package '(flymake :type built-in))
-(straight-use-package '(eldoc :type built-in))
-(straight-use-package '(eglot :type built-in))
-(straight-use-package 'consult-eglot)
-(straight-use-package 'apheleia)
-(straight-use-package 'fancy-compilation)
-
 ;; hideshow
 (use-package hideshow
+    :ensure nil ;; emacs built-in
     :preface
     (defun my/toggle-fold ()
         (interactive)
@@ -21,7 +14,7 @@
 
 ;; flymake
 (use-package flymake
-    :demand t
+    :ensure nil ;; emacs built-in
     :config
     (custom-set-faces ;; Underline warnings and errors from Flymake
         '(flymake-errline ((((class color)) (:underline "red"))))
@@ -32,6 +25,7 @@
         '(help-at-pt-display-when-idle '(flymake-overlay))))
 
 (use-package eldoc
+    :ensure nil ;; emacs built-in
     :init
     (setq eldoc-echo-area-use-multiline-p nil)
     (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
@@ -44,6 +38,7 @@
              (slot . ,(alist-get 'eldoc my/side-window-slots)))))
 
 (use-package eglot
+    :ensure nil ;; emacs built-in
     :preface
     (defun my/eglot-eldoc ()
         (setq eldoc-documentation-strategy
@@ -92,6 +87,12 @@
 (use-package apheleia
     :init
     (apheleia-global-mode +1))
+
+(use-package compile
+    :ensure nil ; Emacs built in
+    :custom
+    (compilation-always-kill t) ; Do not ask for confirmation when I stop current compilation
+    (compilation-message-face 'all-the-icons-green))
 
 (use-package fancy-compilation
     :commands (fancy-compilation-mode)

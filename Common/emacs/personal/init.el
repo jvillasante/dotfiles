@@ -13,38 +13,25 @@
 (setq gc-cons-percentage 0.6)
 (setq gc-cons-threshold most-positive-fixnum)
 
+;; bootstrap package.el
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
+(package-initialize)
+(unless package-archive-contents (package-refresh-contents))
+(unless (package-installed-p 'use-package) (package-install 'use-package))
+(require 'use-package)
+(setq use-package-verbose t
+      use-package-always-ensure t
+      use-package-expand-minimally t)
+
+;; no-littering needs to come first
+(use-package no-littering)
+
 ;; use custom.el
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
     (load custom-file 'noerror))
-
-;; bootstrap straight.el, copied from
-;; URL: `https://github.com/radian-software/straight.el#getting-started'
-(defvar straight-process-buffer)
-(setq-default straight-process-buffer " *straight-process*")
-
-(defvar straight-build-dir)
-(setq straight-build-dir (format "build-%s" emacs-version))
-
-(defvar straight-repository-branch)
-(setq straight-repository-branch "develop")
-
-(defvar bootstrap-version)
-(let ((bootstrap-file
-          (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-         (bootstrap-version 6))
-    (unless (file-exists-p bootstrap-file)
-        (with-current-buffer
-            (url-retrieve-synchronously
-                "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-                'silent 'inhibit-cookies)
-            (goto-char (point-max))
-            (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-
-;; no-littering needs to come first
-(straight-use-package 'no-littering)
-(use-package no-littering :demand t)
 
 ;; files and paths constants
 (defconst my/home-path (expand-file-name "~/"))
@@ -66,6 +53,7 @@
 (require 'my-init-bindings)
 (require 'my-hydras)
 
+;; after started, stop debug on error
 (setq debug-on-error nil)
 
 ;; after started up, reset GC threshold to normal.

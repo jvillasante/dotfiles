@@ -1,41 +1,7 @@
 ;;; my-init-misc.el -*- lexical-binding: t; -*-
 
-;; misc
-(straight-use-package '(isearch :type built-in))
-(straight-use-package '(saveplace :type built-in))
-(straight-use-package '(savehist :type built-in))
-(straight-use-package '(recentf :type built-in))
-(straight-use-package '(project :type built-in))
-(straight-use-package '(eshell :type built-in))
-(straight-use-package '(tramp :type built-in))
-(straight-use-package '(elec-pair :type built-in))
-(straight-use-package '(autorevert :type built-in))
-(straight-use-package 'helpful)
-(straight-use-package 'rainbow-delimiters)
-(straight-use-package 'vterm)
-(straight-use-package 'ibuffer-vc)
-(straight-use-package 'crux)
-(straight-use-package 'persistent-scratch)
-(straight-use-package 'editorconfig)
-(straight-use-package 'exec-path-from-shell)
-(straight-use-package 'avy)
-(straight-use-package 'super-save)
-(straight-use-package 'undo-tree)
-(straight-use-package 'hydra)
-(straight-use-package 'expand-region)
-(straight-use-package 'whole-line-or-region)
-(straight-use-package 'dwim-shell-command)
-(straight-use-package 'multiple-cursors)
-
-;; dired
-(straight-use-package '(dired :type built-in))
-(straight-use-package 'dired-rsync)
-(straight-use-package 'dired-git-info)
-(straight-use-package 'diredfl)
-(straight-use-package 'all-the-icons-dired)
-(straight-use-package 'dired-sidebar)
-
 (use-package isearch
+    :ensure nil ;; emacs built-in
     :init
     (setq isearch-resume-in-command-history t) ; use history for isearch as well
     (setq search-whitespace-regexp ".*?") ; isearch convenience, space matches anything (non-greedy)
@@ -51,6 +17,7 @@
 
 ;; saveplace : remembers your location in a file when saving files
 (use-package saveplace
+    :ensure nil ;; emacs built-in
     :init
     (save-place-mode +1)
     :config
@@ -58,6 +25,7 @@
 
 ;; savehist : save minibuffer history
 (use-package savehist
+    :ensure nil ;; emacs built-in
     :init
     (savehist-mode +1)
     :config
@@ -69,6 +37,7 @@
 
 ;; recentf : recent files
 (use-package recentf
+    :ensure nil ;; emacs built-in
     :init
     (add-hook 'pre-command-hook 'recentf-mode)
     :config
@@ -104,6 +73,7 @@
 
 ;; eshell : the emacs shell
 (use-package eshell
+    :ensure nil ;; emacs built-in
     :init
     (add-hook 'eshell-mode-hook (lambda()
                                     (let ((ls (if (file-exists-p "/usr/local/bin/gls")
@@ -126,6 +96,7 @@
 
 ;; tramp : Transparent Remote Access, Multiple Protocols
 (use-package tramp
+    :ensure nil ;; emacs built-in
     :init
     (setq tramp-verbose 2)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
@@ -140,6 +111,7 @@
             ".*:\0? *")))
 
 (use-package elec-pair
+    :ensure nil ;; emacs built-in
     :init
     (add-hook 'after-init-hook 'electric-pair-mode)
 
@@ -149,6 +121,7 @@
     (setq electric-pair-inhibit-predicate #'electric-pair-conservative-inhibit))
 
 (use-package autorevert
+    :ensure nil ;; emacs built-in
     :init (global-auto-revert-mode +1))
 
 (use-package helpful
@@ -179,11 +152,10 @@
     :init (add-hook 'ibuffer-hook #'my/ibuffer-vc-setup))
 
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
-(use-package crux :demand t)
+(use-package crux)
 
 ;; persistent-scratch : preserve scratch buffer across sessions
 (use-package persistent-scratch
-    :demand t
     :config
     (setq persistent-scratch-save-file (expand-file-name "persistent-scratch" no-littering-var-directory))
     (persistent-scratch-setup-default)
@@ -191,7 +163,7 @@
 
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
-    :init (editorconfig-mode 1))
+    :config (editorconfig-mode 1))
 
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
@@ -205,10 +177,6 @@
     (setq avy-all-windows t)
     (setq avy-background t))
 
-;; super-save : auto-saves your buffers, when certain events happen
-(use-package super-save
-    :init (super-save-mode +1))
-
 ;; undo-tree : treat undo history as a tree
 (use-package undo-tree
     :init (global-undo-tree-mode +1)
@@ -219,10 +187,10 @@
     (setq undo-tree-auto-save-history nil))
 
 ;; hydra : Keybindings combinations
-(use-package hydra :demand t)
+(use-package hydra)
 
 ;; Expand Region : expand or contract selection
-(use-package expand-region :demand t)
+(use-package expand-region)
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
@@ -230,7 +198,6 @@
 
 ;; better shell commands
 (use-package dwim-shell-command
-    :demand t
     :bind (([remap shell-command] . dwim-shell-command)
               ([remap async-shell-command] . dwim-shell-command)
               :map dired-mode-map
@@ -249,7 +216,6 @@
             :utils "ffmpeg")))
 
 (use-package multiple-cursors
-    :demand t
     :bind (("H-SPC" . set-rectangular-region-anchor)
               ("C-M-SPC" . set-rectangular-region-anchor)
               ("C->" . mc/mark-next-like-this)
@@ -259,6 +225,7 @@
 
 ;; Dired : built-in navigation of folders
 (use-package dired
+    :ensure nil ;; emacs built-in
     :init
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
     (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
