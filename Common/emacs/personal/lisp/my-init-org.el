@@ -40,7 +40,7 @@
     :init
     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
     :config
-    (setq! org-superstar-remove-leading-stars t)
+    (setq! org-superstar-remove-leading-stars nil)
     (setq! org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
     (setq! org-superstar-special-todo-items t))
 
