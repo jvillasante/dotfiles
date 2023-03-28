@@ -277,8 +277,12 @@
     (add-hook 'dired-sidebar-mode-hook
         (lambda ()
             (my:font-set-small-mono-font)
-            (display-line-numbers-mode 0)))
+            (display-line-numbers-mode 0)
+            (unless (file-remote-p default-directory)
+                (auto-revert-mode))))
     :config
+    (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+    (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
     (setq dired-sidebar-display-alist
         `((window-width . 0.25)
              (side . ,(alist-get 'dired-sidebar my/side-window-sides))
@@ -286,7 +290,7 @@
         dired-sidebar-use-term-integration t
         dired-sidebar-resize-on-open nil
         dired-sidebar-window-fixed nil
-        dired-sidebar-theme 'ascii
+        dired-sidebar-theme 'all-the-icons
         dired-sidebar-use-custom-modeline nil))
 
 (provide 'my-init-misc)

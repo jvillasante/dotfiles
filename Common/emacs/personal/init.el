@@ -28,11 +28,6 @@
 ;; no-littering needs to come first
 (use-package no-littering)
 
-;; use custom.el
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-    (load custom-file 'noerror))
-
 ;; files and paths constants
 (defconst my/home-path (expand-file-name "~/"))
 (defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
@@ -63,6 +58,11 @@
         (setq gc-cons-threshold  67108864) ; 64M
         (setq gc-cons-percentage 0.1) ; original value
         (garbage-collect)))
+
+;; use custom.el
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+    (load custom-file 'noerror))
 
 (provide 'init)
 ;;; init.el ends here

@@ -86,12 +86,16 @@
  '(help-at-pt-display-when-idle '(flymake-overlay) nil (help-at-pt))
  '(help-at-pt-timer-delay 0.5)
  '(package-selected-packages
-      '(dired-sidebar all-the-icons-dired diredfl multiple-cursors dwim-shell-command whole-line-or-region expand-region hydra undo-tree avy exec-path-from-shell editorconfig persistent-scratch crux ibuffer-vc vterm rainbow-delimiters helpful pdf-tools elfeed fancy-compilation apheleia js2-mode rustic go-mode markdown-mode web-mode yaml-mode csv-mode adoc-mode elisp-demos deft org-superstar hl-todo git-gutter magit yasnippet-snippets yasnippet cape corfu-terminal corfu embark-consult embark consult-dir consult marginalia all-the-icons-completion orderless vertico anzu which-key minions all-the-icons modus-themes no-littering)))
+      '(no-littering modus-themes minions which-key anzu vertico orderless all-the-icons-completion marginalia consult-dir embark-consult corfu-terminal cape yasnippet-snippets magit git-gutter hl-todo org-superstar deft elisp-demos adoc-mode csv-mode yaml-mode web-mode go-mode rustic js2-mode apheleia fancy-compilation elfeed pdf-tools helpful rainbow-delimiters vterm ibuffer-vc crux persistent-scratch editorconfig exec-path-from-shell avy undo-tree hydra expand-region whole-line-or-region dwim-shell-command multiple-cursors diredfl all-the-icons-dired dired-sidebar)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:font "Iosevka 16"))))
  '(fancy-compilation-default-face ((t (:inherit nil :background unspecified))))
+ '(fixed-pitch ((t (:inherit (default)))))
+ '(fixed-pitch-serif ((t (:inherit (default)))))
  '(flymake-error ((((class color)) (:underline "red"))))
- '(flymake-warning ((((class color)) (:underline "yellow")))))
+ '(flymake-warning ((((class color)) (:underline "yellow"))))
+ '(variable-pitch ((t (:font "Iosevka Aile")))))

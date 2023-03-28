@@ -149,9 +149,7 @@
 ;; dired
 (with-eval-after-load 'dired
     (define-key dired-mode-map (kbd "C-u RET") 'crux-open-with)
-    (define-key dired-mode-map (kbd "C-u return") 'crux-open-with)
-    (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
-    (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file ".."))))  ; was dired-up-directory
+    (define-key dired-mode-map (kbd "C-u return") 'crux-open-with))
 
 ;; isearch
 (with-eval-after-load 'isearch
