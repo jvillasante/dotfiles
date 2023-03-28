@@ -223,10 +223,10 @@
 (with-eval-after-load 'eglot
     (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
-    (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports)b)
+    (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
 (with-eval-after-load 'flymake
-    (define-key eglot-mode-map (kbd "C-c c e") 'flymake-show-buffer-diagnostics)
-    (define-key eglot-mode-map (kbd "C-c c E") 'flymake-show-project-diagnostics))
+    (define-key flymake-mode-map (kbd "C-c c e") 'flymake-show-buffer-diagnostics)
+    (define-key flymake-mode-map (kbd "C-c c E") 'flymake-show-project-diagnostics))
 
 ;; C-c n : Notes
 (global-set-key (kbd "C-c n d") 'deft-find-file)
