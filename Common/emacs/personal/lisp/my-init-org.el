@@ -26,6 +26,7 @@
 
     ;; disable auto-pairing of "<" in org-mode
     (add-hook 'org-mode-hook (lambda ()
+                                 (display-line-numbers-mode 0)
                                  (setq-local electric-pair-inhibit-predicate
                                      `(lambda (c)
                                           (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c)))))))
