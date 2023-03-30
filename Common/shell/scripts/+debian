@@ -285,7 +285,7 @@ debian_install() {
                 sudo apt install -y bat cmake curl dconf-editor dnsutils dos2unix doxygen fd-find font-manager
                 sudo apt install -y btop htop isync libpcap-dev make mercurial msmtp neofetch
                 sudo apt install -y vim neovim nodejs npm pandoc pass poppler-utils poppler-data ripgrep
-                sudo apt install -y scdaemon subversion telnet texlive-full tldr tree w3m wget
+                sudo apt install -y scdaemon subversion telnet tldr tree w3m wget
                 sudo apt install -y wordnet imagemagick exa ninja-build
                 sudo apt install -y python3 python3-pip pandoc poppler-utils poppler-data libtool
                 sudo apt install -y shfmt editorconfig glslang-tools glslang-dev shellcheck xdotool parallel
@@ -337,7 +337,7 @@ debian_install() {
                 sudo apt install -y neovim
 
                 # latex
-                # sudo apt install -y texlive-base texinfo
+                sudo apt install -y texlive-base texinfo
 
                 # non apt software
                 # pip install cmake-language-server
@@ -377,7 +377,7 @@ debian_install() {
                 #
                 # Latex
                 #
-                # sudo dnf install -y texlive-scheme-full
+                # sudo dnf install -y texlive-full
 
                 # Fonts
                 sudo apt install -y fonts-ibm-plex
