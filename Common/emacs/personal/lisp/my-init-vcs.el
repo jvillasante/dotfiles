@@ -13,7 +13,8 @@
         ;; they're doing.
         magit-save-repository-buffers nil
         magit-define-global-key-bindings nil)
-
+    :hook
+    ((git-commit-mode . (lambda () (setq-local fill-column 72))))
     :config
     (add-to-list 'display-buffer-alist
         '("magit:" ;; the main magit dashboard
