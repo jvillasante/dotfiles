@@ -1,5 +1,38 @@
 ;;; my-init-misc.el -*- lexical-binding: t; -*-
 
+;; encryption
+;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
+(progn
+    (setq auth-source-save-behavior nil)
+
+    ;; setup epa
+    (require 'epa-file)
+    (epa-file-enable)
+    (setq epa-file-encrypt-to user-mail-address
+        epa-file-select-keys 'silent
+        epa-file-cache-passphrase-for-symmetric-encryption nil)
+
+    ;; setup org-crypt
+    (require 'org-crypt)
+    (org-crypt-use-before-save-magic)
+    (setq org-crypt-disable-auto-save nil
+        org-tags-exclude-from-inheritance (quote ("crypt"))
+        org-crypt-key nil
+        org-crypt-key user-mail-address))
+
+(use-package electric
+    :ensure nil ;; emacs built-in
+    :preface
+    (defun my/electric-indent-local-mode-maybe ()
+        "Enable `electric-indent-local-mode' if appropriate."
+        (unless (or (eq major-mode 'fundamental-mode)
+                    (eq major-mode 'text-mode))
+            (electric-indent-local-mode 1)))
+    :init
+    (setq-default electric-indent-chars '(?\n ?\^?))
+    (electric-indent-mode 0) ;; disable by default
+    (add-hook 'after-change-major-mode-hook #'my/electric-indent-local-mode-maybe))
+
 (use-package isearch
     :ensure nil ;; emacs built-in
     :init
