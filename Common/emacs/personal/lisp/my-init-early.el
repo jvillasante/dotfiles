@@ -73,26 +73,6 @@
 (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill))
 
-;; encryption
-;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
-(progn
-    (setq auth-source-save-behavior nil)
-
-    ;; setup epa
-    (require 'epa-file)
-    (epa-file-enable)
-    (setq epa-file-encrypt-to user-mail-address
-        epa-file-select-keys 'silent
-        epa-file-cache-passphrase-for-symmetric-encryption nil)
-
-    ;; setup org-crypt
-    (require 'org-crypt)
-    (org-crypt-use-before-save-magic)
-    (setq org-crypt-disable-auto-save nil
-        org-tags-exclude-from-inheritance (quote ("crypt"))
-        org-crypt-key nil
-        org-crypt-key user-mail-address))
-
 ;; Some Defaults
 (setq user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
