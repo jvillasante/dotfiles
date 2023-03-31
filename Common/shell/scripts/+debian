@@ -339,6 +339,9 @@ debian_install() {
                 # latex
                 sudo apt install -y texlive-base texinfo
 
+                # emacs printer
+                sudo apt install -y gtklp
+
                 # non apt software
                 # pip install cmake-language-server
                 sudo npm install --global npm@latest
