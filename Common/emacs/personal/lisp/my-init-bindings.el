@@ -13,6 +13,9 @@
 (global-set-key (kbd "C-z") nil) ; suspend frame should go away
 (global-set-key (kbd "C-x C-z") nil) ; same
 
+;; really kill emacs even on `emacsclient'
+(global-set-key (kbd "C-x C-S-c") 'save-buffers-kill-emacs)
+
 ;; Cone the current buffer in a new window with `q' to exit
 (global-set-key (kbd "C-x 9") 'my/clone-buffer-in-new-window-readonly) ; same
 
