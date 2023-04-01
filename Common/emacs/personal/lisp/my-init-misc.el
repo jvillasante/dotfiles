@@ -243,6 +243,9 @@
     (defengine duckduckgo
         "https://duckduckgo.com/?q=%s"
         :keybinding "d")
+    (defengine brave-search
+        "https://search.brave.com/search?q=%s"
+        :keybinding "b")
     (defengine github
         "https://github.com/search?ref=simplesearch&q=%s")
     (defengine google
