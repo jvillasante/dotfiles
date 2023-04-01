@@ -90,6 +90,8 @@
 
 (use-package compile
     :ensure nil ; Emacs built in
+    :init
+    (add-to-list 'compilation-finish-functions 'my/bury-compile-buffer)
     :custom
     (compilation-always-kill t) ; Do not ask for confirmation when I stop current compilation
     (compilation-message-face 'all-the-icons-green))
