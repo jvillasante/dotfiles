@@ -46,7 +46,9 @@ usage() {
     echo "        Run arbitrary borg command"
     echo
     echo " e.g: $0 extract archive_2022-04-28T17:01:12"
-    echo " e.g: $0 borg extract --dry-run --list -v archive_2022-04-28T17:01:12"
+    echo " e.g: $0 borg extract --dry-run --list -v ::archive_2022-04-28T17:01:12"
+    echo " e.g: $0 borg extract --list -v ::archive_2022-04-28T17:01:12 path/to/dir/"
+    echo " e.g: mkdir /tmp/borg/ && $0 borg mount ::archive_2022-04-28T17:01:12 /tmp/borg"
     exit "$1"
 }
 
