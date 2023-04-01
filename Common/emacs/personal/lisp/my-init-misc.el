@@ -311,19 +311,18 @@
     ;; global auto-revert only applies to buffers associated with files on the disk
     (add-hook 'dired-mode-hook 'auto-revert-mode)
 
+    ;; enable some really cool extensions like C-x C-j(dired-jump)
+    (if (< emacs-major-version 28)
+        (add-hook 'dired-load-hook (lambda ()
+                                       (load "dired-x"))))
+
     ;; Make dired use the same buffer for viewing directory
     (if (< emacs-major-version 28)
         (progn
             (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
             (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))) ; was dired-up-directory
         (progn
-            (setq dired-kill-when-opening-new-dired-buffer t)))
-
-    ;; enable some really cool extensions like C-x C-j(dired-jump)
-    (if (< emacs-major-version 28)
-        (progn
-            (require 'dired-x))
-        nil))
+            (setq dired-kill-when-opening-new-dired-buffer t))))
 
 (use-package diredfl
     :init (add-hook 'dired-mode-hook 'diredfl-mode))
