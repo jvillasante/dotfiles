@@ -73,11 +73,6 @@
 (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill))
 
-;; Printer
-(when (executable-find "gtklp")
-    (setq lpr-command "gtklp")
-    (setq ps-lpr-command "gtklp"))
-
 ;; Some Defaults
 (setq user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
