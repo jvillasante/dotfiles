@@ -125,9 +125,9 @@
 (setq make-backup-files nil) ; Do not use backup files (filename~)
 (setq create-lockfiles nil) ; Do not use lock files (.#filename)
 (setq line-spacing 0.1) ;; line spacing
-(setq completion-ignore-case t)                ;; ignore case
-(setq read-file-name-completion-ignore-case t) ;; ignore case when completing filenames
-(setq read-buffer-completion-ignore-case t)    ;; ignore case whem completing buffers
+(setq completion-ignore-case nil)              ;; do NOT ignore case by default
+(setq read-file-name-completion-ignore-case t) ;; ... but, ignore case when completing filenames
+(setq read-buffer-completion-ignore-case t)    ;; ... and, ignore case whem completing buffers
 
 (when IS-MAC
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
