@@ -73,6 +73,9 @@
 (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill))
 
+;; Printer
+(setq printer-name "Brother_HL_L2370DW_series")
+
 ;; Some Defaults
 (setq user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"
