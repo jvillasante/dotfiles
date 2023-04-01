@@ -154,10 +154,6 @@
     (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command))
 
 ;;; Prefix
-;; M-s : search
-(global-set-key (kbd "M-s M-w") 'my/web-search-eww)
-(global-set-key (kbd "M-s M-b") 'my/web-search-browser)
-
 ;; C-c f : find
 (global-set-key (kbd "C-c f f") 'project-find-file)
 (global-set-key (kbd "C-c f F") 'find-file)

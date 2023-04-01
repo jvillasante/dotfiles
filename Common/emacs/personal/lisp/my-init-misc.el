@@ -229,25 +229,6 @@
 (use-package whole-line-or-region
     :init (whole-line-or-region-global-mode))
 
-;; better shell commands
-(use-package dwim-shell-command
-    :bind (([remap shell-command] . dwim-shell-command)
-              ([remap async-shell-command] . dwim-shell-command)
-              :map dired-mode-map
-              ([remap dired-do-async-shell-command] . dwim-shell-command)
-              ([remap dired-do-shell-command] . dwim-shell-command)
-              ([remap dired-smart-shell-command] . dwim-shell-command))
-    :init
-    (require 'dwim-shell-commands)
-    :config
-    (defun my/dwim-shell-command-convert-to-gif ()
-        "Convert all marked videos to optimized gif(s)."
-        (interactive)
-        (dwim-shell-command-on-marked-files
-            "Convert to gif"
-            "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
-            :utils "ffmpeg")))
-
 (use-package multiple-cursors
     :bind (("H-SPC" . set-rectangular-region-anchor)
               ("C-M-SPC" . set-rectangular-region-anchor)
@@ -255,6 +236,47 @@
               ("C-<" . mc/mark-previous-like-this)
               ("C-c C->" . mc/mark-all-like-this)
               ("C-S-c C-S-c" . mc/edit-lines)))
+
+(use-package engine-mode
+    :ensure t
+    :init
+    (defengine duckduckgo
+        "https://duckduckgo.com/?q=%s"
+        :keybinding "d")
+    (defengine github
+        "https://github.com/search?ref=simplesearch&q=%s")
+    (defengine google
+        "https://www.google.com/search?ie=utf-8&oe=utf-8&q=%s"
+        :keybinding "g")
+    (defengine google-images
+        "https://www.google.com/images?hl=en&source=hp&biw=1440&bih=795&gbv=2&aq=f&aqi=&aql=&oq=&q=%s")
+    (defengine google-maps
+        "https://maps.google.com/maps?q=%s"
+        :docstring "Mappin' it up.")
+    (defengine project-gutenberg
+        "https://www.gutenberg.org/ebooks/search/?query=%s")
+    (defengine qwant
+        "https://www.qwant.com/?q=%s")
+    (defengine stack-overflow
+        "https://stackoverflow.com/search?q=%s")
+    (defengine twitter
+        "https://twitter.com/search?q=%s")
+    (defengine wikipedia
+        "https://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
+        :keybinding "w"
+        :docstring "Searchin' the wikis.")
+    (defengine wiktionary
+        "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s")
+    (defengine wolfram-alpha
+        "https://www.wolframalpha.com/input/?i=%s")
+    (defengine youtube
+        "https://www.youtube.com/results?aq=f&oq=&search_query=%s")
+    (defengine cppreference
+        "https://en.cppreference.com/w/?search=%s"
+        :keybinding "c"
+        :browser 'eww-browse-url)
+    :config
+    (engine-mode t))
 
 ;; Dired : built-in navigation of folders
 (use-package dired
