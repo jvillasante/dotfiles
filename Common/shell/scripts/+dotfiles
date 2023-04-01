@@ -82,7 +82,7 @@ do_emacs() {
     case $1 in
         kill)
             if pgrep -x emacs >/dev/null; then
-                emacsclient --eval '(kill-emacs)'
+                emacsclient --eval '(save-buffers-kill-emacs)'
                 test $? -eq 0 || usage 1
             fi
             ;;
