@@ -44,9 +44,17 @@ create_c_project_gcc() {
         cp "$DOTFILES_DIR/Misc/CMakeLists.gcc.txt" "$PROJECT_PATH/CMakeLists.txt"
         check $?
 
-        echo ">>> Copying compile_flags.txt to $PROJECT_PATH..."
-        cp "$DOTFILES_DIR/Misc/compile_flags.gcc.txt" "$PROJECT_PATH/compile_flags.txt"
-        check $?
+        if [ -f /etc/fedora-release ]; then
+            echo ">>> Copying compile_flags.txt (fedora) to $PROJECT_PATH..."
+            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.fedora.txt" "$PROJECT_PATH/compile_flags.txt"
+            check $?
+        elif [ ! -f /etc/debian_version ]; then
+            echo ">>> Copying compile_flags.txt (debian) to $PROJECT_PATH..."
+            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.debian.txt" "$PROJECT_PATH/compile_flags.txt"
+            check $?
+        else
+            echo ">>> Unknown OS (only fedora and debian are supported)..."
+        fi
 
         echo ">>> Initializing 'git' in $PROJECT_PATH..."
         cd "$PROJECT_PATH" && check $?
@@ -144,9 +152,17 @@ create_cpp_project_gcc() {
         cp "$DOTFILES_DIR/Misc/CMakeLists.g++.txt" "$PROJECT_PATH/CMakeLists.txt"
         check $?
 
-        echo ">>> Copying compile_flags.txt to $PROJECT_PATH..."
-        cp "$DOTFILES_DIR/Misc/compile_flags.g++.txt" "$PROJECT_PATH/compile_flags.txt"
-        check $?
+        if [ -f /etc/fedora-release ]; then
+            echo ">>> Copying compile_flags.txt (fedora) to $PROJECT_PATH..."
+            cp "$DOTFILES_DIR/Misc/compile_flags.g++.fedora.txt" "$PROJECT_PATH/compile_flags.txt"
+            check $?
+        elif [ ! -f /etc/debian_version ]; then
+            echo ">>> Copying compile_flags.txt (debian) to $PROJECT_PATH..."
+            cp "$DOTFILES_DIR/Misc/compile_flags.g++.debian.txt" "$PROJECT_PATH/compile_flags.txt"
+            check $?
+        else
+            echo ">>> Unknown OS (only fedora and debian are supported)..."
+        fi
 
         echo ">>> Copying .clang-tidy to $PROJECT_PATH..."
         cp "$DOTFILES_DIR/Misc/.clang-tidy" "$PROJECT_PATH/"

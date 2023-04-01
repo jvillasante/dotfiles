@@ -86,7 +86,7 @@
  '(help-at-pt-display-when-idle '(flymake-overlay) nil (help-at-pt))
  '(help-at-pt-timer-delay 0.5)
  '(package-selected-packages
-      '(dired-sidebar all-the-icons-dired diredfl multiple-cursors dwim-shell-command whole-line-or-region expand-region hydra undo-tree avy exec-path-from-shell editorconfig persistent-scratch crux ibuffer-vc vterm rainbow-delimiters helpful pdf-tools elfeed fancy-compilation apheleia js2-mode rustic go-mode markdown-mode web-mode yaml-mode csv-mode adoc-mode elisp-demos deft org-superstar hl-todo git-gutter magit yasnippet-snippets yasnippet cape corfu-terminal corfu embark-consult embark consult-dir consult marginalia all-the-icons-completion orderless vertico anzu which-key minions all-the-icons modus-themes no-littering)))
+      '(dired-sidebar all-the-icons-dired diredfl engine-mode multiple-cursors whole-line-or-region expand-region hydra undo-tree avy exec-path-from-shell editorconfig persistent-scratch crux ibuffer-vc vterm rainbow-delimiters helpful pdf-tools elfeed fancy-compilation apheleia js2-mode rustic go-mode markdown-mode web-mode yaml-mode csv-mode adoc-mode elisp-demos deft org-superstar hl-todo git-gutter magit yasnippet-snippets yasnippet cape corfu-terminal corfu embark-consult embark consult-dir consult marginalia all-the-icons-completion orderless vertico anzu which-key minions all-the-icons modus-themes no-littering)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

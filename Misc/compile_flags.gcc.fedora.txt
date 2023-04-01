@@ -1,0 +1,11 @@
+-std=c99
+-Wall
+-Wextra
+-Werror
+-Wpedantic
+-DDEBUG
+-isystem/usr/lib/gcc/x86_64-redhat-linux/12/include
+-isystem/usr/local/include
+-isystem/usr/include
+-I./
+-I./include

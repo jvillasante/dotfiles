@@ -165,6 +165,7 @@
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package vterm
+    :defer t
     :config
     (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
     (setq vterm-shell "/usr/bin/bash")
