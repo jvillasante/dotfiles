@@ -4,13 +4,13 @@
 # Remember blank line between title and body.
 
 ######## 72 characters ##################################################
-Problem:
+# Problem:
 # Problem, Task, Reason for Commit
 
-Solution:
+# Solution:
 # Solution or List of Changes
 
-Notes:
+# Notes:
 # Special instructions, testing steps, etc
 
 # How to Write a Git Commit Message:
