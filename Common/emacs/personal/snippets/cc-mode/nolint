@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: nolint off/on
+# key: nolint
+# --
+// NOLINT $0

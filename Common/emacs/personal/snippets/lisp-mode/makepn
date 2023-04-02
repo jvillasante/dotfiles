@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: make-pathname
+# key: makepn
+# --
+(make-pathname
+  :type "${1:type}"
+  :defaults ${2:default-file})
