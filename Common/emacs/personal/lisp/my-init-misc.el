@@ -337,7 +337,7 @@
     :init
     (add-hook 'dired-sidebar-mode-hook
         (lambda ()
-            (my:font-set-small-mono-font)
+            (my/font-set-small-mono-font)
             (display-line-numbers-mode 0)
             (unless (file-remote-p default-directory)
                 (auto-revert-mode))))

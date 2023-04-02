@@ -26,7 +26,7 @@
     ;; the window. This is not an ideal behavior since you typically
     ;; what to hit `q' to delete the window displaying the news after
     ;; you have finished reading.
-    (advice-add #'elfeed-kill-buffer :after #'my:elfeed-delete-window-after-kill-buffer)
+    (advice-add #'elfeed-kill-buffer :after #'my/elfeed-delete-window-after-kill-buffer)
 
     ;; feeds
     (setq! elfeed-feeds
@@ -144,8 +144,7 @@
 
     (add-hook 'pdf-outline-buffer-mode-hook
         (lambda ()
-            (my:font-set-small-variable-font)
-            (my:pdf-midnight-mode-maybe)
+            (my/font-set-small-variable-font)
             (display-line-numbers-mode 0))))
 
 (provide 'my-init-apps)

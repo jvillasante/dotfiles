@@ -61,11 +61,11 @@ keybinding to close the window."
     "Check if a font with FONT-NAME is available."
     (find-font (font-spec :name font-name)))
 
-(defun my:font-set-small-mono-font ()
+(defun my/font-set-small-mono-font ()
     "Set the default font to a smaller sized font for current buffer."
     (face-remap-add-relative 'default :height 145))
 
-(defun my:font-set-small-variable-font ()
+(defun my/font-set-small-variable-font ()
     "Set the default font to a smaller sized font for current buffer."
     (face-remap-add-relative 'default :height 145 :family "Iosevka Aile"))
 
@@ -224,10 +224,10 @@ after `org-agenda' has finalized."
     (let ((switch-to-buffer-obey-display-actions t))
         (apply old-fun args)))
 
-(defun my:elfeed-delete-window-after-kill-buffer (&rest args)
+(defun my/elfeed-delete-window-after-kill-buffer (&rest args)
     (delete-window (selected-window)))
 
-(defun my:elfeed-open-entry-via-eww (&optional new-session)
+(defun my/elfeed-open-entry-via-eww (&optional new-session)
     "if point is under a url, then open this url via `eww',
 otherwise open the current visited elfeed entry via `eww'.  If
 with a prefix \\[universal-argument] create a new `eww' session
