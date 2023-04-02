@@ -58,13 +58,13 @@ install_emacs() {
     fi
 
     # Install Chemacs2
-    if [ ! -d "$DOTFILES_DIR/.emacs.chemacs2" ]; then
-        git clone git@github.com:plexus/chemacs2.git "$DOTFILES_DIR/.emacs.chemacs2"
-        check $?
+    # if [ ! -d "$DOTFILES_DIR/.emacs.chemacs2" ]; then
+    #     git clone git@github.com:plexus/chemacs2.git "$DOTFILES_DIR/.emacs.chemacs2"
+    #     check $?
 
-        rm -rf "$DOTFILES_DIR/.emacs.d"
-        ln -s "$DOTFILES_DIR/.emacs.chemacs2" "$DOTFILES_DIR/.emacs.d"
-    fi
+    #     rm -rf "$DOTFILES_DIR/.emacs.d"
+    #     ln -s "$DOTFILES_DIR/.emacs.chemacs2" "$DOTFILES_DIR/.emacs.d"
+    # fi
 
     # Install Doom Emacs
     # if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
@@ -97,15 +97,8 @@ install_emacs() {
 install_shell "bash"
 install_emacs
 
-echo ">>> Linking global files in $HOME"
-files=".emacs.d"
-for file in $files; do
-    [ -L "$HOME/$file" ] && unlink "$HOME/$file"
-    ln -s "$DOTFILES_DIR/$file" "$HOME/"
-done
-
 echo ">>> Linking common files in $HOME..."
-files=".inputrc .editorconfig .emacs-profiles.el .sbclrc .mbsyncrc .msmtprc .tidyrc"
+files=".inputrc .editorconfig .sbclrc .mbsyncrc .msmtprc .tidyrc"
 [ -n "$BASH_VERSION" ] && files+=" .bash_profile .bashrc"
 [ -n "$ZSH_VERSION" ] && files+=" .zshenv .zshrc"
 for file in $files; do

@@ -4,7 +4,7 @@ Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/emacs --fg-daemon
+ExecStart=/usr/local/bin/emacs --init-directory ~/Workspace/Public/dotfiles/Common/emacs/personal/ --fg-daemon
 ExecStop=/usr/local/bin/emacsclient --eval '(save-buffers-kill-emacs)'
 Environment=SSH_AUTH_SOCK=%t/keyring/ssh
 Restart=on-failure
