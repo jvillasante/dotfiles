@@ -292,8 +292,10 @@
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
 
+(use-package yasnippet-snippets)
 (use-package yasnippet
     :custom (push (expand-file-name "snippets/" user-emacs-directory) yas-snippet-dirs)
+    :config (yas-reload-all)
     :hook (after-init . yas-global-mode))
 
 (provide 'my-init-completion)

@@ -32,7 +32,10 @@
     ;; no-littering doesn't set this by default so we must place
     ;; auto save files in the same path as it uses for sessions
     (setq auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+
+    ;; custom.el into etc directory
+    (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 ;; files and paths constants
 (defconst my/home-path (expand-file-name "~/"))
@@ -64,11 +67,6 @@
         (setq gc-cons-threshold  67108864) ; 64M
         (setq gc-cons-percentage 0.1) ; original value
         (garbage-collect)))
-
-;; use custom.el
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-    (load custom-file 'noerror))
 
 (provide 'init)
 ;;; init.el ends here

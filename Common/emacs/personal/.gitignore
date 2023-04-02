@@ -4,9 +4,8 @@
 # But not these files...
 !.gitignore
 !early-init.el
-!custom.el
 !init.el
+!/etc/
+!/etc/**
 !/lisp/
 !/lisp/**
-!/snippets/
-!/snippets/**
