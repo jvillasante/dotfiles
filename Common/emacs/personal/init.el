@@ -16,6 +16,7 @@
 ;; bootstrap package.el
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
 (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
