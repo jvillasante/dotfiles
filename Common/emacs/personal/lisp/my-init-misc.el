@@ -71,8 +71,6 @@
 ;; recentf : recent files
 (use-package recentf
     :ensure nil ;; emacs built-in
-    :init
-    (add-hook 'pre-command-hook 'recentf-mode)
     :config
     (setq recentf-save-file (expand-file-name "recentf" no-littering-var-directory)
         recentf-max-saved-items 500
@@ -81,22 +79,16 @@
     (add-to-list 'recentf-exclude no-littering-var-directory)
     (add-to-list 'recentf-exclude no-littering-etc-directory)
     (add-to-list 'recentf-exclude (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
-    (push (list (expand-file-name ".emacs.chemacs2/" my/dotfiles-path)) recentf-exclude)
-    (push (list (expand-file-name ".emacs.crafted/" my/dotfiles-path)) recentf-exclude)
-    (push (list (expand-file-name ".emacs.d/" my/dotfiles-path)) recentf-exclude)
-    (push (list (expand-file-name ".emacs.doom/" my/dotfiles-path)) recentf-exclude)
-    (push "~/.mail" recentf-exclude)
-    (push "\\.git" recentf-exclude)
-    (push "/tmp/" recentf-exclude)
-    (push "/ssh:" recentf-exclude)
-    (push "~/\\.emacs\\.d/.local" recentf-exclude)
-    (push "~/mail" recentf-exclude)
-    (push "/var" recentf-exclude)
-    (push "/etc" recentf-exclude)
-    (push "/usr" recentf-exclude)
-    (push "\\.?ido\\.last$" recentf-exclude)
-    (push "^/nix/store/" recentf-exclude)
-    (push ".+\\.mp3$" recentf-exclude))
+    (add-to-list 'recentf-exclude "~/.mail")
+    (add-to-list 'recentf-exclude "\\.git")
+    (add-to-list 'recentf-exclude "/tmp/")
+    (add-to-list 'recentf-exclude "/ssh:")
+    (add-to-list 'recentf-exclude "~/\\.emacs\\.d/.local")
+    (add-to-list 'recentf-exclude "/usr")
+    (add-to-list 'recentf-exclude "\\.?ido\\.last$")
+    (add-to-list 'recentf-exclude "^/nix/store/")
+    (add-to-list 'recentf-exclude ".+\\.mp3$")
+    (recentf-mode +1))
 
 ;; project.el : default project manager
 (use-package project

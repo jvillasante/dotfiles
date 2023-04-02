@@ -93,10 +93,6 @@
     (push (expand-file-name "snippets/" doom-user-dir) yas-snippet-dirs))
 
 (after! recentf
-    (push (list (expand-file-name ".emacs.chemacs2/" +my/dotfiles-path)) recentf-exclude)
-    (push (list (expand-file-name ".emacs.crafted/" +my/dotfiles-path)) recentf-exclude)
-    (push (list (expand-file-name ".emacs.d/" +my/dotfiles-path)) recentf-exclude)
-    (push (list (expand-file-name ".emacs.doom/" +my/dotfiles-path)) recentf-exclude)
     (push #'+org-is-agenda-file recentf-exclude)
     (push "~/.mail" recentf-exclude)
     (push "\\.git" recentf-exclude)
@@ -131,7 +127,6 @@
                 (string-prefix-p (expand-file-name ".emacs.d/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.d/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.doom/" +my/dotfiles-path) project-root)
-                (string-prefix-p (expand-file-name ".emacs.chemacs2/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name ".emacs.crafted/" +my/dotfiles-path) project-root)
                 (string-prefix-p (expand-file-name "Workspace/Software/zig/" +my/home-path) project-root)
                 (string-prefix-p (expand-file-name ".cargo/" +my/home-path) project-root)
