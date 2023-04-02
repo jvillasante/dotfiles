@@ -12,10 +12,10 @@
 (set-keyboard-coding-system 'utf-8)
 
 ;; backups and autosave
-(setq make-backup-files t) ; use backup files (filename~)
-(setq create-lockfiles t)  ; use lock files (.#filename)
-(setq auto-save-default t) ; use auto-save
-(setq backup-by-copying t)
+(setq make-backup-files t)    ; use backup files (filename~)
+(setq create-lockfiles t)     ; use lock files (.#filename)
+(setq auto-save-default t)    ; use auto-save
+(setq backup-by-copying t)    ; don't clobber symlinks
 (setq delete-old-versions t)
 (setq version-control t)
 (setq vc-make-backup-files t)
