@@ -80,6 +80,7 @@
         recentf-auto-cleanup 'never)
     (add-to-list 'recentf-exclude no-littering-var-directory)
     (add-to-list 'recentf-exclude no-littering-etc-directory)
+    (add-to-list 'recentf-exclude (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
     (push (list (expand-file-name ".emacs.chemacs2/" my/dotfiles-path)) recentf-exclude)
     (push (list (expand-file-name ".emacs.crafted/" my/dotfiles-path)) recentf-exclude)
     (push (list (expand-file-name ".emacs.d/" my/dotfiles-path)) recentf-exclude)
