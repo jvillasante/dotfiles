@@ -293,13 +293,8 @@
     )
 
 (use-package yasnippet
-    :init
-    (setq yas-verbosity 1)
-    (yas-global-mode +1)
-    :config
-    (use-package yasnippet-snippets)
-    (yas-reload-all)
-    (push (expand-file-name "snippets/" user-emacs-directory) yas-snippet-dirs))
+    :custom (push (expand-file-name "snippets/" user-emacs-directory) yas-snippet-dirs)
+    :hook (after-init . yas-global-mode))
 
 (provide 'my-init-completion)
 ;;; my-init-completion.el ends here

@@ -24,6 +24,12 @@
         '(help-at-pt-timer-delay 0.5)
         '(help-at-pt-display-when-idle '(flymake-overlay))))
 
+;; flymake-popon
+(unless (package-installed-p 'flymake-popon)
+    (package-vc-install "https://codeberg.org/akib/emacs-flymake-popon.git" "flymake-popon"))
+(use-package flymake-popon
+    :hook (flymake-mode . flymake-popon-mode))
+
 (use-package eldoc
     :ensure nil ;; emacs built-in
     :init
