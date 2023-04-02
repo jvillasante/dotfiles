@@ -105,6 +105,7 @@
              "https://blog.adamchalmers.com/atom.xml"
              "https://itsallaboutthebit.com/atom.xml"
              ;; Misc
+             "https://sqrtminusone.xyz/posts/index.xml"
              "https://blog.orhun.dev/rss.xml"
              "https://ibob.bg/feed.xml"
              "https://rigtorp.se/index.xml"
