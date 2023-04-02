@@ -69,30 +69,11 @@ keybinding to close the window."
     "Set the default font to a smaller sized font for current buffer."
     (face-remap-add-relative 'default :height 145 :family "Iosevka Aile"))
 
-(defmacro my/tab-bar-go-to-tab-macro (number)
-    (let ((fun (intern (format "my/tab-bar-go-to-tab-%d" number))))
-        `(defun ,fun ()
-             ,(format "go to tab %d" number)
-             (interactive)
-             (tab-bar-select-tab ,number))))
-
 (defun my/display-truncation-and-wrap-indicator-as-whitespace ()
     (when (not (char-table-p buffer-display-table))
         (setq buffer-display-table (make-display-table)))
     (set-display-table-slot buffer-display-table 'truncation 32)
     (set-display-table-slot buffer-display-table 'wrap 32))
-
-;;; Completion
-
-(defun my/company-abort ()
-    (when company-candidates
-        (company-abort)))
-
-;; We follow a suggestion by company maintainer u/hvis:
-;; https://www.reddit.com/r/emacs/comments/nichkl/comment/gz1jr3s/
-(defun my/company-completion-styles (capf-fn &rest args)
-    (let ((completion-styles '(basic partial-completion emacs22)))
-        (apply capf-fn args)))
 
 ;;; VCS
 
