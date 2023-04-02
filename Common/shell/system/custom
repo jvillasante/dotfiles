@@ -51,6 +51,9 @@ if type emacs >/dev/null 2>/dev/null; then
     ediff() { emacsclient -c -a '' --eval "(ediff-files \"$1\" \"$2\")"; }
     edired() { emacsclient -c -a '' --eval "(progn (dired \"$1\"))"; }
     ekill() { emacsclient --eval '(kill-emacs)'; }
+
+    # emulate bash with eat
+    [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
 fi
 
 # vim

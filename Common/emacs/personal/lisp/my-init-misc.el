@@ -108,15 +108,22 @@
 (use-package eshell
     :ensure nil ;; emacs built-in
     :init
-    (add-hook 'eshell-mode-hook (lambda()
-                                    (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                                                  "/usr/local/bin/gls"
-                                                  "/bin/ls")))
-                                        (eshell/alias "ls" (concat ls " --group-directories-first --color"))
-                                        (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
-                                    (eshell/alias "ff" "find-file $1")
-                                    (eshell/alias "e" "find-file-other-window $1")
-                                    (eshell/alias "d" "dired $1")))
+    (add-hook 'eshell-mode-hook
+        (lambda()
+            ;; visual commands
+            (add-to-list 'eshell-visual-commands "ssh")
+            (add-to-list 'eshell-visual-commands "tail")
+            (add-to-list 'eshell-visual-commands "top")
+
+            ;; aliases
+            (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                          "/usr/local/bin/gls"
+                          "/bin/ls")))
+                (eshell/alias "ls" (concat ls " --group-directories-first --color"))
+                (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
+            (eshell/alias "ff" "find-file $1")
+            (eshell/alias "e" "find-file-other-window $1")
+            (eshell/alias "d" "dired $1")))
     :config
     (setq eshell-highlight-prompt nil)
     (setq eshell-scroll-to-bottom-on-input nil)
@@ -163,6 +170,9 @@
 
 (use-package rainbow-delimiters
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+;; (use-package eat
+;;     :init (add-hook 'eshell-load-hook #'eat-eshell-mode))
 
 (use-package vterm
     :defer t
