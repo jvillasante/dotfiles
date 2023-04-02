@@ -25,8 +25,7 @@
 (setq world-clock-list
     '(("UTC" "UTC")
          ("America/New_York" "Tampa")
-         ("Europe/Ljubljana" "Slovenia")
-         ("America/Havana" "Havana")))
+         ("Europe/Ljubljana" "Slovenia")))
 (setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; hippie expand is dabbrev expand on steroids
