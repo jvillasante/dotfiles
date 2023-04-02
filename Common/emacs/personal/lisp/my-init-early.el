@@ -5,19 +5,21 @@
 (setq mac-option-modifier 'meta)
 (setq warning-minimum-level :error)
 
-;; try to disable the auto backup behavior
-;; (setq make-backup-files nil
-;;       create-lockfiles nil
-;;       auto-save-default nil)
-;; store all backup and autosave files in the tmp dir
-(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-
 ;; encoding
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
+
+;; backups and autosave
+(setq make-backup-files t) ; use backup files (filename~)
+(setq create-lockfiles t)  ; use lock files (.#filename)
+(setq auto-save-default t) ; use auto-save
+(setq backup-by-copying t)
+(setq delete-old-versions t)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(auto-save-visited-mode +1)
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 (setq world-clock-list
@@ -64,10 +66,6 @@
 
 ;; emacs does not need a pager
 (setenv "PAGER" "cat")
-
-;; Auto-save on focus lost - https://www.emacswiki.org/emacs/AutoSave
-(add-function :after after-focus-change-function
-    (lambda () (unless (frame-focus-state) (save-some-buffers t))))
 
 ;; Prevent killing scratch buffer
 (with-current-buffer "*scratch*"
@@ -122,8 +120,6 @@
 (c-set-offset 'substatement-open 0) ; Align braces with the if/for statement. If not set, a half indent will be used
 (c-set-offset 'arglist-intro '+) ; Align multiline arguments with a standard indent (instead of with parenthesis)
 (c-set-offset 'arglist-close 0) ; Align the parenthesis at the end of the arguments with the opening statement indent
-(setq make-backup-files nil) ; Do not use backup files (filename~)
-(setq create-lockfiles nil) ; Do not use lock files (.#filename)
 (setq line-spacing 0.1) ;; line spacing
 (setq completion-ignore-case nil)              ;; do NOT ignore case by default
 (setq read-file-name-completion-ignore-case t) ;; ... but, ignore case when completing filenames

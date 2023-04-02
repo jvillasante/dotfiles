@@ -28,11 +28,23 @@
 
 ;; no-littering needs to come first
 (use-package no-littering
-    :init
-    ;; no-littering doesn't set this by default so we must place
-    ;; auto save files in the same path as it uses for sessions
+    :config
+    ;; auto-save files
     (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+
+    ;; lock files
+    (setq lock-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "lock-file/") t)))
+
+    ;; backup all files
+    (setq backup-directory-alist
+        `((".*" . ,(no-littering-expand-var-file-name "backup/"))))
+
+    ;; ... but do not backup tramp files
+    (with-eval-after-load 'tramp
+        (add-to-list 'tramp-backup-directory-alist
+            (cons tramp-file-name-regexp nil)))
 
     ;; custom.el into etc directory
     (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
