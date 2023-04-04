@@ -11,16 +11,6 @@
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 
-;; backups and autosave
-(setq make-backup-files t)    ; use backup files (filename~)
-(setq create-lockfiles t)     ; use lock files (.#filename)
-(setq auto-save-default t)    ; use auto-save
-(setq backup-by-copying t)    ; don't clobber symlinks
-(setq delete-old-versions t)
-(setq version-control t)
-(setq vc-make-backup-files t)
-(auto-save-visited-mode +1)
-
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 (setq world-clock-list
     '(("UTC" "UTC")
@@ -89,7 +79,7 @@
     (advice-add 'yes-or-no-p :override #'y-or-n-p))
 (setq large-file-warning-threshold 100000000) ;; warn when opening files bigger than 100MB
 (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
-(savehist-mode) ; Save history for commands
+(savehist-mode +1) ; Save history for commands
 (setq-default auto-revert-verbose t) ; show message when file changes
 (setq-default auto-revert-avoid-polling t) ; use save signal
 (global-auto-revert-mode t) ; Refresh files automatically when modified from outside emacs
@@ -123,6 +113,21 @@
 (setq completion-ignore-case nil)              ;; do NOT ignore case by default
 (setq read-file-name-completion-ignore-case t) ;; ... but, ignore case when completing filenames
 (setq read-buffer-completion-ignore-case t)    ;; ... and, ignore case whem completing buffers
+(setq delete-by-moving-to-trash t) ;; use the system trash
+
+;; backups
+(setq make-backup-files t         ; backup of a file the first time it is saved.
+    backup-by-copying t           ; don't clobber symlinks
+    version-control t             ; version numbers for backup files
+    delete-old-versions t         ; delete excess backup files silently
+    kept-old-versions 2           ; oldest versions to keep when a new numbered backup is made (default: 2)
+    kept-new-versions 6)          ; newest versions to keep when a new numbered backup is made (default: 2)
+
+;; autosave
+(setq auto-save-default t         ; auto-save every buffer that visits a file
+    auto-save-timeout 20          ; number of seconds idle time before auto-save (default: 30)
+    auto-save-interval 200)       ; number of keystrokes between auto-saves (default: 300)
+(auto-save-visited-mode +1)
 
 (when IS-MAC
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
