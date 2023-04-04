@@ -41,7 +41,10 @@
     (setq backup-directory-alist
         `((".*" . ,(no-littering-expand-var-file-name "backup/"))))
 
-    ;; ... but do not backup tramp files
+    ;; ... do not backup files from /dev/shm/
+    (add-to-list 'backup-directory-alist (cons "/dev/shm/.*" nil))
+
+    ;; ... do not backup tramp files
     (with-eval-after-load 'tramp
         (add-to-list 'tramp-backup-directory-alist
             (cons tramp-file-name-regexp nil)))

@@ -79,6 +79,7 @@
     (add-to-list 'recentf-exclude no-littering-var-directory)
     (add-to-list 'recentf-exclude no-littering-etc-directory)
     (add-to-list 'recentf-exclude (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
+    (add-to-list 'recentf-exclude "/dev/shm/")
     (add-to-list 'recentf-exclude "~/.mail")
     (add-to-list 'recentf-exclude "\\.git")
     (add-to-list 'recentf-exclude "/tmp/")
