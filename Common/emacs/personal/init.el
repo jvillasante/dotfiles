@@ -44,6 +44,9 @@
     ;; ... do not backup files from /dev/shm/
     (add-to-list 'backup-directory-alist (cons "/dev/shm/.*" nil))
 
+    ;; ... do not backup files from /dev/shm/
+    (add-to-list 'backup-directory-alist (cons "/.*/.git/.*" nil))
+
     ;; ... do not backup tramp files
     (with-eval-after-load 'tramp
         (add-to-list 'tramp-backup-directory-alist
