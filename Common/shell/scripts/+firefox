@@ -6,13 +6,13 @@ usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
-    echo "    $0 arkenfox:"
-    echo "        Update Firefox Default profile with arkenfox overrides"
-    echo "    $0 non-arkenfox:"
-    echo "        Update Firefox Default profile without arkenfox overrides"
-    echo "    $0 clean:"
+    echo "    $0 update:"
+    echo "        Update Firefox Default profile with my overrides"
+    echo "    $0 cleanup:"
     echo "        Cleanup Firefox Default profile overrides"
-    echo "    e.g: $0 arkenfox"
+    echo
+    echo "    e.g: $0 update"
+    echo "    e.g: $0 cleanup"
     echo
     exit "$1"
 }
@@ -39,7 +39,7 @@ firefox_default_profile() {
 
 cleanup() {
     local PROFILE
-    if pgrep -x firefox >/dev/null; then
+    if pgrep firefox >/dev/null; then
         echo ">>> Firefox is running. Close Firefox and try again."
         usage 1
     fi
@@ -55,92 +55,9 @@ cleanup() {
     echo
 }
 
-#
-# https://github.com/arkenfox/user.js
-#
-update_arkenfox() {
+update() {
     local PROFILE
-    if pgrep -x firefox >/dev/null; then
-        echo ">>> Firefox is running. Close Firefox and try again."
-        usage 1
-    fi
-
-    PROFILE=$(firefox_default_profile)
-    test $? -eq 0 || usage 1
-    echo ">>> Updating 'user.js' file for $PROFILE"
-
-    # Remove previous if any
-    rm -rf /tmp/arkenfox-user.js-*
-
-    # Get latest and update
-    github_latest_release arkenfox user.js /tmp
-    test $? -eq 0 || usage 1
-
-    cp -f /tmp/arkenfox-user.js-*/prefsCleaner.sh "${PROFILE}"
-    test $? -eq 0 || usage 1
-
-    cp -f /tmp/arkenfox-user.js-*/updater.sh "${PROFILE}"
-    test $? -eq 0 || usage 1
-
-    cp -f /tmp/arkenfox-user.js-*/user.js "${PROFILE}"
-    test $? -eq 0 || usage 1
-
-    cat >"${PROFILE}/user-overrides.js" <<ENDOFFILE
-// Re-enables 'about:home' page for startup landing page and new tabs.
-/* 0102 */ user_pref("browser.startup.page", 1);
-/* 0103 */ user_pref("browser.startup.homepage", "about:home");
-/* 0104 */ user_pref("browser.newtabpage.enabled", true);
-           user_pref("browser.newtab.preload", true);
-
-// RFP is not for me
-/* 4501 */ user_pref("privacy.resistFingerprinting", false);
-/* 4504 */ user_pref("privacy.resistFingerprinting.letterboxing", false);
-/* 4520 */ user_pref("webgl.disabled", false);
-
-// Re-enables URL usages as a search bar.
-/* 0801 */ user_pref("keyword.enabled", true);
-
-// Enable live search suggestions
-/* 0804 */ user_pref("browser.search.suggest.enabled", true);
-           user_pref("browser.urlbar.suggest.searches", true);
-
-// Don't throw away HTTP basic authentication sessions and history on Firefox shutdown.
-/* 2811 */ user_pref("privacy.clearOnShutdown.sessions", false);
-           user_pref("privacy.clearOnShutdown.history", false);
-
-// Don't delete cookies and site data on exit (better to have site exceptions here!)
-/* 2815 */ user_pref("privacy.clearOnShutdown.cookies", false);
-           user_pref("privacy.clearOnShutdown.offlineApps", false);
-
-// Disables Pocket extension.
-/* 9000 */ user_pref("extensions.pocket.enabled", false);
-
-// Personal, make tabbar height smaller
-user_pref("browser.uidensity", 1);
-
-// Personal, disable show menu on ALT press
-user_pref("ui.key.menuAccessKeyFocuses", false);
-
-// Personal, run on the GPU
-user_pref("layers.acceleration.force-enabled", true);
-
-/* END: internal custom pref to test for syntax errors ***/
-user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
-ENDOFFILE
-    test $? -eq 0 || usage 1
-
-    sh "${PROFILE}"/updater.sh -u -s
-    test $? -eq 0 || usage 1
-
-    sh "${PROFILE}"/prefsCleaner.sh
-    test $? -eq 0 || usage 1
-
-    echo
-}
-
-update_non_arkenfox() {
-    local PROFILE
-    if pgrep -x firefox >/dev/null; then
+    if pgrep firefox >/dev/null; then
         echo ">>> Firefox is running. Close Firefox and try again."
         usage 1
     fi
@@ -175,7 +92,7 @@ user_pref("ui.key.menuAccessKeyFocuses", false);
 // Run on the GPU
 user_pref("layers.acceleration.force-enabled", true);
 
-/* END: internal custom pref to test for syntax errors ***/
+// END: internal custom pref to test for syntax errors
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
     test $? -eq 0 || usage 1
@@ -195,15 +112,11 @@ cmd=${1-}
 rc=0
 if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
-    arkenfox)
+    update)
         [ "$nargs" -eq 1 ] || usage 1
-        update_arkenfox "$@"
+        update "$@"
         ;;
-    non-arkenfox)
-        [ "$nargs" -eq 1 ] || usage 1
-        update_non_arkenfox "$@"
-        ;;
-    clean)
+    cleanup)
         [ "$nargs" -eq 1 ] || usage 1
         cleanup "$@"
         ;;
