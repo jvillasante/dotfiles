@@ -334,6 +334,11 @@
 (use-package all-the-icons-dired
     :init (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
+;; Hide hidden files
+(use-package dired-hide-dotfiles
+    :hook (dired-mode . dired-hide-dotfiles-mode)
+    :bind (:map dired-mode-map ("." . dired-hide-dotfiles-mode)))
+
 (use-package dired-sidebar
     :init
     (add-hook 'dired-sidebar-mode-hook
