@@ -35,6 +35,12 @@
     (package-refresh-contents))
 (package-install-selected-packages)
 
+;; store all backup and autosave files in the tmp dir
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 ;; UI settings
 (setq default-cursor-type 'hbar) ;Use a minimal cursor
 (setq initial-scratch-message "") ; Don't use messages that you don't read
