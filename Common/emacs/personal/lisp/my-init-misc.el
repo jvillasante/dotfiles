@@ -99,9 +99,16 @@
         '(project-dired "Dired at root")))
 
 ;; eshell : the emacs shell
+(use-package eshell-prompt-extras)
 (use-package eshell
     :ensure nil ;; emacs built-in
     :init
+    ;; Prompt
+    (with-eval-after-load 'esh-opt
+        (autoload 'epe-theme-lambda "eshell-prompt-extras")
+        (setq! eshell-highlight-prompt nil)
+        (setq! eshell-prompt-function 'epe-theme-lambda))
+
     (add-hook 'eshell-mode-hook
         (lambda()
             ;; visual commands

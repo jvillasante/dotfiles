@@ -15,6 +15,7 @@
 ;; flymake
 (use-package flymake
     :ensure nil ;; emacs built-in
+    :hook ((prog-mode . (lambda () (flymake-mode +1))))
     :config
     (custom-set-faces ;; Underline warnings and errors from Flymake
         '(flymake-errline ((((class color)) (:underline "red"))))
@@ -49,14 +50,14 @@
         eglot-extend-to-xref t
         eglot-connect-timeout 10
         eglot-autoshutdown t
-        eglot-send-changes-idle-time 0.5
-        eglot-auto-display-help-buffer nil)
-    ;; (setq eglot-stay-out-of '(flymake))
+        eglot-send-changes-idle-time 0.5)
     (setq eglot-ignored-server-capabilities
-        (quote (:documentFormattingProvider :documentRangeFormattingProvider)))
+        (quote (:documentFormattingProvider :documentRangeFormattingProvider :inlayHintProvider)))
     (setq  read-process-output-max (* 1024 1024))
 
     :config
+    ;; (add-to-list 'eglot-stay-out-of 'flymake)
+
     (add-to-list 'eglot-server-programs
         '(python-mode . ("pyright-langserver" "--stdio")))
 
@@ -93,10 +94,8 @@
 
 (use-package compile
     :ensure nil ; Emacs built in
-    :init (add-to-list 'compilation-finish-functions 'my/bury-compile-buffer)
     :custom
-    (compilation-always-kill t) ; Do not ask for confirmation when I stop current compilation
-    (compilation-message-face 'all-the-icons-green))
+    (compilation-always-kill t))
 
 (use-package fancy-compilation
     :commands (fancy-compilation-mode)

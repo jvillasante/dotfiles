@@ -86,12 +86,16 @@
  '(help-at-pt-display-when-idle '(flymake-overlay) nil (help-at-pt))
  '(help-at-pt-timer-delay 0.5)
  '(package-selected-packages
-      '(dired-hide-dotfiles no-littering modus-themes minions which-key anzu vertico orderless all-the-icons-completion marginalia consult-dir embark-consult corfu-terminal cape yasnippet-snippets magit git-gutter hl-todo org-superstar deft elisp-demos adoc-mode csv-mode yaml-mode web-mode go-mode rustic js2-mode apheleia fancy-compilation elfeed pdf-tools helpful rainbow-delimiters vterm ibuffer-vc crux persistent-scratch editorconfig exec-path-from-shell avy undo-tree hydra expand-region whole-line-or-region multiple-cursors engine-mode diredfl all-the-icons-dired dired-sidebar flymake-popon)))
+      '(no-littering modus-themes minions which-key anzu vertico orderless all-the-icons-completion marginalia consult-dir embark-consult corfu-terminal cape yasnippet-snippets magit git-gutter hl-todo org-superstar deft elisp-demos adoc-mode csv-mode yaml-mode web-mode go-mode rustic js2-mode apheleia fancy-compilation elfeed pdf-tools helpful rainbow-delimiters vterm ibuffer-vc crux persistent-scratch editorconfig exec-path-from-shell avy undo-tree hydra expand-region whole-line-or-region multiple-cursors engine-mode diredfl all-the-icons-dired dired-sidebar posframe dired-hide-dotfiles cmake-ide cmake-mode eshell-prompt-extras)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:font "Iosevka 16"))))
  '(fancy-compilation-default-face ((t (:inherit nil :background unspecified))))
+ '(fixed-pitch ((t (:inherit (default)))))
+ '(fixed-pitch-serif ((t (:inherit (default)))))
  '(flymake-error ((((class color)) (:underline "red"))))
- '(flymake-warning ((((class color)) (:underline "yellow")))))
+ '(flymake-warning ((((class color)) (:underline "yellow"))))
+ '(variable-pitch ((t (:font "Iosevka Aile")))))
