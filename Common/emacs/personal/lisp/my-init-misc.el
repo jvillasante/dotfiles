@@ -165,9 +165,7 @@
     :ensure nil ;; emacs built-in
     :init (global-auto-revert-mode +1))
 
-(use-package helpful
-    :init
-    (setq helpful-switch-buffer-function #'my/helpful-display-buffer))
+(use-package helpful)
 
 (use-package rainbow-delimiters
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
@@ -181,12 +179,6 @@
     (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
     (setq vterm-shell "/usr/bin/bash")
     (setq vterm-max-scrollback 5000)
-    (add-to-list 'display-buffer-alist
-        `("\\*vterm\\*"
-             (display-buffer-in-side-window)
-             (window-height . 0.4)
-             (window-width .0.5)
-             (slot . ,(alist-get 'vterm my/side-window-slots))))
     (add-hook 'vterm-mode-hook
         (lambda ()
             (setq-local mode-line-format nil)
@@ -357,11 +349,7 @@
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
     (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-    (setq dired-sidebar-display-alist
-        `((window-width . 0.25)
-             (side . ,(alist-get 'dired-sidebar my/side-window-sides))
-             (slot . ,(alist-get 'dired-sidebar my/side-window-slots)))
-        dired-sidebar-use-term-integration t
+    (setq dired-sidebar-use-term-integration t
         dired-sidebar-resize-on-open nil
         dired-sidebar-window-fixed nil
         dired-sidebar-theme 'all-the-icons

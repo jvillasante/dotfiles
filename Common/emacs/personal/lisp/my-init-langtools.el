@@ -29,14 +29,7 @@
     :ensure nil ;; emacs built-in
     :init
     (setq eldoc-echo-area-use-multiline-p nil)
-    (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
-    :config
-    (add-to-list 'display-buffer-alist
-        `("\\*eldoc\\*"
-             (display-buffer-reuse-window display-buffer-in-side-window)
-             (window-width . 0.5)
-             (window-height . 0.4)
-             (slot . ,(alist-get 'eldoc my/side-window-slots)))))
+    (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
 (use-package eglot
     :ensure nil ;; emacs built-in

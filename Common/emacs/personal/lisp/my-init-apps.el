@@ -137,12 +137,6 @@
         pdf-view-use-imagemagick nil
         pdf-view-continuous nil)
     :config
-    (add-to-list 'display-buffer-alist
-        `("\\*[oO]utline.*pdf\\*"
-             (display-buffer-in-side-window display-buffer-reuse-window)
-             (side . ,(alist-get 'pdf-outline my/side-window-sides))
-             (window-width . 0.3)))
-
     (add-hook 'pdf-outline-buffer-mode-hook
         (lambda ()
             (my/font-set-small-variable-font)

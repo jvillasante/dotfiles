@@ -53,14 +53,6 @@
         (setq python-shell-interpreter "ipython3")
         (setq python-shell-interpreter-args "-i --simple-prompt --no-color-info"))
 
-    (add-to-list 'display-buffer-alist
-        `("^\\*[pP]ython"
-             (display-buffer-reuse-window display-buffer-in-side-window)
-             (window-width . 0.5)
-             (window-height . 0.4)
-             (side . bottom)
-             (slot . ,(alist-get 'python my/side-window-slots))))
-
     (when (and (display-graphic-p)
               (featurep 'xwidget-internal))
         (add-hook 'python-mode-hook #'my/xwidget-side-window-mode)

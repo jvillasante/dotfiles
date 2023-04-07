@@ -53,39 +53,6 @@
                      (concat dired-directory))
                  (t (buffer-name))))))
 
-(defvar my/side-window-slots
-    '((helpful . 1)     ;; 1 is the default
-         (vterm . -1)
-         (eldoc . 1)
-         (python . -1)
-         (R . -1)
-         (Rhelp . 1)
-         (Rdired . -1)
-         (RWatch . -2)
-         (xwidget-plot . -1)
-         (dired-sidebar . -1))
-    "The slot for different mode if used as side window.
-This is for configuring `display-buffer-in-side-window',
-configuring this would avoid buffer swallows other buffer's window
-if they are side window.")
-
-(defvar my/side-window-sides
-    '((helpful . bottom)    ;; bottom is the default
-         (vterm . bottom)
-         (eldoc . bottom)
-         (python . bottom)
-         (R . bottom)
-         (Rhelp . bottom)
-         (Rdired . right)
-         (RWatch . right)                  ;
-         (xwidget-plot . right)
-         (dired-sidebar . left)
-         (pdf-outline . left))
-    "The side different mode if used as side window.
-This is for configuring `display-buffer-in-side-window',
-configuring this would avoid buffer swallows other buffer's window
-if they are side window.")
-
 (setq window-combination-resize t
     ;; unless you have a really wide screen, always prefer
     ;; horizontal split (ale `split-window-below')
@@ -186,8 +153,11 @@ if they are side window.")
 
 ;; anzu : displays current match and total matches information in the mode-line in various search modes
 (use-package anzu
-    :config
-    (global-anzu-mode +1))
+    :config (global-anzu-mode +1))
+
+;; popwin : popup window manager for Emacs
+(use-package popwin
+    :config (popwin-mode +1))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
