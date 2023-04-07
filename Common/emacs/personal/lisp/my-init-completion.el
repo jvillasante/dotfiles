@@ -224,11 +224,6 @@
         (let ((completion-extra-properties corfu--extra)
                  completion-cycle-threshold completion-cycling)
             (apply #'consult-completion-in-region completion-in-region--data)))
-     :bind (:map corfu-map
-              ("TAB" . corfu-next)
-              ([tab] . corfu-next)
-              ("S-TAB" . corfu-previous)
-              ([backtab] . corfu-previous))
     :config
     (setq corfu-cycle t
         corfu-auto t
