@@ -155,9 +155,52 @@
 (use-package anzu
     :config (global-anzu-mode +1))
 
-;; popwin : popup window manager for Emacs
-(use-package popwin
-    :config (popwin-mode +1))
+;; shackle : Enforce rules for popup windows
+(use-package shackle
+    :init
+    (setq shackle-rules
+        '((compilation-mode :select t :popup t :align 'below :size 0.4)
+             ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
+    (shackle-mode +1))
+
+;; popper : tame the flood of ephemeral windows Emacs produces
+(use-package popper
+    :bind (("C-c :" . popper-toggle-latest)
+              ("C-`"   . popper-toggle-latest)
+              ("C-\\"  . popper-cycle)
+              ("C-M-`" . popper-toggle-type))
+    :init
+    (setq popper-reference-buffers '("\\*Messages\\*"
+                                        "Output\\*$"
+                                        "\\*Async Shell Command\\*"
+                                        help-mode
+                                        helpful-mode
+                                        prodigy-mode
+                                        "magit:.\*"
+                                        "\\*deadgrep.\*"
+                                        "\\*eldoc.\*"
+                                        "\\*xref\\*"
+                                        "\\*direnv\\*"
+                                        "\\*Warnings\\*"
+                                        "\\*Bookmark List\\*"
+                                        haskell-compilation-mode
+                                        compilation-mode
+                                        bqn-inferior-mode))
+
+    ;; Match eshell, shell, term and/or vterm buffers
+    (setq popper-reference-buffers
+        (append popper-reference-buffers
+            '("^\\*eshell.*\\*$"    eshell-mode    ;eshell as a popup
+                 "^\\*shell.*\\*$"  shell-mode     ;shell as a popup
+                 "^\\*term.*\\*$"   term-mode      ;term as a popup
+                 "^\\*vterm.*\\*$"  vterm-mode)))  ;vterm as a popup
+
+    (popper-mode +1)
+    (popper-echo-mode +1)
+
+    :config
+    (setq popper-display-control nil)
+    (setq popper-group-function #'popper-group-by-directory))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
