@@ -170,37 +170,33 @@
               ("C-\\"  . popper-cycle)
               ("C-M-`" . popper-toggle-type))
     :init
-    (setq popper-reference-buffers '("\\*Messages\\*"
-                                        "Output\\*$"
-                                        "\\*Async Shell Command\\*"
-                                        help-mode
-                                        helpful-mode
-                                        prodigy-mode
-                                        "magit:.\*"
-                                        "\\*deadgrep.\*"
-                                        "\\*eldoc.\*"
-                                        "\\*xref\\*"
-                                        "\\*direnv\\*"
-                                        "\\*Warnings\\*"
-                                        "\\*Bookmark List\\*"
-                                        haskell-compilation-mode
-                                        compilation-mode
-                                        bqn-inferior-mode))
-
+    (setq popper-reference-buffers
+        '("\\*Messages\\*"
+             "\\*Warnings\\*"
+             "Output\\*$"
+             "\\*Async Shell Command\\*"
+             help-mode
+             compilation-mode))
     ;; Match eshell, shell, term and/or vterm buffers
     (setq popper-reference-buffers
         (append popper-reference-buffers
-            '("^\\*eshell.*\\*$"    eshell-mode    ;eshell as a popup
-                 "^\\*shell.*\\*$"  shell-mode     ;shell as a popup
-                 "^\\*term.*\\*$"   term-mode      ;term as a popup
-                 "^\\*vterm.*\\*$"  vterm-mode)))  ;vterm as a popup
-
+            '("^\\*eshell.*\\*$"                   eshell-mode                       ;eshell as a popup
+                 "^\\*shell.*\\*$"                 shell-mode                        ;shell as a popup
+                 "^\\*term.*\\*$"                  term-mode                         ;term as a popup
+                 "^\\*vterm.*\\*$"                 vterm-mode                        ;vterm as a popup
+                 "^\\*flycheck-list-errors.*\\*$"  flycheck-error-list-mode          ;flycheck error list as a popup
+                 "^\\*Flymake diagnostics.*\\*$"   flymake-project-diagnostics-mode  ;flymake diagnostics as a popup
+                 "^\\*ibuffer.*\\*$"               ibuffer-mode                      ;ibuffer as a popup
+                 "^\\*helpful-comand.*\\*$"        helpful-mode                      ;helpful command as a popup
+                 "^\\*helpful-variable.*\\*$"      helpful-mode                      ;helpful variable as a popup
+                 "^\\*helpful-callable.*\\*$"      helpful-mode                      ;helpful callable as a popup
+                 "^\\*scratch.*\\*$"               initial-major-mode)))             ;scratch buffer as a popup
+    (setq popper-window-height 15)
+    (setq popper-mode-line '(:eval (propertize " POP " 'face 'mode-line-emphasis)))
     (popper-mode +1)
     (popper-echo-mode +1)
-
     :config
-    (setq popper-display-control nil)
-    (setq popper-group-function #'popper-group-by-directory))
+    (setq popper-display-control nil))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here

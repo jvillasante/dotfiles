@@ -86,16 +86,12 @@
  '(help-at-pt-display-when-idle '(flymake-overlay) nil (help-at-pt))
  '(help-at-pt-timer-delay 0.5)
  '(package-selected-packages
-      '(popper no-littering modus-themes minions which-key anzu vertico orderless all-the-icons-completion marginalia consult-dir embark-consult corfu-terminal cape yasnippet-snippets magit git-gutter hl-todo org-superstar deft elisp-demos adoc-mode csv-mode yaml-mode web-mode go-mode rustic js2-mode apheleia fancy-compilation elfeed pdf-tools helpful rainbow-delimiters vterm ibuffer-vc crux persistent-scratch editorconfig exec-path-from-shell avy undo-tree hydra expand-region whole-line-or-region multiple-cursors engine-mode diredfl all-the-icons-dired dired-sidebar posframe dired-hide-dotfiles cmake-ide cmake-mode eshell-prompt-extras shackle)))
+      '(dired-sidebar dired-hide-dotfiles all-the-icons-dired diredfl engine-mode multiple-cursors whole-line-or-region expand-region hydra undo-tree avy exec-path-from-shell editorconfig persistent-scratch crux ibuffer-vc vterm rainbow-delimiters helpful eshell-prompt-extras pdf-tools elfeed fancy-compilation apheleia cmake-mode js2-mode rustic go-mode markdown-mode web-mode yaml-mode csv-mode adoc-mode elisp-demos deft org-superstar hl-todo git-gutter magit yasnippet-snippets cape corfu-terminal corfu embark-consult embark consult-dir consult marginalia all-the-icons-completion orderless vertico popper shackle anzu which-key minions all-the-icons modus-themes no-littering)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:font "Iosevka 16"))))
  '(fancy-compilation-default-face ((t (:inherit nil :background unspecified))))
- '(fixed-pitch ((t (:inherit (default)))))
- '(fixed-pitch-serif ((t (:inherit (default)))))
  '(flymake-error ((((class color)) (:underline "red"))))
- '(flymake-warning ((((class color)) (:underline "yellow"))))
- '(variable-pitch ((t (:font "Iosevka Aile")))))
+ '(flymake-warning ((((class color)) (:underline "yellow")))))
