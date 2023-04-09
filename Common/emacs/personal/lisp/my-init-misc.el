@@ -271,6 +271,7 @@
     (defengine wikipedia
         "https://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
         :keybinding "w"
+        :browser 'eww-browse-url
         :docstring "Searchin' the wikis.")
     (defengine wiktionary
         "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s")
@@ -280,8 +281,7 @@
         "https://www.youtube.com/results?aq=f&oq=&search_query=%s")
     (defengine cppreference
         "https://en.cppreference.com/w/?search=%s"
-        :keybinding "c"
-        :browser 'eww-browse-url)
+        :keybinding "c")
     :config
     (engine-mode t))
 
