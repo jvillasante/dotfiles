@@ -98,6 +98,12 @@
     (add-to-list 'project-switch-commands
         '(project-dired "Dired at root")))
 
+;; ielm : elisp shell
+(use-package ielm
+    :ensure nil ;; emacs built-in
+    :init
+    (add-hook 'ielm-mode-hook 'eldoc-mode))
+
 ;; eshell : the emacs shell
 (use-package eshell-prompt-extras)
 (use-package eshell
