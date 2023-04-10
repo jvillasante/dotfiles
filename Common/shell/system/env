@@ -12,6 +12,16 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 # set PATH so it includes .local bin if it exists
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
+# emacs vterm: https://github.com/akermu/emacs-libvterm
+if [ "$INSIDE_EMACS" = 'vterm' ] &&
+    [ -n "$EMACS_VTERM_PATH" ] &&
+    [ -f "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh" ]; then
+    source "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh"
+fi
+
+# emacs eat: https://codeberg.org/akib/emacs-eat
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
+
 # snap
 [ -d "/snap/bin" ] && export PATH="$PATH:/snap/bin"
 

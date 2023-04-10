@@ -51,9 +51,6 @@ if type emacs >/dev/null 2>/dev/null; then
     ediff() { emacsclient -c -a '' --eval "(ediff-files \"$1\" \"$2\")"; }
     edired() { emacsclient -c -a '' --eval "(progn (dired \"$1\"))"; }
     ekill() { emacsclient --eval '(kill-emacs)'; }
-
-    # emulate bash with eat
-    [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
 fi
 
 # vim
@@ -129,15 +126,6 @@ if [ "$(uname -s)" = 'Linux' ]; then
     gpg_pcscd_restart() {
         sudo systemctl restart pcscd
     }
-fi
-
-#
-# Emacs vterm (https://github.com/akermu/emacs-libvterm)
-#
-if [ "$INSIDE_EMACS" = 'vterm' ] &&
-    [ -n "$EMACS_VTERM_PATH" ] &&
-    [ -f "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh" ]; then
-    source "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh"
 fi
 
 #

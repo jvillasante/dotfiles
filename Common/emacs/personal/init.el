@@ -52,6 +52,12 @@
     ;; custom.el into etc directory
     (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
+;; exec-path-from-shell : Sane environment variables
+(use-package exec-path-from-shell
+    :config
+    (when (daemonp)
+        (exec-path-from-shell-initialize)))
+
 ;; files and paths constants
 (defconst my/home-path (expand-file-name "~/"))
 (defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
@@ -68,6 +74,7 @@
 (require 'my-init-langs)
 (require 'my-init-langtools)
 (require 'my-init-apps)
+(require 'my-init-shell)
 (require 'my-init-misc)
 (require 'my-init-bindings)
 (require 'my-hydras)

@@ -184,6 +184,7 @@
                  "^\\*shell.*\\*$"                 shell-mode                        ;shell as a popup
                  "^\\*term.*\\*$"                  term-mode                         ;term as a popup
                  "^\\*vterm.*\\*$"                 vterm-mode                        ;vterm as a popup
+                 "^\\*eat.*\\*$"                   eat-mode                          ;eat as a popup
                  "^\\*flycheck-list-errors.*\\*$"  flycheck-error-list-mode          ;flycheck error list as a popup
                  "^\\*Flymake diagnostics.*\\*$"   flymake-project-diagnostics-mode  ;flymake diagnostics as a popup
                  "^\\*ibuffer.*\\*$"               ibuffer-mode                      ;ibuffer as a popup
