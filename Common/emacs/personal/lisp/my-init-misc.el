@@ -76,11 +76,11 @@
         recentf-max-saved-items 500
         recentf-max-menu-items 15
         recentf-auto-cleanup 'never)
-    (add-to-list 'recentf-exclude no-littering-var-directory)
-    (add-to-list 'recentf-exclude no-littering-etc-directory)
-    (add-to-list 'recentf-exclude (expand-file-name "Apps/elfeed/elfeed_db/" my/dropbox-path))
-    (add-to-list 'recentf-exclude (expand-file-name ".password-store/" my/home-path))
-    (add-to-list 'recentf-exclude (expand-file-name ".mail/" my/home-path))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-var-directory))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-etc-directory))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "Apps/elfeed/elfeed_db/" my/dropbox-path)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".password-store/" my/home-path)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".mail/" my/home-path)))
     (add-to-list 'recentf-exclude "/dev/shm/")
     (add-to-list 'recentf-exclude "\\.git")
     (add-to-list 'recentf-exclude "/tmp/")
