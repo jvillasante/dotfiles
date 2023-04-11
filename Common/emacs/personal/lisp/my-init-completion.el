@@ -225,9 +225,8 @@
                  completion-cycle-threshold completion-cycling)
             (apply #'consult-completion-in-region completion-in-region--data)))
     :config
-    (setq corfu-cycle t
-        corfu-auto t
-        corfu-auto-delay 0.0
+    (setq corfu-auto t
+        ;; corfu-auto-delay 0.0
         corfu-quit-no-match 'separator)
     :init
     (global-corfu-mode)
