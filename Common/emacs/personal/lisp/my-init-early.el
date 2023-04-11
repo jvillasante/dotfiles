@@ -108,11 +108,6 @@
 (setq-default tab-width 4)            ;; but maintain correct appearance
 (setq indent-line-function 'insert-tab) ;; indent the current line
 (setq standard-indent 4)
-(setq-default c-basic-offset  4) ; Base indent size when indented automatically
-(c-set-offset 'cpp-macro 0 nil) ; Indent C/C++ macros as normal code
-(c-set-offset 'substatement-open 0) ; Align braces with the if/for statement. If not set, a half indent will be used
-(c-set-offset 'arglist-intro '+) ; Align multiline arguments with a standard indent (instead of with parenthesis)
-(c-set-offset 'arglist-close 0) ; Align the parenthesis at the end of the arguments with the opening statement indent
 (setq line-spacing 0.1) ;; line spacing
 (setq completion-ignore-case nil)              ;; do NOT ignore case by default
 (setq read-file-name-completion-ignore-case t) ;; ... but, ignore case when completing filenames
