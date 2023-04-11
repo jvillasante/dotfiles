@@ -24,11 +24,11 @@ namespace utils::chrono::bench {
 // auto minutes = std::chrono::duration<double, std::ratio<60>>(t).count();
 // auto hours = std::chrono::duration<double, std::ratio<3600>>(t).count();
 //
-template <typename Time = std::chrono::microseconds,
-          typename Clock = std::chrono::high_resolution_clock>
+template <typename Time = std::chrono::microseconds, typename Clock = std::chrono::steady_clock>
 struct perf_timer {
     template <typename F, typename... Args>
-    static Time duration(F&& f, Args&&... args) {
+    static Time duration(F&& f, Args&&... args)
+    {
         auto start = Clock::now();
         std::invoke(std::forward<F>(f), std::forward<Args>(args)...);
         auto end = Clock::now();
