@@ -63,6 +63,10 @@
 ;; Printer
 (setq printer-name "Brother_HL_L2370DW_series")
 
+;; Emacs28 dictionary lookup
+(when (fboundp 'dictionary-lookup-definition)
+    (setq dictionary-server "dict.org"))
+
 ;; Some Defaults
 (setq user-full-name "Julio C. Villasante"
     user-mail-address "jvillasantegomez@gmail.com"

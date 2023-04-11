@@ -198,5 +198,8 @@
 (global-set-key (kbd "C-c o t") 'vterm)
 (global-set-key (kbd "C-c o e") 'eshell)
 
+;; C-c l : lookup
+(global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)
+
 (provide 'my-init-bindings)
 ;;; my-init-bindings.el ends here
