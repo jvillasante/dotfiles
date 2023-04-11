@@ -27,7 +27,7 @@
     (add-hook 'c-mode-common-hook
         (lambda ()
             (c-set-style "stroustrup")
-            (setq-default c-basic-offset  4) ; Base indent size when indented automatically
+            (setq-local c-basic-offset 4) ; Base indent size when indented automatically
             (c-set-offset 'cpp-macro 0 nil) ; Indent C/C++ macros as normal code
             (c-set-offset 'substatement-open 0) ; Align braces with the if/for statement. If not set, a half indent will be used
             (c-set-offset 'arglist-intro '+) ; Align multiline arguments with a standard indent (instead of with parenthesis)
