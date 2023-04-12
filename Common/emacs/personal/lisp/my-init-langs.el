@@ -27,11 +27,13 @@
     (add-hook 'c-mode-common-hook
         (lambda ()
             (c-set-style "stroustrup")
-            (setq-local c-basic-offset 4) ; Base indent size when indented automatically
             (c-set-offset 'cpp-macro 0 nil) ; Indent C/C++ macros as normal code
             (c-set-offset 'substatement-open 0) ; Align braces with the if/for statement. If not set, a half indent will be used
             (c-set-offset 'arglist-intro '+) ; Align multiline arguments with a standard indent (instead of with parenthesis)
             (c-set-offset 'arglist-close 0) ; Align the parenthesis at the end of the arguments with the opening statement indent
+            (setq c-basic-offset 4) ; Base indent size when indented automatically
+            (setq tab-width 4)
+            (setq indent-tabs-mode nil)
             (eglot-ensure))))
 
 ;; adoc-mode : ascii docs
