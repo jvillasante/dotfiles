@@ -28,7 +28,7 @@
 
 ;; no-littering needs to come first
 (use-package no-littering
-    :config
+    :init
     ;; auto-save files
     (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
@@ -37,17 +37,13 @@
     (setq lock-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "lock-file/") t)))
 
-    ;; backup all files
-    (setq backup-directory-alist
-        `((".*" . ,(no-littering-expand-var-file-name "backup/"))))
-
-    ;; ... do not backup files from /dev/shm/
-    (add-to-list 'backup-directory-alist (cons "/dev/shm/.*" nil))
-
+    ;; backup all files but
     ;; ... do not backup tramp files
-    (with-eval-after-load 'tramp
-        (add-to-list 'tramp-backup-directory-alist
-            (cons tramp-file-name-regexp nil)))
+    ;; ... do not backup files from /dev/shm/
+    (setq backup-directory-alist
+        `((".*" . ,(no-littering-expand-var-file-name "backup/"))
+             (,tramp-file-name-regexp nil)
+             (,"/dev/shm/.*" nil)))
 
     ;; custom.el into etc directory
     (setq custom-file (no-littering-expand-etc-file-name "custom.el")))

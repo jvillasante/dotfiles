@@ -82,8 +82,12 @@
 
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
+    :preface
+    (defun my/disable-apheleia ()
+        (apheleia-mode -1))
     :init
-    (apheleia-global-mode +1))
+    (apheleia-global-mode +1)
+    (add-hook 'html-mode-hook 'my/disable-apheleia))
 
 (use-package compile
     :ensure nil ; Emacs built in
