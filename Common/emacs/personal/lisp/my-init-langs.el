@@ -33,8 +33,7 @@
             (c-set-offset 'arglist-close 0) ; Align the parenthesis at the end of the arguments with the opening statement indent
             (setq c-basic-offset 4) ; Base indent size when indented automatically
             (setq tab-width 4)
-            (setq indent-tabs-mode nil)
-            (eglot-ensure))))
+            (setq indent-tabs-mode nil))))
 
 ;; adoc-mode : ascii docs
 (use-package adoc-mode
@@ -57,7 +56,6 @@
 
 (use-package python
     :config
-    (add-to-list 'python-mode-hook #'eglot-ensure)
     (defvar my/python-enable-ipython t
         "use ipython as the embedded REPL.")
     (setq python-indent-offset 4)
@@ -83,19 +81,16 @@
 
 (use-package go-mode
     :config
-    (add-to-list 'go-mode-hook #'eglot-ensure)
     (add-hook 'go-mode-hook (setq-local tab-width 4)))
 
 (use-package sql
     :config
-    (add-to-list 'sql-mode-hook #'eglot-ensure)
     (setq sqlind-basic-offset 4)
     (add-hook 'sql-mode-hook (setq-local tab-width 4)))
 
 ;; rustic : blazingly fast
 (use-package rustic
     :config
-    (add-to-list 'rustic-mode-hook #'eglot-ensure)
     (setq rustic-lsp-server 'rust-analyzer
         rustic-lsp-client 'eglot
         rustic-format-on-save nil))

@@ -35,22 +35,21 @@
     :ensure nil ;; emacs built-in
     :preface
     (defun my/eglot-eldoc ()
-        (setq eldoc-documentation-strategy
-            'eldoc-documentation-compose-eagerly))
-    :hook ((eglot-managed-mode . my/eglot-eldoc))
+        (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
+    :hook ((eglot-managed-mode . my/eglot-eldoc)
+              (c-mode-common . eglot-ensure)
+              (rustic-mode . eglot-ensure)
+              (js-mode . eglot-ensure)
+              (python-mode . eglot-ensure)
+              (go-mode . elot-ensure)
+              (sql-mode . eglot-ensure))
     :init
-    (setq eglot-sync-connect 1
-        eglot-extend-to-xref t
-        eglot-connect-timeout 10
-        eglot-autoshutdown t
-        eglot-send-changes-idle-time 0.5)
+    (setq eglot-extend-to-xref t)
+    (setq eglot-autoshutdown t)
     (setq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider :inlayHintProvider)))
     (setq  read-process-output-max (* 1024 1024))
-
     :config
-    ;; (add-to-list 'eglot-stay-out-of 'flymake)
-
     (add-to-list 'eglot-server-programs
         '(python-mode . ("pyright-langserver" "--stdio")))
 
