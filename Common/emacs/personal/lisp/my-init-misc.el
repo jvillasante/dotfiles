@@ -102,6 +102,7 @@
 (use-package tramp
     :ensure nil ;; emacs built-in
     :init
+    (setq remote-file-name-inhibit-locks t)
     (setq tramp-verbose 2)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq tramp-password-prompt-regexp   ; Add verification code support.
