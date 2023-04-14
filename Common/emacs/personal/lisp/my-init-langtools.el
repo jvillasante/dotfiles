@@ -15,15 +15,7 @@
 ;; flymake
 (use-package flymake
     :ensure nil ;; emacs built-in
-    :hook ((prog-mode . (lambda () (flymake-mode +1))))
-    :config
-    (custom-set-faces ;; Underline warnings and errors from Flymake
-        '(flymake-errline ((((class color)) (:underline "red"))))
-        '(flymake-warnline ((((class color)) (:underline "yellow")))))
-
-    (custom-set-variables ;; Display error and warning messages in minibuffer.
-        '(help-at-pt-timer-delay 0.5)
-        '(help-at-pt-display-when-idle '(flymake-overlay))))
+    :hook ((prog-mode . (lambda () (flymake-mode +1)))))
 
 (use-package eldoc
     :ensure nil ;; emacs built-in
@@ -31,12 +23,21 @@
     (setq eldoc-echo-area-use-multiline-p nil)
     (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
+;; (use-package eldoc-box
+;;     :init
+;;     (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t))
+
 (use-package eglot
     :ensure nil ;; emacs built-in
     :if (eq my/lsp-backend 'eglot)
     :preface
     (defun my/eglot-eldoc ()
-        (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
+        ;; Show flymake diagnostics first.
+        (setq eldoc-documentation-functions
+            (cons #'flymake-eldoc-function
+                (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+        ;; Show all eldoc feedback.
+        (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
     :hook ((eglot-managed-mode . my/eglot-eldoc)
               (c-mode-common . eglot-ensure)
               (rustic-mode . eglot-ensure)
@@ -47,10 +48,12 @@
     :init
     (setq eglot-extend-to-xref t)
     (setq eglot-autoshutdown t)
+    (setq read-process-output-max (* 1024 1024))
     (setq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider :inlayHintProvider)))
-    (setq  read-process-output-max (* 1024 1024))
     :config
+    (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
+
     (add-to-list 'eglot-server-programs
         '(python-mode . ("pyright-langserver" "--stdio")))
 
