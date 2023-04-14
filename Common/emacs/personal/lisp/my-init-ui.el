@@ -92,7 +92,6 @@
         tab-bar-close-button-show nil
         tab-bar-new-tab-choice "*scratch*"
         tab-bar-tab-hints t
-        tab-bar-new-button-show nil
         tab-bar-format '(tab-bar-format-tabs-groups
                             tab-bar-separator))
     (add-hook 'pre-command-hook 'tab-bar-history-mode)
