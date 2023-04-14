@@ -1,5 +1,9 @@
 ;;; my-init-langs.el -*- lexical-binding: t; -*-
 
+;; lsp backend
+(defvar my/lsp-backend 'lsp-mode
+    "The lsp backend in use ['eglot or 'lsp-mode].")
+
 ;; elisp
 (use-package elisp-mode
     :ensure nil ;; emacs built-in
@@ -92,19 +96,17 @@
 (use-package rustic
     :config
     (setq rustic-lsp-server 'rust-analyzer
-        rustic-lsp-client 'eglot
-        rustic-format-on-save nil))
+        rustic-format-on-save nil)
+    (when (eq my/lsp-backend 'eglot)
+        (setq! rustic-lsp-client 'eglot)))
 
 ;; js is everywhere
-;; TODO: Add LSP support
 (use-package js2-mode
     :init
     (add-hook 'js2-mode-hook
         (lambda ()
             (push '("function" . ?ƒ) prettify-symbols-alist)))
-
     (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
     :config
     (setq js-basic-indent 2)
     (setq-default js2-basic-indent 2
