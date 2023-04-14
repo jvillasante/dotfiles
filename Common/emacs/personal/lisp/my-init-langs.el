@@ -1,7 +1,7 @@
 ;;; my-init-langs.el -*- lexical-binding: t; -*-
 
 ;; lsp backend
-(defvar my/lsp-backend 'lsp-mode
+(defvar my/lsp-backend 'eglot
     "The lsp backend in use ['eglot or 'lsp-mode].")
 
 ;; elisp
