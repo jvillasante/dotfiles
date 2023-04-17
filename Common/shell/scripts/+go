@@ -14,9 +14,8 @@ install_other_go_packages() {
 }
 
 cleanup_go_binaries() {
-    if [ -d "${GOBIN}" ]; then
-        sudo rm -rf "$GOBIN"
-    fi
+    [ -d "${GOPATH}/bin" ] && rm -rf "$GOPATH/bin"
+    [ -d "${GOPATH}/pkg" ] && rm -rf "$GOPATH/pkg"
 }
 
 set -o errexit
