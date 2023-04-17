@@ -42,9 +42,9 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 # Go
-if [ -d "$HOME/Workspace/Private/Projects/go" ]; then
-    export GOPATH=$HOME/Workspace/Private/Projects/go
-    export GOBIN=$GOPATH/bin
+[ ! -d "$HOME/.go/bin" ] && mkdir -p "$HOME/.go/bin/"
+if [ -d "$HOME/.go/bin" ]; then
+    export GOBIN="$HOME/.go/bin"
     export PATH="$GOBIN:$PATH"
 fi
 
