@@ -43,7 +43,7 @@
               (rustic-mode . eglot-ensure)
               (js-mode . eglot-ensure)
               (python-mode . eglot-ensure)
-              (go-mode . elot-ensure)
+              (go-mode . eglot-ensure)
               (sql-mode . eglot-ensure))
     :init
     (setq eglot-extend-to-xref t)

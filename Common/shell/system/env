@@ -42,10 +42,10 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 # Go
-[ ! -d "$HOME/.go/" ] && mkdir -p "$HOME/.go/"
-export GOPATH="$HOME/.go"
-export GOBIN="$GOPATH/bin"
-export PATH="$GOBIN:$PATH"
+if type go >/dev/null 2>/dev/null; then
+    export GOPATH="$(go env GOPATH)"
+    export PATH="${PATH}:${GOPATH}/bin"
+fi
 
 # Zig
 [ -d "$HOME/Workspace/Software/zig/zig" ] && export PATH="$HOME/Workspace/Software/zig/zig:$PATH"

@@ -66,12 +66,7 @@
 
     (when my/python-enable-ipython
         (setq python-shell-interpreter "ipython3")
-        (setq python-shell-interpreter-args "-i --simple-prompt --no-color-info"))
-
-    (when (and (display-graphic-p)
-              (featurep 'xwidget-internal))
-        (add-hook 'python-mode-hook #'my/xwidget-side-window-mode)
-        (add-hook 'python-mode-hook #'my/refresh-xwidget-after-eval-python-mode)))
+        (setq python-shell-interpreter-args "-i --simple-prompt --no-color-info")))
 
 (use-package markdown-mode
     :mode (("\\.[Rr]md\\'" . markdown-mode)
@@ -85,11 +80,14 @@
 
 (use-package go-mode
     :config
-    (add-hook 'go-mode-hook (setq-local tab-width 4)))
+    (add-hook 'go-mode-hook
+        (lambda ()
+            (setq c-basic-offset 4) ; Base indent size when indented automatically
+            (setq tab-width 4)
+            (setq indent-tabs-mode nil))))
 
 (use-package sql
     :config
-    (setq sqlind-basic-offset 4)
     (add-hook 'sql-mode-hook (setq-local tab-width 4)))
 
 ;; rustic : blazingly fast

@@ -50,7 +50,7 @@
 
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
-    :config
+    :init
     (when (daemonp)
         (exec-path-from-shell-initialize)))
 
