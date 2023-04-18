@@ -38,6 +38,14 @@
                 (remove #'flymake-eldoc-function eldoc-documentation-functions)))
         ;; Show all eldoc feedback.
         (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+
+    ;; Making a Cape Super Capf for Eglot
+    (defun my/eglot-capf ()
+        (setq-local completion-at-point-functions
+            (list (cape-super-capf
+                      #'eglot-completion-at-point
+                      #'tempel-expand
+                      #'cape-file))))
     :hook ((eglot-managed-mode . my/eglot-eldoc)
               (c-mode-common . eglot-ensure)
               (rustic-mode . eglot-ensure)
@@ -51,6 +59,12 @@
     (setq read-process-output-max (* 1024 1024))
     (setq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider :inlayHintProvider)))
+
+    ;; Configure Corfu for Eglot
+    (setq completion-category-overrides '((eglot (styles orderless))))
+    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+    (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+
     :config
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
 
