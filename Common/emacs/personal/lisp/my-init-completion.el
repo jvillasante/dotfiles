@@ -286,8 +286,9 @@
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
 
-                                        ; Configure Tempel
+;; Configure Tempel
 (use-package tempel
+    :disabled t
     ;; Require trigger prefix before template name when completing.
     ;; :custom
     ;; (tempel-trigger-prefix "<")
@@ -296,6 +297,8 @@
               ("M-*" . tempel-insert))
 
     :init
+    (setq tempel-path (expand-file-name "templates" no-littering-etc-directory))
+
     ;; Setup completion at point
     (defun tempel-setup-capf ()
         ;; Add the Tempel Capf to `completion-at-point-functions'.
@@ -320,12 +323,13 @@
 
 ;; Optional: Add tempel-collection.
 ;; The package is young and doesn't have comprehensive coverage.
-(use-package tempel-collection)
+(use-package tempel-collection
+  :disabled t)
 
 ;; (use-package yasnippet-snippets)
-;; (use-package yasnippet
-;;     :config (yas-reload-all)
-;;     :hook (after-init . yas-global-mode))
+(use-package yasnippet
+    :config (yas-reload-all)
+    :hook (after-init . yas-global-mode))
 
 (provide 'my-init-completion)
 ;;; my-init-completion.el ends here

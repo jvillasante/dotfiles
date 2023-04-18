@@ -44,7 +44,7 @@
         (setq-local completion-at-point-functions
             (list (cape-super-capf
                       #'eglot-completion-at-point
-                      #'tempel-expand
+                      ;; #'tempel-expand
                       #'cape-file))))
     :hook ((eglot-managed-mode . my/eglot-eldoc)
               (c-mode-common . eglot-ensure)
