@@ -264,13 +264,16 @@ debian_install() {
                 # Set list-view for Nautilius
                 gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 
+                # Force alt + tab to switch only on current workspace
+                gsettings set org.gnome.shell.app-switcher current-workspace-only true
+
                 # Set fractional scaling (only for wayland)
                 # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
                 # Stop Gnome Software downloading updates
-                gsettings set org.gnome.software allow-updates false
-                gsettings set org.gnome.software download-updates false
-                gsettings set org.gnome.software download-updates-notify false
+                # gsettings set org.gnome.software allow-updates false
+                # gsettings set org.gnome.software download-updates false
+                # gsettings set org.gnome.software download-updates-notify false
 
                 read -p "1) Defaults has been set. Press enter to continue..."
                 ;;

@@ -123,6 +123,9 @@ fedora_install() {
                 # Set list-view for Nautilius
                 gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 
+                # Force alt + tab to switch only on current workspace
+                gsettings set org.gnome.shell.app-switcher current-workspace-only true
+
                 # Set fractional scaling (only for wayland)
                 # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
