@@ -63,13 +63,8 @@
     (when (daemonp)
         (exec-path-from-shell-initialize)))
 
-;; files and paths constants
-(defconst my/home-path (expand-file-name "~/"))
-(defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
-(defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
-(defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
+;; add to load path and require
 (push (expand-file-name "lisp" user-emacs-directory) load-path)
-
 (require 'my-utils)
 (require 'my-init-early)
 (require 'my-init-ui)

@@ -47,5 +47,11 @@
 ;; Make the initial buffer load faster by setting its mode to fundamental-mode
 (setq initial-major-mode 'fundamental-mode)
 
+;; Paths
+(defconst my/home-path (expand-file-name "~/"))
+(defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
+(defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
+(defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
+
 (provide 'early-init)
 ;;; early-init.el ends here
