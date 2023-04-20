@@ -57,15 +57,6 @@ install_emacs() {
         echo ">>> Emacs is not installed, exiting..." && exit 1
     fi
 
-    # Install Chemacs2
-    # if [ ! -d "$DOTFILES_DIR/.emacs.chemacs2" ]; then
-    #     git clone git@github.com:plexus/chemacs2.git "$DOTFILES_DIR/.emacs.chemacs2"
-    #     check $?
-
-    #     rm -rf "$DOTFILES_DIR/.emacs.d"
-    #     ln -s "$DOTFILES_DIR/.emacs.chemacs2" "$DOTFILES_DIR/.emacs.d"
-    # fi
-
     # Install Doom Emacs
     # if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
     #     echo ">>> Installing Doom Emacs at $DOTFILES_DIR/.emacs.doom"
@@ -79,11 +70,12 @@ install_emacs() {
     # fi
 
     # Install Crafted Emacs
-    # if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
-    #     echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
-    #     git clone git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
-    #     check $?
-    # fi
+    if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
+        echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
+        # git clone git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
+        git clone -b craftedv2alpha --single-branch git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
+        check $?
+    fi
 
     # Install Prelude
     # if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
