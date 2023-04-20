@@ -412,6 +412,7 @@ debian_install() {
                 sudo flatpak install -y flathub org.gimp.GIMP
                 sudo flatpak install -y flathub org.wireshark.Wireshark
                 sudo flatpak install -y flathub com.github.tchx84.Flatseal
+                sudo flatpak install -y flathub dev.geopjr.Tuba
                 # flatpak install -y flathub org.shotcut.Shotcut
                 # flatpak install -y flathub com.brave.Browser
                 # flatpak install -y flathub org.gnome.Extensions
