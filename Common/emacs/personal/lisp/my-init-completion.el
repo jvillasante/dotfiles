@@ -326,7 +326,7 @@
 (use-package tempel-collection
   :disabled t)
 
-;; (use-package yasnippet-snippets)
+(use-package yasnippet-snippets)
 (use-package yasnippet
     :config (yas-reload-all)
     :hook (after-init . yas-global-mode))

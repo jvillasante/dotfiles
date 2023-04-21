@@ -68,18 +68,29 @@
     :config
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
 
+    ;; workspace
+    (setq-default eglot-workspace-configuration
+        '((:gopls .
+              ((staticcheck . t)
+                  (usePlaceholders . t)))))
+
+    ;; python
     (add-to-list 'eglot-server-programs
         '(python-mode . ("pyright-langserver" "--stdio")))
 
+    ;; sql
     (add-to-list 'eglot-server-programs
         '(sql-mode . ("sqls")))
 
+    ;; go
     (add-to-list 'eglot-server-programs
         '(go-mode . ("gopls")))
 
+    ;; rust
     (add-to-list 'eglot-server-programs
         '(rustic-mode . ("rust-analyzer")))
 
+    ;; C++
     (add-to-list 'eglot-server-programs
         '(c++-mode
              . ("clangd"

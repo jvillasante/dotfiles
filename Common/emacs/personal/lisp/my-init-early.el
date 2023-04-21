@@ -128,6 +128,26 @@
     auto-save-interval 200)       ; number of keystrokes between auto-saves (default: 300)
 (auto-save-visited-mode +1)
 
+;; auto-save files
+(setq auto-save-file-name-transforms
+    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+
+;; lock files
+(setq lock-file-name-transforms
+    `((".*" ,(no-littering-expand-var-file-name "lock-file/") t)))
+
+;; backup all files but
+(setq backup-directory-alist
+    `(("." . ,(no-littering-expand-var-file-name "backup/"))))
+
+;; ... do not backup files from /tmp/
+(add-to-list 'backup-directory-alist
+    (cons "^/tmp/" nil))
+
+;; ... do not backup files from /dev/shm/
+(add-to-list 'backup-directory-alist
+    (cons "^/dev/shm/" nil))
+
 (when IS-MAC
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
     (setq browse-url-browser-function 'browse-url-generic)

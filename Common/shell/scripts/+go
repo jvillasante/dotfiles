@@ -1,15 +1,28 @@
 #!/usr/bin/env bash
 
+. "$HOME/.config/shell/common.sh"
+
 install_common_go_packages() {
     if hash go 2>/dev/null; then
+        # the go language server
         go install golang.org/x/tools/gopls@latest
+        check $?
+
+        # better than `go fmt`
+        go install golang.org/x/tools/cmd/goimports@latest
+        check $?
+
+        # go idiomatic linter
+        go install golang.org/x/lint/golint@latest
         check $?
     fi
 }
 
 install_other_go_packages() {
     if hash go 2>/dev/null; then
-        echo "Working on that..."
+        # hey is a tiny program that sends some load to a web application.
+        go install github.com/rakyll/hey@latest
+        check $?
     fi
 }
 

@@ -31,32 +31,7 @@
       use-package-expand-minimally t)
 
 ;; no-littering needs to come first
-(use-package no-littering
-    :init
-    ;; auto-save files
-    (setq auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-
-    ;; lock files
-    (setq lock-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "lock-file/") t)))
-
-    ;; backup all files but
-    (setq backup-directory-alist
-        `(("." . ,(no-littering-expand-var-file-name "backup/"))))
-
-    ;; ... do not backup files from /tmp/
-    (add-to-list 'backup-directory-alist
-        (cons "^/tmp/" nil))
-
-    ;; ... do not backup files from /dev/shm/
-    (add-to-list 'backup-directory-alist
-        (cons "^/dev/shm/" nil))
-
-    ;; ... do not backup tramp files
-    (with-eval-after-load 'tramp
-        (add-to-list 'backup-directory-alist
-            (cons tramp-file-name-regexp nil))))
+(use-package no-littering)
 
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
