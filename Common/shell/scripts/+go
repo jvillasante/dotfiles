@@ -1,6 +1,27 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
 . "$HOME/.config/shell/common.sh"
+
+usage() {
+    echo "Usage:"
+    echo "    $0 help:"
+    echo "        Show this help message"
+    echo "    $0 update:"
+    echo "        Install/Update Common Go Packages"
+    echo "    $0 clean:"
+    echo "        Remove everything from $GOPATH"
+    echo "    $0 go [arbitrary go command]:"
+    echo "        Run arbitrary go command"
+    echo
+    echo " e.g: $0 update"
+    exit "$1"
+}
 
 install_common_go_packages() {
     if hash go 2>/dev/null; then
@@ -18,48 +39,38 @@ install_common_go_packages() {
     fi
 }
 
-install_other_go_packages() {
-    if hash go 2>/dev/null; then
-        # hey is a tiny program that sends some load to a web application.
-        go install github.com/rakyll/hey@latest
-        check $?
-    fi
-}
-
 cleanup_go_binaries() {
     [ -d "${GOPATH}/bin" ] && rm -rf "$GOPATH/bin"
     [ -d "${GOPATH}/pkg" ] && rm -rf "$GOPATH/pkg"
 }
 
-set -o errexit
-set -o nounset
-set -o pipefail
-[[ "${TRACE-0}" == "1" ]] && set -o xtrace
-cd "$(dirname "$0")" || exit 1
-
-while true; do
-    PS3="Choose an option: "
-    options=("Install Common Go Packages Globally" "Install Other Go Packages Globally" "Cleanup Go Binaries" "Quit")
-
-    select opt in "${options[@]}"; do
-        case $REPLY in
-            1)
-                install_common_go_packages
-                hr
-                break
-                ;;
-            2)
-                install_other_go_packages
-                hr
-                break
-                ;;
-            3)
-                cleanup_go_binaries
-                hr
-                break
-                ;;
-            4) break 2 ;;
-            *) echo "Invalid option '$opt'" >&2 ;;
-        esac
-    done
-done
+nargs=$#
+cmd=${1-}
+rc=0
+if [ "$#" -gt 0 ]; then shift; fi
+case $cmd in
+    update)
+        [ "$nargs" -eq 1 ] || usage 1
+        install_common_go_packages "$@"
+        ;;
+    clean)
+        [ "$nargs" -eq 1 ] || usage 1
+        cleanup_go_binaries
+        ;;
+    go)
+        [ "$nargs" -lt 2 ] && usage 1
+        if hash go 2>/dev/null; then
+            go "$@"
+        else
+            echo "go not installed, exiting..."
+            exit 1
+        fi
+        ;;
+    help | --help | -h)
+        usage 0
+        ;;
+    *)
+        usage 1
+        ;;
+esac
+exit $rc
