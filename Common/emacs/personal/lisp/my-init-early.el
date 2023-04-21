@@ -122,6 +122,18 @@
     kept-old-versions 2           ; oldest versions to keep when a new numbered backup is made (default: 2)
     kept-new-versions 6)          ; newest versions to keep when a new numbered backup is made (default: 2)
 
+;; backup all files
+(setq backup-directory-alist
+    `(("." . ,(no-littering-expand-var-file-name "backup/"))))
+
+;; ... do not backup some
+(setq backup-enable-predicate
+    (lambda (name)
+        (and (normal-backup-enable-predicate name)
+            (not (s-starts-with? "/dev/shm" name))
+            (not (s-contains? "password-store" name))
+            (my/file-is-not-root-p name))))
+
 ;; autosave
 (setq auto-save-default t         ; auto-save every buffer that visits a file
     auto-save-timeout 20          ; number of seconds idle time before auto-save (default: 30)
@@ -130,23 +142,23 @@
 
 ;; auto-save files
 (setq auto-save-file-name-transforms
-    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+    `(("." ,(no-littering-expand-var-file-name "auto-save/") t)))
+
+;; disable auto-save on certain tramp profiles
+(connection-local-set-profile-variables
+    'no-remote-auto-save-profile
+    '((buffer-auto-save-file-name . nil)
+         (remote-file-name-inhibit-auto-save-visited . t)
+         (remote-file-name-inhibit-auto-save . t)))
+
+;; disable auto-save for specific protocols
+(dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh"))
+    (connection-local-set-profiles
+        `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile)))
 
 ;; lock files
 (setq lock-file-name-transforms
-    `((".*" ,(no-littering-expand-var-file-name "lock-file/") t)))
-
-;; backup all files but
-(setq backup-directory-alist
-    `(("." . ,(no-littering-expand-var-file-name "backup/"))))
-
-;; ... do not backup files from /tmp/
-(add-to-list 'backup-directory-alist
-    (cons "^/tmp/" nil))
-
-;; ... do not backup files from /dev/shm/
-(add-to-list 'backup-directory-alist
-    (cons "^/dev/shm/" nil))
+    `(("." ,(no-littering-expand-var-file-name "lock-file/") t)))
 
 (when IS-MAC
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))

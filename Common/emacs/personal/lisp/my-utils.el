@@ -40,6 +40,17 @@ keybinding to close the window."
                 (use-local-map map)))
         (switch-to-buffer-other-window clone-buffer)))
 
+(defun my/file-is-root-p (name)
+    "Check whether tramp su/sudo method is used for opening filepath NAME."
+    ;; Adopted from https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-File-Lock-and-Backup.html
+    (let ((method (file-remote-p name 'method)))
+        (when (stringp method)
+            (member method '("su" "sudo")))))
+
+(defun my/file-is-not-root-p (name)
+    "Check whether tramp su/sudo method is not used for opening filepath NAME."
+    (not (my/file-is-root-p name)))
+
 ;;; UI
 
 (defun my/font-installed-p (font-name)
