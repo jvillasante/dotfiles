@@ -15,12 +15,16 @@
 
 ;; bootstrap package.el
 (require 'package)
+(setq package-user-dir (expand-file-name "var/elpa" user-emacs-directory))
+(when (boundp 'package-gnupghome-dir)
+    (setq package-gnupghome-dir (expand-file-name "var/gnupg" user-emacs-directory)))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
-(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 (unless (package-installed-p 'use-package) (package-install 'use-package))
+
+;; bootstrap use-package
 (require 'use-package)
 (setq use-package-verbose t
       use-package-always-ensure t
@@ -52,10 +56,7 @@
     ;; ... do not backup tramp files
     (with-eval-after-load 'tramp
         (add-to-list 'backup-directory-alist
-            (cons tramp-file-name-regexp nil)))
-
-    ;; custom.el into etc directory
-    (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
+            (cons tramp-file-name-regexp nil))))
 
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
@@ -78,6 +79,11 @@
 (require 'my-init-misc)
 (require 'my-init-bindings)
 (require 'my-hydras)
+
+;; config changes made through the customize UI will be stored here
+(setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+(when (file-exists-p custom-file)
+    (load custom-file))
 
 ;; after started, stop debug on error
 (setq debug-on-error nil)

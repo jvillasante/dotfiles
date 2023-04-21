@@ -22,7 +22,7 @@
 ;;; Native compilation settings
 (when (featurep 'native-compile)
     ;; Silence compiler warnings as they can be pretty disruptive
-    (setq native-comp-async-report-warnings-errors nil)
+    (setq native-comp-async-report-warnings-errors 'silent)
 
     ;; Make native compilation happens asynchronously
     (setq native-comp-deferred-compilation t)
