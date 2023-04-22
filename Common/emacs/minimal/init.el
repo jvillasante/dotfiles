@@ -1,85 +1,173 @@
-;;; init.el --- -*- lexical-binding: t -*-
+;;; Personal configuration -*- lexical-binding: t -*-
 
-;; Author: Julio C. Villasante <jvillasantegomez@gmail.com>
-;; URL: https://github.com/jvillasante/dotfiles
-;; Keywords: dotfiles emacs
+;; Save the contents of this file under ~/.emacs.d/init.el
+;; Do not forget to use Emacs' built-in help system:
+;; Use C-h C-h to get an overview of all help commands.  All you
+;; need to know about Emacs (what commands exist, what functions do,
+;; what variables specify), the help system can provide.
+;; https://emacs.amodernist.com/
 
-;;; Commentary:
-;; This is my minimal Emacs configuration.
-
-;;; Code:
-
-;; custom variables
-(custom-set-variables
-    '(custom-enabled-themes '(modus-operandi))
-    '(font-use-system-font t)
-    '(menu-bar-mode nil)
-    '(org-html-validation-link "" t)
-    '(package-selected-packages
-         '(sudo-edit undo-tree))
-    '(show-paren-mode t)
-    '(tool-bar-mode nil)
-    '(delete-selection-mode t)
-    '(undo-tree-visualizer-diff t)
-    '(undo-tree-visualizer-relative-timestamps t))
-
-;; melpa
-
+;; Add the NonGNU ELPA package archive
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives  '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 
-;; install packages
+;; Disable the menu bar
+(menu-bar-mode -1)
 
-(package-initialize)
-(unless package-archive-contents
-    (package-refresh-contents))
-(package-install-selected-packages)
+;; Disable the tool bar
+(tool-bar-mode -1)
 
-;; store all backup and autosave files in the tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+;; Disable the scroll bars
+(scroll-bar-mode -1)
 
-;; UI settings
-(setq default-cursor-type 'hbar) ;Use a minimal cursor
-(setq initial-scratch-message "") ; Don't use messages that you don't read
-(setq inhibit-startup-message t)
-(setq visible-bell t) ; Don't let Emacs hurt your ears
-(toggle-scroll-bar -1) ; no distractions
-(toggle-frame-maximized) ; start maximized
+;; Disable splash screen
+(setq inhibit-startup-screen t)
 
-;; parens pairs
-(show-paren-mode 1)
-(setq show-paren-delay 0)
+;;; Completion framework
+(unless (package-installed-p 'vertico)
+    (package-install 'vertico))
 
-;; windmove
-(when (fboundp 'windmove-default-keybindings)
-    (windmove-default-keybindings))
+;; Enable completion by narrowing
+(vertico-mode t)
 
-;; undo tree
-(global-undo-tree-mode)
+;; Enable horizontal completion
+;; (vertico-flat-mode t)
 
-;; set custom face
-(add-hook 'emacs-startup-hook
-    (lambda ()
-        (custom-set-faces
-            `(default ((t (:font "Iosevka 16"))))
-            `(fixed-pitch ((t (:inherit (default)))))
-            `(fixed-pitch-serif ((t (:inherit (default)))))
-            `(variable-pitch ((t (:font "Iosevka Aile")))))))
+;; Improve directory navigation
+(with-eval-after-load 'vertico
+    (define-key vertico-map (kbd "RET") #'vertico-directory-enter)
+    (define-key vertico-map (kbd "DEL") #'vertico-directory-delete-word)
+    (define-key vertico-map (kbd "M-d") #'vertico-directory-delete-char))
 
-;; eww settings
-(setq
-    browse-url-browser-function 'eww-browse-url ; Use eww as the default browser
-    shr-use-fonts  nil                          ; No special fonts
-    shr-use-colors nil                          ; No colours
-    shr-indentation 2                           ; Left-side margin
-    shr-inhibit-images t
-    eww-search-prefix "https://www.mojeek.com/search?hp=minimal&q=") ; Use Mojeek Minimal for search (default)
+;;; Extended completion utilities
+(unless (package-installed-p 'consult)
+    (package-install 'consult))
+(global-set-key [rebind switch-to-buffer] #'consult-buffer)
+(global-set-key (kbd "C-c j") #'consult-line)
+(global-set-key (kbd "C-c i") #'consult-imenu)
+(setq read-buffer-completion-ignore-case t
+    read-file-name-completion-ignore-case t
+    completion-ignore-case t)
 
-;; OTHER KEYBINDINGS
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+;; Enable line numbering in `prog-mode'
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
-(provide 'init)
-;;; init.el ends here
+;; Automatically pair parentheses
+(electric-pair-mode t)
+
+;;; LSP Support
+(unless (package-installed-p 'eglot)
+    (package-install 'eglot))
+
+;; Enable LSP support by default in programming buffers
+(add-hook 'prog-mode-hook #'eglot-ensure)
+
+;;; Inline static analysis
+
+;; Enabled inline static analysis
+(add-hook 'prog-mode-hook #'flymake-mode)
+
+;; Display messages when idle, without prompting
+(setq help-at-pt-display-when-idle t)
+
+;; Message navigation bindings
+(with-eval-after-load 'flymake
+    (define-key flymake-mode-map (kbd "C-c n") #'flymake-goto-next-error)
+    (define-key flymake-mode-map (kbd "C-c p") #'flymake-goto-prev-error))
+
+;;; Pop-up completion
+(unless (package-installed-p 'corfu)
+    (package-install 'corfu))
+
+;; Enable autocompletion by default in programming buffers
+(add-hook 'prog-mode-hook #'corfu-mode)
+
+;; Enable automatic completion.
+(setq corfu-auto t)
+
+;;; Git client
+(unless (package-installed-p 'magit)
+    (package-install 'magit))
+
+;; Bind the `magit-status' command to a convenient key.
+(global-set-key (kbd "C-x g") #'magit-status)
+
+;; Show word-granularity differences within diff hunks
+(setq magit-diff-refine-hunk t)
+
+;;; Indication of local VCS changes
+(unless (package-installed-p 'diff-hl)
+    (package-install 'diff-hl))
+
+;; Enable `diff-hl' support by default in programming buffers
+(add-hook 'prog-mode-hook #'diff-hl-mode)
+
+;; Update the highlighting without saving
+(diff-hl-flydiff-mode t)
+
+;;; Go Support
+(unless (package-installed-p 'go-mode)
+    (package-install 'go-mode))
+
+;;; JSON Support
+(unless (package-installed-p 'json-mode)
+    (package-install 'json-mode))
+
+;;; Lua Support
+(unless (package-installed-p 'lua-mode)
+    (package-install 'lua-mode))
+
+;;; Rust Support
+(unless (package-installed-p 'rust-mode)
+    (package-install 'rust-mode))
+
+;;; Typescript Support
+(unless (package-installed-p 'typescript-mode)
+    (package-install 'typescript-mode))
+
+;;; YAML Support
+(unless (package-installed-p 'yaml-mode)
+    (package-install 'yaml-mode))
+
+;;; Markdown support
+(unless (package-installed-p 'markdown-mode)
+    (package-install 'markdown-mode))
+
+;;; Outline-based notes management and organizer
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+
+;;; Additional Org-mode related functionality
+(unless (package-installed-p 'org-contrib)
+    (package-install 'org-contrib))
+
+;;; EditorConfig support
+(unless (package-installed-p 'editorconfig)
+    (package-install 'editorconfig))
+
+;; Enable EditorConfig
+(editorconfig-mode t)
+
+;;; Jump to arbitrary positions
+(unless (package-installed-p 'avy)
+    (package-install 'avy))
+(global-set-key (kbd "C-c z") #'avy-goto-word-1)
+
+;; Miscellaneous options
+(setq-default major-mode
+    (lambda () ; guess major mode from file name
+        (unless buffer-file-name
+            (let ((buffer-file-name (buffer-name)))
+                (set-auto-mode)))))
+(setq confirm-kill-emacs #'yes-or-no-p)
+(setq window-resize-pixelwise t)
+(setq frame-resize-pixelwise t)
+(save-place-mode t)
+(savehist-mode t)
+(recentf-mode t)
+(defalias 'yes-or-no #'y-or-n-p)
+
+;; Store automatic customisation options elsewhere
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(when (file-exists-p custom-file)
+    (load custom-file))
