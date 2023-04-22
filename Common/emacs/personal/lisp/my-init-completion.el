@@ -20,11 +20,6 @@
         '(read-only t cursor-intangible t face minibuffer-prompt))
     (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-    ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-    ;; Vertico commands are hidden in normal buffers.
-    ;; (setq read-extended-command-predicate
-    ;;       #'command-completion-default-include-p)
-
     ;; Enable recursive minibuffers
     (setq enable-recursive-minibuffers t))
 
@@ -32,7 +27,7 @@
     :init
     (vertico-mode)
     (setq vertico-resize nil
-        vertico-count 13
+        vertico-count 14
         vertico-cycle t)
 
     ;; Use `consult-completion-in-region' if Vertico is enabled.
@@ -226,7 +221,8 @@
             (apply #'consult-completion-in-region completion-in-region--data)))
     :config
     (setq corfu-auto t
-        ;; corfu-auto-delay 0.0
+        ;; corfu-auto-delay 0
+        ;; corfu-auto-prefix 0
         corfu-quit-no-match 'separator)
     :init
     (global-corfu-mode)
@@ -324,7 +320,7 @@
 ;; Optional: Add tempel-collection.
 ;; The package is young and doesn't have comprehensive coverage.
 (use-package tempel-collection
-  :disabled t)
+    :disabled t)
 
 (use-package yasnippet-snippets)
 (use-package yasnippet
