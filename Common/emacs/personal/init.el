@@ -39,8 +39,14 @@
     (when (daemonp)
         (exec-path-from-shell-initialize)))
 
-;; add to load path and require
+;; Paths
+(defconst my/home-path (expand-file-name "~/"))
+(defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
+(defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
+(defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
 (push (expand-file-name "lisp" user-emacs-directory) load-path)
+
+;; load config
 (require 'my-utils)
 (require 'my-init-early)
 (require 'my-init-ui)
@@ -55,13 +61,13 @@
 (require 'my-init-bindings)
 (require 'my-hydras)
 
+;; after started, stop debug on error
+(setq debug-on-error nil)
+
 ;; config changes made through the customize UI will be stored here
 (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
 (when (file-exists-p custom-file)
     (load custom-file))
-
-;; after started, stop debug on error
-(setq debug-on-error nil)
 
 ;; after started up, reset GC threshold to normal.
 (run-with-idle-timer 4 nil

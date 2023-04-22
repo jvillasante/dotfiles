@@ -184,6 +184,7 @@
 (global-set-key (kbd "C-c c f") 'my/toggle-fold)
 (global-set-key (kbd "C-c c h") 'eldoc)
 (with-eval-after-load 'eglot
+    (define-key eglot-mode-map (kbd "C-c c R") 'eglot-reconnect)
     (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
     (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
