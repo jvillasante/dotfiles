@@ -148,11 +148,9 @@ fedora_install() {
                 ;;
             3)
                 echo "$CHOICE) Updating Kernel and Firmware"
+
+                # update kernel
                 sudo dnf install -y gcc kernel-headers kernel-devel
-                sudo fwupdmgr get-devices
-                sudo fwupdmgr refresh --force
-                sudo fwupdmgr get-updates
-                sudo fwupdmgr update
 
                 # Enable RPM Fusion
                 sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
@@ -163,9 +161,14 @@ fedora_install() {
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf install -y \*-firmware
-
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
+
+                # Install firmware if any
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
                 read -p "$CHOICE) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
                 ;;
             4)
@@ -286,7 +289,7 @@ fedora_install() {
                 # sudo dnf group upgrade -y --with-optional Multimedia
 
                 # Install additional codecs
-                sudo dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+                sudo dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin --allowerasing
                 sudo dnf groupupdate sound-and-video
 
                 # Install Hardware Accelerated Codec
@@ -336,15 +339,15 @@ fedora_install() {
                 # Docker
                 #
 
-                # Install and Enable Docker
-                sudo dnf -y install dnf-plugins-core
-                sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-                sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-                sudo systemctl enable docker && sudo systemctl start docker
+                # Install and Enable Docker (not working on fedora-38)
+                # sudo dnf -y install dnf-plugins-core
+                # sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+                # sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+                # sudo systemctl enable docker && sudo systemctl start docker
 
                 # add user
-                sudo usermod -G docker -a $USER
-                sudo systemctl restart docker
+                # sudo usermod -G docker -a $USER
+                # sudo systemctl restart docker
 
                 # test we can run docker without `sudo`
                 # docker run hello-world
