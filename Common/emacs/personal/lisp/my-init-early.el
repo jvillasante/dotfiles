@@ -142,7 +142,7 @@
 
 ;; auto-save files
 (setq auto-save-file-name-transforms
-    `(("." ,(no-littering-expand-var-file-name "auto-save/") t)))
+    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
 ;; disable auto-save on certain tramp profiles
 (connection-local-set-profile-variables
@@ -158,7 +158,7 @@
 
 ;; lock files
 (setq lock-file-name-transforms
-    `(("." ,(no-littering-expand-var-file-name "lock-file/") t)))
+    `((".*" ,(no-littering-expand-var-file-name "lock-file/") t)))
 
 (when IS-MAC
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
