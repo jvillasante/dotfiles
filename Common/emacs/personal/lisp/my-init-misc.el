@@ -166,9 +166,6 @@
         `((".*" . ,no-littering-var-directory)))
     (setq undo-tree-auto-save-history nil))
 
-;; hydra : Keybindings combinations
-(use-package hydra)
-
 ;; Expand Region : expand or contract selection
 (use-package expand-region)
 

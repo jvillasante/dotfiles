@@ -60,7 +60,6 @@
 (require 'my-init-misc)
 (require 'my-init-modal)
 (require 'my-init-bindings)
-(require 'my-hydras)
 
 ;; after started, stop debug on error
 (setq debug-on-error nil)

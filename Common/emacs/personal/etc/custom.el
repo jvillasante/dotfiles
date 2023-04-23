@@ -84,13 +84,12 @@
            (eshell-connection-default-profile
                (eshell-path-env-list))))
  '(package-selected-packages
-      '(meow company-box company yasnippet-snippets no-littering exec-path-from-shell modus-themes minions which-key anzu shackle popper vertico orderless all-the-icons-completion marginalia consult-dir embark-consult corfu-terminal cape yasnippet magit git-gutter hl-todo org-superstar deft elisp-demos adoc-mode csv-mode yaml-mode web-mode go-mode rustic js2-mode lsp-mode cmake-mode apheleia fancy-compilation elfeed pdf-tools eshell-prompt-extras vterm helpful rainbow-delimiters ibuffer-vc crux persistent-scratch editorconfig avy undo-tree hydra expand-region whole-line-or-region multiple-cursors engine-mode diredfl all-the-icons-dired dired-hide-dotfiles dired-sidebar)))
+      '(meow company-box company yasnippet-snippets no-littering exec-path-from-shell minions which-key anzu shackle popper vertico orderless all-the-icons-completion marginalia consult-dir embark-consult corfu-terminal cape yasnippet git-gutter hl-todo org-superstar deft elisp-demos adoc-mode csv-mode yaml-mode web-mode go-mode rustic js2-mode cmake-mode apheleia fancy-compilation elfeed pdf-tools eshell-prompt-extras vterm helpful rainbow-delimiters ibuffer-vc crux persistent-scratch editorconfig avy undo-tree hydra expand-region whole-line-or-region multiple-cursors engine-mode diredfl all-the-icons-dired dired-hide-dotfiles dired-sidebar)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:font "Iosevka 16"))))
  '(fancy-compilation-default-face ((t (:inherit nil :background unspecified))))
  '(fixed-pitch ((t (:inherit (default)))))
  '(fixed-pitch-serif ((t (:inherit (default)))))
