@@ -58,6 +58,7 @@
 (require 'my-init-apps)
 (require 'my-init-shell)
 (require 'my-init-misc)
+(require 'my-init-modal)
 (require 'my-init-bindings)
 (require 'my-hydras)
 
