@@ -54,10 +54,12 @@
 
 ;; web-mode : Support various web files
 (use-package web-mode
-    :mode ("\\.css\\'" "\\.html\\'" "\\.ts\\'" "\\.js\\'" "\\.vue\\'")
+    :mode ("\\.css\\'" "\\.html\\'" "\\.ts\\'" "\\.js\\'" "\\.jsx?$" "\\.vue\\'")
     :custom
     (web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
-    (web-mode-markup-indent-offset 2)) ; For html : use an indent of size 2 (default is 4)
+    (web-mode-markup-indent-offset 2)
+    (web-mode-css-indent-offset 2)
+    (web-mode-code-indent-offset 2))
 
 (use-package python
     :config
@@ -99,6 +101,12 @@
     (when (eq my/lsp-backend 'eglot)
         (setq! rustic-lsp-client 'eglot)))
 
+;; JSON Support
+(use-package json-mode)
+
+;; Lua Support
+(use-package lua-mode)
+
 ;; js is everywhere
 (use-package js2-mode
     :init
@@ -114,7 +122,9 @@
         js2-cleanup-whitespace t
         js2-enter-indents-newline t
         js2-indent-on-enter-key t
-        js2-global-externs (list "window" "module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "jQuery" "$")))
+        js2-global-externs (list "window" "module" "require" "buster" "sinon" "assert" "refute"
+                               "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location"
+                               "__dirname" "console" "JSON" "jQuery" "$")))
 
 (provide 'my-init-langs)
 ;;; my-init-langs.el ends here
