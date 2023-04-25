@@ -48,9 +48,10 @@ if type emacs >/dev/null 2>/dev/null; then
     alias emt="emacsclient -t -a ''"       # used to be "emacs -nw"
     alias semt="sudo emacsclient -t -a ''" # used to be "sudo emacs -nw"
 
-    ediff() { emacsclient -c -a '' --eval "(ediff-files \"$1\" \"$2\")"; }
-    edired() { emacsclient -c -a '' --eval "(progn (dired \"$1\"))"; }
-    ekill() { emacsclient --eval '(kill-emacs)'; }
+    function ediff()  { emacsclient -c -a '' --eval "(ediff-files \"$1\" \"$2\")"; }
+    function edired() { emacsclient -c -a '' --eval "(progn (dired \"$1\"))"; }
+    function magit()  { emacsclient -c -a '' --eval '(magit-status)'; }
+    function ekill()  { emacsclient --eval '(kill-emacs)'; }
 fi
 
 # vim
