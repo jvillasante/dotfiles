@@ -11,8 +11,9 @@
 -isystem/usr/lib/gcc/x86_64-redhat-linux/12/include
 -isystem/usr/local/include
 -isystem/usr/include
+-isystem/home/jvillasante/Workspace/Work/Software
+-isystem/home/jvillasante/Workspace/Work/Software/openwrt-ubus
 -I./
 -I./src
--I./thirdparty/fmt
+-I./thirdparty
 -I./thirdparty/libtins/include
--I./thirdparty/nlohmann
