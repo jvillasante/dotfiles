@@ -50,6 +50,11 @@ if type fzf >/dev/null 2>/dev/null; then
             return
         fi
 
+        if [[ sm2-dhcpee = "$selected_name" ]]; then
+            "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/dhcpee.session" "$selected" "$selected_name"
+            return
+        fi
+
         tmux_running=$(pgrep tmux)
         if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
             tmux new-session -s "$selected_name" -c "$selected"
