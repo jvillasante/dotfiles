@@ -383,6 +383,7 @@ fedora_install() {
                 sudo flatpak update
                 sudo flatpak install -y flathub org.gnome.TextEditor
                 sudo flatpak install -y flathub org.mozilla.firefox
+                sudo flatpak install -y flathub net.mullvad.MullvadBrowser
                 sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
                 sudo flatpak install -y flathub org.gnome.Firmware
                 sudo flatpak install -y flathub com.discordapp.Discord
