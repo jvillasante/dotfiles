@@ -1,12 +1,39 @@
+# EditorConfig: https://editorconfig.org
+
+# top-most EditorConfig file
 root = true
 
+# charset: The files are utf-8 encoded
+# end_of_line: Use Unix line endings
+# insert_final_newline: A file must end with an empty line - this is good for version control systems
+# trim_trailing_whitespace: No whitespace at the end of line
+# indent_style: Use spaces for indentation
+# indent_size: Each indent should contain 4 spaces
 [*]
-indent_style = space            # Use spaces for indentation
-indent_size = 4                 # Each indent should contain 4 spaces
-end_of_line = lf                # Use Unix line endings
-charset = utf-8                 # The files are utf-8 encoded
-trim_trailing_whitespace = true # No whitespace at the end of line
-insert_final_newline = true     # A file must end with an empty line - this is good for version control systems
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
 
+# Makefiles require tabs
 [{Makefile,**.mk}]
-indent_style = tab # Use tabs for indentation (Makefiles require tabs)
+indent_style = tab
+
+# Go require tabs
+[*.go]
+indent_style = tab
+
+# tmpl files uses tabs and 2 indent size
+[*.tmpl]
+indent_style = tab
+indent_size = 2
+
+# less and yml files uses 2 indent size
+[*.{less, yml}]
+indent_size = 2
+
+# javascript files uses 2 indent size
+[*.js]
+indent_size = 2
