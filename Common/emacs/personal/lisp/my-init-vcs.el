@@ -20,7 +20,7 @@
         '("magit:" ;; the main magit dashboard
              ;; don't create new window if there is one magit window
              ;; and create new tab if there isn't one magit window.
-             (display-buffer-reuse-window display-buffer-in-new-tab))))
+             (display-buffer-reuse-window display-buffer-same-window))))
 
 (use-package git-gutter
     :commands (git-gutter:revert-hunk git-gutter:stage-hunk)
