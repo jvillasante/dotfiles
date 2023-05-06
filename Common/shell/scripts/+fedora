@@ -35,8 +35,8 @@ fedora_install() {
 
     OPTIONS=(
         1 "Setup Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
-        2 "Setup  DNF - Setup DNF with RPM Fusion and do a full upgrade of the System"
-        3 "Firmware Update - Update Kernel & Firmware (reboot needed)"
+        2 "Setup DNF - Setup DNF & Firmware update"
+        3 "Setup RPM Fussion - Update Kernel & RPM Fussion (reboot needed)"
         4 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
         5 "Install Software - Installs a bunch of my most used software"
         6 "Install Extras - Themes Fonts and Codecs"
@@ -134,20 +134,24 @@ fedora_install() {
                 # gsettings set org.gnome.software download-updates false
                 # gsettings set org.gnome.software download-updates-notify false
 
-                read -p "$CHOICE) Defaults has been set. Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             2)
-                echo "$CHOICE) Setting up DNF"
+                echo "$CHOICE) Setting up DNF & Firmware update"
 
                 # Setup dnf configs
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
-
                 sudo dnf upgrade -y --refresh
-                sudo dnf autoremove -y
-                read -p "$CHOICE) DNF config has now been amended. Press enter to continue..."
+
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
+
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             3)
-                echo "$CHOICE) Updating Kernel and Firmware"
+                echo "$CHOICE) Setting up RPM Fussion"
 
                 # update kernel
                 sudo dnf install -y gcc kernel-headers kernel-devel
@@ -164,12 +168,7 @@ fedora_install() {
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
 
-                # Install firmware if any
-                sudo fwupdmgr get-devices
-                sudo fwupdmgr refresh --force
-                sudo fwupdmgr get-updates
-                sudo fwupdmgr update
-                read -p "$CHOICE) Latest Firmware installed, we need to reboot to finalize driver installation. Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             4)
                 echo "$CHOICE) Installing NVIDIA Drivers. We need to disable secure boot on the bios for NVIDIA Drivers to be loaded."
@@ -185,7 +184,7 @@ fedora_install() {
 
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
-                read -p "$CHOICE) NVIDIA Drivers installed, we need to reboot to finalize driver installation. Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             5)
                 echo "$CHOICE) Installing Software"
@@ -269,7 +268,7 @@ fedora_install() {
 
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
-                read -p "$CHOICE) Software has been installed. Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             6)
                 echo "$CHOICE) Installing Extras"
@@ -349,9 +348,6 @@ fedora_install() {
                 sudo usermod -G docker -a $USER
                 sudo systemctl restart docker
 
-                # test we can run docker without `sudo`
-                # docker run hello-world
-
                 #
                 # Latex
                 #
@@ -367,13 +363,11 @@ fedora_install() {
                 sudo dnf install -y jetbrains-mono-fonts-all
                 sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
                 sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
-
-                # Gnome Font Settings
                 gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
 
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
-                read -p "$CHOICE) Multimedia, TLP, fonts and others has been installed. Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             7)
                 echo "$CHOICE) Enabling Flatpak"
@@ -405,7 +399,7 @@ fedora_install() {
                 # sudo flatpak install -y flathub com.visualstudio.code
                 # sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
 
-                read -p "$CHOICE) Flatpak has now been enabled. Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             8)
                 echo "$CHOICE) Setting up secrets and repos"
@@ -447,7 +441,7 @@ fedora_install() {
                 [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
                 [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
-                read -p "$CHOICE) Secrets and repos are set. Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             9)
                 echo "$CHOICE) Installing Emacs"
@@ -491,7 +485,7 @@ fedora_install() {
                 sudo make install
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -p "$CHOICE) Emacs has been installed. Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             10)
                 echo "$CHOICE) Installing Keyd"
@@ -532,7 +526,7 @@ fedora_install() {
                 sudo keyd reload
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -p "$CHOICE) Keyd daemon has been installed. Press enter to continue..."
+                read -p "$CHOICE) Done. Press enter to continue..."
                 ;;
             11)
                 exit 0
