@@ -56,6 +56,10 @@
 ;; emacs does not need a pager
 (setenv "PAGER" "cat")
 
+;; Prevent killing Messages buffer
+(with-current-buffer "*Messages*"
+    (emacs-lock-mode 'kill))
+
 ;; Prevent killing scratch buffer
 (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill))
