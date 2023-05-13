@@ -283,7 +283,7 @@ debian_install() {
                 # General
                 sudo apt install -y apt-listbugs apt-listchanges
                 sudo apt install -y build-essential binutils coreutils openssl libssl-dev
-                sudo apt install -y rar unrar p7zip-full p7zip-rar zip unzip rsync xclip
+                sudo apt install -y tar rar unrar p7zip-full p7zip-rar zip unzip rsync xclip
                 sudo apt install -y silversearcher-ag aspell aspell-en aspell-es autojump atool autoconf automake
                 sudo apt install -y bat cmake curl dconf-editor dnsutils dos2unix doxygen fd-find font-manager
                 sudo apt install -y btop htop isync libpcap-dev make mercurial msmtp neofetch
@@ -295,6 +295,7 @@ debian_install() {
                 sudo apt install -y llvm clang clangd clang-tools clang-format tidy sqlite3
                 sudo apt install -y pkg-config flex bison
                 sudo apt install -y valgrind minicom mc strace
+                sudo apt install -y ffmpegthumbnailer mediainfo
 
                 # Wayland stuff
                 sudo apt install -y wl-clipboard
