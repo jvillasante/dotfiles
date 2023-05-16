@@ -6,14 +6,12 @@ set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 cd "$(dirname "$0")" || exit 1
 
-. "$HOME/.config/shell/common.sh"
-
 usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
     echo "    $0 update:"
-    echo "        Update both rust and rust_analyzer"
+    echo "        Update both rust through rustup"
     echo "    $0 package [show|update]:"
     echo "        Show or update global packages installed with cargo"
     echo "    $0 cargo [arbitrary cargo command]:"
@@ -31,38 +29,6 @@ update_rust() {
         rustup update
         test $? -eq 0 || usage 1
     fi
-}
-
-update_rust_analyzer() {
-    if [ ! -d "${CARGO_HOME:-~/.cargo}/bin" ]; then
-        echo ">>> cargo is not installed, exiting..."
-        usage 1
-    fi
-
-    local CURRENT_OS
-    CURRENT_OS="$(find_os)"
-    if [ "$CURRENT_OS" = "OSX" ]; then
-        curl -LsSf https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-apple-darwin.gz |
-            gunzip -c - >"${CARGO_HOME:-~/.cargo}/bin/rust-analyzer"
-        test $? -eq 0 || usage 1
-    elif [ "$CURRENT_OS" = "LINUX" ]; then
-        curl -LsSf https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz |
-            gunzip -c - >"${CARGO_HOME:-~/.cargo}/bin/rust-analyzer"
-        test $? -eq 0 || usage 1
-    fi
-
-    if hash "${CARGO_HOME:-~/.cargo}/bin/rust-analyzer" 2>/dev/null; then
-        chmod +x "${CARGO_HOME:-~/.cargo}/bin/rust-analyzer"
-        test $? -eq 0 || usage 1
-    else
-        echo ">>> ${CARGO_HOME:-~/.cargo}/bin/rust-analyzer does not exit, exiting..."
-        usage 1
-    fi
-}
-
-do_update() {
-    update_rust
-    update_rust_analyzer
 }
 
 show_global_packages() {
@@ -105,7 +71,7 @@ if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
     update)
         [ "$nargs" -eq 1 ] || usage 1
-        do_update "$@"
+        update_rust "$@"
         ;;
     package)
         [ "$nargs" -eq 2 ] || usage 1
