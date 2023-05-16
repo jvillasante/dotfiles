@@ -197,8 +197,6 @@
 (global-set-key (kbd "C-c n a") 'org-agenda)
 
 ;; C-c o : Open
-(global-set-key (kbd "C-c o c") 'calc)
-(global-set-key (kbd "C-c o C") 'quick-calc)
 (global-set-key (kbd "C-c o f") 'elfeed)
 (global-set-key (kbd "C-c o p") 'dired-sidebar-toggle-sidebar)
 (global-set-key (kbd "C-c o t") 'vterm)
