@@ -533,14 +533,14 @@ debian_update() {
     sudo apt update -y
     test $? -eq 0 || usage 1
 
-    sudo apt upgrade
+    sudo apt upgrade -y
     test $? -eq 0 || usage 1
 
-    sudo apt full-upgrade
-    test $? -eq 0 || usage 1
+    # sudo apt full-upgrade
+    # test $? -eq 0 || usage 1
 
-    sudo apt autoremove
-    test $? -eq 0 || usage 1
+    # sudo apt autoremove
+    # test $? -eq 0 || usage 1
 
     sudo flatpak update -y
     test $? -eq 0 || usage 1
