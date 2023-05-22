@@ -11,6 +11,8 @@
 -isystem/usr/local/include
 -isystem/usr/include
 -I./
+-I./Libraries/asio
+-I./Libraries/expected
 -I./inc
 -I./Dmxs
 -I./models/generated
