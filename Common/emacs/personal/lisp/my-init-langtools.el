@@ -49,7 +49,7 @@
     :hook ((eglot-managed-mode . my/eglot-eldoc)
               (c-mode-common . eglot-ensure)
               (rustic-mode . eglot-ensure)
-              (js-mode . eglot-ensure)
+              ;; (js-mode . eglot-ensure)
               (python-mode . eglot-ensure)
               (go-mode . eglot-ensure)
               (sql-mode . eglot-ensure))
