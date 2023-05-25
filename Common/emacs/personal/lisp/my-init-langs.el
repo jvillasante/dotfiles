@@ -28,6 +28,7 @@
     (add-to-list 'auto-mode-alist '("\\.cxx\\'" . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.cc\\'"  . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.C\\'"   . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
     (add-hook 'c-mode-common-hook
         (lambda ()
             (c-set-style "stroustrup")
@@ -115,7 +116,6 @@
             (push '("function" . ?ƒ) prettify-symbols-alist)))
     (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
     :config
-    (setq js-basic-indent 2)
     (setq-default js2-basic-indent 2
         js2-basic-offset 2
         js2-auto-indent-p t
