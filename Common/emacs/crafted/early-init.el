@@ -13,5 +13,4 @@
 (load (expand-file-name ".emacs.crafted/modules/crafted-early-init-config" my/dotfiles-path))
 
 (provide 'early-init)
-
 ;;; early-init.el ends here
