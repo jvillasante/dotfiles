@@ -58,6 +58,7 @@
 (require 'my-init-org)
 (require 'my-init-langs)
 (require 'my-init-langtools)
+(require 'my-init-treesitter)
 (require 'my-init-apps)
 (require 'my-init-shell)
 (require 'my-init-misc)
