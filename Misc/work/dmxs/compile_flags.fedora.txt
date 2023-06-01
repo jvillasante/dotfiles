@@ -4,10 +4,10 @@
 -Werror
 -DDEBUG
 -DDMX5_BUILD
--isystem/usr/bin/../lib/gcc/x86_64-redhat-linux/13/../../../../include/c++/13
--isystem/usr/bin/../lib/gcc/x86_64-redhat-linux/13/../../../../include/c++/13/x86_64-redhat-linux
--isystem/usr/bin/../lib/gcc/x86_64-redhat-linux/13/../../../../include/c++/13/backward
--isystem/usr/lib64/clang/16/include
+-isystem/usr/lib/gcc/x86_64-redhat-linux/13/../../../../include/c++/13
+-isystem/usr/lib/gcc/x86_64-redhat-linux/13/../../../../include/c++/13/x86_64-redhat-linux
+-isystem/usr/lib/gcc/x86_64-redhat-linux/13/../../../../include/c++/13/backward
+-isystem/usr/lib/gcc/x86_64-redhat-linux/13/include
 -isystem/usr/local/include
 -isystem/usr/include
 -I./
