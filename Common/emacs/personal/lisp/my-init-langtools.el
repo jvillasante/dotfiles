@@ -79,6 +79,14 @@
     (add-to-list 'eglot-server-programs
         '(python-mode . ("pyright-langserver" "--stdio")))
 
+    ;; js
+    (add-to-list 'eglot-server-programs
+        '(js-mode . ("typescript-language-server" "--stdio")))
+
+    ;; web
+    (add-to-list 'eglot-server-programs
+        '(web-mode . ("typescript-language-server" "--stdio")))
+
     ;; sql
     (add-to-list 'eglot-server-programs
         '(sql-mode . ("sqls")))
