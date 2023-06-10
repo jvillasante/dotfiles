@@ -181,6 +181,10 @@
               ("C-c C->" . mc/mark-all-like-this)
               ("C-S-c C-S-c" . mc/edit-lines)))
 
+;; wgrep :
+(use-package wgrep)
+
+;; engine-mode :
 (use-package engine-mode
     :ensure t
     :init
