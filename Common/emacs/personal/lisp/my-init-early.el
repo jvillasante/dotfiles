@@ -1,6 +1,6 @@
 ;;; my-init-early.el -*- lexical-binding: t; -*-
 
-;; ???
+;; some defaults
 (setq mac-right-option-modifier 'meta)
 (setq mac-option-modifier 'meta)
 (setq warning-minimum-level :error)
