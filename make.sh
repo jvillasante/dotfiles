@@ -121,8 +121,8 @@ done
 echo ">>> Linking desktop application files in $HOME/.local/share/applications..."
 files="emacs.desktop emacsclient.desktop"
 for file in $files; do
-    [ -L "$HOME/.local/share/applications/$file" ] && unlink "$HOME/.local/share/applications/$file"
-    ln -s "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
+    # Unfortunaly symlinks don't work on KDE
+    cp -f "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
 done
 
 if [ -d "$HOME/.var/app/engineer.atlas.Nyxt/config/nyxt" ]; then
