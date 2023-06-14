@@ -442,6 +442,10 @@ debian_install() {
                     sudo apt -y install gnome-tweaks
                 fi
 
+                # Plasma dock
+                # TODO: only install on KDE Plasma
+                sudo apt-get install latte-dock
+
                 # Wayland stuff
                 sudo apt install -y wl-clipboard
 
