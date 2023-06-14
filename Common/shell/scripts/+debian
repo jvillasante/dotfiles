@@ -16,146 +16,285 @@ usage() {
 }
 
 install_iosevka() {
-    RELEASE="21.1.1"
-    [ -d /tmp/iosevka-font/v$RELEASE ] && rm -rf /tmp/iosevka-font/v$RELEASE
-    mkdir -p /tmp/iosevka-font/v$RELEASE
-    pushd /tmp/iosevka-font/v$RELEASE
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-aile-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-curly-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-curly-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-etoile-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-curly-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-curly-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss01-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss02-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss03-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss04-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss05-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss06-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss07-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss08-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss09-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss10-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss11-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss12-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss13-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss14-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss15-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss16-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss17-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-fixed-ss18-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss01-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss02-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss03-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss04-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss05-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss06-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss07-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss08-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss09-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss10-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss11-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss12-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss13-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss14-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss15-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss16-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss17-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-ss18-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-curly-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-curly-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss01-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss02-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss03-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss04-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss05-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss06-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss07-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss08-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss09-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss10-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss11-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss12-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss13-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss14-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss15-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss16-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss17-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-iosevka-term-ss18-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-aile-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-curly-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-curly-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-etoile-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-curly-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-curly-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss01-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss02-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss03-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss04-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss05-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss06-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss07-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss08-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss09-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss10-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss11-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss12-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss13-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss14-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss15-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss16-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss17-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-fixed-ss18-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss01-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss02-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss03-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss04-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss05-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss06-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss07-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss08-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss09-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss10-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss11-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss12-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss13-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss14-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss15-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss16-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss17-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-ss18-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-curly-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-curly-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-slab-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss01-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss02-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss03-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss04-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss05-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss06-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss07-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss08-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss09-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss10-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss11-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss12-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss13-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss14-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss15-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss16-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss17-$RELEASE.zip
-    wget https://github.com/be5invis/Iosevka/releases/download/v$RELEASE/ttf-unhinted-iosevka-term-ss18-$RELEASE.zip
+    read -rp "Installing iosevka fonts, enter release version: " RELEASE
+    [ -z "$RELEASE" ] && RELEASE="24.1.3"
+    read -rp "Got $RELEASE, Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+
+    [ -d /tmp/iosevka-font/v"$RELEASE" ] && rm -rf /tmp/iosevka-font/v"$RELEASE"
+    mkdir -p /tmp/iosevka-font/v"$RELEASE"
+    pushd /tmp/iosevka-font/v"$RELEASE"
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-aile-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-aile-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-etoile-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-etoile-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-curly-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-curly-slab-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss01-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss02-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss03-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss04-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss05-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss06-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss07-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss08-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss09-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss10-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss11-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss12-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss13-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss14-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss15-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss16-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss17-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-term-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-term-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-fixed-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-fixed-ss18-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-aile-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-aile-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-iosevka-etoile-"$RELEASE".zip
+    wget https://github.com/be5invis/Iosevka/releases/download/v"$RELEASE"/ttf-unhinted-iosevka-etoile-"$RELEASE".zip
     unzip \*.zip
     [ -d /usr/local/share/fonts/iosevka-font ] && rm -rf /usr/local/share/fonts/iosevka-font
     sudo mkdir /usr/local/share/fonts/iosevka-font
@@ -189,13 +328,13 @@ debian_install() {
 
     while true; do
         CHOICE=$(dialog --clear \
-            --backtitle "$BACKTITLE" \
-            --title "$TITLE" \
-            --nocancel \
-            --menu "$MENU" \
-            $HEIGHT $WIDTH $CHOICE_HEIGHT \
-            "${OPTIONS[@]}" \
-            2>&1 >/dev/tty)
+                        --backtitle "$BACKTITLE" \
+                        --title "$TITLE" \
+                        --nocancel \
+                        --menu "$MENU" \
+                        $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                        "${OPTIONS[@]}" \
+                        2>&1 >/dev/tty)
 
         clear
         case $CHOICE in
@@ -203,11 +342,11 @@ debian_install() {
                 echo "1) Setting Defaults"
 
                 # hostname
-                read -r -p "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
+                read -rp "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
                 [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
                 hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
 
-                read -r -p "Enter static hostname (defaults to 'debian-xps-9710'): " HOSTNAME_STATIC
+                read -rp "Enter static hostname (defaults to 'debian-xps-9710'): " HOSTNAME_STATIC
                 [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="debian-xps-9710"
                 hostnamectl set-hostname --static "$HOSTNAME_STATIC"
 
@@ -218,11 +357,11 @@ debian_install() {
                 export XDG_LIB_HOME="${XDG_DATA_HOME:-$HOME/.local/lib}"
                 export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
                 mkdir -p \
-                    "${XDG_CACHE_HOME}" \
-                    "${XDG_CONFIG_HOME}" \
-                    "${XDG_DATA_HOME}" \
-                    "${XDG_LIB_HOME}" \
-                    "${XDG_STATE_HOME}"
+                      "${XDG_CACHE_HOME}" \
+                      "${XDG_CONFIG_HOME}" \
+                      "${XDG_DATA_HOME}" \
+                      "${XDG_LIB_HOME}" \
+                      "${XDG_STATE_HOME}"
 
                 # Folder structure
                 mkdir -p "$HOME/Workspace"
@@ -276,7 +415,7 @@ debian_install() {
                     # gsettings set org.gnome.software download-updates-notify false
                 fi
 
-                read -p "1) Defaults has been set. Press enter to continue..."
+                read -rp "1) Defaults has been set. Press enter to continue..."
                 ;;
             2)
                 echo ") Installing Software"
@@ -297,6 +436,11 @@ debian_install() {
                 sudo apt install -y pkg-config flex bison
                 sudo apt install -y valgrind minicom mc strace
                 sudo apt install -y ffmpegthumbnailer mediainfo
+
+                # Gnome Software
+                if type gsettings >/dev/null 2>&1; then
+                    sudo apt -y install gnome-tweaks
+                fi
 
                 # Wayland stuff
                 sudo apt install -y wl-clipboard
@@ -335,9 +479,6 @@ debian_install() {
                 [ -f /usr/share/psd/contrib/brave ] && sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
-                # Gnome Software
-                sudo apt -y install gnome-tweaks
-
                 # Neovim nightly
                 sudo apt install -y neovim
 
@@ -353,7 +494,7 @@ debian_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
-                read -p "2) Software has been installed. Press enter to continue..."
+                read -rp "2) Software has been installed. Press enter to continue..."
                 ;;
             3)
                 echo "3) Installing Extras"
@@ -363,12 +504,12 @@ debian_install() {
                 #
 
                 # Install TLP and remove power profiles
-                sudo apt purge -y power-profiles-daemon
-                sudo apt install -y tlp tlp-rdw
+                # sudo apt purge -y power-profiles-daemon
+                # sudo apt install -y tlp tlp-rdw
 
                 # Create TLP config
-                sudo mkdir -p /etc/tlp.d
-                sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
+                # sudo mkdir -p /etc/tlp.d
+                # sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
 
                 # Set TLP config values
                 # sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
@@ -376,13 +517,24 @@ debian_install() {
                 # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
 
                 # Enable TLP service
-                systemctl mask systemd-rfkill.service systemd-rfkill.socket
-                systemctl enable tlp.service && systemctl start tlp.service
+                # systemctl mask systemd-rfkill.service systemd-rfkill.socket
+                # systemctl enable tlp.service && systemctl start tlp.service
+
+                #
+                # Brave Browser
+                #
+                sudo apt install curl
+                sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
+                     https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+                echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | \
+                    sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+                sudo apt update
+                sudo apt install brave-browser
 
                 #
                 # Latex
                 #
-                # sudo dnf install -y texlive-full
+                sudo dnf install -y texlive-full
 
                 # Fonts
                 sudo apt install -y fonts-ibm-plex
@@ -390,9 +542,11 @@ debian_install() {
                 install_iosevka
 
                 # Gnome Font Settings
-                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+                if type gsettings >/dev/null 2>&1; then
+                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+                fi
 
-                read -p "3) Extras installed. Press enter to continue..."
+                read -rp "3) Extras installed. Press enter to continue..."
                 ;;
             4)
                 echo ") Enabling Flatpak"
@@ -400,9 +554,11 @@ debian_install() {
                 sudo apt install -y flatpak
                 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 sudo flatpak update
-                sudo flatpak install -y flathub org.gnome.TextEditor
-                sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
-                sudo flatpak install -y flathub org.gnome.Firmware
+                if type gsettings >/dev/null 2>&1; then
+                    sudo flatpak install -y flathub org.gnome.TextEditor
+                    sudo flatpak install -y flathub org.gnome.Firmware
+                    sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
+                fi
                 sudo flatpak install -y flathub com.discordapp.Discord
                 sudo flatpak install -y flathub com.dropbox.Client
                 sudo flatpak install -y flathub com.skype.Client
@@ -413,28 +569,26 @@ debian_install() {
                 sudo flatpak install -y flathub org.gimp.GIMP
                 sudo flatpak install -y flathub org.wireshark.Wireshark
                 sudo flatpak install -y flathub com.github.tchx84.Flatseal
-                sudo flatpak install -y flathub dev.geopjr.Tuba
                 # sudo flatpak install -y flathub org.mozilla.firefox
-                # sudo flatpak install -y flathub net.mullvad.MullvadBrowser
-                # sudo flatpak install -y flathub org.shotcut.Shotcut
                 # sudo flatpak install -y flathub com.brave.Browser
-                # sudo flatpak install -y flathub org.gnome.Extensions
+                # sudo flatpak install -y flathub org.shotcut.Shotcut
+                # sudo flatpak install -y flathub dev.geopjr.Tuba
                 # sudo flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
                 # sudo flatpak install -y flathub org.signal.Signal
                 # sudo flatpak install -y flathub com.microsoft.Edge
                 # sudo flatpak install -y flathub com.visualstudio.code
                 # sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
 
-                read -p "4) Flatpak has now been enabled. Press enter to continue..."
+                read -rp "4) Flatpak has now been enabled. Press enter to continue..."
                 ;;
             5)
                 echo "5) Installing Docker"
-                read -p "5) Docker has been installed. Press enter to continue..."
+                read -rp "5) Docker has been installed. Press enter to continue..."
                 ;;
             6)
                 echo "6) Setting up secrets and repos"
 
-                read -r -p "Enter keys backup directory: " KEYS_DIR
+                read -rp "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
                 [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
                 [ ! -f "+crypt" ] && notify-send "$(pwd)/+crypt script does not exists" --expire-time=20 && continue
@@ -472,7 +626,7 @@ debian_install() {
                 [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
                 [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
-                read -p "6) Secrets and repos are set. Press enter to continue..."
+                read -rp "6) Secrets and repos are set. Press enter to continue..."
                 ;;
             7)
                 echo "7) Installing Emacs"
@@ -480,7 +634,48 @@ debian_install() {
                 # Is it already installed?
                 hash emacs 2>/dev/null && notify-send "12) Emacs is already installed" --expire-time=20 && continue
 
-                read -p "7) Emacs has been installed. Press enter to continue..."
+                # Install dependencies
+                sudo apt build-dep emacs
+                sudo apt install build-essential autoconf automake libtool texinfo libgtk-3-dev libxpm-dev libjpeg-dev libgif-dev \
+                     libtiff5-dev libgnutls28-dev libncurses-dev libxml2-dev libgpm-dev libdbus-1-dev libgtk2.0-dev libpng-dev \
+                     libotf-dev libm17n-dev librsvg2-dev libmagickcore-dev libmagickwand-dev libglib2.0-dev libgirepository1.0-dev
+                sudo apt install libgccjit0 libgccjit-12-dev # make sure is the same version as `gcc --version`
+                sudo apt install libtree-sitter0 libtree-sitter-dev
+                sudo apt install libjansson4 libjansson-dev
+                sudo apt install libvterm0 libvterm-dev
+
+                # Prepare git repo
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                if [ ! -d "$HOME"/Workspace/Software/emacs ]; then
+                    git clone git://git.sv.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
+                    pushd "$HOME"/Workspace/Software/emacs || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
+                        continue
+                    }
+                else
+                    pushd "$HOME"/Workspace/Software/emacs || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
+                        continue
+                    }
+
+                    sudo make uninstall
+                    make clean && make distclean
+                    git reset --hard HEAD
+                    sudo git clean -dfx
+                    git pull
+                fi
+
+                # Build and install (emacs-29)
+                git checkout emacs-29
+                ./autogen.sh
+                ./configure --without-compress-install --with-pgtk --with-native-compilation=aot \
+                            --with-tree-sitter --with-json --with-mailutils --with-rsvg \
+                            CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
+                make -j16
+                sudo make install
+
+                popd || notify-send "Can't cd to previous directory" --expire-time=20
+                read -rp "7) Emacs has been installed. Press enter to continue..."
                 ;;
             8)
                 echo "8) Installing Keyd"
@@ -521,7 +716,7 @@ debian_install() {
                 sudo keyd reload
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -p "8) Keyd daemon has been installed. Press enter to continue..."
+                read -rp "8) Keyd daemon has been installed. Press enter to continue..."
                 ;;
             9)
                 exit 0

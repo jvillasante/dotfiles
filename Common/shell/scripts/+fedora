@@ -135,7 +135,7 @@ fedora_install() {
                     # gsettings set org.gnome.software download-updates-notify false
                 fi
 
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             2)
                 echo "$CHOICE) Setting up DNF & Firmware update"
@@ -149,7 +149,7 @@ fedora_install() {
                 sudo fwupdmgr get-updates
                 sudo fwupdmgr update
 
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             3)
                 echo "$CHOICE) Setting up RPM Fussion"
@@ -169,7 +169,7 @@ fedora_install() {
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
 
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             4)
                 echo "$CHOICE) Installing NVIDIA Drivers. We need to disable secure boot on the bios for NVIDIA Drivers to be loaded."
@@ -185,7 +185,7 @@ fedora_install() {
 
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             5)
                 echo "$CHOICE) Installing Software"
@@ -206,6 +206,11 @@ fedora_install() {
                 sudo dnf install -y ImageMagick ImageMagick-devel sqlite
                 sudo dnf install -y valgrind minicom mc strace tidy
                 sudo dnf install -y ffmpegthumbnailer mediainfo
+
+                # Gnome Software
+                if type gsettings >/dev/null 2>&1; then
+                    sudo dnf -y install gnome-tweaks
+                fi
 
                 # wayland stuff
                 sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
@@ -242,9 +247,6 @@ fedora_install() {
                 # dnf install -y skim
                 sudo dnf install -y fzf
 
-                # Gnome Software
-                sudo dnf -y install gnome-tweaks
-
                 # Neovim nightly
                 sudo dnf install -y neovim python3-neovim
 
@@ -270,7 +272,7 @@ fedora_install() {
 
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             6)
                 echo "$CHOICE) Installing Extras"
@@ -374,11 +376,13 @@ fedora_install() {
                 sudo dnf install -y jetbrains-mono-fonts-all
                 sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
                 sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
-                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+                if type gsettings >/dev/null 2>&1; then
+                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+                fi
 
                 sudo dnf upgrade -y --refresh
                 sudo dnf autoremove -y
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             7)
                 echo "$CHOICE) Enabling Flatpak"
@@ -386,9 +390,11 @@ fedora_install() {
                 sudo dnf install -y flatpak
                 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 sudo flatpak update
-                sudo flatpak install -y flathub org.gnome.TextEditor
-                sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
-                sudo flatpak install -y flathub org.gnome.Firmware
+                if type gsettings >/dev/null 2>&1; then
+                    sudo flatpak install -y flathub org.gnome.TextEditor
+                    sudo flatpak install -y flathub org.gnome.Firmware
+                    sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
+                fi
                 sudo flatpak install -y flathub com.discordapp.Discord
                 sudo flatpak install -y flathub com.dropbox.Client
                 sudo flatpak install -y flathub com.skype.Client
@@ -403,14 +409,13 @@ fedora_install() {
                 # sudo flatpak install -y flathub com.brave.Browser
                 # sudo flatpak install -y flathub org.shotcut.Shotcut
                 # sudo flatpak install -y flathub dev.geopjr.Tuba
-                # sudo flatpak install -y flathub org.gnome.Extensions
                 # sudo flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
                 # sudo flatpak install -y flathub org.signal.Signal
                 # sudo flatpak install -y flathub com.microsoft.Edge
                 # sudo flatpak install -y flathub com.visualstudio.code
                 # sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
 
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             8)
                 echo "$CHOICE) Setting up secrets and repos"
@@ -452,7 +457,7 @@ fedora_install() {
                 [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
                 [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             9)
                 echo "$CHOICE) Installing Emacs"
@@ -496,7 +501,7 @@ fedora_install() {
                 sudo make install
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             10)
                 echo "$CHOICE) Installing Keyd"
@@ -537,7 +542,7 @@ fedora_install() {
                 sudo keyd reload
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             11)
                 exit 0
