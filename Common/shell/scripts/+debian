@@ -236,44 +236,45 @@ debian_install() {
                 mkdir -p "$HOME/Workspace/Work/Software"
                 mkdir -p "$HOME/Workspace/Work/Stuff"
 
-                # Gsettings - dconf-editor
+                # Gnome Gsettings - dconf-editor
                 #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
                 #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
+                if type gsettings >/dev/null 2>&1; then
+                    # Clock Settings
+                    gsettings set org.gnome.desktop.interface clock-format '12h'
+                    gsettings set org.gnome.desktop.interface clock-show-date true
+                    gsettings set org.gnome.desktop.interface clock-show-seconds false
+                    gsettings set org.gnome.desktop.interface clock-show-weekday false
 
-                # Clock Settings
-                gsettings set org.gnome.desktop.interface clock-format '12h'
-                gsettings set org.gnome.desktop.interface clock-show-date true
-                gsettings set org.gnome.desktop.interface clock-show-seconds false
-                gsettings set org.gnome.desktop.interface clock-show-weekday false
+                    # No hot corners
+                    gsettings set org.gnome.desktop.interface enable-hot-corners false
 
-                # No hot corners
-                gsettings set org.gnome.desktop.interface enable-hot-corners false
+                    # Emacs please
+                    gsettings set org.gnome.desktop.interface gtk-key-theme 'Emacs'
 
-                # Emacs please
-                gsettings set org.gnome.desktop.interface gtk-key-theme 'Emacs'
+                    # Show battery
+                    gsettings set org.gnome.desktop.interface show-battery-percentage true
 
-                # Show battery
-                gsettings set org.gnome.desktop.interface show-battery-percentage true
+                    # Enable window buttons
+                    gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
 
-                # Enable window buttons
-                gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
+                    # Set new windows centered
+                    gsettings set org.gnome.mutter center-new-windows true
 
-                # Set new windows centered
-                gsettings set org.gnome.mutter center-new-windows true
+                    # Set list-view for Nautilius
+                    gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 
-                # Set list-view for Nautilius
-                gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
+                    # Force alt + tab to switch only on current workspace
+                    gsettings set org.gnome.shell.app-switcher current-workspace-only true
 
-                # Force alt + tab to switch only on current workspace
-                gsettings set org.gnome.shell.app-switcher current-workspace-only true
+                    # Set fractional scaling (only for wayland)
+                    # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
-                # Set fractional scaling (only for wayland)
-                # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
-
-                # Stop Gnome Software downloading updates
-                # gsettings set org.gnome.software allow-updates false
-                # gsettings set org.gnome.software download-updates false
-                # gsettings set org.gnome.software download-updates-notify false
+                    # Stop Gnome Software downloading updates
+                    # gsettings set org.gnome.software allow-updates false
+                    # gsettings set org.gnome.software download-updates false
+                    # gsettings set org.gnome.software download-updates-notify false
+                fi
 
                 read -p "1) Defaults has been set. Press enter to continue..."
                 ;;
@@ -400,8 +401,6 @@ debian_install() {
                 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 sudo flatpak update
                 sudo flatpak install -y flathub org.gnome.TextEditor
-                sudo flatpak install -y flathub org.mozilla.firefox
-                sudo flatpak install -y flathub net.mullvad.MullvadBrowser
                 sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
                 sudo flatpak install -y flathub org.gnome.Firmware
                 sudo flatpak install -y flathub com.discordapp.Discord
@@ -415,14 +414,16 @@ debian_install() {
                 sudo flatpak install -y flathub org.wireshark.Wireshark
                 sudo flatpak install -y flathub com.github.tchx84.Flatseal
                 sudo flatpak install -y flathub dev.geopjr.Tuba
-                # flatpak install -y flathub org.shotcut.Shotcut
-                # flatpak install -y flathub com.brave.Browser
-                # flatpak install -y flathub org.gnome.Extensions
-                # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
-                # flatpak install -y flathub org.signal.Signal
-                # flatpak install -y flathub com.microsoft.Edge
-                # flatpak install -y flathub com.visualstudio.code
-                # flatpak install -y flathub com.github.GradienceTeam.Gradience
+                # sudo flatpak install -y flathub org.mozilla.firefox
+                # sudo flatpak install -y flathub net.mullvad.MullvadBrowser
+                # sudo flatpak install -y flathub org.shotcut.Shotcut
+                # sudo flatpak install -y flathub com.brave.Browser
+                # sudo flatpak install -y flathub org.gnome.Extensions
+                # sudo flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
+                # sudo flatpak install -y flathub org.signal.Signal
+                # sudo flatpak install -y flathub com.microsoft.Edge
+                # sudo flatpak install -y flathub com.visualstudio.code
+                # sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
 
                 read -p "4) Flatpak has now been enabled. Press enter to continue..."
                 ;;
