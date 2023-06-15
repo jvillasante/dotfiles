@@ -238,10 +238,10 @@ fedora_install() {
                 sudo dnf install -y tmux
 
                 # alacritty
-                sudo dnf install -y alacritty
+                # sudo dnf install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
-                # sudo dnf install -y foot
+                sudo dnf install -y foot
 
                 # Starship Prompt
                 curl -sS https://starship.rs/install.sh | sh

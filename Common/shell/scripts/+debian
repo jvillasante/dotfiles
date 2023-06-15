@@ -474,13 +474,16 @@ debian_install() {
                 sudo apt install -y tmux
 
                 # Git
-                sudo apt install git
+                sudo apt install -y git
 
                 # Alacritty
-                sudo apt install alacritty
+                # sudo apt install -y alacritty
+
+                # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
+                sudo apt install -y foot
 
                 # FZF
-                sudo apt install fzf
+                sudo apt install -y fzf
                 # dpkg -L fzf | grep bindings # Source both completion and keybindings from output of
 
                 # gpg
