@@ -15,6 +15,25 @@ usage() {
     exit "$1"
 }
 
+# Also in `common.sh`
+is_desktop_environment() (
+    local de=${1:-}
+    local DEs=${XDG_CURRENT_DESKTOP:-}
+
+    # Shortcut: If de is empty, check if empty DEs
+    if [[ -z "$de" ]]; then if [[ "$DEs" ]]; then return; else return 1; fi; fi
+
+    # Lowercase both
+    de=${de,,}; DEs=${DEs,,}
+
+    # Check de against each DEs component
+    IFS=:; for DE in $DEs; do if [[ "$de" == "$DE" ]]; then return; fi; done
+
+    # Not found
+    return 1
+)
+
+# iosevka does not exists in Debian!
 install_iosevka() {
     read -rp "Installing iosevka fonts, enter release version: " RELEASE
     [ -z "$RELEASE" ] && RELEASE="24.1.3"
@@ -316,7 +335,7 @@ debian_install() {
     type notify-send 2>/dev/null || sudo apt install -y libnotify-bin libnotify-dev
 
     OPTIONS=(
-        1 "Set Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
+        1 "Set Defaults - Set some defaults (hostname, folders structure, global settings, etc)"
         2 "Install Software - Installs a bunch of my most used software"
         3 "Install Extras - TLP, Fonts, etc"
         4 "Enable Flatpak - Enables the Flatpak repo and installs packages"
@@ -379,7 +398,7 @@ debian_install() {
                 # Gnome Gsettings - dconf-editor
                 #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
                 #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
-                if type gsettings >/dev/null 2>&1; then
+                if is_desktop_environment "Gnome"; then
                     # Clock Settings
                     gsettings set org.gnome.desktop.interface clock-format '12h'
                     gsettings set org.gnome.desktop.interface clock-show-date true
@@ -426,7 +445,7 @@ debian_install() {
                 sudo apt install -y build-essential binutils coreutils openssl libssl-dev
                 sudo apt install -y tar p7zip-full zip unzip rsync xclip
                 sudo apt install -y silversearcher-ag aspell aspell-en aspell-es autojump atool autoconf automake
-                sudo apt install -y bat cmake curl dconf-editor dnsutils dos2unix doxygen fd-find font-manager
+                sudo apt install -y bat cmake curl dnsutils dos2unix doxygen fd-find font-manager
                 sudo apt install -y btop htop isync libpcap-dev make mercurial msmtp neofetch
                 sudo apt install -y vim neovim nodejs npm pandoc pass poppler-utils poppler-data ripgrep
                 sudo apt install -y scdaemon subversion telnet tldr tree w3m wget
@@ -440,7 +459,7 @@ debian_install() {
 
                 # Gnome Software
                 if type gsettings >/dev/null 2>&1; then
-                    sudo apt -y install gnome-tweaks
+                    sudo apt -y install dconf-editor gnome-tweaks
                 fi
 
                 # Plasma dock

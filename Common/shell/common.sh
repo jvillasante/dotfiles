@@ -55,6 +55,36 @@ find_dotfiles() {
     echo "$DOTFILES_DIR"
 }
 
+
+# Encapsulates the mess that DE detection was, is, or will ever be...
+# Without arguments, check if in a Desktop Environment at all
+# Subshell is intentional so we don't have to save/restore IFS
+# Case-insensitive comparison
+# Usage:
+#   for de in "" Ubuntu Gnome KDE Unity; do
+#       if is_desktop_environment "$de"; then
+#           echo "Yes, this is ${de:-a DE}"
+#       else
+#           echo "No, this is not ${de:-a DE}"
+#       fi
+#   done
+is_desktop_environment() (
+    local de=${1:-}
+    local DEs=${XDG_CURRENT_DESKTOP:-}
+
+    # Shortcut: If de is empty, check if empty DEs
+    if [[ -z "$de" ]]; then if [[ "$DEs" ]]; then return; else return 1; fi; fi
+
+    # Lowercase both
+    de=${de,,}; DEs=${DEs,,}
+
+    # Check de against each DEs component
+    IFS=:; for DE in $DEs; do if [[ "$de" == "$DE" ]]; then return; fi; done
+
+    # Not found
+    return 1
+)
+
 #
 # Check helper for return values
 #
