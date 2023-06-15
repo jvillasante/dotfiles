@@ -84,6 +84,7 @@ fedora_install() {
                       "${XDG_STATE_HOME}"
 
                 # Folder structure
+                mkdir -p "$HOME/.local/bin"
                 mkdir -p "$HOME/Workspace"
                 mkdir -p "$HOME/Workspace/Books"
                 mkdir -p "$HOME/Workspace/Private/Projects"
