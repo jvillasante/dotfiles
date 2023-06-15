@@ -15,6 +15,24 @@ usage() {
     exit "$1"
 }
 
+# Also in `common.sh`. Also here for 0 dependency script
+is_desktop_environment() (
+    local de=${1:-}
+    local DEs=${XDG_CURRENT_DESKTOP:-}
+
+    # Shortcut: If de is empty, check if empty DEs
+    if [[ -z "$de" ]]; then if [[ "$DEs" ]]; then return; else return 1; fi; fi
+
+    # Lowercase both
+    de=${de,,}; DEs=${DEs,,}
+
+    # Check de against each DEs component
+    IFS=:; for DE in $DEs; do if [[ "$de" == "$DE" ]]; then return; fi; done
+
+    # Not found
+    return 1
+)
+
 fedora_install() {
     HEIGHT=25
     WIDTH=100
@@ -34,7 +52,7 @@ fedora_install() {
     fi
 
     OPTIONS=(
-        1 "Setup Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
+        1 "Setup Defaults - Set some defaults (hostname, folders structure, global settings, etc)"
         2 "Setup DNF - Setup DNF & Firmware update"
         3 "Setup RPM Fussion - Update Kernel & RPM Fussion (reboot needed)"
         4 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
@@ -99,7 +117,7 @@ fedora_install() {
                 # Gnome Gsettings - dconf-editor
                 #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
                 #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
-                if type gsettings >/dev/null 2>&1; then
+                if is_desktop_environment "Gnome"; then
                     # Clock Settings
                     gsettings set org.gnome.desktop.interface clock-format '12h'
                     gsettings set org.gnome.desktop.interface clock-show-date true
@@ -197,7 +215,7 @@ fedora_install() {
                 sudo dnf install -y git ripgrep fd-find xclip util-linux-user xprop xwininfo htop btop
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
-                sudo dnf install -y curl dconf-editor dnsutils dos2unix doxygen msmtp neofetch
+                sudo dnf install -y curl dnsutils dos2unix doxygen msmtp neofetch
                 sudo dnf install -y graphviz htop mercurial exa ninja-build pass
                 sudo dnf install -y nodejs npm python3 python3-pip pandoc poppler-utils poppler-data
                 sudo dnf install -y subversion tldr tree w3m wget libtool texinfo
@@ -209,8 +227,8 @@ fedora_install() {
                 sudo dnf install -y ffmpegthumbnailer mediainfo
 
                 # Gnome Software
-                if type gsettings >/dev/null 2>&1; then
-                    sudo dnf -y install gnome-tweaks
+                if is_desktop_environment "Gnome"; then
+                    sudo dnf -y install gnome-tweaks dconf-editor
                 fi
 
                 # wayland stuff
@@ -391,7 +409,7 @@ fedora_install() {
                 sudo dnf install -y flatpak
                 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 sudo flatpak update
-                if type gsettings >/dev/null 2>&1; then
+                if is_desktop_environment "Gnome"; then
                     sudo flatpak install -y flathub org.gnome.TextEditor
                     sudo flatpak install -y flathub org.gnome.Firmware
                     sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
