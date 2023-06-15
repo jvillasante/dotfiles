@@ -121,7 +121,7 @@ done
 echo ">>> Linking desktop application files in $HOME/.local/share/applications..."
 files="emacs.desktop emacsclient.desktop"
 for file in $files; do
-    # Unfortunaly symlinks don't work on KDE
+    # Unfortunaly symlinks don't work on KDE, so copy instead
     cp -f "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
 done
 
