@@ -185,8 +185,6 @@ fedora_install() {
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf install -y \*-firmware
-                sudo dnf upgrade -y --refresh
-                sudo dnf autoremove -y
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
@@ -202,8 +200,6 @@ fedora_install() {
                 sudo dnf install -y xorg-x11-drv-nvidia-power
                 systemctl enable nvidia-{suspend,resume,hibernate}
 
-                sudo dnf upgrade -y --refresh
-                sudo dnf autoremove -y
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             5)
@@ -230,6 +226,11 @@ fedora_install() {
                 if is_desktop_environment "Gnome"; then
                     sudo dnf -y install gnome-tweaks dconf-editor
                 fi
+
+                # Plasma Software
+                # if is_desktop_environment "KDE"; then
+                #     sudo apt install latte-dock
+                # fi
 
                 # wayland stuff
                 sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
@@ -270,7 +271,7 @@ fedora_install() {
                 sudo dnf install -y neovim python3-neovim
 
                 # Firewall GUI to manage firewalld
-                sudo dnf install -y firewall-config
+                # sudo dnf install -y firewall-config
 
                 # Profile sync daemon
                 sudo dnf install -y profile-sync-daemon
@@ -278,7 +279,7 @@ fedora_install() {
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # Go
-                sudo dnf install go
+                # sudo dnf install go
 
                 # non dnf software
                 pip install cmake-language-server
@@ -289,8 +290,6 @@ fedora_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
-                sudo dnf upgrade -y --refresh
-                sudo dnf autoremove -y
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             6)
@@ -395,12 +394,10 @@ fedora_install() {
                 sudo dnf install -y jetbrains-mono-fonts-all
                 sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
                 sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
-                if type gsettings >/dev/null 2>&1; then
+                if is_desktop_environment "Gnome"; then
                     gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
                 fi
 
-                sudo dnf upgrade -y --refresh
-                sudo dnf autoremove -y
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             7)
