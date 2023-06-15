@@ -292,10 +292,6 @@ live_config_reload: true
 #   - (Windows) powershell
 shell:
     program: /usr/bin/bash
-    args:
-        - -l
-        - -c
-        - "tmux attach || tmux new -s Default"
 
 # Startup directory
 #
