@@ -10,9 +10,6 @@
 #   Decrypts file using gpg (previously encrypted with `encrypt`).
 #   Expects and argument with the form "*.tar.gz.gpg" (symmetric) or "*.tar.gz.asc (asymmetric)"
 #
-# NOTE:
-#   Filepaths *must* be absolute. Relative paths are not supported!
-#
 
 usage() {
     echo "Usage:"
@@ -27,8 +24,8 @@ usage() {
     echo "        *.tar.gz.gpg: assumes file was encrypted with symmetric gpg encryption"
     echo "        *.tar.gz.asc: assumes file was encrypted with asymmetric gpg encryption"
     echo
-    echo " e.g: $0 -e -s /absolute/path/to/file/or/directory"
-    echo " e.g: $0 -d /absolute/path/to/file/or/directory.tar.gz.gpg"
+    echo " e.g: $0 -e -s /path/to/file/or/directory"
+    echo " e.g: $0 -d /path/to/file/or/directory.tar.gz.gpg"
     exit "$1"
 }
 
@@ -148,7 +145,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
-cd "$(dirname "$0")" || exit 1
 
 nargs=$#
 cmd=${1-}
