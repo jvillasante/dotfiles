@@ -17,7 +17,7 @@ install_shell() {
         bash)
             if type bash >/dev/null 2>&1; then
                 # Set the default shell to bash if it isn't currently set to bash
-                if [ ! "$SHELL" = "$(which bash)" ]; then
+                if [ ! "$(readlink /proc/$$/exe)" = "$(which bash)" ]; then
                     chsh -s "$(which bash)"
                     echo ">>> You need to re-login :(                                        "
                 fi
@@ -33,7 +33,7 @@ install_shell() {
         zsh)
             if type zsh >/dev/null 2>&1; then
                 # Set the default shell to zsh if it isn't currently set to zsh
-                if [ ! "$SHELL" = "$(which zsh)" ]; then
+                if [ ! "$(readlink /proc/$$/exe)" = "$(which zsh)" ]; then
                     chsh -s "$(which zsh)"
                     echo ">>> You need to re-login :(                                        "
                 fi
