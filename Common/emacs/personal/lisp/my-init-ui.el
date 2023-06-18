@@ -199,5 +199,10 @@
     :config
     (setq popper-display-control nil))
 
+;; discover : Discover more of emacs using context menus.
+(use-package discover
+    :config
+    (global-discover-mode 1))
+
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here

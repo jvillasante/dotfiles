@@ -5,6 +5,16 @@
     :init
     (setq eww-search-prefix "https://search.brave.com/search?q="))
 
+;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
+(use-package mastodon
+    :disabled t
+    :init
+    (setq mastodon-instance-url "https://hachyderm.io/home"
+        mastodon-active-user "jvillasante")
+    :config
+    (mastodon-discover))
+
+;; elfeed
 (use-package elfeed
     :init
     (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory))
