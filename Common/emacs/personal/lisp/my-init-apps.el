@@ -7,7 +7,6 @@
 
 ;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
 (use-package mastodon
-    :disabled t
     :init
     (setq mastodon-instance-url "https://hachyderm.io/home"
         mastodon-active-user "jvillasante")
