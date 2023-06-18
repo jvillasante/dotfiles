@@ -1,16 +1,23 @@
 ;;; my-utils.el --- -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;; Some utils I use everywhere
+
+;;; Code:
+
 ;;; Utils
+
+(require 'cl-lib)
 
 (defconst IS-MAC (eq system-type 'darwin))
 (defconst IS-LINUX (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
 (defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
 
 (defmacro setq! (&rest settings)
-    "A more sensible `setopt' for setting customizable variables.
+    "A more sensible `setopt' for SETTINGS customizable variables.
 
 This can be used as a drop-in replacement for `setq' and *should* be used
-instead of `setopt'. Unlike `setq', this triggers custom setters on variables.
+instead of `setopt'.  Unlike `setq', this triggers custom setters on variables.
 Unlike `setopt', this won't needlessly pull in dependencies."
     (macroexp-progn
         (cl-loop for (var val) on settings by 'cddr
@@ -27,8 +34,9 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
                      ,list)))
 
 (defun my/clone-buffer-in-new-window-readonly ()
-    "Clone the current buffer in a new window, make it readonly, and set up a
-keybinding to close the window."
+    "Clone the current buffer in a new window.
+
+Make it readonly, and set up a keybinding (q) to close the window."
     (interactive)
     (let ((clone-buffer (clone-indirect-buffer (buffer-name) t)))
         (with-current-buffer clone-buffer
@@ -66,6 +74,7 @@ keybinding to close the window."
     (face-remap-add-relative 'default :height 145 :family "Iosevka Aile"))
 
 (defun my/display-truncation-and-wrap-indicator-as-whitespace ()
+    "Remove those ugly Emacs default truncation."
     (when (not (char-table-p buffer-display-table))
         (setq buffer-display-table (make-display-table)))
     (set-display-table-slot buffer-display-table 'truncation 32)
@@ -74,7 +83,7 @@ keybinding to close the window."
 ;;; VCS
 
 (defun my/project-todos ()
-    "Find `hl-todo--regex' items in project using `consult-ripgrep'"
+    "Find `hl-todo--regex' items in project using `consult-ripgrep'."
     (interactive)
     (require 'hl-todo)
     (consult-ripgrep nil hl-todo--regexp))
