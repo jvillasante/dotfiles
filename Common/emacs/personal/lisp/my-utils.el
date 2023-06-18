@@ -1,13 +1,6 @@
 ;;; my-utils.el --- -*- lexical-binding: t; -*-
 
-;;; Commentary:
-;; Some utils I use everywhere
-
-;;; Code:
-
 ;;; Utils
-
-(require 'cl-lib)
 
 (defconst IS-MAC (eq system-type 'darwin))
 (defconst IS-LINUX (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
