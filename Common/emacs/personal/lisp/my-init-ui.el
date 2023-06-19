@@ -201,6 +201,7 @@
 
 ;; discover : Discover more of emacs using context menus.
 (use-package discover
+    :disabled t
     :config
     (global-discover-mode 1))
 
