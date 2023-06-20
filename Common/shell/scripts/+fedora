@@ -336,27 +336,6 @@ fedora_install() {
                 sudo dnf --repo=rpmfusion-nonfree-tainted install "*-firmware"
 
                 #
-                # TLP
-                #
-
-                # Install TLP and remove power profiles
-                # sudo dnf remove -y power-profiles-daemon
-                # sudo dnf install -y tlp tlp-rdw
-
-                # Create TLP config
-                # sudo mkdir -p /etc/tlp.d
-                # sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
-
-                # Set TLP config values
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
-
-                # Enable TLP service
-                # systemctl mask systemd-rfkill.service systemd-rfkill.socket
-                # systemctl enable tlp.service && systemctl start tlp.service
-
-                #
                 # Brave Browser
                 #
 

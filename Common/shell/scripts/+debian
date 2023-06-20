@@ -528,27 +528,6 @@ debian_install() {
                 echo "3) Installing Extras"
 
                 #
-                # TLP
-                #
-
-                # Install TLP and remove power profiles
-                # sudo apt purge -y power-profiles-daemon
-                # sudo apt install -y tlp tlp-rdw
-
-                # Create TLP config
-                # sudo mkdir -p /etc/tlp.d
-                # sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
-
-                # Set TLP config values
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
-
-                # Enable TLP service
-                # systemctl mask systemd-rfkill.service systemd-rfkill.socket
-                # systemctl enable tlp.service && systemctl start tlp.service
-
-                #
                 # Brave Browser (https://brave.com/linux/)
                 #
                 sudo apt install curl
