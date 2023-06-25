@@ -142,7 +142,7 @@ if [ -d "$HOME/Workspace/Work" ]; then
         [ -L "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt" ] && unlink "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
         if [ -f /etc/fedora-release ]; then
             ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.fedora.txt" "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
-        elif [ ! -f /etc/debian_version ]; then
+        elif [ -f /etc/debian_version ]; then
             ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.debian.txt" "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
         else
             echo ">>> Unknown OS (only fedora and debian are supported)..."
@@ -156,7 +156,7 @@ if [ -d "$HOME/Workspace/Work" ]; then
         [ -L "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt" ] && unlink "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
         if [ -f /etc/fedora-release ]; then
             ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.fedora.txt" "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
-        elif [ ! -f /etc/debian_version ]; then
+        elif [ -f /etc/debian_version ]; then
             ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.debian.txt" "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
         else
             echo ">>> Unknown OS (only fedora and debian are supported)..."
