@@ -1,4 +1,4 @@
--std=c++11
+-std=c++17
 -Wall
 -Wextra
 -Werror
@@ -14,6 +14,9 @@
 -I./
 -I./inc
 -I./Dmxs
+-I./Libraries/asio
+-I./Libraries/expected
+-I./Libraries/fmt
 -I./models/generated
 -I./Test/fakes
 -I./Test/mocks
