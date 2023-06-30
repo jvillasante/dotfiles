@@ -132,8 +132,14 @@ fi
 #
 # Execute tmux
 #
-if [ "$INSIDE_EMACS" != 'vterm' ] && [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
-    tmux attach || tmux new -s Default >/dev/null 2>&1
+if [ -x "$(command -v tmux)" ] && \
+       [ -n "$PS1" ] && \
+       [ -n "$DISPLAY" ] && \
+       [[ ! "$TERM" =~ screen ]] && \
+       [[ ! "$TERM" =~ tmux ]] && \
+       [ -z "$TMUX" ] && \
+       [ -z "$INSIDE_EMACS" ]; then
+    tmux attach || exec tmux new -s Default >/dev/null 2>&1 && exit;
 fi
 
 #
