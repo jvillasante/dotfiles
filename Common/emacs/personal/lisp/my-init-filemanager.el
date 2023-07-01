@@ -16,6 +16,9 @@
         ;; deleted directory. Of course I do!
         dired-clean-confirm-killing-deleted-buffers nil)
 
+    ;; Allow to change permissions with wdired
+    (setq wdired-allow-to-change-permissions t)
+
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
     ;;  -l : Use long listing format.
@@ -80,4 +83,3 @@
 
 (provide 'my-init-filemanager)
 ;;; my-init-filemanager.el ends here
-
