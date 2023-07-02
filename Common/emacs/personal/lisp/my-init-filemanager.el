@@ -19,6 +19,18 @@
     ;; Allow to change permissions with wdired
     (setq wdired-allow-to-change-permissions t)
 
+    ;; Teach Dired to use a specific external program with either the
+    ;; `dired-do-shell-command' or `dired-do-async-shell-command' command
+    ;; (with the default keys, those are bound to `!' `&', respectively).
+    ;; The first string is a pattern match against file names.  The
+    ;; remaining strings are external programs that Dired will provide as
+    ;; suggestions.  Of course, you can always type an arbitrary program
+    ;; despite these defaults.
+    (setq dired-guess-shell-alist-user
+        '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
+             ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
+		     (".*" "xdg-open")))
+
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
     ;;  -l : Use long listing format.
