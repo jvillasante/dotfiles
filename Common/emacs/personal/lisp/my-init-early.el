@@ -66,6 +66,7 @@
     scroll-step 1
     scroll-conservatively 10000
     auto-window-vscroll nil)
+(setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
 (setq load-prefer-newer t) ;; Always load newest byte code
 (setq visible-cursor nil) ;; make it work in terminal too
 (setq inhibit-startup-screen t) ; Hide the startup screen
