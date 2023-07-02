@@ -117,13 +117,7 @@
 
 (use-package elec-pair
     :ensure nil ;; emacs built-in
-    :init
-    (add-hook 'after-init-hook 'electric-pair-mode)
-
-    ;; more conservative on whether should also insert ) when typing
-    ;; (, for example, prevent from inserting ) when point is on a
-    ;; word.
-    (setq electric-pair-inhibit-predicate #'electric-pair-conservative-inhibit))
+    :init (add-hook 'after-init-hook 'electric-pair-mode))
 
 (use-package autorevert
     :ensure nil ;; emacs built-in
