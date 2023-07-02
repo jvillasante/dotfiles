@@ -1,9 +1,5 @@
 ;;; my-init-langs.el -*- lexical-binding: t; -*-
 
-;; lsp backend
-(defvar my/lsp-backend 'eglot
-    "The lsp backend in use ['eglot or 'lsp-mode].")
-
 ;; elisp
 (use-package elisp-mode
     :ensure nil ;; emacs built-in
@@ -98,9 +94,8 @@
 (use-package rustic
     :config
     (setq rustic-lsp-server 'rust-analyzer
-        rustic-format-on-save nil)
-    (when (eq my/lsp-backend 'eglot)
-        (setq! rustic-lsp-client 'eglot)))
+        rustic-format-on-save nil
+        rustic-lsp-client 'eglot))
 
 ;; JSON Support
 (use-package json-mode)
