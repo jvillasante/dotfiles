@@ -2,64 +2,234 @@
 
 (use-package emacs
     :ensure nil ;; emacs built-in
-    :preface
-    ;; Add prompt indicator to `completing-read-multiple'.
-    ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-    (defun crm-indicator (args)
-        (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                      "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                      crm-separator)
-                  (car args))
-            (cdr args)))
     :init
-    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+    ;; Minibuffer configurations
+    (setq completion-styles '(basic substring initials flex orderless)) ; also see `completion-category-overrides'
+    (setq completion-category-defaults nil)
 
-    ;; Do not allow the cursor in the minibuffer prompt
+    ;; A list of known completion categories:
+    ;;
+    ;; - `bookmark'
+    ;; - `buffer'
+    ;; - `charset'
+    ;; - `coding-system'
+    ;; - `color'
+    ;; - `command' (e.g. `M-x')
+    ;; - `customize-group'
+    ;; - `environment-variable'
+    ;; - `expression'
+    ;; - `face'
+    ;; - `file'
+    ;; - `function' (the `describe-function' command bound to `C-h f')
+    ;; - `info-menu'
+    ;; - `imenu'
+    ;; - `input-method'
+    ;; - `kill-ring'
+    ;; - `library'
+    ;; - `minor-mode'
+    ;; - `multi-category'
+    ;; - `package'
+    ;; - `project-file'
+    ;; - `symbol' (the `describe-symbol' command bound to `C-h o')
+    ;; - `theme'
+    ;; - `unicode-name' (the `insert-char' command bound to `C-x 8 RET')
+    ;; - `variable' (the `describe-variable' command bound to `C-h v')
+    ;;
+    ;; From the `consult' package:
+    ;;
+    ;; - `consult-grep'
+    ;; - `consult-isearch'
+    ;; - `consult-kmacro'
+    ;; - `consult-location'
+    ;;
+    ;; From the `embark' package:
+    ;;
+    ;; - `embark-keybinding'
+    ;;
+    (setq completion-category-overrides
+        ;; NOTE 2021-10-25: I am adding `basic' because it works better as a
+        ;; default for some contexts.  Read:
+        ;; <https://debbugs.gnu.org/cgi/bugreport.cgi?bug=50387>.
+        ;;
+        ;; `partial-completion' is a killer app for files, because it
+        ;; can expand ~/.l/s/fo to ~/.local/share/fonts.
+        ;;
+        ;; If `basic' cannot match my current input, Emacs tries the
+        ;; next completion style in the given order.  In other words,
+        ;; `orderless' kicks in as soon as I input a space or one of its
+        ;; style dispatcher characters.
+        '((file (styles . (basic partial-completion orderless)))
+             (bookmark (styles . (basic substring)))
+             (library (styles . (basic substring)))
+             (embark-keybinding (styles . (basic substring)))
+             (imenu (styles . (basic substring orderless)))
+             (consult-location (styles . (basic substring orderless)))
+             (kill-ring (styles . (emacs22 orderless)))
+             (eglot (styles . (emacs22 substring orderless)))))
+
+    (setq completion-ignore-case t)
+    (setq read-buffer-completion-ignore-case t)
+    (setq read-file-name-completion-ignore-case t)
+    (setq-default case-fold-search t)   ; For general regexp
+
+    (setq enable-recursive-minibuffers t)
+    ;; Allow Emacs to resize mini windows, otherwise this does not work:
+    ;;   (setq org-use-fast-todo-selection 'expert)
+    (setq resize-mini-windows t)
+    (setq minibuffer-eldef-shorten-default t)
+
+    (setq read-answer-short t) ; also check `use-short-answers' for Emacs28
+    (setq echo-keystrokes 0.25)
+    (setq kill-ring-max 60) ; Keep it small
+
+    ;; Do not allow the cursor to move inside the minibuffer prompt.  I
+    ;; got this from the documentation of Daniel Mendler's Vertico
+    ;; package: <https://github.com/minad/vertico>.
     (setq minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt))
     (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-    ;; Enable recursive minibuffers
-    (setq enable-recursive-minibuffers t))
+    ;; Add prompt indicator to `completing-read-multiple'.  We display
+    ;; [CRM<separator>], e.g., [CRM,] if the separator is a comma.  This
+    ;; is copied from the README of the `vertico' package.  I made some
+    ;; small tweaks to propertize the segments of the prompt.
+    (defun crm-indicator (args)
+        (cons (format "[`crm-separator': %s]  %s"
+                  (propertize
+                      (replace-regexp-in-string
+                          "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                          crm-separator)
+                      'face 'error)
+                  (car args))
+            (cdr args)))
+    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+    (file-name-shadow-mode 1)
+    (minibuffer-depth-indicate-mode 1)
+    (minibuffer-electric-default-mode 1))
+
+(use-package dabbrev
+    :ensure nil ;; emacs built-in
+    :init
+    ;; `dabbrev' (dynamic word completion (dynamic abbreviations))
+    (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_")
+    (setq dabbrev-abbrev-skip-leading-regexp "[$*/=~']")
+    (setq dabbrev-backward-only nil)
+    (setq dabbrev-case-distinction 'case-replace)
+    (setq dabbrev-case-fold-search nil)
+    (setq dabbrev-case-replace 'case-replace)
+    (setq dabbrev-check-other-buffers t)
+    (setq dabbrev-eliminate-newlines t)
+    (setq dabbrev-upcase-means-case-search t)
+
+    ;; `abbrev' (Abbreviations, else Abbrevs)
+    (setq abbrev-file-name (locate-user-emacs-file "abbrevs"))
+    (setq only-global-abbrevs nil)
+
+    ;; hippie expand is dabbrev expand on steroids
+    (setq hippie-expand-try-functions-list
+        '(yas-hippie-try-expand
+             try-expand-dabbrev
+             try-expand-dabbrev-all-buffers
+             try-expand-dabbrev-from-kill
+             try-complete-file-name-partially
+             try-complete-file-name
+             try-expand-all-abbrevs
+             try-expand-list
+             try-expand-line
+             try-complete-lisp-symbol-partially
+             try-complete-lisp-symbol)))
 
 (use-package vertico
     :init
-    (vertico-mode)
-    (setq vertico-resize nil
-        vertico-count 14
-        vertico-cycle t)
+    ;; Those are the default values, but check the user option
+    ;; `vertico-multiform-categories' for per-category tweaks.  That
+    ;; variable is in the file vertico-multiform.el and will work once
+    ;; `vertico-multiform-mode' is enabled.
+    (setq vertico-scroll-margin 0)
+    (setq vertico-count 14)
+    (setq vertico-resize nil)
+    (setq vertico-cycle t)
+    (vertico-mode 1)
 
-    ;; Use `consult-completion-in-region' if Vertico is enabled.
-    ;; Otherwise use the default `completion--in-region' function.
-    (setq completion-in-region-function
-        (lambda (&rest args)
-            (apply (if vertico-mode
-                       #'consult-completion-in-region
-                       #'completion--in-region)
-                args)))
-
-    ;; Cleans up path when moving directories with shadowed paths syntax, e.g.
-    ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
+    ;; This works with `file-name-shadow-mode' enabled.  When you are in
+    ;; a sub-directory and use, say, `find-file' to go to your home '~/'
+    ;; or root '/' directory, Vertico will clear the old path to keep
+    ;; only your current input.
     (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
-    (add-hook 'minibuffer-setup-hook #'vertico-repeat-save))
+
+    :bind (:map vertico-map
+              ("M-," . #'vertico-quick-insert)
+              ("M-." . #'vertico-quick-exit)))
 
 (use-package orderless
     :init
-    (setq completion-styles '(orderless basic)
-        completion-category-overrides '((file (styles basic partial-completion)))))
+    (setq orderless-component-separator " +")
+    ;; Remember to check my `completion-styles' and the
+    ;; `completion-category-overrides'.
+    (setq orderless-matching-styles
+        '(orderless-prefixes orderless-regexp))
 
-(use-package all-the-icons-completion)
-(use-package marginalia
-    :init
-    (add-hook 'pre-command-hook 'marginalia-mode)
+    ;; SPC should never complete: use it for `orderless' groups.
+    ;; The `?' is a regexp construct.
+    (let ((map minibuffer-local-completion-map))
+        (define-key map (kbd "SPC") nil)
+        (define-key map (kbd "?") nil)))
+
+(use-package corfu
+    :preface
+    (defun corfu-send-shell (&rest _)
+        "Send completion candidate when inside comint/eshell."
+        (cond
+            ((and (derived-mode-p 'eshell-mode) (fboundp 'eshell-send-input))
+                (eshell-send-input))
+            ((and (derived-mode-p 'comint-mode)  (fboundp 'comint-send-input))
+                (comint-send-input))))
+    (defun corfu-move-to-minibuffer ()
+        (interactive)
+        (let ((completion-extra-properties corfu--extra)
+                 completion-cycle-threshold completion-cycling)
+            (apply #'consult-completion-in-region completion-in-region--data)))
     :config
-    (if (display-graphic-p)
-        (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)))
+    (setq corfu-auto t
+        ;; corfu-auto-delay 0
+        ;; corfu-auto-prefix 0
+        corfu-quit-no-match 'separator)
+    :init
+    (global-corfu-mode)
+    (global-set-key (kbd "M-i") #'completion-at-point)
+    (keymap-set corfu-map "M-m" #'corfu-move-to-minibuffer)
+    (add-hook 'eshell-mode-hook
+        (lambda ()
+            (setq-local corfu-auto nil)
+            (corfu-mode)))
+    (advice-add #'corfu-insert :after #'corfu-send-shell)
+    (when (< emacs-major-version 29)
+        ;; Silence the pcomplete capf, no errors or messages!
+        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
 
-;; Example configuration for Consult
+        ;; Ensure that pcomplete does not write to the buffer
+        ;; and behaves as a pure `completion-at-point-function'.
+        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)))
+
+(use-package corfu-terminal
+    :after corfu
+    :init
+    (unless (display-graphic-p)
+        (corfu-terminal-mode +1)))
+
+(use-package cape
+    :init
+    (setq cape-dabbrev-min-length 3)
+    (setq cape-symbol-wrapper
+        '((org-mode ?~ ?~)
+             (markdown-mode ?` ?`)
+             (log-edit-mode ?' ?')
+             (message-mode ?' ?')))
+    (dolist (backend '(cape-symbol cape-keyword cape-file cape-history cape-dabbrev))
+        (add-to-list 'completion-at-point-functions backend)))
+
 (use-package consult
-    ;; Replace bindings. Lazily loaded due by `use-package'.
     :bind (;; C-c bindings (mode-specific-map)
               ("C-c M-x" . consult-mode-command)
               ("C-c h" . consult-history)
@@ -112,70 +282,21 @@
               :map minibuffer-local-map
               ("M-s" . consult-history)                 ;; orig. next-matching-history-element
               ("M-r" . consult-history))                ;; orig. previous-matching-history-element
-
-    ;; Enable automatic preview at point in the *Completions* buffer. This is
-    ;; relevant when you use the default completion UI.
-    :hook (completion-list-mode . consult-preview-at-point-mode)
-
-    ;; The :init configuration is always executed (Not lazy)
     :init
-
-    ;; Optionally configure the register formatting. This improves the register
-    ;; preview for `consult-register', `consult-register-load',
-    ;; `consult-register-store' and the Emacs built-ins.
-    (setq register-preview-delay 0.5
+    (setq consult-line-numbers-widen t)
+    ;; (setq completion-in-region-function #'consult-completion-in-region)
+    (setq consult-async-min-input 3)
+    (setq consult-async-input-debounce 0.5)
+    (setq consult-async-input-throttle 0.8)
+    (setq consult-narrow-key nil)
+    (setq register-preview-delay 0.8
         register-preview-function #'consult-register-format)
+    (setq consult-find-args "find . -not ( -path */.git* -prune )")
+    (setq consult-preview-key 'any)
 
-    ;; Optionally tweak the register preview window.
-    ;; This adds thin lines, sorting and hides the mode line of the window.
-    (advice-add #'register-preview :override #'consult-register-window)
-
-    ;; Use Consult to select xref locations with preview
-    (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-
-    ;; Configure other variables and modes in the :config section,
-    ;; after lazily loading the package.
-    :config
-
-    ;; Optionally configure preview. The default value
-    ;; is 'any, such that any key triggers the preview.
-    ;; (setq consult-preview-key 'any)
-    ;; (setq consult-preview-key "M-.")
-    ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
-    ;; For some commands and buffer sources it is useful to configure the
-    ;; :preview-key on a per-command basis using the `consult-customize' macro.
-    (consult-customize
-        consult-theme :preview-key '(:debounce 0.2 any)
-        consult-ripgrep consult-git-grep consult-grep
-        consult-bookmark consult-recent-file consult-xref
-        consult--source-bookmark consult--source-file-register
-        consult--source-recent-file consult--source-project-recent-file
-        ;; :preview-key "M-."
-        :preview-key '(:debounce 0.4 any))
-
-    ;; Optionally configure the narrowing key.
-    ;; Both < and C-+ work reasonably well.
-    (setq consult-narrow-key "<") ;; "C-+"
-
-    ;; Optionally make narrowing help available in the minibuffer.
-    ;; You may want to use `embark-prefix-help-command' or which-key instead.
-    ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
-
-    ;; By default `consult-project-function' uses `project-root' from project.el.
-    ;; Optionally configure a different project root function.
-  ;;;; 1. project.el (the default)
-    ;; (setq consult-project-function #'consult--default-project--function)
-  ;;;; 2. vc.el (vc-root-dir)
-    ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
-  ;;;; 3. locate-dominating-file
-    ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
-  ;;;; 4. projectile.el (projectile-project-root)
-    ;; (autoload 'projectile-project-root "projectile")
-    ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
-  ;;;; 5. No project support
-    ;; (setq consult-project-function nil)
-    )
+    ;; (add-to-list 'consult-mode-histories '(vc-git-log-edit-mode . log-edit-comment-ring))
+    (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
+    (require 'consult-imenu))
 
 (use-package consult-dir
     :bind (([remap list-directory] . consult-dir)
@@ -205,83 +326,13 @@
     :ensure t ; only need to install it, embark loads it after consult if found
     :hook (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package corfu
-    :preface
-    (defun corfu-send-shell (&rest _)
-        "Send completion candidate when inside comint/eshell."
-        (cond
-            ((and (derived-mode-p 'eshell-mode) (fboundp 'eshell-send-input))
-                (eshell-send-input))
-            ((and (derived-mode-p 'comint-mode)  (fboundp 'comint-send-input))
-                (comint-send-input))))
-    (defun corfu-move-to-minibuffer ()
-        (interactive)
-        (let ((completion-extra-properties corfu--extra)
-                 completion-cycle-threshold completion-cycling)
-            (apply #'consult-completion-in-region completion-in-region--data)))
+(use-package all-the-icons-completion)
+(use-package marginalia
+    :init
+    (add-hook 'pre-command-hook 'marginalia-mode)
     :config
-    (setq corfu-auto t
-        ;; corfu-auto-delay 0
-        ;; corfu-auto-prefix 0
-        corfu-quit-no-match 'separator)
-    :init
-    (global-corfu-mode)
-    (global-set-key (kbd "M-i") #'completion-at-point)
-    (keymap-set corfu-map "M-m" #'corfu-move-to-minibuffer)
-    (add-hook 'eshell-mode-hook
-        (lambda ()
-            (setq-local corfu-auto nil)
-            (corfu-mode)))
-    (advice-add #'corfu-insert :after #'corfu-send-shell)
-    (when (< emacs-major-version 29)
-        ;; Silence the pcomplete capf, no errors or messages!
-        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
-
-        ;; Ensure that pcomplete does not write to the buffer
-        ;; and behaves as a pure `completion-at-point-function'.
-        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)))
-
-(use-package corfu-terminal
-    :after corfu
-    :init
-    (unless (display-graphic-p)
-        (corfu-terminal-mode +1)))
-
-(use-package cape
-    ;; Bind dedicated completion commands
-    ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-    :bind (("C-c p p" . completion-at-point) ;; capf
-              ("C-c p t" . complete-tag)        ;; etags
-              ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
-              ("C-c p h" . cape-history)
-              ("C-c p f" . cape-file)
-              ("C-c p k" . cape-keyword)
-              ("C-c p s" . cape-symbol)
-              ("C-c p a" . cape-abbrev)
-              ("C-c p i" . cape-ispell)
-              ("C-c p l" . cape-line)
-              ("C-c p w" . cape-dict)
-              ("C-c p \\" . cape-tex)
-              ("C-c p _" . cape-tex)
-              ("C-c p ^" . cape-tex)
-              ("C-c p &" . cape-sgml)
-              ("C-c p r" . cape-rfc1345))
-    :init
-    ;; Add `completion-at-point-functions', used by `completion-at-point'.
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-    ;;(add-to-list 'completion-at-point-functions #'cape-history)
-    ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
-    ;;(add-to-list 'completion-at-point-functions #'cape-tex)
-    ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-    ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-    ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-    ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
-    ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-    ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
-    ;;(add-to-list 'completion-at-point-functions #'cape-line)
-    )
+    (if (display-graphic-p)
+        (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)))
 
 ;; Configure Tempel
 (use-package tempel
