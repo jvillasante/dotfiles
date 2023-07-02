@@ -65,7 +65,7 @@
     (setq history-length t
         history-delete-duplicates t
         savehist-save-minibuffer-history t
-        savehist-additional-variables '(kill-ring search-ring regexp-search-ring) ;; search entries
+        savehist-additional-variables '(register-alist kill-ring search-ring regexp-search-ring) ;; search entries
         savehist-file (expand-file-name "savehist" no-littering-var-directory)))
 
 ;; recentf : recent files

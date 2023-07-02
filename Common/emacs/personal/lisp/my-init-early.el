@@ -18,19 +18,6 @@
          ("Europe/Ljubljana" "Slovenia")))
 (setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
-;; hippie expand is dabbrev expand on steroids
-(setq hippie-expand-try-functions-list
-    '(try-expand-dabbrev
-         try-expand-dabbrev-all-buffers
-         try-expand-dabbrev-from-kill
-         try-complete-file-name-partially
-         try-complete-file-name
-         try-expand-all-abbrevs
-         try-expand-list
-         try-expand-line
-         try-complete-lisp-symbol-partially
-         try-complete-lisp-symbol))
-
 ;; macros
 (require 'kmacro)
 (defalias 'kmacro-insert-macro 'insert-kbd-macro)
@@ -87,7 +74,6 @@
     (advice-add 'yes-or-no-p :override #'y-or-n-p))
 (setq large-file-warning-threshold 100000000) ;; warn when opening files bigger than 100MB
 (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
-(savehist-mode +1) ; Save history for commands
 (setq-default auto-revert-verbose t) ; show message when file changes
 (setq-default auto-revert-avoid-polling t) ; use save signal
 (global-auto-revert-mode t) ; Refresh files automatically when modified from outside emacs
