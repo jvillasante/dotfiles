@@ -35,8 +35,8 @@ is_desktop_environment() (
 
 # iosevka does not exists in Debian!
 install_iosevka() {
-    read -rp "Installing iosevka fonts, enter release version: " RELEASE
-    [ -z "$RELEASE" ] && RELEASE="24.1.3"
+    read -rp "Installing iosevka fonts, enter release version (defaults to 24.1.4): " RELEASE
+    [ -z "$RELEASE" ] && RELEASE="24.1.4"
     read -rp "Got $RELEASE, Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 
     [ -d /tmp/iosevka-font/v"$RELEASE" ] && rm -rf /tmp/iosevka-font/v"$RELEASE"
@@ -338,8 +338,8 @@ debian_install() {
         1 "Set Defaults - Set some defaults (hostname, folders structure, global settings, etc)"
         2 "Install Software - Installs a bunch of my most used software"
         3 "Install Extras - TLP, Fonts, etc"
-        4 "Enable Flatpak - Enables the Flatpak repo and installs packages"
-        5 "Install Nvidia Drivers - Install Nvidia Drivers"
+        4 "Install Nvidia Drivers - Install Nvidia Drivers"
+        5 "Enable Flatpak - Enables the Flatpak repo and installs packages"
         6 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         7 "Install Emacs - Install Emacs"
         8 "Install Keyd - Install Keyd from source"
@@ -456,6 +456,7 @@ debian_install() {
                 sudo apt install -y pkg-config flex bison
                 sudo apt install -y valgrind minicom mc strace
                 sudo apt install -y ffmpegthumbnailer mediainfo
+                sudo apt install -y feh
 
                 # Gnome Software
                 if is_desktop_environment "Gnome"; then
@@ -589,6 +590,17 @@ debian_install() {
                 read -rp "3) Extras installed. Press enter to continue..."
                 ;;
             4)
+                echo "5) Installing Nvidia Drivers (https://wiki.debian.org/NvidiaGraphicsDrivers)"
+
+                # Prerequisites
+                sudo apt install linux-headers-amd64
+
+                # Install
+                sudo apt install nvidia-driver firmware-misc-nonfree
+
+                read -rp "5) Nividia Drivers has been installed. Press enter to continue..."
+                ;;
+            5)
                 echo ") Enabling Flatpak"
 
                 sudo apt install -y flatpak
@@ -621,17 +633,6 @@ debian_install() {
                 # sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
 
                 read -rp "4) Flatpak has now been enabled. Press enter to continue..."
-                ;;
-            5)
-                echo "5) Installing Nvidia Drivers (https://wiki.debian.org/NvidiaGraphicsDrivers)"
-
-                # Prerequisites
-                sudo apt install linux-headers-amd64
-
-                # Install
-                sudo apt install nvidia-driver firmware-misc-nonfree
-
-                read -rp "5) Nividia Drivers has been installed. Press enter to continue..."
                 ;;
             6)
                 echo "6) Setting up secrets and repos"
@@ -681,6 +682,9 @@ debian_install() {
 
                 # Is it already installed?
                 hash emacs 2>/dev/null && notify-send "12) Emacs is already installed" --expire-time=20 && continue
+
+                # libgccjit-12 should match the current gcc in the system (gcc --version)
+                read -rp "Is gcc version 12.*? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 
                 # Install dependencies
                 sudo apt build-dep emacs
