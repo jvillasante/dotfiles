@@ -61,7 +61,7 @@
     ;; org-agenda will visit all org files listed
     ;; in `org-agenda-files' to generate the org-agenda view.
     ;; avoid too much files inside this directory.
-    ;; (setq! org-agenda-files (list "inbox.org" "agenda.org" "notes.org"))
+    ;; (setq org-agenda-files (list "inbox.org" "agenda.org" "notes.org"))
     (setq  org-agenda-files `(,org-directory
                                  ,@(mapcar
                                        (lambda (x) (file-name-concat org-directory x))
@@ -90,9 +90,9 @@
     :init
     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
     :config
-    (setq! org-superstar-remove-leading-stars nil)
-    (setq! org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
-    (setq! org-superstar-special-todo-items t))
+    (setq org-superstar-remove-leading-stars nil)
+    (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
+    (setq org-superstar-special-todo-items t))
 
 ;; deft : plain text notes
 (use-package deft

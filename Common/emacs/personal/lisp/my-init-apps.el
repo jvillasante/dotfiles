@@ -38,7 +38,7 @@
     (advice-add #'elfeed-kill-buffer :after #'my/elfeed-delete-window-after-kill-buffer)
 
     ;; feeds
-    (setq! elfeed-feeds
+    (setq elfeed-feeds
         '(;; General
              ;; "http://feeds.bbci.co.uk/news/rss.xml" ; BBC News
              ;; ycombinator
