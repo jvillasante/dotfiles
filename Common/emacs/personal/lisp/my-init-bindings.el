@@ -122,11 +122,7 @@
     ;; Prevents issue where you have to press backspace twice when trying to remove the first character that fails a search
     (define-key isearch-mode-map [remap isearch-delete-char] 'isearch-del-char)
     (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward) ; better navigation
-    (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward) ; better navigation
-    (define-key isearch-mode-map (kbd "M-e") 'consult-isearch-history) ; orig. isearch-edit-string
-    (define-key isearch-mode-map (kbd "M-s e") 'consult-isearch-history) ; orig. isearch-edit-string
-    (define-key isearch-mode-map (kbd "M-s l") 'consult-line) ; needed by consult-line to detect isearch
-    (define-key isearch-mode-map (kbd "M-s L") 'consult-line-multi)) ; needed by consult-line to detect isearch
+    (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)) ; better navigation
 
 ;; vterm
 (with-eval-after-load 'vterm
@@ -139,13 +135,8 @@
 (with-eval-after-load 'neotree
     (define-key neotree-mode-map (kbd "TAB") 'neotree-stretch-toggle))
 
-;; minibuffer
-(define-key minibuffer-local-map (kbd "M-s") 'consult-history) ; orig. next-matching-history-element
-(define-key minibuffer-local-map (kbd "M-r") 'consult-history) ; orig. previous-matching-history-element
-
 ;; prog-mode
 (with-eval-after-load 'prog-mode
-    (global-set-key (kbd "M-g f") 'consult-flymake)
     (with-eval-after-load 'flymake
         (define-key prog-mode-map (kbd "M-n") 'flymake-goto-next-error)
         (define-key prog-mode-map (kbd "M-p") 'flymake-goto-prev-error))
