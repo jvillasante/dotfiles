@@ -177,46 +177,25 @@
         (define-key map (kbd "?") nil)))
 
 (use-package corfu
-    :preface
-    (defun corfu-send-shell (&rest _)
-        "Send completion candidate when inside comint/eshell."
-        (cond
-            ((and (derived-mode-p 'eshell-mode) (fboundp 'eshell-send-input))
-                (eshell-send-input))
-            ((and (derived-mode-p 'comint-mode)  (fboundp 'comint-send-input))
-                (comint-send-input))))
-    (defun corfu-move-to-minibuffer ()
-        (interactive)
-        (let ((completion-extra-properties corfu--extra)
-                 completion-cycle-threshold completion-cycling)
-            (apply #'consult-completion-in-region completion-in-region--data)))
     :config
     (setq corfu-auto t
         ;; corfu-auto-delay 0
         ;; corfu-auto-prefix 0
-        corfu-quit-no-match 'separator)
+        ;; corfu-quit-no-match 'separator
+        )
     :init
-    (global-corfu-mode)
-    (global-set-key (kbd "M-i") #'completion-at-point)
-    (keymap-set corfu-map "M-m" #'corfu-move-to-minibuffer)
-    (add-hook 'eshell-mode-hook
-        (lambda ()
-            (setq-local corfu-auto nil)
-            (corfu-mode)))
-    (advice-add #'corfu-insert :after #'corfu-send-shell)
-    (when (< emacs-major-version 29)
-        ;; Silence the pcomplete capf, no errors or messages!
-        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+    (global-corfu-mode 1)
+    (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
+    ;;(define-key corfu-map (kbd "<tab>") #'corfu-complete)
 
-        ;; Ensure that pcomplete does not write to the buffer
-        ;; and behaves as a pure `completion-at-point-function'.
-        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)))
-
-(use-package corfu-terminal
-    :after corfu
-    :init
-    (unless (display-graphic-p)
-        (corfu-terminal-mode +1)))
+    ;; Adapted from Corfu's manual.
+    (defun contrib/corfu-enable-always-in-minibuffer ()
+        "Enable Corfu in the minibuffer if MCT or Vertico is not active.
+Useful for prompts such as `eval-expression' and `shell-command'."
+        (unless (or (bound-and-true-p vertico--input)
+                    (bound-and-true-p mct--active))
+            (corfu-mode 1)))
+    (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1))
 
 (use-package cape
     :init
