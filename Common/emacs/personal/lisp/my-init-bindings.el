@@ -48,10 +48,6 @@
 ;; avy
 (global-set-key (kbd "M-j") 'avy-goto-char-timer)
 
-;; anzu
-(global-set-key (kbd "M-%") 'anzu-query-replace)
-(global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
-
 ;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C--") 'er/contract-region)

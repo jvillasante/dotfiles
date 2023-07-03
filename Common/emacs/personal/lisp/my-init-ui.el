@@ -151,10 +151,6 @@
     (setq which-key-idle-delay 1
         which-key-popup-type 'minibuffer))
 
-;; anzu : displays current match and total matches information in the mode-line in various search modes
-(use-package anzu
-    :config (global-anzu-mode +1))
-
 ;; shackle : Enforce rules for popup windows
 (use-package shackle
     :init
