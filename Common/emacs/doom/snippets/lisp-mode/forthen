@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: forthen
-# key: forthen
-# --
-for ${1:var} then ${2:list-form}

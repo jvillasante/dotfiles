@@ -1,7 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: simple documentation comment
-# key: sdoc
-# --
-/**
- * ${0:func()}
- */
