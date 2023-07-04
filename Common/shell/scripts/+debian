@@ -505,7 +505,11 @@ debian_install() {
 
                 # profile sync daemon
                 sudo apt install -y profile-sync-daemon
-                [ -f /usr/share/psd/contrib/brave ] && sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                if [ -f /usr/share/psd/contrib/brave ]; then
+                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
+                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
+                fi
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # Neovim nightly
