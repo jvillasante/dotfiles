@@ -55,7 +55,6 @@
         (quote (:documentFormattingProvider :documentRangeFormattingProvider :inlayHintProvider)))
     :config
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
-    ;; (add-to-list 'eglot-stay-out-of 'flymake)
 
     ;; workspace
     (setq-default eglot-workspace-configuration
