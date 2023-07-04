@@ -177,6 +177,13 @@
         (define-key map (kbd "?") nil)))
 
 (use-package corfu
+    :preface
+    (defun my/eglot-capf ()
+        (setq-local completion-at-point-functions
+            (list (cape-super-capf
+                      #'eglot-completion-at-point
+                      ;; #'tempel-expand
+                      #'cape-file))))
     :config
     (setq corfu-auto t
         ;; corfu-auto-delay 0
@@ -186,7 +193,8 @@
     :init
     (global-corfu-mode 1)
     (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
-    ;;(define-key corfu-map (kbd "<tab>") #'corfu-complete)
+    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+    (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
     ;; Adapted from Corfu's manual.
     (defun contrib/corfu-enable-always-in-minibuffer ()
