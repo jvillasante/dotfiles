@@ -15,11 +15,17 @@
 ;; flymake
 (use-package flymake
     :ensure nil ;; emacs built-in
-    :hook ((prog-mode . (lambda () (flymake-mode +1)))))
+    :config (setq flymake-no-changes-timeout 3) ;; Don't be so hasty in syntax checking.
+    :hook ((prog-mode . (lambda ()
+                            (flymake-mode +1)
+                            (which-function-mode)))))
 
 (use-package eldoc
     :ensure nil ;; emacs built-in
-    :init
+    :config
+    (add-to-list 'display-buffer-alist
+        '("^\\*eldoc for" display-buffer-at-bottom
+             (window-height . 4)))
     (setq eldoc-echo-area-use-multiline-p nil)
     (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
@@ -31,9 +37,9 @@
         (setq eldoc-documentation-functions
             (cons #'flymake-eldoc-function
                 (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+
         ;; Show all eldoc feedback.
         (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
-
     :hook ((eglot-managed-mode . my/eglot-eldoc)
               (c-mode-common . eglot-ensure)
               (rustic-mode . eglot-ensure)
@@ -47,7 +53,6 @@
     (setq read-process-output-max (* 1024 1024))
     (setq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider :inlayHintProvider)))
-
     :config
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
     ;; (add-to-list 'eglot-stay-out-of 'flymake)

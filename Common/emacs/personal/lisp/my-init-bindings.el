@@ -37,9 +37,6 @@
 (global-set-key (kbd "M-;") 'my/comment-or-uncomment)
 (global-set-key (kbd "C-x C-;") 'my/comment-or-uncomment)
 
-;; hippie-expand is a better dabbrev
-(define-key global-map [remap dabbrev-expand] 'hippie-expand)
-
 ;; fill-unfill
 (define-key global-map [remap fill-paragraph] 'my/fill-or-unfill)
 (global-set-key (kbd "M-Q") 'my/unfill-paragraph)
@@ -54,11 +51,6 @@
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
-
-;; embark
-(global-set-key (kbd "C-;") 'embark-act)        ; pick some comfortable binding
-(global-set-key (kbd "C-M-;") 'embark-dwim)     ; good alternative: "M-."
-(global-set-key (kbd "C-h B") 'embark-bindings) ; alternative for `describe-bindings'
 
 ;; helpful
 ;; (define-key helpful-mode-map [remap revert-buffer] #'helpful-update)

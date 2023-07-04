@@ -3,6 +3,10 @@
 (use-package emacs
     :ensure nil ;; emacs built-in
     :init
+    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+    ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+    (setq read-extended-command-predicate #'command-completion-default-include-p)
+
     ;; Minibuffer configurations
     (setq completion-styles '(basic substring initials flex orderless)) ; also see `completion-category-overrides'
     (setq completion-category-defaults nil)
@@ -123,10 +127,19 @@
     (setq dabbrev-upcase-means-case-search t)
 
     ;; `abbrev' (Abbreviations, else Abbrevs)
-    (setq abbrev-file-name (locate-user-emacs-file "abbrevs"))
-    (setq only-global-abbrevs nil)
+    (setq abbrev-file-name (expand-file-name
+                               "abbrevs" no-littering-etc-directory))
+    (setq only-global-abbrevs nil))
 
-    ;; hippie expand is dabbrev expand on steroids
+;; hippie expand is dabbrev expand on steroids
+(use-package hippie-exp
+    ;; A composable expansion tool that I find compliments `corfu' in that it
+    ;; looks in a different manner for completions.
+    ;;
+    ;; TODO: Perhaps I should spend a bit time investigating removing `hippie-exp'
+    ;; in favor of `corfu' and `cape' behavior.  Definitely spend a bit of time exploring
+    ;; this option.
+    :config
     (setq hippie-expand-try-functions-list
         '(yas-hippie-try-expand
              try-expand-dabbrev
@@ -138,7 +151,8 @@
              try-expand-list
              try-expand-line
              try-complete-lisp-symbol-partially
-             try-complete-lisp-symbol)))
+             try-complete-lisp-symbol))
+    :init (global-set-key [remap dabbrev-expand] 'hippie-expand))
 
 (use-package vertico
     :init
@@ -184,12 +198,26 @@
                       #'eglot-completion-at-point
                       ;; #'tempel-expand
                       #'cape-file))))
+    (defun corfu-move-to-minibuffer ()
+        "Move \"popup\" completion candidates to minibuffer.
+Useful if you want a more robust view into the recommend candidates."
+        (interactive)
+        (let (completion-cycle-threshold completion-cycling)
+            (apply #'consult-completion-in-region completion-in-region--data)))
+    :bind (:map corfu-map
+              ("M-m" . corfu-move-to-minibuffer)
+              ("<escape>". corfu-quit)
+              ("<return>" . corfu-insert)
+              ("M-d" . corfu-show-documentation)
+              ("M-l" . 'corfu-show-location)
+              ("TAB" . corfu-next)
+              ([tab] . corfu-next)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous))
     :config
-    (setq corfu-auto t
-        ;; corfu-auto-delay 0
-        ;; corfu-auto-prefix 0
-        ;; corfu-quit-no-match 'separator
-        )
+    (setq corfu-auto t)
+    (setq corfu-separator ?\s)
+    (setq corfu-quit-no-match 'separator)
     :init
     (global-corfu-mode 1)
     (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
@@ -270,20 +298,31 @@ Useful for prompts such as `eval-expression' and `shell-command'."
               ("M-s" . consult-history)                 ;; orig. next-matching-history-element
               ("M-r" . consult-history))                ;; orig. previous-matching-history-element
     :init
+    ;; Use Consult to select xref locations with preview
+    (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+
+    ;; Optionally configure the register formatting. This improves the register
+    ;; preview for `consult-register', `consult-register-load',
+    ;; `consult-register-store' and the Emacs built-ins.
+    (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+
+    ;; Optionally tweak the register preview window.
+    ;; This adds thin lines, sorting and hides the mode line of the window.
+    (advice-add #'register-preview :override #'consult-register-window)
+
     (setq consult-line-numbers-widen t)
     ;; (setq completion-in-region-function #'consult-completion-in-region)
     (setq consult-async-min-input 3)
     (setq consult-async-input-debounce 0.5)
     (setq consult-async-input-throttle 0.8)
     (setq consult-narrow-key nil)
-    (setq register-preview-delay 0.8
-        register-preview-function #'consult-register-format)
+    (setq consult-preview-key 'any)
     (setq consult-find-args
         (concat "find . -not ( "
-                "-path */.git* -prune "
-                "-or -path */.cache* -prune )"))
-    (setq consult-preview-key 'any)
-
+            "-path */.git* -prune "
+            "-or -path */.cache* -prune )"))
     ;; (add-to-list 'consult-mode-histories '(vc-git-log-edit-mode . log-edit-comment-ring))
     (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
     (require 'consult-imenu))
@@ -292,28 +331,27 @@ Useful for prompts such as `eval-expression' and `shell-command'."
     :bind (([remap list-directory] . consult-dir)
               :map vertico-map
               ("C-c C-d" . 'consult-dir)
-              ("C-c C-j" . 'consult-dir-jump-file))
-    :config
-    ;; TODO: doomemacs configures docker paths for consult dir
-    ;; when docker-tramp is configured, will take a reference from it.
-    (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-local t)
-    (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-ssh t))
+              ("C-c C-j" . 'consult-dir-jump-file)))
 
 (use-package embark
+    :bind
+    (("C-;" . embark-act)             ;; pick some comfortable binding
+        ("C-M-;" . embark-dwim)       ;; good alternative: "M-."
+        ("C-h B" . embark-bindings))  ;; alternative for `describe-bindings'
     :init
-    (setq which-key-use-C-h-commands nil
-        prefix-help-command #'embark-prefix-help-command)
-    ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+    ;; Optionally replace the key help with a completing-read interface
+    (setq prefix-help-command #'embark-prefix-help-command)
     :config
-    ;; Hide the mode line of the Embark live/completions buffers
-    (add-to-list 'display-buffer-alist
-        '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-             nil
-             (window-parameters (mode-line-format . none)))))
+    (setq embark-action-indicator
+        (lambda (map &optional _target)
+            (which-key--show-keymap "Embark" map nil nil 'no-paging)
+            #'which-key--hide-popup-ignore-command)
+        embark-become-indicator embark-action-indicator))
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
     :ensure t ; only need to install it, embark loads it after consult if found
+    :after (embark consult)
     :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package all-the-icons-completion)
