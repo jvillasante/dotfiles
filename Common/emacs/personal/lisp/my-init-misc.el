@@ -33,6 +33,16 @@
     (electric-indent-mode 0) ;; disable by default
     (add-hook 'after-change-major-mode-hook #'my/electric-indent-local-mode-maybe))
 
+(use-package elec-pair
+    :ensure nil ;; emacs built-in
+    :init
+    ;; make electric-pair-mode work on more brackets
+    (setq electric-pair-pairs
+        '(
+             (?\" . ?\")
+             (?\{ . ?\})))
+    (add-hook 'after-init-hook 'electric-pair-mode))
+
 (use-package isearch
     :ensure nil ;; emacs built-in
     :init
@@ -117,10 +127,6 @@
                      "Verification code")
                 t)
             ".*:\0? *")))
-
-(use-package elec-pair
-    :ensure nil ;; emacs built-in
-    :init (add-hook 'after-init-hook 'electric-pair-mode))
 
 (use-package autorevert
     :ensure nil ;; emacs built-in
