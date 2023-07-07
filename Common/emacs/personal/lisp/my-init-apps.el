@@ -135,7 +135,8 @@
              "https://kerkour.com/feed.xml"
              "https://cliffle.com/rss.xml"
              "https://nigeltao.github.io/feed.xml"
-             "https://www.thecodedmessage.com/index.xml")))
+             "https://www.thecodedmessage.com/index.xml"
+             "https://unixsheikh.com/feed.rss")))
 
 (use-package pdf-tools
     :mode ("\\.pdf\\'" . pdf-view-mode)
