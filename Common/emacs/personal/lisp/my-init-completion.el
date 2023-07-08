@@ -356,7 +356,8 @@ Useful for prompts such as `eval-expression' and `shell-command'."
     (if (display-graphic-p)
         (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)))
 
-;; Configure Tempel
+;; tempel - Simple templates for Emacs
+(use-package tempel-collection :disabled t :after tempel)
 (use-package tempel
     :disabled t
     ;; Require trigger prefix before template name when completing.
@@ -367,7 +368,7 @@ Useful for prompts such as `eval-expression' and `shell-command'."
               ("M-*" . tempel-insert))
 
     :init
-    (setq tempel-path (expand-file-name "templates" no-littering-etc-directory))
+    (setq tempel-path (expand-file-name "tempel-templates" no-littering-etc-directory))
 
     ;; Setup completion at point
     (defun tempel-setup-capf ()
@@ -382,6 +383,7 @@ Useful for prompts such as `eval-expression' and `shell-command'."
             (cons #'tempel-expand
                 completion-at-point-functions)))
 
+    (add-hook 'conf-mode-hook 'tempel-setup-capf)
     (add-hook 'prog-mode-hook 'tempel-setup-capf)
     (add-hook 'text-mode-hook 'tempel-setup-capf)
 
@@ -391,12 +393,7 @@ Useful for prompts such as `eval-expression' and `shell-command'."
     ;; (global-tempel-abbrev-mode)
     )
 
-;; Optional: Add tempel-collection.
-;; The package is young and doesn't have comprehensive coverage.
-(use-package tempel-collection
-    :disabled t)
-
-(use-package yasnippet-snippets)
+(use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
     :config (yas-reload-all)
     :hook (after-init . yas-global-mode))
