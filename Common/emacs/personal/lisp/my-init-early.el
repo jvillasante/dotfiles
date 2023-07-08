@@ -93,7 +93,7 @@
 (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
 (setq use-short-answers t) ; Abreviate Yes/No to y or n
 (setq require-final-newline t) ;; Newline at end of file
-(setq-default fill-column 132) ;; Wrap lines at 132 characters
+(setq-default fill-column 10000) ;; Wrap lines at 132 characters
 (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
 (setq-default tab-width 4)            ;; but maintain correct appearance
 (setq indent-line-function 'insert-tab) ;; indent the current line
