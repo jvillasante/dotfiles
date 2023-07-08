@@ -1,6 +1,4 @@
-#ifndef CHRONO_H
-#define CHRONO_H
-
+#pragma once
 #include <chrono>
 #include <functional>
 
@@ -37,5 +35,3 @@ struct perf_timer {
     }
 };
 } // namespace utils::chrono::bench
-
-#endif /* CHRONO_H */

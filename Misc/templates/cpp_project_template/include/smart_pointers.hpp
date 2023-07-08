@@ -1,6 +1,4 @@
-#ifndef SMART_POINTERS_H
-#define SMART_POINTERS_H
-
+#pragma once
 #include <memory>
 #include <algorithm>
 
@@ -12,7 +10,8 @@ namespace utils::smart_pointers {
  * It is somewhat analogous to std::static_ptr_cast
  */
 template <typename Derived, typename Base, typename Deleter>
-std::unique_ptr<Derived, Deleter> static_ptr_cast(std::unique_ptr<Base, Deleter> base) {
+std::unique_ptr<Derived, Deleter> static_ptr_cast(std::unique_ptr<Base, Deleter> base)
+{
     auto deleter = base.get_deleter();
     auto derived_ptr = static_cast<Derived*>(base.release());
     return std::unique_ptr<Derived, Deleter>(derived_ptr, std::move(deleter));
@@ -31,7 +30,8 @@ std::unique_ptr<Derived, Deleter> static_ptr_cast(std::unique_ptr<Base, Deleter>
  * inconvenient
  */
 template <typename Derived, typename Base>
-std::unique_ptr<Derived> static_ptr_cast(std::unique_ptr<Base> base) noexcept {
+std::unique_ptr<Derived> static_ptr_cast(std::unique_ptr<Base> base) noexcept
+{
     auto derived_ptr = static_cast<Derived*>(base.release());
     return std::unique_ptr<Derived>(derived_ptr);
 }
@@ -45,7 +45,8 @@ std::unique_ptr<Derived> static_ptr_cast(std::unique_ptr<Base> base) noexcept {
  * It is somewhat analogous to std::dynamic_ptr_cast
  */
 template <typename Derived, typename Base, typename Deleter>
-std::unique_ptr<Derived, Deleter> dynamic_ptr_cast(std::unique_ptr<Base, Deleter>&& base) {
+std::unique_ptr<Derived, Deleter> dynamic_ptr_cast(std::unique_ptr<Base, Deleter>&& base)
+{
     if (auto derived = dynamic_cast<Derived*>(base.get())) {
         auto deleter = base.get_deleter();
         base.release();
@@ -61,7 +62,8 @@ std::unique_ptr<Derived, Deleter> dynamic_ptr_cast(std::unique_ptr<Base, Deleter
  * dynamic_ptr_cast() is required
  */
 template <typename Derived, typename Base>
-std::unique_ptr<Derived> dynamic_ptr_cast(std::unique_ptr<Base>&& base) noexcept {
+std::unique_ptr<Derived> dynamic_ptr_cast(std::unique_ptr<Base>&& base) noexcept
+{
     if (auto derived = dynamic_cast<Derived*>(base.get())) {
         base.release();
         return std::unique_ptr<Derived>(derived);
@@ -70,5 +72,3 @@ std::unique_ptr<Derived> dynamic_ptr_cast(std::unique_ptr<Base>&& base) noexcept
     return nullptr;
 }
 } // namespace utils::smart_pointers
-
-#endif /* SMART_POINTERS_H */

@@ -1,11 +1,9 @@
-#ifndef UNUSED_H
-#define UNUSED_H
+#pragma once
 
 namespace utils {
 template <typename... Ts>
-inline constexpr void unused(Ts&&... ts) {
+inline constexpr void unused(Ts&&... ts)
+{
     ((void)ts, ...);
 }
 } // namespace utils
-
-#endif /* UNUSED_H */

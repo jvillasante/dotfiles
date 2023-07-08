@@ -1,6 +1,4 @@
-#ifndef THREADING_H
-#define THREADING_H
-
+#pragma once
 #include <iostream>
 #include <sstream>
 #include <mutex>
@@ -10,18 +8,30 @@
 
 namespace utils::threading {
 struct pcout : public std::stringstream {
-    static inline std::mutex mtx_;
-    ~pcout() override {
+    static inline std::mutex mtx_; // NOLINT
+    ~pcout() override
+    {
         std::lock_guard<std::mutex> _{mtx_};
         std::cout << rdbuf();
         std::cout.flush();
     }
+
+    pcout() = default;
+    pcout(pcout const&) = delete;
+    pcout(pcout&&) noexcept = delete;
+    pcout operator=(pcout const&) = delete;
+    pcout operator=(pcout&&) noexcept = delete;
 };
 
 template <typename Iter>
-void wait_for_all(Iter first, Iter last) {
+void join_all(Iter first, Iter last)
+{
     std::for_each(first, last, std::mem_fn(&std::thread::join));
 }
-} // namespace utils::threading
 
-#endif /* THREADING_H */
+template <typename Collection>
+void join_all(Collection& collection)
+{
+    join_all(std::begin(collection), std::end(collection));
+}
+} // namespace utils::threading

@@ -1,12 +1,10 @@
-#ifndef GTEST_COUT_H
-#define GTEST_COUT_H
-
+#pragma once
 #include <sstream>
 
-#define PRINTF(...)                                                                                \
-    do {                                                                                           \
-        printf("%s", "[      OUT>] ");                                                             \
-        printf(__VA_ARGS__);                                                                       \
+#define PRINTF(...)                                                                                                                \
+    do {                                                                                                                           \
+        printf("%s", "[      OUT>] ");                                                                                             \
+        printf(__VA_ARGS__);                                                                                                       \
     } while (0)
 
 // C++ stream interface
@@ -21,5 +19,3 @@ public:
 };
 
 #define GCOUT gtest_cout()
-
-#endif /* GTEST_COUT_H */
