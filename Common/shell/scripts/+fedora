@@ -41,6 +41,20 @@ fedora_install() {
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
+    read -rp "Enter Window System (Wayland or X11, defaults 'X11'): " WINDOW_SYSTEM
+    [ -z "$WINDOW_SYSTEM" ] && WINDOW_SYSTEM="X11"
+    case "$WINDOW_SYSTEM" in
+        X11)
+            echo "$BACKTITLE for $WINDOW_SYSTEM"
+            ;;
+        Wayland)
+            echo "$BACKTITLE for $WINDOW_SYSTEM"
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+
     # Check to see if Dialog is installed, if not install it
     if [ "$(rpm -q dialog 2>/dev/null | grep -c "is not installed")" -eq 1 ]; then
         sudo dnf install -y dialog
@@ -208,7 +222,7 @@ fedora_install() {
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
                 sudo dnf groupinstall -y "Development Tools" "Development Libraries" "C Development Tools and Libraries"
-                sudo dnf install -y git ripgrep fd-find xclip util-linux-user xprop xwininfo htop btop
+                sudo dnf install -y git ripgrep fd-find util-linux-user xprop xwininfo htop btop
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
                 sudo dnf install -y curl dnsutils dos2unix doxygen msmtp neofetch
@@ -234,16 +248,19 @@ fedora_install() {
                 # fi
 
                 # wayland stuff
-                sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
+                [[ $WINDOW_SYSTEM = Wayland ]] && sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
+
+                # X11 stuff
+                [[ $WINDOW_SYSTEM = X11 ]] && sudo dnf install -y xclip
 
                 # tmux: A terminal multiplexer
                 sudo dnf install -y tmux
 
-                # alacritty
-                # sudo dnf install -y alacritty
+                # alacritty - A fast, cros-platform, OpenGL terminal emulator
+                [[ $WINDOW_SYSTEM = X11 ]] && sudo dnf install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
-                sudo dnf install -y foot
+                [[ $WINDOW_SYSTEM = Wayland ]] && sudo dnf install -y foot
 
                 # Starship Prompt
                 curl -sS https://starship.rs/install.sh | sh
@@ -268,8 +285,8 @@ fedora_install() {
                 # dnf install -y skim
                 sudo dnf install -y fzf
 
-                # Neovim nightly
-                sudo dnf install -y neovim python3-neovim
+                # Neovim
+                sudo dnf install -y neovim
 
                 # Firewall GUI to manage firewalld
                 # sudo dnf install -y firewall-config
@@ -493,12 +510,21 @@ fedora_install() {
                     git pull
                 fi
 
-                # Build and install (emacs-29)
+                # Build (emacs-29)
                 git checkout emacs-29
                 ./autogen.sh
-                ./configure --without-compress-install --with-pgtk --with-native-compilation=aot \
-                            --with-tree-sitter --with-json --with-mailutils --with-rsvg \
-                            CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
+
+                # Install
+                EMACS_WINDOW_SYSTEM_OPTION=--with-x
+                [[ $WINDOW_SYSTEM = Wayland ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
+                ./configure \
+                    $EMACS_WINDOW_SYSTEM_OPTION \
+                    --without-compress-install \
+                    --with-native-compilation=aot \
+                    --with-tree-sitter \
+                    --with-json \
+                    --with-mailutils \
+                    CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
                 make -j16
                 sudo make install
 

@@ -330,6 +330,20 @@ debian_install() {
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
+    read -rp "Enter Window System (Wayland or X11, defaults 'X11'): " WINDOW_SYSTEM
+    [ -z "$WINDOW_SYSTEM" ] && WINDOW_SYSTEM="X11"
+    case "$WINDOW_SYSTEM" in
+        X11)
+            echo "$BACKTITLE for $WINDOW_SYSTEM"
+            ;;
+        Wayland)
+            echo "$BACKTITLE for $WINDOW_SYSTEM"
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+
     # Check to see if dialog and libnotify are installed, if not install them
     type dialog 2>/dev/null || sudo apt install -y dialog
     type notify-send 2>/dev/null || sudo apt install -y libnotify-bin libnotify-dev
@@ -443,7 +457,7 @@ debian_install() {
                 # General
                 sudo apt install -y apt-listbugs apt-listchanges
                 sudo apt install -y build-essential binutils coreutils openssl libssl-dev
-                sudo apt install -y tar p7zip-full zip unzip rsync xclip
+                sudo apt install -y tar p7zip-full zip unzip rsync
                 sudo apt install -y silversearcher-ag aspell aspell-en aspell-es autojump atool autoconf automake
                 sudo apt install -y bat cmake curl dnsutils dos2unix doxygen fd-find font-manager
                 sudo apt install -y btop htop isync libpcap-dev make mercurial msmtp neofetch
@@ -469,7 +483,10 @@ debian_install() {
                 # fi
 
                 # Wayland stuff
-                sudo apt install -y wl-clipboard
+                [[ $WINDOW_SYSTEM = Wayland ]] && sudo apt install -y wl-clipboard
+
+                # X11 stuff
+                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y xclip
 
                 # tmux: A terminal multiplexer
                 sudo apt install -y tmux
@@ -477,11 +494,11 @@ debian_install() {
                 # Git
                 sudo apt install -y git
 
-                # Alacritty
-                # sudo apt install -y alacritty
+                # Alacritty - A fast, cross-platform, OpenGL terminal emulator
+                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
-                sudo apt install -y foot
+                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y foot
 
                 # FZF
                 sudo apt install -y fzf
@@ -512,7 +529,7 @@ debian_install() {
                 fi
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
-                # Neovim nightly
+                # Neovim
                 sudo apt install -y neovim
 
                 # latex base
@@ -721,12 +738,21 @@ debian_install() {
                     git pull
                 fi
 
-                # Build and install (emacs-29)
+                # Build (emacs-29)
                 git checkout emacs-29
                 ./autogen.sh
-                ./configure --without-compress-install --with-pgtk --with-native-compilation=aot \
-                            --with-tree-sitter --with-json --with-mailutils --with-rsvg \
-                            CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
+
+                # Install
+                EMACS_WINDOW_SYSTEM_OPTION=--with-x
+                [[ $WINDOW_SYSTEM = Wayland ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
+                ./configure \
+                    $EMACS_WINDOW_SYSTEM_OPTION \
+                    --without-compress-install \
+                    --with-native-compilation=aot \
+                    --with-tree-sitter \
+                    --with-json \
+                    --with-mailutils \
+                    CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
                 make -j16
                 sudo make install
 
