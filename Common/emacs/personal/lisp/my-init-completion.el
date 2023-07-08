@@ -71,6 +71,12 @@
              (kill-ring (styles . (emacs22 orderless)))
              (eglot (styles . (emacs22 substring orderless)))))
 
+    ;; TAB cycle if there are only few candidates
+    (setq completion-cycle-threshold 3)
+    ;; Enable indentation+completion using the TAB key.
+    ;; `completion-at-point' is often bound to M-TAB.
+    (setq tab-always-indent 'complete)
+
     (setq completion-ignore-case t)
     (setq read-buffer-completion-ignore-case t)
     (setq read-file-name-completion-ignore-case t)
@@ -192,38 +198,6 @@
 
 (use-package corfu
     :preface
-    (defun my/eglot-capf ()
-        (setq-local completion-at-point-functions
-            (list (cape-super-capf
-                      #'eglot-completion-at-point
-                      ;; #'tempel-expand
-                      #'cape-file))))
-    (defun corfu-move-to-minibuffer ()
-        "Move \"popup\" completion candidates to minibuffer.
-Useful if you want a more robust view into the recommend candidates."
-        (interactive)
-        (let (completion-cycle-threshold completion-cycling)
-            (apply #'consult-completion-in-region completion-in-region--data)))
-    :bind (:map corfu-map
-              ("M-m" . corfu-move-to-minibuffer)
-              ("<escape>". corfu-quit)
-              ("<return>" . corfu-insert)
-              ("M-d" . corfu-show-documentation)
-              ("M-l" . 'corfu-show-location)
-              ("TAB" . corfu-next)
-              ([tab] . corfu-next)
-              ("S-TAB" . corfu-previous)
-              ([backtab] . corfu-previous))
-    :config
-    (setq corfu-auto t)
-    (setq corfu-separator ?\s)
-    (setq corfu-quit-no-match 'separator)
-    :init
-    (global-corfu-mode 1)
-    (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
-    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-    (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-
     ;; Adapted from Corfu's manual.
     (defun contrib/corfu-enable-always-in-minibuffer ()
         "Enable Corfu in the minibuffer if MCT or Vertico is not active.
@@ -231,7 +205,27 @@ Useful for prompts such as `eval-expression' and `shell-command'."
         (unless (or (bound-and-true-p vertico--input)
                     (bound-and-true-p mct--active))
             (corfu-mode 1)))
-    (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1))
+    :bind (:map corfu-map
+         ("C-j" . corfu-next)
+         ("C-k" . corfu-previous)
+         ("C-f" . corfu-insert))
+    :custom
+    (tab-always-indent 'complete)
+    (completion-cycle-threshold nil)      ; Always show candidates in menu
+    (corfu-cycle nil)
+    (corfu-auto nil)
+    (corfu-auto-prefix 2)
+    (corfu-auto-delay 0.25)
+    (corfu-separator ?\s)                 ; Necessary for use with orderless
+    (corfu-quit-no-match 'separator)
+    (corfu-preview-current 'insert)       ; Preview current candidate?
+    (corfu-preselect-first t)             ; Preselect first candidate?
+    :init
+    (global-corfu-mode 1)
+    (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
+    (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1)
+    ;; (define-key corfu-map (kbd "<tab>") #'corfu-complete)
+    )
 
 (use-package cape
     :init

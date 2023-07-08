@@ -16,15 +16,15 @@
 ;; c/c++ mode
 (use-package cc-mode
     :ensure nil ;; emacs built-in
+    :preface
+    (defun my/c-indent-then-complete ()
+        (interactive)
+        (if (= 0 (c-indent-line-or-region))
+	        (completion-at-point)))
     :config
-    (add-to-list 'auto-mode-alist '("\\.h\\'"   . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.hxx\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.cxx\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.cc\\'"  . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.C\\'"   . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
+    (with-eval-after-load 'cc-mode
+        (dolist (map (list c-mode-map c++-mode-map))
+            (define-key map (kbd "<tab>") #'my/c-indent-then-complete)))
     (add-hook 'c-mode-common-hook
         (lambda ()
             (c-set-style "stroustrup")
@@ -35,7 +35,16 @@
             (c-set-offset 'arglist-close 0) ; Align the parenthesis at the end of the arguments with the opening statement indent
             (setq c-basic-offset 4) ; Base indent size when indented automatically
             (setq tab-width 4)
-            (setq indent-tabs-mode nil))))
+            (setq indent-tabs-mode nil)))
+    :init
+    (add-to-list 'auto-mode-alist '("\\.h\\'"   . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.hxx\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.cxx\\'" . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.cc\\'"  . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.C\\'"   . c++-mode))
+    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode)))
 
 ;; adoc-mode : ascii docs
 (use-package adoc-mode
