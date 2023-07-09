@@ -206,9 +206,9 @@ Useful for prompts such as `eval-expression' and `shell-command'."
                     (bound-and-true-p mct--active))
             (corfu-mode 1)))
     :bind (:map corfu-map
-         ("C-j" . corfu-next)
-         ("C-k" . corfu-previous)
-         ("C-f" . corfu-insert))
+              ("C-j" . corfu-next)
+              ("C-k" . corfu-previous)
+              ("C-f" . corfu-insert))
     :custom
     (tab-always-indent 'complete)
     (completion-cycle-threshold nil)      ; Always show candidates in menu
@@ -223,9 +223,7 @@ Useful for prompts such as `eval-expression' and `shell-command'."
     :init
     (global-corfu-mode 1)
     (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
-    (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1)
-    ;; (define-key corfu-map (kbd "<tab>") #'corfu-complete)
-    )
+    (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1))
 
 (use-package cape
     :init
