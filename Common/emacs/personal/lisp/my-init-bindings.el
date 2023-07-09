@@ -180,6 +180,7 @@
 (global-set-key (kbd "C-c o p") 'dired-sidebar-toggle-sidebar)
 (global-set-key (kbd "C-c o t") 'vterm)
 (global-set-key (kbd "C-c o e") 'eshell)
+(global-set-key (kbd "C-c o c") 'calc)
 
 ;; C-c l : lookup
 (global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)
