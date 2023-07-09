@@ -66,7 +66,6 @@
     scroll-step 1
     scroll-conservatively 10000
     auto-window-vscroll nil)
-(setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
 (setq load-prefer-newer t) ;; Always load newest byte code
 (setq visible-cursor nil) ;; make it work in terminal too
 (setq inhibit-startup-screen t) ; Hide the startup screen
@@ -75,9 +74,6 @@
     (advice-add 'yes-or-no-p :override #'y-or-n-p))
 (setq large-file-warning-threshold 100000000) ;; warn when opening files bigger than 100MB
 (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
-(setq-default auto-revert-verbose t) ; show message when file changes
-(setq-default auto-revert-avoid-polling t) ; use save signal
-(global-auto-revert-mode t) ; Refresh files automatically when modified from outside emacs
 (setq enable-local-eval t) ; Enable eval blocks in .dir-locals.el
 (setq enable-local-variables :all) ; Enable by default variables in .dir-locals.el
 (setq ring-bell-function 'ignore) ; Disable the bell for emacs
@@ -103,6 +99,8 @@
 (setq read-file-name-completion-ignore-case t) ;; ... but, ignore case when completing filenames
 (setq read-buffer-completion-ignore-case t)    ;; ... and, ignore case whem completing buffers
 (setq delete-by-moving-to-trash t) ;; use the system trash
+(setq bookmark-save-flag 1) ;; persist bookmark changes to disk as it happens
+(setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
 
 ;; backups
 (setq make-backup-files t         ; backup of a file the first time it is saved.

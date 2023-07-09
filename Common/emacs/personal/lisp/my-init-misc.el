@@ -20,6 +20,23 @@
         org-crypt-key nil
         org-crypt-key user-mail-address))
 
+(use-package ediff
+    :ensure nil ;; emacs built-in
+    :preface
+    (defun my/store-pre-ediff-winconfig ()
+        "Store `current-window-configuration' in variable `my-ediff-last-windows'."
+        (setq my-ediff-last-windows (current-window-configuration)))
+    (defun my/restore-pre-ediff-winconfig ()
+        "Restore window configuration to stored value in `my-ediff-last-windows'."
+        (set-window-configuration my-ediff-last-windows))
+    :init
+    (setq ediff-split-window-function 'split-window-horizontally) ;; Show diffs side-by-side
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain) ;; Puts the control panel in the same frame as the diff windows
+    (defvar my-ediff-last-windows nil)
+    (add-hook 'ediff-before-setup-hook #'my/store-pre-ediff-winconfig)
+    (add-hook 'ediff-quit-hook #'my/restore-pre-ediff-winconfig))
+
+
 (use-package electric
     :ensure nil ;; emacs built-in
     :preface
@@ -130,7 +147,11 @@
 
 (use-package autorevert
     :ensure nil ;; emacs built-in
-    :init (global-auto-revert-mode +1))
+    :init
+    (setq auto-revert-verbose t) ; show message when file changes
+    (setq auto-revert-avoid-polling t) ; use save signal
+    (setq global-auto-revert-non-file-buffers t) ; Global Auto-Revert Mode operates only on file-visiting buffers.
+    (global-auto-revert-mode t)) ; Refresh files automatically when modified from outside emacs
 
 (use-package helpful)
 

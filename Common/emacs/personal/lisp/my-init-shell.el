@@ -35,7 +35,7 @@
             (eshell/alias "d" "dired $1")))
     :config
     (setq eshell-highlight-prompt nil)
-    (setq eshell-scroll-to-bottom-on-input nil)
+    (setq eshell-scroll-to-bottom-on-input 'this)
     (setq eshell-scroll-to-bottom-on-output nil)
     (setq eshell-prefer-lisp-functions nil)
     (setq eshell-error-if-no-glob t)
