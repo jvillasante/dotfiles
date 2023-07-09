@@ -424,6 +424,7 @@ fedora_install() {
                 sudo flatpak install -y flathub org.wireshark.Wireshark
                 sudo flatpak install -y flathub com.github.tchx84.Flatseal
                 sudo flatpak install -y flathub com.valvesoftware.Steam
+                sudo flatpak install -y flathub im.riot.Riot
                 # sudo flatpak install -y flathub org.mozilla.firefox
                 # sudo flatpak install -y flathub com.brave.Browser
                 # sudo flatpak install -y flathub org.shotcut.Shotcut
