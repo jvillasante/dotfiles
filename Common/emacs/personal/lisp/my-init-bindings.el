@@ -3,12 +3,6 @@
 ;;; Links:
 ;;; https://www.masteringemacs.org/article/mastering-key-bindings-emacs
 
-;; HACK
-;; (defun c-col ()
-;;     (interactive)
-;;     (insert ":"))
-;; (define-key c-mode-base-map ":" 'c-col)
-
 ;; General
 (global-set-key (kbd "C-x C-m") 'execute-extended-command) ; ALT may or may not be available
 (global-set-key (kbd "C-c C-m") 'execute-extended-command) ; ALT may or may not be available
