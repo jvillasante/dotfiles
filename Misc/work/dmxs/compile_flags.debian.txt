@@ -14,6 +14,7 @@
 -I./
 -I./inc
 -I./Dmxs
+-I./Programs/agw
 -I./Libraries/asio
 -I./Libraries/expected
 -I./Libraries/fmt
