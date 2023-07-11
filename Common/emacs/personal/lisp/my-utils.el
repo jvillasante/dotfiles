@@ -404,22 +404,5 @@ is called."
         (comment-or-uncomment-region
             (line-beginning-position)(line-end-position))))
 
-(defun my/open-line-above ()
-    "Insert an empty line above the current line."
-    (interactive)
-    (beginning-of-line)
-    (open-line 1))
-
-(defun my/open-line-below (arg)
-    "Insert an empty line below the current line.
-
-With a prefix ARG insert line above the current line."
-    (interactive "P")
-    (if arg
-        (my/open-line-above)
-        (end-of-line)
-        (open-line 1)
-        (forward-line 1)))
-
 (provide 'my-utils)
 ;;; my-utils.el ends here

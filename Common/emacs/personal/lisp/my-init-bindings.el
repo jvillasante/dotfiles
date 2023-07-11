@@ -27,10 +27,6 @@
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 
-;; open line (above/below)
-(global-set-key (kbd "C-o") 'my/open-line-below)
-(global-set-key (kbd "M-o") 'my/open-line-above)
-
 ;; better comment/un-comment
 (global-set-key (kbd "M-;") 'my/comment-or-uncomment)
 (global-set-key (kbd "C-x C-;") 'my/comment-or-uncomment)
@@ -69,7 +65,7 @@
 ;; (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
 ;; (global-set-key (kbd "C-c F") 'crux-recentf-find-directory)
 ;; (global-set-key (kbd "C-c n") 'crux-cleanup-buffer-or-region)
-(global-set-key (kbd "C-M-z") 'crux-indent-defun)
+;; (global-set-key (kbd "C-M-z") 'crux-indent-defun)
 (global-set-key (kbd "C-c e") 'crux-eval-and-replace)
 (global-set-key (kbd "C-c w") 'crux-swap-windows)
 (global-set-key (kbd "C-c D") 'crux-delete-file-and-buffer)

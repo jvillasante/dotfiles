@@ -42,7 +42,8 @@
     :preface
     (defun my/electric-indent-local-mode-maybe ()
         "Enable `electric-indent-local-mode' if appropriate."
-        (when (eq major-mode 'prog-mode)
+        (unless (or (eq major-mode 'fundamental-mode)
+                    (eq major-mode 'text-mode))
             (electric-indent-local-mode 1)))
     :init
     (setq-default electric-indent-chars '(?\n ?\^?))
