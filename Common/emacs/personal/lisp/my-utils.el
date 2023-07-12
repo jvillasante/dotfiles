@@ -405,7 +405,7 @@ is called."
             (line-beginning-position)(line-end-position))))
 
 ;; Behave like vi's o command
-(defun open-next-line (arg)
+(defun my/open-next-line (arg)
     "Move to the next line and then opens ARG lines."
     (interactive "p")
     (end-of-line)
@@ -415,7 +415,7 @@ is called."
         (indent-according-to-mode)))
 
 ;; Behave like vi's O command
-(defun open-previous-line (arg)
+(defun my/open-previous-line (arg)
     "Open ARG lines before the current one."
     (interactive "p")
     (beginning-of-line)
