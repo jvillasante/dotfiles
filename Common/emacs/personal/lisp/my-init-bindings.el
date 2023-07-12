@@ -27,6 +27,10 @@
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 
+;; Open line(s) below/above current one
+(global-set-key (kbd "C-o") 'open-next-line)
+(global-set-key (kbd "M-o") 'open-previous-line)
+
 ;; better comment/un-comment
 (global-set-key (kbd "M-;") 'my/comment-or-uncomment)
 (global-set-key (kbd "C-x C-;") 'my/comment-or-uncomment)

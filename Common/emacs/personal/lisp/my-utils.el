@@ -404,5 +404,24 @@ is called."
         (comment-or-uncomment-region
             (line-beginning-position)(line-end-position))))
 
+;; Behave like vi's o command
+(defun open-next-line (arg)
+    "Move to the next line and then opens ARG lines."
+    (interactive "p")
+    (end-of-line)
+    (open-line arg)
+    (forward-line 1)
+    (when electric-indent-mode
+        (indent-according-to-mode)))
+
+;; Behave like vi's O command
+(defun open-previous-line (arg)
+    "Open ARG lines before the current one."
+    (interactive "p")
+    (beginning-of-line)
+    (open-line arg)
+    (when electric-indent-mode
+        (indent-according-to-mode)))
+
 (provide 'my-utils)
 ;;; my-utils.el ends here
