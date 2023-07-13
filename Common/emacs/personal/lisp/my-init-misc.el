@@ -168,7 +168,8 @@
 ;; persistent-scratch : preserve scratch buffer across sessions
 (use-package persistent-scratch
     :config
-    (setq persistent-scratch-save-file (expand-file-name "persistent-scratch" no-littering-var-directory))
+    (setq persistent-scratch-save-file
+        (expand-file-name "persistent-scratch" no-littering-var-directory))
     (persistent-scratch-setup-default)
     (persistent-scratch-autosave-mode 1))
 
