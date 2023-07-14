@@ -132,9 +132,6 @@
     ;; Load theme
     (my/switch-theme 'modus-operandi))
 
-(use-package all-the-icons
-    :if (display-graphic-p))
-
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
     :config

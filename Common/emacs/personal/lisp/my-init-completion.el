@@ -346,13 +346,15 @@ Useful for prompts such as `eval-expression' and `shell-command'."
     :after (embark consult)
     :hook (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package all-the-icons-completion)
+;; Enable rich annotations using the Marginalia package
 (use-package marginalia
+    ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+    ;; available in the *Completions* buffer, add it to the
+    ;; `completion-list-mode-map'.
+    :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
     :init
-    (add-hook 'pre-command-hook 'marginalia-mode)
-    :config
-    (if (display-graphic-p)
-        (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)))
+    (marginalia-mode))
 
 ;; tempel - Simple templates for Emacs
 (use-package tempel-collection :disabled t :after tempel)

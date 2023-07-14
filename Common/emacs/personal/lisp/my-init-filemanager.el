@@ -73,25 +73,21 @@
     :config
     (set-face-attribute 'diredfl-dir-name nil :bold t))
 
-(use-package all-the-icons-dired
-    :init (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
-
 (use-package dired-sidebar
     :init
     (add-hook 'dired-sidebar-mode-hook
         (lambda ()
-            (my/font-set-small-mono-font)
             (display-line-numbers-mode 0)
             (unless (file-remote-p default-directory)
                 (auto-revert-mode))))
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
     (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-    (setq dired-sidebar-use-term-integration t
-        dired-sidebar-resize-on-open nil
-        dired-sidebar-window-fixed nil
-        dired-sidebar-theme 'all-the-icons
-        dired-sidebar-use-custom-modeline nil))
+    (setq dired-sidebar-theme 'ascii)
+    (setq dired-sidebar-use-term-integration t)
+    (setq dired-sidebar-resize-on-open nil)
+    (setq dired-sidebar-window-fixed nil)
+    (setq dired-sidebar-use-custom-modeline nil))
 
 (provide 'my-init-filemanager)
 ;;; my-init-filemanager.el ends here
