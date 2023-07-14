@@ -88,13 +88,11 @@
             "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
             :utils "ffmpeg")))
 
-;; (unless (package-installed-p 'chatgpt-shell)
-;;     (package-vc-install "https://github.com/xenodium/chatgpt-shell.git"))
-;; (use-package chatgpt-shell
-;;     :custom
-;;     ((chatgpt-shell-openai-key
-;;          (lambda ()
-;;              (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))))
+(use-package chatgpt-shell
+    :custom
+    ((chatgpt-shell-openai-key
+         (lambda ()
+             (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))))
 
 (provide 'my-init-shell)
 ;;; my-init-shell.el ends here
