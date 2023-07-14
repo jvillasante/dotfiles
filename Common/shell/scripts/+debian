@@ -486,7 +486,7 @@ debian_install() {
                 [[ $WINDOW_SYSTEM = Wayland ]] && sudo apt install -y wl-clipboard
 
                 # X11 stuff
-                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y xclip
+                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y xclip xinput
 
                 # tmux: A terminal multiplexer
                 sudo apt install -y tmux
@@ -794,6 +794,9 @@ debian_install() {
 
                 # Copy Configuration
                 sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
+
+                # Add yourself to the keyd group
+                sudo usermod -aG keyd -a "$USER"
 
                 # Enable the daemon
                 sudo systemctl enable keyd && sudo systemctl start keyd

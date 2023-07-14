@@ -251,7 +251,7 @@ fedora_install() {
                 [[ $WINDOW_SYSTEM = Wayland ]] && sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
 
                 # X11 stuff
-                [[ $WINDOW_SYSTEM = X11 ]] && sudo dnf install -y xclip
+                [[ $WINDOW_SYSTEM = X11 ]] && sudo dnf install -y xclip xinput
 
                 # tmux: A terminal multiplexer
                 sudo dnf install -y tmux
@@ -565,6 +565,9 @@ fedora_install() {
 
                 # Copy Configuration
                 sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
+
+                # Add yourself to the keyd group
+                sudo usermod -aG keyd -a "$USER"
 
                 # Enable the daemon
                 sudo systemctl enable keyd && sudo systemctl start keyd
