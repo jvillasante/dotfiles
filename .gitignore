@@ -1,6 +1,7 @@
 /.emacs.*
 .DS_Store
 *flycheck_tmp_*
+*.lock
 *~
 .*~
 \#*
