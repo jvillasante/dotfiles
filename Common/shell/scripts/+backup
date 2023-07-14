@@ -137,6 +137,8 @@ do_borg_backup() {
     else
         info "Backup, Prune, and/or Compact finished with errors"
     fi
+
+    echo "$global_exit"
 }
 
 nargs=$#
@@ -162,7 +164,7 @@ case $cmd in
         ;;
     create)
         [ "$nargs" -gt 1 ] && usage 64
-        do_borg_backup
+        rc=$(do_borg_backup)
         ;;
     delete)
         [ "$nargs" -gt 2 ] && usage 64
@@ -171,6 +173,21 @@ case $cmd in
     extract)
         [ "$nargs" -lt 2 ] && usage 64
         borg extract -p ::"$1" || rc=$?
+        ;;
+    mount)
+        [ "$nargs" -lt 2 ] && usage 64
+        if mountpoint -q -- /tmp/borg; then
+            borg umount /tmp/borg || rc=$?
+        fi
+        [[ $rc = 0 ]] && mkdir -p /tmp/borg && borg mount -p ::"$1" /tmp/borg || rc=$?
+        [[ $rc = 0 ]] && echo "Borg backup $1 mounted to /tmp/borg, remember to umount when done."
+        ;;
+    umount)
+        [ "$nargs" -gt 1 ] && usage 64
+        if mountpoint -q -- /tmp/borg; then
+            borg umount /tmp/borg || rc=$?
+            [[ $rc = 0 ]] && echo "Borg backup mounted to /tmp/borg has been umounted."
+        fi
         ;;
     borg)
         [ "$nargs" -lt 2 ] && usage 64
@@ -183,4 +200,4 @@ case $cmd in
         usage 64
         ;;
 esac
-exit $rc
+echo "Done with rc=$rc" && exit "$rc"
