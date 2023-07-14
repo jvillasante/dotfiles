@@ -536,8 +536,8 @@ debian_install() {
                 sudo apt install -y texlive-base texinfo
 
                 # non apt software
-                pip3 install cmake-language-server --break-system-packages
-                pip3 install xkeysnail --break-system-packages
+                # pip3 install xkeysnail --break-system-packages
+                sudo pip3 install cmake-language-server --break-system-packages
                 sudo npm install --global npm@latest
                 sudo npm install --global prettier
                 sudo npm install --global js-beautify
