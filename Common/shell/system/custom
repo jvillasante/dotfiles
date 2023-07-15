@@ -66,7 +66,7 @@ if type emacs >/dev/null 2>/dev/null; then
 
     function ediff()  { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (ediff-files \"$1\" \"$2\"))"; }
     function edired() { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (dired \"$1\"))"; }
-    function magit()  { emacsclient -c -a '' --eval '(progn (select-frame-set-input-focus (selected-frame)) (magit-status))'; }
+    function magit()  { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (magit-status))"; }
     function ekill()  { emacsclient --eval '(save-buffers-kill-emacs)'; }
 fi
 

@@ -50,7 +50,7 @@ define_keymap(re.compile("Firefox|Brave-browser|Google-chrome"), {
         K("o"): K("C-TAB"),
         K("left"): K("C-TAB"),
         K("right"): K("C-Shift-TAB"),
-    }
+    },
 }, "Firefox, Brave and Chrome")
 
 # Keybindings for Zeal https://github.com/zealdocs/zeal/
