@@ -302,6 +302,7 @@ fedora_install() {
 
                 # non dnf software
                 pip install cmake-language-server
+                pip install pyright
                 sudo npm install --global npm@latest
                 sudo npm install --global prettier
                 sudo npm install --global js-beautify

@@ -538,6 +538,7 @@ debian_install() {
 
                 # non apt software
                 sudo pip3 install cmake-language-server --break-system-packages
+                sudo pip3 install pyright --break-system-packages
                 sudo npm install --global npm@latest
                 sudo npm install --global prettier
                 sudo npm install --global js-beautify
