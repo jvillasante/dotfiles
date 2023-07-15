@@ -33,6 +33,35 @@ is_desktop_environment() (
     return 1
 )
 
+# | Family                          | Shapes | Spacing | Style      | Ligatures |
+# |---------------------------------+--------+---------+------------+-----------|
+# | Iosevka Comfy                   | Sans   | Compact | Monospaced | Yes       |
+# | Iosevka Comfy Fixed             | Sans   | Compact | Monospaced | No        |
+# | Iosevka Comfy Duo               | Sans   | Compact | Duospaced  | Yes       |
+# |---------------------------------+--------+---------+------------+-----------|
+# | Iosevka Comfy Motion            | Slab   | Compact | Monospaced | Yes       |
+# | Iosevka Comfy Motion Fixed      | Slab   | Compact | Monospaced | No        |
+# | Iosevka Comfy Motion Duo        | Slab   | Compact | Duospaced  | Yes       |
+# |---------------------------------+--------+---------+------------+-----------|
+# | Iosevka Comfy Wide              | Sans   | Wide    | Monospaced | Yes       |
+# | Iosevka Comfy Wide Fixed        | Sans   | Wide    | Monospaced | No        |
+# | Iosevka Comfy Wide Duo          | Sans   | Wide    | Duospaced  | Yes       |
+# |---------------------------------+--------+---------+------------+-----------|
+# | Iosevka Comfy Wide Motion       | Slab   | Wide    | Monospaced | Yes       |
+# | Iosevka Comfy Wide Motion Fixed | Slab   | Wide    | Monospaced | No        |
+# | Iosevka Comfy Wide Motion Duo   | Slab   | Wide    | Duospaced  | Yes       |
+install_iosevka_comfy() {
+    # Download the fonts
+    [ -d "$HOME"/Workspace/Software/iosevka-comfy ] && rm -rf "$HOME"/Workspace/Software/iosevka-comfy
+    git clone --depth 1 https://git.sr.ht/~protesilaos/iosevka-comfy "$HOME"/Workspace/Software/iosevka-comfy
+
+    # Copy the fonts
+    find "$HOME"/Workspace/Software/iosevka-comfy/ -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+
+    # Refresh fonts cache
+    fc-cache -f -v
+}
+
 # iosevka does not exists in Debian!
 install_iosevka() {
     read -rp "Installing iosevka fonts, enter release version (defaults to 24.1.4): " RELEASE
@@ -604,6 +633,7 @@ debian_install() {
                 # Fonts
                 sudo apt install -y fonts-jetbrains-mono
                 install_iosevka
+                install_iosevka_comfy
 
                 # Gnome Font Settings
                 if is_desktop_environment "Gnome"; then

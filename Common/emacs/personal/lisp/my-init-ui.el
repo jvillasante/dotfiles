@@ -32,11 +32,13 @@
 ;; Set the font
 (add-hook 'emacs-startup-hook
     (lambda ()
+        (setq x-underline-at-descent-line nil)
+        (setq-default text-scale-remap-header-line t)
         (custom-set-faces
-            `(default ((t (:font "Iosevka 16"))))
+            `(default ((t (:font "Iosevka Comfy 16"))))
             `(fixed-pitch ((t (:inherit (default)))))
             `(fixed-pitch-serif ((t (:inherit (default)))))
-            `(variable-pitch ((t (:font "Iosevka Aile")))))))
+            `(variable-pitch ((t (:font "Iosevka Comfy Motion Duo")))))))
 
 ;; set default frame title
 (setq-default frame-title-format
