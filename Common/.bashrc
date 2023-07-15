@@ -4,7 +4,7 @@
 [[ "$-" != *i* ]] && return
 
 # Source in global settings
-[ -f /etc/bashrc ] && source /etc/bashrc
+[ -f /etc/bashrc ] && . /etc/bashrc
 
 # Custom
 source "${HOME}/.config/shell/system/env"
