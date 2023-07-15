@@ -2,6 +2,7 @@
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Select and raise the frame, always
 (select-frame-set-input-focus (selected-frame))

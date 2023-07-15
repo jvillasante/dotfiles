@@ -60,14 +60,14 @@ if type emacs >/dev/null 2>/dev/null; then
     export VISUAL="emacsclient -c -n -a ''" # $VISUAL opens in GUI no wait
     export EDITOR="emacsclient -c -a ''"    # $EDITOR opens in GUI and waits
 
-    alias em="emacsclient -c -a ''"        # opens the GUI
-    alias emt="emacsclient -t -a ''"       # used to be "emacs -nw"
-    alias semt="sudo emacsclient -t -a ''" # used to be "sudo emacs -nw"
+    alias em="emacsclient -c -a '' -eval '(select-frame-set-input-focus (selected-frame))'" # opens the GUI
+    alias emt="emacsclient -t -a ''"         # used to be "emacs -nw"
+    alias semt="sudo emacsclient -t -a ''"   # used to be "sudo emacs -nw"
 
-    function ediff()  { emacsclient -c -a '' --eval "(ediff-files \"$1\" \"$2\")"; }
-    function edired() { emacsclient -c -a '' --eval "(progn (dired \"$1\"))"; }
-    function magit()  { emacsclient -c -a '' --eval '(magit-status)'; }
-    function ekill()  { emacsclient --eval '(kill-emacs)'; }
+    function ediff()  { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (ediff-files \"$1\" \"$2\"))"; }
+    function edired() { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (dired \"$1\"))"; }
+    function magit()  { emacsclient -c -a '' --eval '(progn (select-frame-set-input-focus (selected-frame)) (magit-status))'; }
+    function ekill()  { emacsclient --eval '(save-buffers-kill-emacs)'; }
 fi
 
 # vim
