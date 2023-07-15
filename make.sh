@@ -112,7 +112,7 @@ for file in "$DOTFILES_DIR"/Common/shell/scripts/*; do
 done
 
 echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."
-files="emacs.service"
+files="emacs.service xkeysnail.service"
 for file in $files; do
     [ -L "$HOME/.config/systemd/user/$file" ] && unlink "$HOME/.config/systemd/user/$file"
     ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"

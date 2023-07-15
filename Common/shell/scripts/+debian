@@ -356,8 +356,9 @@ debian_install() {
         5 "Enable Flatpak - Enables the Flatpak repo and installs packages"
         6 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         7 "Install Emacs - Install Emacs"
-        8 "Install Keyd - Install Keyd from source"
-        9 "Quit")
+        8 "Install Keyd - Install Keyd from source (using keysnail at the moment, here for documentation only)"
+        9 "Install Xkeysnail - Install Xkeysnail from source"
+        10 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -536,7 +537,6 @@ debian_install() {
                 sudo apt install -y texlive-base texinfo
 
                 # non apt software
-                # pip3 install xkeysnail --break-system-packages
                 sudo pip3 install cmake-language-server --break-system-packages
                 sudo npm install --global npm@latest
                 sudo npm install --global prettier
@@ -573,7 +573,7 @@ debian_install() {
                 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
                 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-                 # set up the repository
+                # set up the repository
                 echo \
                     "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
                     "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
@@ -799,6 +799,7 @@ debian_install() {
                 sudo usermod -aG keyd -a "$USER"
 
                 # Enable the daemon
+                systemctl --user daemon-reload
                 sudo systemctl enable keyd && sudo systemctl start keyd
                 sudo keyd reload
 
@@ -806,6 +807,52 @@ debian_install() {
                 read -rp "8) Keyd daemon has been installed. Press enter to continue..."
                 ;;
             9)
+                echo "9) Installing Xkeysnail"
+
+                # Is it already installed?
+                hash xkeysnail 2>/dev/null && notify-send "Xkeysnail is already installed" --expire-time=20 && continue
+
+                # Prepare git repo
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                if [ ! -d "$HOME"/Workspace/Software/xkeysnail ]; then
+                    git clone --depth 1 git@github.com:mooz/xkeysnail.git "$HOME"/Workspace/Software/xkeysnail
+                    pushd "$HOME"/Workspace/Software/xkeysnail || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/xkeysnail" --expire-time=20
+                        continue
+                    }
+                else
+                    pushd "$HOME"/Workspace/Software/xkeysnail || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/xkeysnail" --expire-time=20
+                        continue
+                    }
+
+                    sudo pip3 uninstall . --break-system-packages
+                    git reset --hard HEAD
+                    sudo git clean -dfx
+                    git pull
+                fi
+
+                # Install
+                sudo pip3 install --upgrade . --break-system-packages
+
+                ## Run without sudo
+                # First create a new group to which we allow access to the input stuff, and add this group to your user:
+                sudo groupadd -f uinput
+                sudo gpasswd -a "$USER" uinput
+
+                # Second Create new udev rule granting access:
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xkeysnail/udev/70-xkeysnail.rules /etc/udev/rules.d/70-xkeysnail.rules
+
+                # Enable the daemon
+                [ -L "$HOME/.config/systemd/user/xkeysnail.service" ] && unlink "$HOME/.config/systemd/user/xkeysnail.service"
+                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xkeysnail.service" "$HOME/.config/systemd/user"
+                systemctl --user daemon-reload
+                sudo systemctl enable xkeysnail.service && sudo systemctl start xkeysnail.service
+
+                popd || notify-send "Can't cd to previous directory" --expire-time=20
+                read -rp "9) Xkeysnail has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
+                ;;
+            10)
                 exit 0
                 ;;
         esac

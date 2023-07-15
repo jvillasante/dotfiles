@@ -1,0 +1,11 @@
+[Unit]
+Description=xkeysnail as a service
+Documentation=https://github.com/mooz/xkeysnail
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/xkeysnail --watch --quiet /home/jvillasante/.config/xkeysnail/config.py
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
