@@ -4,8 +4,16 @@
 (setq vc-follow-symlinks t)
 
 (use-package magit
+    :preface
+    (defun +my/magit-kill-buffers ()
+        "Restore window configuration and kill all Magit buffers."
+        (interactive)
+        (let ((buffers (magit-mode-get-buffers)))
+            (magit-restore-window-configuration)
+            (mapc #'kill-buffer buffers)))
     :hook ((git-commit-mode . (lambda () (setq-local fill-column 72))))
     :config
+    (bind-key "q" #'+my/magit-kill-buffers magit-status-mode-map)
     (setq
         magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
         git-commit-summary-max-length 50
