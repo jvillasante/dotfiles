@@ -175,15 +175,6 @@
     (setq avy-all-windows t)
     (setq avy-background t))
 
-;; undo-tree : treat undo history as a tree
-(use-package undo-tree
-    :init (global-undo-tree-mode +1)
-    :config
-    ;; autosave the undo-tree history
-    (setq undo-tree-history-directory-alist
-        `((".*" . ,no-littering-var-directory)))
-    (setq undo-tree-auto-save-history nil))
-
 ;; Expand Region : expand or contract selection
 (use-package expand-region)
 

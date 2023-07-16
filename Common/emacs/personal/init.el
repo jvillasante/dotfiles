@@ -63,6 +63,7 @@
 (require 'my-init-shell)
 (require 'my-init-misc)
 (require 'my-init-filemanager)
+(require 'my-init-workspaces)
 (require 'my-init-modal)
 (require 'my-init-bindings)
 

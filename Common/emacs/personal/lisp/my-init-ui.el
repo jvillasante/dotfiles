@@ -2,7 +2,7 @@
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Select and raise the frame, always
 (select-frame-set-input-focus (selected-frame))
@@ -26,6 +26,7 @@
 (add-hook 'text-mode-hook #'my/display-truncation-and-wrap-indicator-as-whitespace)
 
 ;; setup autofill and visual-line
+(setq-default fill-column 80)                        ;; Wrap lines at 80 characters
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)     ;; auto-fill insert hard line breaks
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
 (add-hook 'prog-mode-hook 'my/comment-auto-fill)     ;; ... but add comment auto-fill in prog-mode
