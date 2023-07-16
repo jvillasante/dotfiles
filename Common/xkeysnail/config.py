@@ -47,9 +47,12 @@ define_conditional_multipurpose_modmap(lambda wm_class, device_name: device_name
 define_keymap(re.compile("Firefox|Brave-browser|Google-chrome"), {
     # switch tabs
     K("C-x"): {
+        # Switch tabs
         K("o"): K("C-TAB"),
         K("left"): K("C-TAB"),
         K("right"): K("C-Shift-TAB"),
+        # Close tab
+        K("k") : K("C-w"),
     },
 }, "Firefox, Brave and Chrome")
 
