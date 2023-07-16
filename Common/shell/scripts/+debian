@@ -33,23 +33,7 @@ is_desktop_environment() (
     return 1
 )
 
-# | Family                          | Shapes | Spacing | Style      | Ligatures |
-# |---------------------------------+--------+---------+------------+-----------|
-# | Iosevka Comfy                   | Sans   | Compact | Monospaced | Yes       |
-# | Iosevka Comfy Fixed             | Sans   | Compact | Monospaced | No        |
-# | Iosevka Comfy Duo               | Sans   | Compact | Duospaced  | Yes       |
-# |---------------------------------+--------+---------+------------+-----------|
-# | Iosevka Comfy Motion            | Slab   | Compact | Monospaced | Yes       |
-# | Iosevka Comfy Motion Fixed      | Slab   | Compact | Monospaced | No        |
-# | Iosevka Comfy Motion Duo        | Slab   | Compact | Duospaced  | Yes       |
-# |---------------------------------+--------+---------+------------+-----------|
-# | Iosevka Comfy Wide              | Sans   | Wide    | Monospaced | Yes       |
-# | Iosevka Comfy Wide Fixed        | Sans   | Wide    | Monospaced | No        |
-# | Iosevka Comfy Wide Duo          | Sans   | Wide    | Duospaced  | Yes       |
-# |---------------------------------+--------+---------+------------+-----------|
-# | Iosevka Comfy Wide Motion       | Slab   | Wide    | Monospaced | Yes       |
-# | Iosevka Comfy Wide Motion Fixed | Slab   | Wide    | Monospaced | No        |
-# | Iosevka Comfy Wide Motion Duo   | Slab   | Wide    | Duospaced  | Yes       |
+# iosevka directly from prot repo
 install_iosevka_comfy() {
     # Download the fonts
     [ -d "$HOME"/Workspace/Software/iosevka-comfy ] && rm -rf "$HOME"/Workspace/Software/iosevka-comfy
@@ -379,15 +363,16 @@ debian_install() {
 
     OPTIONS=(
         1 "Set Defaults - Set some defaults (hostname, folders structure, global settings, etc)"
-        2 "Install Software - Installs a bunch of my most used software"
-        3 "Install Extras - TLP, Fonts, etc"
-        4 "Install Nvidia Drivers - Install Nvidia Drivers"
-        5 "Enable Flatpak - Enables the Flatpak repo and installs packages"
-        6 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
-        7 "Install Emacs - Install Emacs"
-        8 "Install Keyd - Install Keyd from source (using keysnail at the moment, here for documentation only)"
-        9 "Install Xkeysnail - Install Xkeysnail from source"
-        10 "Quit")
+        2 "Install Firmware - Install Firmware Updates"
+        3 "Install Nvidia Drivers - Install Nvidia Drivers"
+        4 "Install Software - Installs a bunch of my most used software"
+        5 "Install Extras - TLP, Fonts, etc"
+        6 "Enable Flatpak - Enables the Flatpak repo and installs packages"
+        7 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
+        8 "Install Emacs - Install Emacs29 from source"
+        9 "Install Keyd - Install Keyd from source (using keysnail at the moment, here for documentation only)"
+        10 "Install Xkeysnail - Install Xkeysnail from source"
+        11 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -482,7 +467,29 @@ debian_install() {
                 read -rp "1) Defaults has been set. Press enter to continue..."
                 ;;
             2)
-                echo ") Installing Software"
+                echo "2) Installing Firmware Updates"
+
+                # Install Firmware
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
+
+                read -rp "2) Firmware updates has been installed. Reboot may be required. Press enter to continue..."
+                ;;
+            3)
+                echo "5) Installing Nvidia Drivers (https://wiki.debian.org/NvidiaGraphicsDrivers)"
+
+                # Prerequisites
+                sudo apt install linux-headers-amd64
+
+                # Install
+                sudo apt install nvidia-driver firmware-misc-nonfree
+
+                read -rp "3) Nividia Drivers has been installed. Reboot may be required. Press enter to continue..."
+                ;;
+            4)
+                echo "4) Installing Software"
 
                 # General
                 sudo apt install -y apt-listbugs apt-listchanges
@@ -495,7 +502,7 @@ debian_install() {
                 sudo apt install -y scdaemon subversion telnet tldr tree w3m wget
                 sudo apt install -y wordnet imagemagick exa ninja-build
                 sudo apt install -y python3 python3-pip pandoc poppler-utils poppler-data libtool
-                sudo apt install -y shfmt editorconfig glslang-tools glslang-dev shellcheck xdotool parallel
+                sudo apt install -y shfmt editorconfig glslang-tools glslang-dev shellcheck parallel
                 sudo apt install -y llvm clang clangd clang-tools clang-format tidy sqlite3
                 sudo apt install -y pkg-config flex bison
                 sudo apt install -y valgrind minicom mc strace
@@ -516,7 +523,7 @@ debian_install() {
                 [[ $WINDOW_SYSTEM = Wayland ]] && sudo apt install -y wl-clipboard
 
                 # X11 stuff
-                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y xclip xinput
+                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y xclip xinput xdotool x11-utils
 
                 # tmux: A terminal multiplexer
                 sudo apt install -y tmux
@@ -575,10 +582,10 @@ debian_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
-                read -rp "2) Software has been installed. Press enter to continue..."
+                read -rp "4) Software has been installed. Press enter to continue..."
                 ;;
-            3)
-                echo "3) Installing Extras"
+            5)
+                echo "5) Installing Extras"
 
                 #
                 # Brave Browser (https://brave.com/linux/)
@@ -640,21 +647,11 @@ debian_install() {
                     gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
                 fi
 
-                read -rp "3) Extras installed. Press enter to continue..."
+                read -rp "5) Extras installed. Press enter to continue..."
                 ;;
-            4)
-                echo "5) Installing Nvidia Drivers (https://wiki.debian.org/NvidiaGraphicsDrivers)"
 
-                # Prerequisites
-                sudo apt install linux-headers-amd64
-
-                # Install
-                sudo apt install nvidia-driver firmware-misc-nonfree
-
-                read -rp "5) Nividia Drivers has been installed. Press enter to continue..."
-                ;;
-            5)
-                echo ") Enabling Flatpak"
+            6)
+                echo "6) Enabling Flatpak"
 
                 sudo apt install -y flatpak
                 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -686,10 +683,10 @@ debian_install() {
                 # sudo flatpak install -y flathub com.visualstudio.code
                 # sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
 
-                read -rp "4) Flatpak has now been enabled. Press enter to continue..."
+                read -rp "6) Flatpak has now been enabled. Press enter to continue..."
                 ;;
-            6)
-                echo "6) Setting up secrets and repos"
+            7)
+                echo "7) Setting up secrets and repos"
 
                 read -rp "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
@@ -729,10 +726,10 @@ debian_install() {
                 [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
                 [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
-                read -rp "6) Secrets and repos are set. Press enter to continue..."
+                read -rp "7) Secrets and repos are set. Press enter to continue..."
                 ;;
-            7)
-                echo "7) Installing Emacs"
+            8)
+                echo "8) Installing Emacs"
 
                 # Is it already installed?
                 hash emacs 2>/dev/null && notify-send "12) Emacs is already installed" --expire-time=20 && continue
@@ -790,10 +787,10 @@ debian_install() {
                 sudo make install
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -rp "7) Emacs has been installed. Press enter to continue..."
+                read -rp "8) Emacs has been installed. Press enter to continue..."
                 ;;
-            8)
-                echo "8) Installing Keyd"
+            9)
+                echo "9) Installing Keyd"
 
                 # Is it already installed?
                 hash keyd 2>/dev/null && notify-send "Keyd is already installed" --expire-time=20 && continue
@@ -835,10 +832,10 @@ debian_install() {
                 sudo keyd reload
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -rp "8) Keyd daemon has been installed. Press enter to continue..."
+                read -rp "9) Keyd daemon has been installed. Press enter to continue..."
                 ;;
-            9)
-                echo "9) Installing Xkeysnail"
+            10)
+                echo "10) Installing Xkeysnail"
 
                 # Is it already installed?
                 hash xkeysnail 2>/dev/null && notify-send "Xkeysnail is already installed" --expire-time=20 && continue
@@ -881,9 +878,9 @@ debian_install() {
                 sudo systemctl enable xkeysnail.service && sudo systemctl start xkeysnail.service
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -rp "9) Xkeysnail has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
+                read -rp "10) Xkeysnail has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
                 ;;
-            10)
+            11)
                 exit 0
                 ;;
         esac
