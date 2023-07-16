@@ -2,16 +2,29 @@
 
 (use-package eww
     :ensure nil ;; emacs built-in
-    :init
-    (setq eww-search-prefix "https://search.brave.com/search?q="))
+    :init (setq eww-search-prefix "https://search.brave.com/search?q="))
 
 ;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
 (use-package mastodon
-    :init
-    (setq mastodon-instance-url "https://hachyderm.io"
-        mastodon-active-user "jvillasante")
-    :config
-    (mastodon-discover))
+    :init (setq mastodon-instance-url "https://hachyderm.io"
+              mastodon-active-user "jvillasante")
+    :config (mastodon-discover))
+
+(use-package pdf-tools
+    :mode ("\\.pdf\\'" . pdf-view-mode)
+    :init (setq pdf-view-display-size 'fit-page
+              pdf-view-use-scaling t
+              pdf-view-use-imagemagick nil
+              pdf-view-continuous nil)
+    :config (add-hook 'pdf-outline-buffer-mode-hook
+                (lambda ()
+                    (my/font-set-small-variable-font)
+                    (display-line-numbers-mode 0))))
+
+;; nov.el : Major mode for reading EPUBs in Emacs
+(use-package nov
+    :mode ("\\.epub\\'" . nov-mode)
+    :custom (nov-text-width t))
 
 ;; elfeed
 (use-package elfeed
@@ -137,20 +150,6 @@
              "https://nigeltao.github.io/feed.xml"
              "https://www.thecodedmessage.com/index.xml"
              "https://unixsheikh.com/feed.rss")))
-
-(use-package pdf-tools
-    :mode ("\\.pdf\\'" . pdf-view-mode)
-    :init
-    (setq pdf-view-display-size 'fit-page
-        ;; Enable hiDPI support, but at the cost of memory! See politza/pdf-tools#51
-        pdf-view-use-scaling t
-        pdf-view-use-imagemagick nil
-        pdf-view-continuous nil)
-    :config
-    (add-hook 'pdf-outline-buffer-mode-hook
-        (lambda ()
-            (my/font-set-small-variable-font)
-            (display-line-numbers-mode 0))))
 
 (provide 'my-init-apps)
 ;;; my-init-apps.el ends here
