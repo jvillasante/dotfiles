@@ -125,5 +125,10 @@ define_keymap(lambda wm_class: wm_class not in ("Emacs", "Alacritty", "konsole",
         K("C-g"): pass_through_key,
         # C-x u (undo)
         K("u"): [K("C-z"), set_mark(False)],
-    }
+    },
 }, "Emacs-like keys")
+
+define_keymap(lambda wm_class: wm_class not in ("Emacs"), {
+    # emacs-everywhere
+    K("Win-Alt-e"): launch(["emacsclient", "--eval", "(emacs-everywhere)"]),
+}, "Emacs Everywhere")

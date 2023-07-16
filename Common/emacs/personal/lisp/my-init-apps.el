@@ -1,15 +1,11 @@
 ;;; my-init-apps.el -*- lexical-binding: t; -*-
 
+;; eww
 (use-package eww
     :ensure nil ;; emacs built-in
     :init (setq eww-search-prefix "https://search.brave.com/search?q="))
 
-;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
-(use-package mastodon
-    :init (setq mastodon-instance-url "https://hachyderm.io"
-              mastodon-active-user "jvillasante")
-    :config (mastodon-discover))
-
+;; pdf
 (use-package pdf-tools
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :init (setq pdf-view-display-size 'fit-page
@@ -25,6 +21,12 @@
 (use-package nov
     :mode ("\\.epub\\'" . nov-mode)
     :custom (nov-text-width t))
+
+;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
+(use-package mastodon
+    :init (setq mastodon-instance-url "https://hachyderm.io"
+              mastodon-active-user "jvillasante")
+    :config (mastodon-discover))
 
 ;; elfeed
 (use-package elfeed

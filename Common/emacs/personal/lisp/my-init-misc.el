@@ -193,6 +193,9 @@
 ;; wgrep :
 (use-package wgrep)
 
+;; Emacs Everywhere
+(use-package emacs-everywhere)
+
 ;; engine-mode :
 (use-package engine-mode
     :ensure t
