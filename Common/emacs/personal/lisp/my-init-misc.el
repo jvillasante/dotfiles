@@ -116,10 +116,9 @@
 
 ;; project.el : default project manager
 (use-package project
-    :init
-    (setq project-list-file (expand-file-name "projects" no-littering-var-directory))
-    (add-to-list 'project-switch-commands
-        '(project-dired "Dired at root")))
+    :custom ((project-list-file (expand-file-name "projects" no-littering-var-directory))
+                (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
+    :config (add-to-list 'project-switch-commands '(project-dired "Dired at root")))
 
 ;; tramp : Transparent Remote Access, Multiple Protocols
 (use-package tramp
