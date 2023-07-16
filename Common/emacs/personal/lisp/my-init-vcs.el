@@ -12,14 +12,14 @@
             (magit-restore-window-configuration)
             (mapc #'kill-buffer buffers)))
     :hook ((git-commit-mode . (lambda () (setq-local fill-column 72))))
-    :config
-    (bind-key "q" #'+my/magit-kill-buffers magit-status-mode-map)
-    (setq
-        magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
-        git-commit-summary-max-length 50
-        magit-diff-refine-hunk t ; show granular diffs in selected hunk.
-        magit-save-repository-buffers nil
-        magit-define-global-key-bindings nil))
+    :bind (:map magit-status-mode-map
+              ("q" . #'+my/magit-kill-buffers)
+              ("C-x k" . #'+my/magit-kill-buffers))
+    :custom ((magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
+                (git-commit-summary-max-length 50)
+                (magit-diff-refine-hunk t) ; show granular diffs in selected hunk.
+                (magit-save-repository-buffers nil)
+                (magit-define-global-key-bindings nil)))
 
 (use-package git-gutter
     :commands (git-gutter:revert-hunk git-gutter:stage-hunk)
