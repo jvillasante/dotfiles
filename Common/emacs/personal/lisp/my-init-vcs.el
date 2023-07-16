@@ -25,17 +25,15 @@
     :commands (git-gutter:revert-hunk git-gutter:stage-hunk)
     :hook ((prog-mode . git-gutter-mode)
               (conf-mode . git-gutter-mode))
-    :config
-    (add-to-list 'display-buffer-alist
-        '("\\*git-gutter"
-             (display-buffer-below-selected)
-             (window-height . 0.3))))
+    :config (add-to-list 'display-buffer-alist
+                '("\\*git-gutter"
+                     (display-buffer-below-selected)
+                     (window-height . 0.3))))
 
 (use-package hl-todo
     :hook ((prog-mode . hl-todo-mode)
               (conf-mode . hl-todo-mode))
-    :init
-    (setq hl-todo-highlight-punctuation ":"))
+    :config (setq hl-todo-highlight-punctuation ":"))
 
 (provide 'my-init-vcs)
 ;;; my-init-vcs.el ends here
