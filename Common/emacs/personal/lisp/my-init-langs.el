@@ -46,6 +46,10 @@
     (add-to-list 'auto-mode-alist '("\\.C\\'"   . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode)))
 
+;; modern-cpp-font-lock : Syntax highlighting support for "Modern C++"
+(use-package modern-cpp-font-lock
+    :config (modern-c++-font-lock-global-mode t))
+
 ;; adoc-mode : ascii docs
 (use-package adoc-mode
     :mode "\\.adoc\\'")
