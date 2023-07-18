@@ -1,4 +1,4 @@
-;;; my-init-langtools.el -*- lexical-binding: t; -*-
+;;; my-init-lang-tools.el -*- lexical-binding: t; -*-
 
 ;; hideshow
 (use-package hideshow
@@ -88,7 +88,7 @@
 
     ;; C++
     (add-to-list 'eglot-server-programs
-        '(c++-mode
+        '(c-mode-common
              . ("clangd"
                    "-j=8"
                    "--log=error"
@@ -126,5 +126,5 @@
     (with-eval-after-load 'compile
         (fancy-compilation-mode)))
 
-(provide 'my-init-langtools)
+(provide 'my-init-lang-tools)
 ;;; my-init-langtools.el ends here
