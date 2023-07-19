@@ -491,6 +491,9 @@ debian_install() {
             4)
                 echo "4) Installing Software"
 
+                # Remove Firefox ESR
+                sudo apt purge -y firefox-esr
+
                 # General
                 sudo apt install -y apt-listbugs apt-listchanges
                 sudo apt install -y build-essential binutils coreutils openssl libssl-dev
