@@ -356,6 +356,12 @@ Useful for prompts such as `eval-expression' and `shell-command'."
     :init
     (marginalia-mode))
 
+;; jinx : Enchanted Spell Checker
+(use-package jinx
+    :hook (emacs-startup . global-jinx-mode)
+    :bind (("M-$" . jinx-correct)
+              ("C-M-$" . jinx-languages)))
+
 ;; tempel - Simple templates for Emacs
 (use-package tempel-collection :disabled t :after tempel)
 (use-package tempel

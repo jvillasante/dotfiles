@@ -673,7 +673,7 @@ debian_install() {
                 sudo flatpak install -y flathub com.github.tchx84.Flatseal
                 sudo flatpak install -y flathub com.valvesoftware.Steam
                 sudo flatpak install -y flathub im.riot.Riot
-                # sudo flatpak install -y flathub org.mozilla.firefox
+                sudo flatpak install -y flathub org.mozilla.firefox
                 # sudo flatpak install -y flathub com.brave.Browser
                 # sudo flatpak install -y flathub org.shotcut.Shotcut
                 # sudo flatpak install -y flathub dev.geopjr.Tuba
@@ -746,6 +746,7 @@ debian_install() {
                 sudo apt install libtree-sitter0 libtree-sitter-dev
                 sudo apt install libjansson4 libjansson-dev
                 sudo apt install libvterm0 libvterm-dev
+                sudo apt install libenchant-2-dev pkgconf # necessary for jinx
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
