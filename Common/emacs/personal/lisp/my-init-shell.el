@@ -88,6 +88,9 @@
             "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
             :utils "ffmpeg")))
 
+;; emamux : Interact with tmux from Emacs.
+(use-package emamux)
+
 (use-package chatgpt-shell
     :custom
     ((chatgpt-shell-openai-key

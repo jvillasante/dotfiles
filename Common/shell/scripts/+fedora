@@ -33,23 +33,6 @@ is_desktop_environment() (
     return 1
 )
 
-# | Family                          | Shapes | Spacing | Style      | Ligatures |
-# |---------------------------------+--------+---------+------------+-----------|
-# | Iosevka Comfy                   | Sans   | Compact | Monospaced | Yes       |
-# | Iosevka Comfy Fixed             | Sans   | Compact | Monospaced | No        |
-# | Iosevka Comfy Duo               | Sans   | Compact | Duospaced  | Yes       |
-# |---------------------------------+--------+---------+------------+-----------|
-# | Iosevka Comfy Motion            | Slab   | Compact | Monospaced | Yes       |
-# | Iosevka Comfy Motion Fixed      | Slab   | Compact | Monospaced | No        |
-# | Iosevka Comfy Motion Duo        | Slab   | Compact | Duospaced  | Yes       |
-# |---------------------------------+--------+---------+------------+-----------|
-# | Iosevka Comfy Wide              | Sans   | Wide    | Monospaced | Yes       |
-# | Iosevka Comfy Wide Fixed        | Sans   | Wide    | Monospaced | No        |
-# | Iosevka Comfy Wide Duo          | Sans   | Wide    | Duospaced  | Yes       |
-# |---------------------------------+--------+---------+------------+-----------|
-# | Iosevka Comfy Wide Motion       | Slab   | Wide    | Monospaced | Yes       |
-# | Iosevka Comfy Wide Motion Fixed | Slab   | Wide    | Monospaced | No        |
-# | Iosevka Comfy Wide Motion Duo   | Slab   | Wide    | Duospaced  | Yes       |
 install_iosevka_comfy() {
     # Download the fonts
     [ -d "$HOME"/Workspace/Software/iosevka-comfy ] && rm -rf "$HOME"/Workspace/Software/iosevka-comfy
@@ -458,6 +441,7 @@ fedora_install() {
                 sudo flatpak install -y flathub com.valvesoftware.Steam
                 sudo flatpak install -y flathub im.riot.Riot
                 # sudo flatpak install -y flathub org.mozilla.firefox
+                # sudo flatpak install -y flathub com.obsproject.Studio
                 # sudo flatpak install -y flathub com.brave.Browser
                 # sudo flatpak install -y flathub org.shotcut.Shotcut
                 # sudo flatpak install -y flathub dev.geopjr.Tuba

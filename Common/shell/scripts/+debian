@@ -664,6 +664,7 @@ debian_install() {
                     sudo flatpak install -y flathub org.gnome.Firmware
                     sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
                 fi
+                sudo flatpak install -y flathub org.mozilla.firefox
                 sudo flatpak install -y flathub com.discordapp.Discord
                 sudo flatpak install -y flathub com.dropbox.Client
                 sudo flatpak install -y flathub com.skype.Client
@@ -676,7 +677,7 @@ debian_install() {
                 sudo flatpak install -y flathub com.github.tchx84.Flatseal
                 sudo flatpak install -y flathub com.valvesoftware.Steam
                 sudo flatpak install -y flathub im.riot.Riot
-                sudo flatpak install -y flathub org.mozilla.firefox
+                # sudo flatpak install -y flathub com.obsproject.Studio
                 # sudo flatpak install -y flathub com.brave.Browser
                 # sudo flatpak install -y flathub org.shotcut.Shotcut
                 # sudo flatpak install -y flathub dev.geopjr.Tuba
