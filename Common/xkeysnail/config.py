@@ -44,13 +44,12 @@ define_conditional_multipurpose_modmap(lambda wm_class, device_name: device_name
 })
 
 # Keybindings for Firefox/Brave/Chrome
-define_keymap(re.compile("Firefox|Brave-browser|Google-chrome"), {
+define_keymap(re.compile("firefox|Firefox"), {
     # switch tabs
     K("C-x"): {
         # Switch tabs
         K("o"): K("C-TAB"),
-        K("left"): K("C-TAB"),
-        K("right"): K("C-Shift-TAB"),
+        K("b"): K("C-Shift-TAB"),
         # Close tab
         K("k") : K("C-w"),
     },
