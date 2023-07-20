@@ -526,7 +526,14 @@ debian_install() {
                 [[ $WINDOW_SYSTEM = Wayland ]] && sudo apt install -y wl-clipboard
 
                 # X11 stuff
-                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y xclip xinput xdotool x11-utils
+                if [[ $WINDOW_SYSTEM = X11 ]]; then
+                    sudo apt install -y xclip xinput xdotool x11-utils # some X11 tools
+
+                    # Gnome already have a screen recorder
+                    if ! is_desktop_environment "Gnome"; then
+                        sudo apt install kazam  # simple screen recorder for X11
+                    fi
+                fi
 
                 # tmux: A terminal multiplexer
                 sudo apt install -y tmux
