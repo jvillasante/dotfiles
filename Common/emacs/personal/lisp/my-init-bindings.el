@@ -101,7 +101,7 @@
 
 ;; dired
 (with-eval-after-load 'dired
-    (define-key dired-mode-map (kbd "C-u C-o") 'crux-open-with))
+    (define-key dired-mode-map (kbd "C-<return>") 'crux-open-with))
 
 ;; isearch
 (with-eval-after-load 'isearch
