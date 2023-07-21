@@ -499,7 +499,7 @@ debian_install() {
                 sudo apt purge -y firefox-esr
 
                 # General
-                sudo apt install -y apt-listbugs apt-listchanges
+                sudo apt install -y apt-listbugs apt-listchanges software-properties-common
                 sudo apt install -y build-essential binutils coreutils openssl libssl-dev
                 sudo apt install -y tar p7zip-full zip unzip rsync
                 sudo apt install -y silversearcher-ag aspell aspell-en aspell-es autojump atool autoconf automake
