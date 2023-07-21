@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+readonly WS_WAYLAND="Wayland"
+readonly WS_X11="X11"
+readonly WM_KDE="KDE"
+readonly WM_GNOME="Gnome"
+readonly WM_I3="I3"
+readonly WM_SWAY="Sway"
+
 usage() {
     echo "Usage:"
     echo "    $0 help:"
@@ -14,24 +21,6 @@ usage() {
     echo " e.g: $0 apt full-upgrade"
     exit "$1"
 }
-
-# Also in `common.sh`. Also here for 0 dependency script
-is_desktop_environment() (
-    local de=${1:-}
-    local DEs=${XDG_CURRENT_DESKTOP:-}
-
-    # Shortcut: If de is empty, check if empty DEs
-    if [[ -z "$de" ]]; then if [[ "$DEs" ]]; then return; else return 1; fi; fi
-
-    # Lowercase both
-    de=${de,,}; DEs=${DEs,,}
-
-    # Check de against each DEs component
-    IFS=:; for DE in $DEs; do if [[ "$de" == "$DE" ]]; then return; fi; done
-
-    # Not found
-    return 1
-)
 
 # iosevka directly from prot repo
 install_iosevka_comfy() {
@@ -343,23 +332,12 @@ debian_install() {
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
-    read -rp "Enter Window System (Wayland or X11, defaults 'X11'): " WINDOW_SYSTEM
-    [ -z "$WINDOW_SYSTEM" ] && WINDOW_SYSTEM="X11"
-    case "$WINDOW_SYSTEM" in
-        X11)
-            echo "$BACKTITLE for $WINDOW_SYSTEM"
-            ;;
-        Wayland)
-            echo "$BACKTITLE for $WINDOW_SYSTEM"
-            ;;
-        *)
-            usage 1
-            ;;
-    esac
-
     # Check to see if dialog and libnotify are installed, if not install them
     type dialog 2>/dev/null || sudo apt install -y dialog
     type notify-send 2>/dev/null || sudo apt install -y libnotify-bin libnotify-dev
+
+    # Hello user
+    read -rp "$BACKTITLE (WS=$WINDOW_SYSTEM and WM=$WINDOW_MANAGER). Press enter to continue..."
 
     OPTIONS=(
         1 "Set Defaults - Set some defaults (hostname, folders structure, global settings, etc)"
@@ -427,7 +405,7 @@ debian_install() {
                 # Gnome Gsettings - dconf-editor
                 #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
                 #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
-                if is_desktop_environment "Gnome"; then
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     # Clock Settings
                     gsettings set org.gnome.desktop.interface clock-format '12h'
                     gsettings set org.gnome.desktop.interface clock-show-date true
@@ -512,27 +490,34 @@ debian_install() {
                 sudo apt install -y ffmpegthumbnailer mediainfo
                 sudo apt install -y feh mpv
 
+                # Wayland Software
+                if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
+                    sudo apt install -y wl-clipboard
+                fi
+
+                # X11 Software
+                if [[ "$WINDOW_SYSTEM" == "$WS_X11" ]]; then
+                    sudo apt install -y xsel xclip xinput xdotool x11-utils
+                fi
+
                 # Gnome Software
-                if is_desktop_environment "Gnome"; then
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     sudo apt -y install dconf-editor gnome-tweaks
                 fi
 
-                # Plasma dock
-                # if is_desktop_environment "KDE"; then
+                # Plasma Software
+                # if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
                 #     sudo apt install latte-dock
                 # fi
 
-                # Wayland stuff
-                [[ $WINDOW_SYSTEM = Wayland ]] && sudo apt install -y wl-clipboard
+                # I3 Software
+                if [[ "$WINDOW_MANAGER" == "$WM_I3" ]]; then
+                    # I3 software
+                    sudo apt install -y i3 i3status i3lock dunst rofi
 
-                # X11 stuff
-                if [[ $WINDOW_SYSTEM = X11 ]]; then
-                    sudo apt install -y xclip xinput xdotool x11-utils # some X11 tools
-
-                    # Gnome already have a screen recorder
-                    if ! is_desktop_environment "Gnome"; then
-                        sudo apt install kazam  # simple screen recorder for X11
-                    fi
+                    # Install and enable network-manager
+                    sudo apt install -y network-manager
+                    sudo systemctl enable NetworkManager.service && sudo systemctl start NetworkManager.service
                 fi
 
                 # tmux: A terminal multiplexer
@@ -542,10 +527,10 @@ debian_install() {
                 sudo apt install -y git
 
                 # Alacritty - A fast, cross-platform, OpenGL terminal emulator
-                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y alacritty
+                [[ "$WINDOW_SYSTEM" = "$WS_X11" ]] && sudo apt install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
-                [[ $WINDOW_SYSTEM = X11 ]] && sudo apt install -y foot
+                [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && sudo apt install -y foot
 
                 # FZF
                 sudo apt install -y fzf
@@ -567,14 +552,14 @@ debian_install() {
                 # borg
                 sudo apt install -y borgbackup
 
-                # profile sync daemon
-                sudo apt install -y profile-sync-daemon
-                if [ -f /usr/share/psd/contrib/brave ]; then
-                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
-                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
-                fi
-                systemctl --user enable psd.service && systemctl --user start psd.service
+                # profile sync daemon (not using this on debian)
+                # sudo apt install -y profile-sync-daemon
+                # if [ -f /usr/share/psd/contrib/brave ]; then
+                #     sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                # elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
+                #     sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
+                # fi
+                # systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # Neovim
                 sudo apt install -y neovim
@@ -599,14 +584,15 @@ debian_install() {
 
                 #
                 # Brave Browser (https://brave.com/linux/)
+                #   NOTE: Brave actually sucks!!!
                 #
-                sudo apt install curl
-                sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
-                     https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-                echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | \
-                    sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-                sudo apt update
-                sudo apt install brave-browser
+                # sudo apt install curl
+                # sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
+                #      https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+                # echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | \
+                #     sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+                # sudo apt update
+                # sudo apt install brave-browser
 
                 #
                 # Docker (https://docs.docker.com/engine/install/debian/)
@@ -649,12 +635,12 @@ debian_install() {
 
                 # Fonts
                 sudo apt install -y fonts-jetbrains-mono
-                install_iosevka
+                # install_iosevka
                 install_iosevka_comfy
 
                 # Gnome Font Settings
-                if is_desktop_environment "Gnome"; then
-                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Comfy 16'
                 fi
 
                 read -rp "5) Extras installed. Press enter to continue..."
@@ -666,7 +652,7 @@ debian_install() {
                 sudo apt install -y flatpak
                 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 sudo flatpak update
-                if is_desktop_environment "Gnome"; then
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     sudo flatpak install -y flathub org.gnome.TextEditor
                     sudo flatpak install -y flathub org.gnome.Firmware
                     sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
@@ -786,7 +772,7 @@ debian_install() {
 
                 # Install
                 EMACS_WINDOW_SYSTEM_OPTION=--with-x
-                [[ $WINDOW_SYSTEM = Wayland ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
+                [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
                 ./configure \
                     $EMACS_WINDOW_SYSTEM_OPTION \
                     --without-compress-install \
@@ -930,6 +916,33 @@ fi
 if ! hash apt 2>/dev/null; then
     echo "Error: apt not installed on this system, exiting..."
     exit 1
+fi
+
+read -rp "Enter Window System ([$WS_WAYLAND,$WS_X11] default:$WS_X11): " WINDOW_SYSTEM
+[ -z "$WINDOW_SYSTEM" ] && WINDOW_SYSTEM="$WS_X11"
+case $WINDOW_SYSTEM in
+    "$WS_WAYLAND"|"$WS_X11")
+    ;;
+    *)
+        echo "Error. Please select one of the supported Window Systems"
+        usage 1
+        ;;
+esac
+
+read -rp "Enter Window Manager ([$WM_KDE,$WM_GNOME,$WM_I3] default:$WM_I3): " WINDOW_MANAGER
+[ -z "$WINDOW_MANAGER" ] && WINDOW_MANAGER="$WM_I3"
+case $WINDOW_MANAGER in
+    "$WM_KDE"|"$WM_GNOME"|"$WM_I3")
+    ;;
+    *)
+        echo "Error. Please select one of the supported Window Managers"
+        usage 1
+        ;;
+esac
+
+if [ "$WINDOW_SYSTEM" = "$WS_WAYLAND" ] && [ "$WINDOW_MANAGER" = "$WM_I3" ]; then
+    echo "Can't use $WM_I3 WM with $WS_WAYLAND, try $WM_SWAY instead..."
+    usage 1
 fi
 
 nargs=$#
