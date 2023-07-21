@@ -336,7 +336,33 @@ debian_install() {
     type dialog 2>/dev/null || sudo apt install -y dialog
     type notify-send 2>/dev/null || sudo apt install -y libnotify-bin libnotify-dev
 
-    # Hello user
+    # Input options
+    read -rp "Enter Window System ([$WS_WAYLAND,$WS_X11] default:$WS_X11): " WINDOW_SYSTEM
+    [ -z "$WINDOW_SYSTEM" ] && WINDOW_SYSTEM="$WS_X11"
+    case $WINDOW_SYSTEM in
+        "$WS_WAYLAND"|"$WS_X11")
+        ;;
+        *)
+            echo "Error. Please select one of the supported Window Systems"
+            usage 1
+            ;;
+    esac
+
+    read -rp "Enter Window Manager ([$WM_KDE,$WM_GNOME,$WM_I3] default:$WM_I3): " WINDOW_MANAGER
+    [ -z "$WINDOW_MANAGER" ] && WINDOW_MANAGER="$WM_I3"
+    case $WINDOW_MANAGER in
+        "$WM_KDE"|"$WM_GNOME"|"$WM_I3")
+        ;;
+        *)
+            echo "Error. Please select one of the supported Window Managers"
+            usage 1
+            ;;
+    esac
+
+    if [ "$WINDOW_SYSTEM" = "$WS_WAYLAND" ] && [ "$WINDOW_MANAGER" = "$WM_I3" ]; then
+        echo "Can't use $WM_I3 WM with $WS_WAYLAND, try $WM_SWAY instead..."
+        usage 1
+    fi
     read -rp "$BACKTITLE (WS=$WINDOW_SYSTEM and WM=$WINDOW_MANAGER). Press enter to continue..."
 
     OPTIONS=(
@@ -916,33 +942,6 @@ fi
 if ! hash apt 2>/dev/null; then
     echo "Error: apt not installed on this system, exiting..."
     exit 1
-fi
-
-read -rp "Enter Window System ([$WS_WAYLAND,$WS_X11] default:$WS_X11): " WINDOW_SYSTEM
-[ -z "$WINDOW_SYSTEM" ] && WINDOW_SYSTEM="$WS_X11"
-case $WINDOW_SYSTEM in
-    "$WS_WAYLAND"|"$WS_X11")
-    ;;
-    *)
-        echo "Error. Please select one of the supported Window Systems"
-        usage 1
-        ;;
-esac
-
-read -rp "Enter Window Manager ([$WM_KDE,$WM_GNOME,$WM_I3] default:$WM_I3): " WINDOW_MANAGER
-[ -z "$WINDOW_MANAGER" ] && WINDOW_MANAGER="$WM_I3"
-case $WINDOW_MANAGER in
-    "$WM_KDE"|"$WM_GNOME"|"$WM_I3")
-    ;;
-    *)
-        echo "Error. Please select one of the supported Window Managers"
-        usage 1
-        ;;
-esac
-
-if [ "$WINDOW_SYSTEM" = "$WS_WAYLAND" ] && [ "$WINDOW_MANAGER" = "$WM_I3" ]; then
-    echo "Can't use $WM_I3 WM with $WS_WAYLAND, try $WM_SWAY instead..."
-    usage 1
 fi
 
 nargs=$#
