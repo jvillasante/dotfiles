@@ -41,7 +41,8 @@
         ;; Show all eldoc feedback.
         (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
     :hook ((eglot-managed-mode . my/eglot-eldoc)
-              (c-mode-common . eglot-ensure)
+              (c-mode . eglot-ensure)
+              (c++-mode . eglot-ensure)
               (rustic-mode . eglot-ensure)
               (js-mode . eglot-ensure)
               (python-mode . eglot-ensure)
