@@ -98,9 +98,9 @@
     :config
     (add-hook 'go-mode-hook
         (lambda ()
-            (setq c-basic-offset 4) ; Base indent size when indented automatically
-            (setq tab-width 4)
-            (setq indent-tabs-mode nil))))
+            (setq-local c-basic-offset 4) ; Base indent size when indented automatically
+            (setq-local tab-width 4)
+            (setq-local indent-tabs-mode nil))))
 
 (use-package sql
     :config
