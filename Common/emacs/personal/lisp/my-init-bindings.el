@@ -111,7 +111,6 @@
     (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)) ; better navigation
 
 ;; vterm
-(global-set-key (kbd "C-x p v") 'my/vterm) ;; previous: `project-vc-dir'
 (with-eval-after-load 'vterm
     (define-key vterm-mode-map (kbd "C-x [") 'vterm-copy-mode)
     (define-key vterm-mode-map (kbd "M-[") 'vterm-copy-mode)
@@ -177,7 +176,7 @@
 ;; C-c o : Open
 (global-set-key (kbd "C-c o f") 'elfeed)
 (global-set-key (kbd "C-c o p") 'dired-sidebar-toggle-sidebar)
-(global-set-key (kbd "C-c o t") 'my/vterm)
+(global-set-key (kbd "C-c o t") 'my/eat)
 (global-set-key (kbd "C-c o e") 'eshell)
 (global-set-key (kbd "C-c o c") 'calc)
 

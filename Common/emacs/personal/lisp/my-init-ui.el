@@ -157,7 +157,8 @@
     :init
     (setq shackle-rules
         '((compilation-mode :select t :popup t :align 'below :size 0.4)
-             ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
+             ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)
+             ("\\`\\*eat.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
     (shackle-mode +1))
 
 ;; popper : tame the flood of ephemeral windows Emacs produces
@@ -174,7 +175,7 @@
              "\\*Async Shell Command\\*"
              help-mode
              compilation-mode))
-    ;; Match eshell, shell, term and/or vterm buffers
+    ;; Match terminal buffers
     (setq popper-reference-buffers
         (append popper-reference-buffers
             '("^\\*eshell.*\\*$"                   eshell-mode                       ;eshell as a popup

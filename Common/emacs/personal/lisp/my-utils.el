@@ -140,12 +140,6 @@ otherwise use the existed one"
 
 ;;; Misc
 
-(defun my/vterm ()
-    "open vterm at project root, if no root is found, open at the default-directory"
-    (interactive)
-    (let ((default-directory (my/project-root-or-default-dir)))
-        (call-interactively #'vterm)))
-
 (defun my/project-root-or-default-dir ()
     "If a project root is found, return it. Otherwise return `default-directory'."
     (if-let ((proj (project-current)))

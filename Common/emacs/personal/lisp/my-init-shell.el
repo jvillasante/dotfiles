@@ -44,24 +44,38 @@
 
 ;; eat: Emulate A Terminal
 (use-package eat
-    :disabled t
+    :preface
+    (defun my/eat ()
+        "open `eat' at project root, if no root is found, open at the default-directory"
+        (interactive)
+        (let ((default-directory (my/project-root-or-default-dir)))
+            (call-interactively #'eat)))
     :init
-    (add-hook 'eshell-load-hook #'eat-eshell-mode)
     (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+    (add-hook 'eshell-load-hook #'eat-eshell-mode)
     (add-hook 'eat-mode-hook
         (lambda ()
-            ;; (setq-local mode-line-format nil)
+            (setq-local scroll-margin 0)
+            (setq-local mode-line-format nil)
             (setq-local confirm-kill-processes nil)
             (setq-local hscroll-margin 0))))
 
 (use-package vterm
+    :disabled t
     :defer t
+    :preface
+    (defun my/vterm ()
+        "open vterm at project root, if no root is found, open at the default-directory"
+        (interactive)
+        (let ((default-directory (my/project-root-or-default-dir)))
+            (call-interactively #'vterm)))
     :config
     (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
     (setq vterm-shell "/usr/bin/bash")
     (setq vterm-max-scrollback 5000)
     (add-hook 'vterm-mode-hook
         (lambda ()
+            (setq-local scroll-margin 0)
             (setq-local mode-line-format nil)
             (setq-local confirm-kill-processes nil)
             (setq-local hscroll-margin 0))))
