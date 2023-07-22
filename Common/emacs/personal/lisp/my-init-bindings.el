@@ -114,7 +114,8 @@
 (with-eval-after-load 'vterm
     (define-key vterm-mode-map (kbd "C-x [") 'vterm-copy-mode)
     (define-key vterm-mode-map (kbd "M-[") 'vterm-copy-mode)
-    (define-key vterm-mode-map (kbd "C-y") 'vterm-yank)
+    (define-key vterm-mode-map (kbd "C-y") 'vterm-yank)                 ;; paste
+    (define-key vterm-copy-mode-map (kbd "M-w") 'vterm-copy-mode-done)  ;; copy
     (define-key vterm-copy-mode-map (kbd "C-g") 'vterm-copy-mode-done))
 
 ;; neotree
@@ -176,7 +177,7 @@
 ;; C-c o : Open
 (global-set-key (kbd "C-c o f") 'elfeed)
 (global-set-key (kbd "C-c o p") 'dired-sidebar-toggle-sidebar)
-(global-set-key (kbd "C-c o t") 'my/eat)
+(global-set-key (kbd "C-c o t") 'my/vterm)
 (global-set-key (kbd "C-c o e") 'eshell)
 (global-set-key (kbd "C-c o c") 'calc)
 
