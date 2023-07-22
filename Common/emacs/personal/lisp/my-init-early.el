@@ -51,9 +51,6 @@
 (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill))
 
-;; no scratch buffer message
-(setq initial-scratch-message nil)
-
 ;; Printer
 (setq printer-name "Brother_HL_L2370DW_series")
 
