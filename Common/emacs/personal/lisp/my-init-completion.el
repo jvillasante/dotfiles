@@ -210,19 +210,17 @@ Useful for prompts such as `eval-expression' and `shell-command'."
               ("C-k" . corfu-previous)
               ("C-f" . corfu-insert))
     :custom
-    (tab-always-indent 'complete)
-    (completion-cycle-threshold nil)      ; Always show candidates in menu
-    (corfu-cycle nil)
     (corfu-auto nil)
+    (corfu-cycle nil)
     (corfu-auto-prefix 2)
     (corfu-auto-delay 0.25)
     (corfu-separator ?\s)                 ; Necessary for use with orderless
     (corfu-quit-no-match 'separator)
     (corfu-preview-current 'insert)       ; Preview current candidate?
-    (corfu-preselect-first t)             ; Preselect first candidate?
+    (corfu-preselect-first t)             ; Pre-select first candidate?
+    (completion-cycle-threshold nil)      ; Always show candidates in menu
     :init
     (global-corfu-mode 1)
-    (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
     (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1))
 
 (use-package cape

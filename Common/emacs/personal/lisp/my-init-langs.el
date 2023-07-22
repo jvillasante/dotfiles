@@ -36,9 +36,9 @@
             (c-set-offset 'substatement-open 0) ; Align braces with the if/for statement. If not set, a half indent will be used
             (c-set-offset 'arglist-intro '+) ; Align multiline arguments with a standard indent (instead of with parenthesis)
             (c-set-offset 'arglist-close 0) ; Align the parenthesis at the end of the arguments with the opening statement indent
-            (setq c-basic-offset 4) ; Base indent size when indented automatically
-            (setq tab-width 4)
-            (setq indent-tabs-mode nil)))
+            (setq-local c-basic-offset 4) ; Base indent size when indented automatically
+            (setq-local tab-width 4)
+            (setq-local indent-tabs-mode nil)))
     :init
     (add-to-list 'auto-mode-alist '("\\.h\\'"   . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
@@ -103,8 +103,7 @@
             (setq-local indent-tabs-mode nil))))
 
 (use-package sql
-    :config
-    (add-hook 'sql-mode-hook (setq-local tab-width 4)))
+    :config (add-hook 'sql-mode-hook (setq-local tab-width 4)))
 
 ;; rustic : blazingly fast
 (use-package rustic
