@@ -88,7 +88,7 @@
 
     ;; C++
     (add-to-list 'eglot-server-programs
-        '(c-mode-common
+        '((c-mode c++-mode)
              . ("clangd"
                    "-j=8"
                    "--log=error"

@@ -122,6 +122,7 @@
     :ensure nil ;; emacs built-in
     :init
     ;; `dabbrev' (dynamic word completion (dynamic abbreviations))
+    (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'"))
     (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_")
     (setq dabbrev-abbrev-skip-leading-regexp "[$*/=~']")
     (setq dabbrev-backward-only nil)
@@ -133,8 +134,7 @@
     (setq dabbrev-upcase-means-case-search t)
 
     ;; `abbrev' (Abbreviations, else Abbrevs)
-    (setq abbrev-file-name (expand-file-name
-                               "abbrevs" no-littering-etc-directory))
+    (setq abbrev-file-name (expand-file-name "abbrevs" no-littering-etc-directory))
     (setq only-global-abbrevs nil))
 
 ;; hippie expand is dabbrev expand on steroids
@@ -185,8 +185,7 @@
 (use-package orderless
     :init
     (setq orderless-component-separator " +")
-    ;; Remember to check my `completion-styles' and the
-    ;; `completion-category-overrides'.
+    ;; Remember to check my `completion-styles' and the `completion-category-overrides'.
     (setq orderless-matching-styles
         '(orderless-prefixes orderless-regexp))
 
@@ -197,31 +196,17 @@
         (define-key map (kbd "?") nil)))
 
 (use-package corfu
-    :preface
-    ;; Adapted from Corfu's manual.
-    (defun contrib/corfu-enable-always-in-minibuffer ()
-        "Enable Corfu in the minibuffer if MCT or Vertico is not active.
-Useful for prompts such as `eval-expression' and `shell-command'."
-        (unless (or (bound-and-true-p vertico--input)
-                    (bound-and-true-p mct--active))
-            (corfu-mode 1)))
-    :bind (:map corfu-map
-              ("C-j" . corfu-next)
-              ("C-k" . corfu-previous)
-              ("C-f" . corfu-insert))
-    :custom
-    (corfu-auto nil)
-    (corfu-cycle nil)
-    (corfu-auto-prefix 2)
-    (corfu-auto-delay 0.25)
-    (corfu-separator ?\s)                 ; Necessary for use with orderless
-    (corfu-quit-no-match 'separator)
-    (corfu-preview-current 'insert)       ; Preview current candidate?
-    (corfu-preselect-first t)             ; Pre-select first candidate?
-    (completion-cycle-threshold nil)      ; Always show candidates in menu
-    :init
-    (global-corfu-mode 1)
-    (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1))
+    ;; :custom
+    ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+    ;; (corfu-auto t)                 ;; Enable auto completion
+    ;; (corfu-separator ?\s)          ;; Orderless field separator
+    ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+    ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+    ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+    ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+    ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+    ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+    :init (global-corfu-mode))
 
 (use-package cape
     :init
