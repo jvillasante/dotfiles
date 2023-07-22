@@ -177,9 +177,8 @@
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
-    :init
-    (setq avy-all-windows t)
-    (setq avy-background t))
+    :bind (("M-j" . avy-goto-char-timer))
+    :config (setq avy-all-windows nil))
 
 ;; Expand Region : expand or contract selection
 (use-package expand-region)

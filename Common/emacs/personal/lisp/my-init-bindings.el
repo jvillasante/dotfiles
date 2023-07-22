@@ -40,9 +40,6 @@
 (global-set-key (kbd "M-Q") 'my/unfill-paragraph)
 (global-set-key (kbd "C-M-Q") 'my/unfill-region)
 
-;; avy
-(global-set-key (kbd "M-j") 'avy-goto-char-timer)
-
 ;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C--") 'er/contract-region)
