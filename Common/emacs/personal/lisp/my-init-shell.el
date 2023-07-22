@@ -62,17 +62,22 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :defer t
     :preface
     (defun my/vterm ()
         "open vterm at project root, if no root is found, open at the default-directory"
         (interactive)
         (let ((default-directory (my/project-root-or-default-dir)))
             (call-interactively #'vterm)))
+    :bind (:map vterm-mode-map
+              ("M-[" . #'vterm-copy-mode)
+              ("C-y" . #'vterm-yank)
+              :map vterm-copy-mode-map
+              ("M-w" . #'vterm-copy-mode-done)
+              ("C-g" . #'vterm-copy-mode-done))
     :config
     (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
     (setq vterm-shell "/usr/bin/bash")
-    (setq vterm-max-scrollback 5000)
+    (setq vterm-max-scrollback 10000)
     (add-hook 'vterm-mode-hook
         (lambda ()
             (setq-local scroll-margin 0)

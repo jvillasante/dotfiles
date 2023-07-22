@@ -110,14 +110,6 @@
     (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward) ; better navigation
     (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)) ; better navigation
 
-;; vterm
-(with-eval-after-load 'vterm
-    (define-key vterm-mode-map (kbd "C-x [") 'vterm-copy-mode)
-    (define-key vterm-mode-map (kbd "M-[") 'vterm-copy-mode)
-    (define-key vterm-mode-map (kbd "C-y") 'vterm-yank)                 ;; paste
-    (define-key vterm-copy-mode-map (kbd "M-w") 'vterm-copy-mode-done)  ;; copy
-    (define-key vterm-copy-mode-map (kbd "C-g") 'vterm-copy-mode-done))
-
 ;; neotree
 (with-eval-after-load 'neotree
     (define-key neotree-mode-map (kbd "TAB") 'neotree-stretch-toggle))

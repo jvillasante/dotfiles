@@ -17,6 +17,10 @@ if [ "$INSIDE_EMACS" = 'vterm' ] &&
     [ -n "$EMACS_VTERM_PATH" ] &&
     [ -f "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh" ]; then
     . "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh"
+
+    find_file() {
+        vterm_cmd find-file "$(realpath "${@:-.}")"
+    }
 fi
 
 # emacs eat: https://codeberg.org/akib/emacs-eat
