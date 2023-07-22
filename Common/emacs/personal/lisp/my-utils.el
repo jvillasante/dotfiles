@@ -79,109 +79,23 @@ Make it readonly, and set up a keybinding (q) to close the window."
     "Find `hl-todo--regex' items in project using `consult-ripgrep'."
     (interactive)
     (require 'hl-todo)
-    (consult-ripgrep nil hl-todo--regexp))
+    (when featurep 'consult
+        (consult-ripgrep nil hl-todo--regexp)))
 
 ;;; Elisp
 
 (defun my/helpful-lookup-symbl-at-point ()
     (interactive)
-    (helpful-symbol (symbol-at-point)))
+    (when featurep 'helpful
+        (helpful-symbol (symbol-at-point))))
 
 (defun my/elisp-look-up-symbol (beg end)
-    "Look up for the symbol under point, if region is active, use
-        the selected region as the symbol" (interactive "r")
+    "Look up for the symbol under point.
+If region (BEG to END) is active, use the selected region as the symbol."
+    (interactive "r")
     (if (use-region-p)
         (helpful-symbol (intern (buffer-substring beg end)))
         (helpful-symbol (symbol-at-point))))
-
-(defun my/emacs-lisp-outline-level ()
-    "Return outline level for comment at point.
-Intended to replace `lisp-outline-level'."
-    (- (match-end 1) (match-beginning 1)))
-
-(defun my/elisp-setup ()
-    (setq-local outline-regexp "[ \t]*;;;\\(;*\\**\\) [^ \t\n]"
-        outline-level #'my/emacs-lisp-outline-level)
-    (outline-minor-mode +1))
-
-;; DEPRECATED Remove when 28 support is dropped.
-(unless (fboundp 'lisp--local-defform-body-p)
-    (fset 'lisp--local-defform-body-p #'ignore))
-
-;;; copied from doomemacs
-(defun my/lisp-indent-function (indent-point state)
-    "A replacement for `lisp-indent-function'.
-
-Indents plists more sensibly. Adapted from
-https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
-    (let ((normal-indent (current-column))
-             (orig-point (point))
-             ;; TODO Refactor `target' usage (ew!)
-             target)
-        (goto-char (1+ (elt state 1)))
-        (parse-partial-sexp (point) calculate-lisp-indent-last-sexp 0 t)
-        (cond ((and (elt state 2)
-                   (or (eq (char-after) ?:)
-                       (not (looking-at-p "\\sw\\|\\s_"))))
-                  (if (lisp--local-defform-body-p state)
-                      (lisp-indent-defform state indent-point)
-                      (unless (> (save-excursion (forward-line 1) (point))
-                                  calculate-lisp-indent-last-sexp)
-                          (goto-char calculate-lisp-indent-last-sexp)
-                          (beginning-of-line)
-                          (parse-partial-sexp (point) calculate-lisp-indent-last-sexp 0 t))
-                      (backward-prefix-chars)
-                      (current-column)))
-            ((and (save-excursion
-                      (goto-char indent-point)
-                      (skip-syntax-forward " ")
-                      (not (eq (char-after) ?:)))
-                 (save-excursion
-                     (goto-char orig-point)
-                     (and (eq (char-after) ?:)
-                         (eq (char-before) ?\()
-                         (setq target (current-column)))))
-                (save-excursion
-                    (move-to-column target t)
-                    target))
-            ((let* ((function (buffer-substring (point) (progn (forward-sexp 1) (point))))
-                       (method (or (function-get (intern-soft function) 'lisp-indent-function)
-                                   (get (intern-soft function) 'lisp-indent-hook))))
-                 (cond ((or (eq method 'defun)
-                            (and (null method)
-                                (> (length function) 3)
-                                (string-match-p "\\`def" function)))
-                           (lisp-indent-defform state indent-point))
-                     ((integerp method)
-                         (lisp-indent-specform method state indent-point normal-indent))
-                     (method
-                         (funcall method indent-point state))))))))
-
-;;; Org
-
-(defun my/load-org-extensions-idly ()
-    "Some important variables from other org extensions are not autoloaded.
-You may feel annoying if you want to use them but find a void variable.
-(e.g. you want to call `org-open-at-point' on a timestamp)"
-    (let ((org-packages '(org-capture org-agenda)))
-        (dolist (pkg org-packages)
-            (require pkg))))
-
-(defun my/exclude-org-agenda-buffers-from-recentf (old-fn &rest args)
-    "Prevent `org-agenda' buffers from polluting recentf list."
-    (let ((recentf-exclude '("\\.org\\'")))
-        (apply old-fn args)))
-
-(defun my/reload-org-agenda-buffers ()
-    "`org-agenda' creates incomplete `org-mode' buffers to boost its startup speed. Reload those buffers
-after `org-agenda' has finalized."
-    (run-with-idle-timer
-        4 nil
-        (lambda ()
-            (dolist (buf org-agenda-new-buffers)
-                (when (buffer-live-p buf)
-                    (with-current-buffer buf
-                        (org-mode)))))))
 
 ;;; OS
 
@@ -238,20 +152,6 @@ otherwise use the existed one"
         (project-root proj)
         default-directory))
 
-(defun my/ibuffer-vc-setup ()
-    (ibuffer-vc-set-filter-groups-by-vc-root)
-    (unless (eq ibuffer-sorting-mode 'alphabetic)
-        (ibuffer-do-sort-by-alphabetic)))
-
-(defun my/set-scratch-directory (old-fun &rest args)
-    "After creating a new tab, the default buffer to be displayed is
-scratch buffer whose directory is set to where emacs is initialized.
-Change it to the directory of previous buffer where `tab-bar-new-tab'
-is called."
-    (let ((current-dir default-directory))
-        (apply old-fun args)
-        (setq-local default-directory current-dir)))
-
 (defun my/switch-to-messages-buffer ()
     "Stolen from spacemacs."
     (interactive)
@@ -278,7 +178,8 @@ is called."
     (aset buffer-display-table ?\^M ?\^M))
 
 (defun my/switch-theme (theme)
-    "This interactive call is taken from `load-theme'."
+    "This interactive call is taken from `load-theme'.
+Switch the current theme to THEME"
     (interactive
         (list
             (intern (completing-read "Load custom theme: "
@@ -288,7 +189,7 @@ is called."
     (load-theme theme t))
 
 (defun my/save-all ()
-    "Save buffers without prompt"
+    "Save all buffers without prompt."
     (interactive)
     (let ((modified-count
               (length (cl-loop for buf in (buffer-list)
@@ -299,12 +200,13 @@ is called."
             (message "%d buffer(s) saved" modified-count))))
 
 (defun my/comment-auto-fill ()
+    "Enable auto-fill for comments only."
     (setq-local comment-auto-fill-only-comments t)
     (auto-fill-mode 1))
 
 (defun my/fill-or-unfill ()
-    ;; https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html.
-    "Like `fill-paragraph', but unfill if used twice."
+    "Like `fill-paragraph', but `unfill' if used twice.
+Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html."
     (interactive)
     (let ((fill-column
               (if (eq last-command 'my/fill-or-unfill)
@@ -314,8 +216,8 @@ is called."
         (call-interactively #'fill-paragraph)))
 
 (defun my/org-fill-or-unfill ()
-    ;; https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html.
-    "Like `org-fill-paragraph', but unfill if used twice."
+    "Like `org-fill-paragraph', but `unfill' if used twice.
+Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html."
     (interactive)
     (let ((fill-column
               (if (eq last-command 'my/org-fill-or-unfill)
@@ -325,6 +227,7 @@ is called."
         (call-interactively #'org-fill-paragraph)))
 
 (defun my/fill-buffer ()
+    "Fill the entire current buffer."
     (interactive)
     (save-excursion
         (save-restriction
@@ -332,8 +235,8 @@ is called."
             (fill-region (point-min) (point-max)))))
 
 (defun my/unfill-paragraph (&optional region)
-    ;; https://www.emacswiki.org/emacs/UnfillParagraph.
-    "Takes a multi-line paragraph and makes it into a single line of text."
+    "Takes a REGION and make it into a single line of text.
+Taken from: https://www.emacswiki.org/emacs/UnfillParagraph."
     (interactive (progn (barf-if-buffer-read-only) '(t)))
     (let ((fill-column (point-max))
              ;; This would override `fill-column' if it's an integer.
@@ -341,17 +244,17 @@ is called."
         (fill-paragraph nil region)))
 
 (defun my/unfill-region (beg end)
-    ;; https://www.emacswiki.org/emacs/UnfillRegion.
-    "Unfill the region, joining text paragraphs into a single
-    logical line.  This is useful, e.g., for use with
-    `visual-line-mode'"
+    "Unfill the region (BEG - END).
+Joining text paragraphs into a single
+logical line.  This is useful, e.g., for use with `visual-line-mode'.
+Taken from: https://www.emacswiki.org/emacs/UnfillRegion."
     (interactive "*r")
     (let ((fill-column (point-max)))
         (fill-region beg end)))
 
 (defun my/unfill-buffer ()
-    ;; https://www.emacswiki.org/emacs/UndoFilling.
-    "Undo filling for all paragraphs."
+    "Undo filling for all paragraphs.
+Taken from: https://www.emacswiki.org/emacs/UndoFilling."
     (interactive)
     (goto-char (point-min))
     (let ((fill-column 99999))
@@ -361,10 +264,11 @@ is called."
             (fill-paragraph nil))))
 
 (defun my/toggle-window-split ()
-    ;; https://www.emacswiki.org/emacs/ToggleWindowSplit
-    "Vertical split shows more of each line, horizontal split
- shows more lines. This code toggles between them. It only works
- for frames with exactly two windows."
+    "Toggle between vertical and horizontal split.
+Vertical split shows more of each line, horizontal split shows
+more lines. This code toggles between them. It only works for
+frames with exactly two windows. Taken from:
+https://www.emacswiki.org/emacs/ToggleWindowSplit"
     (interactive)
     (if (= (count-windows) 2)
         (let* ((this-win-buffer (window-buffer))
@@ -390,7 +294,7 @@ is called."
                 (if this-win-2nd (other-window 1))))))
 
 (defun my/new-scratch-buffer-in-markdown ()
-    "Make a temporary buffer in markdown-mode and switch to it"
+    "Make a temporary buffer in markdown mode and switch to it."
     (interactive)
     (switch-to-buffer (make-temp-name "scratch-"))
     (markdown-mode))
@@ -420,6 +324,105 @@ is called."
     (interactive "p")
     (beginning-of-line)
     (open-line arg)
+    (when electric-indent-mode
+        (indent-according-to-mode)))
+
+;; Movement
+
+(defun my/move-line-backward ()
+    "Move line up."
+    (interactive)
+    (transpose-lines 1)
+    (forward-line -2))
+
+(defun my/move-line-forward ()
+    "Move line down."
+    (interactive)
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1))
+
+(defun my/move-paragraph-forward ()
+    "Move paragraph down."
+    (interactive)
+    (transpose-paragraphs 1)
+    (backward-paragraph)
+    (forward-line))
+
+(defun my/move-paragraph-backward ()
+    "Move paragraph up."
+    (interactive)
+    (transpose-paragraphs -1)
+    (backward-paragraph)
+    (forward-line))
+
+(defun my/move-word-backwards ()
+    "Move word backwards."
+    (interactive)
+    (backward-to-word 1)
+    (transpose-words 1)
+    (backward-word-strictly 2))
+
+(defun my/move-word-forward ()
+    "Move word forward."
+    (interactive)
+    (forward-to-word 1)
+    (transpose-words 1)
+    (backward-word))
+
+(defun my/move-sentence-backward ()
+    "Move sentence backward."
+    (interactive)
+    (transpose-sentences 1)
+    (backward-sentence 2))
+
+(defun my/move-sentence-forward ()
+    "Move sentence forward."
+    (interactive)
+    (forward-sentence 1)
+    (transpose-sentences 1)
+    (backward-sentence))
+
+(defun my/move-sexp-backward ()
+    "Move sexp backward."
+    (interactive)
+    (transpose-sexps 1)
+    (backward-sexp 2))
+
+(defun my/move-sexp-forward ()
+    "Move sexp forward."
+    (interactive)
+    (forward-sexp 1)
+    (transpose-sexps 1)
+    (backward-sexp))
+
+(defun my/move-character-backward ()
+    "Move character backward."
+    (interactive)
+    (transpose-chars 1)
+    (backward-char 2))
+
+(defun my/move-character-forward ()
+    "Move character forward."
+    (interactive)
+    (forward-char 1)
+    (transpose-chars 1)
+    (backward-char))
+
+(defun my/move-line-up ()
+    "Move up the current line."
+    (interactive)
+    (transpose-lines 1)
+    (forward-line -2)
+    (when electric-indent-mode
+        (indent-according-to-mode)))
+
+(defun my/move-line-down ()
+    "Move down the current line."
+    (interactive)
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1)
     (when electric-indent-mode
         (indent-according-to-mode)))
 

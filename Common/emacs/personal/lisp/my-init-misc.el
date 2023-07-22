@@ -153,6 +153,11 @@
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package ibuffer-vc
+    :preface
+    (defun my/ibuffer-vc-setup ()
+        (ibuffer-vc-set-filter-groups-by-vc-root)
+        (unless (eq ibuffer-sorting-mode 'alphabetic)
+            (ibuffer-do-sort-by-alphabetic)))
     :init (add-hook 'ibuffer-hook #'my/ibuffer-vc-setup))
 
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs

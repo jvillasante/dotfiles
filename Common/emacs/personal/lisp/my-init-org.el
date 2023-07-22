@@ -53,10 +53,6 @@
 
 (use-package org-agenda
     :ensure nil ;; emacs built-in
-    :init
-    ;; (advice-add #'org-get-agenda-file-buffer :around #'my/exclude-org-agenda-buffers-from-recentf)
-    ;; (add-hook 'org-agenda-finalize-hook #'my/reload-org-agenda-buffers)
-
     :config
     ;; org-agenda will visit all org files listed
     ;; in `org-agenda-files' to generate the org-agenda view.

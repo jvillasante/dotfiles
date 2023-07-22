@@ -83,7 +83,7 @@
 (global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
 (global-set-key (kbd "C-k") 'crux-smart-kill-line)
 ;; (global-set-key (kbd "C-<backspace>") 'crux-kill-line-backwards)
-(global-set-key (kbd "C-x 4 t") 'crux-transpose-windows)
+;; (global-set-key (kbd "C-x 4 t") 'crux-transpose-windows)
 (global-set-key (kbd "C-x C-u") 'crux-upcase-region)
 (global-set-key (kbd "C-x C-l") 'crux-downcase-region)
 (global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
@@ -111,11 +111,12 @@
     (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)) ; better navigation
 
 ;; vterm
+(global-set-key (kbd "C-x p v") 'my/vterm) ;; previous: `project-vc-dir'
 (with-eval-after-load 'vterm
     (define-key vterm-mode-map (kbd "C-x [") 'vterm-copy-mode)
     (define-key vterm-mode-map (kbd "M-[") 'vterm-copy-mode)
     (define-key vterm-mode-map (kbd "C-y") 'vterm-yank)
-    (define-key vterm-mode-map (kbd "C-c <escape>") 'vterm-send-escape))
+    (define-key vterm-copy-mode-map (kbd "C-g") 'vterm-copy-mode-done))
 
 ;; neotree
 (with-eval-after-load 'neotree
@@ -176,7 +177,7 @@
 ;; C-c o : Open
 (global-set-key (kbd "C-c o f") 'elfeed)
 (global-set-key (kbd "C-c o p") 'dired-sidebar-toggle-sidebar)
-(global-set-key (kbd "C-c o t") 'vterm)
+(global-set-key (kbd "C-c o t") 'my/vterm)
 (global-set-key (kbd "C-c o e") 'eshell)
 (global-set-key (kbd "C-c o c") 'calc)
 

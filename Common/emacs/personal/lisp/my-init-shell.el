@@ -3,8 +3,7 @@
 ;; ielm : elisp shell
 (use-package ielm
     :ensure nil ;; emacs built-in
-    :init
-    (add-hook 'ielm-mode-hook 'eldoc-mode))
+    :init (add-hook 'ielm-mode-hook 'eldoc-mode))
 
 ;; eshell : the emacs shell
 (use-package eshell-prompt-extras)
@@ -43,14 +42,17 @@
     (setq eshell-save-history-on-exit t)
     (setq eshell-destroy-buffer-when-process-dies t))
 
+;; eat: Emulate A Terminal
 (use-package eat
     :disabled t
     :init
-    ;; For `eat-eshell-mode'.
     (add-hook 'eshell-load-hook #'eat-eshell-mode)
-
-    ;; For `eat-eshell-visual-command-mode'.
-    (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode))
+    (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+    (add-hook 'eat-mode-hook
+        (lambda ()
+            ;; (setq-local mode-line-format nil)
+            (setq-local confirm-kill-processes nil)
+            (setq-local hscroll-margin 0))))
 
 (use-package vterm
     :defer t

@@ -3,10 +3,13 @@
 ;; elisp
 (use-package elisp-mode
     :ensure nil ;; emacs built-in
+    :preface
+    (defun my/elisp-setup ()
+        (setq-local outline-regexp "[ \t]*;;;\\(;*\\**\\) [^ \t\n]"
+            outline-level #'my/emacs-lisp-outline-level)
+        (outline-minor-mode +1))
     :init (add-hook 'emacs-lisp-mode-hook #'my/elisp-setup)
-    :config
-    (setq lisp-body-indent 4
-        lisp-indent-function #'my/lisp-indent-function))
+    :config (setq lisp-body-indent 4))
 
 (use-package elisp-demos
     :init

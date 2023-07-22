@@ -74,7 +74,8 @@
                        vterm-mode-hook
                        term-mode-hook
                        shell-mode-hook
-                       eshell-mode-hook))
+                       eshell-mode-hook
+                       eat-mode-hook))
         (add-hook mode (lambda () (display-line-numbers-mode 0)))))
 
 ;; whitespace : visualize blanks (tabs, spaces, newline, etc)
@@ -99,8 +100,7 @@
         tab-bar-tab-hints t
         tab-bar-format '(tab-bar-format-tabs-groups
                             tab-bar-separator))
-    (add-hook 'pre-command-hook 'tab-bar-history-mode)
-    (advice-add #'tab-bar-new-tab :around #'my/set-scratch-directory))
+    (add-hook 'pre-command-hook 'tab-bar-history-mode))
 
 (use-package modus-themes
     :config
