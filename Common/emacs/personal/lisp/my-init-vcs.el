@@ -5,7 +5,7 @@
 
 (use-package magit
     :preface
-    (defun +my/magit-kill-buffers ()
+    (defun my/magit-kill-buffers ()
         "Restore window configuration and kill all Magit buffers."
         (interactive)
         (let ((buffers (magit-mode-get-buffers)))
@@ -13,8 +13,8 @@
             (mapc #'kill-buffer buffers)))
     :hook ((git-commit-mode . (lambda () (setq-local fill-column 72))))
     :bind (:map magit-status-mode-map
-              ("q" . #'+my/magit-kill-buffers)
-              ("C-x k" . #'+my/magit-kill-buffers))
+              ("q" . #'my/magit-kill-buffers)
+              ("C-x k" . #'my/magit-kill-buffers))
     :custom ((magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
                 (git-commit-summary-max-length 50)
                 (magit-diff-refine-hunk t) ; show granular diffs in selected hunk.

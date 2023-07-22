@@ -15,7 +15,7 @@
     :ensure nil ;; emacs built-in
     :disabled t
     :preface
-    (defun +my/setup-install-grammars ()
+    (defun my/setup-install-grammars ()
         "Install Tree-sitter grammars if they are absent."
         (interactive)
         (dolist (grammar
@@ -71,7 +71,7 @@
         (add-to-list 'major-mode-remap-alist mapping))
 
     :config
-    (+my/setup-install-grammars)
+    (my/setup-install-grammars)
     (setq treesit-font-lock-level 4))
 
 (provide 'my-init-langs-treesitter)

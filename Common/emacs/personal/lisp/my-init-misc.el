@@ -48,9 +48,11 @@
     :init
     ;; make electric-pair-mode work on more brackets
     (setq electric-pair-pairs
-        '(
-             (?\" . ?\")
-             (?\{ . ?\})))
+        '((?\" . ?\")
+             (?\' . ?\')
+             (?\( . ?\))
+             (?\{ . ?\})
+             (?\[ . ?\])))
     (add-hook 'after-init-hook 'electric-pair-mode))
 
 (use-package isearch
