@@ -15,7 +15,9 @@
 ;; flymake
 (use-package flymake
     :ensure nil ;; emacs built-in
-    :config (setq flymake-no-changes-timeout 3) ;; Don't be so hasty in syntax checking.
+    :config
+    (setq flymake-no-changes-timeout 3) ;; Don't be so hasty in syntax checking.
+    (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
     :hook ((prog-mode . (lambda ()
                             (flymake-mode +1)
                             (which-function-mode)))))
