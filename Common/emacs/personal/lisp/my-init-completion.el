@@ -196,7 +196,7 @@
         (define-key map (kbd "?") nil)))
 
 (use-package corfu
-    :custom ((corfu-auto t)       ;; Enable auto completion
+    :custom ((corfu-auto nil)       ;; Enable auto completion
                 (corfu-cycle t))  ;; Enable cycling for `corfu-next/previous'
     :init (global-corfu-mode))
 

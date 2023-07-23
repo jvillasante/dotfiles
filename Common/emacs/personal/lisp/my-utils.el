@@ -323,32 +323,18 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
 
 ;; Movement
 
-(defun my/move-line-backward ()
-    "Move line up."
+(defun my/move-character-backward ()
+    "Move character backward."
     (interactive)
-    (transpose-lines 1)
-    (forward-line -2))
+    (transpose-chars 1)
+    (backward-char 2))
 
-(defun my/move-line-forward ()
-    "Move line down."
+(defun my/move-character-forward ()
+    "Move character forward."
     (interactive)
-    (forward-line 1)
-    (transpose-lines 1)
-    (forward-line -1))
-
-(defun my/move-paragraph-forward ()
-    "Move paragraph down."
-    (interactive)
-    (transpose-paragraphs 1)
-    (backward-paragraph)
-    (forward-line))
-
-(defun my/move-paragraph-backward ()
-    "Move paragraph up."
-    (interactive)
-    (transpose-paragraphs -1)
-    (backward-paragraph)
-    (forward-line))
+    (forward-char 1)
+    (transpose-chars 1)
+    (backward-char))
 
 (defun my/move-word-backwards ()
     "Move word backwards."
@@ -377,6 +363,20 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
     (transpose-sentences 1)
     (backward-sentence))
 
+(defun my/move-paragraph-backward ()
+    "Move paragraph up."
+    (interactive)
+    (transpose-paragraphs -1)
+    (backward-paragraph)
+    (forward-line))
+
+(defun my/move-paragraph-forward ()
+    "Move paragraph down."
+    (interactive)
+    (transpose-paragraphs 1)
+    (backward-paragraph)
+    (forward-line))
+
 (defun my/move-sexp-backward ()
     "Move sexp backward."
     (interactive)
@@ -390,18 +390,18 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
     (transpose-sexps 1)
     (backward-sexp))
 
-(defun my/move-character-backward ()
-    "Move character backward."
+(defun my/move-line-backward ()
+    "Move line up."
     (interactive)
-    (transpose-chars 1)
-    (backward-char 2))
+    (transpose-lines 1)
+    (forward-line -2))
 
-(defun my/move-character-forward ()
-    "Move character forward."
+(defun my/move-line-forward ()
+    "Move line down."
     (interactive)
-    (forward-char 1)
-    (transpose-chars 1)
-    (backward-char))
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1))
 
 (defun my/move-line-up ()
     "Move up the current line."
