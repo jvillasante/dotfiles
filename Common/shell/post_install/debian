@@ -471,13 +471,16 @@ debian_install() {
                 sudo apt full-upgrade
                 sudo apt autoremove
 
-                read -rp "1) Defaults has been set. Press enter to continue..."
+                read -rp "1) Defaults has been set. Reboot may be required. Press enter to continue..."
                 ;;
             2)
                 echo "2) Installing Firmware Updates"
 
-                # Install Firmware
+                # Install Software
                 sudo apt install -y fwupd
+                sudo apt install -y linux-headers-amd64 firmware-linux
+
+                # Install Firmware
                 sudo fwupdmgr get-devices
                 sudo fwupdmgr refresh --force
                 sudo fwupdmgr get-updates
