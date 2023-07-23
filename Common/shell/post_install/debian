@@ -858,7 +858,7 @@ debian_install() {
                 sudo usermod -aG keyd -a "$USER"
 
                 # Enable the daemon
-                systemctl --user daemon-reload
+                sudo systemctl daemon-reload
                 sudo systemctl enable keyd && sudo systemctl start keyd
                 sudo keyd reload
 
@@ -907,7 +907,7 @@ debian_install() {
                 [ -L "$HOME/.config/systemd/user/xkeysnail.service" ] && unlink "$HOME/.config/systemd/user/xkeysnail.service"
                 ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xkeysnail.service" "$HOME/.config/systemd/user"
                 systemctl --user daemon-reload
-                sudo systemctl --user enable xkeysnail.service && sudo systemctl --user start xkeysnail.service
+                systemctl --user enable xkeysnail.service && systemctl --user start xkeysnail.service
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
                 read -rp "10) Xkeysnail has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
