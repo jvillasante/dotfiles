@@ -69,6 +69,7 @@
         (let ((default-directory (my/project-root-or-default-dir)))
             (call-interactively #'vterm)))
     :bind (:map vterm-mode-map
+              ([return] . #'vterm-send-return)
               ("M-[" . #'vterm-copy-mode)
               ("C-y" . #'vterm-yank)
               :map vterm-copy-mode-map
