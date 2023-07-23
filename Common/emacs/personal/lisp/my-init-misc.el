@@ -20,6 +20,18 @@
         org-crypt-key nil
         org-crypt-key user-mail-address))
 
+;; password-store for emacs
+(use-package password-store
+    :bind (("C-c p c" . password-store-copy)
+              ("C-c p C" . password-store-copy-field)
+              ("C-c p g" . password-store-generate)
+              ("C-c p G" . password-store-generate-no-symbols)
+              ("C-c p e" . password-store-edit)
+              ("C-c p r" . password-store-rename)
+              ("C-c p R" . password-store-remove)
+              ("C-c p i" . password-store-insert))
+    :custom ((password-store-password-length 25)))
+
 ;; http://www.yummymelon.com/devnull/using-ediff-in-2023.html
 (use-package ediff
     :ensure nil ;; emacs built-in

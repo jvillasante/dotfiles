@@ -77,12 +77,12 @@
               ("C-g" . #'vterm-copy-mode-done))
     :config
     (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
-    (setq vterm-shell "/usr/bin/bash")
+    (setq vterm-shell (executable-find "bash"))
     (setq vterm-max-scrollback 10000)
     (add-hook 'vterm-mode-hook
         (lambda ()
             (setq-local scroll-margin 0)
-            (setq-local mode-line-format nil)
+            ;; (setq-local mode-line-format nil)
             (setq-local confirm-kill-processes nil)
             (setq-local hscroll-margin 0))))
 
