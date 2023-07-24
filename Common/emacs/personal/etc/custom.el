@@ -88,7 +88,7 @@
            (eshell-connection-default-profile
                (eshell-path-env-list))))
  '(package-selected-packages
-      '(password-store vterm emamux jinx modern-cpp-font-lock deadgrep emacs-everywhere nov all-the-icons-ibuffer chatgpt-shell mastodon discover wgrep dwim-shell-command dirvish meow company-box company yasnippet-snippets no-littering exec-path-from-shell which-key anzu shackle orderless all-the-icons-completion marginalia consult-dir corfu-terminal cape yasnippet git-gutter org-superstar deft elisp-demos adoc-mode csv-mode yaml-mode web-mode go-mode rustic js2-mode cmake-mode apheleia fancy-compilation elfeed pdf-tools eshell-prompt-extras helpful rainbow-delimiters ibuffer-vc crux persistent-scratch undo-tree hydra expand-region whole-line-or-region multiple-cursors engine-mode diredfl all-the-icons-dired dired-hide-dotfiles dired-sidebar))
+      '(eat password-store vterm emamux jinx modern-cpp-font-lock deadgrep emacs-everywhere nov all-the-icons-ibuffer chatgpt-shell mastodon discover wgrep dwim-shell-command dirvish meow company-box company yasnippet-snippets no-littering exec-path-from-shell which-key anzu shackle orderless all-the-icons-completion marginalia consult-dir corfu-terminal cape yasnippet git-gutter org-superstar deft elisp-demos adoc-mode csv-mode yaml-mode web-mode go-mode rustic js2-mode cmake-mode apheleia fancy-compilation elfeed pdf-tools eshell-prompt-extras helpful rainbow-delimiters ibuffer-vc crux persistent-scratch undo-tree hydra expand-region whole-line-or-region multiple-cursors engine-mode diredfl all-the-icons-dired dired-hide-dotfiles dired-sidebar))
  '(package-vc-selected-packages
       '((chatgpt-shell :vc-backend Git :url "https://github.com/xenodium/chatgpt-shell.git"))))
 (custom-set-faces

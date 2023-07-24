@@ -7,7 +7,6 @@
 
 ;; eat: Emulate A Terminal
 (use-package eat
-    :disabled t
     :preface
     (defun my/eat ()
         "open `eat' at project root, if no root is found, open at the default-directory"
@@ -15,8 +14,8 @@
         (let ((default-directory (my/project-root-or-default-dir)))
             (call-interactively #'eat)))
     :init
-    (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-    (add-hook 'eshell-load-hook #'eat-eshell-mode)
+    ;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+    ;; (add-hook 'eshell-load-hook #'eat-eshell-mode)
     (add-hook 'eat-mode-hook
         (lambda ()
             (setq-local scroll-margin 0)
@@ -51,7 +50,6 @@
             (eshell/alias "e" "find-file-other-window $1")
             (eshell/alias "d" "dired $1")))
     :config
-    (setq eshell-highlight-prompt nil)
     (setq eshell-scroll-to-bottom-on-input 'this)
     (setq eshell-scroll-to-bottom-on-output nil)
     (setq eshell-prefer-lisp-functions nil)

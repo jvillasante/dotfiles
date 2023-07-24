@@ -52,6 +52,8 @@ define_keymap(re.compile("firefox|Firefox"), {
         K("b"): K("C-Shift-TAB"),
         # Close tab
         K("k") : K("C-w"),
+        # Search
+        K("C-s") : K("C-f"),
     },
 }, "Firefox, Brave and Chrome")
 
