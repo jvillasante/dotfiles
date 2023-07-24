@@ -625,7 +625,6 @@ debian_install() {
                 # Enable WirePlumber in "systemd" (running as user, not as root)
                 systemctl --user enable wireplumber.service && systemctl --user start wireplumber.service
 
-
                 #
                 # Docker (https://docs.docker.com/engine/install/debian/)
                 #
