@@ -616,20 +616,20 @@ debian_install() {
                 echo "5) Installing Extras"
 
                 #
-                # Brave Browser (https://brave.com/linux/)
-                #   NOTE: Brave actually sucks!!!
+                # Enable pipewire (Plasma only, pipewire is already the default audio server in Gnome desktop)
                 #
-                # sudo apt install -y curl
-                # sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
-                #      https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-                # echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | \
-                #     sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-                # sudo apt update
-                # sudo apt install -y brave-browser
+
+                # Install required packages
+                sudo apt install libspa-0.2-bluetooth wireplumber pipewire-media-session-
+
+                # Enable WirePlumber in "systemd" (running as user, not as root)
+                systemctl --user enable wireplumber.service && systemctl --user start wireplumber.service
+
 
                 #
                 # Docker (https://docs.docker.com/engine/install/debian/)
                 #
+
                 # Install dependencies
                 sudo apt update
                 sudo apt install -y ca-certificates curl gnupg
@@ -659,14 +659,19 @@ debian_install() {
                 #
                 # Latex Full
                 #
+
                 sudo apt install -y texlive-full
 
                 #
                 # Steam extras
                 #
+
                 sudo apt install -y steam-devices
 
+                #
                 # Fonts
+                #
+
                 sudo apt install -y fonts-jetbrains-mono
                 # install_iosevka
                 install_iosevka_comfy
@@ -674,6 +679,16 @@ debian_install() {
                 # Gnome Font Settings
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Comfy 16'
+                fi
+
+                #
+                # Remove pre-installed Gnome games
+                #
+
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    sudo apt purge iagno lightsoff four-in-a-row gnome-robots pegsolitaire gnome-2048 \
+                         hitori gnome-klotski gnome-mines gnome-mahjongg gnome-sudoku quadrapassel swell-foop \
+                         gnome-tetravex gnome-taquin aisleriot gnome-chess five-or-more gnome-nibbles tali ; sudo apt autoremove
                 fi
 
                 read -rp "5) Extras installed. Press enter to continue..."
@@ -685,7 +700,11 @@ debian_install() {
                 sudo apt install -y flatpak
                 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 sudo flatpak update
+                if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
+                    sudo apt install -y plasma-discover-backend-flatpak
+                fi
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    sudo apt install -y gnome-software-plugin-flatpak
                     sudo flatpak install -y flathub org.gnome.TextEditor
                     sudo flatpak install -y flathub org.gnome.Firmware
                     sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
