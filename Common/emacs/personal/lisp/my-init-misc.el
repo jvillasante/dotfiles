@@ -3,6 +3,7 @@
 ;; encryption
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
 (progn
+    ;; never save
     (setq auth-source-save-behavior nil)
 
     ;; setup epa
@@ -59,12 +60,12 @@
     :ensure nil ;; emacs built-in
     :init
     ;; make electric-pair-mode work on more brackets
-    (setq electric-pair-pairs
+    (setq-default electric-pair-pairs
         '((?\" . ?\")
-             (?\' . ?\')
              (?\( . ?\))
              (?\{ . ?\})
              (?\[ . ?\])))
+    (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
     (add-hook 'after-init-hook 'electric-pair-mode))
 
 (use-package isearch
