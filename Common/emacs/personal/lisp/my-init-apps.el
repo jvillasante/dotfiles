@@ -152,7 +152,8 @@
              "https://nigeltao.github.io/feed.xml"
              "https://www.thecodedmessage.com/index.xml"
              "https://unixsheikh.com/feed.rss"
-             "https://michal.sapka.me/index.xml")))
+             "https://michal.sapka.me/index.xml"
+             "https://borretti.me/feed.xml")))
 
 (provide 'my-init-apps)
 ;;; my-init-apps.el ends here
