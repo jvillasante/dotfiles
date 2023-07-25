@@ -14,12 +14,13 @@ configure() {
     tmux send-keys -t "$selected_name" "git status" Enter
     tmux split-window -v -p 80 -t "$selected_name" -c "$selected"
 
-    # For 7.1 (mesh branch)
-    # tmux send-keys -t "$selected_name" "docker run --rm --interactive --tty --volume $selected:/tmp/sm -w /tmp/sm --name dmxs sm:latest /bin/bash" Enter
+    # For 8.* (agw branch)
+    # local image="sm:latest"
 
-    # For 8.0 (agw branch)
-    tmux send-keys -t "$selected_name" "docker run --rm --interactive --tty --volume $selected:/tmp/sm -w /tmp/sm --name dmxs registry.gitlab.com/nielsen-media/eng/meters/dmxs/dmxs/sm:dmx2-dmx4-dmx5 /bin/bash" Enter
+    # For 7.* (mesh branch)
+    local image="registry.gitlab.com/nielsen-media/eng/meters/dmxs/dmxs/sm:dmx2-dmx4-dmx5"
 
+    tmux send-keys -t "$selected_name" "docker run --rm --interactive --tty --volume $selected:/tmp/sm -w /tmp/sm --name dmxs $image /bin/bash" Enter
     tmux send-keys -t "$selected_name" "clear" Enter
 }
 
