@@ -539,9 +539,10 @@ debian_install() {
                 fi
 
                 # Plasma Software
-                # if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
-                #     sudo apt install -y latte-dock
-                # fi
+                if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
+                    # sudo apt install -y latte-dock
+                    sudo apt install -y kazam
+                fi
 
                 # I3 Software
                 if [[ "$WINDOW_MANAGER" == "$WM_I3" ]]; then
