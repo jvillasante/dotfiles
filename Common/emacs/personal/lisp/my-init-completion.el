@@ -196,13 +196,18 @@
         (define-key map (kbd "?") nil)))
 
 (use-package corfu
-    :custom ((corfu-auto nil)       ;; Enable auto completion
-                (corfu-cycle t))  ;; Enable cycling for `corfu-next/previous'
-    :init (global-corfu-mode))
+    :custom ((corfu-auto t) ;; Enable auto completion
+                (corf-auto-prefix 2)
+                (corfu-quit-no-match t)
+                (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
+    :init
+    (global-corfu-mode)
+    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+    (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
 
 (use-package cape
     :init
-    (setq cape-dabbrev-min-length 3)
+    (setq cape-dabbrev-min-length 2)
     (setq cape-symbol-wrapper
         '((org-mode ?~ ?~)
              (markdown-mode ?` ?`)
@@ -311,8 +316,8 @@
 
     ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
     ;; strategy, if you want to see the documentation from multiple providers.
-    (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-    (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+    ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+    ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
 
     :config
     ;; Hide the mode line of the Embark live/completions buffers
