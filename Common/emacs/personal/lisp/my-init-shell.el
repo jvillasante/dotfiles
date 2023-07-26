@@ -14,8 +14,8 @@
         (let ((default-directory (my/project-root-or-default-dir)))
             (call-interactively #'eat)))
     :init
-    ;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-    ;; (add-hook 'eshell-load-hook #'eat-eshell-mode)
+    (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+    (add-hook 'eshell-load-hook #'eat-eshell-mode)
     (add-hook 'eat-mode-hook
         (lambda ()
             (setq-local scroll-margin 0)

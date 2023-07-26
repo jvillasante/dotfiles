@@ -112,9 +112,8 @@
     :preface
     (defun my/disable-apheleia ()
         (apheleia-mode -1))
-    :init
-    (apheleia-global-mode +1)
-    (add-hook 'html-mode-hook 'my/disable-apheleia))
+    :hook ((html-mode-hook . my/disable-apheleia))
+    :init (apheleia-global-mode +1))
 
 (use-package compile
     :ensure nil ; Emacs built in
