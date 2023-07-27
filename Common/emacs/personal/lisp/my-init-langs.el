@@ -106,6 +106,9 @@
         rustic-format-on-save nil
         rustic-lsp-client 'eglot))
 
+;; zig
+(use-package zig-mode)
+
 ;; JSON Support
 (use-package json-mode)
 

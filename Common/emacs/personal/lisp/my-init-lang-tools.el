@@ -46,6 +46,7 @@
               (c-mode . eglot-ensure)
               (c++-mode . eglot-ensure)
               (rustic-mode . eglot-ensure)
+              (zig-mode . eglot-ensure)
               (js-mode . eglot-ensure)
               (python-mode . eglot-ensure)
               (go-mode . eglot-ensure)
@@ -88,6 +89,10 @@
     ;; rust
     (add-to-list 'eglot-server-programs
         '(rustic-mode . ("rust-analyzer")))
+
+    ;; zig
+    (add-to-list 'eglot-server-programs
+        '(zig-mode . (expand-file-name "zig/zls/zig-out/bin/zls" my/software-path)))
 
     ;; C++
     (add-to-list 'eglot-server-programs
