@@ -196,12 +196,14 @@
         (define-key map (kbd "?") nil)))
 
 (use-package corfu
-    :custom ((corfu-auto t) ;; Enable auto completion
-                (corf-auto-prefix 2)
+    :custom ((corf-auto-prefix 2)
                 (corfu-quit-no-match t)
                 (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
     :init
     (global-corfu-mode)
+    (add-hook 'prog-mode-hook
+        (lambda () ;; Enable auto completion only for programming modes
+            (setq-local corfu-auto t)))
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
 
