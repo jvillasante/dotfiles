@@ -97,7 +97,7 @@
               ([remap dired-do-async-shell-command] . dwim-shell-command)
               ([remap dired-do-shell-command] . dwim-shell-command)
               ([remap dired-smart-shell-command] . dwim-shell-command))
-    :config
+    :init
     (require 'dwim-shell-commands)
     (defun my/dwim-shell-command-convert-to-gif ()
         "Convert all marked videos to optimized gif(s)."
