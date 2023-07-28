@@ -10,6 +10,8 @@ usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
+    echo "    $0 install:"
+    echo "        Install rust through rustup"
     echo "    $0 update:"
     echo "        Update both rust through rustup"
     echo "    $0 package [show|update]:"
@@ -19,6 +21,19 @@ usage() {
     echo
     echo " e.g: $0 package show"
     exit "$1"
+}
+
+install_rust() {
+    if hash rustup 2>/dev/null; then
+        echo "Rust is already installed, exiting..."
+        usage 1
+    fi
+
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    test $? -eq 0 || usage 1
+
+    rustup component add rust-src rust-analysis rust-analyzer
+    test $? -eq 0 || usage 1
 }
 
 update_rust() {
@@ -69,6 +84,10 @@ cmd=${1-}
 rc=0
 if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
+    install)
+        [ "$nargs" -eq 1 ] || usage 1
+        install_rust "$@"
+        ;;
     update)
         [ "$nargs" -eq 1 ] || usage 1
         update_rust "$@"
