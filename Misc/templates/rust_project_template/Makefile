@@ -6,52 +6,52 @@ RUN     = cargo run
 ARGS    =
 TEST    = cargo test
 DOC     = cargo doc
-CURRENT = app
-
-clean_all:
-	${CLEAN}
+CURRENT = ch02/guessing_game
 
 clean:
+	${CLEAN}
+
+clean-current:
 	cd ${CURRENT} && ${CLEAN}
 
-check_all:
+check:
 	${CHECK}
 
-check:
+check-current:
 	cd ${CURRENT} && ${CHECK}
 
-clippy_all:
+clippy:
 	${CLIPPY}
 
-clippy:
+clippy-current:
 	cd ${CURRENT} && ${CLIPPY}
 
-build_all:
+build:
 	${BUILD}
 
-build:
+build-current:
 	cd ${CURRENT} && ${BUILD}
 
-build_all_release:
+build-release:
 	${BUILD} --release
 
-build_release:
+build-current-release:
 	cd ${CURRENT} && ${BUILD} --release
 
-run:
+run-current:
 	cd ${CURRENT} && ${RUN} ${ARGS}
 
-run_release:
+run-current-release:
 	cd ${CURRENT} && ${RUN} --release ${ARGS}
 
-test_all:
+test:
 	${TEST}
 
-test:
+test-current:
 	cd ${CURRENT} && ${TEST}
 
-doc_all:
+doc:
 	${DOC}
 
-doc:
+doc-current:
 	cd ${CURRENT} && ${DOC}

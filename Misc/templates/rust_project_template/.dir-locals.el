@@ -2,4 +2,4 @@
 ;;; For more information see (info "(emacs) Directory Variables")
 
 ((nil .
-      ((compile-command . "make -j build_all"))))
+      ((compile-command . "make -j$(nproc --ignore=2) build"))))

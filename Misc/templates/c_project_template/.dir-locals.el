@@ -2,4 +2,4 @@
 ;;; For more information see (info "(emacs) Directory Variables")
 
 ((nil .
-      ((compile-command . "make -j debug"))))
+      ((compile-command . "make -j$(nproc --ignore=2) debug"))))
