@@ -151,16 +151,17 @@
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
     (setq browse-url-browser-function 'browse-url-generic)
     (setq browse-url-generic-program "open")
-    (setq my/clang-path "/usr/local/opt/llvm/bin/clang")
-    (setq my/mu-path "/usr/local/bin/mu")
-    (setq my/msmtp-path "/usr/local/bin/msmtp")
-    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
     (setq ns-use-proxy-icon nil)
     (setq ns-use-thin-smoothing t)
     (setq ns-alternate-modifier nil)
     (setq mac-command-modifier 'meta)
     (setq mac-option-modifier 'alt)
     (setq mac-right-option-modifier 'alt)
+    (setq default-input-method "MacOSX")
+    (setq my/clang-path "/usr/local/opt/llvm/bin/clang")
+    (setq my/mu-path "/usr/local/bin/mu")
+    (setq my/msmtp-path "/usr/local/bin/msmtp")
+    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
 
     ;; Use spotlight search backend as a default for M-x locate (and helm/ivy
     ;; variants thereof), since it requires no additional setup.
@@ -169,6 +170,7 @@
         ns-pop-up-frames nil))
 
 (when IS-LINUX
+    (setq x-super-keysym 'meta)
     (setq browse-url-browser-function 'browse-url-generic)
     (setq browse-url-generic-program "xdg-open")
     (setq my/clang-path "/usr/bin/clang")
