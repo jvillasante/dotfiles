@@ -193,11 +193,6 @@ Switch the current theme to THEME"
             (save-some-buffers t)
             (message "%d buffer(s) saved" modified-count))))
 
-(defun my/comment-auto-fill ()
-    "Enable auto-fill for comments only."
-    (setq-local comment-auto-fill-only-comments t)
-    (auto-fill-mode 1))
-
 (defun my/fill-or-unfill ()
     "Like `fill-paragraph', but `unfill' if used twice.
 Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html."

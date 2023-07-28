@@ -29,7 +29,10 @@
 (setq-default fill-column 80)                        ;; Wrap lines at 80 characters
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)     ;; auto-fill insert hard line breaks
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
-(add-hook 'prog-mode-hook 'my/comment-auto-fill)     ;; ... but add comment auto-fill in prog-mode
+(add-hook 'prog-mode-hook                            ;; ... but add comment auto-fill in prog-mode
+    (lambda ()
+        (setq-local comment-auto-fill-only-comments t)
+        (auto-fill-mode 1)))
 
 ;; Set the font
 (add-hook 'emacs-startup-hook
