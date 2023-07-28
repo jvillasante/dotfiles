@@ -5,23 +5,6 @@
     :ensure nil ;; emacs built-in
     :init (add-hook 'ielm-mode-hook 'eldoc-mode))
 
-;; eat: Emulate A Terminal
-(use-package eat
-    :preface
-    (defun my/eat ()
-        "open `eat' at project root, if no root is found, open at the default-directory"
-        (interactive)
-        (let ((default-directory (my/project-root-or-default-dir)))
-            (call-interactively #'eat)))
-    :init
-    (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-    (add-hook 'eshell-load-hook #'eat-eshell-mode)
-    (add-hook 'eat-mode-hook
-        (lambda ()
-            (setq-local scroll-margin 0)
-            (setq-local confirm-kill-processes nil)
-            (setq-local hscroll-margin 0))))
-
 ;; eshell : the emacs shell
 (use-package eshell-prompt-extras)
 (use-package eshell
@@ -58,15 +41,37 @@
     (setq eshell-save-history-on-exit t)
     (setq eshell-destroy-buffer-when-process-dies t))
 
+;; eat: Emulate A Terminal
+(use-package eat
+    :preface
+    (defun my/eat ()
+        "open `eat' at project root, if no root is found, open at the default-directory"
+        (interactive)
+        (let ((default-directory (my/project-root-or-default-dir)))
+            (call-interactively #'eat)))
+    :bind (("C-x p s" . #'eat-project)
+              ("C-c o t" . #'my/eat))
+    :init
+    (setq eshell-visual-commands nil)
+    ;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+    ;; (add-hook 'eshell-load-hook #'eat-eshell-mode)
+    (add-hook 'eat-mode-hook
+        (lambda ()
+            (setq-local scroll-margin 0)
+            (setq-local confirm-kill-processes nil)
+            (setq-local hscroll-margin 0))))
+
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
+    :disabled t
     :preface
     (defun my/vterm ()
         "open vterm at project root, if no root is found, open at the default-directory"
         (interactive)
         (let ((default-directory (my/project-root-or-default-dir)))
             (call-interactively #'vterm)))
-    :bind (:map vterm-mode-map
+    :bind (("C-c o t" . #'my/vterm)
+              :map vterm-mode-map
               ([return] . #'vterm-send-return)
               ("M-[" . #'vterm-copy-mode)
               ("C-y" . #'vterm-yank)

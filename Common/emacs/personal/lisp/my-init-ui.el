@@ -160,8 +160,8 @@
     :init
     (setq shackle-rules
         '((compilation-mode :select t :popup t :align 'below :size 0.4)
-             ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)
-             ("\\`\\*eat.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
+             (eat-mode :select t :popup t :align 'below :size 0.4)
+             ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
     (shackle-mode +1))
 
 ;; popper : tame the flood of ephemeral windows Emacs produces
