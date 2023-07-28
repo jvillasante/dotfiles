@@ -35,14 +35,8 @@ build-current:
 build-release:
 	${BUILD} --release
 
-build-current-release:
+build-release-current:
 	cd ${CURRENT} && ${BUILD} --release
-
-run-current:
-	cd ${CURRENT} && ${RUN} ${ARGS}
-
-run-current-release:
-	cd ${CURRENT} && ${RUN} --release ${ARGS}
 
 test:
 	${TEST}
