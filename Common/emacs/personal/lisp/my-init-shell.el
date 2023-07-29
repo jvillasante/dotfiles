@@ -41,8 +41,51 @@
     (setq eshell-save-history-on-exit t)
     (setq eshell-destroy-buffer-when-process-dies t))
 
-;; eat: Emulate A Terminal
+;; vterm : fully-fledged terminal emulator inside GNU emacs
+(use-package vterm
+    :bind (("C-c o t" . #'my/vterm)
+              :map project-prefix-map
+              ("t" . my/project-vterm)
+              :map vterm-mode-map
+              ([return] . #'vterm-send-return)
+              ("M-[" . #'vterm-copy-mode)
+              ("C-y" . #'vterm-yank)
+              :map vterm-copy-mode-map
+              ("M-w" . #'vterm-copy-mode-done)
+              ("C-g" . #'vterm-copy-mode-done))
+    :preface
+    (defun my/vterm ()
+        "open vterm at project root, if no root is found, open at the default-directory"
+        (interactive)
+        (let ((default-directory (my/project-root-or-default-dir)))
+            (call-interactively #'vterm)))
+    (defun my/project-vterm ()
+        (interactive)
+        (defvar vterm-buffer-name)
+        (let* ((default-directory (project-root (project-current t)))
+                  (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+                  (vterm-buffer (get-buffer vterm-buffer-name)))
+            (if (and vterm-buffer (not current-prefix-arg))
+                (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
+                (vterm))))
+    :init
+    (add-to-list 'project-switch-commands '(my/project-vterm "vTerm") t)
+    (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
+    :config
+    (setq vterm-copy-exclude-prompt t)
+    (setq vterm-max-scrollback 100000)
+    (setq vterm-shell (executable-find "bash"))
+    (setq vterm-tramp-shells '(("ssh" "/bin/sh")
+                                  ("podman" "/bin/bash")))
+    (add-hook 'vterm-mode-hook
+        (lambda ()
+            (setq-local scroll-margin 0)
+            (setq-local confirm-kill-processes nil)
+            (setq-local hscroll-margin 0))))
+
+;; eat: Emulate A Terminal (vterm is better IMO)
 (use-package eat
+    :disabled t
     :preface
     (defun my/eat ()
         "open `eat' at project root, if no root is found, open at the default-directory"
@@ -51,38 +94,13 @@
             (call-interactively #'eat)))
     :bind (("C-x p s" . #'eat-project)
               ("C-c o t" . #'my/eat))
-    :init
-    (setq eshell-visual-commands nil)
-    ;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-    ;; (add-hook 'eshell-load-hook #'eat-eshell-mode)
-    (add-hook 'eat-mode-hook
-        (lambda ()
-            (setq-local scroll-margin 0)
-            (setq-local confirm-kill-processes nil)
-            (setq-local hscroll-margin 0))))
-
-;; vterm : fully-fledged terminal emulator inside GNU emacs
-(use-package vterm
-    :disabled t
-    :preface
-    (defun my/vterm ()
-        "open vterm at project root, if no root is found, open at the default-directory"
-        (interactive)
-        (let ((default-directory (my/project-root-or-default-dir)))
-            (call-interactively #'vterm)))
-    :bind (("C-c o t" . #'my/vterm)
-              :map vterm-mode-map
-              ([return] . #'vterm-send-return)
-              ("M-[" . #'vterm-copy-mode)
-              ("C-y" . #'vterm-yank)
-              :map vterm-copy-mode-map
-              ("M-w" . #'vterm-copy-mode-done)
-              ("C-g" . #'vterm-copy-mode-done))
     :config
-    (add-to-list 'vterm-tramp-shells '("ssh" "/bin/sh"))
-    (setq vterm-shell (executable-find "bash"))
-    (setq vterm-max-scrollback 10000)
-    (add-hook 'vterm-mode-hook
+    (add-hook 'eshell-mode-hook
+        (lambda()
+            (setq eshell-visual-commands nil)
+            (eat-eshell-visual-command-mode +1)
+            (eat-eshell-mode +1)))
+    (add-hook 'eat-mode-hook
         (lambda ()
             (setq-local scroll-margin 0)
             (setq-local confirm-kill-processes nil)
