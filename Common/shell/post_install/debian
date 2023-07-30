@@ -521,7 +521,7 @@ debian_install() {
                 sudo apt install -y pkg-config flex bison
                 sudo apt install -y valgrind minicom mc strace
                 sudo apt install -y ffmpegthumbnailer mediainfo
-                sudo apt install -y feh mpv
+                sudo apt install -y feh mpv qrencode
 
                 # Wayland Software
                 if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
