@@ -4,12 +4,10 @@ usage() {
     echo "Usage:"
     echo "    $0 help:"
     echo "        Show this help message"
-    echo "    $0 update:"
-    echo "        Update Debian System"
-    echo "    $0 apt [arbitrary APT command]:"
-    echo "        Run arbitrary APT command"
+    echo "    $0 system:"
+    echo "        Update OS (debian or fedora)"
     echo
-    echo " e.g: $0 apt full-upgrade"
+    echo " e.g: $0 system"
     exit "$1"
 }
 
@@ -30,34 +28,46 @@ debian_update() {
     test $? -eq 0 || usage 1
 }
 
+fedora_update() {
+    sudo dnf -y --refresh upgrade
+    test $? -eq 0 || usage 1
+
+    sudo dnf -y distro-sync
+    test $? -eq 0 || usage 1
+
+    sudo dnf -y autoremove
+    test $? -eq 0 || usage 1
+
+    sudo flatpak update -y
+    test $? -eq 0 || usage 1
+}
+
+system_update() {
+    local OS
+    [[ -f /etc/debian_version ]] && OS=Debian
+    [[ -f /etc/fedora-release ]] && OS=Fedora
+
+    [[ $OS == Debian ]] && (hash apt 2>/dev/null || usage 1)
+    [[ $OS == Fedora ]] && (hash dnf 2>/dev/null || usage 1)
+
+    [[ $OS == Debian ]] && debian_update
+    [[ $OS == Fedora ]] && fedora_update
+}
+
 set -o errexit
 set -o nounset
 set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 cd "$(dirname "$0")" || exit 1
 
-if [[ ! -f /etc/debian_version ]]; then
-    echo "Error: Debian is not running on this system, exiting..."
-    exit 1
-fi
-
-if ! hash apt 2>/dev/null; then
-    echo "Error: apt not installed on this system, exiting..."
-    exit 1
-fi
-
 nargs=$#
 cmd=${1-}
 rc=0
 if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
-    update)
+    system)
         [[ "$nargs" -eq 1 ]] || usage 1
-        debian_update "$@"
-        ;;
-    apt)
-        [[ "$nargs" -lt 2 ]] && usage 1
-        apt "$@"
+        system_update
         ;;
     help | --help | -h)
         usage 0
