@@ -10,20 +10,40 @@
 ;;; Code:
 
 ;; bootstrap package.el
-(require 'package)
-(setq package-user-dir (expand-file-name "var/elpa" user-emacs-directory))
-(when (boundp 'package-gnupghome-dir)
-    (setq package-gnupghome-dir (expand-file-name "var/gnupg" user-emacs-directory)))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
-(package-initialize)
-(unless package-archive-contents (package-refresh-contents))
+(progn
+    (require 'package)
+    (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                       (not (gnutls-available-p))))
+              (proto (if no-ssl "http" "https")))
+        (when no-ssl
+            (warn "\
+Your version of Emacs does not support SSL connections,
+which is unsafe because it allows man-in-the-middle attacks.
+There are two things you can do about this warning:
+1. Install an Emacs version that does support SSL and be safe.
+2. Remove this warning from your init file so you won't see it again."))
+        (when (version< emacs-version "28")
+            (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+        (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
+    (setq package-archive-priorities
+        '(("gnu"       . 99)   ; prefer GNU packages
+             ("nongnu" . 80)   ; use non-gnu packages if not found in GNU elpa
+             ("melpa"  . 10))) ; if all else fails, get it from melpa
+    (setq package-user-dir
+        (expand-file-name "var/elpa" user-emacs-directory))
+    (when (boundp 'package-gnupghome-dir)
+        (setq package-gnupghome-dir (expand-file-name "var/gnupg" user-emacs-directory)))
+    (package-initialize)
+    (unless package-archive-contents
+        (package-refresh-contents)))
 
 ;; bootstrap use-package
-(eval-when-compile (require 'use-package))
-(setq use-package-verbose t
-    use-package-always-ensure t
-    use-package-expand-minimally t)
+(use-package use-package
+    :ensure nil ;; emacs built-in
+    :custom
+    (use-package-verbose t)
+    (use-package-always-ensure t)
+    (use-package-expand-minimally t))
 
 ;; no-littering needs to come first
 (use-package no-littering)
