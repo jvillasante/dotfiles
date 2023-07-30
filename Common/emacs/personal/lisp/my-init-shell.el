@@ -128,7 +128,14 @@
         (dwim-shell-command-on-marked-files
             "Convert to gif"
             "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
-            :utils "ffmpeg")))
+            :utils "ffmpeg"))
+    (defun my/password-store-git-push ()
+        "Push password-store changes to git"
+        (interactive)
+        (dwim-shell-command-on-marked-files
+            "Push password-store changes to git"
+            "pass git push"
+            :utils "pass")))
 
 ;; emamux : Interact with tmux from Emacs.
 (use-package emamux)
