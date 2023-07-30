@@ -141,10 +141,17 @@ emacs_update() {
     fi
 
     if ask "Emacs packages updated, do you want to start the daemon as a systemd service now?"; then
-        systemctl --user daemon-reload
-        systemctl --user enable emacs.service
-        systemctl --user start emacs.service
+        systemctl --user daemon-reload && sleep 1
+        test $? -eq 0 || usage 1
+
+        systemctl --user enable emacs.service && sleep 1
+        test $? -eq 0 || usage 1
+
+        systemctl --user start emacs.service && sleep 1
+        test $? -eq 0 || usage 1
+
         systemctl --user status emacs.service
+        test $? -eq 0 || usage 1
     fi
 }
 
