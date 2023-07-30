@@ -5,9 +5,11 @@ usage() {
     echo "    $0 help:"
     echo "        Show this help message"
     echo "    $0 system:"
-    echo "        Update OS (debian or fedora)"
+    echo "        Update OS (debian or fedora) & Flatpak"
     echo "    $0 dotfiles [pull | sync]:"
     echo "        Update personal dotfiles (pull from remote or sync on local)"
+    echo "    $0 emacs:"
+    echo "        Update emacs from source (will update to latest emacs from git repository)"
     echo
     echo " e.g: $0 system"
     exit "$1"
@@ -57,9 +59,6 @@ system_update() {
 }
 
 dotfiles_update() {
-    . "$HOME/.config/shell/common.sh"
-    test $? -eq 0 || usage 1
-
     local DOTFILES_DIR
     DOTFILES_DIR="$(find_dotfiles)"
     test $? -eq 0 || usage 1
@@ -97,6 +96,7 @@ emacs_update() {
     [[ ! -d "$HOME"/Workspace/Software/emacs ]] && echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
 
     # Stop the service
+    emacsclient --eval '(save-buffers-kill-emacs)'
     systemctl --user stop emacs.service
 
     # Prepare git repo
@@ -128,6 +128,24 @@ emacs_update() {
 
     # Cleanup
     popd || usage 1
+
+    # Update packages
+    if ask "Emacs has been installed, do you want to update packages now?"; then
+        local DOTFILES_DIR
+        DOTFILES_DIR="$(find_dotfiles)"
+        test $? -eq 0 || usage 1
+
+        [[ ! -d "$DOTFILES_DIR"/Common/emacs/personal ]] && echo "Emacs personal configuration not found, exiting..." && usage 1
+        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var ]] && rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var
+        emacs --init-directory="$DOTFILES_DIR"/Common/emacs/personal
+    fi
+
+    if ask "Emacs packages updated, do you want to start the daemon as a systemd service now?"; then
+        systemctl --user daemon-reload
+        systemctl --user enable emacs.service
+        systemctl --user start emacs.service
+        systemctl --user status emacs.service
+    fi
 }
 
 set -o errexit
@@ -135,6 +153,8 @@ set -o nounset
 set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 cd "$(dirname "$0")" || exit 1
+
+. "$HOME/.config/shell/common.sh"
 
 nargs=$#
 cmd=${1-}
