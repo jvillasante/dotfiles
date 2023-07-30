@@ -90,6 +90,46 @@ dotfiles_update() {
     esac
 }
 
+emacs_update() {
+    # Preconditions
+    ! hash emacs 2>/dev/null && echo "emacs not installed, exiting..." && usage 1
+    [[ ! -d "$HOME"/Workspace/Software ]] && echo "$HOME/Workspace/Software does not exists, exiting..." && usage 1
+    [[ ! -d "$HOME"/Workspace/Software/emacs ]] && echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
+
+    # Stop the service
+    systemctl --user stop emacs.service
+
+    # Prepare git repo
+    pushd "$HOME"/Workspace/Software/emacs || usage 1
+    sudo make uninstall
+    make clean && make distclean
+    git reset --hard HEAD
+    sudo git clean -dfx
+    git pull
+
+    # Build (emacs-29) and install
+    local BRANCH
+    BRANCH=$(git branch --show-current)
+    [[ "$BRANCH" != emacs-29 ]] && git checkout emacs-29
+    ./autogen.sh
+
+    EMACS_WINDOW_SYSTEM_OPTION=--with-x
+    [[ "$XDG_SESSION_TYPE" == wayland ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
+    ./configure \
+        $EMACS_WINDOW_SYSTEM_OPTION \
+        --without-compress-install \
+        --with-native-compilation=aot \
+        --with-tree-sitter \
+        --with-json \
+        --with-mailutils \
+        CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
+    make -j"$(nproc --ignore=2)"
+    sudo make install
+
+    # Cleanup
+    popd || usage 1
+}
+
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -108,6 +148,10 @@ case $cmd in
     dotfiles)
         [ "$nargs" -eq 2 ] || usage 1
         dotfiles_update "$@"
+        ;;
+    emacs)
+        [[ "$nargs" -eq 1 ]] || usage 1
+        emacs_update
         ;;
     help | --help | -h)
         usage 0

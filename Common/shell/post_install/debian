@@ -833,7 +833,7 @@ debian_install() {
                     --with-json \
                     --with-mailutils \
                     CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
-                make -j16
+                make -j"$(nproc --ignore=2)"
                 sudo make install
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
@@ -867,7 +867,7 @@ debian_install() {
                 fi
 
                 # Install
-                make -j16
+                make -j"$(nproc --ignore=2)"
                 sudo make install
 
                 # Copy Configuration
