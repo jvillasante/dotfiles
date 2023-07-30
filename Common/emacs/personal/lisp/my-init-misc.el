@@ -138,7 +138,7 @@
 ;; tramp : Transparent Remote Access, Multiple Protocols
 (use-package tramp
     :ensure nil ;; emacs built-in
-    :init
+    :config
     (setq remote-file-name-inhibit-locks t)
     (setq tramp-verbose 2)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
