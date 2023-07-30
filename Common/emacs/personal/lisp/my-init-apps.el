@@ -14,8 +14,7 @@
               pdf-view-continuous nil)
     :config (add-hook 'pdf-outline-buffer-mode-hook
                 (lambda ()
-                    (my/font-set-small-variable-font)
-                    (display-line-numbers-mode 0))))
+                    (my/font-set-small-variable-font))))
 
 ;; nov.el : Major mode for reading EPUBs in Emacs
 (use-package nov

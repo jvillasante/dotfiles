@@ -68,18 +68,8 @@
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
     :ensure nil ;; emacs built-in
-    :init
-    (setq display-line-numbers-type t)
-    (global-display-line-numbers-mode)
-    :config
-    (dolist (mode '(org-mode-hook
-                       compilation-mode-hook
-                       vterm-mode-hook
-                       term-mode-hook
-                       shell-mode-hook
-                       eshell-mode-hook
-                       eat-mode-hook))
-        (add-hook mode (lambda () (display-line-numbers-mode 0)))))
+    :init (setq display-line-numbers-type t)
+    :config (add-hook 'prog-mode-hook #'display-line-numbers-mode))
 
 ;; whitespace : visualize blanks (tabs, spaces, newline, etc)
 (use-package whitespace

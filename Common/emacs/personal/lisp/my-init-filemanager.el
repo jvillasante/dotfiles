@@ -77,7 +77,6 @@
     :init
     (add-hook 'dired-sidebar-mode-hook
         (lambda ()
-            (display-line-numbers-mode 0)
             (unless (file-remote-p default-directory)
                 (auto-revert-mode))))
     :config
