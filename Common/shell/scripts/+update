@@ -57,8 +57,12 @@ system_update() {
 }
 
 dotfiles_update() {
+    . "$HOME/.config/shell/common.sh"
+    test $? -eq 0 || usage 1
+
     local DOTFILES_DIR
     DOTFILES_DIR="$(find_dotfiles)"
+    test $? -eq 0 || usage 1
 
     case $1 in
         pull)
@@ -91,8 +95,6 @@ set -o nounset
 set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 cd "$(dirname "$0")" || exit 1
-
-. "$HOME/.config/shell/common.sh"
 
 nargs=$#
 cmd=${1-}
