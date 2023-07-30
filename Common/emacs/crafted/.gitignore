@@ -1,0 +1,12 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!custom.el
+!early-init.el
+!init.el
+!/etc/
+!/etc/**
+!/lisp/
+!/lisp/**

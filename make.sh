@@ -70,12 +70,12 @@ install_emacs() {
     # fi
 
     # Install Crafted Emacs
-    # if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
-    #     echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
-    #     # git clone git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
-    #     git clone -b craftedv2alpha --single-branch git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
-    #     check $?
-    # fi
+    if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
+        echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
+        # git clone git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
+        git clone -b craftedv2beta --single-branch git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
+        check $?
+    fi
 
     # Install Prelude
     # if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
@@ -87,7 +87,7 @@ install_emacs() {
 }
 
 install_shell "bash"
-# install_emacs
+install_emacs
 
 echo ">>> Linking common files in $HOME..."
 files=".inputrc .editorconfig .sbclrc .mbsyncrc .msmtprc .tidyrc"
