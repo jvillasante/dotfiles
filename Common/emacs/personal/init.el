@@ -12,19 +12,9 @@
 ;; bootstrap package.el
 (progn
     (require 'package)
-    (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                       (not (gnutls-available-p))))
-              (proto (if no-ssl "http" "https")))
-        (when no-ssl
-            (warn "\
-Your version of Emacs does not support SSL connections,
-which is unsafe because it allows man-in-the-middle attacks.
-There are two things you can do about this warning:
-1. Install an Emacs version that does support SSL and be safe.
-2. Remove this warning from your init file so you won't see it again."))
-        (when (version< emacs-version "28")
-            (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-        (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
+    (when (version< emacs-version "28")
+        (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
     (setq package-archive-priorities
         '(("gnu"       . 99)   ; prefer GNU packages
              ("nongnu" . 80)   ; use non-gnu packages if not found in GNU elpa
@@ -32,7 +22,8 @@ There are two things you can do about this warning:
     (setq package-user-dir
         (expand-file-name "var/elpa" user-emacs-directory))
     (when (boundp 'package-gnupghome-dir)
-        (setq package-gnupghome-dir (expand-file-name "var/gnupg" user-emacs-directory)))
+        (setq package-gnupghome-dir
+            (expand-file-name "var/gnupg" user-emacs-directory)))
     (package-initialize)
     (unless package-archive-contents
         (package-refresh-contents)))
