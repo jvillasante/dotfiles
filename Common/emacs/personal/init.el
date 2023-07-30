@@ -9,10 +9,6 @@
 
 ;;; Code:
 
-;; increase gc threshold to speedup starting up
-(setq gc-cons-percentage 0.6)
-(setq gc-cons-threshold most-positive-fixnum)
-
 ;; bootstrap package.el
 (require 'package)
 (setq package-user-dir (expand-file-name "var/elpa" user-emacs-directory))
