@@ -41,6 +41,7 @@
 
         ;; Show all eldoc feedback.
         (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+
     :hook ((eglot-managed-mode . my/eglot-eldoc)
               (c-mode . eglot-ensure)
               (c++-mode . eglot-ensure)
@@ -56,15 +57,16 @@
     (setq read-process-output-max (* 1024 1024))
     (setq eglot-ignored-server-capabilities
         (quote (:documentFormattingProvider :documentRangeFormattingProvider :inlayHintProvider)))
+
     :config
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
-    ;; (add-to-list 'eglot-stay-out-of 'flymake)
+    ;; (add-to-list 'eglot-stay-out-of 'flymake) ;; this will disable flymake
 
-    ;; workspace
+    ;; Setting the workspace configuration for every buffer, this can also be
+    ;; done as dir-local variables for project/directory.
     (setq-default eglot-workspace-configuration
-        '((:gopls .
-              ((staticcheck . t)
-                  (usePlaceholders . t)))))
+        '(:gopls (:staticcheck t :usePlaceholders t)
+             :rust-analyzer (:check (:command "clippy"))))
 
     ;; python
     (add-to-list 'eglot-server-programs
