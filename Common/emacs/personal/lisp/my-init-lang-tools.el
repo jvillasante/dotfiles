@@ -60,7 +60,6 @@
 
     :config
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
-    ;; (add-to-list 'eglot-stay-out-of 'flymake) ;; this will disable flymake
 
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
