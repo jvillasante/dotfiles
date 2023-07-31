@@ -1,6 +1,8 @@
 ;;; my-init-langs-treesitter.el -*- lexical-binding: t; -*-
 
 ;; https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
+;; Waiting until this gets more traction, *-mode-ts feels very weird to me!
+;;
 ;; Install Language Grammars:
 ;;  - Call the command `M-x treesit-install-language-grammar' for each language.
 ;;  - Alternativelly, evaluate the following to install them all:

@@ -56,18 +56,6 @@
     (electric-indent-mode 0) ;; disable by default
     (add-hook 'after-change-major-mode-hook #'my/electric-indent-local-mode-maybe))
 
-(use-package elec-pair
-    :ensure nil ;; emacs built-in
-    :init
-    ;; make electric-pair-mode work on more brackets
-    (setq-default electric-pair-pairs
-        '((?\" . ?\")
-             (?\( . ?\))
-             (?\{ . ?\})
-             (?\[ . ?\])))
-    (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-    (add-hook 'after-init-hook 'electric-pair-mode))
-
 (use-package isearch
     :ensure nil ;; emacs built-in
     :init
@@ -131,6 +119,7 @@
 
 ;; project.el : default project manager
 (use-package project
+    :ensure nil ;; emacs built-in
     :custom ((project-list-file (expand-file-name "projects" no-littering-var-directory))
                 (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
     :config (add-to-list 'project-switch-commands '(project-dired "Dired at root")))
@@ -159,6 +148,25 @@
     (setq auto-revert-avoid-polling t) ; use save signal
     (setq global-auto-revert-non-file-buffers t) ; Global Auto-Revert Mode operates only on file-visiting buffers.
     (global-auto-revert-mode t)) ; Refresh files automatically when modified from outside emacs
+
+;; electric pair : work with pairs in emacs
+(use-package elec-pair
+    :ensure nil ;; emacs built-in
+    :config
+    ;; make electric-pair-mode work on more brackets
+    (setq-default electric-pair-pairs
+        '((?\" . ?\")
+             (?\( . ?\))
+             (?\{ . ?\})
+             (?\[ . ?\])))
+    (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+    (add-hook 'after-init-hook 'electric-pair-mode))
+
+;; smartparens : minor mode for dealing with pairs in emacs
+(use-package smartparens
+    :disabled t ;; using electric-pair built-in
+    :hook (prog-mode . smartparens-mode)
+    :config (require 'smartparens-config))
 
 (use-package helpful)
 

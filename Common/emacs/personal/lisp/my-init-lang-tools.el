@@ -9,8 +9,7 @@
         (save-excursion
             (end-of-line)
             (hs-toggle-hiding)))
-    :init
-    (add-hook 'prog-mode-hook 'hs-minor-mode))
+    :init (add-hook 'prog-mode-hook 'hs-minor-mode))
 
 ;; flymake
 (use-package flymake
@@ -59,6 +58,7 @@
         (quote (:documentFormattingProvider :documentRangeFormattingProvider :inlayHintProvider)))
     :config
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
+    ;; (add-to-list 'eglot-stay-out-of 'flymake)
 
     ;; workspace
     (setq-default eglot-workspace-configuration
