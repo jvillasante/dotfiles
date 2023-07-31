@@ -17,7 +17,6 @@
 -I./Programs/agw
 -I./Libraries/asio
 -I./Libraries/expected
--I./Libraries/fmt
 -I./models/generated
 -I./Test/fakes
 -I./Test/mocks
