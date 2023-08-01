@@ -62,7 +62,6 @@
 (require 'my-init-completion)
 (require 'my-init-vcs)
 (require 'my-init-org)
-(require 'my-init-langs-treesitter)
 (require 'my-init-langs)
 (require 'my-init-lang-tools)
 (require 'my-init-apps)
