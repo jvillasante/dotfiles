@@ -129,7 +129,7 @@
             "Convert to gif"
             "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
             :utils "ffmpeg"))
-    (defun my/password-store-git-push ()
+    (defun my/dwim-shell-command-pass-git-push ()
         "Push password-store changes to git"
         (interactive)
         (dwim-shell-command-on-marked-files
