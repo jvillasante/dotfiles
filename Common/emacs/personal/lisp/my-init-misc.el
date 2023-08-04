@@ -30,7 +30,8 @@
               ("C-c p e" . password-store-edit)
               ("C-c p r" . password-store-rename)
               ("C-c p R" . password-store-remove)
-              ("C-c p i" . password-store-insert))
+              ("C-c p i" . password-store-insert)
+              ("C-c p P" . my/dwim-shell-command-pass-git-push))
     :custom ((password-store-password-length 25)))
 
 ;; http://www.yummymelon.com/devnull/using-ediff-in-2023.html
