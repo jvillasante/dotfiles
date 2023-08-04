@@ -29,10 +29,17 @@
 
 ;; elfeed
 (use-package elfeed
+    :preface (defun my/elfeed-delete-window-after-kill-buffer (&rest args)
+                 (delete-window (selected-window)))
     :init
+    ;; `elfeed-kill-buffer' only kills the buffer, but won't delete
+    ;; the window. This is not an ideal behavior since you typically
+    ;; what to hit `q' to delete the window displaying the news after
+    ;; you have finished reading.
+    (advice-add #'elfeed-kill-buffer :after #'my/elfeed-delete-window-after-kill-buffer)
+    :config
     (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory))
     (setq elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
-    :config
     (setq elfeed-search-title-min-width 60)
     (setq elfeed-search-title-max-width 100)
     (setq elfeed-search-trailing-width 0)
@@ -44,7 +51,6 @@
         '("\\*elfeed-entry"
              (display-buffer-below-selected)
              (window-height . 0.85)))
-
     ;; feeds
     (setq elfeed-feeds
         '(;; General
