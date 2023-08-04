@@ -45,12 +45,6 @@
              (display-buffer-below-selected)
              (window-height . 0.85)))
 
-    ;; `elfeed-kill-buffer' only kills the buffer, but won't delete
-    ;; the window. This is not an ideal behavior since you typically
-    ;; what to hit `q' to delete the window displaying the news after
-    ;; you have finished reading.
-    (advice-add #'elfeed-kill-buffer :after #'my/elfeed-delete-window-after-kill-buffer)
-
     ;; feeds
     (setq elfeed-feeds
         '(;; General

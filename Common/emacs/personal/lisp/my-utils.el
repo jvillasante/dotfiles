@@ -123,9 +123,6 @@ If region (BEG to END) is active, use the selected region as the symbol."
     (let ((switch-to-buffer-obey-display-actions t))
         (apply old-fun args)))
 
-(defun my/elfeed-delete-window-after-kill-buffer (&rest args)
-    (delete-window (selected-window)))
-
 (defun my/elfeed-open-entry-via-eww (&optional new-session)
     "if point is under a url, then open this url via `eww',
 otherwise open the current visited elfeed entry via `eww'.  If
