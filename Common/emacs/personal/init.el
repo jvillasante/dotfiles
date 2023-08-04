@@ -71,6 +71,7 @@
 (require 'my-init-workspaces)
 (require 'my-init-modal)
 (require 'my-init-bindings)
+(require 'modus-themes-exporter)
 
 ;; after started, stop debug on error
 (setq debug-on-error nil)
