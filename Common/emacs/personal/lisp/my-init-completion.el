@@ -386,6 +386,8 @@
 
 (use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
+    :bind (("M-+" . yas-expand)
+              ("M-*" . yas-insert-snippet))
     :config (yas-reload-all)
     :hook (after-init . yas-global-mode))
 
