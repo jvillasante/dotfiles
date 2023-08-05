@@ -35,7 +35,7 @@ update_zig() {
     test $? -eq 0 || usage 1
 
     # Get lastest tarball from here: https://ziglang.org/download/
-    local ZIG_TAR_LOCATION="https://ziglang.org/builds/zig-linux-x86_64-0.11.0-dev.4271+1aacfa718.tar.xz"
+    local ZIG_TAR_LOCATION="https://ziglang.org/builds/zig-linux-x86_64-0.12.0-dev.4+e7ba4b7f9.tar.xz"
     ZIG_TAR_FILE="$(basename $ZIG_TAR_LOCATION)"
     test $? -eq 0 || usage 1
 
