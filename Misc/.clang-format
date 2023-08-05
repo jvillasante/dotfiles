@@ -4,7 +4,7 @@ BasedOnStyle: LLVM
 Language: Cpp
 
 # Things I like
-ColumnLimit: 132
+ColumnLimit: 120
 AlwaysBreakTemplateDeclarations: true
 Cpp11BracedListStyle: true
 AllowShortIfStatementsOnASingleLine: WithoutElse
