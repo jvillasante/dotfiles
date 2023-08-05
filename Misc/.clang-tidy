@@ -6,23 +6,22 @@ Checks: "*,
         -fuchsia-*,
         -google-*,
         -llvm*,
-        -modernize-use-trailing-return-type,
         -zircon-*,
-        -cert-dcl21-cpp,
+        -modernize-use-trailing-return-type,
         -readability-else-after-return,
         -readability-static-accessed-through-instance,
         -readability-avoid-const-params-in-decls,
         -cppcoreguidelines-non-private-member-variables-in-classes,
         -misc-non-private-member-variables-in-classes,
-        -cppcoreutils-avoid-magic-numbers,
-        -cppcoreguidelines-avoid-magic-numbers,
-        -readability-magic-numbers,
-        -cppcoreguidelines-pro-bounds-constant-array-index,
-        -readability-braces-around-statements,
-        -hicpp-braces-around-statements,
-        -readability-identifier-length,
-        -bugprone-easily-swappable-parameters,
 "
 WarningsAsErrors: ''
-HeaderFilterRegex: 'src.*'
+HeaderFilterRegex: ''
 FormatStyle:     none
+
+CheckOptions:
+  - key: readability-identifier-length.IgnoredVariableNames
+    value: 'x|y|z'
+  - key: readability-identifier-length.IgnoredParameterNames
+    value: 'x|y|z'
+  - key: readability-function-cognitive-complexity.IgnoreMacros
+    value: true
