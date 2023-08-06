@@ -67,8 +67,13 @@ update_zls() {
         test $? -eq 0 || usage 1
 
         pushd "$ZLS_DIR" || usage 1
+
         zig build -Doptimize=ReleaseSafe
         test $? -eq 0 || usage 1
+
+        zig build gen -- --generate-version-data master
+        test $? -eq 0 || usage 1
+
         popd || usage 1
     else
         echo "zig is not on your path, try sourcing '.bashrc' or just restart this terminal"
