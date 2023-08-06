@@ -6,8 +6,8 @@ usage() {
     echo "        Show this help message"
     echo "    $0 system:"
     echo "        Update OS (debian or fedora) & Flatpak"
-    echo "    $0 dotfiles [pull | sync]:"
-    echo "        Update personal dotfiles (pull from remote or sync on local)"
+    echo "    $0 dotfiles:"
+    echo "        Update personal dotfiles (ask to pull from remote and then syncs on local)"
     echo "    $0 emacs:"
     echo "        Update emacs from source (will update to latest emacs from git repository)"
     echo
@@ -63,30 +63,20 @@ dotfiles_update() {
     DOTFILES_DIR="$(find_dotfiles)"
     test $? -eq 0 || usage 1
 
-    case $1 in
-        pull)
-            if [ -d "$DOTFILES_DIR" ]; then
-                git -C "${DOTFILES_DIR}" status
-                test $? -eq 0 || usage 1
+    if [ -d "$DOTFILES_DIR" ]; then
+        git -C "${DOTFILES_DIR}" status
+        test $? -eq 0 || usage 1
 
-                if ask "Do you want to pull?"; then
-                    git -C "${DOTFILES_DIR}" pull
-                    test $? -eq 0 || usage 1
-                fi
-            fi
-            ;;
-        sync)
-            if [ ! -f "${DOTFILES_DIR}/make.sh" ]; then
-                echo "${DOTFILES_DIR}/make.sh script not present, exiting..." && usage 1
-            fi
+        if ask "Do you want to pull from remote?"; then
+            git -C "${DOTFILES_DIR}" pull
+            test $? -eq 0 || usage 1
+        fi
 
+        if [ -f "${DOTFILES_DIR}/make.sh" ]; then
             "${DOTFILES_DIR}/make.sh"
             test $? -eq 0 || usage 1
-            ;;
-        *)
-            usage 1
-            ;;
-    esac
+        fi
+    fi
 }
 
 emacs_update() {
@@ -141,16 +131,16 @@ emacs_update() {
     fi
 
     if ask "Emacs packages updated, do you want to start the daemon as a systemd service now?"; then
-        systemctl --user daemon-reload && sleep 1
+        systemctl --user daemon-reload
         test $? -eq 0 || usage 1
 
-        systemctl --user enable emacs.service && sleep 1
+        systemctl --user enable emacs.service
         test $? -eq 0 || usage 1
 
-        systemctl --user start emacs.service && sleep 1
+        systemctl --user start emacs.service
         test $? -eq 0 || usage 1
 
-        systemctl --user status emacs.service
+        sleep 1 && systemctl --user status emacs.service
         test $? -eq 0 || usage 1
     fi
 }
@@ -173,8 +163,8 @@ case $cmd in
         system_update
         ;;
     dotfiles)
-        [ "$nargs" -eq 2 ] || usage 1
-        dotfiles_update "$@"
+        [ "$nargs" -eq 1 ] || usage 1
+        dotfiles_update
         ;;
     emacs)
         [[ "$nargs" -eq 1 ]] || usage 1
