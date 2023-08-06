@@ -4,7 +4,7 @@
     :disabled t
     :hook (after-init . tabspaces-mode) ;; use this only if you want the minor-mode loaded at startup.
     :commands (tabspaces-switch-or-create-workspace
-                  tabspaces-open-or-create-project-and-workspace)
+               tabspaces-open-or-create-project-and-workspace)
     :init
     ;; Filter Buffers for Consult-Buffer
     (with-eval-after-load 'consult
@@ -13,15 +13,15 @@
         ;; set consult-workspace buffer list
         (defvar consult--source-workspace
             (list :name   "Workspace Buffers"
-                :narrow   ?w
-                :history  'buffer-name-history
-                :category 'buffer
-                :state    #'consult--buffer-state
-                :default  t
-                :items    (lambda () (consult--buffer-query
-                                         :predicate #'tabspaces--local-buffer-p
-                                         :sort 'visibility
-                                         :as #'buffer-name)))
+                  :narrow   ?w
+                  :history  'buffer-name-history
+                  :category 'buffer
+                  :state    #'consult--buffer-state
+                  :default  t
+                  :items    (lambda () (consult--buffer-query
+                                        :predicate #'tabspaces--local-buffer-p
+                                        :sort 'visibility
+                                        :as #'buffer-name)))
             (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
     :custom
     (tabspaces-use-filtered-buffers-as-default t)

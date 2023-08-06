@@ -13,9 +13,9 @@
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 (setq world-clock-list
-    '(("UTC" "UTC")
-         ("America/New_York" "Tampa")
-         ("Europe/Ljubljana" "Slovenia")))
+      '(("UTC" "UTC")
+        ("America/New_York" "Tampa")
+        ("Europe/Ljubljana" "Slovenia")))
 (setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; macros
@@ -60,17 +60,17 @@
 
 ;; Some Defaults
 (setq user-full-name "Julio C. Villasante"
-    user-mail-address "jvillasantegomez@gmail.com"
-    user-login-name "jvillasante")
+      user-mail-address "jvillasantegomez@gmail.com"
+      user-login-name "jvillasante")
 (setq scroll-margin 3
-    scroll-step 1
-    scroll-conservatively 10000
-    auto-window-vscroll nil)
+      scroll-step 1
+      scroll-conservatively 10000
+      auto-window-vscroll nil)
 (setq load-prefer-newer t) ;; Always load newest byte code
 (setq visible-cursor nil) ;; make it work in terminal too
 (setq inhibit-startup-screen t) ; Hide the startup screen
 (if (boundp 'use-short-answers) ;; Use "y" and "n" to confirm/negate prompt
-    (setq use-short-answers t)
+        (setq use-short-answers t)
     (advice-add 'yes-or-no-p :override #'y-or-n-p))
 (setq large-file-warning-threshold 100000000) ;; warn when opening files bigger than 100MB
 (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
@@ -103,49 +103,49 @@
 
 ;; backups
 (setq make-backup-files t         ; backup of a file the first time it is saved.
-    backup-by-copying t           ; don't clobber symlinks
-    version-control t             ; version numbers for backup files
-    delete-old-versions t         ; delete excess backup files silently
-    kept-old-versions 2           ; oldest versions to keep when a new numbered backup is made (default: 2)
-    kept-new-versions 6)          ; newest versions to keep when a new numbered backup is made (default: 2)
+      backup-by-copying t           ; don't clobber symlinks
+      version-control t             ; version numbers for backup files
+      delete-old-versions t         ; delete excess backup files silently
+      kept-old-versions 2           ; oldest versions to keep when a new numbered backup is made (default: 2)
+      kept-new-versions 6)          ; newest versions to keep when a new numbered backup is made (default: 2)
 
 ;; backup all files
 (setq backup-directory-alist
-    `(("." . ,(no-littering-expand-var-file-name "backup/"))))
+      `(("." . ,(no-littering-expand-var-file-name "backup/"))))
 
 ;; ... do not backup some
 (setq backup-enable-predicate
-    (lambda (name)
-        (and (normal-backup-enable-predicate name)
-            (not (s-starts-with? "/dev/shm" name))
-            (not (s-contains? "password-store" name))
-            (my/file-is-not-root-p name))))
+      (lambda (name)
+          (and (normal-backup-enable-predicate name)
+               (not (s-starts-with? "/dev/shm" name))
+               (not (s-contains? "password-store" name))
+               (my/file-is-not-root-p name))))
 
 ;; autosave
 (setq auto-save-default t         ; auto-save every buffer that visits a file
-    auto-save-timeout 20          ; number of seconds idle time before auto-save (default: 30)
-    auto-save-interval 200)       ; number of keystrokes between auto-saves (default: 300)
+      auto-save-timeout 20          ; number of seconds idle time before auto-save (default: 30)
+      auto-save-interval 200)       ; number of keystrokes between auto-saves (default: 300)
 (auto-save-visited-mode +1)
 
 ;; auto-save files
 (setq auto-save-file-name-transforms
-    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
 ;; disable auto-save on certain tramp profiles
 (connection-local-set-profile-variables
-    'no-remote-auto-save-profile
-    '((buffer-auto-save-file-name . nil)
-         (remote-file-name-inhibit-auto-save-visited . t)
-         (remote-file-name-inhibit-auto-save . t)))
+ 'no-remote-auto-save-profile
+ '((buffer-auto-save-file-name . nil)
+   (remote-file-name-inhibit-auto-save-visited . t)
+   (remote-file-name-inhibit-auto-save . t)))
 
 ;; disable auto-save for specific protocols
 (dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh"))
     (connection-local-set-profiles
-        `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile)))
+     `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile)))
 
 ;; lock files
 (setq lock-file-name-transforms
-    `((".*" ,(no-littering-expand-var-file-name "lock-file/") t)))
+      `((".*" ,(no-littering-expand-var-file-name "lock-file/") t)))
 
 (when IS-MAC
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -166,8 +166,8 @@
     ;; Use spotlight search backend as a default for M-x locate (and helm/ivy
     ;; variants thereof), since it requires no additional setup.
     (setq locate-command "mdfind"
-        ;; Visit files opened outside of Emacs in existing frame, not a new one
-        ns-pop-up-frames nil))
+          ;; Visit files opened outside of Emacs in existing frame, not a new one
+          ns-pop-up-frames nil))
 
 (when IS-LINUX
     (setq x-super-keysym 'meta)

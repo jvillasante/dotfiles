@@ -51,25 +51,25 @@
     ;; - `embark-keybinding'
     ;;
     (setq completion-category-overrides
-        ;; NOTE 2021-10-25: I am adding `basic' because it works better as a
-        ;; default for some contexts.  Read:
-        ;; <https://debbugs.gnu.org/cgi/bugreport.cgi?bug=50387>.
-        ;;
-        ;; `partial-completion' is a killer app for files, because it
-        ;; can expand ~/.l/s/fo to ~/.local/share/fonts.
-        ;;
-        ;; If `basic' cannot match my current input, Emacs tries the
-        ;; next completion style in the given order.  In other words,
-        ;; `orderless' kicks in as soon as I input a space or one of its
-        ;; style dispatcher characters.
-        '((file (styles . (basic partial-completion orderless)))
-             (bookmark (styles . (basic substring)))
-             (library (styles . (basic substring)))
-             (embark-keybinding (styles . (basic substring)))
-             (imenu (styles . (basic substring orderless)))
-             (consult-location (styles . (basic substring orderless)))
-             (kill-ring (styles . (emacs22 orderless)))
-             (eglot (styles . (emacs22 substring orderless)))))
+          ;; NOTE 2021-10-25: I am adding `basic' because it works better as a
+          ;; default for some contexts.  Read:
+          ;; <https://debbugs.gnu.org/cgi/bugreport.cgi?bug=50387>.
+          ;;
+          ;; `partial-completion' is a killer app for files, because it
+          ;; can expand ~/.l/s/fo to ~/.local/share/fonts.
+          ;;
+          ;; If `basic' cannot match my current input, Emacs tries the
+          ;; next completion style in the given order.  In other words,
+          ;; `orderless' kicks in as soon as I input a space or one of its
+          ;; style dispatcher characters.
+          '((file (styles . (basic partial-completion orderless)))
+            (bookmark (styles . (basic substring)))
+            (library (styles . (basic substring)))
+            (embark-keybinding (styles . (basic substring)))
+            (imenu (styles . (basic substring orderless)))
+            (consult-location (styles . (basic substring orderless)))
+            (kill-ring (styles . (emacs22 orderless)))
+            (eglot (styles . (emacs22 substring orderless)))))
 
     ;; TAB cycle if there are only few candidates
     (setq completion-cycle-threshold 3)
@@ -96,7 +96,7 @@
     ;; got this from the documentation of Daniel Mendler's Vertico
     ;; package: <https://github.com/minad/vertico>.
     (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
+          '(read-only t cursor-intangible t face minibuffer-prompt))
     (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
     ;; Add prompt indicator to `completing-read-multiple'.  We display
@@ -105,13 +105,13 @@
     ;; small tweaks to propertize the segments of the prompt.
     (defun crm-indicator (args)
         (cons (format "[`crm-separator': %s]  %s"
-                  (propertize
-                      (replace-regexp-in-string
-                          "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                          crm-separator)
-                      'face 'error)
-                  (car args))
-            (cdr args)))
+                      (propertize
+                       (replace-regexp-in-string
+                        "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                        crm-separator)
+                       'face 'error)
+                      (car args))
+              (cdr args)))
     (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
     (file-name-shadow-mode 1)
@@ -147,17 +147,17 @@
     ;; this option.
     :config
     (setq hippie-expand-try-functions-list
-        '(yas-hippie-try-expand
-             try-expand-dabbrev
-             try-expand-dabbrev-all-buffers
-             try-expand-dabbrev-from-kill
-             try-complete-file-name-partially
-             try-complete-file-name
-             try-expand-all-abbrevs
-             try-expand-list
-             try-expand-line
-             try-complete-lisp-symbol-partially
-             try-complete-lisp-symbol))
+          '(yas-hippie-try-expand
+            try-expand-dabbrev
+            try-expand-dabbrev-all-buffers
+            try-expand-dabbrev-from-kill
+            try-complete-file-name-partially
+            try-complete-file-name
+            try-expand-all-abbrevs
+            try-expand-list
+            try-expand-line
+            try-complete-lisp-symbol-partially
+            try-complete-lisp-symbol))
     :init (global-set-key [remap dabbrev-expand] 'hippie-expand))
 
 (use-package vertico
@@ -179,15 +179,15 @@
     (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
 
     :bind (:map vertico-map
-              ("M-," . #'vertico-quick-insert)
-              ("M-." . #'vertico-quick-exit)))
+                ("M-," . #'vertico-quick-insert)
+                ("M-." . #'vertico-quick-exit)))
 
 (use-package orderless
     :init
     (setq orderless-component-separator " +")
     ;; Remember to check my `completion-styles' and the `completion-category-overrides'.
     (setq orderless-matching-styles
-        '(orderless-prefixes orderless-regexp))
+          '(orderless-prefixes orderless-regexp))
 
     ;; SPC should never complete: use it for `orderless' groups.
     ;; The `?' is a regexp construct.
@@ -197,13 +197,13 @@
 
 (use-package corfu
     :custom ((corf-auto-prefix 2)
-                (corfu-quit-no-match t)
-                (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
+             (corfu-quit-no-match t)
+             (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
     :init
     (global-corfu-mode)
     (add-hook 'prog-mode-hook
-        (lambda () ;; Enable auto completion only for programming modes
-            (setq-local corfu-auto t)))
+              (lambda () ;; Enable auto completion only for programming modes
+                  (setq-local corfu-auto t)))
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
 
@@ -211,76 +211,76 @@
     :init
     (setq cape-dabbrev-min-length 2)
     (setq cape-symbol-wrapper
-        '((org-mode ?~ ?~)
-             (markdown-mode ?` ?`)
-             (log-edit-mode ?' ?')
-             (message-mode ?' ?')))
+          '((org-mode ?~ ?~)
+            (markdown-mode ?` ?`)
+            (log-edit-mode ?' ?')
+            (message-mode ?' ?')))
     (dolist (backend '(cape-symbol cape-keyword cape-file cape-history cape-dabbrev))
         (add-to-list 'completion-at-point-functions backend)))
 
 (use-package consult
     :bind (;; C-c bindings (mode-specific-map)
-              ("C-c M-x" . consult-mode-command)
-              ("C-c h" . consult-history)
-              ("C-c k" . consult-kmacro)
-              ("C-c m" . consult-man)
-              ("C-c i" . consult-info)
-              ([remap Info-search] . consult-info)
-              ;; C-x bindings (ctl-x-map)
-              ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-              ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-              ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-              ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-              ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-              ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
-              ("C-x C-r" . consult-recent-file)         ;; orig. find-file-readonly
-              ;; Custom M-# bindings for fast register access
-              ("M-#" . consult-register-load)
-              ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-              ("C-M-#" . consult-register)
-              ;; Other custom bindings
-              ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-              ;; M-g bindings (goto-map)
-              ("M-g e" . consult-compile-error)
-              ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-              ("M-g g" . consult-goto-line)             ;; orig. goto-line
-              ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-              ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-              ("M-g m" . consult-mark)
-              ("M-g k" . consult-global-mark)
-              ("M-g i" . consult-imenu)
-              ("M-g I" . consult-imenu-multi)
-              ;; M-s bindings (search-map)
-              ("M-s d" . consult-find)
-              ("M-s D" . consult-locate)
-              ("M-s g" . consult-grep)
-              ("M-s G" . consult-git-grep)
-              ("M-s r" . consult-ripgrep)
-              ("M-s l" . consult-line)
-              ("M-s L" . consult-line-multi)
-              ("M-s k" . consult-keep-lines)
-              ("M-s u" . consult-focus-lines)
-              ;; Isearch integration
-              ("M-s e" . consult-isearch-history)
-              :map isearch-mode-map
-              ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-              ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-              ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-              ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-              ;; Minibuffer history
-              :map minibuffer-local-map
-              ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-              ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+           ("C-c M-x" . consult-mode-command)
+           ("C-c h" . consult-history)
+           ("C-c k" . consult-kmacro)
+           ("C-c m" . consult-man)
+           ("C-c i" . consult-info)
+           ([remap Info-search] . consult-info)
+           ;; C-x bindings (ctl-x-map)
+           ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+           ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+           ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+           ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+           ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+           ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+           ("C-x C-r" . consult-recent-file)         ;; orig. find-file-readonly
+           ;; Custom M-# bindings for fast register access
+           ("M-#" . consult-register-load)
+           ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+           ("C-M-#" . consult-register)
+           ;; Other custom bindings
+           ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+           ;; M-g bindings (goto-map)
+           ("M-g e" . consult-compile-error)
+           ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+           ("M-g g" . consult-goto-line)             ;; orig. goto-line
+           ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+           ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+           ("M-g m" . consult-mark)
+           ("M-g k" . consult-global-mark)
+           ("M-g i" . consult-imenu)
+           ("M-g I" . consult-imenu-multi)
+           ;; M-s bindings (search-map)
+           ("M-s d" . consult-find)
+           ("M-s D" . consult-locate)
+           ("M-s g" . consult-grep)
+           ("M-s G" . consult-git-grep)
+           ("M-s r" . consult-ripgrep)
+           ("M-s l" . consult-line)
+           ("M-s L" . consult-line-multi)
+           ("M-s k" . consult-keep-lines)
+           ("M-s u" . consult-focus-lines)
+           ;; Isearch integration
+           ("M-s e" . consult-isearch-history)
+           :map isearch-mode-map
+           ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+           ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+           ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+           ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+           ;; Minibuffer history
+           :map minibuffer-local-map
+           ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+           ("M-r" . consult-history))                ;; orig. previous-matching-history-element
     :init
     ;; Use Consult to select xref locations with preview
     (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
+          xref-show-definitions-function #'consult-xref)
 
     ;; Optionally configure the register formatting. This improves the register
     ;; preview for `consult-register', `consult-register-load',
     ;; `consult-register-store' and the Emacs built-ins.
     (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format)
+          register-preview-function #'consult-register-format)
 
     ;; Optionally tweak the register preview window.
     ;; This adds thin lines, sorting and hides the mode line of the window.
@@ -294,23 +294,23 @@
     (setq consult-narrow-key nil)
     (setq consult-preview-key 'any)
     (setq consult-find-args
-        (concat "find . -not ( "
-            "-path */.git* -prune "
-            "-or -path */.cache* -prune )"))
+          (concat "find . -not ( "
+                  "-path */.git* -prune "
+                  "-or -path */.cache* -prune )"))
     ;; (add-to-list 'consult-mode-histories '(vc-git-log-edit-mode . log-edit-comment-ring))
     (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
     (require 'consult-imenu))
 
 (use-package consult-dir
     :bind (([remap list-directory] . consult-dir)
-              :map vertico-map
-              ("C-c C-d" . 'consult-dir)
-              ("C-c C-j" . 'consult-dir-jump-file)))
+           :map vertico-map
+           ("C-c C-d" . 'consult-dir)
+           ("C-c C-j" . 'consult-dir-jump-file)))
 
 (use-package embark
     :bind (("C-;" . embark-act)            ;; pick some comfortable binding
-              ("M-;" . embark-dwim)        ;; good alternative: C-M-;
-              ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+           ("M-;" . embark-dwim)        ;; good alternative: C-M-;
+           ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
     :init
     ;; Optionally replace the key help with a completing-read interface
@@ -324,9 +324,9 @@
     :config
     ;; Hide the mode line of the Embark live/completions buffers
     (add-to-list 'display-buffer-alist
-        '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-             nil
-             (window-parameters (mode-line-format . none)))))
+                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                   nil
+                   (window-parameters (mode-line-format . none)))))
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
@@ -338,14 +338,14 @@
     ;; available in the *Completions* buffer, add it to the
     ;; `completion-list-mode-map'.
     :bind (:map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
+                ("M-A" . marginalia-cycle))
     :init (marginalia-mode))
 
 ;; jinx : Enchanted Spell Checker
 (use-package jinx
     :hook (emacs-startup . global-jinx-mode)
     :bind (("M-$" . jinx-correct)
-              ("C-M-$" . jinx-languages)))
+           ("C-M-$" . jinx-languages)))
 
 ;; tempel - Simple templates for Emacs
 (use-package tempel-collection :disabled t :after tempel)
@@ -356,7 +356,7 @@
     ;; (tempel-trigger-prefix "<")
 
     :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
-              ("M-*" . tempel-insert))
+           ("M-*" . tempel-insert))
 
     :init
     (setq tempel-path (expand-file-name "tempel-templates" no-littering-etc-directory))
@@ -371,8 +371,8 @@
         ;; `tempel-expand' *before* the main programming mode Capf, such
         ;; that it will be tried first.
         (setq-local completion-at-point-functions
-            (cons #'tempel-expand
-                completion-at-point-functions)))
+                    (cons #'tempel-expand
+                          completion-at-point-functions)))
 
     (add-hook 'conf-mode-hook 'tempel-setup-capf)
     (add-hook 'prog-mode-hook 'tempel-setup-capf)
@@ -387,7 +387,7 @@
 (use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
     :bind (("M-+" . yas-expand)
-              ("M-*" . yas-insert-snippet))
+           ("M-*" . yas-insert-snippet))
     :config (yas-reload-all)
     :hook (after-init . yas-global-mode))
 

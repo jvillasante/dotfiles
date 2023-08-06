@@ -16,14 +16,14 @@
         (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
     (setq package-archive-priorities
-        '(("gnu"       . 99)   ; prefer GNU packages
-             ("nongnu" . 80)   ; use non-gnu packages if not found in GNU elpa
-             ("melpa"  . 10))) ; if all else fails, get it from melpa
+          '(("gnu"       . 99)   ; prefer GNU packages
+            ("nongnu" . 80)   ; use non-gnu packages if not found in GNU elpa
+            ("melpa"  . 10))) ; if all else fails, get it from melpa
     (setq package-user-dir
-        (expand-file-name "var/elpa" user-emacs-directory))
+          (expand-file-name "var/elpa" user-emacs-directory))
     (when (boundp 'package-gnupghome-dir)
         (setq package-gnupghome-dir
-            (expand-file-name "var/gnupg" user-emacs-directory)))
+              (expand-file-name "var/gnupg" user-emacs-directory)))
     (package-initialize)
     (unless package-archive-contents
         (package-refresh-contents)))
@@ -45,7 +45,7 @@
     (when (daemonp)
         (exec-path-from-shell-initialize)
         (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"
-                          "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH"))
+                       "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH"))
             (exec-path-from-shell-copy-env var))))
 
 ;; Paths
@@ -83,11 +83,11 @@
 
 ;; after started up, reset GC threshold to normal.
 (run-with-idle-timer 4 nil
-    (lambda ()
-        "Clean up gc."
-        (setq gc-cons-threshold  67108864) ; 64M
-        (setq gc-cons-percentage 0.1) ; original value
-        (garbage-collect)))
+                     (lambda ()
+                         "Clean up gc."
+                         (setq gc-cons-threshold  67108864) ; 64M
+                         (setq gc-cons-percentage 0.1) ; original value
+                         (garbage-collect)))
 
 (provide 'init)
 ;;; init.el ends here

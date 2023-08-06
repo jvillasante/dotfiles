@@ -10,28 +10,28 @@
     (require 'epa-file)
     (epa-file-enable)
     (setq epa-file-encrypt-to user-mail-address
-        epa-file-select-keys 'silent
-        epa-file-cache-passphrase-for-symmetric-encryption nil)
+          epa-file-select-keys 'silent
+          epa-file-cache-passphrase-for-symmetric-encryption nil)
 
     ;; setup org-crypt
     (require 'org-crypt)
     (org-crypt-use-before-save-magic)
     (setq org-crypt-disable-auto-save nil
-        org-tags-exclude-from-inheritance (quote ("crypt"))
-        org-crypt-key nil
-        org-crypt-key user-mail-address))
+          org-tags-exclude-from-inheritance (quote ("crypt"))
+          org-crypt-key nil
+          org-crypt-key user-mail-address))
 
 ;; password-store for emacs
 (use-package password-store
     :bind (("C-c p c" . password-store-copy)
-              ("C-c p C" . password-store-copy-field)
-              ("C-c p g" . password-store-generate)
-              ("C-c p G" . password-store-generate-no-symbols)
-              ("C-c p e" . password-store-edit)
-              ("C-c p r" . password-store-rename)
-              ("C-c p R" . password-store-remove)
-              ("C-c p i" . password-store-insert)
-              ("C-c p P" . my/dwim-shell-command-pass-git-push))
+           ("C-c p C" . password-store-copy-field)
+           ("C-c p g" . password-store-generate)
+           ("C-c p G" . password-store-generate-no-symbols)
+           ("C-c p e" . password-store-edit)
+           ("C-c p r" . password-store-rename)
+           ("C-c p R" . password-store-remove)
+           ("C-c p i" . password-store-insert)
+           ("C-c p P" . my/dwim-shell-command-pass-git-push))
     :custom ((password-store-password-length 25)))
 
 ;; http://www.yummymelon.com/devnull/using-ediff-in-2023.html
@@ -90,19 +90,19 @@
     (savehist-mode +1)
     :config
     (setq history-length t
-        history-delete-duplicates t
-        savehist-save-minibuffer-history t
-        savehist-additional-variables '(register-alist kill-ring search-ring regexp-search-ring) ;; search entries
-        savehist-file (expand-file-name "savehist" no-littering-var-directory)))
+          history-delete-duplicates t
+          savehist-save-minibuffer-history t
+          savehist-additional-variables '(register-alist kill-ring search-ring regexp-search-ring) ;; search entries
+          savehist-file (expand-file-name "savehist" no-littering-var-directory)))
 
 ;; recentf : recent files
 (use-package recentf
     :ensure nil ;; emacs built-in
     :config
     (setq recentf-save-file (expand-file-name "recentf" no-littering-var-directory)
-        recentf-max-saved-items 500
-        recentf-max-menu-items 15
-        recentf-auto-cleanup 'never)
+          recentf-max-saved-items 500
+          recentf-max-menu-items 15
+          recentf-auto-cleanup 'never)
     (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-var-directory))
     (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-etc-directory))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "Apps/elfeed/elfeed_db/" my/dropbox-path)))
@@ -122,7 +122,7 @@
 (use-package project
     :ensure nil ;; emacs built-in
     :custom ((project-list-file (expand-file-name "projects" no-littering-var-directory))
-                (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
+             (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
     :config (add-to-list 'project-switch-commands '(project-dired "Dired at root")))
 
 ;; tramp : Transparent Remote Access, Multiple Protocols
@@ -133,14 +133,14 @@
     (setq tramp-verbose 2)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq tramp-password-prompt-regexp   ; Add verification code support.
-        (concat
-            "^.*"
-            (regexp-opt
-                '("passphrase" "Passphrase"
-                     "password" "Password"
-                     "Verification code")
-                t)
-            ".*:\0? *")))
+          (concat
+           "^.*"
+           (regexp-opt
+            '("passphrase" "Passphrase"
+              "password" "Password"
+              "Verification code")
+            t)
+           ".*:\0? *")))
 
 (use-package autorevert
     :ensure nil ;; emacs built-in
@@ -156,10 +156,10 @@
     :config
     ;; make electric-pair-mode work on more brackets
     (setq-default electric-pair-pairs
-        '((?\" . ?\")
-             (?\( . ?\))
-             (?\{ . ?\})
-             (?\[ . ?\])))
+                  '((?\" . ?\")
+                    (?\( . ?\))
+                    (?\{ . ?\})
+                    (?\[ . ?\])))
     (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
     (add-hook 'after-init-hook 'electric-pair-mode))
 
@@ -179,10 +179,10 @@
     (setq ibuffer-project-use-cache t)
     (add-to-list 'ibuffer-project-root-functions '(file-remote-p . "Remote"))
     (add-hook 'ibuffer-hook
-        (lambda ()
-            (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
-            (unless (eq ibuffer-sorting-mode 'project-file-relative)
-                (ibuffer-do-sort-by-project-file-relative)))))
+              (lambda ()
+                  (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+                  (unless (eq ibuffer-sorting-mode 'project-file-relative)
+                      (ibuffer-do-sort-by-project-file-relative)))))
 
 (use-package ibuffer-vc
     :disabled t
@@ -200,7 +200,7 @@
 (use-package persistent-scratch
     :config
     (setq persistent-scratch-save-file
-        (expand-file-name "persistent-scratch" no-littering-var-directory))
+          (expand-file-name "persistent-scratch" no-littering-var-directory))
     (persistent-scratch-setup-default)
     (persistent-scratch-autosave-mode 1))
 
@@ -222,11 +222,11 @@
 
 (use-package multiple-cursors
     :bind (("H-SPC" . set-rectangular-region-anchor)
-              ("C-M-SPC" . set-rectangular-region-anchor)
-              ("C->" . mc/mark-next-like-this)
-              ("C-<" . mc/mark-previous-like-this)
-              ("C-c C->" . mc/mark-all-like-this)
-              ("C-S-c C-S-c" . mc/edit-lines)))
+           ("C-M-SPC" . set-rectangular-region-anchor)
+           ("C->" . mc/mark-next-like-this)
+           ("C-<" . mc/mark-previous-like-this)
+           ("C-c C->" . mc/mark-all-like-this)
+           ("C-S-c C-S-c" . mc/edit-lines)))
 
 ;; wgrep :
 (use-package wgrep)

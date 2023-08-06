@@ -17,21 +17,21 @@
         (setq eshell-prompt-function 'epe-theme-lambda))
 
     (add-hook 'eshell-mode-hook
-        (lambda()
-            ;; visual commands
-            (add-to-list 'eshell-visual-commands "ssh")
-            (add-to-list 'eshell-visual-commands "tail")
-            (add-to-list 'eshell-visual-commands "top")
+              (lambda()
+                  ;; visual commands
+                  (add-to-list 'eshell-visual-commands "ssh")
+                  (add-to-list 'eshell-visual-commands "tail")
+                  (add-to-list 'eshell-visual-commands "top")
 
-            ;; aliases
-            (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                          "/usr/local/bin/gls"
-                          "/bin/ls")))
-                (eshell/alias "ls" (concat ls " --group-directories-first --color"))
-                (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
-            (eshell/alias "ff" "find-file $1")
-            (eshell/alias "e" "find-file-other-window $1")
-            (eshell/alias "d" "dired $1")))
+                  ;; aliases
+                  (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                                    "/usr/local/bin/gls"
+                                "/bin/ls")))
+                      (eshell/alias "ls" (concat ls " --group-directories-first --color"))
+                      (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
+                  (eshell/alias "ff" "find-file $1")
+                  (eshell/alias "e" "find-file-other-window $1")
+                  (eshell/alias "d" "dired $1")))
     :config
     (setq eshell-scroll-to-bottom-on-input 'this)
     (setq eshell-scroll-to-bottom-on-output nil)
@@ -44,15 +44,15 @@
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
     :bind (("C-c o t" . #'my/vterm)
-              :map project-prefix-map
-              ("t" . my/project-vterm)
-              :map vterm-mode-map
-              ([return] . #'vterm-send-return)
-              ("M-[" . #'vterm-copy-mode)
-              ("C-y" . #'vterm-yank)
-              :map vterm-copy-mode-map
-              ("M-w" . #'vterm-copy-mode-done)
-              ("C-g" . #'vterm-copy-mode-done))
+           :map project-prefix-map
+           ("t" . my/project-vterm)
+           :map vterm-mode-map
+           ([return] . #'vterm-send-return)
+           ("M-[" . #'vterm-copy-mode)
+           ("C-y" . #'vterm-yank)
+           :map vterm-copy-mode-map
+           ("M-w" . #'vterm-copy-mode-done)
+           ("C-g" . #'vterm-copy-mode-done))
     :preface
     (defun my/vterm ()
         "open vterm at project root, if no root is found, open at the default-directory"
@@ -63,10 +63,10 @@
         (interactive)
         (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
-                  (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
-                  (vterm-buffer (get-buffer vterm-buffer-name)))
+               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+               (vterm-buffer (get-buffer vterm-buffer-name)))
             (if (and vterm-buffer (not current-prefix-arg))
-                (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
+                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
                 (vterm))))
     :init
     (add-to-list 'project-switch-commands '(my/project-vterm "vTerm") t)
@@ -76,12 +76,12 @@
     (setq vterm-max-scrollback 100000)
     (setq vterm-shell (executable-find "bash"))
     (setq vterm-tramp-shells '(("ssh" "/bin/sh")
-                                  ("podman" "/bin/bash")))
+                               ("podman" "/bin/bash")))
     (add-hook 'vterm-mode-hook
-        (lambda ()
-            (setq-local scroll-margin 0)
-            (setq-local confirm-kill-processes nil)
-            (setq-local hscroll-margin 0))))
+              (lambda ()
+                  (setq-local scroll-margin 0)
+                  (setq-local confirm-kill-processes nil)
+                  (setq-local hscroll-margin 0))))
 
 ;; eat: Emulate A Terminal (vterm is better IMO)
 (use-package eat
@@ -93,18 +93,18 @@
         (let ((default-directory (my/project-root-or-default-dir)))
             (call-interactively #'eat)))
     :bind (("C-x p s" . #'eat-project)
-              ("C-c o t" . #'my/eat))
+           ("C-c o t" . #'my/eat))
     :config
     (add-hook 'eshell-mode-hook
-        (lambda()
-            (setq eshell-visual-commands nil)
-            (eat-eshell-visual-command-mode +1)
-            (eat-eshell-mode +1)))
+              (lambda()
+                  (setq eshell-visual-commands nil)
+                  (eat-eshell-visual-command-mode +1)
+                  (eat-eshell-mode +1)))
     (add-hook 'eat-mode-hook
-        (lambda ()
-            (setq-local scroll-margin 0)
-            (setq-local confirm-kill-processes nil)
-            (setq-local hscroll-margin 0))))
+              (lambda ()
+                  (setq-local scroll-margin 0)
+                  (setq-local confirm-kill-processes nil)
+                  (setq-local hscroll-margin 0))))
 
 ;; dwim-shell-command : Bring command-line utilities to your Emacs workflows
 ;; noweb templates operate on drawn files using either the following:
@@ -116,26 +116,26 @@
 ;;   <<cb>>  (clipboard)
 (use-package dwim-shell-command
     :bind (([remap shell-command] . dwim-shell-command)
-              :map dired-mode-map
-              ([remap dired-do-async-shell-command] . dwim-shell-command)
-              ([remap dired-do-shell-command] . dwim-shell-command)
-              ([remap dired-smart-shell-command] . dwim-shell-command))
+           :map dired-mode-map
+           ([remap dired-do-async-shell-command] . dwim-shell-command)
+           ([remap dired-do-shell-command] . dwim-shell-command)
+           ([remap dired-smart-shell-command] . dwim-shell-command))
     :init
     (require 'dwim-shell-commands)
     (defun my/dwim-shell-command-convert-to-gif ()
         "Convert all marked videos to optimized gif(s)."
         (interactive)
         (dwim-shell-command-on-marked-files
-            "Convert to gif"
-            "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
-            :utils "ffmpeg"))
+         "Convert to gif"
+         "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
+         :utils "ffmpeg"))
     (defun my/dwim-shell-command-pass-git-push ()
         "Push password-store changes to git"
         (interactive)
         (dwim-shell-command-on-marked-files
-            "Push password-store changes to git"
-            "pass git push"
-            :utils "pass")))
+         "Push password-store changes to git"
+         "pass git push"
+         :utils "pass")))
 
 ;; emamux : Interact with tmux from Emacs.
 (use-package emamux)
@@ -143,8 +143,8 @@
 (use-package chatgpt-shell
     :custom
     ((chatgpt-shell-openai-key
-         (lambda ()
-             (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))))
+      (lambda ()
+          (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))))
 
 (provide 'my-init-shell)
 ;;; my-init-shell.el ends here

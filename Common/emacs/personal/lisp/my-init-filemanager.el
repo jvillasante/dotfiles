@@ -10,11 +10,11 @@
     (setq dired-dwim-target t) ;; makes dired guess the target directory
     (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
     (setq dired-hide-details-hide-symlink-targets nil
-        ;; Ask whether destination dirs should get created when copying/removing files.
-        dired-create-destination-dirs 'ask
-        ;; Disable the prompt about whether I want to kill the Dired buffer for a
-        ;; deleted directory. Of course I do!
-        dired-clean-confirm-killing-deleted-buffers nil)
+          ;; Ask whether destination dirs should get created when copying/removing files.
+          dired-create-destination-dirs 'ask
+          ;; Disable the prompt about whether I want to kill the Dired buffer for a
+          ;; deleted directory. Of course I do!
+          dired-clean-confirm-killing-deleted-buffers nil)
 
     ;; Allow to change permissions with wdired
     (setq wdired-allow-to-change-permissions t)
@@ -27,9 +27,9 @@
     ;; suggestions.  Of course, you can always type an arbitrary program
     ;; despite these defaults.
     (setq dired-guess-shell-alist-user
-        '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
-             ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
-		     (".*" "xdg-open")))
+          '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
+            ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
+		    (".*" "xdg-open")))
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
@@ -38,7 +38,7 @@
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
     (setq dired-listing-switches (if (eq system-type 'windows-nt)
-                                     "-alh"
+                                         "-alh"
                                      "-alhvF --group-directories-first"))
 
     ;; global auto-revert only applies to buffers associated with files on the disk
@@ -46,14 +46,14 @@
 
     ;; enable some really cool extensions like C-x C-j(dired-jump)
     (if (< emacs-major-version 28)
-        (add-hook 'dired-load-hook (lambda ()
-                                       (load "dired-x"))))
+            (add-hook 'dired-load-hook (lambda ()
+                                           (load "dired-x"))))
 
     ;; Make dired use the same buffer for viewing directory
     (if (< emacs-major-version 28)
-        (progn
-            (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
-            (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))) ; was dired-up-directory
+            (progn
+                (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
+                (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))) ; was dired-up-directory
         (progn
             (setq dired-kill-when-opening-new-dired-buffer t))))
 
@@ -63,22 +63,22 @@
     :config
     ;; Make dired-omit-mode hide all "dotfiles"
     (setq dired-omit-files
-        (concat dired-omit-files "\\|^\\..*$")))
+          (concat dired-omit-files "\\|^\\..*$")))
 
 ;; Addtional syntax highlighting for dired
 (use-package diredfl
     :hook
     ((dired-mode . diredfl-mode)
-        (dirvish-directory-view-mode . diredfl-mode))
+     (dirvish-directory-view-mode . diredfl-mode))
     :config
     (set-face-attribute 'diredfl-dir-name nil :bold t))
 
 (use-package dired-sidebar
     :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
     :init (add-hook 'dired-sidebar-mode-hook
-              (lambda ()
-                  (unless (file-remote-p default-directory)
-                      (auto-revert-mode))))
+                    (lambda ()
+                        (unless (file-remote-p default-directory)
+                            (auto-revert-mode))))
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
     (push 'rotate-windows dired-sidebar-toggle-hidden-commands)

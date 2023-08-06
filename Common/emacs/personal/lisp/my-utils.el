@@ -13,18 +13,18 @@ This can be used as a drop-in replacement for `setq' and *should* be used
 instead of `setopt'.  Unlike `setq', this triggers custom setters on variables.
 Unlike `setopt', this won't needlessly pull in dependencies."
     (macroexp-progn
-        (cl-loop for (var val) on settings by 'cddr
-            collect `(funcall (or (get ',var 'custom-set) #'set-default-toplevel-value)
-                         ',var ,val))))
+     (cl-loop for (var val) on settings by 'cddr
+              collect `(funcall (or (get ',var 'custom-set) #'set-default-toplevel-value)
+                                ',var ,val))))
 
 (defmacro delq! (elt list &optional fetcher)
     "`delq' ELT from LIST in-place.
 
 If FETCHER is a function, ELT is used as the key in LIST (an alist)."
     `(setq ,list (delq ,(if fetcher
-                            `(funcall ,fetcher ,elt ,list)
+                                `(funcall ,fetcher ,elt ,list)
                             elt)
-                     ,list)))
+                       ,list)))
 
 (defun my/clone-buffer-in-new-window-readonly ()
     "Clone the current buffer in a new window.
@@ -80,21 +80,21 @@ Make it readonly, and set up a keybinding (q) to close the window."
     (interactive)
     (require 'hl-todo)
     (when featurep 'consult
-        (consult-ripgrep nil hl-todo--regexp)))
+          (consult-ripgrep nil hl-todo--regexp)))
 
 ;;; Elisp
 
 (defun my/helpful-lookup-symbl-at-point ()
     (interactive)
     (when featurep 'helpful
-        (helpful-symbol (symbol-at-point))))
+          (helpful-symbol (symbol-at-point))))
 
 (defun my/elisp-look-up-symbol (beg end)
     "Look up for the symbol under point.
 If region (BEG to END) is active, use the selected region as the symbol."
     (interactive "r")
     (if (use-region-p)
-        (helpful-symbol (intern (buffer-substring beg end)))
+            (helpful-symbol (intern (buffer-substring beg end)))
         (helpful-symbol (symbol-at-point))))
 
 ;;; OS
@@ -103,7 +103,7 @@ If region (BEG to END) is active, use the selected region as the symbol."
     "If there is only one tab, close emacs, otherwise close one tab"
     (interactive)
     (if (> (length (tab-bar-tabs)) 1)
-        (tab-bar-close-tab)
+            (tab-bar-close-tab)
         (kill-emacs)))
 
 (defun my/tty-setup ()
@@ -130,17 +130,17 @@ with a prefix \\[universal-argument] create a new `eww' session
 otherwise use the existed one"
     (interactive "P")
     (if-let ((link-at-point (get-text-property (point) 'shr-url)))
-        (eww link-at-point new-session)
+            (eww link-at-point new-session)
         (eww
-            (elfeed-entry-link elfeed-show-entry)
-            new-session)))
+         (elfeed-entry-link elfeed-show-entry)
+         new-session)))
 
 ;;; Misc
 
 (defun my/project-root-or-default-dir ()
     "If a project root is found, return it. Otherwise return `default-directory'."
     (if-let ((proj (project-current)))
-        (project-root proj)
+            (project-root proj)
         default-directory))
 
 (defun my/switch-to-messages-buffer ()
@@ -172,10 +172,10 @@ otherwise use the existed one"
     "This interactive call is taken from `load-theme'.
 Switch the current theme to THEME"
     (interactive
-        (list
-            (intern (completing-read "Load custom theme: "
-                        (mapcar 'symbol-name
-                            (custom-available-themes))))))
+     (list
+      (intern (completing-read "Load custom theme: "
+                               (mapcar 'symbol-name
+                                       (custom-available-themes))))))
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
 
@@ -183,9 +183,9 @@ Switch the current theme to THEME"
     "Save all buffers without prompt."
     (interactive)
     (let ((modified-count
-              (length (cl-loop for buf in (buffer-list)
-                          when (and (buffer-file-name buf) (buffer-modified-p buf))
-                          collect buf))))
+           (length (cl-loop for buf in (buffer-list)
+                            when (and (buffer-file-name buf) (buffer-modified-p buf))
+                            collect buf))))
         (save-excursion
             (save-some-buffers t)
             (message "%d buffer(s) saved" modified-count))))
@@ -195,10 +195,10 @@ Switch the current theme to THEME"
 Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html."
     (interactive)
     (let ((fill-column
-              (if (eq last-command 'my/fill-or-unfill)
-                  (progn (setq this-command nil)
-                      (point-max))
-                  fill-column)))
+           (if (eq last-command 'my/fill-or-unfill)
+                   (progn (setq this-command nil)
+                          (point-max))
+               fill-column)))
         (call-interactively #'fill-paragraph)))
 
 (defun my/org-fill-or-unfill ()
@@ -206,10 +206,10 @@ Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-sin
 Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html."
     (interactive)
     (let ((fill-column
-              (if (eq last-command 'my/org-fill-or-unfill)
-                  (progn (setq this-command nil)
-                      (point-max))
-                  fill-column)))
+           (if (eq last-command 'my/org-fill-or-unfill)
+                   (progn (setq this-command nil)
+                          (point-max))
+               fill-column)))
         (call-interactively #'org-fill-paragraph)))
 
 (defun my/fill-buffer ()
@@ -225,8 +225,8 @@ Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-sin
 Taken from: https://www.emacswiki.org/emacs/UnfillParagraph."
     (interactive (progn (barf-if-buffer-read-only) '(t)))
     (let ((fill-column (point-max))
-             ;; This would override `fill-column' if it's an integer.
-             (emacs-lisp-docstring-fill-column t))
+          ;; This would override `fill-column' if it's an integer.
+          (emacs-lisp-docstring-fill-column t))
         (fill-paragraph nil region)))
 
 (defun my/unfill-region (beg end)
@@ -257,27 +257,27 @@ frames with exactly two windows. Taken from:
 https://www.emacswiki.org/emacs/ToggleWindowSplit"
     (interactive)
     (if (= (count-windows) 2)
-        (let* ((this-win-buffer (window-buffer))
-                  (next-win-buffer (window-buffer (next-window)))
-                  (this-win-edges (window-edges (selected-window)))
-                  (next-win-edges (window-edges (next-window)))
-                  (this-win-2nd (not (and (<= (car this-win-edges)
-                                              (car next-win-edges))
-                                         (<= (cadr this-win-edges)
-                                             (cadr next-win-edges)))))
-                  (splitter
-                      (if (= (car this-win-edges)
-                              (car (window-edges (next-window))))
-                          'split-window-horizontally
-                          'split-window-vertically)))
-            (delete-other-windows)
-            (let ((first-win (selected-window)))
-                (funcall splitter)
-                (if this-win-2nd (other-window 1))
-                (set-window-buffer (selected-window) this-win-buffer)
-                (set-window-buffer (next-window) next-win-buffer)
-                (select-window first-win)
-                (if this-win-2nd (other-window 1))))))
+            (let* ((this-win-buffer (window-buffer))
+                   (next-win-buffer (window-buffer (next-window)))
+                   (this-win-edges (window-edges (selected-window)))
+                   (next-win-edges (window-edges (next-window)))
+                   (this-win-2nd (not (and (<= (car this-win-edges)
+                                               (car next-win-edges))
+                                           (<= (cadr this-win-edges)
+                                               (cadr next-win-edges)))))
+                   (splitter
+                    (if (= (car this-win-edges)
+                           (car (window-edges (next-window))))
+                            'split-window-horizontally
+                        'split-window-vertically)))
+                (delete-other-windows)
+                (let ((first-win (selected-window)))
+                    (funcall splitter)
+                    (if this-win-2nd (other-window 1))
+                    (set-window-buffer (selected-window) this-win-buffer)
+                    (set-window-buffer (next-window) next-win-buffer)
+                    (select-window first-win)
+                    (if this-win-2nd (other-window 1))))))
 
 (defun my/new-scratch-buffer-in-markdown ()
     "Make a temporary buffer in markdown mode and switch to it."
@@ -289,10 +289,10 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
     "Comments or uncomments the current line or region."
     (interactive)
     (if (region-active-p)
+            (comment-or-uncomment-region
+             (region-beginning)(region-end))
         (comment-or-uncomment-region
-            (region-beginning)(region-end))
-        (comment-or-uncomment-region
-            (line-beginning-position)(line-end-position))))
+         (line-beginning-position)(line-end-position))))
 
 ;; Behave like vi's o command
 (defun my/open-next-line (arg)

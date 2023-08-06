@@ -13,26 +13,26 @@
             (mapc #'kill-buffer buffers)))
     :hook ((git-commit-mode . (lambda () (setq-local fill-column 72))))
     :bind (:map magit-status-mode-map
-              ("q" . #'my/magit-kill-buffers)
-              ("C-x k" . #'my/magit-kill-buffers))
+                ("q" . #'my/magit-kill-buffers)
+                ("C-x k" . #'my/magit-kill-buffers))
     :custom ((magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
-                (git-commit-summary-max-length 50)
-                (magit-diff-refine-hunk t) ; show granular diffs in selected hunk.
-                (magit-save-repository-buffers nil)
-                (magit-define-global-key-bindings nil)))
+             (git-commit-summary-max-length 50)
+             (magit-diff-refine-hunk t) ; show granular diffs in selected hunk.
+             (magit-save-repository-buffers nil)
+             (magit-define-global-key-bindings nil)))
 
 (use-package git-gutter
     :commands (git-gutter:revert-hunk git-gutter:stage-hunk)
     :hook ((prog-mode . git-gutter-mode)
-              (conf-mode . git-gutter-mode))
+           (conf-mode . git-gutter-mode))
     :config (add-to-list 'display-buffer-alist
-                '("\\*git-gutter"
-                     (display-buffer-below-selected)
-                     (window-height . 0.3))))
+                         '("\\*git-gutter"
+                           (display-buffer-below-selected)
+                           (window-height . 0.3))))
 
 (use-package hl-todo
     :hook ((prog-mode . hl-todo-mode)
-              (conf-mode . hl-todo-mode))
+           (conf-mode . hl-todo-mode))
     :config (setq hl-todo-highlight-punctuation ":"))
 
 (provide 'my-init-vcs)
