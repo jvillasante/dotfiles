@@ -30,40 +30,40 @@
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)     ;; auto-fill insert hard line breaks
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
 (add-hook 'prog-mode-hook                            ;; ... but add comment auto-fill in prog-mode
-    (lambda ()
-        (setq-local comment-auto-fill-only-comments t)
-        (auto-fill-mode 1)))
+          (lambda ()
+              (setq-local comment-auto-fill-only-comments t)
+              (auto-fill-mode 1)))
 
 ;; Set the font
 (add-hook 'emacs-startup-hook
-    (lambda ()
-        (setq x-underline-at-descent-line nil)
-        (setq-default text-scale-remap-header-line t)
-        (custom-set-faces
-            `(default ((t (:font "Iosevka Comfy 16"))))
-            `(fixed-pitch ((t (:inherit (default)))))
-            `(fixed-pitch-serif ((t (:inherit (default)))))
-            `(variable-pitch ((t (:font "Iosevka Comfy Motion Duo")))))))
+          (lambda ()
+              (setq x-underline-at-descent-line nil)
+              (setq-default text-scale-remap-header-line t)
+              (custom-set-faces
+               `(default ((t (:font "Iosevka Comfy 16"))))
+               `(fixed-pitch ((t (:inherit (default)))))
+               `(fixed-pitch-serif ((t (:inherit (default)))))
+               `(variable-pitch ((t (:font "Iosevka Comfy Motion Duo")))))))
 
-;; set default frame title
+;; Set default frame title
 (setq-default frame-title-format
-    '(:eval
-         (format "%s@%s: %s"
-             (or (file-remote-p default-directory 'user)
-                 user-real-login-name)
-             (or (file-remote-p default-directory 'host)
-                 system-name)
-             (cond
-                 (buffer-file-truename
-                     (concat buffer-file-truename))
-                 (dired-directory
-                     (concat dired-directory))
-                 (t (buffer-name))))))
+              '(:eval
+                (format "%s@%s: %s"
+                        (or (file-remote-p default-directory 'user)
+                            user-real-login-name)
+                        (or (file-remote-p default-directory 'host)
+                            system-name)
+                        (cond
+                         (buffer-file-truename
+                          (concat buffer-file-truename))
+                         (dired-directory
+                          (concat dired-directory))
+                         (t (buffer-name))))))
 
 (setq window-combination-resize t
-    ;; unless you have a really wide screen, always prefer
-    ;; horizontal split (ale `split-window-below')
-    split-width-threshold 300)
+      ;; unless you have a really wide screen, always prefer
+      ;; horizontal split (ale `split-window-below')
+      split-width-threshold 300)
 
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
@@ -81,18 +81,18 @@
     ;; (setq-default whitespace-style '(face tabs tab-mark trailing))
     (setq-default whitespace-style '(face trailing))
     (setq-default whitespace-display-mappings
-        '(;; tabs -> » else >
-             (tab-mark ?\t [187 ?\t] [62 ?\t]))))
+                  '(;; tabs -> » else >
+                    (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 
 (use-package tab-bar
     :ensure nil ;; emacs built-in
     :init
     (setq tab-bar-show 1
-        tab-bar-close-button-show nil
-        tab-bar-new-tab-choice "*scratch*"
-        tab-bar-tab-hints t
-        tab-bar-format '(tab-bar-format-tabs-groups
-                            tab-bar-separator))
+          tab-bar-close-button-show nil
+          tab-bar-new-tab-choice "*scratch*"
+          tab-bar-tab-hints t
+          tab-bar-format '(tab-bar-format-tabs-groups
+                           tab-bar-separator))
     (add-hook 'pre-command-hook 'tab-bar-history-mode))
 
 (use-package modus-themes
@@ -105,26 +105,26 @@
     ;; Color customizations
     (setq modus-themes-prompts '(italic bold))
     (setq modus-themes-completions
-        '((matches . (extrabold))
-             (selection . (semibold italic text-also))))
+          '((matches . (extrabold))
+            (selection . (semibold italic text-also))))
     (setq modus-themes-org-blocks 'gray-background)
 
     ;; Font sizes for titles and headings, including org
     (setq modus-themes-headings '((1 . (variable-pitch 1.5))
-                                     (2 . (1.3))
-                                     (agenda-date . (1.3))
-                                     (agenda-structure . (variable-pitch light 1.8))
-                                     (t . (1.1))))
+                                  (2 . (1.3))
+                                  (agenda-date . (1.3))
+                                  (agenda-structure . (variable-pitch light 1.8))
+                                  (t . (1.1))))
 
     ;; Theme overrides
     (customize-set-variable 'modus-themes-common-palette-overrides
-        `(;; Make the mode-line borderless
-             (bg-mode-line-active bg-inactive)
-             (fg-mode-line-active fg-main)
-             (bg-mode-line-inactive bg-inactive)
-             (fg-mode-line-active fg-dim)
-             (border-mode-line-active bg-inactive)
-             (border-mode-line-inactive bg-main)))
+                            `(;; Make the mode-line borderless
+                              (bg-mode-line-active bg-inactive)
+                              (fg-mode-line-active fg-main)
+                              (bg-mode-line-inactive bg-inactive)
+                              (fg-mode-line-active fg-dim)
+                              (border-mode-line-active bg-inactive)
+                              (border-mode-line-inactive bg-main)))
 
     ;; Load theme
     (my/switch-theme 'modus-operandi))
@@ -143,46 +143,46 @@
     (add-hook 'pre-command-hook 'which-key-mode)
     :config
     (setq which-key-idle-delay 1
-        which-key-popup-type 'minibuffer))
+          which-key-popup-type 'minibuffer))
 
 ;; shackle : Enforce rules for popup windows
 (use-package shackle
     :init
     (setq shackle-rules
-        '((compilation-mode :select t :popup t :align 'below :size 0.4)
-             (eat-mode :select t :popup t :align 'below :size 0.4)
-             ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
+          '((compilation-mode :select t :popup t :align 'below :size 0.4)
+            (eat-mode :select t :popup t :align 'below :size 0.4)
+            ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
     (shackle-mode +1))
 
 ;; popper : tame the flood of ephemeral windows Emacs produces
 (use-package popper
     :bind (("C-c :" . popper-toggle-latest)
-              ("C-`"   . popper-toggle-latest)
-              ("C-\\"  . popper-cycle)
-              ("C-M-`" . popper-toggle-type))
+           ("C-`"   . popper-toggle-latest)
+           ("C-\\"  . popper-cycle)
+           ("C-M-`" . popper-toggle-type))
     :init
     (setq popper-reference-buffers
-        '("\\*Messages\\*"
-             "\\*Warnings\\*"
-             "Output\\*$"
-             "\\*Async Shell Command\\*"
-             help-mode
-             compilation-mode))
+          '("\\*Messages\\*"
+            "\\*Warnings\\*"
+            "Output\\*$"
+            "\\*Async Shell Command\\*"
+            help-mode
+            compilation-mode))
     ;; Match terminal buffers
     (setq popper-reference-buffers
-        (append popper-reference-buffers
-            '("^\\*eshell.*\\*$"                   eshell-mode                       ;eshell as a popup
-                 "^\\*shell.*\\*$"                 shell-mode                        ;shell as a popup
-                 "^\\*term.*\\*$"                  term-mode                         ;term as a popup
-                 "^\\*vterm.*\\*$"                 vterm-mode                        ;vterm as a popup
-                 "^\\*eat.*\\*$"                   eat-mode                          ;eat as a popup
-                 "^\\*flycheck-list-errors.*\\*$"  flycheck-error-list-mode          ;flycheck error list as a popup
-                 "^\\*Flymake diagnostics.*\\*$"   flymake-project-diagnostics-mode  ;flymake diagnostics as a popup
-                 "^\\*ibuffer.*\\*$"               ibuffer-mode                      ;ibuffer as a popup
-                 "^\\*helpful-comand.*\\*$"        helpful-mode                      ;helpful command as a popup
-                 "^\\*helpful-variable.*\\*$"      helpful-mode                      ;helpful variable as a popup
-                 "^\\*helpful-callable.*\\*$"      helpful-mode                      ;helpful callable as a popup
-                 "^\\*scratch.*\\*$"               initial-major-mode)))             ;scratch buffer as a popup
+          (append popper-reference-buffers
+                  '("^\\*eshell.*\\*$"                   eshell-mode                       ;eshell as a popup
+                    "^\\*shell.*\\*$"                 shell-mode                        ;shell as a popup
+                    "^\\*term.*\\*$"                  term-mode                         ;term as a popup
+                    "^\\*vterm.*\\*$"                 vterm-mode                        ;vterm as a popup
+                    "^\\*eat.*\\*$"                   eat-mode                          ;eat as a popup
+                    "^\\*flycheck-list-errors.*\\*$"  flycheck-error-list-mode          ;flycheck error list as a popup
+                    "^\\*Flymake diagnostics.*\\*$"   flymake-project-diagnostics-mode  ;flymake diagnostics as a popup
+                    "^\\*ibuffer.*\\*$"               ibuffer-mode                      ;ibuffer as a popup
+                    "^\\*helpful-comand.*\\*$"        helpful-mode                      ;helpful command as a popup
+                    "^\\*helpful-variable.*\\*$"      helpful-mode                      ;helpful variable as a popup
+                    "^\\*helpful-callable.*\\*$"      helpful-mode                      ;helpful callable as a popup
+                    "^\\*scratch.*\\*$"               initial-major-mode)))             ;scratch buffer as a popup
     (setq popper-window-height 15)
     (setq popper-mode-line '(:eval (propertize " POP " 'face 'mode-line-emphasis)))
     (popper-mode +1)
