@@ -161,15 +161,13 @@ FZF-EOF"
     #
     if type pass >/dev/null 2>/dev/null; then
         fpass() {
-            local dir passfile actions action
-            dir=$(pwd)
-            cd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || return
+            local passfile actions action
+            pushd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || return
             passfile=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
             if [ -z "$passfile" ]; then
-                cd "$dir" || return
-                return
+                popd && return || return;
             fi
-            cd "$dir" || return
+            popd || return
             actions="Copy Password\nCopy Password and Quit\nView File\nView File and Quit\nEdit File\nEdit File and Quit\nQuit"
             while true; do
                 action=$(echo -e "$actions" | fzf --height 12 --border --header "Pass file $passfile")
