@@ -19,9 +19,13 @@
     (add-hook 'eshell-mode-hook
               (lambda()
                   ;; visual commands
+                  (add-to-list 'eshell-visual-commands "top")
+                  (add-to-list 'eshell-visual-commands "htop")
+                  (add-to-list 'eshell-visual-commands "neofetch")
                   (add-to-list 'eshell-visual-commands "ssh")
                   (add-to-list 'eshell-visual-commands "tail")
-                  (add-to-list 'eshell-visual-commands "top")
+                  (add-to-list 'eshell-visual-commands "lynx")
+                  (setq eshell-visual-subcommands '(("git" "log" "diff" "show")))
 
                   ;; aliases
                   (let ((ls (if (file-exists-p "/usr/local/bin/gls")
@@ -72,6 +76,7 @@
     (add-to-list 'project-switch-commands '(my/project-vterm "vTerm") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
     :config
+    (setq vterm-kill-buffer-on-exit t)
     (setq vterm-copy-exclude-prompt t)
     (setq vterm-max-scrollback 100000)
     (setq vterm-shell (executable-find "bash"))
