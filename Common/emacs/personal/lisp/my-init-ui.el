@@ -78,8 +78,8 @@
     (add-hook 'before-save-hook #'whitespace-cleanup)
     (global-whitespace-mode)
     :config
-    ;; (setq-default whitespace-style '(face tabs tab-mark trailing))
-    (setq-default whitespace-style '(face trailing))
+    (setq-default whitespace-global-modes '(not magit-log-mode))
+    (setq-default whitespace-style '(face trailing)) ;; '(face tabs tab-mark trailing))
     (setq-default whitespace-display-mappings
                   '(;; tabs -> » else >
                     (tab-mark ?\t [187 ?\t] [62 ?\t]))))
