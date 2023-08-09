@@ -36,17 +36,21 @@
     (use-package-always-ensure t)
     (use-package-expand-minimally t))
 
+;; exec-path-from-shell : Sane environment variables
+(use-package exec-path-from-shell
+    :init (when (daemonp)
+              (exec-path-from-shell-initialize)
+              (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"
+                             "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH"))
+                  (exec-path-from-shell-copy-env var))))
+
 ;; no-littering needs to come first
 (use-package no-littering)
 
-;; exec-path-from-shell : Sane environment variables
-(use-package exec-path-from-shell
-    :init
-    (when (daemonp)
-        (exec-path-from-shell-initialize)
-        (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"
-                       "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH"))
-            (exec-path-from-shell-copy-env var))))
+;; config changes made through the customize UI will be stored here
+(setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+(when (file-exists-p custom-file)
+    (load custom-file))
 
 ;; Paths
 (defconst my/home-path (expand-file-name "~/"))
@@ -75,11 +79,6 @@
 
 ;; after started, stop debug on error
 (setq debug-on-error nil)
-
-;; config changes made through the customize UI will be stored here
-(setq custom-file (no-littering-expand-etc-file-name "custom.el"))
-(when (file-exists-p custom-file)
-    (load custom-file))
 
 ;; after started up, reset GC threshold to normal.
 (run-with-idle-timer 4 nil
