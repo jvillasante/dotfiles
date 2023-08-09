@@ -160,7 +160,7 @@ FZF-EOF"
     # Pass
     #
     if type pass >/dev/null 2>/dev/null; then
-        fpass() {
+        -fpass() {
             local passfile actions action
             pushd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || return
             passfile=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
@@ -197,6 +197,121 @@ FZF-EOF"
                     *) break ;;
                 esac
             done
+        }
+
+        fpass() {
+            store="$HOME/.password-store/"
+            swapfile="/swap/swapfile" # Set path to any swapfile not listed in /etc/fstab
+
+            # Open pass tomb, if any
+            if [[ -e "$HOME/.password.tomb" ]]; then
+                sudo swapoff -a && sudo swapoff "${swapfile}" 2> /dev/null
+                pass open 2> /dev/null
+            fi
+
+            while :; do
+                clear
+                selection=$(fd .gpg ~/.password-store/ -d 8 \
+                                | fzf --query "${tmp}" \
+                                      --prompt="# " \
+                                      --ansi \
+                                      --extended \
+                                      --no-border \
+                                      --with-nth 5.. \
+                                      --delimiter "/" \
+                                      --layout=reverse-list \
+                                      --no-multi \
+                                      --cycle \
+                                      --header='
+Ret: copy, M-s: show, M-e: edit, M-r: rename, M-d: duplicate,
+M-a: add, M-g: generate and copy new password, M-t: trash
+M-p: git pull, M-P: git push, C-g/Esc: clear query or exit' \
+                                      --margin='1,2,1,2' \
+                                      --color='16,gutter:-1' \
+                                      --bind="alt-s:execute(echo 'show' > /tmp/passfzfarg)+accept" \
+                                      --bind="alt-e:execute(echo 'edit' > /tmp/passfzfarg)+accept" \
+                                      --bind="alt-r:execute(echo 'mv' > /tmp/passfzfarg)+accept" \
+                                      --bind="alt-d:execute(echo 'cp' > /tmp/passfzfarg)+accept" \
+                                      --bind="alt-a:execute(echo 'add' > /tmp/passfzfarg)+print-query" \
+                                      --bind="alt-g:execute(echo 'generate --clip' > /tmp/passfzfarg)+print-query" \
+                                      --bind="alt-t:execute(echo 'rm' > /tmp/passfzfarg)+accept" \
+                                      --bind="alt-p:abort+execute(echo 'git pull' > /tmp/passfzfarg)" \
+                                      --bind="alt-P:abort+execute(echo 'git push -u --all' > /tmp/passfzfarg)" \
+                                      --bind="ctrl-g:execute(echo 'quit' > /tmp/passfzfarg)+cancel" \
+                                      --bind="esc:execute(echo 'quit' > /tmp/passfzfarg)+cancel")
+
+                if [[ -f "/tmp/passfzfarg" ]]; then
+                    arg=$(cat /tmp/passfzfarg)
+                    rm /tmp/passfzfarg
+                else
+                    arg="show --clip"
+                fi
+
+                if ! [[ -v "$selection" ]]; then
+                    clear
+                    case "$arg" in
+                        add)
+                            printf "\033[0;32mNew password Directory/Name:\033[0m ${selection}"
+                            if [[ -n "$selection" ]]; then
+                                printf "\033[0;32m\nPress Return to confirm or type new Directory/Name:\033[0m "
+                            fi
+                            read -r
+                            tmp="${REPLY:=$selection}"
+                            pass ${arg} "${tmp}"
+                            tmp="${selection:=$tmp}"
+                            continue
+                            ;;
+                        mv | cp)
+                            tmp=${selection::-4} && tmp=${tmp#"$store"}
+                            printf "\033[0;32m\nNew Directory/Name to ${arg} '${tmp}' to:\033[0m "
+                            read -r
+                            if [[ -n "$REPLY" ]]; then
+                                pass ${arg} "${tmp}" "${REPLY}"
+                            fi
+                            tmp="${REPLY:=$tmp}"
+                            continue
+                            ;;
+                        "generate --clip")
+                            printf "\033[0;32mNew password Directory/Name:\033[0m ${selection}"
+                            if [[ -n "$selection" ]]; then
+                                printf "\033[0;32m\nPress Return to confirm or type new Directory/Name:\033[0m "
+                            fi
+                            read -r
+                            tmp="${REPLY:=$selection}"
+                            printf "\033[0;32mNumber of characters:\033[0m "
+                            read -r
+                            pass ${arg} --in-place "${tmp}" "${REPLY}" \
+                                 2> /dev/null || pass ${arg} "${tmp}" "${REPLY}"
+                            tmp="${selection:=$tmp}"
+                            printf "\nPress any key to continue. "
+                            read -rsn1
+                            continue
+                            ;;
+                        quit)
+                            pkill -P $$
+                            break
+                            ;;
+                        *)
+                            if [[ -n "$selection" ]]; then
+                                tmp=${selection::-4} && tmp=${tmp#"$store"}
+                                pass ${arg} "${tmp}"
+                            else
+                                pass ${arg}
+                            fi
+                            printf "\nPress any key to continue. "
+                            read -rsn1
+                            continue
+                            ;;
+                    esac
+                fi
+            done
+
+            # Close pass tomb, if any
+            if [[ -e "$HOME/.password.tomb" ]]; then
+                printf "\n"
+                pass close
+                sudo swapon -a && sudo swapon "${swapfile}" 2> /dev/null
+            fi
         }
     fi
 fi
