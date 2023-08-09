@@ -4,14 +4,12 @@
 (setq vc-follow-symlinks t)
 
 (use-package magit
-    :preface
-    (defun my/magit-kill-buffers ()
-        "Restore window configuration and kill all Magit buffers."
-        (interactive)
-        (let ((buffers (magit-mode-get-buffers)))
-            (magit-restore-window-configuration)
-            (mapc #'kill-buffer buffers)))
-    :hook ((git-commit-mode . (lambda () (setq-local fill-column 72))))
+    :preface (defun my/magit-kill-buffers ()
+                 "Restore window configuration and kill all Magit buffers."
+                 (interactive)
+                 (let ((buffers (magit-mode-get-buffers)))
+                     (magit-restore-window-configuration)
+                     (mapc #'kill-buffer buffers)))
     :bind (:map magit-status-mode-map
                 ("q" . #'my/magit-kill-buffers)
                 ("C-x k" . #'my/magit-kill-buffers))

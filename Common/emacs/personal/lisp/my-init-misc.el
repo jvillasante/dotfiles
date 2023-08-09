@@ -44,13 +44,12 @@
 
 (use-package electric
     :ensure nil ;; emacs built-in
-    :preface
-    (defun my/electric-indent-local-mode-maybe ()
-        "Enable `electric-indent-local-mode' if appropriate."
-        (unless (or (eq major-mode 'fundamental-mode)
-                    (eq major-mode 'text-mode)
-                    (eq major-mode 'conf-mode))
-            (electric-indent-local-mode 1)))
+    :preface (defun my/electric-indent-local-mode-maybe ()
+                 "Enable `electric-indent-local-mode' if appropriate."
+                 (unless (or (eq major-mode 'fundamental-mode)
+                             (eq major-mode 'text-mode)
+                             (eq major-mode 'conf-mode))
+                     (electric-indent-local-mode 1)))
     :init
     (setq-default electric-indent-chars '(?\n ?\^?))
     (setq-default electric-indent-inhibit t) ;; Making electric-indent behave sanely
