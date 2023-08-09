@@ -14,7 +14,7 @@ if type fzf >/dev/null 2>/dev/null; then
 
     # Options to fzf command
     # export FZF_TMUX_OPTS="-p 80%,60%"
-    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border sharp --info=inline'
+    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border sharp --info=inline --color=gutter:-1'
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -227,7 +227,6 @@ Ret: copy, M-s: show, M-e: edit, M-r: rename, M-d: duplicate,
 M-a: add, M-g: generate and copy new password, M-t: trash
 M-p: git pull, M-P: git push, C-g/Esc: clear query or exit' \
                                       --margin='1,2,1,2' \
-                                      --color='16,gutter:-1' \
                                       --bind="alt-s:execute(echo 'show' > /tmp/passfzfarg)+accept" \
                                       --bind="alt-e:execute(echo 'edit' > /tmp/passfzfarg)+accept" \
                                       --bind="alt-r:execute(echo 'mv' > /tmp/passfzfarg)+accept" \
