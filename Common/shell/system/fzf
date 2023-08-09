@@ -38,8 +38,8 @@ if type fzf >/dev/null 2>/dev/null; then
     # switch to a project
     fproj() {
         local selected tmux_running selected_name
-        selected=$(find "$HOME"/Workspace/Private/Projects/**/ "$HOME"/Workspace/Public \
-            "$HOME"/Workspace/Work/Projects -mindepth 1 -maxdepth 1 -type d | fzf)
+        selected=$(find "$HOME"/Workspace/Private/Projects/*/ "$HOME"/Workspace/Public \
+                        "$HOME"/Workspace/Work/Projects -mindepth 1 -maxdepth 1 -type d | fzf)
         [[ -z $selected ]] && return
 
         selected_name=$(basename "$selected" | tr . _)
@@ -123,7 +123,7 @@ if type fzf >/dev/null 2>/dev/null; then
             git --no-pager branch --all \
                 --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" |
                 sed '/^$/d'
-        ) || return
+                ) || return
         tags=$(git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
         target=$(
             (
@@ -132,7 +132,7 @@ if type fzf >/dev/null 2>/dev/null; then
             ) |
                 fzf --no-hscroll --no-multi -n 2 \
                     --ansi
-        ) || return
+              ) || return
         git checkout "$(awk '{print $2}' <<<"$target")"
     }
 
