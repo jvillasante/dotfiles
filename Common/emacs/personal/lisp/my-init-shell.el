@@ -75,6 +75,12 @@
     :init
     (add-to-list 'project-switch-commands '(my/project-vterm "vTerm") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
+    (add-hook 'vterm-exit-functions
+              (lambda (_ _)
+                  (let* ((buffer (current-buffer))
+                         (window (get-buffer-window buffer)))
+                      (when (not (one-window-p))
+                          (delete-window window)))))
     :config
     (setq vterm-kill-buffer-on-exit t)
     (setq vterm-copy-exclude-prompt t)
