@@ -85,6 +85,7 @@ do_borg_backup() {
         --exclude '/home/*/Workspace/Software/' \
         --exclude '/home/*/Workspace/Work/Firmware/' \
         --exclude '/home/*/Workspace/Work/Software/' \
+        --exclude '/home/*/Workspace/Work/Profishark/' \
         --exclude '/home/*/Workspace/Work/Projects/sm-*' \
         --exclude '/home/*/Workspace/Work/Projects/dmxs/bin' \
         --exclude '/home/*/Workspace/Work/Projects/dmxs/inc' \
