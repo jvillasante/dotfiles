@@ -14,7 +14,7 @@ usage() {
     echo "    $0 help:"
     echo "        Show this help message"
     echo "    $0 install:"
-    echo "        Install Debian System"
+    echo "        Install Debian System ($WS_WAYLAND|WS_X11) ($WM_KDE|$WM_GNOME|$WM_I3|$WM_SWAY)"
     echo
     echo " e.g: $0 install"
     exit "$1"
@@ -331,7 +331,7 @@ debian_install() {
     MENU="Please Choose one of the following options:"
 
     # Accept WS and WM for the installer to kick in
-    read -rp "$BACKTITLE (WS=$WINDOW_SYSTEM and WM=$WINDOW_MANAGER)? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+    read -rp "$BACKTITLE (WS=$WINDOW_SYSTEM and WM=$WINDOW_MANAGER)? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || usage 1
     case $WINDOW_SYSTEM in
         "$WS_WAYLAND"|"$WS_X11")
         ;;
