@@ -242,6 +242,15 @@ M-p: git pull, M-P: git push, C-g/Esc: clear query or exit' \
                 if [[ -f "/tmp/passfzfarg" ]]; then
                     arg=$(cat /tmp/passfzfarg)
                     rm /tmp/passfzfarg
+
+                    # quit: can be clear or exit
+                    if [[ "$arg" = "quit" ]]; then
+                        # no selection means exit
+                        [[ -z "$selection" ]] && break
+
+                        # new selection means start over
+                        [[ -n "$selection" ]] && arg="show --clip"
+                    fi
                 else
                     arg="show --clip"
                 fi
@@ -287,8 +296,11 @@ M-p: git pull, M-P: git push, C-g/Esc: clear query or exit' \
                             continue
                             ;;
                         quit)
-                            pkill -P $$
-                            break
+                            if [[ -z "$selection" ]]; then
+                                pkill -P $$
+                                break
+                            fi
+                            continue
                             ;;
                         *)
                             if [[ -n "$selection" ]]; then
