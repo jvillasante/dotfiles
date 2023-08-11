@@ -151,6 +151,7 @@
     (setq shackle-rules
           '((compilation-mode :select t :popup t :align 'below :size 0.4)
             (eat-mode :select t :popup t :align 'below :size 0.4)
+            ("\\`\\*eshell.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)
             ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
     (shackle-mode +1))
 
@@ -171,7 +172,7 @@
     ;; Match terminal buffers
     (setq popper-reference-buffers
           (append popper-reference-buffers
-                  '("^\\*eshell.*\\*$"                   eshell-mode                       ;eshell as a popup
+                  '("^\\*eshell.*\\*$"                eshell-mode                       ;eshell as a popup
                     "^\\*shell.*\\*$"                 shell-mode                        ;shell as a popup
                     "^\\*term.*\\*$"                  term-mode                         ;term as a popup
                     "^\\*vterm.*\\*$"                 vterm-mode                        ;vterm as a popup
