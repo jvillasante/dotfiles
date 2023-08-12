@@ -141,9 +141,7 @@
     ;; disable auto-save for specific protocols
     (dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh"))
         (connection-local-set-profiles
-         `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile)))
-
-    (auto-save-visited-mode +1))
+         `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile))))
 
 ;; no lock files
 (setq create-lockfiles nil)
