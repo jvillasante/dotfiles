@@ -82,7 +82,6 @@
 (column-number-mode t) ; Display column numbers in the status line
 (size-indication-mode t) ; Display size indication
 (delete-selection-mode +1) ; If text is selected, we expect that typing will replace the selection
-(save-place-mode +1) ; Remember point in files
 (show-paren-mode +1) ; Highlight the matching parenthesis
 (global-so-long-mode +1) ; long files
 (setq kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring

@@ -78,22 +78,21 @@
 ;; saveplace : remembers your location in a file when saving files
 (use-package saveplace
     :ensure nil ;; emacs built-in
-    :init
-    (save-place-mode +1)
     :config
-    (setq save-place-file (expand-file-name "saveplace" no-littering-var-directory)))
+    (setq save-place-file (expand-file-name "saveplace" no-littering-var-directory))
+    (setq save-place-forget-unreadable-files nil)
+    (save-place-mode 1))
 
 ;; savehist : save minibuffer history
 (use-package savehist
     :ensure nil ;; emacs built-in
-    :init
-    (savehist-mode +1)
     :config
     (setq history-length t
           history-delete-duplicates t
           savehist-save-minibuffer-history t
           savehist-additional-variables '(register-alist kill-ring search-ring regexp-search-ring) ;; search entries
-          savehist-file (expand-file-name "savehist" no-littering-var-directory)))
+          savehist-file (expand-file-name "savehist" no-littering-var-directory))
+    (savehist-mode +1))
 
 ;; recentf : recent files
 (use-package recentf
