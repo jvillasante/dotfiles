@@ -93,7 +93,7 @@
 
     ;; zig
     (add-to-list 'eglot-server-programs
-                 '(zig-mode . (expand-file-name "zig/zls/zig-out/bin/zls" my/software-path)))
+                 '(zig-mode . ("zls")))
 
     ;; C++
     (add-to-list 'eglot-server-programs
@@ -117,9 +117,8 @@
 (use-package apheleia
     :preface (defun my/disable-apheleia ()
                  (apheleia-mode -1))
-    :hook ((html-mode-hook . my/disable-apheleia))
-    :bind ("C-c t a" . apheleia-mode)
-    :init (apheleia-global-mode)
+    :hook (prog-mode . apheleia-mode)
+    :hook (html-mode-hook . my/disable-apheleia)
     :config
     ;; Set custom formatting commands
     (dolist (formatter-cmd '((shfmt    . ("shfmt" "-i" "4" "-ci" "-kp" "-sr"))

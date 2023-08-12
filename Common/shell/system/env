@@ -52,6 +52,3 @@ if type go >/dev/null 2>/dev/null; then
     export GOBIN="$GOPATH/bin"
     export PATH="$GOBIN:$PATH"
 fi
-
-# Zig
-[ -d "$HOME/Workspace/Software/zig/zig" ] && export PATH="$HOME/Workspace/Software/zig/zig:$PATH"

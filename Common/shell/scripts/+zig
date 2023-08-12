@@ -47,6 +47,10 @@ update_zig() {
 
     rm -f "$ZIG_ZIG_DIR/$ZIG_TAR_FILE"
     test $? -eq 0 || usage 1
+
+    [ -L "$HOME/.local/bin/zig" ] && unlink "$HOME/.local/bin/zig"
+    ln -s "$ZIG_ZIG_DIR/zig" "$HOME/.local/bin"
+    test $? -eq 0 || usage 1
 }
 
 update_zls() {
@@ -75,6 +79,10 @@ update_zls() {
         test $? -eq 0 || usage 1
 
         popd || usage 1
+
+        [ -L "$HOME/.local/bin/zls" ] && unlink "$HOME/.local/bin/zls"
+        ln -s "$ZLS_DIR/zig-out/bin/zls" "$HOME/.local/bin"
+        test $? -eq 0 || usage 1
     else
         echo "zig is not on your path, try sourcing '.bashrc' or just restart this terminal"
     fi

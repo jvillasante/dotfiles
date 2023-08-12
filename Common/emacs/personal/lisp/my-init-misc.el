@@ -143,7 +143,7 @@
 
 (use-package autorevert
     :ensure nil ;; emacs built-in
-    :init
+    :config
     (setq auto-revert-verbose t) ; show message when file changes
     (setq auto-revert-avoid-polling t) ; use save signal
     (setq global-auto-revert-non-file-buffers t) ; Global Auto-Revert Mode operates only on file-visiting buffers.
