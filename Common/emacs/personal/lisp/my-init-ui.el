@@ -129,30 +129,6 @@
     ;; Load theme
     (my/switch-theme 'modus-operandi))
 
-;; pulsar : Pulse highlight line on demand or after running select functions
-(use-package pulsar
-    :bind (:map global-map
-                ("C-x l" . #'pulsar-pulse-line)
-                ("C-x L" . #'pulsar-highlight-line))
-    :init
-    (add-hook 'next-error-hook #'pulsar-pulse-line) ; Use pulsar with next-error
-    (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line) ; Use pulsar in the minibuffer
-
-    ;; integration with the `consult' package:
-    (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
-    (add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
-
-    ;; integration with the built-in `imenu':
-    (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
-    (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
-    :config
-    (setq pulsar-pulse t)
-    (setq pulsar-delay 0.055)
-    (setq pulsar-iterations 10)
-    (setq pulsar-face 'pulsar-magenta)
-    (setq pulsar-highlight-face 'pulsar-yellow)
-    (pulsar-global-mode 1))
-
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
     :config

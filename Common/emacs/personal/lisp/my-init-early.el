@@ -102,50 +102,52 @@
 (setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
 
 ;; backups
-(setq make-backup-files t         ; backup of a file the first time it is saved.
-      backup-by-copying t           ; don't clobber symlinks
-      version-control t             ; version numbers for backup files
-      delete-old-versions t         ; delete excess backup files silently
-      kept-old-versions 2           ; oldest versions to keep when a new numbered backup is made (default: 2)
-      kept-new-versions 6)          ; newest versions to keep when a new numbered backup is made (default: 2)
+(progn
+    (setq make-backup-files t    ; backup of a file the first time it is saved.
+          backup-by-copying t    ; don't clobber symlinks
+          version-control t      ; version numbers for backup files
+          delete-old-versions t  ; delete excess backup files silently
+          kept-old-versions 2    ; oldest versions to keep when a new numbered backup is made (default: 2)
+          kept-new-versions 6)   ; newest versions to keep when a new numbered backup is made (default: 2)
 
-;; backup all files
-(setq backup-directory-alist
-      `(("." . ,(no-littering-expand-var-file-name "backup/"))))
+    ;; backup all files
+    (setq backup-directory-alist
+          `(("." . ,(no-littering-expand-var-file-name "backup/"))))
 
-;; ... do not backup some
-(setq backup-enable-predicate
-      (lambda (name)
-          (and (normal-backup-enable-predicate name)
-               (not (s-starts-with? "/dev/shm" name))
-               (not (s-contains? "password-store" name))
-               (my/file-is-not-root-p name))))
+    ;; ... do not backup some
+    (setq backup-enable-predicate
+          (lambda (name)
+              (and (normal-backup-enable-predicate name)
+                   (not (s-starts-with? "/dev/shm" name))
+                   (not (s-contains? "password-store" name))
+                   (my/file-is-not-root-p name)))))
 
 ;; autosave
-(setq auto-save-default t         ; auto-save every buffer that visits a file
-      auto-save-timeout 20          ; number of seconds idle time before auto-save (default: 30)
-      auto-save-interval 200)       ; number of keystrokes between auto-saves (default: 300)
-(auto-save-visited-mode +1)
+(progn
+    (setq auto-save-default t      ; auto-save every buffer that visits a file
+          auto-save-timeout 20     ; number of seconds idle time before auto-save (default: 30)
+          auto-save-interval 200)  ; number of keystrokes between auto-saves (default: 300)
 
-;; auto-save files
-(setq auto-save-file-name-transforms
-      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+    ;; auto-save files
+    (setq auto-save-file-name-transforms
+          `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
-;; disable auto-save on certain tramp profiles
-(connection-local-set-profile-variables
- 'no-remote-auto-save-profile
- '((buffer-auto-save-file-name . nil)
-   (remote-file-name-inhibit-auto-save-visited . t)
-   (remote-file-name-inhibit-auto-save . t)))
+    ;; disable auto-save on certain tramp profiles
+    (connection-local-set-profile-variables
+     'no-remote-auto-save-profile
+     '((buffer-auto-save-file-name . nil)
+       (remote-file-name-inhibit-auto-save-visited . t)
+       (remote-file-name-inhibit-auto-save . t)))
 
-;; disable auto-save for specific protocols
-(dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh"))
-    (connection-local-set-profiles
-     `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile)))
+    ;; disable auto-save for specific protocols
+    (dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh"))
+        (connection-local-set-profiles
+         `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile)))
 
-;; lock files
-(setq lock-file-name-transforms
-      `((".*" ,(no-littering-expand-var-file-name "lock-file/") t)))
+    (auto-save-visited-mode +1))
+
+;; no lock files
+(setq create-lockfiles nil)
 
 (when IS-MAC
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
