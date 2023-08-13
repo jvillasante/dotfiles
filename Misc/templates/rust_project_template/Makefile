@@ -4,7 +4,8 @@ BUILD   = cargo build
 CLIPPY  = cargo clippy
 RUN     = cargo run
 ARGS    =
-TEST    = cargo test
+# TEST    = cargo test
+TEST    = cargo nextest run
 DOC     = cargo doc
 CURRENT = ch02/guessing_game
 
