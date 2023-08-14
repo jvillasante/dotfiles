@@ -22,6 +22,9 @@
 ;; ctl-x-4-map
 (define-key ctl-x-4-map (kbd "t") 'my/toggle-window-split)
 
+;; duplicate current line or region
+(global-set-key (kbd "C-x j") #'duplicate-dwim)
+
 ;; upcase, downcase and capitalize
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
