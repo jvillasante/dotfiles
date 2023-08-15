@@ -22,6 +22,9 @@
     ;; Hide markup markers
     (setq org-hide-emphasis-markers t)
 
+    ;; Hide the first N-1 stars in a headline.
+    (setq org-hide-leading-stars t)
+
     ;; disable auto-pairing of "<" in org-mode
     (add-hook 'org-mode-hook (lambda ()
                                  (setq-local electric-pair-inhibit-predicate

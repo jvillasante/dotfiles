@@ -156,20 +156,19 @@
 (use-package markdown-mode
     :mode (("\\.[Rr]md\\'" . markdown-mode)
            ("\\.qmd\\'" . markdown-mode))
-    :init
-    (setq markdown-fontify-code-blocks-natively t
-          markdown-fontify-whole-heading-line t
-          markdown-enable-math t)
     :bind ((:map markdown-mode-map
-                 ("TAB" . 'markdown-cycle))))
+                 ("TAB" . 'markdown-cycle)))
+    :init (add-hook 'markdown-mode-hook 'markdown-toggle-markup-hiding)
+    :config (setq markdown-fontify-code-blocks-natively t
+                  markdown-fontify-whole-heading-line t
+                  markdown-enable-math t))
 
 (use-package go-mode
-    :config
-    (add-hook 'go-mode-hook
-              (lambda ()
-                  (setq-local c-basic-offset 4) ; Base indent size when indented automatically
-                  (setq-local tab-width 4)
-                  (setq-local indent-tabs-mode nil))))
+    :init (add-hook 'go-mode-hook
+                    (lambda ()
+                        (setq-local c-basic-offset 4) ; Base indent size when indented automatically
+                        (setq-local tab-width 4)
+                        (setq-local indent-tabs-mode nil))))
 
 (use-package sql
     :config (add-hook 'sql-mode-hook (setq-local tab-width 4)))
