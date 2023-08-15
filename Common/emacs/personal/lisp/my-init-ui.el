@@ -43,13 +43,13 @@
                `(default ((t (:font "Iosevka Comfy 16"))))
                `(fixed-pitch ((t (:inherit (default)))))
                `(fixed-pitch-serif ((t (:inherit (default)))))
-               `(variable-pitch ((t (:font "Iosevka Comfy Motion Duo")))))))
+               `(variable-pitch ((t (:font "Iosevka Comfy Duo")))))))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook (lambda ()
                               (setq-local line-spacing 0.1)))
-(add-hook 'org-mode-hook 'variable-pitch-mode)
-(add-hook 'markdown-mode-hook 'variable-pitch-mode)
+;; (add-hook 'org-mode-hook 'variable-pitch-mode)
+;; (add-hook 'markdown-mode-hook 'variable-pitch-mode)
 
 ;; Set default frame title
 (setq-default frame-title-format
