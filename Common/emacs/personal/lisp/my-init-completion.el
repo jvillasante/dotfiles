@@ -384,12 +384,29 @@
     ;; (global-tempel-abbrev-mode)
     )
 
+;; yasnippet : template system for Emacs
 (use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
     :bind (("M-+" . yas-expand)
            ("M-*" . yas-insert-snippet))
     :config (yas-reload-all)
     :hook (after-init . yas-global-mode))
+
+;; languagetool : multilingual grammar, style, and spell checker
+(use-package langtool
+    :defer t
+    :bind (("C-x 4 w" . langtool-check)
+           ("C-x 4 W" . langtool-check-done)
+           ("C-x 4 l" . langtool-switch-default-language)
+           ("C-x 4 4" . langtool-show-message-at-point)
+           ("C-x 4 c" . langtool-interactive-correction))
+    :config
+    (setq langtool-default-language "en-US")
+    (setq langtool-java-user-arguments '("-Dfile.encoding=UTF-8"))
+    (setq langtool-language-tool-jar
+          (expand-file-name "LanguageTool-6.2/languagetool-commandline.jar" my/software-path))
+    (setq langtool-language-tool-server-jar
+          (expand-file-name "LanguageTool-6.2/languagetool-server.jar" my/software-path)))
 
 (provide 'my-init-completion)
 ;;; my-init-completion.el ends here
