@@ -63,8 +63,10 @@
     ;; also
     (dolist (mapping '((python-mode . python-ts-mode)
                        (css-mode . css-ts-mode)
+                       (javascript-mode . js-ts-mode)
                        (typescript-mode . tsx-ts-mode)
                        (js-mode . js-ts-mode)
+                       (js-json-mode . json-ts-mode)
                        (css-mode . css-ts-mode)
                        (yaml-mode . yaml-ts-mode)
                        (c-mode . c--ts-mode)
