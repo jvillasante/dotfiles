@@ -503,7 +503,8 @@ debian_install() {
                 echo "4) Installing Software"
 
                 # Remove Firefox ESR
-                sudo apt purge -y firefox-esr
+                sudo apt remove --purge --yes firefox-esr*
+                sudo apt autoremove
 
                 # General
                 sudo apt install -y apt-listbugs apt-listchanges software-properties-common

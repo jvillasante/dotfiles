@@ -4,6 +4,7 @@
 -Werror
 -DDEBUG
 -DDMX5_BUILD
+-DRAPIDJSON_HAS_STDSTRING
 -isystem/usr/include/c++/12
 -isystem/usr/include/x86_64-linux-gnu/c++/12
 -isystem/usr/include/c++/12/backward
