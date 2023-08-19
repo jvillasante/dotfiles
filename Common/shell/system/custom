@@ -121,6 +121,11 @@ if type surf >/dev/null 2>&1; then
     alias surf="surf -giKMnps"
 fi
 
+# keepassxs : not using this yet
+# if flatpak info org.keepassxc.KeePassXC >/dev/null 2>/dev/null; then
+#     alias keepassxc="flatpak run org.keepassxc.KeePassXC"
+# fi
+
 #
 # Mac Stuff
 #
