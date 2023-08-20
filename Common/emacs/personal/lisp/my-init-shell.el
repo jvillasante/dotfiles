@@ -47,23 +47,25 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :bind (("C-c o t" . #'my/vterm)
+    :bind (("C-c o t" . my/vterm)
            :map project-prefix-map
            ("t" . my/project-vterm)
            :map vterm-mode-map
            ([return] . #'vterm-send-return)
            ("M-[" . #'vterm-copy-mode)
            ("C-y" . #'vterm-yank)
+           ("C-g" . #'vterm-send-escape)
            :map vterm-copy-mode-map
            ("M-w" . #'vterm-copy-mode-done)
            ("C-g" . #'vterm-copy-mode-done))
     :preface
     (defun my/vterm ()
-        "open vterm at project root, if no root is found, open at the default-directory"
+        "Open vterm at project root, if no root is found, open at the default-directory"
         (interactive)
         (let ((default-directory (my/project-root-or-default-dir)))
             (call-interactively #'vterm)))
     (defun my/project-vterm ()
+        "Open vterm at project root with name <project>-vterm"
         (interactive)
         (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
