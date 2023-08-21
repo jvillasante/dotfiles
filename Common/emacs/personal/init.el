@@ -24,6 +24,7 @@
     (when (boundp 'package-gnupghome-dir)
         (setq package-gnupghome-dir
               (expand-file-name "var/gnupg" user-emacs-directory)))
+    (setq package-install-upgrade-built-in t)
     (package-initialize)
     (unless package-archive-contents
         (package-refresh-contents)))
