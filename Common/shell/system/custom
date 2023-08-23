@@ -149,10 +149,12 @@ fi
 if [ "$(uname -s)" = 'Linux' ]; then
     alias open='xdg-open'
 
-    # Known bug with gpg on Fedora
-    gpg_pcscd_restart() {
-        sudo systemctl restart pcscd
-    }
+    if [ -f /etc/fedora-release ]; then
+        # Known bug with gpg on Fedora
+        gpg_pcscd_restart() {
+            sudo systemctl restart pcscd
+        }
+    fi
 fi
 
 #
