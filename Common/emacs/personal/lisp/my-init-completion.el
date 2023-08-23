@@ -162,15 +162,9 @@
 
 (use-package vertico
     :init
-    ;; Those are the default values, but check the user option
-    ;; `vertico-multiform-categories' for per-category tweaks.  That
-    ;; variable is in the file vertico-multiform.el and will work once
-    ;; `vertico-multiform-mode' is enabled.
-    (setq vertico-scroll-margin 0)
-    (setq vertico-count 5)
-    (setq vertico-resize nil)
-    (vertico-reverse-mode +1)
+    (setq vertico-count 12)
     (vertico-mode +1)
+    (vertico-reverse-mode +1)
 
     ;; This works with `file-name-shadow-mode' enabled.  When you are in
     ;; a sub-directory and use, say, `find-file' to go to your home '~/'
