@@ -167,17 +167,16 @@
     ;; variable is in the file vertico-multiform.el and will work once
     ;; `vertico-multiform-mode' is enabled.
     (setq vertico-scroll-margin 0)
-    (setq vertico-count 14)
+    (setq vertico-count 5)
     (setq vertico-resize nil)
-    (setq vertico-cycle t)
-    (vertico-mode 1)
+    (vertico-reverse-mode +1)
+    (vertico-mode +1)
 
     ;; This works with `file-name-shadow-mode' enabled.  When you are in
     ;; a sub-directory and use, say, `find-file' to go to your home '~/'
     ;; or root '/' directory, Vertico will clear the old path to keep
     ;; only your current input.
     (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
-
     :bind (:map vertico-map
                 ("M-," . #'vertico-quick-insert)
                 ("M-." . #'vertico-quick-exit)))
