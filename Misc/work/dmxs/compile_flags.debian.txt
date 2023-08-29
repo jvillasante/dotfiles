@@ -22,5 +22,5 @@
 -I./Test/fakes
 -I./Test/mocks
 -I./Test/tests
--I./Test/googletest-release-1.8.0/googletest/include
--I./Test/googletest-release-1.8.0/googlemock/include
+-I./Test/googletest-release-1.13.0/googletest/include
+-I./Test/googletest-release-1.13.0/googlemock/include
