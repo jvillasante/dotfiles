@@ -125,12 +125,10 @@ for file in $files; do
     cp -f "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
 done
 
-if [ -d "$HOME/.var/app/engineer.atlas.Nyxt/config/nyxt" ]; then
-    echo ">>> Copying flatpak config files for Nyxt"
-    for file in "$DOTFILES_DIR"/Common/nyxt/*.lisp
-    do
-        cp -f "$file" "$HOME/.var/app/engineer.atlas.Nyxt/config/nyxt/"
-    done
+echo ">>> Linking flatpak application files in $HOME/.var/app/..."
+if [ -d "$HOME/.var/app/engineer.atlas.Nyxt/config/" ]; then
+    [ -L "$HOME/.var/app/engineer.atlas.Nyxt/config/nyxt" ] && unlink "$HOME/.var/app/engineer.atlas.Nyxt/config/nyxt"
+    ln -s "$DOTFILES_DIR/Common/nyxt" "$HOME/.var/app/engineer.atlas.Nyxt/config/"
 fi
 
 echo ">>> Linking work files in $HOME/Workspace/Work..."

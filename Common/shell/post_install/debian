@@ -730,6 +730,7 @@ debian_install() {
                 sudo flatpak install -y flathub org.gimp.GIMP
                 sudo flatpak install -y flathub org.wireshark.Wireshark
                 sudo flatpak install -y flathub com.github.tchx84.Flatseal
+                sudo flatpak install -y flathub engineer.atlas.Nyxt
                 # sudo flatpak install -y flathub com.skype.Client
                 # sudo flatpak install -y flathub com.valvesoftware.Steam
                 # sudo flatpak install -y flathub im.riot.Riot
