@@ -11,9 +11,9 @@ usage() {
     echo "    $0 help:"
     echo "        Show this help message"
     echo "    $0 install:"
-    echo "        Install rust and cargo-nextest"
+    echo "        Install rust & cargo-nextest"
     echo "    $0 update:"
-    echo "        Update rust and cargo-nextest"
+    echo "        Update rust & cargo-nextest"
     echo "    $0 package [show|update]:"
     echo "        Show or update global packages installed with cargo"
     echo "    $0 cargo [arbitrary cargo command]:"
@@ -39,8 +39,6 @@ install_rust() {
 
     rustup component add rust-src rust-analysis rust-analyzer
     test $? -eq 0 || usage 1
-
-    install_cargo_nextest;
 }
 
 update_rust() {
@@ -50,11 +48,6 @@ update_rust() {
 
         rustup update
         test $? -eq 0 || usage 1
-
-        curl -LsSf https://get.nexte.st/latest/linux | tar zxf - -C "${CARGO_HOME:-~/.cargo}"/bin
-        test $? -eq 0 || usage 1
-
-        install_cargo_nextest;
     fi
 }
 
@@ -98,11 +91,13 @@ if [ "$#" -gt 0 ]; then shift; fi
 case $cmd in
     install)
         [ "$nargs" -eq 1 ] || usage 1
-        install_rust "$@"
+        install_rust
+        install_cargo_nextest
         ;;
     update)
         [ "$nargs" -eq 1 ] || usage 1
-        update_rust "$@"
+        update_rust
+        install_cargo_nextest
         ;;
     package)
         [ "$nargs" -eq 2 ] || usage 1
