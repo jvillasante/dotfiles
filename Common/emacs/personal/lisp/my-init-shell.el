@@ -128,6 +128,7 @@
 ;;   <<*>>   (all files joined)
 ;;   <<cb>>  (clipboard)
 (use-package dwim-shell-command
+    :disabled t
     :bind (([remap shell-command] . dwim-shell-command)
            :map dired-mode-map
            ([remap dired-do-async-shell-command] . dwim-shell-command)
@@ -151,9 +152,11 @@
          :utils "pass")))
 
 ;; emamux : Interact with tmux from Emacs.
-(use-package emamux)
+(use-package emamux
+    :disabled t)
 
 (use-package chatgpt-shell
+    :disabled t
     :custom
     ((chatgpt-shell-openai-key
       (lambda ()

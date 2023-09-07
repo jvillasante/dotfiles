@@ -157,6 +157,7 @@
     (setq shackle-rules
           '((compilation-mode :select t :popup t :align 'below :size 0.4)
             (eat-mode :select t :popup t :align 'below :size 0.4)
+            ("\\`\\*ielm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)
             ("\\`\\*eshell.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)
             ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
     (shackle-mode +1))
