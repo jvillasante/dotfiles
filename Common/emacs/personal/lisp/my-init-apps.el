@@ -7,6 +7,7 @@
 
 ;; pdf
 (use-package pdf-tools
+    :disabled t
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :init (setq pdf-view-display-size 'fit-page
                 pdf-view-use-scaling t
@@ -18,11 +19,13 @@
 
 ;; nov.el : Major mode for reading EPUBs in Emacs
 (use-package nov
+    :disabled t
     :mode ("\\.epub\\'" . nov-mode)
     :custom (nov-text-width t))
 
 ;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
 (use-package mastodon
+    :disabled t
     :init (setq mastodon-instance-url "https://hachyderm.io"
                 mastodon-active-user "jvillasante")
     :config (mastodon-discover))
