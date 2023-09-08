@@ -22,10 +22,8 @@
 ;;; Native compilation settings
 (when (featurep 'native-compile)
     ;; Silence compiler warnings as they can be pretty disruptive
+    (defvar native-comp-async-report-warnings-errors)
     (setq native-comp-async-report-warnings-errors 'silent)
-
-    ;; Make native compilation happens asynchronously
-    (setq native-comp-deferred-compilation t)
 
     ;; Set the right directory to store the native compilation cache
     ;; NOTE the method for setting the eln-cache directory depends on the emacs version

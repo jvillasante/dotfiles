@@ -89,6 +89,12 @@ alias tree="tree --dirsfirst -a -I 'node_modules|.git'"
 alias ag="ag --hidden --ignore node_modules --ignore .git"
 alias reboot="systemctl reboot"
 
+# eza (ls replacement)
+if type eza >/dev/null 2>/dev/null; then
+    alias ls='eza --git --group-directories-first --color=automatic'
+    alias ll='eza -agFlh --git --group-directories-first --color=automatic'
+fi
+
 # ripgrep
 if type rg >/dev/null 2>/dev/null; then
     alias grep='rg -S --color=auto'

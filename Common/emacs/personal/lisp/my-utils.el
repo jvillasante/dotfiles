@@ -1,6 +1,15 @@
 ;;; my-utils.el --- -*- lexical-binding: t; -*-
 
-;;; Utils
+;; Author: Julio C. Villasante <jvillasantegomez@gmail.com>
+;; URL: https://github.com/jvillasante/dotfiles
+;; Keywords: dotfiles emacs
+
+;;; Commentary:
+;; Utils used everywhere
+
+;;; Code:
+
+(require 'cl-lib)
 
 (defconst IS-MAC (eq system-type 'darwin))
 (defconst IS-LINUX (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
@@ -79,15 +88,16 @@ Make it readonly, and set up a keybinding (q) to close the window."
     "Find `hl-todo--regex' items in project using `consult-ripgrep'."
     (interactive)
     (require 'hl-todo)
-    (when featurep 'consult
-          (consult-ripgrep nil hl-todo--regexp)))
+    (when (featurep 'consult)
+        (consult-ripgrep nil hl-todo--regexp)))
 
 ;;; Elisp
 
 (defun my/helpful-lookup-symbl-at-point ()
+    "Look up for the symbol under point."
     (interactive)
-    (when featurep 'helpful
-          (helpful-symbol (symbol-at-point))))
+    (when (featurep 'helpful)
+        (helpful-symbol (symbol-at-point))))
 
 (defun my/elisp-look-up-symbol (beg end)
     "Look up for the symbol under point.
@@ -100,13 +110,15 @@ If region (BEG to END) is active, use the selected region as the symbol."
 ;;; OS
 
 (defun my/macos-cmd-w ()
-    "If there is only one tab, close emacs, otherwise close one tab"
+    "If there is only one tab, close EMACS, otherwise close one tab."
     (interactive)
     (if (> (length (tab-bar-tabs)) 1)
             (tab-bar-close-tab)
         (kill-emacs)))
 
 (defun my/tty-setup ()
+    "Setup tty terminal."
+
     ;; Some terminals offer two different cursors: a "visible" static cursor and a
     ;; "very visible" blinking one. By default, Emacs uses the very visible cursor
     ;; and will switch back to it when Emacs is started or resumed. A nil
@@ -119,12 +131,8 @@ If region (BEG to END) is active, use the selected region as the symbol."
 
 ;;; Apps
 
-(defun my/switch-to-buffer-obey-display-actions (old-fun &rest args)
-    (let ((switch-to-buffer-obey-display-actions t))
-        (apply old-fun args)))
-
 (defun my/elfeed-open-entry-via-eww (&optional new-session)
-    "if point is under a url, then open this url via `eww',
+    "If point is under a url, then open this url via `eww',
 otherwise open the current visited elfeed entry via `eww'.  If
 with a prefix \\[universal-argument] create a new `eww' session
 otherwise use the existed one"
@@ -151,7 +159,7 @@ otherwise use the existed one"
         (switch-to-buffer (current-buffer))))
 
 (defun my/dos2unix ()
-    "Replace DOS eolns CR LF with Unix eolns CR"
+    "Replace DOS eolns CR LF with Unix eolns CR."
     (interactive)
     (goto-char (point-min))
     (while (search-forward (string ?\C-m) nil t) (replace-match "")))
