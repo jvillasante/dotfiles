@@ -103,13 +103,13 @@
 
     ;; Make these characters represent whitespace
     (setq-default whitespace-display-mappings
-                  '(;; space -> · else . (visualiza all whitespace)
+                  '(;; space -> · else .
                     ;; (space-mark 32 [183] [46])
-                    ;; new line -> ¬ else $ (visualize new lines)
+                    ;; new line -> ¬ else $
                     ;; (newline-mark ?\n [172 ?\n] [36 ?\n])
-                    ;; carriage return (Windows) -> ¶ else # (windows only carriage return)
+                    ;; carriage return (Windows) -> ¶ else #
                     ;; (newline-mark ?\r [182] [35])
-                    ;; tabs -> » else > (visualize tabs - hate them!)
+                    ;; tabs -> » else >
                     (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 
 (use-package tab-bar
