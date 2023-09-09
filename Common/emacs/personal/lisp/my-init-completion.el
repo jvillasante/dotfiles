@@ -163,8 +163,8 @@
 (use-package vertico
     :init
     (setq vertico-count 12)
+    (setq vertico-resize nil)
     (vertico-mode +1)
-    ;; (vertico-reverse-mode +1)
 
     ;; This works with `file-name-shadow-mode' enabled.  When you are in
     ;; a sub-directory and use, say, `find-file' to go to your home '~/'

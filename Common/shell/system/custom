@@ -161,11 +161,16 @@ fi
 # Execute tmux
 #
 if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ] && [ -z "$INSIDE_EMACS" ]; then
-    tmux attach || tmux new -s Default >/dev/null 2>&1
+    # tmux attach || exec tmux new -s Default >/dev/null 2>&1
+    if tmux list-sessions &> /dev/null; then
+        exec tmux attach
+    else
+        exec tmux new -s Default
+    fi
 fi
 
 #
-# Fuzzy Finder (https://github.com/lotabout/skim)
+# Fuzzy Finder
 #
 # . "${HOME}/.config/shell/system/skim"
 . "${HOME}/.config/shell/system/fzf"

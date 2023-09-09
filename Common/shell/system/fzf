@@ -211,9 +211,8 @@ FZF-EOF"
 
             while :; do
                 clear
-                selection=$(fd .gpg ~/.password-store/ -d 8 \
+                selection=$(fd .gpg ~/.password-store/ \
                                 | fzf --query "${tmp}" \
-                                      --prompt="# " \
                                       --with-nth 5.. \
                                       --delimiter "/" \
                                       --no-multi \
@@ -221,7 +220,6 @@ FZF-EOF"
 Ret: copy, M-s: show, M-e: edit, M-r: rename, M-d: duplicate,
 M-a: add, M-g: generate and copy new password, M-t: trash
 M-p: git pull, M-P: git push, C-g/Esc: clear query or exit' \
-                                      --margin='1,2,1,2' \
                                       --bind="alt-s:execute(echo 'show' > /tmp/passfzfarg)+accept" \
                                       --bind="alt-e:execute(echo 'edit' > /tmp/passfzfarg)+accept" \
                                       --bind="alt-r:execute(echo 'mv' > /tmp/passfzfarg)+accept" \
