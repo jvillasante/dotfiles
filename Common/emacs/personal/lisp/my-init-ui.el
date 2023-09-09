@@ -81,13 +81,35 @@
 (use-package whitespace
     :ensure nil ;; emacs built-in
     :init
-    (add-hook 'before-save-hook #'whitespace-cleanup)
     (global-whitespace-mode)
     :config
-    (setq-default whitespace-global-modes '(not magit-log-mode))
-    (setq-default whitespace-style '(face trailing)) ;; '(face tabs tab-mark trailing))
+    ;; Don't enable whitespace for
+    (setq-default whitespace-global-modes
+                  '(not shell-mode
+                        help-mode
+                        magit-mode
+                        magit-diff-mode
+                        ibuffer-mode
+                        dired-mode
+                        occur-mode))
+
+    ;; Define the whitespace style (`C-h v whitespace-style' for more styles)
+    (setq-default whitespace-style
+                  '(face spaces empty tabs newline trailing space-mark tab-mark newline-mark))
+
+    ;; Set whitespace actions (`C-h f whitespace-cleanup' for more cleanup actions)
+    (setq-default whitespace-action
+                  '(cleanup auto-cleanup))
+
+    ;; Make these characters represent whitespace
     (setq-default whitespace-display-mappings
-                  '(;; tabs -> » else >
+                  '(;; space -> · else . (visualiza all whitespace)
+                    ;; (space-mark 32 [183] [46])
+                    ;; new line -> ¬ else $ (visualize new lines)
+                    ;; (newline-mark ?\n [172 ?\n] [36 ?\n])
+                    ;; carriage return (Windows) -> ¶ else # (windows only carriage return)
+                    ;; (newline-mark ?\r [182] [35])
+                    ;; tabs -> » else > (visualize tabs - hate them!)
                     (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 
 (use-package tab-bar
