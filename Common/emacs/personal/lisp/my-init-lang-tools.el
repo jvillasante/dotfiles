@@ -32,16 +32,14 @@
 
 (use-package eglot
     :ensure nil ;; emacs built-in
-    :preface
-    (defun my/eglot-eldoc ()
-        ;; Show flymake diagnostics first.
-        (setq eldoc-documentation-functions
-              (cons #'flymake-eldoc-function
-                    (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+    :preface (defun my/eglot-eldoc ()
+                 ;; Show flymake diagnostics first.
+                 (setq eldoc-documentation-functions
+                       (cons #'flymake-eldoc-function
+                             (remove #'flymake-eldoc-function eldoc-documentation-functions)))
 
-        ;; Show all eldoc feedback.
-        (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
-
+                 ;; Show all eldoc feedback.
+                 (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
     :hook ((eglot-managed-mode . my/eglot-eldoc)
            (c-mode . eglot-ensure)
            (c++-mode . eglot-ensure)
@@ -51,21 +49,29 @@
            (python-mode . eglot-ensure)
            (go-mode . eglot-ensure)
            (sql-mode . eglot-ensure))
-    :init
-    (setq eglot-extend-to-xref t)
-    (setq eglot-autoshutdown t)
-    (setq read-process-output-max (* 1024 1024))
-    (setq eglot-ignored-server-capabilities
-          (quote (:documentFormattingProvider :documentRangeFormattingProvider :inlayHintProvider)))
-
     :config
-    (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
+    (setq eglot-autoshutdown t)
+    (setq eglot-events-buffer-size 0)
+    (setq eglot-extend-to-xref t)
+    (setq eglot-ignored-server-capabilities
+          '(:hoverProvider
+            :inlayHintProvider
+            :documentHighlightProvider
+            :documentFormattingProvider
+            :documentRangeFormattingProvider
+            :documentOnTypeFormattingProvider
+            :colorProvider
+            :foldingRangeProvider))
 
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
-    (setq-default eglot-workspace-configuration
-                  '(:gopls (:staticcheck t :usePlaceholders t)
-                           :rust-analyzer (:check (:command "clippy"))))
+    (setq eglot-workspace-configuration
+          '(:gopls (:staticcheck t :usePlaceholders t)
+                   :rust-analyzer (:check (:command "clippy"))))
+
+    ;; don't try to mangage these
+    (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
+    (add-to-list 'eglot-stay-out-of 'yasnippet)
 
     ;; python
     (add-to-list 'eglot-server-programs
