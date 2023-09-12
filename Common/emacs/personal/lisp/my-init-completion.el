@@ -390,9 +390,9 @@
     :defer t
     :bind (("C-x 4 w" . langtool-check)
            ("C-x 4 W" . langtool-check-done)
+           ("C-x 4 c" . langtool-interactive-correction)
            ("C-x 4 l" . langtool-switch-default-language)
-           ("C-x 4 4" . langtool-show-message-at-point)
-           ("C-x 4 c" . langtool-interactive-correction))
+           ("C-x 4 4" . langtool-show-message-at-point))
     :config
     (setq langtool-default-language "en-US")
     (setq langtool-java-user-arguments '("-Dfile.encoding=UTF-8"))
