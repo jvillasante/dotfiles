@@ -124,7 +124,7 @@
     :preface (defun my/disable-apheleia ()
                  (apheleia-mode -1))
     :hook ((prog-mode . apheleia-mode)
-           (html-mode-hook . my/disable-apheleia))
+           (web-mode . my/disable-apheleia))
     :config
     ;; Set custom formatting commands
     (dolist (formatter-cmd '((shfmt    . ("shfmt" "-i" "4" "-ci" "-kp" "-sr"))
