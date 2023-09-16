@@ -13,12 +13,14 @@
 (progn
     (require 'package)
     (when (version< emacs-version "28")
-        (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+        (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+    (add-to-list 'package-archives '("jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t)
     (setq package-archive-priorities
-          '(("gnu"    . 99)   ; prefer GNU packages
-            ("nongnu" . 80)   ; use non-gnu packages if not found in GNU elpa
-            ("melpa"  . 10))) ; if all else fails, get it from melpa
+          '(("gnu"      . 99)   ; prefer GNU packages
+            ("nongnu"   . 80)   ; use non-gnu packages if not found in GNU elpa
+            ("melpa"    . 10)   ; if all else fails, get it from melpa
+            ("jcs-elpa" . 0)))  ; if all else fails, get it from jcs-elpa
     (setq package-user-dir
           (expand-file-name "var/elpa" user-emacs-directory))
     (when (boundp 'package-gnupghome-dir)
