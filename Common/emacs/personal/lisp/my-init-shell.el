@@ -156,7 +156,6 @@
     :disabled t)
 
 (use-package chatgpt-shell
-    :disabled t
     :custom
     ((chatgpt-shell-openai-key
       (lambda ()
