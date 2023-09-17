@@ -27,10 +27,11 @@
     ;; suggestions.  Of course, you can always type an arbitrary program
     ;; despite these defaults.
     (setq dired-guess-shell-alist-user
-          '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
-            ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
-            ("\\.pdf\\'" "okular")
-		    (".*" "xdg-open")))
+          (append '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
+                    ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
+                    ("\\.pdf\\'" "okular")
+                    (".*" "xdg-open"))
+                  dired-guess-shell-alist-user))
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
