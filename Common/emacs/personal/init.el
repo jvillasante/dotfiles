@@ -21,15 +21,13 @@
             ("nongnu"   . 80)   ; use non-gnu packages if not found in GNU elpa
             ("melpa"    . 10)   ; if all else fails, get it from melpa
             ("jcs-elpa" . 0)))  ; if all else fails, get it from jcs-elpa
-    (setq package-user-dir
-          (expand-file-name "var/elpa" user-emacs-directory))
+    (setq package-user-dir (expand-file-name "var/elpa" user-emacs-directory))
     (when (boundp 'package-gnupghome-dir)
         (setq package-gnupghome-dir
               (expand-file-name "var/gnupg" user-emacs-directory)))
     (setq package-install-upgrade-built-in t)
-    (package-initialize)
-    (unless package-archive-contents
-        (package-refresh-contents)))
+    (when package-enable-at-startup (package-initialize))
+    (unless package-archive-contents (package-refresh-contents)))
 
 ;; bootstrap use-package
 (use-package use-package
