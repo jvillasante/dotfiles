@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!early-init.el
+!init.el
