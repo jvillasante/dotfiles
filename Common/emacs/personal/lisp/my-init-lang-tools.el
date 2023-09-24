@@ -53,6 +53,7 @@
     (setq eglot-autoshutdown t)
     (setq eglot-events-buffer-size 0)
     (setq eglot-extend-to-xref t)
+    (setq eglot-sync-connect nil)
     (setq eglot-ignored-server-capabilities
           '(:hoverProvider
             :inlayHintProvider
@@ -69,7 +70,7 @@
           '(:gopls (:staticcheck t :usePlaceholders t)
                    :rust-analyzer (:check (:command "clippy"))))
 
-    ;; don't try to mangage these
+    ;; don't try to manage these
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
     (add-to-list 'eglot-stay-out-of 'yasnippet)
 
