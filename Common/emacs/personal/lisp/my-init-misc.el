@@ -64,7 +64,7 @@
     (setq search-whitespace-regexp ".*?") ; isearch convenience, space matches anything (non-greedy)
     (setq isearch-lax-whitespace t)
     (setq isearch-allow-motion t) ; enable Emacs28 isearch motions
-    (setq isearch-lazy-count t)
+    (setq isearch-lazy-count nil) ; using anzu instead
     (setq lazy-count-prefix-format "(%s/%s) ")
     (setq lazy-count-suffix-format nil)
     (defadvice isearch-search (after isearch-no-fail activate)

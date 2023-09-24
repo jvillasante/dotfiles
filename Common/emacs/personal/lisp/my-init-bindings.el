@@ -107,6 +107,7 @@
 (with-eval-after-load 'isearch
     ;; Prevents issue where you have to press backspace twice when trying to remove the first character that fails a search
     (define-key isearch-mode-map [remap isearch-delete-char] 'isearch-del-char)
+    (define-key isearch-mode-map (kbd "C-o") 'isearch-occur) ; occur
     (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward) ; better navigation
     (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)) ; better navigation
 

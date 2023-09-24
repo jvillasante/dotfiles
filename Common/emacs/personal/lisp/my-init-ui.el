@@ -173,6 +173,20 @@
     (setq which-key-idle-delay 1
           which-key-popup-type 'minibuffer))
 
+(use-package anzu
+    :init (global-anzu-mode +1)
+    :config
+    (custom-set-variables
+     '(anzu-mode-lighter "")
+     '(anzu-deactivate-region t)
+     '(anzu-search-threshold 1000)
+     '(anzu-replace-threshold 50)
+     '(anzu-replace-to-string-separator " => "))
+    (global-set-key [remap query-replace] 'anzu-query-replace)
+    (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
+    (define-key isearch-mode-map [remap isearch-query-replace] #'anzu-isearch-query-replace)
+    (define-key isearch-mode-map [remap isearch-query-replace-regexp] #'anzu-isearch-query-replace-regexp))
+
 ;; shackle : Enforce rules for popup windows
 (use-package shackle
     :init
