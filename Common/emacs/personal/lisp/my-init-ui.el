@@ -22,6 +22,9 @@
 ;; Use Ctrl+arrow keys to move between windows.
 (windmove-default-keybindings 'control)
 
+;; activate `mouse-avoidance-mode'
+(mouse-avoidance-mode 'cat-and-mouse)
+
 ;; by default when a long line is truncated, emacs displays
 ;; a "$" sign at the border of window, which is ugly, replace "$" with " "
 ;; see discussion here: URL `https://emacs.stackexchange.com/questions/54817/remove-dollar-sign-at-beginning-of-line'
