@@ -98,7 +98,7 @@
 
     ;; Define the whitespace style (`C-h v whitespace-style' for more styles)
     (setq-default whitespace-style
-                  '(face spaces empty tabs newline trailing space-mark tab-mark newline-mark))
+                  '(face empty tabs newline trailing tab-mark newline-mark))
 
     ;; Set whitespace actions (`C-h f whitespace-cleanup' for more cleanup actions)
     (setq-default whitespace-action
@@ -127,25 +127,53 @@
     (add-hook 'pre-command-hook 'tab-bar-history-mode))
 
 (use-package modus-themes
+    :preface
+    (defun +my/modus-themes-org-fontify-block-delimiter-lines ()
+        "Match `org-fontify-whole-block-delimiter-line' to theme style.
+Run this function at the post theme load phase, such as with the
+`modus-themes-after-load-theme-hook'."
+        (if (eq modus-themes-org-blocks 'gray-background)
+                (setq org-fontify-whole-block-delimiter-line t)
+            (setq org-fontify-whole-block-delimiter-line nil)))
     :config
-    (setq modus-themes-italic-constructs t)
-    (setq modus-themes-bold-constructs t)
-    (setq modus-themes-variable-pitch-ui t)
-    (setq modus-themes-mixed-fonts t)
+    ;; In all of the following, WEIGHT is a symbol such as `semibold',
+    ;; `light', `bold', or anything mentioned in `modus-themes-weights'.
+    (setq modus-themes-italic-constructs t
+          modus-themes-bold-constructs nil
+          modus-themes-mixed-fonts t
+          modus-themes-variable-pitch-ui nil
+          modus-themes-custom-auto-reload t
+          modus-themes-disable-other-themes t
 
-    ;; Color customizations
-    (setq modus-themes-prompts '(italic bold))
-    (setq modus-themes-completions
+          ;; Options for `modus-themes-prompts' are either nil (the
+          ;; default), or a list of properties that may include any of those
+          ;; symbols: `italic', `WEIGHT'
+          modus-themes-prompts '(italic bold)
+
+          ;; The `modus-themes-completions' is an alist that reads two
+          ;; keys: `matches', `selection'.  Each accepts a nil value (or
+          ;; empty list) or a list of properties that can include any of
+          ;; the following (for WEIGHT read further below):
+          ;;
+          ;; `matches'   :: `underline', `italic', `WEIGHT'
+          ;; `selection' :: `underline', `italic', `WEIGHT'
+          modus-themes-completions
           '((matches . (extrabold))
-            (selection . (semibold italic text-also))))
-    (setq modus-themes-org-blocks 'gray-background)
+            (selection . (semibold italic text-also)))
 
-    ;; Font sizes for titles and headings, including org
-    (setq modus-themes-headings '((1 . (variable-pitch 1.5))
-                                  (2 . (1.3))
-                                  (agenda-date . (1.3))
-                                  (agenda-structure . (variable-pitch light 1.8))
-                                  (t . (1.1))))
+          modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
+
+          ;; The `modus-themes-headings' is an alist: read the manual's
+          ;; node about it or its doc string.  Basically, it supports
+          ;; per-level configurations for the optional use of
+          ;; `variable-pitch' typography, a height value as a multiple of
+          ;; the base font size (e.g. 1.5), and a `WEIGHT'.
+          modus-themes-headings
+          '((1 . (variable-pitch 1.5))
+            (2 . (1.3))
+            (agenda-date . (1.3))
+            (agenda-structure . (variable-pitch light 1.8))
+            (t . (1.1))))
 
     ;; Theme overrides
     (customize-set-variable 'modus-themes-common-palette-overrides
@@ -156,6 +184,9 @@
                               (fg-mode-line-active fg-dim)
                               (border-mode-line-active bg-inactive)
                               (border-mode-line-inactive bg-main)))
+
+    (add-hook 'modus-themes-after-load-theme-hook
+              #'+my/modus-themes-org-fontify-block-delimiter-lines)
 
     ;; Load theme
     (my/switch-theme 'modus-operandi))
