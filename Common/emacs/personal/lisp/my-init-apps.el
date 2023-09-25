@@ -30,6 +30,9 @@
                 mastodon-active-user "jvillasante")
     :config (mastodon-discover))
 
+;; speed-type : Practice speed typing
+(use-package speed-type)
+
 ;; elfeed
 (use-package elfeed
     :preface (defun my/elfeed-delete-window-after-kill-buffer (&rest args)
