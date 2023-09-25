@@ -10,8 +10,11 @@
 (global-set-key (kbd "C-x k") 'kill-this-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
 (global-set-key (kbd "C-x S") 'my/save-all) ; save some buffers without prompt
-(global-set-key (kbd "C-z") nil) ; suspend frame should go away
-(global-set-key (kbd "C-x C-z") nil) ; same
+
+;; C-z does not make sense on graphical environment
+(when (display-graphic-p)
+    (global-unset-key (kbd "C-z"))
+    (global-unset-key (kbd "C-x C-z")))
 
 ;; really kill emacs even on `emacsclient'
 (global-set-key (kbd "C-x C-S-c") 'save-buffers-kill-emacs)
