@@ -12,6 +12,7 @@
 ;;    (treesit-language-available-p 'cpp)
 ;; List all known tree-sitter major modes:
 ;;    C-h a -ts-mode$
+;; Give `treesit-explore-mode' or `treesit-inspect-mode' a try!
 (use-package treesit
     :disabled t
     :ensure nil ;; emacs built-in
@@ -20,7 +21,7 @@
         "Install Tree-sitter grammars if they are absent."
         (interactive)
         (dolist (grammar
-                 '((bash          "https://github.com/tree-sitter/tree-sitter-bash")
+                 '((bash       "https://github.com/tree-sitter/tree-sitter-bash")
                    (c          "https://github.com/tree-sitter/tree-sitter-c/" "master" "src")
                    (clojure    "https://github.com/sogaiu/tree-sitter-clojure" "master" "src")
                    (cpp        "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")
@@ -61,7 +62,8 @@
     ;; You can remap major modes with `major-mode-remap-alist'. Note
     ;; that this does *not* extend to hooks! Make sure you migrate them
     ;; also
-    (dolist (mapping '((python-mode . python-ts-mode)
+    (dolist (mapping '((bash-mode . bash-ts-mode)
+                       (python-mode . python-ts-mode)
                        (css-mode . css-ts-mode)
                        (javascript-mode . js-ts-mode)
                        (typescript-mode . tsx-ts-mode)
@@ -69,10 +71,9 @@
                        (js-json-mode . json-ts-mode)
                        (css-mode . css-ts-mode)
                        (yaml-mode . yaml-ts-mode)
-                       (c-mode . c--ts-mode)
+                       (c-mode . c-ts-mode)
                        (c++-mode . c++-ts-mode)))
         (add-to-list 'major-mode-remap-alist mapping))
-
     :config
     (my/setup-install-grammars)
     (setq treesit-font-lock-level 4))
