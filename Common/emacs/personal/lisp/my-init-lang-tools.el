@@ -72,7 +72,7 @@
 
     ;; don't try to manage these
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
-    (add-to-list 'eglot-stay-out-of 'yasnippet)
+    ;; (add-to-list 'eglot-stay-out-of 'yasnippet)
 
     ;; python
     (add-to-list 'eglot-server-programs
