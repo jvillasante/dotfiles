@@ -97,9 +97,8 @@
         (if (= 0 (c-indent-line-or-region))
                 (completion-at-point)))
     :config
-    (with-eval-after-load 'cc-mode
-        (dolist (map (list c-mode-map c++-mode-map))
-            (define-key map (kbd "<tab>") #'my/c-indent-then-complete)))
+    (dolist (map (list c-mode-map c++-mode-map))
+        (define-key map (kbd "<tab>") #'my/c-indent-then-complete))
     (add-hook 'c-mode-common-hook
               (lambda ()
                   (c-set-style "stroustrup")
