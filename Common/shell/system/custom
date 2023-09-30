@@ -54,10 +54,10 @@ fi
 # PS1
 eval "$(starship init bash)"
 
-# Editor: Emacs please
+# Emacs please
 if type emacs >/dev/null 2>/dev/null; then
     export ALTERNATE_EDITOR=""
-    export VISUAL="emacsclient -c -n -a ''" # $VISUAL opens in GUI no wait
+    export VISUAL="emacsclient -c -a ''" # $VISUAL opens in GUI no wait
     export EDITOR="emacsclient -c -a ''"    # $EDITOR opens in GUI and waits
 
     alias em="emacsclient -c -a ''"        # opens the GUI
@@ -66,7 +66,7 @@ if type emacs >/dev/null 2>/dev/null; then
 
     function ediff()  { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (ediff-files \"$1\" \"$2\"))"; }
     function edired() { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (dired \"$1\"))"; }
-    function magit()  { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (magit-status))"; }
+    function emagit() { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (magit-status))"; }
     function ekill()  { emacsclient --eval '(save-buffers-kill-emacs)'; }
 fi
 
