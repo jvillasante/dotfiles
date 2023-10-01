@@ -63,6 +63,7 @@
 
 ;; modern-cpp-font-lock : Syntax highlighting support for "Modern C++"
 (use-package modern-cpp-font-lock
+    :disabled t
     :config (modern-c++-font-lock-global-mode t))
 
 ;; adoc-mode : ascii docs
