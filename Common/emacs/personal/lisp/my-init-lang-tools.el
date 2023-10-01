@@ -42,12 +42,17 @@
                  (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
     :hook ((eglot-managed-mode . my/eglot-eldoc)
            (c-mode . eglot-ensure)
+           (c-ts-mode . eglot-ensure)
            (c++-mode . eglot-ensure)
+           (c++-ts-mode . eglot-ensure)
            (rustic-mode . eglot-ensure)
            (zig-mode . eglot-ensure)
            (js-mode . eglot-ensure)
+           (js-ts-mode . eglot-ensure)
            (python-mode . eglot-ensure)
+           (python-ts-mode . eglot-ensure)
            (go-mode . eglot-ensure)
+           (go-ts-mode . eglot-ensure)
            (sql-mode . eglot-ensure))
     :config
     (setq eglot-autoshutdown t)
@@ -74,44 +79,15 @@
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
     ;; (add-to-list 'eglot-stay-out-of 'yasnippet)
 
-    ;; python
-    (add-to-list 'eglot-server-programs
-                 '(python-mode . ("pyright-langserver" "--stdio")))
-
-    ;; js
-    (add-to-list 'eglot-server-programs
-                 '(js-mode . ("typescript-language-server" "--stdio")))
-
-    ;; web
-    (add-to-list 'eglot-server-programs
-                 '(web-mode . ("typescript-language-server" "--stdio")))
-
-    ;; sql
-    (add-to-list 'eglot-server-programs
-                 '(sql-mode . ("sqls")))
-
-    ;; go
-    (add-to-list 'eglot-server-programs
-                 '(go-mode . ("gopls")))
-
-    ;; rust
-    (add-to-list 'eglot-server-programs
-                 '(rustic-mode . ("rust-analyzer")))
-
-    ;; zig
-    (add-to-list 'eglot-server-programs
-                 '(zig-mode . ("zls")))
-
     ;; C++
     (add-to-list 'eglot-server-programs
-                 '((c-mode c++-mode)
+                 '((c-mode c-ts-mode c++-mode c++-ts-mode)
                    . ("clangd"
                       "-j=8"
                       "--log=error"
                       "--malloc-trim"
                       "--background-index"
                       "--clang-tidy"
-                      "--cross-file-rename"
                       "--completion-style=detailed"
                       "--pch-storage=memory"
                       "--header-insertion=never"
