@@ -22,5 +22,9 @@
 -I./Test/fakes
 -I./Test/mocks
 -I./Test/tests
+-I./Test/tests/agw
+-I./Test/tests/socket
+-I./Test/tests/thread
+-I./Test/tests/wifi
 -I./Test/googletest-1.13.0/googletest/include
 -I./Test/googletest-1.13.0/googlemock/include
