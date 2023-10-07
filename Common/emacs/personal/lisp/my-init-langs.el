@@ -5,6 +5,7 @@
     :init
     (dolist (mapping '((python-mode     . python-ts-mode)
                        (sh-mode         . bash-ts-mode)
+                       (cmake-mode      . cmake-ts-mode)
                        (css-mode        . css-ts-mode)
                        (typescript-mode . tsx-ts-mode)
                        (json-mode       . json-ts-mode)
@@ -61,6 +62,9 @@
     (add-to-list 'auto-mode-alist '("\\.cc\\'"  . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.C\\'"   . c++-mode))
     (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode)))
+
+;; cmake
+(use-package cmake-mode)
 
 ;; modern-cpp-font-lock : Syntax highlighting support for "Modern C++"
 (use-package modern-cpp-font-lock

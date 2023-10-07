@@ -44,6 +44,8 @@
     :hook ((eglot-managed-mode . my/eglot-eldoc)
            (sh-mode . eglot-ensure)
            (bash-ts-mode . eglot-ensure)
+           (cmake-mode . eglot-ensure)
+           (cmake-ts-mode . eglot-ensure)
            (c-mode . eglot-ensure)
            (c-ts-mode . eglot-ensure)
            (c++-mode . eglot-ensure)
@@ -95,9 +97,6 @@
                       "--pch-storage=memory"
                       "--header-insertion=never"
                       "--header-insertion-decorators=0"))))
-
-;; cmake
-(use-package cmake-mode)
 
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
