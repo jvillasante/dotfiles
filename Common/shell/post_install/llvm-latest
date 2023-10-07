@@ -15,9 +15,8 @@ update_alternatives() {
     for slave in ${slaves}; do
         cmdln="${cmdln} --slave ${path}${slave} ${slave} ${path}${slave}-${version}"
     done
-    sudo update-alternatives ${cmdln}
+    sudo update-alternatives "${cmdln}"
 }
-
 
 if [[ ${#} -ne 2 ]]; then
     echo usage: "${0}" clang_version priority
