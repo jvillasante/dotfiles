@@ -15,6 +15,7 @@
 (use-package flymake
     :ensure nil ;; emacs built-in
     :config
+    (setq flymake-suppress-zero-counters t)
     (setq flymake-no-changes-timeout 3) ;; Don't be so hasty in syntax checking.
     (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
     :hook ((prog-mode . (lambda ()
@@ -41,6 +42,8 @@
                  ;; Show all eldoc feedback.
                  (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
     :hook ((eglot-managed-mode . my/eglot-eldoc)
+           (sh-mode . eglot-ensure)
+           (bash-ts-mode . eglot-ensure)
            (c-mode . eglot-ensure)
            (c-ts-mode . eglot-ensure)
            (c++-mode . eglot-ensure)
