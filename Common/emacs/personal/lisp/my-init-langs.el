@@ -4,6 +4,7 @@
 (use-package treesit-auto
     :init
     (dolist (mapping '((python-mode     . python-ts-mode)
+                       (sh-mode         . bash-ts-mode)
                        (css-mode        . css-ts-mode)
                        (typescript-mode . tsx-ts-mode)
                        (json-mode       . json-ts-mode)
