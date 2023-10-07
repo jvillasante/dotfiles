@@ -32,7 +32,7 @@ project(
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_FLAGS_COMMON "-std=c++20 -Wall -Wextra -Werror -Wpedantic")
+set(CMAKE_CXX_FLAGS_COMMON "-std=c++20 -Wall -Wextra -Werror -Wpedantic -fcolor-diagnostics")
 set(CMAKE_CXX_FLAGS_DEBUG
     "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_COMMON} -DDEBUG -g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE

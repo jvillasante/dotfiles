@@ -126,11 +126,9 @@
 
 (use-package fancy-compilation
     :commands (fancy-compilation-mode)
+    :after compile
     :init
-    (custom-set-faces
-     '(fancy-compilation-default-face ((t (:inherit nil :background unspecified)))))
-    (with-eval-after-load 'compile
-        (fancy-compilation-mode)))
+    (fancy-compilation-mode))
 
 (provide 'my-init-lang-tools)
 ;;; my-init-langtools.el ends here

@@ -32,7 +32,7 @@ project(
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
-set(CMAKE_C_FLAGS_COMMON "-std=c99 -Wall -Wextra -Werror -Wpedantic")
+set(CMAKE_C_FLAGS_COMMON "-std=c99 -Wall -Wextra -Werror -Wpedantic -fdiagnostics-color=always")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_COMMON} -DDEBUG -g -O0")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON} -O3")
 
