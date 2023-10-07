@@ -523,12 +523,11 @@ debian_install() {
                 # Install default llvm (14)
                 sudo apt install -y llvm clang clangd clang-tools clang-format
 
-                # Install latest llvm (17)
+                # Install latest stable llvm (17)
                 sudo apt update && sudo apt install lsb-release wget software-properties-common gnupg2
                 sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
-                # Update llvm to use latest
-                # See llvm-latest script
+                # Update llvm to use latest (See llvm-latest script)
 
                 # Wayland Software
                 if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then

@@ -33,7 +33,7 @@ sudo apt update
 # download and launch the setup script
 wget https://apt.llvm.org/llvm.sh
 sudo bash llvm.sh ${version}
-#sudo bash llvm.sh ${version} all
+# sudo bash llvm.sh ${version} all
 
 # configure with update-alternatives
 master="llvm-config"
@@ -45,7 +45,7 @@ ngs llvm-strip llvm-symbolizer llvm-tapi-diff llvm-tblgen llvm-tli-checker llvm-
 update_alternatives "${version}" "${priority}" "${master}" "${slaves}" "${path}"
 
 master="clang"
-slaves="asan_symbolize bugpoint clang++ clang-cpp clangd count dsymutil FileCheck ld64.lld ld.lld llc lld lldb lldb-argdumper lldb-instr lldb-server lldb-vscode lld-link lli lli-child-target not obj2yaml opt sanstats split-file UnicodeNameMappingGenerator verify-uselis
+slaves="asan_symbolize bugpoint clang++ clang-cpp clangd clang-format count dsymutil FileCheck ld64.lld ld.lld llc lld lldb lldb-argdumper lldb-instr lldb-server lldb-vscode lld-link lli lli-child-target not obj2yaml opt sanstats split-file UnicodeNameMappingGenerator verify-uselis
 torder wasm-ld yaml2obj yaml-bench"
 
 update_alternatives "${version}" "${priority}" "${master}" "${slaves}" "${path}"
