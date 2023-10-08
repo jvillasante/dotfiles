@@ -31,6 +31,22 @@
     (advice-add #'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
     (advice-add #'helpful-update :after #'elisp-demos-advice-helpful-update))
 
+;; c++ treesiter
+(use-package c++-ts-mode
+    :ensure nil
+    :preface
+    (defun my/treesit-set-cpp-style()
+        "Set the current buffers C/C++ style."
+        (setq-local c-ts-mode-indent-style 'k&r)
+        (setq-local c-ts-mode-indent-offset 4)
+        (setq-local indent-tabs-mode t)
+        (setq-local tab-width 4)
+        (setq-local tab-always-indent nil))
+    :bind (:map c++-ts-mode-map
+                ("M-<up>" . treesit-beginning-of-defun)
+                ("M-<down>" . treesit-end-of-defun))
+    :hook (c++-ts-mode . my/treesit-set-cpp-style))
+
 ;; c/c++ mode
 (use-package cc-mode
     :ensure nil ;; emacs built-in
