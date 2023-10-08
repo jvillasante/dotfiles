@@ -51,8 +51,8 @@ system_update() {
     [[ -f /etc/debian_version ]] && OS=Debian
     [[ -f /etc/fedora-release ]] && OS=Fedora
 
-    [[ $OS == Debian ]] && (hash apt 2>/dev/null || usage 1)
-    [[ $OS == Fedora ]] && (hash dnf 2>/dev/null || usage 1)
+    [[ $OS == Debian ]] && (hash apt 2> /dev/null || usage 1)
+    [[ $OS == Fedora ]] && (hash dnf 2> /dev/null || usage 1)
 
     [[ $OS == Debian ]] && debian_update
     [[ $OS == Fedora ]] && fedora_update
@@ -81,7 +81,7 @@ dotfiles_update() {
 
 emacs_update() {
     # Preconditions
-    ! hash emacs 2>/dev/null && echo "emacs not installed, exiting..." && usage 1
+    ! hash emacs 2> /dev/null && echo "emacs not installed, exiting..." && usage 1
     [[ ! -d "$HOME"/Workspace/Software ]] && echo "$HOME/Workspace/Software does not exists, exiting..." && usage 1
     [[ ! -d "$HOME"/Workspace/Software/emacs ]] && echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
 
