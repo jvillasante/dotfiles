@@ -1,9 +1,9 @@
 (in-package #:nyxt-user)
 
 ;; Emacs please
-(define-configuration buffer
-    ((default-modes
-         (pushnew 'nyxt/mode/emacs:emacs-mode %slot-value%))))
+(define-configuration (web-buffer prompt-buffer panel-buffer
+                                  nyxt/mode/editor:editor-buffer)
+    ((default-modes (pushnew 'nyxt/mode/emacs:emacs-mode %slot-value%))))
 
 ;; Enable blocker-mode
 (define-configuration web-buffer
