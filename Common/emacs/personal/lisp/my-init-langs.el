@@ -33,19 +33,29 @@
 
 ;; c++ treesiter
 (use-package c++-ts-mode
-    :ensure nil
+    :ensure nil ;; emacs built-in
     :preface
-    (defun my/treesit-set-cpp-style()
-        "Set the current buffers C/C++ style."
-        (setq-local c-ts-mode-indent-style 'k&r)
-        (setq-local c-ts-mode-indent-offset 4)
-        (setq-local indent-tabs-mode t)
-        (setq-local tab-width 4)
-        (setq-local tab-always-indent nil))
+    (defun my/c-ts-indent-style()
+        "Override the built-in BSD indentation style with some additional rules"
+        `(
+          ;; align function arguments to the start of the first one, offset if standalone
+          ((match nil "argument_list" nil 1 1) parent-bol c-ts-mode-indent-offset)
+          ((parent-is "argument_list") (nth-sibling 1) 0)
+          ;; same for parameters
+          ((match nil "parameter_list" nil 1 1) parent-bol c-ts-mode-indent-offset)
+          ((parent-is "parameter_list") (nth-sibling 1) 0)
+          ;; do not indent preprocessor statements
+          ((node-is "preproc") column-0 0)
+          ;; do not indent namespace children
+          ((parent-is "namespace_definition") parent-bol 0)
+          ;; append to bsd style
+          ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
     :bind (:map c++-ts-mode-map
                 ("M-<up>" . treesit-beginning-of-defun)
                 ("M-<down>" . treesit-end-of-defun))
-    :hook (c++-ts-mode . my/treesit-set-cpp-style))
+    :config
+    (setq c-ts-mode-indent-offset 4)
+    (setq c-ts-mode-indent-style #'my/c-ts-indent-style))
 
 ;; c/c++ mode
 (use-package cc-mode
