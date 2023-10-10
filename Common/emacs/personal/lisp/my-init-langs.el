@@ -37,8 +37,8 @@
     :preface
     (defun my/c-ts-indent-style()
         "Override the built-in BSD indentation style with some additional rules"
-        `(
-          ;; align function arguments to the start of the first one, offset if standalone
+        "https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html"
+        `(;; align function arguments to the start of the first one, offset if standalone
           ((match nil "argument_list" nil 1 1) parent-bol c-ts-mode-indent-offset)
           ((parent-is "argument_list") (nth-sibling 1) 0)
           ;; same for parameters
@@ -47,9 +47,10 @@
           ;; do not indent preprocessor statements
           ((node-is "preproc") column-0 0)
           ;; do not indent namespace children
-          ((parent-is "namespace_definition") parent-bol 0)
+          ((n-p-gp nil nil "namespace_definition") grand-parent 0)
           ;; append to bsd style
           ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
+    :init
     :bind (:map c++-ts-mode-map
                 ("M-<up>" . treesit-beginning-of-defun)
                 ("M-<down>" . treesit-end-of-defun))
