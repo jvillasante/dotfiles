@@ -519,6 +519,7 @@ debian_install() {
                 sudo apt install -y ffmpegthumbnailer mediainfo
                 sudo apt install -y feh mpv qrencode
                 sudo apt install -y ncurses-term
+                sudo apt install -y ccache
 
                 # Install default llvm (14)
                 sudo apt install -y llvm clang clangd clang-tools clang-format
