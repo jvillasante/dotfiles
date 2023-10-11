@@ -6,6 +6,13 @@ set(CMAKE_C_COMPILER "${GCC_PREFIX}/gcc")
 set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/g++")
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 
+# Use ccache if available
+find_program(CCACHE_PROGRAM ccache)
+if(CCACHE_PROGRAM)
+  set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
+  set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
+endif()
+
 # Specify default build type if none provided (before project() command)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE
