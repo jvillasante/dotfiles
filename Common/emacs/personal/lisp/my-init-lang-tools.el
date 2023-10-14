@@ -129,5 +129,7 @@
     :init
     (fancy-compilation-mode))
 
+(use-package rmsbolt)
+
 (provide 'my-init-lang-tools)
 ;;; my-init-langtools.el ends here
