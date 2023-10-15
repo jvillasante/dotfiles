@@ -9,15 +9,15 @@
 
 ;;; Code:
 
-;; increase gc threshold to speedup starting up
-(setq gc-cons-percentage 0.6)
-(setq gc-cons-threshold most-positive-fixnum)
-
-;; Initialise installed packages
-(setq package-enable-at-startup t)
-
 ;; prefer loading newest compiled .el file
 (setq load-prefer-newer t)
+
+;; increase gc threshold to speedup starting up
+(setq gc-cons-percentage 1)
+(setq gc-cons-threshold most-positive-fixnum)
+
+;; Initialize installed packages
+(setq package-enable-at-startup t)
 
 ;;; Native compilation settings
 (when (featurep 'native-compile)

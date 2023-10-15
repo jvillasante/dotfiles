@@ -44,18 +44,18 @@ shopt -s globstar
 
 # enable programmable completion features
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
 
 # PS1
 eval "$(starship init bash)"
 
 # Emacs please
-if type emacs >/dev/null 2>/dev/null; then
+if type emacs > /dev/null 2> /dev/null; then
     export ALTERNATE_EDITOR=""
     export VISUAL="emacsclient -c -a ''"   # $VISUAL opens in GUI and waits
     export EDITOR="$VISUAL"
@@ -69,8 +69,8 @@ if type emacs >/dev/null 2>/dev/null; then
 fi
 
 # vim
-type nvim >/dev/null 2>&1 && alias vim=nvim
-type vim >/dev/null 2>&1 && alias vi=vim
+type nvim > /dev/null 2>&1 && alias vim=nvim
+type vim > /dev/null 2>&1 && alias vi=vim
 
 # ssh
 alias ssh="TERM=xterm-256color ssh"
@@ -88,34 +88,34 @@ alias ag="ag --hidden --ignore node_modules --ignore .git"
 alias reboot="systemctl reboot"
 
 # eza (ls replacement)
-if type eza >/dev/null 2>/dev/null; then
+if type eza > /dev/null 2> /dev/null; then
     alias ls='eza --git --group-directories-first --color=automatic'
     alias ll='eza -agFlh --git --group-directories-first --color=automatic'
 fi
 
 # ripgrep
-if type rg >/dev/null 2>/dev/null; then
+if type rg > /dev/null 2> /dev/null; then
     alias grep='rg -S --color=auto'
 fi
 
 # bat
-if type bat >/dev/null 2>/dev/null; then
+if type bat > /dev/null 2> /dev/null; then
     alias bat='bat --theme ansi'
     # alias cat='bat --theme ansi'
 fi
 
 # fd-find
-if type fdfind >/dev/null 2>/dev/null; then
+if type fdfind > /dev/null 2> /dev/null; then
     alias fd='fdfind'
 fi
 
 # gpg is not gpg2 if installed
-if type gpg2 >/dev/null 2>/dev/null; then
+if type gpg2 > /dev/null 2> /dev/null; then
     alias gpg='gpg2'
 fi
 
 # surf: these options are very opinionated, disabling images, javascript, etc.
-if type surf >/dev/null 2>&1; then
+if type surf > /dev/null 2>&1; then
     alias surf="surf -giKMnps"
 fi
 
@@ -159,7 +159,7 @@ fi
 # Execute tmux
 #
 if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ] && [ -z "$INSIDE_EMACS" ]; then
-    tmux attach || tmux new -s Default >/dev/null 2>&1
+    ( tmux attach || tmux new -s Default > /dev/null 2>&1) && exit 0
 fi
 
 #
