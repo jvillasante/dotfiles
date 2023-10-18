@@ -224,6 +224,14 @@ Run this function at the post theme load phase, such as with the
     (define-key isearch-mode-map [remap isearch-query-replace] #'anzu-isearch-query-replace)
     (define-key isearch-mode-map [remap isearch-query-replace-regexp] #'anzu-isearch-query-replace-regexp))
 
+;; TODO: Window configuration replacing `shackle' and `popper'
+(progn
+    (setq switch-to-buffer-obey-display-actions t)
+    (setq async-shell-command-display-buffer nil)
+
+    ;; https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
+    )
+
 ;; shackle : Enforce rules for popup windows
 (use-package shackle
     :init
