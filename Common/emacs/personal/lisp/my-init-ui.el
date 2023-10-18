@@ -226,8 +226,14 @@ Run this function at the post theme load phase, such as with the
 
 ;; TODO: Window configuration replacing `shackle' and `popper'
 (progn
-    (setq switch-to-buffer-obey-display-actions t)
-    (setq async-shell-command-display-buffer nil)
+    (setq switch-to-buffer-obey-display-actions t
+          async-shell-command-display-buffer nil
+          fit-window-to-buffer-horizontally t
+          fit-frame-to-buffer t)
+    (setq display-buffer-base-action
+          '((display-buffer-reuse-window
+             display-buffer-in-previous-window
+             display-buffer-reuse-mode-window)))
 
     ;; https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
     )
