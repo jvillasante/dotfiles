@@ -33,6 +33,22 @@
 ;; speed-type : Practice speed typing
 (use-package speed-type)
 
+;; docker : Emacs integration for Docker!
+(use-package docker
+    :bind ("C-c d" . docker)
+    :config
+    ;; When docker run is called on an image whose repository name matches the regular expression "^postgres",
+    ;; the option "-e POSTGRES_PASSWORD=postgres" will appear as set along with the defaults specified by `docker-image-run-default-args'.
+    (add-to-list 'docker-image-run-custom-args
+                 `("^postgres" ("-e POSTGRES_PASSWORD=postgres" . ,docker-image-run-default-args)))
+
+    ;; docker run --rm --interactive --tty --volume /home/jvillasante/Workspace/Work/Projects/dmxs:/tmp/sm -w /tmp/sm --name dmxs sm:latest /bin/bash
+    ;; docker run --rm --interactive --tty --volume /home/jvillasante/Workspace/Work/Projects/dmxs:/tmp/sm -w /tmp/sm --name dmxs registry.gitlab.com/nielsen-media/eng/meters/dmxs/dmxs/sm:dmx2-dmx4-dmx5 /bin/bash
+    (add-to-list 'docker-image-run-custom-args
+                 `("sm\\:*" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm"
+                             "-w /tmp/sm"
+                             "--name dmxs" . ,docker-image-run-default-args))))
+
 ;; elfeed
 (use-package elfeed
     :preface (defun my/elfeed-delete-window-after-kill-buffer (&rest args)
