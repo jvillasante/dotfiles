@@ -240,6 +240,7 @@ Run this function at the post theme load phase, such as with the
 
 ;; shackle : Enforce rules for popup windows
 (use-package shackle
+    :disabled t
     :init
     (setq shackle-rules
           '((compilation-mode :select t :popup t :align 'below :size 0.4)
@@ -251,6 +252,7 @@ Run this function at the post theme load phase, such as with the
 
 ;; popper : tame the flood of ephemeral windows Emacs produces
 (use-package popper
+    :disabled t
     :bind (("C-c :" . popper-toggle-latest)
            ("C-`"   . popper-toggle-latest)
            ("C-\\"  . popper-cycle)
