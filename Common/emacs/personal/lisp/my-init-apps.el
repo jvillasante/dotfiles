@@ -53,6 +53,10 @@
 (use-package docker
     :bind ("C-c d" . docker)
     :config
+    ;; always run with `vterm' if available
+    (if (fboundp 'vterm)
+            (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
+
     ;; When docker run is called on an image whose repository name matches the regular expression "^postgres",
     ;; the option "-e POSTGRES_PASSWORD=postgres" will appear as set along with the defaults specified by `docker-image-run-default-args'.
     (add-to-list 'docker-image-run-custom-args
