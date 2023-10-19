@@ -75,7 +75,7 @@
 (setq window-combination-resize t
       ;; unless you have a really wide screen, always prefer
       ;; horizontal split (ale `split-window-below')
-      split-width-threshold 300)
+      split-width-threshold 200)
 
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
@@ -224,7 +224,7 @@ Run this function at the post theme load phase, such as with the
     (define-key isearch-mode-map [remap isearch-query-replace] #'anzu-isearch-query-replace)
     (define-key isearch-mode-map [remap isearch-query-replace-regexp] #'anzu-isearch-query-replace-regexp))
 
-;; TODO: Window configuration replacing `shackle' and `popper'
+;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 (progn
     (setq switch-to-buffer-obey-display-actions t
           async-shell-command-display-buffer nil
@@ -235,57 +235,30 @@ Run this function at the post theme load phase, such as with the
              display-buffer-in-previous-window
              display-buffer-reuse-mode-window)))
 
-    ;; https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
+    (add-to-list 'display-buffer-alist
+                 '("\\*\\(e?shell\\|vterm\\|ielm\\|eat\\)\\*"
+                   (display-buffer-reuse-window
+                    display-buffer-in-direction
+                    display-buffer-in-side-window)
+                   (body-function . select-window)
+                   (window-height . .40)
+                   (window-width .  .40)
+                   (direction . below)
+                   (side . bottom)
+                   (slot . 1)))
+
+    (add-to-list 'display-buffer-alist
+                 '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
+                   (display-buffer-reuse-window
+                    display-buffer-in-direction
+                    display-buffer-in-side-window)
+                   (body-function . select-window)
+                   (window-height . .40)
+                   (window-width .  .50)
+                   (direction . right)
+                   (side . right)
+                   (slot . 1)))
     )
-
-;; shackle : Enforce rules for popup windows
-(use-package shackle
-    :disabled t
-    :init
-    (setq shackle-rules
-          '((compilation-mode :select t :popup t :align 'below :size 0.4)
-            (eat-mode :select t :popup t :align 'below :size 0.4)
-            ("\\`\\*ielm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)
-            ("\\`\\*eshell.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)
-            ("\\`\\*vterm.*?\\*\\'" :regexp t :popup t :align 'below :size 0.4)))
-    (shackle-mode +1))
-
-;; popper : tame the flood of ephemeral windows Emacs produces
-(use-package popper
-    :disabled t
-    :bind (("C-c :" . popper-toggle-latest)
-           ("C-`"   . popper-toggle-latest)
-           ("C-\\"  . popper-cycle)
-           ("C-M-`" . popper-toggle-type))
-    :init
-    (setq popper-reference-buffers
-          '("\\*Messages\\*"
-            "\\*Warnings\\*"
-            "Output\\*$"
-            "\\*Async Shell Command\\*"
-            help-mode
-            compilation-mode))
-    ;; Match terminal buffers
-    (setq popper-reference-buffers
-          (append popper-reference-buffers
-                  '("^\\*eshell.*\\*$"                eshell-mode                       ;eshell as a popup
-                    "^\\*shell.*\\*$"                 shell-mode                        ;shell as a popup
-                    "^\\*term.*\\*$"                  term-mode                         ;term as a popup
-                    "^\\*vterm.*\\*$"                 vterm-mode                        ;vterm as a popup
-                    "^\\*eat.*\\*$"                   eat-mode                          ;eat as a popup
-                    "^\\*flycheck-list-errors.*\\*$"  flycheck-error-list-mode          ;flycheck error list as a popup
-                    "^\\*Flymake diagnostics.*\\*$"   flymake-project-diagnostics-mode  ;flymake diagnostics as a popup
-                    "^\\*ibuffer.*\\*$"               ibuffer-mode                      ;ibuffer as a popup
-                    "^\\*helpful-comand.*\\*$"        helpful-mode                      ;helpful command as a popup
-                    "^\\*helpful-variable.*\\*$"      helpful-mode                      ;helpful variable as a popup
-                    "^\\*helpful-callable.*\\*$"      helpful-mode                      ;helpful callable as a popup
-                    "^\\*scratch.*\\*$"               initial-major-mode)))             ;scratch buffer as a popup
-    (setq popper-window-height 15)
-    (setq popper-mode-line '(:eval (propertize " POP " 'face 'mode-line-emphasis)))
-    (popper-mode +1)
-    (popper-echo-mode +1)
-    :config
-    (setq popper-display-control nil))
 
 ;; discover : Discover more of emacs using context menus.
 (use-package discover
