@@ -119,6 +119,51 @@
                   (setq-local confirm-kill-processes nil)
                   (setq-local hscroll-margin 0))))
 
+;; dwim-shell-command : Bring command-line utilities to your Emacs workflows
+;; noweb templates operate on drawn files using either the following:
+;;   <<f>>   (file path)
+;;   <<fne>> (file path without extension)
+;;   <<e>>   (extension)
+;;   <<td>>  (generate a temporary directory)
+;;   <<*>>   (all files joined)
+;;   <<cb>>  (clipboard)
+(use-package dwim-shell-command
+    :bind (([remap shell-command] . dwim-shell-command)
+           :map dired-mode-map
+           ([remap dired-do-async-shell-command] . dwim-shell-command)
+           ([remap dired-do-shell-command] . dwim-shell-command)
+           ([remap dired-smart-shell-command] . dwim-shell-command))
+    :init
+    (require 'dwim-shell-commands)
+    (defun my/dwim-shell-command-convert-to-gif ()
+        "Convert all marked videos to optimized gif(s)."
+        (interactive)
+        (dwim-shell-command-on-marked-files
+         "Convert to gif"
+         "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
+         :utils "ffmpeg"))
+    (defun my/dwim-shell-command-pass-git-push ()
+        "Push password-store changes to git"
+        (interactive)
+        (dwim-shell-command-on-marked-files
+         "Push password-store changes to git"
+         "pass git push"
+         :utils "pass"))
+    (defun my/dwim-shell-command-copy-to-www-sm2 ()
+        "Copfy files to SM2's www directory"
+        (interactive)
+        (dwim-shell-command-on-marked-files
+         "Copy marked files to SM2's www directory"
+         "scp -Or <<f>> dmxs.sm2.lan:/opt/dmxs/www"
+         :utils "scp"))
+    (defun my/dwim-shell-command-copy-to-bin-sm2 ()
+        "Copy files to SM2's www directory"
+        (interactive)
+        (dwim-shell-command-on-marked-files
+         "Copy marked files to SM2's www directory"
+         "scp -Or <<f>> dmxs.sm2.lan:/opt/dmxs/app/bin"
+         :utils "scp")))
+
 ;; emamux : Interact with tmux from Emacs.
 (use-package emamux
     :disabled t)
