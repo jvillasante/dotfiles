@@ -51,8 +51,8 @@
 (global-set-key (kbd "C-c j") #'consult-line)
 (global-set-key (kbd "C-c i") #'consult-imenu)
 (setq read-buffer-completion-ignore-case t
-    read-file-name-completion-ignore-case t
-    completion-ignore-case t)
+      read-file-name-completion-ignore-case t
+      completion-ignore-case t)
 
 ;; Enable line numbering in `prog-mode'
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -198,10 +198,10 @@
 
 ;; Miscellaneous options
 (setq-default major-mode
-    (lambda () ; guess major mode from file name
-        (unless buffer-file-name
-            (let ((buffer-file-name (buffer-name)))
-                (set-auto-mode)))))
+              (lambda () ; guess major mode from file name
+                  (unless buffer-file-name
+                      (let ((buffer-file-name (buffer-name)))
+                          (set-auto-mode)))))
 (setq confirm-kill-emacs #'yes-or-no-p)
 (setq window-resize-pixelwise t)
 (setq frame-resize-pixelwise t)
