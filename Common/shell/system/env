@@ -46,7 +46,7 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 # Go
-if type go >/dev/null 2>/dev/null; then
+if type go > /dev/null 2> /dev/null; then
     [ ! -d "$HOME/.go/" ] && mkdir -p "$HOME/.go/"
     export GOPATH="$HOME/.go"
     export GOBIN="$GOPATH/bin"
