@@ -6,7 +6,7 @@ readonly WM_KDE="KDE"
 readonly WM_GNOME="Gnome"
 readonly WM_I3="I3"
 readonly WM_SWAY="Sway"
-WINDOW_SYSTEM="$WS_X11"
+WINDOW_SYSTEM="$WS_WAYLAND"
 WINDOW_MANAGER="$WM_KDE"
 
 usage() {
@@ -721,11 +721,11 @@ debian_install() {
                 sudo flatpak install -y flathub com.discordapp.Discord
                 sudo flatpak install -y flathub com.dropbox.Client
                 sudo flatpak install -y flathub com.slack.Slack
-                sudo flatpak install -y flathub org.telegram.desktop
                 sudo flatpak install -y flathub org.videolan.VLC
                 sudo flatpak install -y flathub com.transmissionbt.Transmission
                 sudo flatpak install -y flathub org.wireshark.Wireshark
                 sudo flatpak install -y flathub com.github.tchx84.Flatseal
+                # sudo flatpak install -y flathub org.telegram.desktop
                 # sudo flatpak install -y flathub org.gnucash.GnuCash
                 # sudo flatpak install -y flathub org.gimp.GIMP
                 # sudo flatpak install -y flathub engineer.atlas.Nyxt
