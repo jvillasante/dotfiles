@@ -15,10 +15,10 @@ configure() {
     tmux split-window -v -p 80 -t "$selected_name" -c "$selected"
 
     # For 8.* (agw branch)
-    # local image="sm:latest"
+    local image="sm:latest"
 
     # For 6.* & 7.* (original/mesh branch)
-    local image="registry.gitlab.com/nielsen-media/eng/meters/dmxs/dmxs/sm:dmx2-dmx4-dmx5"
+    # local image="registry.gitlab.com/nielsen-media/eng/meters/dmxs/dmxs/sm:dmx2-dmx4-dmx5"
 
     tmux send-keys -t "$selected_name" "docker run --rm --interactive --tty --volume $selected:/tmp/sm -w /tmp/sm --name dmxs $image /bin/bash" Enter
     tmux send-keys -t "$selected_name" "clear" Enter
