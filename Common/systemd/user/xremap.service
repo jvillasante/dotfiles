@@ -1,0 +1,11 @@
+[Unit]
+Description=xremap as a service
+Documentation=https://github.com/k0kubun/xremap
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/xremap --watch=device /home/jvillasante/.config/xremap/config.yml
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

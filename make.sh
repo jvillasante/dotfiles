@@ -15,7 +15,7 @@ echo ">>> Running ($CURRENT_SHELL) for '$CURRENT_HOST' on '$CURRENT_OS' at '$DOT
 install_shell() {
     case $1 in
         bash)
-            if type bash >/dev/null 2>&1; then
+            if type bash > /dev/null 2>&1; then
                 # Set the default shell to bash if it isn't currently set to bash
                 if [ ! "$(readlink /proc/$$/exe)" = "$(which bash)" ]; then
                     chsh -s "$(which bash)"
@@ -31,7 +31,7 @@ install_shell() {
             fi
             ;;
         zsh)
-            if type zsh >/dev/null 2>&1; then
+            if type zsh > /dev/null 2>&1; then
                 # Set the default shell to zsh if it isn't currently set to zsh
                 if [ ! "$(readlink /proc/$$/exe)" = "$(which zsh)" ]; then
                     chsh -s "$(which zsh)"
@@ -53,7 +53,7 @@ install_shell() {
 }
 
 install_emacs() {
-    if ! type emacs >/dev/null 2>&1; then
+    if ! type emacs > /dev/null 2>&1; then
         echo ">>> Emacs is not installed, exiting..." && exit 1
     fi
 
@@ -98,7 +98,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME/.config..."
-files="git nyxt alacritty foot shell tmux zellij ranger rofi nvim psd i3 nushell keyd xkeysnail starship.toml"
+files="git nyxt alacritty foot shell tmux zellij ranger rofi nvim psd i3 nushell keyd xkeysnail xremap starship.toml"
 for file in $files; do
     [ -L "$HOME/.config/$file" ] && unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
@@ -111,7 +111,7 @@ for file in "$DOTFILES_DIR"/Common/shell/scripts/*; do
 done
 
 echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."
-files="emacs.service xkeysnail.service"
+files="emacs.service xkeysnail.service xremap.service"
 for file in $files; do
     [ -L "$HOME/.config/systemd/user/$file" ] && unlink "$HOME/.config/systemd/user/$file"
     ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"

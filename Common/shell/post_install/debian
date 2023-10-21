@@ -367,9 +367,10 @@ debian_install() {
         6 "Enable Flatpak - Enables the Flatpak repo and installs packages"
         7 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         8 "Install Emacs - Install Emacs29 from source"
-        9 "Install Keyd - Install Keyd from source (using keysnail at the moment, here for documentation only)"
-        10 "Install Xkeysnail - Install Xkeysnail from source"
-        11 "Quit")
+        9 "Install Keyd - Install Keyd from source (using xremap at the moment, here for documentation only)"
+        10 "Install Xkeysnail - Install Xkeysnail from source (using xremap at the moment, here for documentation only)"
+        11 "Install Xremap - Install Xremap"
+        12 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -594,7 +595,7 @@ EOF
                 sudo apt install -y git
 
                 # Alacritty - A fast, cross-platform, OpenGL terminal emulator
-                [[ "$WINDOW_SYSTEM" = "$WS_X11" ]] && sudo apt install -y alacritty
+                [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo apt install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
                 [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && sudo apt install -y foot
@@ -975,6 +976,50 @@ EOF
                 read -rp "10) Xkeysnail has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
                 ;;
             11)
+                echo "11) Installing Xremap"
+
+                [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo apt install -y libx11-dev
+
+                # Is it already installed?
+                hash xremap 2> /dev/null && notify-send "Xremap is already installed" --expire-time=30000 && continue
+
+                # Install
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                [ ! -d "$HOME"/Workspace/Software/xremap ] && mkdir -p "$HOME"/Workspace/Software/xremap
+
+                pushd "$HOME"/Workspace/Software/xremap || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/xremap" --expire-time=30000
+                        continue
+                }
+
+                XREMAP_VERSION=v0.8.11
+                XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
+                [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]] && XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
+                [[ "$WINDOW_MANAGER" == "$WM_SWAY" ]] && XREMAP_RELEASE=xremap-linux-x86_64-sway.zip
+
+                curl -LJO https://github.com/k0kubun/xremap/releases/download/"$XREMAP_VERSION"/"$XREMAP_RELEASE"
+                atool --extract --explain "$XREMAP_RELEASE"
+                sudo cp -f xremap /usr/local/bin/
+
+                popd || {
+                        notify-send "Can't cd to previous directory" --expire-time=30000
+                        continue
+                }
+
+                # Give current user access to input rules
+                sudo gpasswd -a "$USER" input
+                echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
+
+                # Enable the daemon
+                [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
+                [ -L "$HOME/.config/systemd/user/xremap.service" ] && unlink "$HOME/.config/systemd/user/xremap.service"
+                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" "$HOME/.config/systemd/user"
+                systemctl --user daemon-reload
+                systemctl --user enable xremap.service && systemctl --user start xremap.service
+
+                read -rp "11) Xremap has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
+                ;;
+            12)
                 exit 0
                 ;;
         esac
