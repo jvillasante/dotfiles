@@ -9,7 +9,25 @@ AlwaysBreakTemplateDeclarations: true
 Cpp11BracedListStyle: true
 AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortLoopsOnASingleLine: true
-BreakBeforeBraces: Stroustrup
+
+# Braces
+BraceWrapping:
+  AfterClass:            true
+  AfterControlStatement: true
+  AfterEnum:             true
+  AfterFunction:         true
+  AfterNamespace:        true
+  AfterObjCDeclaration:  true
+  AfterStruct:           true
+  AfterUnion:            true
+  AfterExternBlock:      true
+  BeforeCatch:           true
+  BeforeElse:            true
+  IndentBraces:          false
+  SplitEmptyFunction:    true
+  SplitEmptyRecord:      true
+  SplitEmptyNamespace:   true
+BreakBeforeBraces: Custom
 
 # Force pointers to the type for C++.
 DerivePointerAlignment: false
