@@ -69,8 +69,8 @@ if type emacs > /dev/null 2> /dev/null; then
 fi
 
 # vim
-type nvim > /dev/null 2>&1 && alias vim=nvim
 type vim > /dev/null 2>&1 && alias vi=vim
+type nvim > /dev/null 2>&1 && alias vim=nvim
 
 # ssh
 alias ssh="TERM=xterm-256color ssh"
