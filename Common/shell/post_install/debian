@@ -538,6 +538,7 @@ EOF
                 sudo apt install -y feh mpv qrencode
                 sudo apt install -y ncurses-term
                 sudo apt install -y ccache
+                sudo apt install -y meson
 
                 # Node
                 sudo apt install -y ca-certificates curl gnupg
