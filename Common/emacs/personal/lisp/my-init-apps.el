@@ -193,7 +193,8 @@
             "https://www.thecodedmessage.com/index.xml"
             "https://unixsheikh.com/feed.rss"
             "https://michal.sapka.me/index.xml"
-            "https://borretti.me/feed.xml")))
+            "https://borretti.me/feed.xml"
+            "https://fabiensanglard.net/rss.xml")))
 
 (provide 'my-init-apps)
 ;;; my-init-apps.el ends here
