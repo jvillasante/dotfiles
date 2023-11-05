@@ -9,6 +9,12 @@
 
 ;;; Code:
 
+;; config changes made through the customize UI will be stored here
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (and custom-file
+           (file-exists-p custom-file))
+    (load custom-file nil 'nomessage))
+
 ;; bootstrap package.el
 (progn
     (require 'package)
@@ -47,11 +53,6 @@
 
 ;; no-littering needs to come first
 (use-package no-littering)
-
-;; config changes made through the customize UI will be stored here
-(setq custom-file (no-littering-expand-etc-file-name "custom.el"))
-(when (file-exists-p custom-file)
-    (load custom-file))
 
 ;; Paths
 (defconst my/home-path (expand-file-name "~/"))
