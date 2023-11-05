@@ -5,6 +5,10 @@
 (setq mac-option-modifier 'meta)
 (setq warning-minimum-level :error)
 
+;; make IO better
+(setq process-adaptive-read-buffering nil)
+(setq read-process-output-max (* 4 1024 1024))
+
 ;; encoding
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
