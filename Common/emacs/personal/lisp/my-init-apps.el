@@ -16,7 +16,7 @@
 ;; eww
 (use-package eww
     :ensure nil ;; emacs built-in
-    :init (setq eww-search-prefix "https://search.brave.com/search?q="))
+    :init (setq eww-search-prefix "https://duckduckgo.com/?q="))
 
 ;; pdf
 (use-package pdf-tools
