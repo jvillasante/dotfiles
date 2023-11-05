@@ -52,14 +52,22 @@
 
 ;; eat: Emulate A Terminal
 (use-package eat
-    :preface
-    (defun my/eat ()
-        "open `eat' at project root, if no root is found, open at the default-directory"
-        (interactive)
-        (let ((default-directory (my/project-root-or-default-dir)))
-            (call-interactively #'eat)))
+    :preface (defun my/eat ()
+                 "open `eat' at project root, if no root is found, open at the default-directory"
+                 (interactive)
+                 (let ((default-directory (my/project-root-or-default-dir)))
+                     (call-interactively #'eat)))
     :bind (("C-x p t" . #'eat-project)
-           ("C-c o t" . #'my/eat)))
+           ("C-c o t" . #'my/eat))
+    :init (add-hook 'eat-mode-hook
+                    (lambda ()
+                        (setq-local scroll-margin 0)
+                        (setq-local confirm-kill-processes nil)
+                        (setq-local hscroll-margin 0)))
+    :config
+    (setq eat-shell-prompt-annotation-failure-margin-indicator "")
+    (setq eat-shell-prompt-annotation-running-margin-indicator "")
+    (setq eat-shell-prompt-annotation-success-margin-indicator ""))
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
@@ -100,18 +108,18 @@
                          (window (get-buffer-window buffer)))
                       (when (not (one-window-p))
                           (delete-window window)))))
+    (add-hook 'vterm-mode-hook
+              (lambda ()
+                  (setq-local scroll-margin 0)
+                  (setq-local confirm-kill-processes nil)
+                  (setq-local hscroll-margin 0)))
     :config
     (setq vterm-kill-buffer-on-exit t)
     (setq vterm-copy-exclude-prompt t)
     (setq vterm-max-scrollback 100000)
     (setq vterm-shell (executable-find "bash"))
     (setq vterm-tramp-shells '(("ssh" "/bin/sh")
-                               ("podman" "/bin/bash")))
-    (add-hook 'vterm-mode-hook
-              (lambda ()
-                  (setq-local scroll-margin 0)
-                  (setq-local confirm-kill-processes nil)
-                  (setq-local hscroll-margin 0))))
+                               ("podman" "/bin/bash"))))
 
 ;; dwim-shell-command : Bring command-line utilities to your Emacs workflows
 ;; noweb templates operate on drawn files using either the following:
