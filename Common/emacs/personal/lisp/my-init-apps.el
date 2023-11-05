@@ -2,7 +2,6 @@
 
 ;; password-store for emacs
 (use-package password-store
-    :disabled t ;; won't remove passwords from clipboard!
     :bind (("C-c p c" . password-store-copy)
            ("C-c p C" . password-store-copy-field)
            ("C-c p g" . password-store-generate)
