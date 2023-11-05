@@ -236,7 +236,7 @@ Run this function at the post theme load phase, such as with the
              display-buffer-reuse-mode-window)))
 
     (add-to-list 'display-buffer-alist
-                 '("\\*\\(e?shell\\|vterm\\|ielm\\|eat\\)\\*"
+                 '("\\*\\(e?shell\\|vterm\\|ielm\\|.*eat\\)\\*"
                    (display-buffer-reuse-window
                     display-buffer-in-direction
                     display-buffer-in-side-window)
