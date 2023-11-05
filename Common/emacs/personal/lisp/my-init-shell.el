@@ -10,14 +10,13 @@
 (use-package eshell
     :ensure nil ;; emacs built-in
     :init
-    ;; Prompt
     (with-eval-after-load 'esh-opt
         (autoload 'epe-theme-lambda "eshell-prompt-extras")
         (setq eshell-highlight-prompt nil)
         (setq eshell-prompt-function 'epe-theme-lambda))
 
     (add-hook 'eshell-mode-hook
-              (lambda()
+              (lambda ()
                   ;; visual commands
                   (add-to-list 'eshell-visual-commands "top")
                   (add-to-list 'eshell-visual-commands "htop")
@@ -35,7 +34,13 @@
                       (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
                   (eshell/alias "ff" "find-file $1")
                   (eshell/alias "e" "find-file-other-window $1")
-                  (eshell/alias "d" "dired $1")))
+                  (eshell/alias "d" "dired $1")
+
+                  ;; eat
+                  (when (featurep 'eat)
+                      (setq eshell-visual-commands nil)
+                      (eat-eshell-mode +1)
+                      (eat-eshell-visual-command-mode +1))))
     :config
     (setq eshell-scroll-to-bottom-on-input 'this)
     (setq eshell-scroll-to-bottom-on-output nil)
@@ -45,8 +50,20 @@
     (setq eshell-save-history-on-exit t)
     (setq eshell-destroy-buffer-when-process-dies t))
 
+;; eat: Emulate A Terminal
+(use-package eat
+    :preface
+    (defun my/eat ()
+        "open `eat' at project root, if no root is found, open at the default-directory"
+        (interactive)
+        (let ((default-directory (my/project-root-or-default-dir)))
+            (call-interactively #'eat)))
+    :bind (("C-x p t" . #'eat-project)
+           ("C-c o t" . #'my/eat)))
+
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
+    :disabled t
     :bind (("C-c o t" . my/vterm)
            :map project-prefix-map
            ("t" . my/project-vterm)
@@ -91,29 +108,6 @@
     (setq vterm-tramp-shells '(("ssh" "/bin/sh")
                                ("podman" "/bin/bash")))
     (add-hook 'vterm-mode-hook
-              (lambda ()
-                  (setq-local scroll-margin 0)
-                  (setq-local confirm-kill-processes nil)
-                  (setq-local hscroll-margin 0))))
-
-;; eat: Emulate A Terminal (vterm is better IMO)
-(use-package eat
-    :disabled t
-    :preface
-    (defun my/eat ()
-        "open `eat' at project root, if no root is found, open at the default-directory"
-        (interactive)
-        (let ((default-directory (my/project-root-or-default-dir)))
-            (call-interactively #'eat)))
-    :bind (("C-x p s" . #'eat-project)
-           ("C-c o t" . #'my/eat))
-    :config
-    (add-hook 'eshell-mode-hook
-              (lambda()
-                  (setq eshell-visual-commands nil)
-                  (eat-eshell-visual-command-mode +1)
-                  (eat-eshell-mode +1)))
-    (add-hook 'eat-mode-hook
               (lambda ()
                   (setq-local scroll-margin 0)
                   (setq-local confirm-kill-processes nil)
