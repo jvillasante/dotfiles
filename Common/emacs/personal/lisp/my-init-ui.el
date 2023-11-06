@@ -259,11 +259,5 @@ Run this function at the post theme load phase, such as with the
                    (side . right)
                    (slot . 1))))
 
-;; discover : Discover more of emacs using context menus.
-(use-package discover
-    :disabled t
-    :config
-    (global-discover-mode 1))
-
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here

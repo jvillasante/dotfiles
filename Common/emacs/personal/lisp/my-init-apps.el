@@ -5,9 +5,9 @@
     :preface
     (defun my/password-store-git-push ()
         (interactive)
-        (with-editor-async-shell-command "pass git push" "*Async Shell Command - Password Store*"))
+        (with-editor-async-shell-command "pass git push"))
     (defun my/clear-system-clipboard (&rest r)
-        (with-editor-async-shell-command "qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardHistory" "*Async Shell Command - Password Store*"))
+        (with-editor-async-shell-command "qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardHistory" "*Async Shell Command - Clear Clipboard*"))
     :bind (("C-c p c" . password-store-copy)
            ("C-c p C" . password-store-copy-field)
            ("C-c p g" . password-store-generate)
@@ -18,7 +18,7 @@
            ("C-c p i" . password-store-insert)
            ("C-c p P" . my/password-store-git-push))
     :init
-    (add-to-list 'display-buffer-alist '("*Async Shell Command - Password Store*" display-buffer-no-window (nil)))
+    (add-to-list 'display-buffer-alist '("*Async Shell Command - Clear Clipboard*" display-buffer-no-window (nil)))
     (advice-add 'password-store--save-field-in-kill-ring :after #'my/clear-system-clipboard)
     :custom ((password-store-password-length 25)))
 
