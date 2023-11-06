@@ -125,9 +125,9 @@
 
 (use-package fancy-compilation
     :commands (fancy-compilation-mode)
-    :after compile
-    :init
-    (fancy-compilation-mode))
+    :init (with-eval-after-load 'compile
+              (fancy-compilation-mode))
+    :custom (fancy-compilation-override-colors nil))
 
 (use-package rmsbolt)
 
