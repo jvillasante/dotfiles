@@ -52,6 +52,7 @@
 
 ;; eat: Emulate A Terminal
 (use-package eat
+    :disabled t
     :preface (defun my/eat ()
                  "open `eat' at project root, if no root is found, open at the default-directory"
                  (interactive)
@@ -71,24 +72,17 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
-    :bind (("C-c o t" . my/vterm)
-           :map project-prefix-map
-           ("t" . my/project-vterm)
-           :map vterm-mode-map
-           ([return] . #'vterm-send-return)
-           ("M-[" . #'vterm-copy-mode)
-           ("C-y" . #'vterm-yank)
-           ("C-g" . #'vterm-send-escape)
-           :map vterm-copy-mode-map
-           ("M-w" . #'vterm-copy-mode-done)
-           ("C-g" . #'vterm-copy-mode-done))
     :preface
     (defun my/vterm ()
         "Open vterm at project root, if no root is found, open at the default-directory"
         (interactive)
         (let ((default-directory (my/project-root-or-default-dir)))
             (call-interactively #'vterm)))
+    (defun my/vterm-other-window ()
+        "Open vterm at project root, if no root is found, open at the default-directory"
+        (interactive)
+        (let ((default-directory (my/project-root-or-default-dir)))
+            (call-interactively #'vterm-other-window)))
     (defun my/project-vterm ()
         "Open vterm at project root with name <project>-vterm"
         (interactive)
@@ -99,7 +93,33 @@
             (if (and vterm-buffer (not current-prefix-arg))
                     (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
                 (vterm))))
+    (defun my/project-vterm-other-window ()
+        "Open vterm at project root with name <project>-vterm"
+        (interactive)
+        (defvar vterm-buffer-name)
+        (let* ((default-directory (project-root (project-current t)))
+               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+               (vterm-buffer (get-buffer vterm-buffer-name)))
+            (if (and vterm-buffer (not current-prefix-arg))
+                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
+                (vterm-other-window))))
+    :bind (("C-c o t" . my/vterm-other-window)
+           ("C-c o T" . my/vterm)
+           :map project-prefix-map
+           ("t" . my/project-vterm-other-window)
+           ("T" . my/project-vterm)
+           :map vterm-mode-map
+           ([return] . #'vterm-send-return)
+           ("C-q" . #'vterm-send-next-key)
+           ("M-[" . #'vterm-copy-mode)
+           ("C-y" . #'vterm-yank)
+           ("C-g" . #'vterm-send-escape)
+           :map vterm-copy-mode-map
+           ("M-w" . #'vterm-copy-mode-done)
+           ("C-g" . #'vterm-copy-mode-done))
     :init
+    (setq vterm-always-compile-module t)
+    (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (add-to-list 'project-switch-commands '(my/project-vterm "vTerm") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
     (add-hook 'vterm-exit-functions
@@ -114,6 +134,7 @@
                   (setq-local confirm-kill-processes nil)
                   (setq-local hscroll-margin 0)))
     :config
+    (setq vterm-copy-mode-remove-fake-newlines t)
     (setq vterm-kill-buffer-on-exit t)
     (setq vterm-copy-exclude-prompt t)
     (setq vterm-max-scrollback 100000)

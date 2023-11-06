@@ -163,7 +163,6 @@
     (setq my/clang-path "/usr/local/opt/llvm/bin/clang")
     (setq my/mu-path "/usr/local/bin/mu")
     (setq my/msmtp-path "/usr/local/bin/msmtp")
-    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes")
 
     ;; Use spotlight search backend as a default for M-x locate (and helm/ivy
     ;; variants thereof), since it requires no additional setup.
@@ -177,8 +176,8 @@
     (setq browse-url-generic-program "xdg-open")
     (setq my/clang-path "/usr/bin/clang")
     (setq my/mu-path "/usr/bin/mu")
-    (setq my/msmtp-path "/usr/bin/msmtp")
-    (setq vterm-module-cmake-args " -DUSE_SYSTEM_LIBVTERM=yes"))
+    (setq my/msmtp-path "/usr/bin/msmtp"))
+
 
 (add-hook 'tty-setup-hook #'my/tty-setup)
 

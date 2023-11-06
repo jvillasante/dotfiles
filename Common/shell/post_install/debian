@@ -838,6 +838,7 @@ EOF
                 sudo apt install -y libwebp-dev webp
                 sudo apt install -y libxft-dev libxft2
                 sudo apt install -y libenchant-2-dev pkgconf # necessary for jinx
+                sudo apt install -y libtool-bin # vterm
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software

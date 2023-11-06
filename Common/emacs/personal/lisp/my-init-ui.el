@@ -225,40 +225,40 @@ Run this function at the post theme load phase, such as with the
     (define-key isearch-mode-map [remap isearch-query-replace-regexp] #'anzu-isearch-query-replace-regexp))
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
-(progn
-    (setq switch-to-buffer-obey-display-actions t
-          async-shell-command-display-buffer nil
-          fit-window-to-buffer-horizontally t
-          fit-frame-to-buffer t)
-    (setq display-buffer-base-action
-          '((display-buffer-reuse-window
-             display-buffer-in-previous-window
-             display-buffer-reuse-mode-window)))
-
-    (add-to-list 'display-buffer-alist
-                 '("\\*\\(e?shell\\|vterm\\|ielm\\|.*eat\\)\\*"
-                   (display-buffer-reuse-window
-                    display-buffer-in-direction
-                    display-buffer-in-side-window)
-                   (body-function . select-window)
-                   (window-height . .40)
-                   (window-width .  .40)
-                   (direction . below)
-                   (side . bottom)
-                   (slot . 1)))
-
-    (add-to-list 'display-buffer-alist
-                 '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
-                   (display-buffer-reuse-window
-                    display-buffer-in-direction
-                    display-buffer-in-side-window)
-                   (body-function . select-window)
-                   (window-height . .40)
-                   (window-width .  .50)
-                   (direction . right)
-                   (side . right)
-                   (slot . 1)))
-    )
+;; (progn
+;;     (setq switch-to-buffer-obey-display-actions t
+;;           async-shell-command-display-buffer nil
+;;           fit-window-to-buffer-horizontally t
+;;           fit-frame-to-buffer t)
+;;     (setq display-buffer-base-action
+;;           '((display-buffer-reuse-window
+;;              display-buffer-in-previous-window
+;;              display-buffer-reuse-mode-window)))
+;;
+;;     (add-to-list 'display-buffer-alist
+;;                  '("\\*\\(e?shell\\|vterm\\|ielm\\|.*eat\\)\\*"
+;;                    (display-buffer-reuse-window
+;;                     display-buffer-in-direction
+;;                     display-buffer-in-side-window)
+;;                    (body-function . select-window)
+;;                    (window-height . .40)
+;;                    (window-width .  .40)
+;;                    (direction . below)
+;;                    (side . bottom)
+;;                    (slot . 1)))
+;;
+;;     (add-to-list 'display-buffer-alist
+;;                  '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
+;;                    (display-buffer-reuse-window
+;;                     display-buffer-in-direction
+;;                     display-buffer-in-side-window)
+;;                    (body-function . select-window)
+;;                    (window-height . .40)
+;;                    (window-width .  .50)
+;;                    (direction . right)
+;;                    (side . right)
+;;                    (slot . 1)))
+;;     )
 
 ;; discover : Discover more of emacs using context menus.
 (use-package discover
