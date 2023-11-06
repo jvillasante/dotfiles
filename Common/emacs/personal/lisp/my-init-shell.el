@@ -77,12 +77,9 @@
         "Open vterm at project root, if no root is found, open at the default-directory"
         (interactive)
         (let ((default-directory (my/project-root-or-default-dir)))
-            (call-interactively #'vterm)))
-    (defun my/vterm-other-window ()
-        "Open vterm at project root, if no root is found, open at the default-directory"
-        (interactive)
-        (let ((default-directory (my/project-root-or-default-dir)))
-            (call-interactively #'vterm-other-window)))
+            (if (equal current-prefix-arg nil) ; no C-u
+                    (call-interactively #'vterm-other-window)
+                (call-interactively #'vterm))))
     (defun my/project-vterm ()
         "Open vterm at project root with name <project>-vterm"
         (interactive)
@@ -92,22 +89,12 @@
                (vterm-buffer (get-buffer vterm-buffer-name)))
             (if (and vterm-buffer (not current-prefix-arg))
                     (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
-                (vterm))))
-    (defun my/project-vterm-other-window ()
-        "Open vterm at project root with name <project>-vterm"
-        (interactive)
-        (defvar vterm-buffer-name)
-        (let* ((default-directory (project-root (project-current t)))
-               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
-               (vterm-buffer (get-buffer vterm-buffer-name)))
-            (if (and vterm-buffer (not current-prefix-arg))
-                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
-                (vterm-other-window))))
-    :bind (("C-c o t" . my/vterm-other-window)
-           ("C-c o T" . my/vterm)
+                (if (equal current-prefix-arg nil) ; no C-u
+                        (call-interactively #'vterm-other-window)
+                    (call-interactively #'vterm)))))
+    :bind (("C-c o t" . my/vterm)
            :map project-prefix-map
-           ("t" . my/project-vterm-other-window)
-           ("T" . my/project-vterm)
+           ("t" . my/project-vterm)
            :map vterm-mode-map
            ([return] . #'vterm-send-return)
            ("C-q" . #'vterm-send-next-key)
