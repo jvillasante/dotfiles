@@ -53,19 +53,32 @@
 ;; eat: Emulate A Terminal
 (use-package eat
     :disabled t
-    :preface (defun my/eat ()
-                 "open `eat' at project root, if no root is found, open at the default-directory"
-                 (interactive)
-                 (let ((default-directory (my/project-root-or-default-dir)))
-                     (call-interactively #'eat)))
-    :bind (("C-x p t" . #'eat-project)
+    :preface
+    (defun my/eat ()
+        "Open `eat' at project root, if no root is found, open at the default-directory"
+        (interactive)
+        (let ((default-directory (my/project-root-or-default-dir)))
+            (if (equal current-prefix-arg nil) ; no C-u
+                    (call-interactively #'eat-other-window)
+                (call-interactively #'eat))))
+    (defun my/eat-project ()
+        "Open `eat' at project root"
+        (interactive)
+        (if (equal current-prefix-arg nil) ; no C-u
+                (call-interactively #'eat-project-other-window)
+            (call-interactively #'eat-project)))
+    :bind (("C-x p t" . #'my/eat-project)
            ("C-c o t" . #'my/eat))
-    :init (add-hook 'eat-mode-hook
-                    (lambda ()
-                        (setq-local scroll-margin 0)
-                        (setq-local confirm-kill-processes nil)
-                        (setq-local hscroll-margin 0)))
+    :init
+    (add-to-list 'project-switch-commands '(my/eat-project "eat") t)
+    (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
+    (add-hook 'eat-mode-hook
+              (lambda ()
+                  (setq-local scroll-margin 0)
+                  (setq-local confirm-kill-processes nil)
+                  (setq-local hscroll-margin 0)))
     :config
+    (setq eat-kill-buffer-on-exit t)
     (setq eat-shell-prompt-annotation-failure-margin-indicator "")
     (setq eat-shell-prompt-annotation-running-margin-indicator "")
     (setq eat-shell-prompt-annotation-success-margin-indicator ""))
@@ -109,12 +122,12 @@
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (add-to-list 'project-switch-commands '(my/project-vterm "vTerm") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
-    (add-hook 'vterm-exit-functions
-              (lambda (_ _)
-                  (let* ((buffer (current-buffer))
-                         (window (get-buffer-window buffer)))
-                      (when (not (one-window-p))
-                          (delete-window window)))))
+    ;; (add-hook 'vterm-exit-functions
+    ;;           (lambda (_ _)
+    ;;               (let* ((buffer (current-buffer))
+    ;;                      (window (get-buffer-window buffer)))
+    ;;                   (when (not (one-window-p))
+    ;;                       (delete-window window)))))
     (add-hook 'vterm-mode-hook
               (lambda ()
                   (setq-local scroll-margin 0)
