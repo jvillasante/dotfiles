@@ -118,8 +118,8 @@
            ("M-w" . #'vterm-copy-mode-done)
            ("C-g" . #'vterm-copy-mode-done))
     :init
-    (setq vterm-always-compile-module t)
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
+    (setq vterm-always-compile-module t)
     (add-to-list 'project-switch-commands '(my/project-vterm "vTerm") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
     (add-hook 'vterm-mode-hook
