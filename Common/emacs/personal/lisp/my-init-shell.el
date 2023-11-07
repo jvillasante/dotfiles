@@ -93,7 +93,7 @@
             (if (equal current-prefix-arg nil) ; no C-u
                     (call-interactively #'vterm-other-window)
                 (call-interactively #'vterm))))
-    (defun my/project-vterm ()
+    (defun my/vterm-project ()
         "Open vterm at project root with name <project>-vterm"
         (interactive)
         (defvar vterm-buffer-name)
@@ -107,7 +107,7 @@
                     (call-interactively #'vterm)))))
     :bind (("C-c o t" . my/vterm)
            :map project-prefix-map
-           ("t" . my/project-vterm)
+           ("t" . my/vterm-project)
            :map vterm-mode-map
            ([return] . #'vterm-send-return)
            ("C-q" . #'vterm-send-next-key)
@@ -122,12 +122,6 @@
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (add-to-list 'project-switch-commands '(my/project-vterm "vTerm") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
-    ;; (add-hook 'vterm-exit-functions
-    ;;           (lambda (_ _)
-    ;;               (let* ((buffer (current-buffer))
-    ;;                      (window (get-buffer-window buffer)))
-    ;;                   (when (not (one-window-p))
-    ;;                       (delete-window window)))))
     (add-hook 'vterm-mode-hook
               (lambda ()
                   (setq-local scroll-margin 0)
