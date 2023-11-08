@@ -2,12 +2,10 @@
 
 ;; password-store for emacs
 (use-package password-store
-    :preface
-    (defun my/password-store-git-push ()
-        (interactive)
-        (with-editor-async-shell-command "pass git push"))
-    (defun my/clear-system-clipboard (&rest r)
-        (with-editor-async-shell-command "qdbus org.kde.klipper /klipper org.kde.klipper.klipper.clearClipboardHistory" "*Async Shell Command - Clear Clipboard*"))
+    :disabled t
+    :preface (defun my/password-store-git-push ()
+                 (interactive)
+                 (with-editor-async-shell-command "pass git push"))
     :bind (("C-c p c" . password-store-copy)
            ("C-c p C" . password-store-copy-field)
            ("C-c p g" . password-store-generate)
@@ -17,10 +15,7 @@
            ("C-c p R" . password-store-remove)
            ("C-c p i" . password-store-insert)
            ("C-c p P" . my/password-store-git-push))
-    :init
-    (add-to-list 'display-buffer-alist '("*Async Shell Command - Clear Clipboard*" display-buffer-no-window (nil)))
-    (advice-add 'password-store--save-field-in-kill-ring :after #'my/clear-system-clipboard)
-    :custom ((password-store-password-length 25)))
+    :init :custom ((password-store-password-length 25)))
 
 ;; eww
 (use-package eww
