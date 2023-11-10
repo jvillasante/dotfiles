@@ -58,7 +58,8 @@
            ("t" . #'eat-project)
            ("T" . #'eat-project-other-window))
     :init
-    (add-to-list 'project-switch-commands '(my/eat-project "eat") t)
+    (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
+    (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
     :config
     (setq eat-kill-buffer-on-exit t)
