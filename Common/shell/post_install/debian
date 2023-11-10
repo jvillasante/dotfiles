@@ -535,7 +535,7 @@ EOF
                 sudo apt install -y tidy sqlite3 pkg-config flex bison
                 sudo apt install -y valgrind minicom mc strace
                 sudo apt install -y ffmpegthumbnailer mediainfo
-                sudo apt install -y feh mpv qrencode
+                sudo apt install -y feh mpv qrencode findutils locate
                 sudo apt install -y ncurses-term
                 sudo apt install -y ccache
                 sudo apt install -y meson
