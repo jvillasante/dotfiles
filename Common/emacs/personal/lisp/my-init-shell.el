@@ -50,33 +50,16 @@
     (setq eshell-save-history-on-exit t)
     (setq eshell-destroy-buffer-when-process-dies t))
 
-;; eat: Emulate A Terminal
+;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
-    :disabled t
-    :preface
-    (defun my/eat ()
-        "Open `eat' at project root, if no root is found, open at the default-directory"
-        (interactive)
-        (let ((default-directory (my/project-root-or-default-dir)))
-            (if (equal current-prefix-arg nil) ; no C-u
-                    (call-interactively #'eat-other-window)
-                (call-interactively #'eat))))
-    (defun my/eat-project ()
-        "Open `eat' at project root"
-        (interactive)
-        (if (equal current-prefix-arg nil) ; no C-u
-                (call-interactively #'eat-project-other-window)
-            (call-interactively #'eat-project)))
-    :bind (("C-x p t" . #'my/eat-project)
-           ("C-c o t" . #'my/eat))
+    :bind (("C-c o t" . #'eat)
+           ("C-c o T" . #'eat-other-window)
+           :map project-prefix-map
+           ("t" . #'eat-project)
+           ("T" . #'eat-project-other-window))
     :init
     (add-to-list 'project-switch-commands '(my/eat-project "eat") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
-    (add-hook 'eat-mode-hook
-              (lambda ()
-                  (setq-local scroll-margin 0)
-                  (setq-local confirm-kill-processes nil)
-                  (setq-local hscroll-margin 0)))
     :config
     (setq eat-kill-buffer-on-exit t)
     (setq eat-shell-prompt-annotation-failure-margin-indicator "")
@@ -85,6 +68,7 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
+    :disabled t
     :preface
     (defun my/vterm ()
         "Open vterm at project root, if no root is found, open at the default-directory"
