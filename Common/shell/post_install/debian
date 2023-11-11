@@ -622,13 +622,13 @@ EOF
                 sudo apt install -y borgbackup
 
                 # profile sync daemon (not using this on debian)
-                # sudo apt install -y profile-sync-daemon
-                # if [ -f /usr/share/psd/contrib/brave ]; then
-                #     sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-                # elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
-                #     sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
-                # fi
-                # systemctl --user enable psd.service && systemctl --user start psd.service
+                sudo apt install -y profile-sync-daemon
+                if [ -f /usr/share/psd/contrib/brave ]; then
+                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
+                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
+                fi
+                systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # Neovim
                 sudo apt install -y neovim
