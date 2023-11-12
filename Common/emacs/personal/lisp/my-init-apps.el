@@ -197,7 +197,8 @@
             "https://unixsheikh.com/feed.rss"
             "https://michal.sapka.me/index.xml"
             "https://borretti.me/feed.xml"
-            "https://fabiensanglard.net/rss.xml")))
+            "https://fabiensanglard.net/rss.xml"
+            "http://somethingfast.net/feed.rss.xml")))
 
 (provide 'my-init-apps)
 ;;; my-init-apps.el ends here
