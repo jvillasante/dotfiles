@@ -559,7 +559,7 @@ EOF
 
                 # Wayland Software
                 if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
-                    sudo apt install -y wl-clipboard
+                    sudo apt install -y wl-clipboard wayland-utils
                 fi
 
                 # X11 Software
