@@ -532,7 +532,7 @@ EOF
                 sudo apt install -y wordnet imagemagick ninja-build
                 sudo apt install -y python3 python3-pip pandoc poppler-utils poppler-data libtool
                 sudo apt install -y shfmt editorconfig glslang-tools glslang-dev shellcheck parallel
-                sudo apt install -y tidy sqlite3 pkg-config flex bison
+                sudo apt install -y tidy sqlite3 pkg-config bison flex
                 sudo apt install -y cmake ccache meson
                 sudo apt install -y valgrind minicom mc strace
                 sudo apt install -y ffmpegthumbnailer mediainfo
@@ -655,17 +655,27 @@ EOF
                 #
 
                 # Install required packages
-                sudo apt install libspa-0.2-bluetooth wireplumber pipewire-media-session-
+                sudo apt install -y libspa-0.2-bluetooth wireplumber pipewire-media-session-
 
                 # Enable WirePlumber in "systemd" (running as user, not as root)
                 systemctl --user enable wireplumber.service && systemctl --user start wireplumber.service
+
+                #
+                # Firewall (ufw)
+                #
+
+                sudo apt install -y ufw
+                sudo ufw allow ssh
+                sudo ufw allow http
+                sudo ufw allow https
+                sudo ufw enable && sudo ufw status
 
                 #
                 # Docker (https://docs.docker.com/engine/install/debian/)
                 #
 
                 # Install dependencies
-                sudo apt update
+                sudo apt update -y
                 sudo apt install -y ca-certificates curl gnupg
 
                 # Add Docker's official GPG key
@@ -680,7 +690,7 @@ EOF
                     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
                 # Install docker engine
-                sudo apt update
+                sudo apt update -y
                 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
                 # add user
