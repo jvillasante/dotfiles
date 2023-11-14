@@ -893,6 +893,8 @@ EOF
                 ;;
             9)
                 echo "9) Installing Keyd"
+                notify-send "Using xremap at the moment" --expire-time=30000
+                continue
 
                 # Is it already installed?
                 hash keyd 2> /dev/null && notify-send "Keyd is already installed" --expire-time=30000 && continue
@@ -938,6 +940,8 @@ EOF
                 ;;
             10)
                 echo "10) Installing Xkeysnail"
+                notify-send "Using xremap at the moment" --expire-time=30000
+                continue
 
                 # Only works on X11
                 [[ "$WINDOW_SYSTEM" != "$WS_X11" ]] && notify-send "Xkeysnail only supports X11" --expire-time=30000 && continue

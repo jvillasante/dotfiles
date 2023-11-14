@@ -70,11 +70,11 @@ install_emacs() {
     # fi
 
     # Install Crafted Emacs
-    if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
-        echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
-        git clone -b craftedv2RC1 --single-branch git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
-        check $?
-    fi
+    # if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
+    #     echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
+    #     git clone -b craftedv2RC1 --single-branch git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
+    #     check $?
+    # fi
 
     # Install Prelude
     # if [ ! -d "$DOTFILES_DIR/.emacs.prelude" ]; then
