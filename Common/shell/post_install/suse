@@ -15,6 +15,28 @@ usage() {
     exit "$1"
 }
 
+readonly WS_WAYLAND="Wayland"
+readonly WS_X11="X11"
+readonly WM_KDE="KDE"
+readonly WM_GNOME="Gnome"
+WINDOW_SYSTEM="$WS_WAYLAND"
+WINDOW_MANAGER="$WM_KDE"
+
+# iosevka directly from prot repo
+install_iosevka_comfy() {
+    # Download the fonts
+    [ -d "$HOME"/Workspace/Software/iosevka-comfy ] && rm -rf "$HOME"/Workspace/Software/iosevka-comfy
+    git clone --depth 1 https://git.sr.ht/~protesilaos/iosevka-comfy "$HOME"/Workspace/Software/iosevka-comfy
+
+    # Copy the fonts
+    [ -d /usr/local/share/fonts/iosevka-comfy-font ] && rm -rf /usr/local/share/fonts/iosevka-comfy-font
+    sudo mkdir /usr/local/share/fonts/iosevka-comfy-font
+    find "$HOME"/Workspace/Software/iosevka-comfy/ -type f -name "*.ttf" -exec cp {} /usr/local/share/fonts/iosevka-comfy-font/ \; -print
+
+    # Refresh fonts cache
+    sudo fc-cache -fv
+}
+
 suse_install() {
     HEIGHT=25
     WIDTH=100
@@ -23,15 +45,33 @@ suse_install() {
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
+    # Accept WS and WM for the installer to kick in
+    read -rp "$BACKTITLE (WS=$WINDOW_SYSTEM and WM=$WINDOW_MANAGER)? (Y/N): " confirm
+    [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || usage 1
+    case $WINDOW_SYSTEM in
+        "$WS_WAYLAND" | "$WS_X11") ;;
+        *)
+            echo "Error. Please select one of the supported Window Systems"
+            usage 1
+            ;;
+    esac
+    case $WINDOW_MANAGER in
+        "$WM_KDE" | "$WM_GNOME") ;;
+        *)
+            echo "Error. Please select one of the supported Window Managers"
+            usage 1
+            ;;
+    esac
+
     # Check to see if Dialog is installed, if not install it
-    hash dialog 2>/dev/null || sudo zypper install -y dialog
-    hash notify-send 2>/dev/null || sudo zypper install -y libnotify
+    hash dialog 2> /dev/null || sudo zypper install -y dialog
+    hash notify-send 2> /dev/null || sudo zypper install -y libnotify
 
     OPTIONS=(
         1 "Do a full system upgrade - Do a full system upgrade (reboot if needed)"
         2 "Setup Packman - Set up packman repository and upgrade (reboot if needed)"
-        3 "Setup NVIDIA - Setup and install NVIDIA drivers (reboot if needed)"
-        4 "Firmware Update - Update Firmware (reboot if needed)"
+        3 "Firmware Update - Update Firmware (reboot if needed)"
+        4 "Setup NVIDIA - Setup and install NVIDIA drivers (reboot if needed)"
         5 "Setup Defaults - Set some defaults (hostname, folders structure, gsettings, etc)"
         6 "Install Software Needed - Post install setup (zram, etc)"
         7 "Install Software General - Installs a bunch of my most used software"
@@ -39,8 +79,10 @@ suse_install() {
         9 "Enable Flatpak - Enables the Flatpak repo and installs packages"
         10 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         11 "Install Emacs - Install Emacs"
-        12 "Install Keyd - Install Keyd from source"
-        13 "Quit")
+        12 "Install Keyd - Install Keyd from source (using xremap at the moment, here for documentation only)"
+        13 "Install Xkeysnail - Install Xkeysnail from source (using xremap at the moment, here for documentation only)"
+        14 "Install Xremap - Install Xremap"
+        15 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -50,7 +92,7 @@ suse_install() {
             --menu "$MENU" \
             $HEIGHT $WIDTH $CHOICE_HEIGHT \
             "${OPTIONS[@]}" \
-            2>&1 >/dev/tty)
+            2>&1 > /dev/tty)
 
         clear
         case $CHOICE in
@@ -58,30 +100,30 @@ suse_install() {
                 echo "$CHOICE) Full System Upgrade"
                 sudo zypper dup
 
-                read -p "$CHOICE) Done (May need to reboot). Press enter to continue..."
+                read -rp "$CHOICE) Done (May need to reboot). Press enter to continue..."
                 ;;
             2)
                 echo "$CHOICE) Setup Packman Repository"
                 sudo zypper ar -cfp 90 https://ftp.fau.de/packman/suse/openSUSE_Tumbleweed/ packman
                 sudo zypper dup --from packman --allow-vendor-change
 
-                read -p "$CHOICE) Done (May need to reboot). Press enter to continue..."
+                read -rp "$CHOICE) Done (May need to reboot). Press enter to continue..."
                 ;;
             3)
-                echo "$CHOICE) Setup NVIDIA"
-                sudo zypper ar -f https://download.nvidia.com/opensuse/tumbleweed nvidia
-                sudo zypper inr
-
-                read -p "$CHOICE) Done (May need to reboot). Press enter to continue..."
-                ;;
-            4)
                 echo "$CHOICE) Firmware Update"
                 sudo fwupdmgr get-devices
                 sudo fwupdmgr refresh --force
                 sudo fwupdmgr get-updates
                 sudo fwupdmgr update
 
-                read -p "$CHOICE) Done (May need to reboot). Press enter to continue..."
+                read -rp "$CHOICE) Done (May need to reboot). Press enter to continue..."
+                ;;
+            4)
+                echo "$CHOICE) Setup NVIDIA"
+                sudo zypper ar -f https://download.nvidia.com/opensuse/tumbleweed nvidia
+                sudo zypper inr
+
+                read -rp "$CHOICE) Done (May need to reboot). Press enter to continue..."
                 ;;
             5)
                 echo "$CHOICE) Setting Defaults"
@@ -91,24 +133,25 @@ suse_install() {
                 [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
                 hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
 
-                read -r -p "Enter static hostname (defaults to 'opensuse'): " HOSTNAME_STATIC
-                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="opensuse"
+                read -r -p "Enter static hostname (defaults to 'suse-xps-9710'): " HOSTNAME_STATIC
+                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="suse-xps-9710"
                 hostnamectl set-hostname --static "$HOSTNAME_STATIC"
 
                 # xdg
-                export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
                 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+                export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
                 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-                export XDG_LIB_HOME="${XDG_DATA_HOME:-$HOME/.local/lib}"
                 export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+                export XDG_LIB_HOME="${XDG_DATA_HOME:-$HOME/.local/lib}"
                 mkdir -p \
-                    "${XDG_CACHE_HOME}" \
-                    "${XDG_CONFIG_HOME}" \
-                    "${XDG_DATA_HOME}" \
-                    "${XDG_LIB_HOME}" \
-                    "${XDG_STATE_HOME}"
+                      "${XDG_CONFIG_HOME}" \
+                      "${XDG_CACHE_HOME}" \
+                      "${XDG_DATA_HOME}" \
+                      "${XDG_STATE_HOME}" \
+                      "${XDG_LIB_HOME}"
 
                 # Folder structure
+                mkdir -p "$HOME/.local/bin"
                 mkdir -p "$HOME/Workspace"
                 mkdir -p "$HOME/Workspace/Books"
                 mkdir -p "$HOME/Workspace/Private/Projects"
@@ -120,43 +163,47 @@ suse_install() {
                 mkdir -p "$HOME/Workspace/Work/Software"
                 mkdir -p "$HOME/Workspace/Work/Stuff"
 
-                # Gsettings - dconf-editor
+                # Gnome Gsettings - dconf-editor
                 #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
                 #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    # Clock Settings
+                    gsettings set org.gnome.desktop.interface clock-format '12h'
+                    gsettings set org.gnome.desktop.interface clock-show-date true
+                    gsettings set org.gnome.desktop.interface clock-show-seconds false
+                    gsettings set org.gnome.desktop.interface clock-show-weekday false
 
-                # Clock Settings
-                gsettings set org.gnome.desktop.interface clock-format '12h'
-                gsettings set org.gnome.desktop.interface clock-show-date true
-                gsettings set org.gnome.desktop.interface clock-show-seconds false
-                gsettings set org.gnome.desktop.interface clock-show-weekday false
+                    # No hot corners
+                    gsettings set org.gnome.desktop.interface enable-hot-corners false
 
-                # No hot corners
-                gsettings set org.gnome.desktop.interface enable-hot-corners false
+                    # Emacs please
+                    gsettings set org.gnome.desktop.interface gtk-key-theme 'Emacs'
 
-                # Emacs please
-                gsettings set org.gnome.desktop.interface gtk-key-theme 'Emacs'
+                    # Show battery
+                    gsettings set org.gnome.desktop.interface show-battery-percentage true
 
-                # Show battery
-                gsettings set org.gnome.desktop.interface show-battery-percentage true
+                    # Enable window buttons
+                    gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
 
-                # Enable window buttons
-                gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
+                    # Set new windows centered
+                    gsettings set org.gnome.mutter center-new-windows true
 
-                # Set new windows centered
-                gsettings set org.gnome.mutter center-new-windows true
+                    # Set list-view for Nautilius
+                    gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 
-                # Set list-view for Nautilius
-                gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
+                    # Force alt + tab to switch only on current workspace
+                    gsettings set org.gnome.shell.app-switcher current-workspace-only true
 
-                # Set fractional scaling (only for wayland)
-                # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+                    # Set fractional scaling (only for wayland)
+                    # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
-                # Stop Gnome Software downloading updates
-                gsettings set org.gnome.software allow-updates false
-                gsettings set org.gnome.software download-updates false
-                gsettings set org.gnome.software download-updates-notify false
+                    # Stop Gnome Software downloading updates
+                    # gsettings set org.gnome.software allow-updates false
+                    # gsettings set org.gnome.software download-updates false
+                    # gsettings set org.gnome.software download-updates-notify false
+                fi
 
-                read -p "$CHOICE) Defaults has been set. Press enter to continue..."
+                read -rp "$CHOICE) Defaults has been set. Press enter to continue..."
                 ;;
             6)
                 echo "$CHOICE) Installing Needed Software"
@@ -172,7 +219,7 @@ suse_install() {
                     sudo systemctl enable zramswap.service && sudo systemctl start zramswap.service
                 fi
 
-                read -p "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             7)
                 echo "$CHOICE) Installing General Software"
@@ -180,27 +227,53 @@ suse_install() {
                 # general
                 sudo zypper install -y -t pattern devel_basis
                 sudo zypper install -y -t pattern devel_C_C++
-                sudo zypper install -y rpmdevtools make gcc-c++ gcc gdb automake autoconf libtool
-                sudo zypper install -y git ripgrep fd xclip xprop xwininfo htop btop
-                sudo zypper install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
-                sudo zypper install -y curl dconf-editor dos2unix doxygen msmtp neofetch
-                sudo zypper install -y graphviz htop mercurial exa ninja password-store
-                sudo zypper install -y nodejs19 npm19 pandoc poppler-tools poppler-data
-                sudo zypper install -y subversion tree w3m wget libtool texinfo
-                sudo zypper install -y wordnet shfmt editorconfig ShellCheck xdotool
+                sudo zypper install -y rpmdevtools make gcc-c++ gcc gdb automake autoconf autojump libtool
+                sudo zypper install -y cmake ninja ccache meson
+                sudo zypper install -y git ripgrep fd htop btop vim bat
+                sudo zypper install -y aspell aspell-en aspell-es
+                sudo zypper install -y curl dos2unix doxygen msmtp neofetch
+                sudo zypper install -y graphviz htop mercurial password-store
+                sudo zypper install -y pandoc poppler-tools poppler-data
+                sudo zypper install -y subversion tree w3m wget texinfo
+                sudo zypper install -y wordnet shfmt editorconfig ShellCheck
                 sudo zypper install -y llvm clang clang-tools libpcap libpcap-devel
-                sudo zypper install -y pkg-config openssl openssl-devel flex bison unar unrar unzip
+                sudo zypper install -y pkg-config openssl openssl-devel flex bison unar unrar unzip atool
                 sudo zypper install -y ImageMagick ImageMagick-devel sqlite
+                sudo zypper install -y feh mpv qrencode findutils locate
                 sudo zypper install -y valgrind minicom mc strace tidy
 
-                # wayland stuff
-                sudo zypper install -y wl-clipboard
+                # Node
+                sudo zypper install -y nodejs21 npm21
+
+                # Wayland Software
+                if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
+                    sudo zypper install -y wl-clipboard wayland-utils
+                fi
+
+                # X11 Software
+                if [[ "$WINDOW_SYSTEM" == "$WS_X11" ]]; then
+                    sudo zypper install -y xsel xclip xinput xdotool x11-utils
+                fi
+
+                # Gnome Software
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    sudo zypper install -y dconf-editor gnome-tweaks
+                fi
+
+                # Plasma Software
+                if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
+                    # sudo zypper install -y latte-dock
+                    sudo zypper install -y kazam
+                fi
 
                 # tmux: A terminal multiplexer
                 sudo zypper install -y tmux
 
-                # alacritty
-                sudo zypper install -y alacritty
+                # Alacritty - A fast, cross-platform, OpenGL terminal emulator
+                [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo zypper install -y alacritty
+
+                # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
+                [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && sudo zypper install -y foot
 
                 # Starship Prompt
                 curl -sS https://starship.rs/install.sh | sh
@@ -224,13 +297,18 @@ suse_install() {
                 # Neovim
                 sudo zypper install -y neovim python3-neovim
 
-                # Profile sync daemon
+                # profile sync daemon
                 sudo zypper install -y profile-sync-daemon
-                [ -f /usr/share/psd/contrib/brave ] && sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                if [ -f /usr/share/psd/contrib/brave ]; then
+                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
+                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
+                fi
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # non zypper software
                 pip install cmake-language-server
+                pip install pyright
                 sudo npm install --global npm@latest
                 sudo npm install --global prettier
                 sudo npm install --global js-beautify
@@ -238,7 +316,7 @@ suse_install() {
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
 
-                read -p "$CHOICE) General software has been installed. Press enter to continue..."
+                read -rp "$CHOICE) General software has been installed. Press enter to continue..."
                 ;;
             8)
                 echo "$CHOICE) Installing Extras"
@@ -250,24 +328,6 @@ suse_install() {
                 # opi codecs
 
                 #
-                # TLP
-                #
-                hash tlp 2>/dev/null || sudo zypper install -y tlp tlp-rdw
-
-                # Create TLP config
-                sudo mkdir -p /etc/tlp.d
-                sudo cp /etc/tlp.conf /etc/tlp.d/01-myconfig.conf
-
-                # Set TLP config values
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf USB_AUTOSUSPEND 0
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_DEFAULT_MODE BAT
-                # sudo_config_set /etc/tlp.d/01-myconfig.conf TLP_PERSISTENT_DEFAULT 1
-
-                # Enable TLP service
-                sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
-                sudo systemctl enable tlp.service && sudo systemctl start tlp.service
-
-                #
                 # Docker
                 #
                 # Install and Enable Docker
@@ -275,7 +335,7 @@ suse_install() {
                 sudo systemctl enable docker && sudo systemctl start docker
 
                 # add user
-                sudo usermod -G docker -a $USER
+                sudo usermod -G docker -a "$USER"
                 sudo systemctl restart docker
 
                 # test we can run docker without `sudo`
@@ -284,17 +344,20 @@ suse_install() {
                 #
                 # Latex
                 #
-                # sudo zypper install -y texlive-scheme-full
+                sudo zypper install -y texlive-scheme-full
 
                 #
                 # Fonts
                 #
                 sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts
+                install_iosevka_comfy
 
                 # Gnome Font Settings
-                gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Comfy 16'
+                fi
 
-                read -p "$CHOICE) Extras installed. Press enter to continue..."
+                read -rp "$CHOICE) Extras installed. Press enter to continue..."
                 ;;
             9)
                 echo "$CHOICE) Enabling Flatpak"
@@ -302,41 +365,55 @@ suse_install() {
                 sudo zypper install -y flatpak
                 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 flatpak update
-                flatpak install -y flathub org.mozilla.firefox
-                flatpak install -y flathub com.mattjakeman.ExtensionManager
-                flatpak install -y flathub org.gnome.Firmware
-                flatpak install -y flathub com.discordapp.Discord
-                flatpak install -y flathub com.dropbox.Client
-                flatpak install -y flathub com.skype.Client
-                flatpak install -y flathub com.slack.Slack
-                flatpak install -y flathub org.telegram.desktop
-                flatpak install -y flathub org.videolan.VLC
-                flatpak install -y flathub com.transmissionbt.Transmission
-                flatpak install -y flathub org.gimp.GIMP
-                flatpak install -y flathub org.wireshark.Wireshark
-                flatpak install -y flathub com.github.tchx84.Flatseal
-                flatpak install -y flathub org.shotcut.Shotcut
-                # flatpak install -y flathub org.gnome.Extensions
-                # flatpak install -y flathub com.brave.Browser
-                # flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
-                # flatpak install -y flathub org.signal.Signal
-                # flatpak install -y flathub com.microsoft.Edge
-                # flatpak install -y flathub com.visualstudio.code
-                # flatpak install -y flathub com.github.GradienceTeam.Gradience
+                if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
+                    sudo zypper install -y plasma-discover-backend-flatpak
+                fi
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    sudo zypper install -y gnome-software-plugin-flatpak
+                    sudo flatpak install -y flathub org.gnome.TextEditor
+                    sudo flatpak install -y flathub org.gnome.Firmware
+                    sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
+                fi
+                sudo flatpak install -y flathub org.mozilla.firefox
+                sudo flatpak install -y flathub com.discordapp.Discord
+                sudo flatpak install -y flathub com.dropbox.Client
+                sudo flatpak install -y flathub com.slack.Slack
+                sudo flatpak install -y flathub org.videolan.VLC
+                sudo flatpak install -y flathub com.transmissionbt.Transmission
+                sudo flatpak install -y flathub org.wireshark.Wireshark
+                sudo flatpak install -y flathub com.github.tchx84.Flatseal
+                # sudo flatpak install -y flathub org.telegram.desktop
+                # sudo flatpak install -y flathub org.gnucash.GnuCash
+                # sudo flatpak install -y flathub org.gimp.GIMP
+                # sudo flatpak install -y flathub engineer.atlas.Nyxt
+                # sudo flatpak install -y flathub com.skype.Client
+                # sudo flatpak install -y flathub com.valvesoftware.Steam
+                # sudo flatpak install -y flathub im.riot.Riot
+                # sudo flatpak install -y flathub org.keepassxc.KeePassXC
+                # sudo flatpak install -y flathub com.obsproject.Studio
+                # sudo flatpak install -y flathub com.brave.Browser
+                # sudo flatpak install -y flathub org.shotcut.Shotcut
+                # sudo flatpak install -y flathub dev.geopjr.Tuba
+                # sudo flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
+                # sudo flatpak install -y flathub org.signal.Signal
+                # sudo flatpak install -y flathub com.microsoft.Edge
+                # sudo flatpak install -y flathub com.visualstudio.code
+                # sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
 
-                read -p "$CHOICE) Flatpak has now been enabled. Press enter to continue..."
+                read -rp "$CHOICE) Flatpak has now been enabled. Press enter to continue..."
                 ;;
             10)
                 echo "$CHOICE) Setting up secrets and repos"
-                read -r -p "Enter keys backup directory: " KEYS_DIR
+
+                read -rp "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
                 [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
-                [ ! -f "+crypt" ] && notify-send "$(pwd)/+crypt script does not exists" --expire-time=20 && continue
+                [ ! -f "$(pwd)/../scripts/+crypt" ] && notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && continue
                 [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" --expire-time=20 && continue
                 [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" --expire-time=20 && continue
 
                 echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
-                "./+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
+                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
                 [ ! -d "$KEYS_DIR"/ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" --expire-time=20 && continue
                 mkdir -p ~/.ssh && rm -rf ~/.ssh/*
                 cp "$KEYS_DIR"/ssh/id_* ~/.ssh
@@ -348,7 +425,7 @@ suse_install() {
                 rm -rf "$KEYS_DIR"/ssh
 
                 echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
-                "./+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
+                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
                 [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" --expire-time=20 && continue
                 mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
                 cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
@@ -366,17 +443,18 @@ suse_install() {
                 [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
                 [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
-                read -p "$CHOICE) Secrets and repos are set. Press enter to continue..."
+                read -rp "$CHOICE) Secrets and repos are set. Press enter to continue..."
                 ;;
             11)
                 echo "$CHOICE) Installing Emacs"
 
                 # Is it already installed?
-                hash emacs 2>/dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
+                hash emacs 2> /dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
 
                 # Install dependencies
                 sudo zypper install -y libgccjit0 libgccjit0-devel
-                sudo zypper install -y gtk3-devel libgnutls-devel libxml2-devel libjansson-devel giflib-devel libtiff-devel libotf-devel
+                sudo zypper install -y gtk3-devel libgnutls-devel libxml2-devel libjansson-devel giflib-devel \
+                     libtiff-devel libotf-devel
                 sudo zypper install -y tree-sitter tree-sitter-devel
 
                 # Prepare git repo
@@ -400,22 +478,32 @@ suse_install() {
                     git pull
                 fi
 
-                # Build and install (emacs-29)
+                # Build (emacs-29)
                 git checkout emacs-29
                 ./autogen.sh
-                ./configure --with-pgtk --with-native-compilation --with-tree-sitter --with-json \
+
+                # Install
+                EMACS_WINDOW_SYSTEM_OPTION=--with-x
+                [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
+                ./configure \
+                    $EMACS_WINDOW_SYSTEM_OPTION \
+                    --without-compress-install \
+                    --with-native-compilation=aot \
+                    --with-tree-sitter \
+                    --with-json \
+                    --with-mailutils \
                     CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
-                make -j16
+                make -j"$(nproc --ignore=2)"
                 sudo make install
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -p "$CHOICE) Emacs has been installed. Press enter to continue..."
+                read -rp "$CHOICE) Emacs has been installed. Press enter to continue..."
                 ;;
             12)
                 echo "$CHOICE) Installing Keyd"
 
                 # Is it already installed?
-                hash keyd 2>/dev/null && notify-send "Keyd is already installed" --expire-time=20 && continue
+                hash keyd 2> /dev/null && notify-send "Keyd is already installed" --expire-time=20 && continue
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -439,20 +527,120 @@ suse_install() {
                 fi
 
                 # Install
-                make -j16
+                make -j"$(nproc --ignore=2)"
                 sudo make install
 
                 # Copy Configuration
                 sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
 
+                # Add yourself to the keyd group
+                sudo usermod -aG keyd -a "$USER"
+
                 # Enable the daemon
+                sudo systemctl daemon-reload
                 sudo systemctl enable keyd && sudo systemctl start keyd
                 sudo keyd reload
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -p "$CHOICE) Keyd daemon has been installed. Press enter to continue..."
+                read -rp "$CHOICE) Keyd daemon has been installed. Press enter to continue..."
                 ;;
             13)
+                echo "$CHOICE) Installing Xkeysnail"
+                notify-send "Using xremap at the moment" --expire-time=20
+                continue
+
+                # Only works on X11
+                [[ "$WINDOW_SYSTEM" != "$WS_X11" ]] && notify-send "Xkeysnail only supports X11" --expire-time=20 && continue
+
+                # Is it already installed?
+                hash xkeysnail 2> /dev/null && notify-send "Xkeysnail is already installed" --expire-time=20 && continue
+
+                # Prepare git repo
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                if [ ! -d "$HOME"/Workspace/Software/xkeysnail ]; then
+                    git clone --depth 1 git@github.com:mooz/xkeysnail.git "$HOME"/Workspace/Software/xkeysnail
+                    pushd "$HOME"/Workspace/Software/xkeysnail || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/xkeysnail" --expire-time=20
+                        continue
+                    }
+                else
+                    pushd "$HOME"/Workspace/Software/xkeysnail || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/xkeysnail" --expire-time=20
+                        continue
+                    }
+
+                    sudo pip3 uninstall . --break-system-packages
+                    git reset --hard HEAD
+                    sudo git clean -dfx
+                    git pull
+                fi
+
+                # Install
+                sudo pip3 install --upgrade . --break-system-packages
+
+                ## Run without sudo
+                # First create a new group to which we allow access to the input stuff, and add this group to your user:
+                sudo groupadd -f uinput
+                sudo gpasswd -a "$USER" uinput
+
+                # Second Create new udev rule granting access:
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xkeysnail/udev/70-xkeysnail.rules /etc/udev/rules.d/70-xkeysnail.rules
+
+                # Enable the daemon
+                mkdir -p ~/.config/systemd/user/
+                [ -L "$HOME/.config/systemd/user/xkeysnail.service" ] && unlink "$HOME/.config/systemd/user/xkeysnail.service"
+                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xkeysnail.service" "$HOME/.config/systemd/user"
+                systemctl --user daemon-reload
+                systemctl --user enable xkeysnail.service && systemctl --user start xkeysnail.service
+
+                popd || notify-send "Can't cd to previous directory" --expire-time=20
+                read -rp "$CHOICE) Xkeysnail has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
+                ;;
+            14)
+                echo "$CHOICE) Installing Xremap"
+
+                [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo zypper install -y libx11-dev
+
+                # Is it already installed?
+                hash xremap 2> /dev/null && notify-send "Xremap is already installed" --expire-time=20 && continue
+
+                # Install
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                [ ! -d "$HOME"/Workspace/Software/xremap ] && mkdir -p "$HOME"/Workspace/Software/xremap
+
+                pushd "$HOME"/Workspace/Software/xremap || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/xremap" --expire-time=20
+                        continue
+                }
+
+                XREMAP_VERSION=v0.8.11
+                XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
+                [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]] && XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
+                [[ "$WINDOW_MANAGER" == "$WM_SWAY" ]] && XREMAP_RELEASE=xremap-linux-x86_64-sway.zip
+
+                curl -LJO https://github.com/k0kubun/xremap/releases/download/"$XREMAP_VERSION"/"$XREMAP_RELEASE"
+                atool --extract --explain "$XREMAP_RELEASE"
+                sudo cp -f xremap /usr/local/bin/
+
+                popd || {
+                        notify-send "Can't cd to previous directory" --expire-time=20
+                        continue
+                }
+
+                # Give current user access to input rules
+                sudo gpasswd -a "$USER" input
+                echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
+
+                # Enable the daemon
+                [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
+                [ -L "$HOME/.config/systemd/user/xremap.service" ] && unlink "$HOME/.config/systemd/user/xremap.service"
+                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" "$HOME/.config/systemd/user"
+                systemctl --user daemon-reload
+                systemctl --user enable xremap.service && systemctl --user start xremap.service
+
+                read -rp "$CHOICE) Xremap has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
+                ;;
+            15)
                 exit 0
                 ;;
         esac
@@ -483,7 +671,7 @@ if [ ! -f /etc/products.d/openSUSE.prod ]; then
     exit 1
 fi
 
-if ! hash zypper 2>/dev/null; then
+if ! hash zypper 2> /dev/null; then
     echo "Error: zypper not installed on this system, exiting..."
     exit 1
 fi
