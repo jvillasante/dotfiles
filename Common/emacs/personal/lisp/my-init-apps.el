@@ -24,12 +24,11 @@
 
 ;; pdf
 (use-package pdf-tools
-    :disabled t
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :init (setq pdf-view-display-size 'fit-page
                 pdf-view-use-scaling t
                 pdf-view-use-imagemagick nil
-                pdf-view-continuous nil)
+                pdf-view-continuous t)
     :config (add-hook 'pdf-outline-buffer-mode-hook
                       (lambda ()
                           (my/font-set-small-variable-font))))
