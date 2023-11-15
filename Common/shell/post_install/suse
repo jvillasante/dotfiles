@@ -307,8 +307,8 @@ suse_install() {
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # non zypper software
-                pip install cmake-language-server
-                pip install pyright
+                pip install cmake-language-server --break-system-packages
+                pip install pyright --break-system-packages
                 sudo npm install --global npm@latest
                 sudo npm install --global prettier
                 sudo npm install --global js-beautify
