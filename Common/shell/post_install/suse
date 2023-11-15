@@ -6,10 +6,6 @@ usage() {
     echo "        Show this help message"
     echo "    $0 install:"
     echo "        Install OpenSuse System"
-    echo "    $0 update:"
-    echo "        Update OpenSuse System"
-    echo "    $0 zipper [arbitrary zipper command]:"
-    echo "        Run arbitrary zipper command"
     echo
     echo " e.g: $0 zipper update"
     exit "$1"
@@ -21,21 +17,6 @@ readonly WM_KDE="KDE"
 readonly WM_GNOME="Gnome"
 WINDOW_SYSTEM="$WS_WAYLAND"
 WINDOW_MANAGER="$WM_KDE"
-
-# iosevka directly from prot repo
-install_iosevka_comfy() {
-    # Download the fonts
-    [ -d "$HOME"/Workspace/Software/iosevka-comfy ] && rm -rf "$HOME"/Workspace/Software/iosevka-comfy
-    git clone --depth 1 https://git.sr.ht/~protesilaos/iosevka-comfy "$HOME"/Workspace/Software/iosevka-comfy
-
-    # Copy the fonts
-    [ -d /usr/local/share/fonts/iosevka-comfy-font ] && rm -rf /usr/local/share/fonts/iosevka-comfy-font
-    sudo mkdir /usr/local/share/fonts/iosevka-comfy-font
-    find "$HOME"/Workspace/Software/iosevka-comfy/ -type f -name "*.ttf" -exec cp {} /usr/local/share/fonts/iosevka-comfy-font/ \; -print
-
-    # Refresh fonts cache
-    sudo fc-cache -fv
-}
 
 suse_install() {
     HEIGHT=25
@@ -350,11 +331,10 @@ suse_install() {
                 # Fonts
                 #
                 sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts
-                install_iosevka_comfy
 
                 # Gnome Font Settings
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Comfy 16'
+                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka 16'
                 fi
 
                 read -rp "$CHOICE) Extras installed. Press enter to continue..."
@@ -627,9 +607,16 @@ suse_install() {
                         continue
                 }
 
+                # First create a new group to which we allow access to the input stuff, and add this group to your user:
+                sudo groupadd -f uinput
+                sudo gpasswd -a "$USER" uinput
+
+                # Second Create new udev rule granting access:
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xremap/udev/70-xremap.rules /etc/udev/rules.d/70-xremap.rules
+
                 # Give current user access to input rules
-                sudo gpasswd -a "$USER" input
-                echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
+                # sudo gpasswd -a "$USER" input
+                # echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
 
                 # Enable the daemon
                 [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
@@ -645,19 +632,6 @@ suse_install() {
                 ;;
         esac
     done
-}
-
-suse_update() {
-    sudo flatpak update -y
-    test $? -eq 0 || usage 1
-
-    # For Leap
-    # sudo zypper ref && sudo zypper update
-    # test $? -eq 0 || usage 1
-
-    # For Tumbleweed
-    sudo zypper dup
-    test $? -eq 0 || usage 1
 }
 
 set -o errexit
@@ -684,14 +658,6 @@ case $cmd in
     install)
         [ "$nargs" -eq 1 ] || usage 1
         suse_install "$@"
-        ;;
-    update)
-        [ "$nargs" -eq 1 ] || usage 1
-        suse_update "$@"
-        ;;
-    zypper)
-        [ "$nargs" -lt 2 ] && usage 1
-        zypper "$@"
         ;;
     help | --help | -h)
         usage 0

@@ -5,7 +5,7 @@ usage() {
     echo "    $0 help:"
     echo "        Show this help message"
     echo "    $0 system:"
-    echo "        Update OS (debian or fedora) & Flatpak"
+    echo "        Update OS (debian, opensuse or fedora) & Flatpak"
     echo "    $0 dotfiles:"
     echo "        Update personal dotfiles (ask to pull from remote and then syncs on local)"
     echo "    $0 emacs:"
@@ -32,6 +32,19 @@ debian_update() {
     test $? -eq 0 || usage 1
 }
 
+opensuse_update() {
+    flatpak update --user -y
+    test $? -eq 0 || usage 1
+
+    # For Leap
+    # sudo zypper ref && sudo zypper update
+    # test $? -eq 0 || usage 1
+
+    # For Tumbleweed
+    sudo zypper dup
+    test $? -eq 0 || usage 1
+}
+
 fedora_update() {
     sudo dnf -y --refresh upgrade
     test $? -eq 0 || usage 1
@@ -49,12 +62,15 @@ fedora_update() {
 system_update() {
     local OS
     [[ -f /etc/debian_version ]] && OS=Debian
+    [[ -f /etc/products.d/openSUSE.prod ]] && OS=OpenSuse
     [[ -f /etc/fedora-release ]] && OS=Fedora
 
     [[ $OS == Debian ]] && (hash apt 2> /dev/null || usage 1)
+    [[ $OS == OpenSuse ]] && (hash zypper 2> /dev/null || usage 1)
     [[ $OS == Fedora ]] && (hash dnf 2> /dev/null || usage 1)
 
     [[ $OS == Debian ]] && debian_update
+    [[ $OS == OpenSuse ]] && opensuse_update
     [[ $OS == Fedora ]] && fedora_update
 }
 
