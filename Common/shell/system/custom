@@ -85,7 +85,8 @@ alias mv="mv -iv"
 alias rm="rm -I" # IMHO, much better than 'rm -i'
 alias tree="tree --dirsfirst -a -I 'node_modules|.git'"
 alias ag="ag --hidden --ignore node_modules --ignore .git"
-alias reboot="systemctl reboot"
+alias reboot='systemctl reboot'
+alias poweroff='systemctl poweroff'
 
 # eza (ls replacement)
 if type eza > /dev/null 2> /dev/null; then
