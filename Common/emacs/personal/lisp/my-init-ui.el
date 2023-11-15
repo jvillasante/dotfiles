@@ -49,7 +49,7 @@
                `(default ((t (:font "Iosevka 16"))))
                `(fixed-pitch ((t (:inherit (default)))))
                `(fixed-pitch-serif ((t (:inherit (default)))))
-               `(variable-pitch ((t (:font "Iosevka Duo")))))))
+               `(variable-pitch ((t (:font "Iosevka Aile")))))))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook (lambda ()
