@@ -261,10 +261,10 @@ suse_install() {
                 fi
 
                 # Plasma Software
-                if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
-                    # sudo zypper install -y latte-dock
-                    sudo zypper install -y kazam
-                fi
+                # if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
+                #     sudo zypper install -y latte-dock
+                #     sudo zypper install -y kazam
+                # fi
 
                 # tmux: A terminal multiplexer
                 sudo zypper install -y tmux
@@ -344,7 +344,7 @@ suse_install() {
                 #
                 # Latex
                 #
-                sudo zypper install -y texlive-scheme-full
+                # sudo zypper install -y texlive-scheme-full
 
                 #
                 # Fonts
