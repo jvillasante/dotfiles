@@ -453,9 +453,10 @@ suse_install() {
 
                 # Install dependencies
                 sudo zypper install -y libgccjit0 libgccjit0-devel
-                sudo zypper install -y gtk3-devel libgnutls-devel libxml2-devel libjansson-devel giflib-devel \
-                     libtiff-devel libotf-devel
-                sudo zypper install -y tree-sitter tree-sitter-devel
+                sudo zypper install -y gtk3 gtk3-devel gtk4 gtk4-devel libgnutls-devel libxml2-devel libjansson-devel giflib-devel \
+                     libtiff-devel libotf-devel libvterm-devel
+                sudo zypper install -y tree-sitter tree-sitter-devel # treesitter
+                sudo zypper install -y enchant-devel pkgconf # jinx
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
