@@ -120,8 +120,8 @@ suse_install() {
                 ;;
             4)
                 echo "$CHOICE) Setup NVIDIA"
-                sudo zypper ar -f https://download.nvidia.com/opensuse/tumbleweed nvidia
-                sudo zypper inr
+                sudo zypper addrepo -f https://download.nvidia.com/opensuse/tumbleweed nvidia
+                sudo zypper install-new-recommends --repo nvidia
 
                 read -rp "$CHOICE) Done (May need to reboot). Press enter to continue..."
                 ;;
