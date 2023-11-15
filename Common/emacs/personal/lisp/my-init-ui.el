@@ -46,10 +46,10 @@
               (setq x-underline-at-descent-line nil)
               (setq-default text-scale-remap-header-line t)
               (custom-set-faces
-               `(default ((t (:font "Iosevka Comfy 16"))))
+               `(default ((t (:font "Iosevka 16"))))
                `(fixed-pitch ((t (:inherit (default)))))
                `(fixed-pitch-serif ((t (:inherit (default)))))
-               `(variable-pitch ((t (:font "Iosevka Comfy Duo")))))))
+               `(variable-pitch ((t (:font "Iosevka Duo")))))))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook (lambda ()

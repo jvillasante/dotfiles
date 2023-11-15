@@ -97,7 +97,7 @@ font:
         #   - (macOS) Menlo
         #   - (Linux/BSD) monospac
         #   - (Windows) Consolas
-        family: Iosevka Comfy Fixed
+        family: Iosevka Fixed
         style: Regular
 
     # Bold font face
@@ -106,7 +106,7 @@ font:
         #
         # If the bold family is not specified, it will fall back to the
         # value specified for the normal font.
-        family: Iosevka Comfy Fixed
+        family: Iosevka Fixed
         style: Bold
 
     # Italic font face
@@ -115,7 +115,7 @@ font:
         #
         # If the italic family is not specified, it will fall back to the
         # value specified for the normal font.
-        family: Iosevka Comfy Fixed
+        family: Iosevka Fixed
         style: Italic
 
     # Bold italic font face
@@ -124,7 +124,7 @@ font:
         #
         # If the bold italic family is not specified, it will fall back to the
         # value specified for the normal font.
-        family: Iosevka Comfy Fixed
+        family: Iosevka Fixed
         style: Bold Italic
 
     # Point size
