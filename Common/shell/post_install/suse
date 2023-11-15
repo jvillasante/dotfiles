@@ -239,7 +239,7 @@ suse_install() {
                 sudo zypper install -y llvm clang clang-tools libpcap libpcap-devel
                 sudo zypper install -y pkg-config openssl openssl-devel flex bison unar unrar unzip atool
                 sudo zypper install -y ImageMagick ImageMagick-devel sqlite
-                sudo zypper install -y feh mpv qrencode findutils locate
+                sudo zypper install -y feh mpv qrencode findutils
                 sudo zypper install -y valgrind minicom mc strace tidy
 
                 # Node
