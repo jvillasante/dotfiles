@@ -365,22 +365,22 @@ suse_install() {
                 sudo zypper install -y flatpak
                 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 flatpak update
-                if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
-                    zypper install -y plasma-discover-backend-flatpak
-                fi
+                # if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
+                #     sudo zypper install -y plasma-discover-backend-flatpak
+                # fi
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                    zypper install -y gnome-software-plugin-flatpak
-                    flatpak install -y flathub org.gnome.TextEditor
-                    flatpak install -y flathub org.gnome.Firmware
-                    flatpak install -y flathub com.mattjakeman.ExtensionManager
+                    sudo zypper install -y gnome-software-plugin-flatpak
+                    flatpak install --user -y flathub org.gnome.TextEditor
+                    flatpak install --user -y flathub org.gnome.Firmware
+                    flatpak install --user -y flathub com.mattjakeman.ExtensionManager
                 fi
-                flatpak install -y flathub com.discordapp.Discord
-                flatpak install -y flathub com.dropbox.Client
-                flatpak install -y flathub com.slack.Slack
-                flatpak install -y flathub org.videolan.VLC
-                flatpak install -y flathub com.transmissionbt.Transmission
-                flatpak install -y flathub org.wireshark.Wireshark
-                flatpak install -y flathub com.github.tchx84.Flatseal
+                flatpak install --user -y flathub com.discordapp.Discord
+                flatpak install --user -y flathub com.dropbox.Client
+                flatpak install --user -y flathub com.slack.Slack
+                flatpak install --user -y flathub org.videolan.VLC
+                flatpak install --user -y flathub com.transmissionbt.Transmission
+                flatpak install --user -y flathub org.wireshark.Wireshark
+                flatpak install --user -y flathub com.github.tchx84.Flatseal
                 # flatpak install -y flathub org.mozilla.firefox
                 # flatpak install -y flathub org.telegram.desktop
                 # flatpak install -y flathub org.gnucash.GnuCash
