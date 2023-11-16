@@ -309,6 +309,11 @@ suse_install() {
                 opi codecs
 
                 #
+                # Wireguard
+                #
+                # sudo zypper install -y wireguard-tools
+
+                #
                 # Docker
                 #
                 # Install and Enable Docker

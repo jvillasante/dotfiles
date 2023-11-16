@@ -2,7 +2,7 @@
 
 ;; password-store for emacs
 (use-package password-store
-    :disabled t
+    :disabled t ;; does not clear system clipboard!
     :preface (defun my/password-store-git-push ()
                  (interactive)
                  (with-editor-async-shell-command "pass git push"))
