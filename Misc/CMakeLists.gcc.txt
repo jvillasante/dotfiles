@@ -20,8 +20,7 @@ if(NOT CMAKE_BUILD_TYPE)
       CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
 endif()
 
-# For generators with multiple configurations (like VS), only allow Debug and
-# Release
+# Only allow Debug and Release
 if(CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_CONFIGURATION_TYPES
       "Debug;Release"
@@ -33,20 +32,32 @@ endif()
 project(
   project-name
   VERSION 0.0.1
-  LANGUAGES C)
+  LANGUAGES C CXX)
 
-# Compiler options
+# C Flags
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_C_FLAGS_COMMON "-std=c99 -Wall -Wextra -Werror -Wpedantic -fdiagnostics-color=always")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_COMMON} -DDEBUG -g -O0")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON} -O3")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ${CMAKE_C_FLAGS_COMMON} -DDEBUG -g -O0")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} ${CMAKE_C_FLAGS_COMMON} -O3")
 
+# C++ Flags
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_FLAGS_COMMON "-std=c++20 -Wall -Wextra -Werror -Wpedantic -fdiagnostics-color=always")
+set(CMAKE_CXX_FLAGS_DEBUG
+    "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_COMMON} -DDEBUG -g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE
+    "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON} -O3")
+
+# Paths
 set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
 set(LIBS_PATH "$ENV{HOME}/Workspace/Software/gcc")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 
+# Subdirectories
 add_subdirectory(src/app)

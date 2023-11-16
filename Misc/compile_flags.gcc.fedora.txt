@@ -1,9 +1,12 @@
--std=c99
+-std=c++20
 -Wall
 -Wextra
 -Werror
 -Wpedantic
 -DDEBUG
+-isystem/usr/lib/gcc/x86_64-redhat-linux/13/../../../../include/c++/13
+-isystem/usr/lib/gcc/x86_64-redhat-linux/13/../../../../include/c++/13/x86_64-redhat-linux
+-isystem/usr/lib/gcc/x86_64-redhat-linux/13/../../../../include/c++/13/backward
 -isystem/usr/lib/gcc/x86_64-redhat-linux/13/include
 -isystem/usr/local/include
 -isystem/usr/include

@@ -52,8 +52,12 @@ create_c_project_gcc() {
             echo ">>> Copying compile_flags.txt (debian) to $PROJECT_PATH..."
             cp "$DOTFILES_DIR/Misc/compile_flags.gcc.debian.txt" "$PROJECT_PATH/compile_flags.txt"
             check $?
+        elif [ -f /etc/products.d/openSUSE.prod ]; then
+            echo ">>> Copying compile_flags.txt (suse) to $PROJECT_PATH..."
+            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.suse.txt" "$PROJECT_PATH/compile_flags.txt"
+            check $?
         else
-            echo ">>> Unknown OS (only fedora and debian are supported)..."
+            echo ">>> Unknown OS (only fedora, suse and debian are supported)..."
         fi
 
         echo ">>> Initializing 'git' in $PROJECT_PATH..."
@@ -149,19 +153,23 @@ create_cpp_project_gcc() {
         check $?
 
         echo ">>> Copying CMakeLists.txt to $PROJECT_PATH..."
-        cp "$DOTFILES_DIR/Misc/CMakeLists.g++.txt" "$PROJECT_PATH/CMakeLists.txt"
+        cp "$DOTFILES_DIR/Misc/CMakeLists.gcc.txt" "$PROJECT_PATH/CMakeLists.txt"
         check $?
 
         if [ -f /etc/fedora-release ]; then
             echo ">>> Copying compile_flags.txt (fedora) to $PROJECT_PATH..."
-            cp "$DOTFILES_DIR/Misc/compile_flags.g++.fedora.txt" "$PROJECT_PATH/compile_flags.txt"
+            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.fedora.txt" "$PROJECT_PATH/compile_flags.txt"
             check $?
         elif [ -f /etc/debian_version ]; then
             echo ">>> Copying compile_flags.txt (debian) to $PROJECT_PATH..."
-            cp "$DOTFILES_DIR/Misc/compile_flags.g++.debian.txt" "$PROJECT_PATH/compile_flags.txt"
+            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.debian.txt" "$PROJECT_PATH/compile_flags.txt"
+            check $?
+        elif [ -f /etc/products.d/openSUSE.prod ]; then
+            echo ">>> Copying compile_flags.txt (suse) to $PROJECT_PATH..."
+            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.suse.txt" "$PROJECT_PATH/compile_flags.txt"
             check $?
         else
-            echo ">>> Unknown OS (only fedora and debian are supported)..."
+            echo ">>> Unknown OS (only fedora, suse and debian are supported)..."
         fi
 
         echo ">>> Copying .clang-tidy to $PROJECT_PATH..."
