@@ -689,9 +689,12 @@ fedora_install() {
                         continue
                 }
 
-                # Give current user access to input rules
-                sudo gpasswd -a "$USER" input
-                echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
+                # First create a new group to which we allow access to the input stuff, and add this group to your user:
+                sudo groupadd -f uinput
+                sudo gpasswd -a "$USER" uinput
+
+                # Second Create new udev rule granting access:
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xremap/udev/70-xremap.rules /etc/udev/rules.d/70-xremap.rules
 
                 # Enable the daemon
                 [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user

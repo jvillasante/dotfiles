@@ -614,10 +614,6 @@ suse_install() {
                 # Second Create new udev rule granting access:
                 sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xremap/udev/70-xremap.rules /etc/udev/rules.d/70-xremap.rules
 
-                # Give current user access to input rules
-                # sudo gpasswd -a "$USER" input
-                # echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
-
                 # Enable the daemon
                 [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
                 [ -L "$HOME/.config/systemd/user/xremap.service" ] && unlink "$HOME/.config/systemd/user/xremap.service"
