@@ -261,10 +261,10 @@ fedora_install() {
                 fi
 
                 # Plasma Software
-                if is_desktop_environment "KDE"; then
-                    sudo dnf install -y yakuake
+                # if is_desktop_environment "KDE"; then
+                    # sudo dnf install -y yakuake
                     # sudo dnf install -y latte-dock
-                fi
+                # fi
 
                 # wayland stuff
                 [[ $WINDOW_SYSTEM = Wayland ]] && sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard

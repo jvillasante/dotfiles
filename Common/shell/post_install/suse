@@ -242,11 +242,11 @@ suse_install() {
                 fi
 
                 # Plasma Software
-                if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
-                    sudo zypper install -y yakuake
+                # if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
+                    # sudo zypper install -y yakuake
                     # sudo zypper install -y latte-dock
                     # sudo zypper install -y kazam
-                fi
+                # fi
 
                 # tmux: A terminal multiplexer
                 sudo zypper install -y tmux
