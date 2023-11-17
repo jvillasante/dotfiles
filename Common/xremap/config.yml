@@ -17,8 +17,11 @@ keymap:
     application:
       only: firefox
     remap:
+      C-Shift-p: C-Shift-p
       C-x:
         remap:
+          # Private Window
+          C-p: C-Shift-p
           # Switch tabs
           o: C-tab
           b: C-Shift-tab
