@@ -210,10 +210,10 @@ suse_install() {
                 sudo zypper install -y -t pattern devel_C_C++
                 sudo zypper install -y rpmdevtools make gcc-c++ gcc gdb automake autoconf autojump libtool
                 sudo zypper install -y cmake ninja ccache meson
-                sudo zypper install -y git ripgrep fd htop btop vim bat
+                sudo zypper install -y git ripgrep fd htop btop nvtop vim bat
                 sudo zypper install -y aspell aspell-en aspell-es
                 sudo zypper install -y curl dos2unix doxygen msmtp neofetch
-                sudo zypper install -y graphviz htop mercurial password-store
+                sudo zypper install -y graphviz mercurial password-store
                 sudo zypper install -y pandoc poppler-tools poppler-data
                 sudo zypper install -y subversion tree w3m wget texinfo
                 sudo zypper install -y wordnet shfmt editorconfig ShellCheck
