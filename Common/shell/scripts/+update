@@ -41,7 +41,7 @@ opensuse_update() {
     # test $? -eq 0 || usage 1
 
     # For Tumbleweed
-    sudo zypper dup
+    sudo zypper ref && sudo zypper dup
     test $? -eq 0 || usage 1
 }
 

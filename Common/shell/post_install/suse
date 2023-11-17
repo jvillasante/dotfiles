@@ -79,7 +79,7 @@ suse_install() {
         case $CHOICE in
             1)
                 echo "$CHOICE) Full System Upgrade"
-                sudo zypper dup
+                sudo zypper ref && sudo zypper dup
 
                 read -rp "$CHOICE) Done (May need to reboot). Press enter to continue..."
                 ;;
