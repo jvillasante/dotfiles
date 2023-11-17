@@ -170,6 +170,8 @@
             "https://www.jameselford.com/rss.xml"
             "https://blog.adamchalmers.com/atom.xml"
             "https://itsallaboutthebit.com/atom.xml"
+            ;; Linux
+            "http://dominique.leuenberger.net/blog/feed/rss/"
             ;; Misc
             "https://chandlerc.blog/index.xml"
             "https://sqrtminusone.xyz/posts/index.xml"
