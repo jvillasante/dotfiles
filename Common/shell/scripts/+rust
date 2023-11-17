@@ -29,20 +29,20 @@ install_cargo_nextest() {
 }
 
 install_rust() {
-    if hash rustup 2>/dev/null; then
-        echo "Rust is already installed, exiting..."
-        usage 1
+    if hash rustup 2> /dev/null; then
+        echo "Rust is already installed on this system, skipping..."
+    else
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        test $? -eq 0 || usage 1
+
+        rustup component add rust-src rust-analysis rust-analyzer
+        test $? -eq 0 || usage 1
     fi
 
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    test $? -eq 0 || usage 1
-
-    rustup component add rust-src rust-analysis rust-analyzer
-    test $? -eq 0 || usage 1
 }
 
 update_rust() {
-    if hash rustup 2>/dev/null; then
+    if hash rustup 2> /dev/null; then
         rustup self update
         test $? -eq 0 || usage 1
 
@@ -52,7 +52,7 @@ update_rust() {
 }
 
 show_global_packages() {
-    if hash cargo 2>/dev/null; then
+    if hash cargo 2> /dev/null; then
         echo "Global Packages Installed:"
         cargo install-update -al
         test $? -eq 0 || usage 1
@@ -64,7 +64,7 @@ show_global_packages() {
 }
 
 update_global_packages() {
-    if hash cargo 2>/dev/null; then
+    if hash cargo 2> /dev/null; then
         cargo install-update -a
         test $? -eq 0 || usage 1
     fi
@@ -105,7 +105,7 @@ case $cmd in
         ;;
     cargo)
         [ "$nargs" -lt 2 ] && usage 1
-        if hash cargo 2>/dev/null; then
+        if hash cargo 2> /dev/null; then
             cargo "$@"
         else
             echo "cargo not installed, exiting..."
