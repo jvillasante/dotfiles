@@ -129,6 +129,12 @@
                            tab-bar-separator))
     (add-hook 'pre-command-hook 'tab-bar-history-mode))
 
+;; modeline
+(use-package mini-echo
+    :disabled t
+    :init (mini-echo-mode))
+
+;; theme
 (use-package modus-themes
     :preface
     (defun +my/modus-themes-org-fontify-block-delimiter-lines ()
