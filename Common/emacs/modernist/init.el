@@ -17,7 +17,7 @@
 (load-theme 'modus-operandi t)
 
 ;; Set default font face
-(set-face-attribute 'default nil :font "Iosevka 16")
+(set-face-attribute 'default nil :font "Iosevka Comfy 16")
 
 ;; Disable the menu bar
 (menu-bar-mode -1)
