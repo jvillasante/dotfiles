@@ -97,7 +97,8 @@
                         magit-diff-mode
                         ibuffer-mode
                         dired-mode
-                        occur-mode))
+                        occur-mode
+                        circe-mode))
 
     ;; Define the whitespace style (`C-h v whitespace-style' for more styles)
     (setq-default whitespace-style
