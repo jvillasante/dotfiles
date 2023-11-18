@@ -138,7 +138,7 @@
 ;; theme
 (use-package modus-themes
     :preface
-    (defun +my/modus-themes-org-fontify-block-delimiter-lines ()
+    (defun my/modus-themes-org-fontify-block-delimiter-lines ()
         "Match `org-fontify-whole-block-delimiter-line' to theme style.
 Run this function at the post theme load phase, such as with the
 `modus-themes-after-load-theme-hook'."
@@ -196,7 +196,7 @@ Run this function at the post theme load phase, such as with the
                               (border-mode-line-inactive bg-main)))
 
     (add-hook 'modus-themes-after-load-theme-hook
-              #'+my/modus-themes-org-fontify-block-delimiter-lines)
+              #'my/modus-themes-org-fontify-block-delimiter-lines)
 
     ;; Load theme
     (my/switch-theme 'modus-operandi))

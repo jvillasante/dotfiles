@@ -49,17 +49,17 @@
 ;; circe : A client for IRC in Emacs
 (use-package circe
     :preface
-    (defun +my/circe-prompt ()
+    (defun my/circe-prompt ()
         (lui-set-prompt
          (concat (propertize (concat (buffer-name) ">")
                              'face 'circe-prompt-face)
                  " ")))
-    (defun +my/irc.libera.chat-password(&rest ignored)
+    (defun my/irc.libera.chat-password(&rest ignored)
         (string-trim (nth 0 (process-lines "pass" "show" "Logins/irc.libera.chat"))))
     :init
     (require 'lui-autopaste)
     (add-hook 'circe-channel-mode-hook 'enable-lui-autopaste)
-    (add-hook 'circe-chat-mode-hook '+my/circe-prompt)
+    (add-hook 'circe-chat-mode-hook 'my/circe-prompt)
     :config
     (setq circe-use-cycle-completion t)
     (setq circe-reduce-lurker-spam t)
@@ -70,7 +70,7 @@
              :tls t
              :nick "jvillasante"
              :sasl-username "jvillasante"
-             :sasl-password +my/irc.libera.chat-password
+             :sasl-password my/irc.libera.chat-password
              :channels ("#emacs" "#emacs-circe" "#pass" "#opensuse")))))
 
 ;; speed-type : Practice speed typing
