@@ -9,7 +9,7 @@
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
 (global-set-key (kbd "C-x k") 'kill-this-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
-(global-set-key (kbd "C-x S") 'my/save-all) ; save some buffers without prompt
+(global-set-key (kbd "C-x S") 'my--save-all) ; save some buffers without prompt
 
 ;; C-z does not make sense on graphical environment
 (when (display-graphic-p)
@@ -20,10 +20,10 @@
 (global-set-key (kbd "C-x C-S-c") 'save-buffers-kill-emacs)
 
 ;; Cone the current buffer in a new window with `q' to exit
-(global-set-key (kbd "C-x 9") 'my/clone-buffer-in-new-window-readonly) ; same
+(global-set-key (kbd "C-x 9") 'my--clone-buffer-in-new-window-readonly) ; same
 
 ;; ctl-x-4-map
-(define-key ctl-x-4-map (kbd "t") 'my/toggle-window-split)
+(define-key ctl-x-4-map (kbd "t") 'my--toggle-window-split)
 
 ;; duplicate current line or region
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
@@ -34,17 +34,17 @@
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 
 ;; Open line(s) below/above current one
-(global-set-key (kbd "C-o") 'my/open-next-line)
-(global-set-key (kbd "M-o") 'my/open-previous-line)
+(global-set-key (kbd "C-o") 'my--open-next-line)
+(global-set-key (kbd "M-o") 'my--open-previous-line)
 
 ;; better comment/un-comment
-(global-set-key (kbd "M-;") 'my/comment-or-uncomment)
-(global-set-key (kbd "C-x C-;") 'my/comment-or-uncomment)
+(global-set-key (kbd "M-;") 'my--comment-or-uncomment)
+(global-set-key (kbd "C-x C-;") 'my--comment-or-uncomment)
 
 ;; fill-unfill
-(define-key global-map [remap fill-paragraph] 'my/fill-or-unfill)
-(global-set-key (kbd "M-Q") 'my/unfill-paragraph)
-(global-set-key (kbd "C-M-Q") 'my/unfill-region)
+(define-key global-map [remap fill-paragraph] 'my--fill-or-unfill)
+(global-set-key (kbd "M-Q") 'my--unfill-paragraph)
+(global-set-key (kbd "C-M-Q") 'my--unfill-region)
 
 ;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
@@ -100,7 +100,7 @@
 
 ;; org
 (with-eval-after-load 'org
-    (define-key org-mode-map [remap fill-paragraph] 'my/org-fill-or-unfill))
+    (define-key org-mode-map [remap fill-paragraph] 'my--org-fill-or-unfill))
 
 ;; dired
 (with-eval-after-load 'dired
@@ -154,7 +154,7 @@
 (global-set-key (kbd "C-c f L") 'consult-line-multi)
 
 ;; C-c c : Code
-(global-set-key (kbd "C-c c f") 'my/toggle-fold)
+(global-set-key (kbd "C-c c f") 'my--toggle-fold)
 (global-set-key (kbd "C-c c h") 'eldoc)
 (with-eval-after-load 'eglot
     (define-key eglot-mode-map (kbd "C-c c R") 'eglot-reconnect)

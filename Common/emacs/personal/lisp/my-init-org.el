@@ -3,7 +3,7 @@
 (use-package org
     :ensure nil ;; emacs built-in
     :config
-    (setq org-directory (expand-file-name "Apps/org" my/dropbox-path))
+    (setq org-directory (expand-file-name "Apps/org" my--dropbox-path))
     (setq org-id-locations-file (file-name-concat org-directory ".orgids"))
     (setq org-pretty-entities nil)
     (setq org-fontify-whole-heading-line t)
@@ -95,7 +95,7 @@
 (use-package deft
     :after org
     :commands (deft)
-    :custom ((deft-directory (expand-file-name "Apps/org/notes" my/dropbox-path))
+    :custom ((deft-directory (expand-file-name "Apps/org/notes" my--dropbox-path))
              (deft-extensions '("org" "md" "txt"))
              (deft-default-extension "org")
              (deft-recursive nil)

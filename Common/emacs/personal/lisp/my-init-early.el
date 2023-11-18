@@ -122,7 +122,7 @@
               (and (normal-backup-enable-predicate name)
                    (not (s-starts-with? "/dev/shm" name))
                    (not (s-contains? "password-store" name))
-                   (my/file-is-not-root-p name)))))
+                   (my--file-is-not-root-p name)))))
 
 ;; autosave
 (progn
@@ -160,9 +160,9 @@
     (setq mac-option-modifier 'alt)
     (setq mac-right-option-modifier 'alt)
     (setq default-input-method "MacOSX")
-    (setq my/clang-path "/usr/local/opt/llvm/bin/clang")
-    (setq my/mu-path "/usr/local/bin/mu")
-    (setq my/msmtp-path "/usr/local/bin/msmtp")
+    (setq my--clang-path "/usr/local/opt/llvm/bin/clang")
+    (setq my--mu-path "/usr/local/bin/mu")
+    (setq my--msmtp-path "/usr/local/bin/msmtp")
 
     ;; Use spotlight search backend as a default for M-x locate (and helm/ivy
     ;; variants thereof), since it requires no additional setup.
@@ -174,12 +174,12 @@
     (setq x-super-keysym 'meta)
     (setq browse-url-browser-function 'browse-url-generic)
     (setq browse-url-generic-program "xdg-open")
-    (setq my/clang-path "/usr/bin/clang")
-    (setq my/mu-path "/usr/bin/mu")
-    (setq my/msmtp-path "/usr/bin/msmtp"))
+    (setq my--clang-path "/usr/bin/clang")
+    (setq my--mu-path "/usr/bin/mu")
+    (setq my--msmtp-path "/usr/bin/msmtp"))
 
 
-(add-hook 'tty-setup-hook #'my/tty-setup)
+(add-hook 'tty-setup-hook #'my--tty-setup)
 
 (provide 'my-init-early)
 ;;; my-init-basics ends here

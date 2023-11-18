@@ -17,7 +17,7 @@
 
 ;; Adds crafted-emacs modules to the `load-path', sets up a module
 ;; writing template, sets the `crafted-emacs-home' variable.
-(load (expand-file-name ".emacs.crafted/modules/crafted-init-config" my/dotfiles-path))
+(load (expand-file-name ".emacs.crafted/modules/crafted-init-config" my--dotfiles-path))
 
 ;;; Packages phase
 

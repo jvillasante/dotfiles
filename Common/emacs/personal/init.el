@@ -55,10 +55,10 @@
 (use-package no-littering)
 
 ;; Paths
-(defconst my/home-path (expand-file-name "~/"))
-(defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
-(defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
-(defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
+(defconst my--home-path (expand-file-name "~/"))
+(defconst my--dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my--home-path))
+(defconst my--software-path (expand-file-name "Workspace/Software/" my--home-path))
+(defconst my--dropbox-path (expand-file-name "Dropbox/" my--home-path))
 (push (expand-file-name "lisp" user-emacs-directory) load-path)
 
 ;; load config

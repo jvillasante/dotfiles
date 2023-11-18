@@ -3,7 +3,7 @@
 ;; password-store for emacs
 (use-package password-store
     :disabled t
-    :preface (defun my/password-store-git-push ()
+    :preface (defun my--password-store-git-push ()
                  (interactive)
                  (with-editor-async-shell-command "pass git push"))
     :bind (("C-c p c" . password-store-copy)
@@ -14,7 +14,7 @@
            ("C-c p r" . password-store-rename)
            ("C-c p R" . password-store-remove)
            ("C-c p i" . password-store-insert)
-           ("C-c p P" . my/password-store-git-push))
+           ("C-c p P" . my--password-store-git-push))
     :custom ((password-store-password-length 25)))
 
 ;; eww
@@ -31,7 +31,7 @@
                 pdf-view-continuous t)
     :config (add-hook 'pdf-outline-buffer-mode-hook
                       (lambda ()
-                          (my/font-set-small-variable-font))))
+                          (my--font-set-small-variable-font))))
 
 ;; nov.el : Major mode for reading EPUBs in Emacs
 (use-package nov
@@ -49,17 +49,17 @@
 ;; circe : A client for IRC in Emacs
 (use-package circe
     :preface
-    (defun my/circe-prompt ()
+    (defun my--circe-prompt ()
         (lui-set-prompt
          (concat (propertize (concat (buffer-name) ">")
                              'face 'circe-prompt-face)
                  " ")))
-    (defun my/irc.libera.chat-password(&rest ignored)
+    (defun my--irc.libera.chat-password(&rest ignored)
         (string-trim (nth 0 (process-lines "pass" "show" "Logins/irc.libera.chat"))))
     :init
     (require 'lui-autopaste)
     (add-hook 'circe-channel-mode-hook 'enable-lui-autopaste)
-    (add-hook 'circe-chat-mode-hook 'my/circe-prompt)
+    (add-hook 'circe-chat-mode-hook 'my--circe-prompt)
     :config
     (setq circe-use-cycle-completion t)
     (setq circe-reduce-lurker-spam t)
@@ -70,7 +70,7 @@
              :tls t
              :nick "jvillasante"
              :sasl-username "jvillasante"
-             :sasl-password my/irc.libera.chat-password
+             :sasl-password my--irc.libera.chat-password
              :channels ("#emacs" "#emacs-circe" "#pass" "#opensuse")))))
 
 ;; speed-type : Practice speed typing
@@ -98,14 +98,14 @@
 
 ;; elfeed
 (use-package elfeed
-    :preface (defun my/elfeed-delete-window-after-kill-buffer (&rest args)
+    :preface (defun my--elfeed-delete-window-after-kill-buffer (&rest args)
                  (delete-window (selected-window)))
     :init
     ;; `elfeed-kill-buffer' only kills the buffer, but won't delete
     ;; the window. This is not an ideal behavior since you typically
     ;; what to hit `q' to delete the window displaying the news after
     ;; you have finished reading.
-    (advice-add #'elfeed-kill-buffer :after #'my/elfeed-delete-window-after-kill-buffer)
+    (advice-add #'elfeed-kill-buffer :after #'my--elfeed-delete-window-after-kill-buffer)
     :config
     (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory))
     (setq elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
@@ -113,7 +113,7 @@
     (setq elfeed-search-title-max-width 100)
     (setq elfeed-search-trailing-width 0)
     (setq elfeed-search-filter "@6-months-ago +unread")
-    (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
+    (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" my--dropbox-path))
     (setq elfeed-show-entry-switch #'pop-to-buffer)
     (setq shr-max-image-proportion 0.7)
     (add-to-list 'display-buffer-alist

@@ -4,7 +4,7 @@
 (use-package hideshow
     :ensure nil ;; emacs built-in
     :preface
-    (defun my/toggle-fold ()
+    (defun my--toggle-fold ()
         (interactive)
         (save-excursion
             (end-of-line)
@@ -33,7 +33,7 @@
 
 (use-package eglot
     :ensure nil ;; emacs built-in
-    :preface (defun my/eglot-eldoc ()
+    :preface (defun my--eglot-eldoc ()
                  ;; Show flymake diagnostics first.
                  (setq eldoc-documentation-functions
                        (cons #'flymake-eldoc-function
@@ -41,7 +41,7 @@
 
                  ;; Show all eldoc feedback.
                  (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
-    :hook ((eglot-managed-mode . my/eglot-eldoc)
+    :hook ((eglot-managed-mode . my--eglot-eldoc)
            (sh-mode . eglot-ensure)
            (bash-ts-mode . eglot-ensure)
            (cmake-mode . eglot-ensure)
@@ -100,10 +100,10 @@
 
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
-    :preface (defun my/disable-apheleia ()
+    :preface (defun my--disable-apheleia ()
                  (apheleia-mode -1))
     :hook ((prog-mode . apheleia-mode)
-           (web-mode . my/disable-apheleia))
+           (web-mode . my--disable-apheleia))
     :config
     ;; Set custom formatting commands
     (dolist (formatter-cmd '((shfmt    . ("shfmt" "-i" "4" "-ci" "-kp" "-sr"))

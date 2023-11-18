@@ -41,6 +41,7 @@
     (tabspaces-default-tab "Default")
     (tabspaces-remove-to-default t)
     (tabspaces-include-buffers '("*scratch*"))
+    (tabspaces-initialize-project-with-todo nil)
     ;; sessions
     (tabspaces-session nil)
     (tabspaces-session-auto-restore nil))

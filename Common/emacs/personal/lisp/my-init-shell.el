@@ -73,14 +73,14 @@
 (use-package vterm
     :disabled t
     :preface
-    (defun my/vterm ()
+    (defun my--vterm ()
         "Open vterm at project root, if no root is found, open at the default-directory"
         (interactive)
-        (let ((default-directory (my/project-root-or-default-dir)))
+        (let ((default-directory (my--project-root-or-default-dir)))
             (if (equal current-prefix-arg nil) ; no C-u
                     (call-interactively #'vterm-other-window)
                 (call-interactively #'vterm))))
-    (defun my/vterm-project ()
+    (defun my--vterm-project ()
         "Open vterm at project root with name <project>-vterm"
         (interactive)
         (defvar vterm-buffer-name)
@@ -92,9 +92,9 @@
                 (if (equal current-prefix-arg nil) ; no C-u
                         (call-interactively #'vterm-other-window)
                     (call-interactively #'vterm)))))
-    :bind (("C-c o t" . my/vterm)
+    :bind (("C-c o t" . my--vterm)
            :map project-prefix-map
-           ("t" . my/vterm-project)
+           ("t" . my--vterm-project)
            :map vterm-mode-map
            ([return] . #'vterm-send-return)
            ("C-q" . #'vterm-send-next-key)
@@ -107,7 +107,7 @@
     :init
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (setq vterm-always-compile-module t)
-    (add-to-list 'project-switch-commands '(my/project-vterm "vTerm") t)
+    (add-to-list 'project-switch-commands '(my--project-vterm "vTerm") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
     (add-hook 'vterm-mode-hook
               (lambda ()
@@ -139,21 +139,21 @@
            ([remap dired-smart-shell-command] . dwim-shell-command))
     :init
     (require 'dwim-shell-commands)
-    (defun my/dwim-shell-command-convert-to-gif ()
+    (defun my--dwim-shell-command-convert-to-gif ()
         "Convert all marked videos to optimized gif(s)."
         (interactive)
         (dwim-shell-command-on-marked-files
          "Convert to gif"
          "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
          :utils "ffmpeg"))
-    (defun my/dwim-shell-command-copy-to-www-sm2 ()
+    (defun my--dwim-shell-command-copy-to-www-sm2 ()
         "Copfy files to SM2's www directory"
         (interactive)
         (dwim-shell-command-on-marked-files
          "Copy marked files to SM2's www directory"
          "scp -Or <<f>> dmxs.sm2.lan:/opt/dmxs/www"
          :utils "scp"))
-    (defun my/dwim-shell-command-copy-to-bin-sm2 ()
+    (defun my--dwim-shell-command-copy-to-bin-sm2 ()
         "Copy files to SM2's www directory"
         (interactive)
         (dwim-shell-command-on-marked-files
