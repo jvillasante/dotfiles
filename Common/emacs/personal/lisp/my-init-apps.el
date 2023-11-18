@@ -74,7 +74,8 @@
              :channels ("#emacs" "#emacs-circe" "#pass" "#opensuse")))))
 
 ;; speed-type : Practice speed typing
-(use-package speed-type)
+(use-package speed-type
+    :disabled t)
 
 ;; docker : Emacs integration for Docker!
 (use-package docker

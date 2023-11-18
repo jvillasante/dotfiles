@@ -2,6 +2,7 @@
 
 ;; tabspaces : https://github.com/mclear-tools/tabspaces
 (use-package tabspaces
+    :disabled t
     :preface
     (defun my--consult-tabspaces ()
         "Deactivate isolated buffers when not using tabspaces."
