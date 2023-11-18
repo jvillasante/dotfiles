@@ -366,7 +366,8 @@ suse_install() {
                 flatpak install --user -y flathub org.videolan.VLC
                 flatpak install --user -y flathub com.transmissionbt.Transmission
                 flatpak install --user -y flathub org.wireshark.Wireshark
-                flatpak install --user -y flathub com.github.tchx84.Flatseal
+                flatpak install --user -y flathub com.github.tchx84.Flatseal          # manage flatpak permisions
+                flatpak install --user -y flathub io.github.Hexchat                   # irc client
                 # flatpak install -y flathub org.mozilla.firefox
                 # flatpak install -y flathub org.telegram.desktop
                 # flatpak install -y flathub org.gnucash.GnuCash

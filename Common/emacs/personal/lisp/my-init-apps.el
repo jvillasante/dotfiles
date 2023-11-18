@@ -47,15 +47,17 @@
 
 ;; circe : A client for IRC in Emacs
 (use-package circe
-    :disabled t
+    :preface
+    (defun +my/irc.libera.chat-password(server)
+        (string-trim (nth 0 (process-lines "pass" "show" "Logins/irc.libera.chat"))))
     :init
     (setq circe-network-options
           '(("Libera Chat"
              :tls t
              :nick "jvillasante"
              :sasl-username "jvillasante"
-             :sasl-password (string-trim (nth 0 (process-lines "pass" "show" "Logins/irc.libera.chat")))
-             :channels ("#emacs-circe" "#pass")))))
+             :sasl-password +my/irc.libera.chat-password
+             :channels ("#emacs" "#emacs-circe" "#pass")))))
 
 ;; speed-type : Practice speed typing
 (use-package speed-type)
