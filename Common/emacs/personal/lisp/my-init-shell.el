@@ -3,12 +3,14 @@
 ;; ielm : elisp shell
 (use-package ielm
     :ensure nil ;; emacs built-in
+    :bind (("C-c o i" . #'ielm))
     :init (add-hook 'ielm-mode-hook 'eldoc-mode))
 
 ;; eshell : the emacs shell
 (use-package eshell-prompt-extras)
 (use-package eshell
     :ensure nil ;; emacs built-in
+    :bind (("C-c o e" . #'eshell))
     :init
     (with-eval-after-load 'esh-opt
         (autoload 'epe-theme-lambda "eshell-prompt-extras")
