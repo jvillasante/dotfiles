@@ -47,11 +47,11 @@
               (set-face-attribute 'default nil :family "Monaspace Argon"
                                   :height 140
                                   :width 'normal
-                                  :weight 'normal)
+                                  :weight 'Light)
               (set-face-attribute 'variable-pitch nil :family "Monaspace Argon Var"
                                   :height 140
                                   :width 'normal
-                                  :weight 'normal)))
+                                  :weight 'Light)))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook (lambda ()
