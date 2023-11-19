@@ -40,16 +40,12 @@
               (setq-local comment-auto-fill-only-comments t)
               (auto-fill-mode 1)))
 
-;; Set the font
+;; Set the font (M-x `menu-set-font' to see font faces)
 (add-hook 'emacs-startup-hook
           (lambda ()
               (setq x-underline-at-descent-line nil)
-              (setq-default text-scale-remap-header-line t)
-              (custom-set-faces
-               `(default ((t (:font "Iosevka Comfy 16"))))
-               `(fixed-pitch ((t (:inherit (default)))))
-               `(fixed-pitch-serif ((t (:inherit (default)))))
-               `(variable-pitch ((t (:font "Iosevka Comfy Duo")))))))
+              (set-face-attribute 'default nil :family "Monaspace Neon Light" :height 140)
+              (set-face-attribute 'variable-pitch nil :family "Monaspace Neon Var Light" :height 140)))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook (lambda ()
