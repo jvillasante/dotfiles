@@ -44,8 +44,8 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
               (setq x-underline-at-descent-line nil)
-              (set-face-attribute 'default nil :family "Monaspace Neon Light" :height 140)
-              (set-face-attribute 'variable-pitch nil :family "Monaspace Neon Var Light" :height 140)))
+              (set-face-attribute 'default nil :family "Monaspace Argon Light" :height 140)
+              (set-face-attribute 'variable-pitch nil :family "Monaspace Argon Var Light" :height 140)))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook (lambda ()

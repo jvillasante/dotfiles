@@ -18,17 +18,41 @@ readonly WM_GNOME="Gnome"
 WINDOW_SYSTEM="$WS_WAYLAND"
 WINDOW_MANAGER="$WM_KDE"
 
-# iosevka directly from prot repo
-install_iosevka_comfy() {
-    # Download the fonts
-    [ -d "$HOME"/Workspace/Software/iosevka-comfy ] && rm -rf "$HOME"/Workspace/Software/iosevka-comfy
-    git clone --depth 1 https://git.sr.ht/~protesilaos/iosevka-comfy "$HOME"/Workspace/Software/iosevka-comfy
+install_iosevka_comfy_font() {
+    # Prepare git repo
+    [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
+    if [ ! -d "$HOME"/Workspace/Software/fonts/iosevka-comfy ]; then
+        git clone --depth 1 https://git.sr.ht/~protesilaos/iosevka-comfy "$HOME"/Workspace/Software/fonts/iosevka-comfy
+    else
+        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy reset --hard HEAD
+        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy pull
+    fi
 
     # remove all fonts from ~/.local/share/fonts that start with "iosevka-comfy"
     rm -rf ~/.local/share/fonts/iosevka-comfy*
 
-    # copy all ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/iosevka-comfy/ -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+    # copy all otf/ttf fonts to ~/.local/share/fonts
+    find "$HOME"/Workspace/Software/fonts/iosevka-comfy/ -type f -name "*.ttf" -name "*.otf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+
+    # Build font information caches
+    fc-cache -f
+}
+
+install_monaspace_font() {
+    # Prepare git repo
+    [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
+    if [ ! -d "$HOME"/Workspace/Software/fonts/monaspace ]; then
+        git clone git@github.com:githubnext/monaspace.git "$HOME"/Workspace/Software/fonts/monaspace
+    else
+        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git --work-tree="$HOME"/Workspace/Software/fonts/monaspace reset --hard HEAD
+        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git --work-tree="$HOME"/Workspace/Software/fonts/monaspace pull
+    fi
+
+    # remove all fonts from ~/.local/share/fonts that start with "monaspace"
+    rm -rf ~/.local/share/fonts/monaspace*
+
+    # copy all otf/ttf fonts to ~/.local/share/fonts
+    find "$HOME"/Workspace/Software/fonts/monaspace/ -type f -name "*.ttf" -name "*.otf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # Build font information caches
     fc-cache -f
@@ -353,7 +377,8 @@ suse_install() {
                 # Fonts
                 #
                 sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts
-                install_iosevka_comfy
+                install_iosevka_comfy_font
+                install_monaspace_font
 
                 # Gnome Font Settings
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
