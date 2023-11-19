@@ -44,11 +44,11 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
               (setq x-underline-at-descent-line nil)
-              (set-face-attribute 'default nil :family "Monaspace Argon"
+              (set-face-attribute 'default nil :family "Monaspace Neon"
                                   :height 140
                                   :width 'normal
                                   :weight 'Light)
-              (set-face-attribute 'variable-pitch nil :family "Monaspace Argon Var"
+              (set-face-attribute 'variable-pitch nil :family "Monaspace Neon Var"
                                   :height 140
                                   :width 'normal
                                   :weight 'Light)))
