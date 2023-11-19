@@ -54,6 +54,7 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
+    :disabled t
     :bind (("C-c o t" . #'eat)
            ("C-c o T" . #'eat-other-window)
            :map project-prefix-map
@@ -71,49 +72,48 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
     :preface
-    (defun my--vterm ()
-        "Open vterm at project root, if no root is found, open at the default-directory"
-        (interactive)
-        (let ((default-directory (my--project-root-or-default-dir)))
-            (if (equal current-prefix-arg nil) ; no C-u
-                    (call-interactively #'vterm-other-window)
-                (call-interactively #'vterm))))
-    (defun my--vterm-project ()
-        "Open vterm at project root with name <project>-vterm"
-        (interactive)
-        (defvar vterm-buffer-name)
+    (defun my--vterm-project (&optional _)
+        "Launch `vterm' in current project.
+Opens an existing vterm buffer for a project if present, unless
+the prefix argument is supplied."
+        (interactive "P")
         (let* ((default-directory (project-root (project-current t)))
-               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
-               (vterm-buffer (get-buffer vterm-buffer-name)))
-            (if (and vterm-buffer (not current-prefix-arg))
-                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
-                (if (equal current-prefix-arg nil) ; no C-u
-                        (call-interactively #'vterm-other-window)
-                    (call-interactively #'vterm)))))
-    :bind (("C-c o t" . my--vterm)
+               (name (project-prefixed-buffer-name "vterm")))
+            (if (and (not current-prefix-arg) (get-buffer name))
+                    (switch-to-buffer name)
+                (funcall-interactively #'vterm name))))
+    (defun my--vterm-project-other-window (&optional _)
+        "Launch `vterm-other-window' in current project.
+Opens an existing vterm buffer for a project if present, unless
+the prefix argument is supplied."
+        (interactive "P")
+        (let* ((default-directory (project-root (project-current t)))
+               (name (project-prefixed-buffer-name "vterm")))
+            (if (and (not current-prefix-arg) (get-buffer name))
+                    (switch-to-buffer name)
+                (funcall-interactively #'vterm-other-window name))))
+    :bind (("C-c o t" . #'vterm)
+           ("C-c o T" . #'vterm-other-window)
            :map project-prefix-map
-           ("t" . my--vterm-project)
+           ("t" . #'my--vterm-project)
+           ("T" . #'my--vterm-project-other-window)
            :map vterm-mode-map
-           ([return] . #'vterm-send-return)
-           ("C-q" . #'vterm-send-next-key)
-           ("M-[" . #'vterm-copy-mode)
-           ("C-y" . #'vterm-yank)
-           ("C-g" . #'vterm-send-escape)
+           ("<insert>" . ignore)
+           ([return]   . #'vterm-send-return)
+           ("C-q"      . #'vterm-send-next-key)
+           ("M-["      . #'vterm-copy-mode)
+           ("C-y"      . #'vterm-yank)
+           ("C-g"      . #'vterm-send-escape)
            :map vterm-copy-mode-map
            ("M-w" . #'vterm-copy-mode-done)
            ("C-g" . #'vterm-copy-mode-done))
     :init
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (setq vterm-always-compile-module t)
-    (add-to-list 'project-switch-commands '(my--project-vterm "vTerm") t)
+    (add-to-list 'project-switch-commands '(my--vterm-project "vTerm") t)
+    (add-to-list 'project-switch-commands '(my--vterm-project-other-window "vTerm other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
-    (add-hook 'vterm-mode-hook
-              (lambda ()
-                  (setq-local scroll-margin 0)
-                  (setq-local confirm-kill-processes nil)
-                  (setq-local hscroll-margin 0)))
     :config
     (setq vterm-copy-mode-remove-fake-newlines t)
     (setq vterm-kill-buffer-on-exit t)
