@@ -20,6 +20,7 @@
              (magit-define-global-key-bindings nil)))
 
 (use-package git-gutter
+    :disabled t
     :commands (git-gutter:revert-hunk git-gutter:stage-hunk)
     :hook ((prog-mode . git-gutter-mode)
            (conf-mode . git-gutter-mode))
