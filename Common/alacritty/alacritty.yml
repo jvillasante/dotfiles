@@ -97,7 +97,7 @@ font:
         #   - (macOS) Menlo
         #   - (Linux/BSD) monospac
         #   - (Windows) Consolas
-        family: Iosevka Comfy Fixed
+        family: Monaspace Argon
         style: Regular
 
     # Bold font face
@@ -106,7 +106,7 @@ font:
         #
         # If the bold family is not specified, it will fall back to the
         # value specified for the normal font.
-        family: Iosevka Comfy Fixed
+        family: Monaspace Argon
         style: Bold
 
     # Italic font face
@@ -115,7 +115,7 @@ font:
         #
         # If the italic family is not specified, it will fall back to the
         # value specified for the normal font.
-        family: Iosevka Comfy Fixed
+        family: Monaspace Argo
         style: Italic
 
     # Bold italic font face
@@ -124,11 +124,11 @@ font:
         #
         # If the bold italic family is not specified, it will fall back to the
         # value specified for the normal font.
-        family: Iosevka Comfy Duo
+        family: Monaspace Argo
         style: Bold Italic
 
     # Point size
-    size: 16
+    size: 14
 
     # Offset is the extra space around each character. `offset.y` can be thought of
     # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -292,6 +292,11 @@ live_config_reload: true
 #   - (Windows) powershell
 shell:
     program: /usr/bin/bash
+    args:
+        - -l
+        - -c
+        - "tmux attach || tmux new -s Default"
+
 
 # Startup directory
 #
