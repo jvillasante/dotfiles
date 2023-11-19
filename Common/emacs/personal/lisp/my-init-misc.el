@@ -159,25 +159,6 @@
 (use-package rainbow-delimiters
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-(use-package ibuffer-project
-    :config
-    (setq ibuffer-project-use-cache t)
-    (add-to-list 'ibuffer-project-root-functions '(file-remote-p . "Remote"))
-    (add-hook 'ibuffer-hook
-              (lambda ()
-                  (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
-                  (unless (eq ibuffer-sorting-mode 'project-file-relative)
-                      (ibuffer-do-sort-by-project-file-relative)))))
-
-(use-package ibuffer-vc
-    :disabled t
-    :preface
-    (defun my--ibuffer-vc-setup ()
-        (ibuffer-vc-set-filter-groups-by-vc-root)
-        (unless (eq ibuffer-sorting-mode 'alphabetic)
-            (ibuffer-do-sort-by-alphabetic)))
-    :init (add-hook 'ibuffer-hook #'my--ibuffer-vc-setup))
-
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (use-package crux)
 
