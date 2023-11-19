@@ -35,7 +35,7 @@ keymap:
         launch: ["emacsclient", "--eval", "(emacs-everywhere)"]
   - name: Emacs
     application:
-      not: [emacs, alacritty, foot, konsole]
+      not: [emacs, Alacritty, foot, konsole]
     remap:
       # Cursor
       C-b: { with_mark: left }
