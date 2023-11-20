@@ -404,11 +404,6 @@ suse_install() {
                 install_iosevka_comfy_font
                 install_monaspace_font
 
-                # Gnome Font Settings
-                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka 16'
-                fi
-
                 read -rp "$CHOICE) Extras installed. Press enter to continue..."
                 ;;
             9)

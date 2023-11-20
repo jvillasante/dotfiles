@@ -476,9 +476,6 @@ fedora_install() {
                 install_berkeley_mono_font
                 install_iosevka_comfy_font
                 install_monaspace_font
-                if is_desktop_environment "Gnome"; then
-                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Term 16'
-                fi
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;

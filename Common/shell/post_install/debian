@@ -482,11 +482,6 @@ EOF
                 install_iosevka_comfy_font
                 install_monaspace_font
 
-                # Gnome Font Settings
-                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                    gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka Comfy 16'
-                fi
-
                 #
                 # Remove pre-installed Gnome games
                 #
