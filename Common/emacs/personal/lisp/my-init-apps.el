@@ -24,6 +24,7 @@
 
 ;; pdf
 (use-package pdf-tools
+    :disabled t
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :init (setq pdf-view-display-size 'fit-page
                 pdf-view-use-scaling t
@@ -47,6 +48,7 @@
 
 ;; circe : A client for IRC in Emacs
 (use-package circe
+    :disabled t
     :preface
     (defun my--circe-prompt ()
         (lui-set-prompt
