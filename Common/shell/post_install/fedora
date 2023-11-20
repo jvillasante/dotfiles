@@ -583,7 +583,7 @@ fedora_install() {
                     --with-tree-sitter \
                     --with-json \
                     --with-mailutils \
-                    CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
+                    CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
                 make -j"$(nproc --ignore=2)"
                 sudo make install
 
