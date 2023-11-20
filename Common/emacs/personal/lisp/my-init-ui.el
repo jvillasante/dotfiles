@@ -44,14 +44,14 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
               (setq x-underline-at-descent-line nil)
-              (set-face-attribute 'default nil :family "Monaspace Neon"
+              (set-face-attribute 'default nil :family "Berkeley Mono"
                                   :height 140
                                   :width 'normal
-                                  :weight 'Light)
-              (set-face-attribute 'variable-pitch nil :family "Monaspace Neon Var"
+                                  :weight 'normal)
+              (set-face-attribute 'variable-pitch nil :family "Berkeley Mono Variable"
                                   :height 140
                                   :width 'normal
-                                  :weight 'Light)))
+                                  :weight 'normal)))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook (lambda ()

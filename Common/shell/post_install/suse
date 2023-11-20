@@ -18,6 +18,29 @@ readonly WM_GNOME="Gnome"
 WINDOW_SYSTEM="$WS_WAYLAND"
 WINDOW_MANAGER="$WM_KDE"
 
+install_berkeley_mono_font() {
+    [ ! -d "$(pwd)"/fonts ] && notify-send "$(pwd)/fonts is not a directory" --expire-time=20 && return
+    [ ! -f "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg ] && notify-send "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
+    [ ! -f "$(pwd)"/../scripts/+crypt ] && notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && return
+    [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
+    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] && rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
+
+    # copy and decrypt Berkeley Mono typeface
+    cp "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg "$HOME"/Workspace/Software/fonts
+    [ ! -f "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg ] && notify-send "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
+    "$(pwd)"/../scripts/+crypt -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg
+    [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] && notify-send "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface directory does not exists" --expire-time=20 && return
+
+    # remove all fonts from ~/.local/share/fonts that start with "BerkeleyMono"
+    rm -rf ~/.local/share/fonts/BerkeleyMono*
+
+    # copy all ttf fonts to ~/.local/share/fonts
+    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+
+    # Build font information caches
+    fc-cache -f
+}
+
 install_iosevka_comfy_font() {
     # Prepare git repo
     [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
@@ -377,6 +400,7 @@ suse_install() {
                 # Fonts
                 #
                 sudo zypper install -y iosevka-fonts jetbrains-mono-fonts adobe-sourcecodepro-fonts
+                install_berkeley_mono_font
                 install_iosevka_comfy_font
                 install_monaspace_font
 
