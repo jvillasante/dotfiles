@@ -292,7 +292,7 @@ suse_install() {
                 sudo zypper install -y tmux
 
                 # Alacritty - A fast, cross-platform, OpenGL terminal emulator
-                [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo zypper install -y alacritty
+                sudo zypper install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
                 [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && sudo zypper install -y foot

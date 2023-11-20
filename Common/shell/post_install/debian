@@ -333,7 +333,7 @@ EOF
                 sudo apt install -y git
 
                 # Alacritty - A fast, cross-platform, OpenGL terminal emulator
-                [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo apt install -y alacritty
+                sudo apt install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
                 [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && sudo apt install -y foot

@@ -308,7 +308,7 @@ fedora_install() {
                 sudo dnf install -y tmux
 
                 # alacritty - A fast, cros-platform, OpenGL terminal emulator
-                [[ $WINDOW_SYSTEM = X11 ]] && sudo dnf install -y alacritty
+                sudo dnf install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
                 [[ $WINDOW_SYSTEM = Wayland ]] && sudo dnf install -y foot
