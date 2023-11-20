@@ -1,24 +1,17 @@
 ;;; my-init-langs.el -*- lexical-binding: t; -*-
 
+;; treesit : treesitter for Emacs
+(use-package treesit
+    :ensure nil ;; emacs built-in
+    :custom
+    (treesit-font-lock-level 4))
+
 ;; treesit-auto : Automatically install and use tree-sitter major modes in Emacs 29+.
 (use-package treesit-auto
-    :init
-    (dolist (mapping '((python-mode     . python-ts-mode)
-                       (sh-mode         . bash-ts-mode)
-                       (cmake-mode      . cmake-ts-mode)
-                       (css-mode        . css-ts-mode)
-                       (typescript-mode . tsx-ts-mode)
-                       (json-mode       . json-ts-mode)
-                       (js-mode         . js-ts-mode)
-                       (css-mode        . css-ts-mode)
-                       (yaml-mode       . yaml-ts-mode)
-                       (c-mode          . c-ts-mode)
-                       (c++-mode        . c++-ts-mode)
-                       (c-or-c++-mode   . c-or-c++-ts-mode)))
-        (add-to-list 'major-mode-remap-alist mapping))
+    :custom
+    (treesit-auto-install 'prompt)
     :config
-    (setq treesit-font-lock-level 4)
-    (setq treesit-auto-install 'prompt)
+    (treesit-auto-add-to-auto-mode-alist 'all)
     (global-treesit-auto-mode))
 
 ;; elisp
