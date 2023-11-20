@@ -3,6 +3,9 @@
 ;; Dired : built-in navigation of folders
 (use-package dired
     :ensure nil ;; emacs built-in
+    :hook
+    ((dired-mode . auto-revert-mode)
+     (dired-mode . dired-hide-details-mode))
     :init
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
     (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
@@ -42,9 +45,6 @@
     (setq dired-listing-switches (if (eq system-type 'windows-nt)
                                          "-alh"
                                      "-alhvF --group-directories-first"))
-
-    ;; global auto-revert only applies to buffers associated with files on the disk
-    (add-hook 'dired-mode-hook 'auto-revert-mode)
 
     ;; enable some really cool extensions like C-x C-j(dired-jump)
     (if (< emacs-major-version 28)

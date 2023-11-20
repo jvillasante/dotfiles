@@ -43,8 +43,7 @@
 (use-package mastodon
     :disabled t
     :init (setq mastodon-instance-url "https://hachyderm.io"
-                mastodon-active-user "jvillasante")
-    :config (mastodon-discover))
+                mastodon-active-user "jvillasante"))
 
 ;; circe : A client for IRC in Emacs
 (use-package circe
