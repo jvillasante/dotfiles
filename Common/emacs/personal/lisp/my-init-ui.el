@@ -27,7 +27,7 @@
 
 ;; by default when a long line is truncated, emacs displays
 ;; a "$" sign at the border of window, which is ugly, replace "$" with " "
-;; see: `https://emacs.stackexchange.com/questions/54817/remove-dollar-sign-at-beginning-of-line'
+;; see: https://emacs.stackexchange.com/questions/54817/remove-dollar-sign-at-beginning-of-line
 (add-hook 'prog-mode-hook #'my--display-truncation-and-wrap-indicator-as-whitespace)
 (add-hook 'text-mode-hook #'my--display-truncation-and-wrap-indicator-as-whitespace)
 

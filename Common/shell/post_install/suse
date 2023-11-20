@@ -376,7 +376,7 @@ suse_install() {
                 #
                 # Fonts
                 #
-                sudo zypper install -y iosevka-fonts fira-code-fonts jetbrains-mono-fonts
+                sudo zypper install -y iosevka-fonts jetbrains-mono-fonts adobe-sourcecodepro-fonts
                 install_iosevka_comfy_font
                 install_monaspace_font
 
