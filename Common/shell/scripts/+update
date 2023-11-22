@@ -33,15 +33,16 @@ debian_update() {
 }
 
 opensuse_update() {
-    flatpak update --user -y
-    test $? -eq 0 || usage 1
-
     # For Leap
     # sudo zypper ref && sudo zypper update
     # test $? -eq 0 || usage 1
 
     # For Tumbleweed
     sudo zypper ref && sudo zypper dup
+    test $? -eq 0 || usage 1
+
+    # Flatpak
+    flatpak update --user -y
     test $? -eq 0 || usage 1
 }
 
