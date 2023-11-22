@@ -24,7 +24,6 @@
 
 ;; pdf
 (use-package pdf-tools
-    :disabled t
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :init (setq pdf-view-display-size 'fit-page
                 pdf-view-use-scaling t

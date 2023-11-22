@@ -9,7 +9,8 @@
         (save-excursion
             (end-of-line)
             (hs-toggle-hiding)))
-    :init (add-hook 'prog-mode-hook 'hs-minor-mode))
+    :init
+    (add-hook 'prog-mode-hook 'hs-minor-mode))
 
 ;; flymake
 (use-package flymake
@@ -18,9 +19,10 @@
     (setq flymake-suppress-zero-counters t)
     (setq flymake-no-changes-timeout 3) ;; Don't be so hasty in syntax checking.
     (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-    :hook ((prog-mode . (lambda ()
-                            (flymake-mode +1)
-                            (which-function-mode)))))
+    :hook
+    ((prog-mode . (lambda ()
+                      (flymake-mode +1)
+                      (which-function-mode)))))
 
 (use-package eldoc
     :ensure nil ;; emacs built-in
@@ -33,32 +35,34 @@
 
 (use-package eglot
     :ensure nil ;; emacs built-in
-    :preface (defun my--eglot-eldoc ()
-                 ;; Show flymake diagnostics first.
-                 (setq eldoc-documentation-functions
-                       (cons #'flymake-eldoc-function
-                             (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+    :preface
+    (defun my--eglot-eldoc ()
+        ;; Show flymake diagnostics first.
+        (setq eldoc-documentation-functions
+              (cons #'flymake-eldoc-function
+                    (remove #'flymake-eldoc-function eldoc-documentation-functions)))
 
-                 ;; Show all eldoc feedback.
-                 (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
-    :hook ((eglot-managed-mode . my--eglot-eldoc)
-           (sh-mode . eglot-ensure)
-           (bash-ts-mode . eglot-ensure)
-           (cmake-mode . eglot-ensure)
-           (cmake-ts-mode . eglot-ensure)
-           (c-mode . eglot-ensure)
-           (c-ts-mode . eglot-ensure)
-           (c++-mode . eglot-ensure)
-           (c++-ts-mode . eglot-ensure)
-           (rustic-mode . eglot-ensure)
-           (zig-mode . eglot-ensure)
-           (js-mode . eglot-ensure)
-           (js-ts-mode . eglot-ensure)
-           (python-mode . eglot-ensure)
-           (python-ts-mode . eglot-ensure)
-           (go-mode . eglot-ensure)
-           (go-ts-mode . eglot-ensure)
-           (sql-mode . eglot-ensure))
+        ;; Show all eldoc feedback.
+        (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+    :hook
+    ((eglot-managed-mode . my--eglot-eldoc)
+     (sh-mode . eglot-ensure)
+     (bash-ts-mode . eglot-ensure)
+     (cmake-mode . eglot-ensure)
+     (cmake-ts-mode . eglot-ensure)
+     (c-mode . eglot-ensure)
+     (c-ts-mode . eglot-ensure)
+     (c++-mode . eglot-ensure)
+     (c++-ts-mode . eglot-ensure)
+     (rustic-mode . eglot-ensure)
+     (zig-mode . eglot-ensure)
+     (js-mode . eglot-ensure)
+     (js-ts-mode . eglot-ensure)
+     (python-mode . eglot-ensure)
+     (python-ts-mode . eglot-ensure)
+     (go-mode . eglot-ensure)
+     (go-ts-mode . eglot-ensure)
+     (sql-mode . eglot-ensure))
     :config
     (setq eglot-autoshutdown t)
     (setq eglot-events-buffer-size 0)
@@ -100,10 +104,12 @@
 
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
-    :preface (defun my--disable-apheleia ()
-                 (apheleia-mode -1))
-    :hook ((prog-mode . apheleia-mode)
-           (web-mode . my--disable-apheleia))
+    :preface
+    (defun my--disable-apheleia ()
+        (apheleia-mode -1))
+    :hook
+    ((prog-mode . apheleia-mode)
+     (web-mode . my--disable-apheleia))
     :config
     ;; Set custom formatting commands
     (dolist (formatter-cmd '((shfmt    . ("shfmt" "-i" "4" "-ci" "-kp" "-sr"))
@@ -121,13 +127,16 @@
 
 (use-package compile
     :ensure nil ; Emacs built in
-    :custom (compilation-always-kill t))
+    :custom
+    (compilation-always-kill t))
 
 (use-package fancy-compilation
     :commands (fancy-compilation-mode)
-    :init (with-eval-after-load 'compile
-              (fancy-compilation-mode))
-    :custom (fancy-compilation-override-colors nil))
+    :init
+    (with-eval-after-load 'compile
+        (fancy-compilation-mode))
+    :custom
+    (fancy-compilation-override-colors nil))
 
 (use-package rmsbolt)
 
