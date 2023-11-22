@@ -31,7 +31,7 @@ emacs-lisp-mode
 (dotimes "(dotimes (" p ")" n> r> ")")
 (dolist "(dolist (" p ")" n> r> ")")
 
-js-mode
+js-mode js-ts-mode
 
 (if "if (" p ") {" n> p n "}")
 (elseif "if (" p ") {" n> p n "}")

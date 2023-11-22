@@ -343,16 +343,11 @@
            ("C-M-$" . jinx-languages)))
 
 ;; tempel - Simple templates for Emacs
-(use-package tempel-collection :disabled t :after tempel)
+(use-package tempel-collection
+    :after tempel)
 (use-package tempel
-    :disabled t
-    ;; Require trigger prefix before template name when completing.
-    ;; :custom
-    ;; (tempel-trigger-prefix "<")
-
     :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
            ("M-*" . tempel-insert))
-
     :init
     (setq tempel-path (expand-file-name "tempel-templates" no-littering-etc-directory))
 
@@ -380,8 +375,11 @@
     )
 
 ;; yasnippet : template system for Emacs
-(use-package yasnippet-snippets :after yasnippet)
+(use-package yasnippet-snippets
+    :disabled t
+    :after yasnippet)
 (use-package yasnippet
+    :disabled t
     :bind (("M-+" . yas-expand)
            ("M-*" . yas-insert-snippet))
     :config (yas-reload-all)
