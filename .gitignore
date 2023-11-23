@@ -1,4 +1,5 @@
 /.emacs.*
+/.yasnippet-treesitter-shim
 .DS_Store
 *flycheck_tmp_*
 *.lock

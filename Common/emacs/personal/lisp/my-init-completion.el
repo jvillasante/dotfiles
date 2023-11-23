@@ -379,7 +379,11 @@
 (use-package yasnippet
     :bind (("M-+" . yas-expand)
            ("M-*" . yas-insert-snippet))
-    :config (yas-reload-all)
+    :config
+    (let ((snippets-shim (expand-file-name ".yasnippet-treesitter-shim/snippets/" my--dotfiles-path)))
+        (when (file-directory-p snippets-shim)
+            (add-to-list 'yas-snippet-dirs snippets-shim)))
+    (yas-reload-all)
     :hook (after-init . yas-global-mode))
 
 ;; languagetool : multilingual grammar, style, and spell checker
