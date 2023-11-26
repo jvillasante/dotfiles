@@ -32,7 +32,7 @@ install_rust() {
     if hash rustup 2> /dev/null; then
         echo "Rust is already installed on this system, skipping..."
     else
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path
         test $? -eq 0 || usage 1
 
         rustup component add rust-src rust-analysis rust-analyzer
