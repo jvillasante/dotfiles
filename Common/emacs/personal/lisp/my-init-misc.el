@@ -148,6 +148,32 @@
     (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
     (add-hook 'after-init-hook 'electric-pair-mode))
 
+;; ibuffer
+(use-package ibuffer
+    :ensure nil ;; emacs built-in
+    :bind (([remap list-buffers] . 'ibuffer)
+           :map ibuffer-mode-map
+           ("q" . 'kill-this-buffer)))
+
+;; ibuffer :
+(use-package ibuffer-project
+    :config
+    (setq ibuffer-project-use-cache t)
+    (add-to-list 'ibuffer-project-root-functions '(file-remote-p . "Remote"))
+    (add-hook 'ibuffer-hook
+              (lambda ()
+                  (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+                  (unless (eq ibuffer-sorting-mode 'project-file-relative)
+                      (ibuffer-do-sort-by-project-file-relative)))))
+;; ibuffer-vc :
+(use-package ibuffer-vc
+    :disabled t
+    :preface (defun my--ibuffer-vc-setup ()
+                 (ibuffer-vc-set-filter-groups-by-vc-root)
+                 (unless (eq ibuffer-sorting-mode 'alphabetic)
+                     (ibuffer-do-sort-by-alphabetic)))
+    :init (add-hook 'ibuffer-hook #'my--ibuffer-vc-setup))
+
 ;; smartparens : minor mode for dealing with pairs in emacs
 (use-package smartparens
     :disabled t ;; using electric-pair built-in

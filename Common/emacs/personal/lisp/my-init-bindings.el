@@ -93,11 +93,6 @@
 (define-key global-map [remap move-beginning-of-line] 'crux-move-beginning-of-line)
 (define-key global-map [remap kill-whole-line] 'crux-kill-whole-line)
 
-;; ibuffer
-(define-key global-map [remap list-buffers] 'ibuffer)
-(with-eval-after-load 'ibuffer
-    (define-key ibuffer-mode-map (kbd "q") 'kill-this-buffer))
-
 ;; org
 (with-eval-after-load 'org
     (define-key org-mode-map [remap fill-paragraph] 'my--org-fill-or-unfill))
