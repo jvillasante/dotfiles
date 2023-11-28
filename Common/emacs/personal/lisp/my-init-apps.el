@@ -2,10 +2,12 @@
 
 ;; password-store for emacs
 (use-package password-store
-    :disabled t
-    :preface (defun my--password-store-git-push ()
-                 (interactive)
-                 (with-editor-async-shell-command "pass git push"))
+    :preface
+    (defun my--password-store-git-push ()
+        (interactive)
+        (with-editor-async-shell-command "pass git push"))
+    (defun my--password-store-clear-system-clipboard (&rest args)
+        (kill-new ""))
     :bind (("C-c p c" . password-store-copy)
            ("C-c p C" . password-store-copy-field)
            ("C-c p g" . password-store-generate)
@@ -15,6 +17,8 @@
            ("C-c p R" . password-store-remove)
            ("C-c p i" . password-store-insert)
            ("C-c p P" . my--password-store-git-push))
+    :init (advice-add #'password-store-clear :after
+                      #'my--password-store-clear-system-clipboard)
     :custom ((password-store-password-length 25)))
 
 ;; eww
