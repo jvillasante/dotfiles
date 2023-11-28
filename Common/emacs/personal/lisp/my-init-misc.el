@@ -202,8 +202,11 @@
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
-    :bind (("M-j" . avy-goto-char-timer))
-    :config (setq avy-all-windows nil))
+    :bind (("M-j" . avy-goto-char-timer)
+           ("C-c C-j" . avy-resume))
+    :config
+    (avy-setup-default)
+    (setq avy-all-windows nil))
 
 ;; Expand Region : expand or contract selection
 (use-package expand-region)
@@ -212,6 +215,7 @@
 (use-package whole-line-or-region
     :init (whole-line-or-region-global-mode))
 
+;; multiple-cursors: Multiple cursors for Emacs
 (use-package multiple-cursors
     :bind (("H-SPC" . set-rectangular-region-anchor)
            ("C-M-SPC" . set-rectangular-region-anchor)
@@ -220,13 +224,13 @@
            ("C-c C->" . mc/mark-all-like-this)
            ("C-S-c C-S-c" . mc/edit-lines)))
 
-;; wgrep :
+;; wgrep : edit grep results
 (use-package wgrep)
 
 ;; Emacs Everywhere
 (use-package emacs-everywhere)
 
-;; engine-mode :
+;; engine-mode : search the web
 (use-package engine-mode
     :ensure t
     :init
