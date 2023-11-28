@@ -19,15 +19,12 @@
              (magit-save-repository-buffers nil)
              (magit-define-global-key-bindings nil)))
 
-(use-package git-gutter
-    :disabled t
-    :commands (git-gutter:revert-hunk git-gutter:stage-hunk)
-    :hook ((prog-mode . git-gutter-mode)
-           (conf-mode . git-gutter-mode))
-    :config (add-to-list 'display-buffer-alist
-                         '("\\*git-gutter"
-                           (display-buffer-below-selected)
-                           (window-height . 0.3))))
+(use-package diff-hl
+    :init
+    (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+    (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+    (global-diff-hl-mode))
 
 (use-package hl-todo
     :hook ((prog-mode . hl-todo-mode)
