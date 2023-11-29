@@ -395,6 +395,7 @@ suse_install() {
                 # Latex
                 #
                 # sudo zypper install -y texlive-scheme-full
+                sudo zypper install -y texlive-scheme-basic
 
                 #
                 # Fonts
