@@ -764,7 +764,7 @@ EOF
                         continue
                 }
 
-                XREMAP_VERSION=v0.8.11
+                XREMAP_VERSION=v0.8.12
                 XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
                 [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]] && XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
                 [[ "$WINDOW_MANAGER" == "$WM_SWAY" ]] && XREMAP_RELEASE=xremap-linux-x86_64-sway.zip
