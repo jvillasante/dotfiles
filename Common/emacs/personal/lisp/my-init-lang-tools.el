@@ -27,9 +27,6 @@
 (use-package eldoc
     :ensure nil ;; emacs built-in
     :config
-    (add-to-list 'display-buffer-alist
-                 '("^\\*eldoc for" display-buffer-at-bottom
-                   (window-height . 4)))
     (setq eldoc-echo-area-use-multiline-p nil)
     (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
@@ -40,10 +37,7 @@
         ;; Show flymake diagnostics first.
         (setq eldoc-documentation-functions
               (cons #'flymake-eldoc-function
-                    (remove #'flymake-eldoc-function eldoc-documentation-functions)))
-
-        ;; Show all eldoc feedback.
-        (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
     :hook
     ((eglot-managed-mode . my--eglot-eldoc)
      (sh-mode . eglot-ensure)
@@ -69,13 +63,10 @@
     (setq eglot-extend-to-xref t)
     (setq eglot-sync-connect nil)
     (setq eglot-ignored-server-capabilities
-          '(:hoverProvider
-            :inlayHintProvider
-            :documentHighlightProvider
+          '(:inlayHintProvider
             :documentFormattingProvider
             :documentRangeFormattingProvider
             :documentOnTypeFormattingProvider
-            :colorProvider
             :foldingRangeProvider))
 
     ;; Setting the workspace configuration for every buffer, this can also be
