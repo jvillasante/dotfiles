@@ -19,10 +19,9 @@
     (setq flymake-suppress-zero-counters t)
     (setq flymake-no-changes-timeout 3) ;; Don't be so hasty in syntax checking.
     (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-    :hook
-    ((prog-mode . (lambda ()
-                      (flymake-mode +1)
-                      (which-function-mode)))))
+    :hook ((prog-mode . (lambda ()
+                            (flymake-mode +1)
+                            (which-function-mode)))))
 
 (use-package eldoc
     :ensure nil ;; emacs built-in
