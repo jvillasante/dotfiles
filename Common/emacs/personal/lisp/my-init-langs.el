@@ -149,10 +149,10 @@
 
 ;; rustic : blazingly fast
 (use-package rustic
-    :config
-    (setq rustic-lsp-server 'rust-analyzer
-          rustic-format-on-save nil
-          rustic-lsp-client 'eglot))
+    :init (setq rustic-treesitter-derive t)
+    :config (setq rustic-lsp-server 'rust-analyzer
+                  rustic-format-on-save nil
+                  rustic-lsp-client 'eglot))
 
 ;; zig
 (use-package zig-mode)
