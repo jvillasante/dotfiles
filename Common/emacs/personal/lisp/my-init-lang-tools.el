@@ -63,11 +63,8 @@
     (setq eglot-extend-to-xref t)
     (setq eglot-sync-connect nil)
     (setq eglot-ignored-server-capabilities
-          '(:inlayHintProvider
-            :documentFormattingProvider
-            :documentRangeFormattingProvider
-            :documentOnTypeFormattingProvider
-            :foldingRangeProvider))
+          '(:documentHighlightProvider
+            :inlayHintProvider))
 
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
