@@ -66,6 +66,7 @@ if type emacs > /dev/null 2> /dev/null; then
     function edired() { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (dired \"$1\"))"; }
     function emagit() { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (magit-status \"$1\"))"; }
     function ekill()  { emacsclient --eval '(save-buffers-kill-emacs)'; }
+    function eminimal { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal/ "$@"; }
 fi
 
 # vim
