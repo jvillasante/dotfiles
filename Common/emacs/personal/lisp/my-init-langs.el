@@ -147,12 +147,9 @@
 (use-package sql
     :config (add-hook 'sql-mode-hook (setq-local tab-width 4)))
 
-;; rustic : blazingly fast
-(use-package rustic
-    :init (setq rustic-treesitter-derive t)
-    :config (setq rustic-lsp-server 'rust-analyzer
-                  rustic-format-on-save nil
-                  rustic-lsp-client 'eglot))
+;; rust-mode : blazingly fast
+(use-package rust-mode
+    :init (setq rust-format-on-save nil))
 
 ;; zig
 (use-package zig-mode)

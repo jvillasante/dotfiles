@@ -4,10 +4,9 @@ BUILD   = cargo build
 CLIPPY  = cargo clippy
 RUN     = cargo run
 ARGS    =
-# TEST    = cargo test
 TEST    = cargo nextest run
 DOC     = cargo doc
-CURRENT = ch02/guessing_game
+CURRENT = app
 
 clean:
 	${CLEAN}
@@ -38,6 +37,12 @@ build-release:
 
 build-release-current:
 	cd ${CURRENT} && ${BUILD} --release
+
+run:
+	cd ${CURRENT} && ${RUN}
+
+run-release:
+	cd ${CURRENT} && ${RUN} --release
 
 test:
 	${TEST}
