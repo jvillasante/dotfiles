@@ -383,7 +383,7 @@
     :bind (("M-+" . yas-expand)
            ("M-*" . yas-insert-snippet))
     :config
-    (let ((snippets-shim (expand-file-name ".yasnippet-treesitter-shim/snippets/" my--dotfiles-path)))
+    (let ((snippets-shim (expand-file-name "yasnippet-treesitter-shim/snippets/" no-littering-etc-directory)))
         (when (file-directory-p snippets-shim)
             (add-to-list 'yas-snippet-dirs snippets-shim)))
     (yas-reload-all)
