@@ -69,16 +69,20 @@
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
     (setq eglot-workspace-configuration
-          '(:gopls (:staticcheck t :usePlaceholders t)
-                   :rust-analyzer (:check (:command "clippy"))))
+          '(:gopls (:staticcheck t :usePlaceholders t)))
 
     ;; don't try to manage these
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
     ;; (add-to-list 'eglot-stay-out-of 'yasnippet)
 
+    ;; Rust
+    (add-to-list 'eglot-server-programs
+                 '((rust-ts-mode rust-mode) .
+                   ("rust-analyzer" :initializationOptions (:checkOnSave (:command "clippy")))))
+
     ;; C++
     (add-to-list 'eglot-server-programs
-                 '((c-mode c-ts-mode c++-mode c++-ts-mode)
+                 '((c-ts-mode c++-ts-mode c-mode c++-mode)
                    . ("clangd"
                       "-j=8"
                       "--log=error"
