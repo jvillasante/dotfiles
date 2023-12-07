@@ -1,8 +1,16 @@
-;;; Minimal configuration -*- lexical-binding: t -*-
+;;; Personal configuration -*- lexical-binding: t -*-
+;;; https://emacs.amodernist.com/
 
 ;; Add the NonGNU ELPA package archive
 (require 'package)
 (add-to-list 'package-archives  '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+(unless package-archive-contents  (package-refresh-contents))
+
+;; Load a custom theme
+(load-theme 'modus-operandi t)
+
+;; Set default font face
+(set-face-attribute 'default nil :font "Berkeley Mono 16")
 
 ;; Disable the menu bar
 (menu-bar-mode -1)
@@ -23,9 +31,6 @@
 ;; Enable completion by narrowing
 (vertico-mode t)
 
-;; Enable horizontal completion
-;; (vertico-flat-mode t)
-
 ;; Improve directory navigation
 (with-eval-after-load 'vertico
     (define-key vertico-map (kbd "RET") #'vertico-directory-enter)
@@ -36,11 +41,11 @@
 (unless (package-installed-p 'consult)
     (package-install 'consult))
 (global-set-key [rebind switch-to-buffer] #'consult-buffer)
-(global-set-key (kbd "C-c j") #'consult-line)
-(global-set-key (kbd "C-c i") #'consult-imenu)
+(global-set-key (kbd "M-s l") #'consult-line)
+(global-set-key (kbd "M-g i") #'consult-imenu)
 (setq read-buffer-completion-ignore-case t
-    read-file-name-completion-ignore-case t
-    completion-ignore-case t)
+      read-file-name-completion-ignore-case t
+      completion-ignore-case t)
 
 ;; Enable line numbering in `prog-mode'
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -65,8 +70,8 @@
 
 ;; Message navigation bindings
 (with-eval-after-load 'flymake
-    (define-key flymake-mode-map (kbd "C-c n") #'flymake-goto-next-error)
-    (define-key flymake-mode-map (kbd "C-c p") #'flymake-goto-prev-error))
+    (define-key flymake-mode-map (kbd "M-n") #'flymake-goto-next-error)
+    (define-key flymake-mode-map (kbd "M-p") #'flymake-goto-prev-error))
 
 ;;; Pop-up completion
 (unless (package-installed-p 'corfu)
@@ -98,10 +103,6 @@
 ;; Update the highlighting without saving
 (diff-hl-flydiff-mode t)
 
-;;; Go Support
-(unless (package-installed-p 'go-mode)
-    (package-install 'go-mode))
-
 ;;; JSON Support
 (unless (package-installed-p 'json-mode)
     (package-install 'json-mode))
@@ -109,14 +110,6 @@
 ;;; Lua Support
 (unless (package-installed-p 'lua-mode)
     (package-install 'lua-mode))
-
-;;; Rust Support
-(unless (package-installed-p 'rust-mode)
-    (package-install 'rust-mode))
-
-;;; Typescript Support
-(unless (package-installed-p 'typescript-mode)
-    (package-install 'typescript-mode))
 
 ;;; YAML Support
 (unless (package-installed-p 'yaml-mode)
@@ -128,7 +121,6 @@
 
 ;;; Outline-based notes management and organizer
 (global-set-key (kbd "C-c l") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
 
 ;;; Additional Org-mode related functionality
 (unless (package-installed-p 'org-contrib)
@@ -141,17 +133,30 @@
 ;; Enable EditorConfig
 (editorconfig-mode t)
 
+;;; In-Emacs Terminal Emulation
+(unless (package-installed-p 'eat)
+    (package-install 'eat))
+
+;; Close the terminal buffer when the shell terminates.
+(setq eat-kill-buffer-on-exit t)
+
+;; Enable mouse-support.
+(setq eat-enable-mouse t)
+
 ;;; Jump to arbitrary positions
 (unless (package-installed-p 'avy)
     (package-install 'avy))
-(global-set-key (kbd "C-c z") #'avy-goto-word-1)
+(global-set-key (kbd "M-j") #'avy-goto-char-timer)
+
+;; Jump to any open window or frame
+(setq avy-all-windows 'all-frames)
 
 ;; Miscellaneous options
 (setq-default major-mode
-    (lambda () ; guess major mode from file name
-        (unless buffer-file-name
-            (let ((buffer-file-name (buffer-name)))
-                (set-auto-mode)))))
+              (lambda () ; guess major mode from file name
+                  (unless buffer-file-name
+                      (let ((buffer-file-name (buffer-name)))
+                          (set-auto-mode)))))
 (setq confirm-kill-emacs #'yes-or-no-p)
 (setq window-resize-pixelwise t)
 (setq frame-resize-pixelwise t)

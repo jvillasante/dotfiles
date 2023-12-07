@@ -172,6 +172,9 @@
     ;; only your current input.
     (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
     :bind (:map vertico-map
+                ("RET" . #'vertico-directory-enter)
+                ("DEL" . #'vertico-directory-delete-word)
+                ("M-d" . #'vertico-directory-delete-char)
                 ("M-," . #'vertico-quick-insert)
                 ("M-." . #'vertico-quick-exit)))
 
