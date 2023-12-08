@@ -229,7 +229,8 @@
 (use-package wgrep)
 
 ;; Emacs Everywhere
-(use-package emacs-everywhere)
+(use-package emacs-everywhere
+    :disabled t) ;; does not work on Wayland
 
 ;; engine-mode : search the web
 (use-package engine-mode
