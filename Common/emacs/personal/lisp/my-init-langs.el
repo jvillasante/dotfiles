@@ -33,12 +33,6 @@
          Notes: `treesit-explore-mode' can be very useful to see where you're at in the tree-sitter tree,
                 especially paired with `(setq treesit--indent-verbose t)' to debug what rules is being applied at a given point."
                  `(
-                   ;; align function arguments to the start of the first one, offset if standalone
-                   ((match nil "argument_list" nil 1 1) parent-bol c-ts-mode-indent-offset)
-                   ((parent-is "argument_list") (nth-sibling 1) 0)
-                   ;; same for parameters
-                   ((match nil "parameter_list" nil 1 1) parent-bol c-ts-mode-indent-offset)
-                   ((parent-is "parameter_list") (nth-sibling 1) 0)
                    ;; do not indent preprocessor statements
                    ((node-is "preproc") column-0 0)
                    ;; do not indent namespace children
