@@ -194,8 +194,8 @@ Run this function at the post theme load phase, such as with the
                               (fg-mode-line-active fg-main)
                               (bg-mode-line-inactive bg-inactive)
                               (fg-mode-line-active fg-dim)
-                              (border-mode-line-active bg-inactive)
-                              (border-mode-line-inactive bg-main)))
+                              (border-mode-line-active unspecified)
+                              (border-mode-line-inactive unspecified)))
 
     (add-hook 'modus-themes-after-load-theme-hook
               #'my--modus-themes-org-fontify-block-delimiter-lines)
