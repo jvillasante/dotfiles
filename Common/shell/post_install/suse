@@ -431,11 +431,11 @@ suse_install() {
                 flatpak install --user -y flathub org.wireshark.Wireshark
                 flatpak install --user -y flathub com.github.tchx84.Flatseal          # manage flatpak permisions
                 flatpak install --user -y flathub io.github.Hexchat                   # irc client
+                flatpak install --user -y flathub engineer.atlas.Nyxt
                 # flatpak install -y flathub org.mozilla.firefox
                 # flatpak install -y flathub org.telegram.desktop
                 # flatpak install -y flathub org.gnucash.GnuCash
                 # flatpak install -y flathub org.gimp.GIMP
-                # flatpak install -y flathub engineer.atlas.Nyxt
                 # flatpak install -y flathub com.skype.Client
                 # flatpak install -y flathub com.valvesoftware.Steam
                 # flatpak install -y flathub im.riot.Riot
