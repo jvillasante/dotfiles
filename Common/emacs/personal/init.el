@@ -64,7 +64,6 @@
 ;; load config
 (require 'my-utils)
 (require 'my-init-early)
-(require 'my-init-ui)
 (require 'my-init-completion)
 (require 'my-init-vcs)
 (require 'my-init-org)
@@ -76,6 +75,7 @@
 (require 'my-init-filemanager)
 (require 'my-init-workspaces)
 (require 'my-init-modal)
+(require 'my-init-ui)
 (require 'my-init-bindings)
 (require 'modus-themes-exporter)
 

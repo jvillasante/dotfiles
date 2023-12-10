@@ -178,7 +178,6 @@
     (setq my--mu-path "/usr/bin/mu")
     (setq my--msmtp-path "/usr/bin/msmtp"))
 
-
 (add-hook 'tty-setup-hook #'my--tty-setup)
 
 (provide 'my-init-early)

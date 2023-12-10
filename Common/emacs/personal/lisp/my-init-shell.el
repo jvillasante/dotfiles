@@ -54,13 +54,15 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
-    :disabled t
     :bind (("C-c o t" . #'eat)
            ("C-c o T" . #'eat-other-window)
            :map project-prefix-map
            ("t" . #'eat-project)
            ("T" . #'eat-project-other-window))
     :init
+    (add-hook 'eat-mode-hook
+              (lambda ()
+                  (setq-local scroll-margin 0)))
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
@@ -72,6 +74,7 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
+    :disabled t
     :preface
     (defun my--vterm-project (&optional _)
         "Launch `vterm' in current project.
