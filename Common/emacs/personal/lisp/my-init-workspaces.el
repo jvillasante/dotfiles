@@ -1,4 +1,7 @@
-;; my-init-workspaces.el -*- lexical-binding: t; -*-
+;;; my-init-workspaces.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; tabspaces : https://github.com/mclear-tools/tabspaces
 (use-package tabspaces

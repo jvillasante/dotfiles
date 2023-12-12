@@ -1,4 +1,7 @@
-;;; my-init-apps.el -*- lexical-binding: t; -*-
+;;; my-init-apps.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; password-store for emacs
 (use-package password-store

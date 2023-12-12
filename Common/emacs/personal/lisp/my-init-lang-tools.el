@@ -1,4 +1,7 @@
-;;; my-init-lang-tools.el -*- lexical-binding: t; -*-
+;;; my-init-lang-tools.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; hideshow
 (use-package hideshow
@@ -133,4 +136,4 @@
 (use-package rmsbolt)
 
 (provide 'my-init-lang-tools)
-;;; my-init-langtools.el ends here
+;;; my-init-lang-tools.el ends here

@@ -1,4 +1,7 @@
-;;; my-init-shell.el -*- lexical-binding: t; -*-
+;;; my-init-shell.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; ielm : elisp shell
 (use-package ielm

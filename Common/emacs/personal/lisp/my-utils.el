@@ -1,12 +1,6 @@
 ;;; my-utils.el --- -*- lexical-binding: t; -*-
-
-;; Author: Julio C. Villasante <jvillasantegomez@gmail.com>
-;; URL: https://github.com/jvillasante/dotfiles
-;; Keywords: dotfiles emacs
-
 ;;; Commentary:
-;; Utils used everywhere
-
+;;
 ;;; Code:
 
 (require 'cl-lib)

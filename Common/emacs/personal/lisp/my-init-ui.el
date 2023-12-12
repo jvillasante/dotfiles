@@ -1,4 +1,7 @@
-;; my-init-ui.el -*- lexical-binding: t; -*-
+;;; my-init-ui.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))

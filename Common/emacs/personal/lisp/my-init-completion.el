@@ -1,4 +1,7 @@
-;;; my-init-completion.el -*- lexical-binding: t; -*-
+;;; my-init-completion.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 (use-package emacs
     :ensure nil ;; emacs built-in

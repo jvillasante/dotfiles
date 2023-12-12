@@ -1,4 +1,7 @@
-;;; my-init-early.el -*- lexical-binding: t; -*-
+;;; my-init-early.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; some defaults
 (setq mac-right-option-modifier 'meta)

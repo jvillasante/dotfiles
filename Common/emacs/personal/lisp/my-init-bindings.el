@@ -1,7 +1,10 @@
 ;;; my-init-bindings.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;;; Links:
-;;; https://www.masteringemacs.org/article/mastering-key-bindings-emacs
+;; https://www.masteringemacs.org/article/mastering-key-bindings-emacs
 
 ;; General
 (global-set-key (kbd "C-x C-m") 'execute-extended-command) ; ALT may or may not be available

@@ -1,4 +1,7 @@
-;;; my-init-org.el -*- lexical-binding: t; -*-
+;;; my-init-org.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 (use-package org
     :ensure nil ;; emacs built-in

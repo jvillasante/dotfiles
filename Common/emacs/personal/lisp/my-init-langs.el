@@ -1,4 +1,7 @@
-;;; my-init-langs.el -*- lexical-binding: t; -*-
+;;; my-init-langs.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; treesit : treesitter for Emacs
 (use-package treesit

@@ -1,4 +1,7 @@
-;;; my-init-vcs.el -*- lexical-binding: t; -*-
+;;; my-init-vcs.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; always follow symlinks
 (setq vc-follow-symlinks t)

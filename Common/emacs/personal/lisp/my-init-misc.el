@@ -1,4 +1,7 @@
-;;; my-init-misc.el -*- lexical-binding: t; -*-
+;;; my-init-misc.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; encryption
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html

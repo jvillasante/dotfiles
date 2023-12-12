@@ -1,12 +1,6 @@
-;;; early-init.el --- -*- lexical-binding: t -*-
-
-;; Author: Julio C. Villasante <jvillasantegomez@gmail.com>
-;; URL: https://github.com/jvillasante/dotfiles
-;; Keywords: dotfiles emacs
-
+;;; early-init.el --- -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; This is my personal Emacs configuration.
-
+;;
 ;;; Code:
 
 ;; prefer loading newest compiled .el file

@@ -1,4 +1,7 @@
-;;; my-init-modal.el -*- lexical-binding: t; -*-
+;;; my-init-modal.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 (use-package meow
     :disabled t

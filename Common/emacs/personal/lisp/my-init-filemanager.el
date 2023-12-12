@@ -1,4 +1,7 @@
-;;; my-init-filemanager.el -*- lexical-binding: t; -*-
+;;; my-init-filemanager.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;
+;;; Code:
 
 ;; Dired : built-in navigation of folders
 (use-package dired
