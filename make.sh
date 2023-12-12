@@ -57,13 +57,6 @@ install_emacs() {
         echo ">>> Emacs is not installed, exiting..." && exit 1
     fi
 
-    # Install yasnippet shim for treesitter (lives on personal/etc)
-    # if [ ! -d "$DOTFILES_DIR/.yasnippet-treesitter-shim" ]; then
-    #     echo ">>> Installing Yasnippet Treesitter Ship at $DOTFILES_DIR/.yasnippet-treesitter-shim"
-    #     git clone git@github.com:fbrosda/yasnippet-treesitter-shim.git "$DOTFILES_DIR/.yasnippet-treesitter-shim"
-    #     check $?
-    # fi
-
     # Install Doom Emacs
     # if [ ! -d "$DOTFILES_DIR/.emacs.doom" ]; then
     #     echo ">>> Installing Doom Emacs at $DOTFILES_DIR/.emacs.doom"
@@ -79,7 +72,7 @@ install_emacs() {
     # Install Crafted Emacs
     # if [ ! -d "$DOTFILES_DIR/.emacs.crafted" ]; then
     #     echo ">>> Installing Crafted Emacs at $DOTFILES_DIR/.emacs.crafted"
-    #     git clone -b craftedv2RC1 --single-branch git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
+    #     git clone --depth 1 git@github.com:SystemCrafters/crafted-emacs.git "$DOTFILES_DIR/.emacs.crafted"
     #     check $?
     # fi
 
@@ -88,6 +81,13 @@ install_emacs() {
     #     echo ">>> Installing Prelude Emacs at $DOTFILES_DIR/.emacs.prelude"
     #     curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh |
     #         env PRELUDE_INSTALL_DIR="$DOTFILES_DIR/.emacs.prelude" sh
+    #     check $?
+    # fi
+
+    # Install yasnippet shim for treesitter (lives on personal/etc)
+    # if [ ! -d "$DOTFILES_DIR/.yasnippet-treesitter-shim" ]; then
+    #     echo ">>> Installing Yasnippet Treesitter Ship at $DOTFILES_DIR/.yasnippet-treesitter-shim"
+    #     git clone git@github.com:fbrosda/yasnippet-treesitter-shim.git "$DOTFILES_DIR/.yasnippet-treesitter-shim"
     #     check $?
     # fi
 }
