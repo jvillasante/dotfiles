@@ -37,10 +37,6 @@
 (when (fboundp 'repeat-mode)
     (repeat-mode +1))
 
-;; enable pixel-scroll-precision if available
-(when (fboundp 'pixel-scroll-precision-mode)
-    (pixel-scroll-precision-mode +1))
-
 ;; Don't compact font caches during GC.
 (setq inhibit-compacting-font-caches t)
 

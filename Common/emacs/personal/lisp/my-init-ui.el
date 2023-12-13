@@ -82,6 +82,28 @@
       ;; horizontal split (ale `split-window-below')
       split-width-threshold 200)
 
+;; enable pixel-scroll-precision if available
+(use-package pixel-scroll
+    :ensure nil ;; emacs built-in
+    :defines vertico-map corfu-map
+    :functions vertico-scroll-down vertico-scroll-up corfu-scroll-down corfu-scroll-up
+    :config
+    (when (fboundp 'pixel-scroll-precision-mode)
+        (setopt pixel-scroll-precision-use-momentum t
+                pixel-scroll-precision-interpolate-mice t
+                pixel-scroll-precision-large-scroll-height 10.0
+                pixel-scroll-precision-interpolation-total-time 0.2
+                pixel-scroll-precision-interpolate-page t)
+        (pixel-scroll-precision-mode t)
+
+        ;; remap some keys to use pixel-scroll
+        (global-set-key (kbd "C-v") 'pixel-scroll-interpolate-down)
+        (global-set-key (kbd "M-v") 'pixel-scroll-interpolate-up)
+        (keymap-set vertico-map "<remap> <pixel-scroll-interpolate-up>" #'vertico-scroll-down)
+        (keymap-set vertico-map "<remap> <pixel-scroll-interpolate-down>" #'vertico-scroll-up)
+        (keymap-set corfu-map "<remap> <pixel-scroll-interpolate-up>" #'corfu-scroll-down)
+        (keymap-set corfu-map "<remap> <pixel-scroll-interpolate-down>" #'corfu-scroll-up)))
+
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
     :ensure nil ;; emacs built-in
