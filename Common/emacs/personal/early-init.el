@@ -3,12 +3,12 @@
 ;;
 ;;; Code:
 
-;; prefer loading newest compiled .el file
-(setq load-prefer-newer t)
-
 ;; increase gc threshold to speedup starting up
 (setq gc-cons-percentage 1)
 (setq gc-cons-threshold most-positive-fixnum)
+
+;; prefer loading newest compiled .el file
+(setq load-prefer-newer t)
 
 ;; Initialize installed packages
 (setq package-enable-at-startup t)

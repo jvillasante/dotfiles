@@ -10,24 +10,23 @@
     (load custom-file nil 'nomessage))
 
 ;; bootstrap package.el
-(progn
-    (require 'package)
-    (when (version< emacs-version "28")
-        (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
-    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-    (add-to-list 'package-archives '("jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t)
-    (setq package-archive-priorities
-          '(("gnu"      . 99)   ; prefer GNU packages
-            ("nongnu"   . 80)   ; use non-gnu packages if not found in GNU elpa
-            ("melpa"    . 10)   ; if all else fails, get it from melpa
-            ("jcs-elpa" . 0)))  ; if all else fails, get it from jcs-elpa
-    (setq package-user-dir (expand-file-name "var/elpa" user-emacs-directory))
-    (when (boundp 'package-gnupghome-dir)
-        (setq package-gnupghome-dir
-              (expand-file-name "var/gnupg" user-emacs-directory)))
-    (setq package-install-upgrade-built-in t)
-    (when package-enable-at-startup (package-initialize))
-    (unless package-archive-contents (package-refresh-contents)))
+(require 'package)
+(when (version< emacs-version "28")
+    (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t)
+(setq package-archive-priorities
+      '(("gnu"      . 99)   ; prefer GNU packages
+        ("nongnu"   . 80)   ; use non-gnu packages if not found in GNU elpa
+        ("melpa"    . 10)   ; if all else fails, get it from melpa
+        ("jcs-elpa" . 0)))  ; if all else fails, get it from jcs-elpa
+(setq package-user-dir (expand-file-name "var/elpa" user-emacs-directory))
+(when (boundp 'package-gnupghome-dir)
+    (setq package-gnupghome-dir
+          (expand-file-name "var/gnupg" user-emacs-directory)))
+(setq package-install-upgrade-built-in t)
+(when package-enable-at-startup (package-initialize))
+(unless package-archive-contents (package-refresh-contents))
 
 ;; bootstrap use-package
 (use-package use-package
@@ -39,11 +38,12 @@
 
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
-    :init (when (daemonp)
-              (exec-path-from-shell-initialize)
-              (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"
-                             "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH"))
-                  (exec-path-from-shell-copy-env var))))
+    :init
+    (when (daemonp)
+        (exec-path-from-shell-initialize)
+        (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"
+                       "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH"))
+            (exec-path-from-shell-copy-env var))))
 
 ;; no-littering needs to come first
 (use-package no-littering)
@@ -53,25 +53,24 @@
 (defconst my--dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my--home-path))
 (defconst my--software-path (expand-file-name "Workspace/Software/" my--home-path))
 (defconst my--dropbox-path (expand-file-name "Dropbox/" my--home-path))
-(push (expand-file-name "lisp" user-emacs-directory) load-path)
 
 ;; load config
-(require 'my-utils)
-(require 'my-init-early)
-(require 'my-init-completion)
-(require 'my-init-vcs)
-(require 'my-init-org)
-(require 'my-init-langs)
-(require 'my-init-lang-tools)
-(require 'my-init-apps)
-(require 'my-init-shell)
-(require 'my-init-misc)
-(require 'my-init-filemanager)
-(require 'my-init-workspaces)
-(require 'my-init-modal)
-(require 'my-init-ui)
-(require 'my-init-bindings)
-(require 'modus-themes-exporter)
+(load (expand-file-name "lisp/my-utils" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-early" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-completion" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-vcs" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-org" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-langs" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-lang-tools" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-apps" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-shell" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-misc" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-filemanager" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-workspaces" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-modal" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-ui" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-bindings" user-emacs-directory))
+(load (expand-file-name "lisp/modus-themes-exporter" user-emacs-directory))
 
 ;; after started, stop debug on error
 (setq debug-on-error nil)
