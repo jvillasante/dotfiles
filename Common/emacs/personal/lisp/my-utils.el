@@ -81,7 +81,6 @@ Make it readonly, and set up a keybinding (q) to close the window."
 (defun my--project-todos ()
     "Find `hl-todo--regex' items in project using `consult-ripgrep'."
     (interactive)
-    (require 'hl-todo)
     (when (featurep 'consult)
         (consult-ripgrep nil hl-todo--regexp)))
 
@@ -122,20 +121,6 @@ If region (BEG to END) is active, use the selected region as the symbol."
     ;; Enable the mouse in terminal Emacs
     (xterm-mouse-mode)
     (menu-bar-mode -1))
-
-;;; Apps
-
-(defun my--elfeed-open-entry-via-eww (&optional new-session)
-    "If point is under a url, then open this url via `eww',
-otherwise open the current visited elfeed entry via `eww'.  If
-with a prefix \\[universal-argument] create a new `eww' session
-otherwise use the existed one"
-    (interactive "P")
-    (if-let ((link-at-point (get-text-property (point) 'shr-url)))
-            (eww link-at-point new-session)
-        (eww
-         (elfeed-entry-link elfeed-show-entry)
-         new-session)))
 
 ;;; Misc
 
