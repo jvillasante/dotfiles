@@ -81,7 +81,8 @@ Make it readonly, and set up a keybinding (q) to close the window."
 (defun my--project-todos ()
     "Find `hl-todo--regex' items in project using `consult-ripgrep'."
     (interactive)
-    (when (featurep 'consult)
+    (defvar hl-todo--regexp)
+    (when (and (featurep 'consult) (fboundp 'consult-ripgrep))
         (consult-ripgrep nil hl-todo--regexp)))
 
 ;;; Elisp
@@ -89,16 +90,17 @@ Make it readonly, and set up a keybinding (q) to close the window."
 (defun my--helpful-lookup-symbl-at-point ()
     "Look up for the symbol under point."
     (interactive)
-    (when (featurep 'helpful)
+    (when (and (featurep 'helpful) (fboundp 'helpful-symbol))
         (helpful-symbol (symbol-at-point))))
 
 (defun my--elisp-look-up-symbol (beg end)
     "Look up for the symbol under point.
 If region (BEG to END) is active, use the selected region as the symbol."
     (interactive "r")
-    (if (use-region-p)
-            (helpful-symbol (intern (buffer-substring beg end)))
-        (helpful-symbol (symbol-at-point))))
+    (when (and (featurep 'helpful) (fboundp 'helpful-symbol))
+        (if (use-region-p)
+                (helpful-symbol (intern (buffer-substring beg end)))
+            (helpful-symbol (symbol-at-point)))))
 
 ;;; OS
 
@@ -126,9 +128,10 @@ If region (BEG to END) is active, use the selected region as the symbol."
 
 (defun my--project-root-or-default-dir ()
     "If a project root is found, return it. Otherwise return `default-directory'."
-    (if-let ((proj (project-current)))
-            (project-root proj)
-        default-directory))
+    (when (fboundp 'project-root)
+        (if-let ((proj (project-current)))
+                (project-root proj)
+            default-directory)))
 
 (defun my--switch-to-messages-buffer ()
     "Stolen from spacemacs."
@@ -192,12 +195,13 @@ Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-sin
     "Like `org-fill-paragraph', but `unfill' if used twice.
 Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html."
     (interactive)
-    (let ((fill-column
-           (if (eq last-command 'my--org-fill-or-unfill)
-                   (progn (setq this-command nil)
-                          (point-max))
-               fill-column)))
-        (call-interactively #'org-fill-paragraph)))
+    (when (fboundp 'org-fill-paragraph)
+        (let ((fill-column
+               (if (eq last-command 'my--org-fill-or-unfill)
+                       (progn (setq this-command nil)
+                              (point-max))
+                   fill-column)))
+            (call-interactively #'org-fill-paragraph))))
 
 (defun my--fill-buffer ()
     "Fill the entire current buffer."
@@ -269,8 +273,9 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
 (defun my--new-scratch-buffer-in-markdown ()
     "Make a temporary buffer in markdown mode and switch to it."
     (interactive)
-    (switch-to-buffer (make-temp-name "scratch-"))
-    (markdown-mode))
+    (when (fboundp 'markdown-mode)
+        (switch-to-buffer (make-temp-name "scratch-"))
+        (markdown-mode)))
 
 (defun my--comment-or-uncomment ()
     "Comments or uncomments the current line or region."
