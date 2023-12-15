@@ -195,10 +195,11 @@
         (define-key map (kbd "?") nil)))
 
 (use-package corfu
-    :custom ((corfu-auto t)
-             (corf-auto-prefix 2)
-             (corfu-quit-no-match t)
-             (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
+    :custom
+    ((corfu-auto t)
+     (corf-auto-prefix 2)
+     (corfu-quit-no-match t)
+     (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
     :init
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible)
