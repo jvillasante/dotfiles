@@ -3,11 +3,6 @@
 ;;
 ;;; Code:
 
-;; some defaults
-(setq mac-right-option-modifier 'meta)
-(setq mac-option-modifier 'meta)
-(setq warning-minimum-level :error)
-
 ;; make IO better
 (setq process-adaptive-read-buffering nil)
 (setq read-process-output-max (* 4 1024 1024))
@@ -19,6 +14,7 @@
 (set-keyboard-coding-system 'utf-8)
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+(require 'time)
 (setq world-clock-list
       '(("UTC" "UTC")
         ("America/New_York" "Tampa")
@@ -59,6 +55,7 @@
 
 ;; Emacs28 dictionary lookup
 (when (fboundp 'dictionary-lookup-definition)
+    (defvar dictionary-server)
     (setq dictionary-server "dict.org"))
 
 ;; Some Defaults
@@ -99,7 +96,6 @@
 (setq read-file-name-completion-ignore-case t) ;; ... but, ignore case when completing filenames
 (setq read-buffer-completion-ignore-case t)    ;; ... and, ignore case whem completing buffers
 (setq delete-by-moving-to-trash t) ;; use the system trash
-(setq bookmark-save-flag 1) ;; persist bookmark changes to disk as it happens
 (setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
 
 ;; backups
@@ -176,8 +172,6 @@
     (setq my--clang-path "/usr/bin/clang")
     (setq my--mu-path "/usr/bin/mu")
     (setq my--msmtp-path "/usr/bin/msmtp"))
-
-(add-hook 'tty-setup-hook #'my--tty-setup)
 
 (provide 'my-init-early)
 ;;; my-init-basics ends here

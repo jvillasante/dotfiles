@@ -111,19 +111,6 @@ If region (BEG to END) is active, use the selected region as the symbol."
             (tab-bar-close-tab)
         (kill-emacs)))
 
-(defun my--tty-setup ()
-    "Setup tty terminal."
-
-    ;; Some terminals offer two different cursors: a "visible" static cursor and a
-    ;; "very visible" blinking one. By default, Emacs uses the very visible cursor
-    ;; and will switch back to it when Emacs is started or resumed. A nil
-    ;; `visible-cursor' prevents this.
-    (setq visible-cursor nil)
-
-    ;; Enable the mouse in terminal Emacs
-    (xterm-mouse-mode)
-    (menu-bar-mode -1))
-
 ;;; Misc
 
 (defun my--project-root-or-default-dir ()
