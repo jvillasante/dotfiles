@@ -63,9 +63,6 @@
            ("t" . #'eat-project)
            ("T" . #'eat-project-other-window))
     :init
-    (add-hook 'eat-mode-hook
-              (lambda ()
-                  (setq-local scroll-margin 0)))
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
