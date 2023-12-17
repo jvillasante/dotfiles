@@ -402,6 +402,7 @@ suse_install() {
                 # Fonts
                 #
                 sudo zypper install -y iosevka-fonts jetbrains-mono-fonts adobe-sourcecodepro-fonts
+                sudo zypper install -y fetchmsttfonts
                 install_berkeley_mono_font
                 install_iosevka_comfy_font
                 install_monaspace_font
