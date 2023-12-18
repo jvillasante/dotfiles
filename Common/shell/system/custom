@@ -73,6 +73,14 @@ fi
 type vim > /dev/null 2>&1 && alias vi=vim
 type nvim > /dev/null 2>&1 && alias vim=nvim
 
+# gpg
+if type gpg2 > /dev/null 2> /dev/null; then
+    # gpg is not gpg2 if installed
+    alias gpg='gpg2'
+fi
+export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+
 # ssh
 alias ssh="TERM=xterm-256color ssh"
 export SSH_KEY_PATH="$HOME/.ssh/dsa_id"
@@ -109,11 +117,6 @@ fi
 # fd-find
 if type fdfind > /dev/null 2> /dev/null; then
     alias fd='fdfind'
-fi
-
-# gpg is not gpg2 if installed
-if type gpg2 > /dev/null 2> /dev/null; then
-    alias gpg='gpg2'
 fi
 
 # surf: these options are very opinionated, disabling images, javascript, etc.

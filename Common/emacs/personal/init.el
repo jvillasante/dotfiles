@@ -9,6 +9,9 @@
            (file-exists-p custom-file))
     (load custom-file nil 'nomessage))
 
+;; set EDITOTR to `emacsclient'
+(setf (getenv "EDITOR") "emacsclient")
+
 ;; bootstrap package.el
 (require 'package)
 (when (version< emacs-version "28")
