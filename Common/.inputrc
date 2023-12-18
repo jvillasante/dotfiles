@@ -33,6 +33,9 @@ set editing-mode emacs
 # Change the timeout for key sequences as 500ms is too fast.
 set keyseq-timeout 1200
 
+# Do not save edits in history
+set revert-all-at-newline on
+
 # M-m is back-to-indentation which is what I usually use to go to the
 # beginning of a line; everywhere else, I bind it like C-a.
 "\em": beginning-of-line
@@ -50,3 +53,6 @@ set keyseq-timeout 1200
 # C-M-f and C-M-v dump functions and variables.
 "\e\C-f": dump-functions
 "\e\C-v": dump-variables
+
+# kill the whole line instead of from the point forward
+Control-k: kill-whole-line
