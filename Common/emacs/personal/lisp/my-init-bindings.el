@@ -49,61 +49,6 @@
 (global-set-key (kbd "M-Q") 'my--unfill-paragraph)
 (global-set-key (kbd "C-M-Q") 'my--unfill-region)
 
-;; expand-region
-(global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "C--") 'er/contract-region)
-
-;; magit
-(global-set-key (kbd "C-x g") 'magit-status)
-
-;; helpful
-;; (define-key helpful-mode-map [remap revert-buffer] #'helpful-update)
-(define-key global-map [remap describe-command] 'helpful-command)
-(define-key global-map [remap describe-function] 'helpful-callable)
-(define-key global-map [remap describe-key] 'helpful-key)
-(define-key global-map [remap describe-symbol] 'helpful-symbol)
-(define-key global-map [remap describe-variable] 'helpful-variable)
-(global-set-key (kbd "C-h F") 'helpful-function)
-(global-set-key (kbd "C-h K") 'describe-keymap) ; alternative for `describe-bindings'
-
-;; crux
-;; (global-set-key (kbd "C-c o") 'crux-open-with)
-;; (global-set-key (kbd "C-c u") 'crux-view-url)
-;; (global-set-key (kbd "C-o") 'crux-smart-open-line)
-;; (global-set-key (kbd "M-o") 'crux-smart-open-line-above)
-;; (global-set-key (kbd "C-x C-r") 'crux-recentf-find-file)
-;; (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
-;; (global-set-key (kbd "C-c F") 'crux-recentf-find-directory)
-;; (global-set-key (kbd "C-c n") 'crux-cleanup-buffer-or-region)
-;; (global-set-key (kbd "C-M-z") 'crux-indent-defun)
-(global-set-key (kbd "C-c e") 'crux-eval-and-replace)
-(global-set-key (kbd "C-c w") 'crux-swap-windows)
-(global-set-key (kbd "C-c D") 'crux-delete-file-and-buffer)
-(global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
-;; (global-set-key (kbd "C-c t") 'crux-visit-term-buffer)
-(global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
-;; (global-set-key (kbd "C-c TAB") 'crux-indent-rigidly-and-copy-to-clipboard)
-(global-set-key (kbd "C-c I") 'crux-find-user-custom-file)
-(global-set-key (kbd "C-c S") 'crux-find-shell-init-file)
-(global-set-key (kbd "C-^") 'crux-top-join-line)
-(global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
-(global-set-key (kbd "C-k") 'crux-smart-kill-line)
-;; (global-set-key (kbd "C-<backspace>") 'crux-kill-line-backwards)
-;; (global-set-key (kbd "C-x 4 t") 'crux-transpose-windows)
-(global-set-key (kbd "C-x C-u") 'crux-upcase-region)
-(global-set-key (kbd "C-x C-l") 'crux-downcase-region)
-(global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
-(define-key global-map [remap move-beginning-of-line] 'crux-move-beginning-of-line)
-(define-key global-map [remap kill-whole-line] 'crux-kill-whole-line)
-
-;; org
-(with-eval-after-load 'org
-    (define-key org-mode-map [remap fill-paragraph] 'my--org-fill-or-unfill))
-
-;; dired
-(with-eval-after-load 'dired
-    (define-key dired-mode-map (kbd "C-<return>") 'crux-open-with))
-
 ;; isearch
 (with-eval-after-load 'isearch
     ;; Prevents issue where you have to press backspace twice when trying to remove the first character that fails a search

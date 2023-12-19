@@ -97,81 +97,86 @@
 (setq read-buffer-completion-ignore-case t)    ;; ... and, ignore case whem completing buffers
 (setq delete-by-moving-to-trash t) ;; use the system trash
 (setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
+(setq create-lockfiles nil) ;; no lock files
 
-;; backups
-(progn
-    (setq make-backup-files t    ; backup of a file the first time it is saved.
-          backup-by-copying t    ; don't clobber symlinks
-          version-control t      ; version numbers for backup files
-          delete-old-versions t  ; delete excess backup files silently
-          kept-old-versions 2    ; oldest versions to keep when a new numbered backup is made (default: 2)
-          kept-new-versions 6)   ; newest versions to keep when a new numbered backup is made (default: 2)
+;; s.el : The long lost Emacs string manipulation library.
+(use-package s)
 
-    ;; backup all files
-    (setq backup-directory-alist
-          `(("." . ,(no-littering-expand-var-file-name "backup/"))))
+;; backups and auto-safe
+(require 'my-utils)
+(use-package emacs
+    :ensure nil ;; emacs built-in
+    :functions no-littering-expand-var-file-name s-starts-with? s-contains?
+    :config
+    (progn ;; backups
+        (setq make-backup-files t    ; backup of a file the first time it is saved.
+              backup-by-copying t    ; don't clobber symlinks
+              version-control t      ; version numbers for backup files
+              delete-old-versions t  ; delete excess backup files silently
+              kept-old-versions 2    ; oldest versions to keep when a new numbered backup is made (default: 2)
+              kept-new-versions 6)   ; newest versions to keep when a new numbered backup is made (default: 2)
 
-    ;; ... do not backup some
-    (setq backup-enable-predicate
-          (lambda (name)
-              (and (normal-backup-enable-predicate name)
-                   (not (s-starts-with? "/dev/shm" name))
-                   (not (s-contains? "password-store" name))
-                   (my--file-is-not-root-p name)))))
+        ;; backup all files
+        (setq backup-directory-alist
+              `(("." . ,(no-littering-expand-var-file-name "backup/"))))
 
-;; autosave
-(progn
-    (setq auto-save-default t      ; auto-save every buffer that visits a file
-          auto-save-timeout 20     ; number of seconds idle time before auto-save (default: 30)
-          auto-save-interval 200)  ; number of keystrokes between auto-saves (default: 300)
+        ;; ... do not backup some
+        (setq backup-enable-predicate
+              (lambda (name)
+                  (and (normal-backup-enable-predicate name)
+                       (not (s-starts-with? "/dev/shm" name))
+                       (not (s-contains? "password-store" name))
+                       (my--file-is-not-root-p name)))))
 
-    ;; auto-save files
-    (setq auto-save-file-name-transforms
-          `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+    (progn ;; autosave
+        (setq auto-save-default t      ; auto-save every buffer that visits a file
+              auto-save-timeout 20     ; number of seconds idle time before auto-save (default: 30)
+              auto-save-interval 200)  ; number of keystrokes between auto-saves (default: 300)
 
-    ;; disable auto-save on certain tramp profiles
-    (connection-local-set-profile-variables
-     'no-remote-auto-save-profile
-     '((buffer-auto-save-file-name . nil)
-       (remote-file-name-inhibit-auto-save-visited . t)
-       (remote-file-name-inhibit-auto-save . t)))
+        ;; auto-save files
+        (setq auto-save-file-name-transforms
+              `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
-    ;; disable auto-save for specific protocols
-    (dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh"))
-        (connection-local-set-profiles
-         `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile))))
+        ;; disable auto-save on certain tramp profiles
+        (connection-local-set-profile-variables
+         'no-remote-auto-save-profile
+         '((buffer-auto-save-file-name . nil)
+           (remote-file-name-inhibit-auto-save-visited . t)
+           (remote-file-name-inhibit-auto-save . t)))
 
-;; no lock files
-(setq create-lockfiles nil)
+        ;; disable auto-save for specific protocols
+        (dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh"))
+            (connection-local-set-profiles
+             `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile))))
 
-(when IS-MAC
-    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-    (setq browse-url-browser-function 'browse-url-generic)
-    (setq browse-url-generic-program "open")
-    (setq ns-use-proxy-icon nil)
-    (setq ns-use-thin-smoothing t)
-    (setq ns-alternate-modifier nil)
-    (setq mac-command-modifier 'meta)
-    (setq mac-option-modifier 'alt)
-    (setq mac-right-option-modifier 'alt)
-    (setq default-input-method "MacOSX")
-    (setq my--clang-path "/usr/local/opt/llvm/bin/clang")
-    (setq my--mu-path "/usr/local/bin/mu")
-    (setq my--msmtp-path "/usr/local/bin/msmtp")
+    (when IS-MAC
+        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+        (setq browse-url-browser-function 'browse-url-generic)
+        (setq browse-url-generic-program "open")
+        (setq ns-use-proxy-icon nil)
+        (setq ns-use-thin-smoothing t)
+        (setq ns-alternate-modifier nil)
+        (setq mac-command-modifier 'meta)
+        (setq mac-option-modifier 'alt)
+        (setq mac-right-option-modifier 'alt)
+        (setq default-input-method "MacOSX")
+        (defconst my--clang-path "/usr/local/opt/llvm/bin/clang")
+        (defconst my--mu-path "/usr/local/bin/mu")
+        (defconst my--msmtp-path "/usr/local/bin/msmtp")
 
-    ;; Use spotlight search backend as a default for M-x locate (and helm/ivy
-    ;; variants thereof), since it requires no additional setup.
-    (setq locate-command "mdfind"
-          ;; Visit files opened outside of Emacs in existing frame, not a new one
-          ns-pop-up-frames nil))
+        ;; Use spotlight search backend as a default for M-x locate (and helm/ivy
+        ;; variants thereof), since it requires no additional setup.
+        (setq locate-command "mdfind"
+              ;; Visit files opened outside of Emacs in existing frame, not a new one
+              ns-pop-up-frames nil))
 
-(when IS-LINUX
-    (setq x-super-keysym 'meta)
-    (setq browse-url-browser-function 'browse-url-generic)
-    (setq browse-url-generic-program "xdg-open")
-    (setq my--clang-path "/usr/bin/clang")
-    (setq my--mu-path "/usr/bin/mu")
-    (setq my--msmtp-path "/usr/bin/msmtp"))
+    (when IS-LINUX
+        (setq x-super-keysym 'meta)
+        (setq browse-url-browser-function 'browse-url-generic)
+        (setq browse-url-generic-program "xdg-open")
+        (defconst my--clang-path "/usr/bin/clang")
+        (defconst my--mu-path "/usr/bin/mu")
+        (defconst my--msmtp-path "/usr/bin/msmtp")))
 
 (provide 'my-init-early)
-;;; my-init-basics ends here
+;;; my-init-early.el ends here

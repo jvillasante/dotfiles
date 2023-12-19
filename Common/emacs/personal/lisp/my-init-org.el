@@ -5,6 +5,9 @@
 
 (use-package org
     :ensure nil ;; emacs built-in
+    :bind
+    (:map org-mode-map
+          ([remap fill-paragraph] . my--org-fill-or-unfill))
     :config
     (setq org-directory (expand-file-name "Apps/org" my--dropbox-path))
     (setq org-id-locations-file (file-name-concat org-directory ".orgids"))

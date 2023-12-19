@@ -8,6 +8,8 @@
     :ensure nil ;; emacs built-in
     :hook ((dired-mode . auto-revert-mode)
            (dired-mode . dired-hide-details-mode))
+    :bind ((:map dired-mode-map
+                 ("C-<return>" . crux-open-with)))
     :init
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
     (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory

@@ -184,13 +184,51 @@
     :hook (prog-mode . smartparens-mode)
     :config (require 'smartparens-config))
 
-(use-package helpful)
+(use-package helpful
+    :bind
+    (([remap describe-function] . helpful-callable)
+     ([remap describe-variable] . helpful-variable)
+     ([remap describe-command] . helpful-command)
+     ([remap describe-key] . helpful-key)
+     ([remap describe-symbol] . helpful-symbol)
+     ("C-c C-d" . helpful-at-point)
+     ("C-h F" . helpful-function)
+     ("C-h K" . describe-keymap)))
 
 (use-package rainbow-delimiters
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
-(use-package crux)
+(use-package crux
+    :bind
+    (;; ("C-c o" . crux-open-with)
+     ;; ("C-c u" . crux-view-url)
+     ;; ("C-o" . crux-smart-open-line)
+     ;; ("M-o" . crux-smart-open-line-above)
+     ;; ("C-x C-r" . crux-recentf-find-file)
+     ;; ("C-c f" . crux-recentf-find-file)
+     ;; ("C-c F" . crux-recentf-find-directory)
+     ;; ("C-c n" . crux-cleanup-buffer-or-region)
+     ;; ("C-M-z" . crux-indent-defun)
+     ("C-c e" . crux-eval-and-replace)
+     ("C-c w" . crux-swap-windows)
+     ("C-c D" . crux-delete-file-and-buffer)
+     ("C-c r" . crux-rename-buffer-and-file)
+     ;; ("C-c t" . crux-visit-term-buffer)
+     ("C-c k" . crux-kill-other-buffers)
+     ("C-c TAB" . crux-indent-rigidly-and-copy-to-clipboard)
+     ("C-c I" . crux-find-user-custom-file)
+     ("C-c S" . crux-find-shell-init-file)
+     ("C-^" . crux-top-join-line)
+     ("C-c s" . crux-ispell-word-then-abbrev)
+     ("C-k" . crux-smart-kill-line)
+     ;; ("C-<backspace>" . crux-kill-line-backwards)
+     ;; ("C-x 4 t" . crux-transpose-windows)
+     ("C-x C-u" . crux-upcase-region)
+     ("C-x C-l" . crux-downcase-region)
+     ("C-x M-c" . crux-capitalize-region)
+     ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+     ([remap kill-whole-line] . crux-kill-whole-line)))
 
 ;; persistent-scratch : preserve scratch buffer across sessions
 (use-package persistent-scratch
@@ -213,7 +251,10 @@
     (setq avy-all-windows nil))
 
 ;; Expand Region : expand or contract selection
-(use-package expand-region)
+(use-package expand-region
+    :bind
+    ("C-=" . 'er/expand-region)
+    ("C--" . 'er/contract-region))
 
 ;; better C-w and M-w
 (use-package whole-line-or-region

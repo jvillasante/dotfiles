@@ -5,9 +5,14 @@
 
 (require 'cl-lib)
 
+;;; Constants
+
 (defconst IS-MAC (eq system-type 'darwin))
 (defconst IS-LINUX (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
 (defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
+
+
+;;; Macros
 
 (defmacro setq! (&rest settings)
     "A more sensible `setopt' for SETTINGS customizable variables.
@@ -28,32 +33,6 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
                                 `(funcall ,fetcher ,elt ,list)
                             elt)
                        ,list)))
-
-(defun my--clone-buffer-in-new-window-readonly ()
-    "Clone the current buffer in a new window.
-
-Make it readonly, and set up a keybinding (q) to close the window."
-    (interactive)
-    (let ((clone-buffer (clone-indirect-buffer (buffer-name) t)))
-        (with-current-buffer clone-buffer
-            (read-only-mode t)
-            (let ((map (make-sparse-keymap)))
-                (define-key map (kbd "q") (lambda ()
-                                              (interactive)
-                                              (kill-buffer-and-window)))
-                (use-local-map map)))
-        (switch-to-buffer-other-window clone-buffer)))
-
-(defun my--file-is-root-p (name)
-    "Check whether tramp su/sudo method is used for opening filepath NAME."
-    ;; Adopted from https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-File-Lock-and-Backup.html
-    (let ((method (file-remote-p name 'method)))
-        (when (stringp method)
-            (member method '("su" "sudo")))))
-
-(defun my--file-is-not-root-p (name)
-    "Check whether tramp su/sudo method is not used for opening filepath NAME."
-    (not (my--file-is-root-p name)))
 
 ;;; UI
 
@@ -112,6 +91,32 @@ If region (BEG to END) is active, use the selected region as the symbol."
         (kill-emacs)))
 
 ;;; Misc
+
+(defun my--clone-buffer-in-new-window-readonly ()
+    "Clone the current buffer in a new window.
+
+Make it readonly, and set up a keybinding (q) to close the window."
+    (interactive)
+    (let ((clone-buffer (clone-indirect-buffer (buffer-name) t)))
+        (with-current-buffer clone-buffer
+            (read-only-mode t)
+            (let ((map (make-sparse-keymap)))
+                (define-key map (kbd "q") (lambda ()
+                                              (interactive)
+                                              (kill-buffer-and-window)))
+                (use-local-map map)))
+        (switch-to-buffer-other-window clone-buffer)))
+
+(defun my--file-is-root-p (name)
+    "Check whether tramp su/sudo method is used for opening filepath NAME."
+    ;; Adopted from https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-File-Lock-and-Backup.html
+    (let ((method (file-remote-p name 'method)))
+        (when (stringp method)
+            (member method '("su" "sudo")))))
+
+(defun my--file-is-not-root-p (name)
+    "Check whether tramp su/sudo method is not used for opening filepath NAME."
+    (not (my--file-is-root-p name)))
 
 (defun my--project-root-or-default-dir ()
     "If a project root is found, return it. Otherwise return `default-directory'."
