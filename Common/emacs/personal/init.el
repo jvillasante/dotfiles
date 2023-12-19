@@ -74,6 +74,7 @@
 (load (expand-file-name "lisp/my-init-modal" user-emacs-directory))
 (load (expand-file-name "lisp/my-init-ui" user-emacs-directory))
 (load (expand-file-name "lisp/my-init-bindings" user-emacs-directory))
+(load (expand-file-name "lisp/my-init-transient" user-emacs-directory))
 (load (expand-file-name "lisp/modus-themes-exporter" user-emacs-directory))
 
 ;; after started, stop debug on error
