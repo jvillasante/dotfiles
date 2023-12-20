@@ -92,6 +92,7 @@
                       "--malloc-trim"
                       "--background-index"
                       "--clang-tidy"
+                      "--all-scopes-completion"
                       "--completion-style=detailed"
                       "--pch-storage=memory"
                       "--header-insertion=never"
