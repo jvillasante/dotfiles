@@ -198,8 +198,16 @@
     :custom
     ((corfu-auto t)
      (corf-auto-prefix 2)
+     (corfu-auto-delay 0.0)
+     (corfu-popupinfo-delay '(0.5 . 0.2))
+     (corfu-preview-current 'insert) ; Do not preview current candidate
+     (corfu-preselect 'prompt)
+     (corfu-on-exact-match nil)      ; Don't auto expand tempel snippets
      (corfu-quit-no-match t)
      (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
+    :bind
+    ;; Configure SPC for separator insertion
+    (:map corfu-map ("SPC" . corfu-insert-separator))
     :init
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible)
@@ -207,7 +215,9 @@
               (lambda ()
                   (setq-local corfu-auto nil)
                   (corfu-mode)))
-    (global-corfu-mode))
+    (global-corfu-mode)
+    (corfu-history-mode)
+    (corfu-popupinfo-mode))
 
 (use-package cape
     :init
