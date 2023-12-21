@@ -231,7 +231,9 @@
             "https://michal.sapka.me/index.xml"
             "https://borretti.me/feed.xml"
             "https://fabiensanglard.net/rss.xml"
-            "http://somethingfast.net/feed.rss.xml")))
+            "http://somethingfast.net/feed.rss.xml"
+            "https://www.tedinski.com/feed.xml"
+            "https://matklad.github.io/feed.xml")))
 
 (provide 'my-init-apps)
 ;;; my-init-apps.el ends here
