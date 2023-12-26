@@ -198,11 +198,11 @@
     :custom
     ((corfu-auto t)
      (corf-auto-prefix 2)
-     (corfu-auto-delay 0.0)
-     (corfu-popupinfo-delay '(0.5 . 0.2))
-     (corfu-preview-current 'insert) ; Do not preview current candidate
-     (corfu-preselect 'prompt)
-     (corfu-on-exact-match nil)      ; Don't auto expand tempel snippets
+     ;; (corfu-auto-delay 0.0)
+     ;; (corfu-popupinfo-delay '(0.5 . 0.2))
+     ;; (corfu-preview-current 'insert) ; Do not preview current candidate
+     ;; (corfu-preselect 'prompt)
+     ;; (corfu-on-exact-match nil)      ; Don't auto expand tempel snippets
      (corfu-quit-no-match t)
      (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
     :bind
