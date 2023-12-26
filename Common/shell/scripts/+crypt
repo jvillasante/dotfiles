@@ -42,18 +42,21 @@ encrypt() {
         exit 1
     fi
 
-    local file_name="$2"
-    local file_to_encrypt="$2.tar.gz"
-    if [[ -f "$2" ]]; then
-        file_name=$(basename "$2" | cut -d. -f1)
+    local file_name
+    file_name=$(realpath "$2")
+    local file_to_encrypt="$file_name.tar.gz"
+    if [[ -f "$file_name" ]]; then
+        local base_name
+        base_name=$(basename "$file_name" | cut -d. -f1)
         test $? -eq 0 || usage 1
 
-        mkdir -p "$file_name"
+        mkdir -p "$base_name"
         test $? -eq 0 || usage 1
 
-        mv "$2" "$file_name"
+        mv "$file_name" "$base_name"
         test $? -eq 0 || usage 1
 
+        file_name="$base_name"
         file_to_encrypt="$file_name.tar.gz"
     fi
 
@@ -91,7 +94,7 @@ do_decrypt() {
     p=$DIR/$(basename "$1" | cut -d. -f1)
     test $? -eq 0 || usage 1
 
-    gpg --decrypt -o "$p.tar.gz" "$1" >/dev/null 2>/dev/null
+    gpg --decrypt -o "$p.tar.gz" "$1" > /dev/null 2> /dev/null
     test $? -eq 0 || usage 1
 
     tar xzf "$p.tar.gz" -C "$DIR"
