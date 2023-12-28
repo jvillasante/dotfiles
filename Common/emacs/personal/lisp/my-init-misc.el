@@ -12,9 +12,10 @@
     ;; setup epa
     (require 'epa-file)
     (epa-file-enable)
-    (setq epa-file-encrypt-to user-mail-address
-          epa-file-select-keys 'silent
-          epa-file-cache-passphrase-for-symmetric-encryption nil)
+    (setq ;; epg-pinentry-mode 'loopback
+     epa-file-encrypt-to user-mail-address
+     epa-file-select-keys 'silent
+     epa-file-cache-passphrase-for-symmetric-encryption nil)
 
     ;; setup org-crypt
     (require 'org-crypt)
