@@ -55,4 +55,4 @@ set revert-all-at-newline on
 "\e\C-v": dump-variables
 
 # kill the whole line instead of from the point forward
-Control-k: kill-whole-line
+# Control-k: kill-whole-line
