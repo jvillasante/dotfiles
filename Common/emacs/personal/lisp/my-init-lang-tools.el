@@ -30,7 +30,8 @@
     :ensure nil ;; emacs built-in
     :config
     (setq eldoc-echo-area-use-multiline-p nil)
-    (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
+    (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
+    (global-eldoc-mode))
 
 (use-package eglot
     :ensure nil ;; emacs built-in
