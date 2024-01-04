@@ -100,13 +100,7 @@
     :bind
     (([remap scroll-up-command]   . my--pixel-scroll-up-command)
      ([remap scroll-down-command] . my--pixel-scroll-down-command)
-     ([remap recenter-top-bottom] . my--pixel-recenter-top-bottom)
-     :map vertico-map
-     ([remap pixel-scroll-interpolate-up] . vertico-scroll-down)
-     ([remap pixel-scroll-interpolate-down] . vertico-scroll-up)
-     :map corfu-map
-     ([remap pixel-scroll-interpolate-up] . corfu-scroll-down)
-     ([remap pixel-scroll-interpolate-down] . corfu-scroll-up))
+     ([remap recenter-top-bottom] . my--pixel-recenter-top-bottom))
     :hook
     (after-init . pixel-scroll-precision-mode)
     :config
