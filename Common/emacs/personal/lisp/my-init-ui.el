@@ -87,22 +87,46 @@
     :ensure nil ;; emacs built-in
     :defines vertico-map corfu-map
     :functions vertico-scroll-down vertico-scroll-up corfu-scroll-down corfu-scroll-up
+    :if (fboundp 'pixel-scroll-precision-mode)
+    :preface
+    (defvar my--default-scroll-lines 15) ;; scroll less than default
+    :custom
+    ((pixel-scroll-precision-interpolation-factor 1.0)
+     (pixel-scroll-precision-use-momentum t)
+     (pixel-scroll-precision-interpolate-mice t)
+     (pixel-scroll-precision-large-scroll-height 10.0)
+     (pixel-scroll-precision-interpolation-total-time 0.2)
+     (pixel-scroll-precision-interpolate-page t))
+    :bind
+    (([remap scroll-up-command]   . my--pixel-scroll-up-command)
+     ([remap scroll-down-command] . my--pixel-scroll-down-command)
+     ([remap recenter-top-bottom] . my--pixel-recenter-top-bottom)
+     :map vertico-map
+     ([remap pixel-scroll-interpolate-up] . vertico-scroll-down)
+     ([remap pixel-scroll-interpolate-down] . vertico-scroll-up)
+     :map corfu-map
+     ([remap pixel-scroll-interpolate-up] . corfu-scroll-down)
+     ([remap pixel-scroll-interpolate-down] . corfu-scroll-up))
+    :hook
+    (after-init . pixel-scroll-precision-mode)
     :config
-    (when (fboundp 'pixel-scroll-precision-mode)
-        (setopt pixel-scroll-precision-use-momentum t
-                pixel-scroll-precision-interpolate-mice t
-                pixel-scroll-precision-large-scroll-height 10.0
-                pixel-scroll-precision-interpolation-total-time 0.2
-                pixel-scroll-precision-interpolate-page t)
-        (pixel-scroll-precision-mode t)
-
-        ;; remap some keys to use pixel-scroll
-        (global-set-key (kbd "C-v") 'pixel-scroll-interpolate-down)
-        (global-set-key (kbd "M-v") 'pixel-scroll-interpolate-up)
-        (keymap-set vertico-map "<remap> <pixel-scroll-interpolate-up>" #'vertico-scroll-down)
-        (keymap-set vertico-map "<remap> <pixel-scroll-interpolate-down>" #'vertico-scroll-up)
-        (keymap-set corfu-map "<remap> <pixel-scroll-interpolate-up>" #'corfu-scroll-down)
-        (keymap-set corfu-map "<remap> <pixel-scroll-interpolate-down>" #'corfu-scroll-up)))
+    (defun my--pixel-scroll-up-command ()
+        "Similar to `scroll-up-command' but with pixel scrolling."
+        (interactive)
+        (pixel-scroll-precision-interpolate (- (* my--default-scroll-lines (line-pixel-height)))))
+    (defun my--pixel-scroll-down-command ()
+        "Similar to `scroll-down-command' but with pixel scrolling."
+        (interactive)
+        (pixel-scroll-precision-interpolate (* my--default-scroll-lines (line-pixel-height))))
+    (defun my--pixel-recenter-top-bottom ()
+        "Similar to `recenter-top-bottom' but with pixel scrolling."
+        (interactive)
+        (let* ((current-row (cdr (nth 6 (posn-at-point))))
+               (target-row (save-window-excursion
+                               (recenter-top-bottom)
+                               (cdr (nth 6 (posn-at-point)))))
+               (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
+            (pixel-scroll-precision-interpolate distance-in-pixels))))
 
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
