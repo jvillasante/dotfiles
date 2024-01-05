@@ -47,10 +47,6 @@ style = "Bold"
 family = "Berkeley Mono"
 style = "Bold Italic"
 
-[font.glyph_offset]
-x = 0
-y = 0
-
 [font.italic]
 family = "Berkeley Mono"
 style = "Italic"
@@ -58,6 +54,10 @@ style = "Italic"
 [font.normal]
 family = "Berkeley Mono"
 style = "Regular"
+
+[font.glyph_offset]
+x = 0
+y = 0
 
 [font.offset]
 x = 0
