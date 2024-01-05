@@ -13,9 +13,9 @@ $git_status\
 $character"""
 
 [character]
-success_symbol = "[❯](green)"
-error_symbol = "[✗](red)"
-vicmd_symbol = "[❮](green)"
+success_symbol = '[\$](green)'
+error_symbol = '[X](red)'
+vicmd_symbol = '[<](green)'
 
 [directory]
 truncation_length = 1
