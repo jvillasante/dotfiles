@@ -1,0 +1,90 @@
+live_config_reload = true
+working_directory = "None"
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "#595959"
+blue = "#354fcf"
+cyan = "#005f5f"
+green = "#316500"
+magenta = "#531ab6"
+red = "#972500"
+white = "#ffffff"
+yellow = "#884900"
+
+[colors.normal]
+black = "#000000"
+blue = "#0031a9"
+cyan = "#005e8b"
+green = "#006800"
+magenta = "#721045"
+red = "#a60000"
+white = "#bfbfbf"
+yellow = "#6f5500"
+
+[colors.primary]
+background = "#ffffff"
+foreground = "#000000"
+
+[cursor]
+style = "Block"
+unfocused_hollow = true
+vi_mode_style = "None"
+
+[env]
+TERM = "alacritty"
+
+[font]
+size = 16
+
+[font.bold]
+family = "Berkeley Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "Berkeley Mono"
+style = "Bold Italic"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+family = "Berkeley Mono"
+style = "Italic"
+
+[font.normal]
+family = "Berkeley Mono"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+[scrolling]
+history = 10000
+multiplier = 2
+
+[shell]
+args = ["-l", "-c", "tmux attach || tmux new -s Default"]
+program = "/usr/bin/bash"
+
+[window]
+decorations = "full"
+dynamic_padding = true
+startup_mode = "Maximized"
+title = "Alacritty"
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.dimensions]
+columns = 140
+lines = 30
+
+[window.padding]
+x = 5
+y = 1
