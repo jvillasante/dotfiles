@@ -60,7 +60,7 @@ encrypt() {
         file_to_encrypt="$file_name.tar.gz"
     fi
 
-    tar czf "$file_to_encrypt" "$file_name"
+    tar czf "$(basename "$file_to_encrypt")" "$(basename "$file_name")"
     test $? -eq 0 || usage 1
 
     if [ "$1" = "-s" ]; then
