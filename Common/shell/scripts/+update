@@ -10,6 +10,8 @@ usage() {
     echo "        Update personal dotfiles (ask to pull from remote and then syncs on local)"
     echo "    $0 emacs:"
     echo "        Update emacs from source (will update to latest emacs from git repository)"
+    echo "    $0 xremap:"
+    echo "        Update xreamp from binary source"
     echo
     echo " e.g: $0 system"
     exit "$1"
@@ -162,6 +164,36 @@ emacs_update() {
     fi
 }
 
+xremap_update() {
+    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+    [ ! -d "$HOME"/Workspace/Software/xremap ] && mkdir -p "$HOME"/Workspace/Software/xremap
+    [ -d "$HOME"/Workspace/Software/xremap ] && rm -rf "$HOME"/Workspace/Software/xremap/*
+
+    pushd "$HOME"/Workspace/Software/xremap || {
+        echo "Can't cd into $HOME/Workspace/Software/xremap"
+        usage 1
+    }
+
+    # Get the latest
+    XREMAP_VERSION=v0.8.14
+    XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
+    if is_desktop_environment "Gnome"; then
+        XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
+    fi
+
+    curl -LJO https://github.com/k0kubun/xremap/releases/download/"$XREMAP_VERSION"/"$XREMAP_RELEASE"
+    atool --extract --explain "$XREMAP_RELEASE"
+    sudo cp -f xremap /usr/local/bin/
+
+    popd || {
+        echo "Can't pop directory"
+        usage 1
+    }
+
+    # Restart the daemon
+    systemctl --user restart xremap.service
+}
+
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -186,6 +218,10 @@ case $cmd in
     emacs)
         [[ "$nargs" -eq 1 ]] || usage 1
         emacs_update
+        ;;
+    xremap)
+        [[ "$nargs" -eq 1 ]] || usage 1
+        xremap_update
         ;;
     help | --help | -h)
         usage 0
