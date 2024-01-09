@@ -102,6 +102,8 @@
 (with-eval-after-load 'eglot
     (define-key eglot-mode-map (kbd "C-c c R") 'eglot-reconnect)
     (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "C-c c d") 'eglot-find-declaration)
+    (define-key eglot-mode-map (kbd "C-c c i") 'eglot-find-implementation)
     (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
     (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
 (with-eval-after-load 'flymake
