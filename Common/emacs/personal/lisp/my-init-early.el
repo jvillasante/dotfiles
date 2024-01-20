@@ -22,6 +22,9 @@
         ("Europe/Paris" "France")))
 (setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
+;; input method to switch to when `toggle-input-method'
+(setq default-input-method "spanish-postfix")
+
 ;; macros
 (require 'kmacro)
 (defalias 'kmacro-insert-macro 'insert-kbd-macro)
