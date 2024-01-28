@@ -279,9 +279,12 @@
 (use-package emacs-everywhere
     :disabled t) ;; does not work on Wayland
 
+;; devdocs.el : Emacs viewer for DevDocs
+(use-package devdocs
+    :bind (("C-h D" . devdocs-lookup)))
+
 ;; engine-mode : search the web
 (use-package engine-mode
-    :ensure t
     :init
     (defengine duckduckgo
         "https://duckduckgo.com/?q=%s"
