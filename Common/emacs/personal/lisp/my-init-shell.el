@@ -57,6 +57,7 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
+    :disabled t
     :bind (("C-c o t" . #'eat)
            ("C-c o T" . #'eat-other-window)
            :map project-prefix-map
@@ -74,7 +75,6 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
     :preface
     (defun my--vterm-project (&optional _)
         "Launch `vterm' in current project.
