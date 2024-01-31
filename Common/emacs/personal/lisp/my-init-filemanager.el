@@ -69,9 +69,46 @@
     :ensure nil ;; emacs built-in
     :bind (:map dired-mode-map ("." . dired-omit-mode))
     :config
-    ;; Make dired-omit-mode hide all "dotfiles"
-    (setq dired-omit-files
-          (concat dired-omit-files "\\|^\\..*$")))
+    ;; hide all "dotfiles"
+    ;; (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$"))
+
+    ;; vcs folders
+    (setq dired-omit-files (concat dired-omit-files "^\\.\\(?:git\\|hg\\|svn\\)$"))
+
+    ;; compiled files
+    (setq dired-omit-files (concat dired-omit-files "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"))
+
+    ;; generated files, caches or local pkgs
+    (setq dired-omit-files (concat dired-omit-files "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"))
+
+    ;; org-mode folders
+    (setq dired-omit-files (concat dired-omit-files "^\\.\\(?:sync\\|export\\|attach\\)$"))
+
+    ;; temp files
+    (setq dired-omit-files (concat dired-omit-files "~$"))
+    (setq dired-omit-files (concat dired-omit-files "^#.*#$"))
+
+    ;; others
+    (setq dired-omit-files (concat dired-omit-files "^\\.\\(cache\\|tox\\|coverage\\)$"))
+    (setq dired-omit-files (concat dired-omit-files "^\\.\\(DS_Store\\|python\\-version\\)"))
+    (setq dired-omit-files (concat dired-omit-files "^\\(htmlcov\\)$"))
+    (setq dired-omit-files (concat dired-omit-files "\\.elcs$"))
+    (setq dired-omit-files (concat dired-omit-files "^\\.coverage\\..*"))
+    (setq dired-omit-files (concat dired-omit-files "\\.ipynb.*$"))
+    (setq dired-omit-files (concat dired-omit-files "\\.py[cod]$"))
+    (setq dired-omit-files (concat dired-omit-files "^\\.#.*$"))
+    (setq dired-omit-files (concat dired-omit-files "^__pycache__$"))
+    (setq dired-omit-files (concat dired-omit-files "\\.gcda$"))
+    (setq dired-omit-files (concat dired-omit-files "\\.gcov$"))
+    (setq dired-omit-files (concat dired-omit-files "\\.gcno$"))
+    (setq dired-omit-files (concat dired-omit-files "\\.lo$"))
+    (setq dired-omit-files (concat dired-omit-files "\\.o$"))
+    (setq dired-omit-files (concat dired-omit-files "\\.so$"))
+    (setq dired-omit-files (concat dired-omit-files "^\\.cproject$"))
+    (setq dired-omit-files (concat dired-omit-files "^\\.project$"))
+    (setq dired-omit-files (concat dired-omit-files "^\\.projectile$"))
+    (setq dired-omit-files (concat dired-omit-files "^\\.log$"))
+    (setq dired-omit-files (concat dired-omit-files "\\.egg\-info$")))
 
 ;; Addtional syntax highlighting for dired
 (use-package diredfl
