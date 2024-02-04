@@ -44,21 +44,21 @@ create_c_project_gcc() {
         cp "$DOTFILES_DIR/Misc/CMakeLists.gcc.txt" "$PROJECT_PATH/CMakeLists.txt"
         check $?
 
-        if [ -f /etc/fedora-release ]; then
-            echo ">>> Copying compile_flags.txt (fedora) to $PROJECT_PATH..."
-            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.fedora.txt" "$PROJECT_PATH/compile_flags.txt"
-            check $?
-        elif [ -f /etc/debian_version ]; then
-            echo ">>> Copying compile_flags.txt (debian) to $PROJECT_PATH..."
-            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.debian.txt" "$PROJECT_PATH/compile_flags.txt"
-            check $?
-        elif [ -f /etc/products.d/openSUSE.prod ]; then
-            echo ">>> Copying compile_flags.txt (suse) to $PROJECT_PATH..."
-            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.suse.txt" "$PROJECT_PATH/compile_flags.txt"
-            check $?
-        else
-            echo ">>> Unknown OS (only fedora, suse and debian are supported)..."
-        fi
+        # if [ -f /etc/fedora-release ]; then
+        #     echo ">>> Copying compile_flags.txt (fedora) to $PROJECT_PATH..."
+        #     cp "$DOTFILES_DIR/Misc/compile_flags.gcc.fedora.txt" "$PROJECT_PATH/compile_flags.txt"
+        #     check $?
+        # elif [ -f /etc/debian_version ]; then
+        #     echo ">>> Copying compile_flags.txt (debian) to $PROJECT_PATH..."
+        #     cp "$DOTFILES_DIR/Misc/compile_flags.gcc.debian.txt" "$PROJECT_PATH/compile_flags.txt"
+        #     check $?
+        # elif [ -f /etc/products.d/openSUSE.prod ]; then
+        #     echo ">>> Copying compile_flags.txt (suse) to $PROJECT_PATH..."
+        #     cp "$DOTFILES_DIR/Misc/compile_flags.gcc.suse.txt" "$PROJECT_PATH/compile_flags.txt"
+        #     check $?
+        # else
+        #     echo ">>> Unknown OS (only fedora, suse and debian are supported)..."
+        # fi
 
         echo ">>> Initializing 'git' in $PROJECT_PATH..."
         cd "$PROJECT_PATH" && check $?
@@ -104,9 +104,9 @@ create_cpp_project_clang() {
         cp "$DOTFILES_DIR/Misc/CMakeLists.clang.txt" "$PROJECT_PATH/CMakeLists.txt"
         check $?
 
-        echo ">>> Copying compile_flags.txt to $PROJECT_PATH..."
-        cp "$DOTFILES_DIR/Misc/compile_flags.clang.txt" "$PROJECT_PATH/compile_flags.txt"
-        check $?
+        # echo ">>> Copying compile_flags.txt to $PROJECT_PATH..."
+        # cp "$DOTFILES_DIR/Misc/compile_flags.clang.txt" "$PROJECT_PATH/compile_flags.txt"
+        # check $?
 
         echo ">>> Copying .clang-tidy to $PROJECT_PATH..."
         cp "$DOTFILES_DIR/Misc/.clang-tidy" "$PROJECT_PATH/"
@@ -156,21 +156,21 @@ create_cpp_project_gcc() {
         cp "$DOTFILES_DIR/Misc/CMakeLists.gcc.txt" "$PROJECT_PATH/CMakeLists.txt"
         check $?
 
-        if [ -f /etc/fedora-release ]; then
-            echo ">>> Copying compile_flags.txt (fedora) to $PROJECT_PATH..."
-            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.fedora.txt" "$PROJECT_PATH/compile_flags.txt"
-            check $?
-        elif [ -f /etc/debian_version ]; then
-            echo ">>> Copying compile_flags.txt (debian) to $PROJECT_PATH..."
-            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.debian.txt" "$PROJECT_PATH/compile_flags.txt"
-            check $?
-        elif [ -f /etc/products.d/openSUSE.prod ]; then
-            echo ">>> Copying compile_flags.txt (suse) to $PROJECT_PATH..."
-            cp "$DOTFILES_DIR/Misc/compile_flags.gcc.suse.txt" "$PROJECT_PATH/compile_flags.txt"
-            check $?
-        else
-            echo ">>> Unknown OS (only fedora, suse and debian are supported)..."
-        fi
+        # if [ -f /etc/fedora-release ]; then
+        #     echo ">>> Copying compile_flags.txt (fedora) to $PROJECT_PATH..."
+        #     cp "$DOTFILES_DIR/Misc/compile_flags.gcc.fedora.txt" "$PROJECT_PATH/compile_flags.txt"
+        #     check $?
+        # elif [ -f /etc/debian_version ]; then
+        #     echo ">>> Copying compile_flags.txt (debian) to $PROJECT_PATH..."
+        #     cp "$DOTFILES_DIR/Misc/compile_flags.gcc.debian.txt" "$PROJECT_PATH/compile_flags.txt"
+        #     check $?
+        # elif [ -f /etc/products.d/openSUSE.prod ]; then
+        #     echo ">>> Copying compile_flags.txt (suse) to $PROJECT_PATH..."
+        #     cp "$DOTFILES_DIR/Misc/compile_flags.gcc.suse.txt" "$PROJECT_PATH/compile_flags.txt"
+        #     check $?
+        # else
+        #     echo ">>> Unknown OS (only fedora, suse and debian are supported)..."
+        # fi
 
         echo ">>> Copying .clang-tidy to $PROJECT_PATH..."
         cp "$DOTFILES_DIR/Misc/.clang-tidy" "$PROJECT_PATH/"
@@ -258,6 +258,10 @@ create_sfml_project() {
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
         cp "$DOTFILES_DIR/Misc/.clang-format" "$PROJECT_PATH/"
+        check $?
+
+        echo ">>> Copying .clang-tidy to $PROJECT_PATH..."
+        cp "$DOTFILES_DIR/Misc/.clang-tidy" "$PROJECT_PATH/"
         check $?
 
         echo ">>> Initializing 'git' in $PROJECT_PATH..."

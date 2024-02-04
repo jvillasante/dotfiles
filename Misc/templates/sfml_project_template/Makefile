@@ -8,7 +8,7 @@ all: release
 
 debug:
 	cmake -E make_directory "build" && \
-    cmake -E chdir "build" cmake -DCMAKE_BUILD_TYPE=Debug ../ && \
+    cmake -E chdir "build" cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ../ && \
     cmake --build "build" --target install --config Debug
 
 run_debug: debug
@@ -16,7 +16,7 @@ run_debug: debug
 
 release:
 	cmake -E make_directory "build" && \
-    cmake -E chdir "build" cmake -DCMAKE_BUILD_TYPE=Release ../ && \
+    cmake -E chdir "build" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ../ && \
     cmake --build "build" --target install --config Release
 
 run_release: release

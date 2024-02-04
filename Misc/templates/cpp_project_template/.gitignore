@@ -33,6 +33,7 @@
 
 # Others
 .DS_Store
+/.cache
 /bin
 /build
 /lib
