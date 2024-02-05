@@ -50,7 +50,7 @@
     ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
     (setq dired-listing-switches (if (eq system-type 'windows-nt)
                                          "-alh"
-                                     "-alhvF --group-directories-first"))
+                                     "-aAlhvF --group-directories-first"))
 
     ;; enable some really cool extensions like C-x C-j(dired-jump)
     (if (< emacs-major-version 28)
@@ -69,46 +69,32 @@
     :ensure nil ;; emacs built-in
     :bind (:map dired-mode-map ("." . dired-omit-mode))
     :config
-    ;; hide all "dotfiles"
-    ;; (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$"))
-
-    ;; vcs folders
-    (setq dired-omit-files (concat dired-omit-files "^\\.\\(?:git\\|hg\\|svn\\)$"))
-
-    ;; compiled files
-    (setq dired-omit-files (concat dired-omit-files "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"))
-
-    ;; generated files, caches or local pkgs
-    (setq dired-omit-files (concat dired-omit-files "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"))
-
-    ;; org-mode folders
-    (setq dired-omit-files (concat dired-omit-files "^\\.\\(?:sync\\|export\\|attach\\)$"))
-
-    ;; temp files
-    (setq dired-omit-files (concat dired-omit-files "~$"))
-    (setq dired-omit-files (concat dired-omit-files "^#.*#$"))
-
-    ;; others
-    (setq dired-omit-files (concat dired-omit-files "^\\.\\(cache\\|tox\\|coverage\\)$"))
-    (setq dired-omit-files (concat dired-omit-files "^\\.\\(DS_Store\\|python\\-version\\)"))
-    (setq dired-omit-files (concat dired-omit-files "^\\(htmlcov\\)$"))
-    (setq dired-omit-files (concat dired-omit-files "\\.elcs$"))
-    (setq dired-omit-files (concat dired-omit-files "^\\.coverage\\..*"))
-    (setq dired-omit-files (concat dired-omit-files "\\.ipynb.*$"))
-    (setq dired-omit-files (concat dired-omit-files "\\.py[cod]$"))
-    (setq dired-omit-files (concat dired-omit-files "^\\.#.*$"))
-    (setq dired-omit-files (concat dired-omit-files "^__pycache__$"))
-    (setq dired-omit-files (concat dired-omit-files "\\.gcda$"))
-    (setq dired-omit-files (concat dired-omit-files "\\.gcov$"))
-    (setq dired-omit-files (concat dired-omit-files "\\.gcno$"))
-    (setq dired-omit-files (concat dired-omit-files "\\.lo$"))
-    (setq dired-omit-files (concat dired-omit-files "\\.o$"))
-    (setq dired-omit-files (concat dired-omit-files "\\.so$"))
-    (setq dired-omit-files (concat dired-omit-files "^\\.cproject$"))
-    (setq dired-omit-files (concat dired-omit-files "^\\.project$"))
-    (setq dired-omit-files (concat dired-omit-files "^\\.projectile$"))
-    (setq dired-omit-files (concat dired-omit-files "^\\.log$"))
-    (setq dired-omit-files (concat dired-omit-files "\\.egg\-info$")))
+    (setq dired-omit-extensions
+          (append dired-latex-unclean-extensions
+                  dired-bibtex-unclean-extensions
+                  dired-texinfo-unclean-extensions))
+    (setq dired-omit-files
+          (concat
+           "\\("   "^\\.\\(git\\|cache\\|tox\\|coverage\\)$" "\\)" "\\|"
+           "\\("   "^\\.\\(DS_Store\\|python\\-version\\)"   "\\)" "\\|"
+           "\\("   "^\\(htmlcov\\|node_modules\\)$"          "\\)" "\\|"
+           "\\("   "\\.elcs$"                                "\\)" "\\|"
+           "\\("   "^\\.coverage\\..*"                       "\\)" "\\|"
+           "\\("   "\\.ipynb.*$"                             "\\)" "\\|"
+           "\\("   "\\.py[cod]$"                             "\\)" "\\|"
+           "\\("   "~$" "^#.*#$"                             "\\)" "\\|"
+           "\\("   "^\\.#.*$"                                "\\)" "\\|"
+           "\\("   "^__pycache__$"                           "\\)" "\\|"
+           "\\("   "\\.gcda$"                                "\\)" "\\|"
+           "\\("   "\\.gcov$"                                "\\)" "\\|"
+           "\\("   "\\.gcno$"                                "\\)" "\\|"
+           "\\("   "\\.lo$"                                  "\\)" "\\|"
+           "\\("   "\\.o$"                                   "\\)" "\\|"
+           "\\("   "\\.so$"                                  "\\)" "\\|"
+           "\\("   "^\\.cproject$"                           "\\)" "\\|"
+           "\\("   "^\\.project$"                            "\\)" "\\|"
+           "\\("   "^\\.projectile$"                         "\\)" "\\|"
+           "\\("   "\\.egg\-info$"                           "\\)")))
 
 ;; Addtional syntax highlighting for dired
 (use-package diredfl
