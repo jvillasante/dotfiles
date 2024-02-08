@@ -77,10 +77,10 @@
                           (concat dired-directory))
                          (t (buffer-name))))))
 
-(setq window-combination-resize t
-      ;; unless you have a really wide screen, always prefer
-      ;; horizontal split (ale `split-window-below')
-      split-width-threshold 200)
+;; window split and resizing
+(setq window-combination-resize t)
+(setq split-height-threshold 80)
+(setq split-width-threshold 125)
 
 ;; enable pixel-scroll-precision if available
 (use-package pixel-scroll
