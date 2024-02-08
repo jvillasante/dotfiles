@@ -89,7 +89,7 @@
     :functions vertico-scroll-down vertico-scroll-up corfu-scroll-down corfu-scroll-up
     :if (fboundp 'pixel-scroll-precision-mode)
     :preface
-    (defvar my--default-scroll-lines 15) ;; scroll less than default
+    (defvar my--default-scroll-lines 20) ;; scroll less than default
     :custom
     ((pixel-scroll-precision-interpolation-factor 1.0)
      (pixel-scroll-precision-use-momentum t)
@@ -287,17 +287,17 @@ Run this function at the post theme load phase, such as with the
              display-buffer-in-previous-window
              display-buffer-reuse-mode-window)))
 
-    ;; (add-to-list 'display-buffer-alist
-    ;;              '("\\*\\(e?shell\\|vterm\\|ielm\\|.*eat\\)\\*"
-    ;;                (display-buffer-reuse-window
-    ;;                 display-buffer-in-direction
-    ;;                 display-buffer-in-side-window)
-    ;;                (body-function . select-window)
-    ;;                (window-height . .40)
-    ;;                (window-width .  .40)
-    ;;                (direction . below)
-    ;;                (side . bottom)
-    ;;                (slot . 1)))
+    (add-to-list 'display-buffer-alist
+                 '("\\*\\(e?shell\\|.*vterm\\|ielm\\|.*eat\\)\\*"
+                   (display-buffer-reuse-window
+                    display-buffer-in-direction
+                    display-buffer-in-side-window)
+                   (body-function . select-window)
+                   (window-height . .40)
+                   (window-width .  .50)
+                   (direction . right)
+                   (side . right)
+                   (slot . 1)))
 
     (add-to-list 'display-buffer-alist
                  '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
@@ -309,7 +309,8 @@ Run this function at the post theme load phase, such as with the
                    (window-width .  .50)
                    (direction . right)
                    (side . right)
-                   (slot . 1))))
+                   (slot . 1)))
+    )
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
