@@ -287,17 +287,17 @@ Run this function at the post theme load phase, such as with the
              display-buffer-in-previous-window
              display-buffer-reuse-mode-window)))
 
-    (add-to-list 'display-buffer-alist
-                 '("\\*\\(e?shell\\|.*vterm\\|ielm\\|.*eat\\)\\*"
-                   (display-buffer-reuse-window
-                    display-buffer-in-direction
-                    display-buffer-in-side-window)
-                   (body-function . select-window)
-                   (window-height . .40)
-                   (window-width .  .50)
-                   (direction . right)
-                   (side . right)
-                   (slot . 1)))
+    ;; (add-to-list 'display-buffer-alist
+    ;;              '("\\*\\(e?shell\\|.*vterm\\|ielm\\|.*eat\\)\\*"
+    ;;                (display-buffer-reuse-window
+    ;;                 display-buffer-in-direction
+    ;;                 display-buffer-in-side-window)
+    ;;                (body-function . select-window)
+    ;;                (window-height . .40)
+    ;;                (window-width .  .50)
+    ;;                (direction . right)
+    ;;                (side . right)
+    ;;                (slot . 1)))
 
     (add-to-list 'display-buffer-alist
                  '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
@@ -309,8 +309,7 @@ Run this function at the post theme load phase, such as with the
                    (window-width .  .50)
                    (direction . right)
                    (side . right)
-                   (slot . 1)))
-    )
+                   (slot . 1))))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
