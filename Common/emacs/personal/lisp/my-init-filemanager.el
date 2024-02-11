@@ -50,7 +50,7 @@
     ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
     (setq dired-listing-switches (if (eq system-type 'windows-nt)
                                          "-alh"
-                                     "-aAlhvF --group-directories-first"))
+                                     "-alhvF --group-directories-first"))
 
     ;; enable some really cool extensions like C-x C-j(dired-jump)
     (if (< emacs-major-version 28)
@@ -75,27 +75,29 @@
                   dired-texinfo-unclean-extensions))
     (setq dired-omit-files
           (concat
-           "\\("   "^\\.\\(git\\|cache\\|tox\\|coverage\\)$" "\\)" "\\|"
-           "\\("   "^\\.\\(DS_Store\\|python\\-version\\)"   "\\)" "\\|"
-           "\\("   "^\\(htmlcov\\|node_modules\\)$"          "\\)" "\\|"
-           "\\("   "^\\.\\(vscode\\|devcontainer\\)$"        "\\)" "\\|"
-           "\\("   "\\.elcs$"                                "\\)" "\\|"
-           "\\("   "^\\.coverage\\..*"                       "\\)" "\\|"
-           "\\("   "\\.ipynb.*$"                             "\\)" "\\|"
-           "\\("   "\\.py[cod]$"                             "\\)" "\\|"
-           "\\("   "~$" "^#.*#$"                             "\\)" "\\|"
-           "\\("   "^\\.#.*$"                                "\\)" "\\|"
-           "\\("   "^__pycache__$"                           "\\)" "\\|"
-           "\\("   "\\.gcda$"                                "\\)" "\\|"
-           "\\("   "\\.gcov$"                                "\\)" "\\|"
-           "\\("   "\\.gcno$"                                "\\)" "\\|"
-           "\\("   "\\.lo$"                                  "\\)" "\\|"
-           "\\("   "\\.o$"                                   "\\)" "\\|"
-           "\\("   "\\.so$"                                  "\\)" "\\|"
-           "\\("   "^\\.cproject$"                           "\\)" "\\|"
-           "\\("   "^\\.project$"                            "\\)" "\\|"
-           "\\("   "^\\.projectile$"                         "\\)" "\\|"
-           "\\("   "\\.egg\-info$"                           "\\)")))
+           "\\(" "^\\.?#\\|^\\.$\\|^\\.\\.$"               "\\)" "\\|"
+           "\\(" "^\\.\\(git\\|cache\\|tox\\|coverage\\)$" "\\)" "\\|"
+           "\\(" "^\\.\\(DS_Store\\|python\\-version\\)"   "\\)" "\\|"
+           "\\(" "^\\(htmlcov\\|node_modules\\)$"          "\\)" "\\|"
+           "\\(" "^\\.\\(vscode\\|devcontainer\\)$"        "\\)" "\\|"
+           "\\(" "\\.elcs$"                                "\\)" "\\|"
+           "\\(" "^\\.coverage\\..*"                       "\\)" "\\|"
+           "\\(" "\\.ipynb.*$"                             "\\)" "\\|"
+           "\\(" "\\.py[cod]$"                             "\\)" "\\|"
+           "\\(" "~$"                                      "\\)" "\\|"
+           "\\(" "^#.*#$"                                  "\\)" "\\|"
+           "\\(" "^\\.#.*$"                                "\\)" "\\|"
+           "\\(" "^__pycache__$"                           "\\)" "\\|"
+           "\\(" "\\.gcda$"                                "\\)" "\\|"
+           "\\(" "\\.gcov$"                                "\\)" "\\|"
+           "\\(" "\\.gcno$"                                "\\)" "\\|"
+           "\\(" "\\.lo$"                                  "\\)" "\\|"
+           "\\(" "\\.o$"                                   "\\)" "\\|"
+           "\\(" "\\.so$"                                  "\\)" "\\|"
+           "\\(" "^\\.cproject$"                           "\\)" "\\|"
+           "\\(" "^\\.project$"                            "\\)" "\\|"
+           "\\(" "^\\.projectile$"                         "\\)" "\\|"
+           "\\(" "\\.egg\-info$"                           "\\)")))
 
 ;; Addtional syntax highlighting for dired
 (use-package diredfl
