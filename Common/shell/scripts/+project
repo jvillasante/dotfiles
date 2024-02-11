@@ -32,10 +32,6 @@ create_c_project_gcc() {
         cp -a "$DOTFILES_DIR/Misc/templates/c_project_template/." "$PROJECT_PATH/"
         check $?
 
-        echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "$HOME/.editorconfig" "$PROJECT_PATH/"
-        check $?
-
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
         cp "$DOTFILES_DIR/Misc/.clang-format" "$PROJECT_PATH/"
         check $?
@@ -92,10 +88,6 @@ create_cpp_project_clang() {
         cp -a "$DOTFILES_DIR/Misc/templates/cpp_project_template/." "$PROJECT_PATH/"
         check $?
 
-        echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "$HOME/.editorconfig" "$PROJECT_PATH/"
-        check $?
-
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
         cp "$DOTFILES_DIR/Misc/.clang-format" "$PROJECT_PATH/"
         check $?
@@ -142,10 +134,6 @@ create_cpp_project_gcc() {
 
         echo ">>> Copying project template to $PROJECT_PATH..."
         cp -a "$DOTFILES_DIR/Misc/templates/cpp_project_template/." "$PROJECT_PATH/"
-        check $?
-
-        echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "$HOME/.editorconfig" "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
@@ -208,10 +196,6 @@ create_rust_project() {
         cp -a "$DOTFILES_DIR/Misc/templates/rust_project_template/." "$PROJECT_PATH/"
         check $?
 
-        echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "$HOME/.editorconfig" "$PROJECT_PATH/"
-        check $?
-
         echo ">>> Copying .rustfmt.toml to $PROJECT_PATH..."
         cp "$DOTFILES_DIR/Misc/.rustfmt.toml" "$PROJECT_PATH/"
         check $?
@@ -250,10 +234,6 @@ create_sfml_project() {
 
         echo ">>> Copying project template to $PROJECT_PATH..."
         cp -a "$DOTFILES_DIR/Misc/templates/sfml_project_template/." "$PROJECT_PATH/"
-        check $?
-
-        echo ">>> Copying .editorconfig to $PROJECT_PATH..."
-        cp "$HOME/.editorconfig" "$PROJECT_PATH/"
         check $?
 
         echo ">>> Copying .clang-format to $PROJECT_PATH..."
