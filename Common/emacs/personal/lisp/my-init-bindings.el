@@ -13,6 +13,7 @@
 (global-set-key (kbd "C-x k") 'kill-this-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
 (global-set-key (kbd "C-x S") 'my--save-all) ; save some buffers without prompt
+(global-set-key (kbd "C-x C-o") 'ff-find-other-file) ; useful for C/C++ finding header/impl files
 
 ;; C-z does not make sense on graphical environment
 (when (display-graphic-p)
