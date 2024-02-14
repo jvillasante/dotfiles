@@ -181,6 +181,12 @@
                      (ibuffer-do-sort-by-alphabetic)))
     :init (add-hook 'ibuffer-hook #'my--ibuffer-vc-setup))
 
+;; vundo : visual undo
+(use-package vundo
+    :commands (vundo)
+    :config
+    (setq vundo-compact-display nil))
+
 ;; smartparens : minor mode for dealing with pairs in emacs
 (use-package smartparens
     :disabled t ;; using electric-pair built-in
