@@ -30,6 +30,12 @@
 ;; c++ treesiter
 (use-package c++-ts-mode
     :ensure nil ;; emacs built-in
+    :mode "\\.h\\'"
+    :mode "\\.hpp\\'"
+    :mode "\\.cpp\\'"
+    :mode "\\.cxx\\'"
+    :mode "\\.cc\\'"
+    :mode "\\.C\\'"
     :preface (defun my--c-ts-indent-style()
                  "Override the built-in BSD indentation style with some additional rules.
          Docs: https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html
