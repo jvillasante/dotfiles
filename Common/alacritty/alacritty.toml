@@ -5,24 +5,24 @@ working_directory = "None"
 draw_bold_text_with_bright_colors = true
 
 [colors.bright]
-black = "#595959"
-blue = "#354fcf"
-cyan = "#005f5f"
-green = "#316500"
-magenta = "#531ab6"
-red = "#972500"
-white = "#ffffff"
-yellow = "#884900"
+black = "#f2f2f2"
+red = "#d00000"
+green = "#008900"
+yellow = "#808000"
+blue = "#0000ff"
+magenta = "#dd22dd"
+cyan = "#008899"
+white = "#595959"
 
 [colors.normal]
-black = "#000000"
-blue = "#0031a9"
-cyan = "#005e8b"
-green = "#006800"
-magenta = "#721045"
+black = "#ffffff"
 red = "#a60000"
-white = "#bfbfbf"
+green = "#006800"
 yellow = "#6f5500"
+blue = "#0031a9"
+magenta = "#721045"
+cyan = "#005e8b"
+white = "#000000"
 
 [colors.primary]
 background = "#ffffff"
