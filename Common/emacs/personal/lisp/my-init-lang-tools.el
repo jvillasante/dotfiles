@@ -66,6 +66,7 @@
     (setq eglot-events-buffer-size 0)
     (setq eglot-extend-to-xref t)
     (setq eglot-sync-connect nil)
+    (setq eglot-confirm-server-initiated-edits nil)
     (setq eglot-ignored-server-capabilities
           '(:documentHighlightProvider
             :inlayHintProvider))
