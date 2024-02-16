@@ -3,7 +3,7 @@
 ;;
 ;;; Code:
 
-;; Dired : built-in navigation of folders
+;; dired : built-in navigation of folders
 (use-package dired
     :ensure nil ;; emacs built-in
     :hook ((dired-mode . auto-revert-mode)
@@ -65,6 +65,7 @@
         (progn
             (setq dired-kill-when-opening-new-dired-buffer t))))
 
+;; dired-x : dired eXtenxions
 (use-package dired-x
     :ensure nil ;; emacs built-in
     :bind (:map dired-mode-map ("." . dired-omit-mode))
@@ -107,20 +108,22 @@
     :config
     (set-face-attribute 'diredfl-dir-name nil :bold t))
 
+;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
     :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
-    :init (add-hook 'dired-sidebar-mode-hook
-                    (lambda ()
-                        (unless (file-remote-p default-directory)
-                            (auto-revert-mode))))
+    :commands (dired-sidebar-toggle-sidebar)
+    :init
+    (add-hook 'dired-sidebar-mode-hook
+              (lambda ()
+                  (unless (file-remote-p default-directory)
+                      (auto-revert-mode))))
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
     (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
     (setq dired-sidebar-theme 'ascii)
-    (setq dired-sidebar-use-term-integration t)
-    (setq dired-sidebar-resize-on-open nil)
+    (setq dired-sidebar-width 42)
     (setq dired-sidebar-window-fixed nil)
-    (setq dired-sidebar-use-custom-modeline nil))
+    (setq dired-sidebar-use-term-integration t))
 
 (provide 'my-init-filemanager)
 ;;; my-init-filemanager.el ends here
