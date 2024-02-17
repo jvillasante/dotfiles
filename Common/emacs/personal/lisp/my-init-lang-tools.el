@@ -90,6 +90,7 @@
                  '((c-ts-mode c++-ts-mode c-mode c++-mode)
                    . ("clangd"
                       "-j=8"
+                      "--query-driver=/**/*"
                       "--log=error"
                       "--malloc-trim"
                       "--background-index"

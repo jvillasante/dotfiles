@@ -120,6 +120,8 @@
 ;; tramp : Transparent Remote Access, Multiple Protocols
 (use-package tramp
     :ensure nil ;; emacs built-in
+    :init
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
     :config
     (setq remote-file-name-inhibit-locks t)
     (setq tramp-verbose 2)
