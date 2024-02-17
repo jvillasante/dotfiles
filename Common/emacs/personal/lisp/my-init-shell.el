@@ -57,7 +57,6 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
-    :disabled t
     :bind (("C-c o t" . #'eat)
            ("C-c o T" . #'eat-other-window)
            :map project-prefix-map
@@ -68,6 +67,7 @@
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
     :config
+    (setq eat-term-name "xterm-256color") ; https://codeberg.org/akib/emacs-eat/issues/119"
     (setq eat-kill-buffer-on-exit t)
     (setq eat-shell-prompt-annotation-failure-margin-indicator "")
     (setq eat-shell-prompt-annotation-running-margin-indicator "")
@@ -75,6 +75,7 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
+    :disabled t
     :preface
     (defun my--vterm-project (&optional _)
         "Launch `vterm' in current project.

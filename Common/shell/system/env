@@ -12,6 +12,11 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 # set PATH so it includes .local bin if it exists
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
+# Reset the prompt for remote TRAMP shells.
+if [ "${INSIDE_EMACS/*tramp*/tramp}" == "tramp" ]; then
+    PS1="[\u@\h \w]$ "
+fi
+
 # emacs vterm: https://github.com/akermu/emacs-libvterm
 if [ "$INSIDE_EMACS" = 'vterm' ] &&
     [ -n "$EMACS_VTERM_PATH" ] &&
