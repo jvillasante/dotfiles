@@ -281,7 +281,11 @@
            ("C-S-c C-S-c" . mc/edit-lines)))
 
 ;; wgrep : edit grep results
-(use-package wgrep)
+(use-package wgrep
+    :bind ( :map grep-mode-map
+            ("e" . wgrep-change-to-wgrep-mode)
+            ("C-x C-q" . wgrep-change-to-wgrep-mode)
+            ("C-c C-c" . wgrep-finish-edit)))
 
 ;; Emacs Everywhere
 (use-package emacs-everywhere
