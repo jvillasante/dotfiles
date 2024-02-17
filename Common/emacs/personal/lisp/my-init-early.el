@@ -102,6 +102,7 @@
 (setq delete-by-moving-to-trash t) ;; use the system trash
 (setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
 (setq create-lockfiles nil) ;; no lock files
+(put 'narrow-to-region 'disabled nil) ; enable narrow to region (disabled by default)
 
 ;; s.el : The long lost Emacs string manipulation library.
 (use-package s)
