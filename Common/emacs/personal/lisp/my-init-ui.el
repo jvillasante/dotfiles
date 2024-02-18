@@ -36,6 +36,8 @@
 
 ;; setup autofill and visual-line
 (setq-default fill-column 120)                       ;; Wrap lines at 120 characters
+(setq visual-line-fringe-indicators
+      '(left-curly-arrow right-curly-arrow))         ;; display line indication
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)     ;; auto-fill insert hard line breaks
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
 (add-hook 'prog-mode-hook                            ;; ... but add comment auto-fill in prog-mode
