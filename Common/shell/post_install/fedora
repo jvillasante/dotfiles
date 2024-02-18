@@ -11,44 +11,39 @@ usage() {
     exit "$1"
 }
 
-# Also in `common.sh`. Also here for 0 dependency script
-is_desktop_environment() (
-    local de=${1:-}
-    local DEs=${XDG_CURRENT_DESKTOP:-}
-
-    # Shortcut: If de is empty, check if empty DEs
-    if [[ -z "$de" ]]; then if [[ "$DEs" ]]; then return; else return 1; fi; fi
-
-    # Lowercase both
-    de=${de,,}
-                DEs=${DEs,,}
-
-    # Check de against each DEs component
-    IFS=:
-           for DE in $DEs; do if [[ "$de" == "$DE" ]]; then return; fi; done
-
-    # Not found
-    return 1
-)
+readonly WS_WAYLAND="Wayland"
+readonly WS_X11="X11"
+readonly WM_KDE="KDE"
+readonly WM_GNOME="Gnome"
+WINDOW_SYSTEM="$WS_WAYLAND"
+WINDOW_MANAGER="$WM_KDE"
 
 install_berkeley_mono_font() {
     [ ! -d "$(pwd)"/fonts ] && notify-send "$(pwd)/fonts is not a directory" --expire-time=20 && return
-    [ ! -f "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg ] && notify-send "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
-    [ ! -f "$(pwd)"/../scripts/+crypt ] && notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && return
+    [ ! -f "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
+        notify-send "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
+    [ ! -f "$(pwd)"/../scripts/+crypt ] &&
+        notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && return
     [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
-    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] && rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
+    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
+        rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
 
     # copy and decrypt Berkeley Mono typeface
     cp "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg "$HOME"/Workspace/Software/fonts
-    [ ! -f "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg ] && notify-send "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
+    [ ! -f "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
+        notify-send "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" \
+                    --expire-time=20 && return
     "$(pwd)"/../scripts/+crypt -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg
-    [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] && notify-send "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface directory does not exists" --expire-time=20 && return
+    [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
+        notify-send "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface does not exists" \
+                    --expire-time=20 && return
 
     # remove all fonts from ~/.local/share/fonts that start with "BerkeleyMono"
     rm -rf ~/.local/share/fonts/BerkeleyMono*
 
     # copy all ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface \
+         -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # Build font information caches
     fc-cache -f
@@ -60,15 +55,18 @@ install_iosevka_comfy_font() {
     if [ ! -d "$HOME"/Workspace/Software/fonts/iosevka-comfy ]; then
         git clone --depth 1 https://git.sr.ht/~protesilaos/iosevka-comfy "$HOME"/Workspace/Software/fonts/iosevka-comfy
     else
-        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy reset --hard HEAD
-        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy pull
+        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git \
+            --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy reset --hard HEAD
+        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git \
+            --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy pull
     fi
 
     # remove all fonts from ~/.local/share/fonts that start with "iosevka-comfy"
     rm -rf ~/.local/share/fonts/iosevka-comfy*
 
     # copy all otf/ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/iosevka-comfy/ -type f \( -name "*.ttf" -o -name "*.otf" \) -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+    find "$HOME"/Workspace/Software/fonts/iosevka-comfy/ -type f \( -name "*.ttf" -o -name "*.otf" \) \
+         -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # Build font information caches
     fc-cache -f
@@ -80,15 +78,18 @@ install_monaspace_font() {
     if [ ! -d "$HOME"/Workspace/Software/fonts/monaspace ]; then
         git clone git@github.com:githubnext/monaspace.git "$HOME"/Workspace/Software/fonts/monaspace
     else
-        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git --work-tree="$HOME"/Workspace/Software/fonts/monaspace reset --hard HEAD
-        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git --work-tree="$HOME"/Workspace/Software/fonts/monaspace pull
+        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git \
+            --work-tree="$HOME"/Workspace/Software/fonts/monaspace reset --hard HEAD
+        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git \
+            --work-tree="$HOME"/Workspace/Software/fonts/monaspace pull
     fi
 
     # remove all fonts from ~/.local/share/fonts that start with "monaspace"
     rm -rf ~/.local/share/fonts/Monaspace*
 
     # copy all otf/ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/monaspace/ -type f \( -name "*.ttf" -o -name "*.otf" \) -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+    find "$HOME"/Workspace/Software/fonts/monaspace/ -type f \( -name "*.ttf" -o -name "*.otf" \) \
+         -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # Build font information caches
     fc-cache -f
@@ -102,16 +103,20 @@ fedora_install() {
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
-    read -rp "Enter Window System (Wayland or X11, defaults 'Wayland'): " WINDOW_SYSTEM
-    [ -z "$WINDOW_SYSTEM" ] && WINDOW_SYSTEM="Wayland"
-    case "$WINDOW_SYSTEM" in
-        X11)
-            echo "$BACKTITLE for $WINDOW_SYSTEM"
-            ;;
-        Wayland)
-            echo "$BACKTITLE for $WINDOW_SYSTEM"
-            ;;
+    # Accept WS and WM for the installer to kick in
+    read -rp "$BACKTITLE (WS=$WINDOW_SYSTEM and WM=$WINDOW_MANAGER)? (Y/N): " confirm
+    [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || usage 1
+    case $WINDOW_SYSTEM in
+        "$WS_WAYLAND" | "$WS_X11") ;;
         *)
+            echo "Error. Please select one of the supported Window Systems"
+            usage 1
+            ;;
+    esac
+    case $WINDOW_MANAGER in
+        "$WM_KDE" | "$WM_GNOME") ;;
+        *)
+            echo "Error. Please select one of the supported Window Managers"
             usage 1
             ;;
     esac
@@ -149,7 +154,7 @@ fedora_install() {
                         --menu "$MENU" \
                         $HEIGHT $WIDTH $CHOICE_HEIGHT \
                         "${OPTIONS[@]}" \
-            2>&1             > /dev/tty)
+            2>&1 > /dev/tty)
 
         clear
         case $CHOICE in
@@ -194,7 +199,7 @@ fedora_install() {
                 # Gnome Gsettings - dconf-editor
                 #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
                 #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
-                if is_desktop_environment "Gnome"; then
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     # Clock Settings
                     gsettings set org.gnome.desktop.interface clock-format '12h'
                     gsettings set org.gnome.desktop.interface clock-show-date true
@@ -254,7 +259,8 @@ fedora_install() {
                 sudo dnf install -y gcc kernel-headers kernel-devel
 
                 # Enable RPM Fusion
-                sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
+                sudo dnf install -y \
+                     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
                      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
                 sudo dnf upgrade -y --refresh
                 sudo dnf -y groupupdate core
@@ -266,7 +272,7 @@ fedora_install() {
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             4)
-                echo "$CHOICE) Installing NVIDIA Drivers. We need to disable secure boot on the bios for NVIDIA Drivers to be loaded."
+                echo "$CHOICE) Installing NVIDIA Drivers. Disable secure boot in the bios."
 
                 # Using RPM Fusion
                 sudo dnf install -y akmod-nvidia
@@ -284,7 +290,8 @@ fedora_install() {
 
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
-                sudo dnf groupinstall -y "Development Tools" "Development Libraries" "C Development Tools and Libraries"
+                sudo dnf groupinstall -y "Development Tools" "Development Libraries" \
+                     "C Development Tools and Libraries"
                 sudo dnf install -y git ripgrep fd-find util-linux-user xprop xwininfo htop btop nvtop
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
@@ -294,7 +301,8 @@ fedora_install() {
                 sudo dnf install -y subversion tldr tree w3m wget libtool texinfo
                 sudo dnf install -y wordnet shfmt editorconfig glslang ShellCheck parallel
                 sudo dnf install -y llvm clang clang-tools-extra libpcap libpcap-devel
-                sudo dnf install -y pkg-config openssl openssl-devel flex bison tar unar unrar unzip p7zip p7zip-plugins
+                sudo dnf install -y pkg-config openssl openssl-devel flex bison
+                sudo dnf install -y tar unar unrar unzip p7zip p7zip-plugins
                 sudo dnf install -y ImageMagick ImageMagick-devel sqlite
                 sudo dnf install -y valgrind minicom mc strace tidy
                 sudo dnf install -y ffmpegthumbnailer mediainfo
@@ -304,27 +312,26 @@ fedora_install() {
                 sudo dnf install -y meson
 
                 # Gnome Software
-                if is_desktop_environment "Gnome"; then
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     sudo dnf -y install -y gnome-tweaks dconf-editor
                 fi
 
                 # Plasma Software
-                # if is_desktop_environment "KDE"; then
+                if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
+                    sudo dnf install -y kdeconnect-kde
                     # sudo dnf install -y yakuake
                     # sudo dnf install -y latte-dock
-                # fi
+                    # sudo zypper install -y kazam
+                fi
 
-                # wayland stuff
-                [[ $WINDOW_SYSTEM = Wayland ]] && sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
+                # Wayland stuff
+                if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
+                    sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
+                fi
 
                 # X11 stuff
-                if [[ $WINDOW_SYSTEM = X11 ]]; then
+                if [[ "$WINDOW_SYSTEM" == "$WS_X11" ]]; then
                     sudo dnf install -y xclip xinput xdotool x11-utils # some X11 tools
-
-                    # Gnome already have a screen recorder
-                    if ! is_desktop_environment "Gnome"; then
-                        sudo dnf install -y kazam  # simple screen recorder for X11
-                    fi
                 fi
 
                 # tmux: A terminal multiplexer
@@ -334,7 +341,7 @@ fedora_install() {
                 sudo dnf install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
-                [[ $WINDOW_SYSTEM = Wayland ]] && sudo dnf install -y foot
+                [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && sudo dnf install -y foot
 
                 # Starship Prompt
                 curl -sS https://starship.rs/install.sh | sh
@@ -363,11 +370,15 @@ fedora_install() {
                 sudo dnf install -y neovim
 
                 # Firewall GUI to manage firewalld
-                # sudo dnf install -y firewall-config
+                sudo dnf install -y firewall-config
 
                 # Profile sync daemon
                 sudo dnf install -y profile-sync-daemon
-                [ -f /usr/share/psd/contrib/brave ] && sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                if [ -f /usr/share/psd/contrib/brave ]; then
+                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
+                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
+                fi
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # Go
@@ -403,7 +414,8 @@ fedora_install() {
                 # sudo dnf group upgrade -y --with-optional Multimedia
 
                 # Install additional codecs
-                sudo dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin --allowerasing
+                sudo dnf groupupdate multimedia --setop="install_weak_deps=False" \
+                     --exclude=PackageKit-gstreamer-plugin --allowerasing
                 sudo dnf groupupdate sound-and-video
 
                 # Install Hardware Accelerated Codec
@@ -466,13 +478,10 @@ fedora_install() {
                 # Fonts
                 #
 
-                sudo dnf -y copr enable peterwu/iosevka
-                sudo dnf update -y
                 sudo dnf install -y libreoffice-opensymbol-fonts
                 sudo dnf install -y adobe-source-code-pro-fonts
                 sudo dnf install -y jetbrains-mono-fonts-all
                 sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
-                sudo dnf install -y iosevka-fonts iosevka-fixed-fonts iosevka-term-fonts iosevka-slab-fonts iosevka-aile-fonts
                 install_berkeley_mono_font
                 install_iosevka_comfy_font
                 install_monaspace_font
@@ -482,36 +491,40 @@ fedora_install() {
             7)
                 echo "$CHOICE) Enabling Flatpak"
 
-                sudo dnf install -y flatpak
-                sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-                sudo flatpak update
-                if is_desktop_environment "Gnome"; then
-                    sudo flatpak install -y flathub org.gnome.TextEditor
-                    sudo flatpak install -y flathub org.gnome.Firmware
-                    sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
+                dnf install -y flatpak
+                flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                flatpak update
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    flatpak install --user -y flathub org.gnome.TextEditor
+                    flatpak install --user -y flathub org.gnome.Firmware
+                    flatpak install --user -y flathub com.mattjakeman.ExtensionManager
                 fi
-                sudo flatpak install -y flathub com.discordapp.Discord
-                sudo flatpak install -y flathub com.dropbox.Client
-                sudo flatpak install -y flathub com.skype.Client
-                sudo flatpak install -y flathub com.slack.Slack
-                sudo flatpak install -y flathub org.videolan.VLC
-                sudo flatpak install -y flathub com.transmissionbt.Transmission
-                sudo flatpak install -y flathub org.gimp.GIMP
-                sudo flatpak install -y flathub org.wireshark.Wireshark
-                sudo flatpak install -y flathub com.github.tchx84.Flatseal
-                sudo flatpak install -y flathub com.valvesoftware.Steam
-                sudo flatpak install -y flathub org.telegram.desktop
-                # sudo flatpak install -y flathub im.riot.Riot
-                # sudo flatpak install -y flathub org.mozilla.firefox
-                # sudo flatpak install -y flathub com.obsproject.Studio
-                # sudo flatpak install -y flathub com.brave.Browser
-                # sudo flatpak install -y flathub org.shotcut.Shotcut
-                # sudo flatpak install -y flathub dev.geopjr.Tuba
-                # sudo flatpak install -y flathub io.github.mimbrero.WhatsAppDesktop
-                # sudo flatpak install -y flathub org.signal.Signal
-                # sudo flatpak install -y flathub com.microsoft.Edge
-                # sudo flatpak install -y flathub com.visualstudio.code
-                # sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
+                flatpak install --user -y flathub com.discordapp.Discord
+                flatpak install --user -y flathub com.dropbox.Client
+                flatpak install --user -y flathub com.slack.Slack
+                flatpak install --user -y flathub org.videolan.VLC
+                flatpak install --user -y flathub com.transmissionbt.Transmission
+                flatpak install --user -y flathub org.wireshark.Wireshark
+                flatpak install --user -y flathub com.github.tchx84.Flatseal            # manage flatpak permisions
+                flatpak install --user -y flathub io.github.Hexchat                     # irc client
+                flatpak install --user -y flathub engineer.atlas.Nyxt
+                # flatpak install --user -y flathub org.mozilla.firefox
+                # flatpak install --user -y flathub org.telegram.desktop
+                # flatpak install --user -y flathub org.gnucash.GnuCash
+                # flatpak install --user -y flathub org.gimp.GIMP
+                # flatpak install --user -y flathub com.skype.Client
+                # flatpak install --user -y flathub com.valvesoftware.Steam
+                # flatpak install --user -y flathub im.riot.Riot
+                # flatpak install --user -y flathub org.keepassxc.KeePassXC
+                # flatpak install --user -y flathub com.obsproject.Studio
+                # flatpak install --user -y flathub com.brave.Browser
+                # flatpak install --user -y flathub org.shotcut.Shotcut
+                # flatpak install --user -y flathub dev.geopjr.Tuba
+                # flatpak install --user -y flathub io.github.mimbrero.WhatsAppDesktop
+                # flatpak install --user -y flathub org.signal.Signal
+                # flatpak install --user -y flathub com.microsoft.Edge
+                # flatpak install --user -y flathub com.visualstudio.code
+                # flatpak install --user -y flathub com.github.GradienceTeam.Gradience
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
@@ -520,13 +533,17 @@ fedora_install() {
                 read -r -p "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
                 [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
-                [ ! -f "$(pwd)/../scripts/+crypt" ] && notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && continue
-                [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" --expire-time=20 && continue
-                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" --expire-time=20 && continue
+                [ ! -f "$(pwd)/../scripts/+crypt" ] && notify-send "$(pwd)/../scripts/+crypt script does not exists" \
+                                                                   --expire-time=20 && continue
+                [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" \
+                                                                   --expire-time=20 && continue
+                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" \
+                                                                   --expire-time=20 && continue
 
                 echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
                 "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" --expire-time=20 && continue
+                [ ! -d "$KEYS_DIR"/ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" \
+                                                        --expire-time=20 && continue
                 mkdir -p ~/.ssh && rm -rf ~/.ssh/*
                 cp "$KEYS_DIR"/ssh/id_* ~/.ssh
                 cp "$KEYS_DIR"/ssh/config ~/.ssh
@@ -538,7 +555,8 @@ fedora_install() {
 
                 echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
                 "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" --expire-time=20 && continue
+                [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" \
+                                                        --expire-time=20 && continue
                 mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
                 cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
                 gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
@@ -551,9 +569,12 @@ fedora_install() {
                 rm -rf "$KEYS_DIR"
 
                 # With the new keys we can go ahead and download some repos
-                [ ! -d "$HOME/.password-store" ] && git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
-                [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
-                [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
+                [ ! -d "$HOME/.password-store" ] &&
+                    git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
+                [ ! -d "$HOME"/Workspace/Public/dotfiles ] &&
+                    git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
+                [ ! -d "$HOME"/Workspace/Public/resume ] &&
+                    git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
@@ -565,8 +586,8 @@ fedora_install() {
 
                 # Install dependencies
                 sudo dnf builddep emacs
-                sudo dnf install -y libgccjit libgccjit-devel gtk3 gtk3-devel gtk4 gtk4-devel libtree-sitter libtree-sitter-devel \
-                     jansson-devel libvterm-devel gnutls-devel
+                sudo dnf install -y libgccjit libgccjit-devel gtk3 gtk3-devel gtk4 gtk4-devel \
+                     libtree-sitter libtree-sitter-devel jansson-devel libvterm-devel gnutls-devel
                 sudo dnf install -y enchant2-devel pkgconf # necessary for jinx
 
                 # Prepare git repo
@@ -596,7 +617,7 @@ fedora_install() {
 
                 # Install
                 EMACS_WINDOW_SYSTEM_OPTION=--with-x
-                [[ $WINDOW_SYSTEM = Wayland ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
+                [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
                 ./configure \
                     $EMACS_WINDOW_SYSTEM_OPTION \
                     --without-compress-install \
@@ -660,10 +681,12 @@ fedora_install() {
                 echo "11) Installing Xkeysnail"
 
                 # Only works on X11
-                [[ "$WINDOW_SYSTEM" != X11 ]] && notify-send "Xkeysnail only supports X11" --expire-time=20 && continue
+                [[ "$WINDOW_SYSTEM" != "$WS_X11" ]] &&
+                    notify-send "Xkeysnail only supports X11" --expire-time=20 && continue
 
                 # Is it already installed?
-                hash xkeysnail 2> /dev/null && notify-send "Xkeysnail is already installed" --expire-time=20 && continue
+                hash xkeysnail 2> /dev/null &&
+                    notify-send "Xkeysnail is already installed" --expire-time=20 && continue
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -694,21 +717,24 @@ fedora_install() {
                 sudo gpasswd -a "$USER" uinput
 
                 # Second Create new udev rule granting access:
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xkeysnail/udev/70-xkeysnail.rules /etc/udev/rules.d/70-xkeysnail.rules
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xkeysnail/udev/70-xkeysnail.rules \
+                     /etc/udev/rules.d/70-xkeysnail.rules
 
                 # Enable the daemon
-                [ -L "$HOME/.config/systemd/user/xkeysnail.service" ] && unlink "$HOME/.config/systemd/user/xkeysnail.service"
-                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xkeysnail.service" "$HOME/.config/systemd/user"
+                [ -L "$HOME/.config/systemd/user/xkeysnail.service" ] &&
+                    unlink "$HOME/.config/systemd/user/xkeysnail.service"
+                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xkeysnail.service" \
+                    "$HOME/.config/systemd/user"
                 systemctl --user daemon-reload
                 sudo systemctl enable xkeysnail.service && sudo systemctl start xkeysnail.service
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -rp "11) Xkeysnail has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
+                read -rp "11) Xkeysnail installed. Reboot for udev rules to take effect. Press enter to continue..."
                 ;;
             12)
                 echo "12) Installing Xremap"
 
-                [[ "$WINDOW_SYSTEM" == X11 ]] && sudo dnf install -y libx11-devel
+                [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo dnf install -y libx11-devel
 
                 # Is it already installed?
                 hash xremap 2> /dev/null && notify-send "Xremap is already installed" --expire-time=20 && continue
@@ -737,21 +763,24 @@ fedora_install() {
                         continue
                 }
 
-                # First create a new group to which we allow access to the input stuff, and add this group to your user:
+                # First create a new group to which we allow access to the input stuff; add this group to your user:
                 sudo groupadd -f uinput
                 sudo gpasswd -a "$USER" uinput
 
                 # Second Create new udev rule granting access:
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xremap/udev/70-xremap.rules /etc/udev/rules.d/70-xremap.rules
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xremap/udev/70-xremap.rules \
+                     /etc/udev/rules.d/70-xremap.rules
 
                 # Enable the daemon
                 [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
-                [ -L "$HOME/.config/systemd/user/xremap.service" ] && unlink "$HOME/.config/systemd/user/xremap.service"
-                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" "$HOME/.config/systemd/user"
+                [ -L "$HOME/.config/systemd/user/xremap.service" ] &&
+                    unlink "$HOME/.config/systemd/user/xremap.service"
+                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" \
+                    "$HOME/.config/systemd/user"
                 systemctl --user daemon-reload
                 systemctl --user enable xremap.service && systemctl --user start xremap.service
 
-                read -rp "12) Xremap has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
+                read -rp "12) Xremap installed. Reboot for udev rules to take effect. Press enter to continue..."
                 ;;
             13)
                 exit 0
