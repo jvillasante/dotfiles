@@ -68,8 +68,8 @@ do_borg_backup() {
         --show-rc \
         --compression auto,lzma,6 \
         --exclude-caches \
-        --exclude '/home/*/.cache/*' \
         --exclude '/var/tmp/*' \
+        --exclude '/home/**/.cache/*' \
         --exclude '/home/**/.DS_Store' \
         --exclude '/home/**/*.pyc' \
         --exclude '/home/**/*.*~' \
@@ -80,6 +80,7 @@ do_borg_backup() {
         --exclude '/home/**/.SynologyNAS' \
         --exclude '/home/*/VirtualBox VMs*' \
         --exclude '/home/*/Virtualbox VMs*' \
+        --exclude '/home/*/Desktop/*.desktop' \
         --exclude '/home/*/Dropbox' \
         --exclude '/home/*/Workspace/Public/' \
         --exclude '/home/*/Workspace/Software/' \
@@ -92,6 +93,7 @@ do_borg_backup() {
         --exclude '/home/*/Workspace/Work/Projects/dmxs/inc' \
         --exclude '/home/*/Workspace/Work/Projects/dmxs/lib' \
         --exclude '/home/*/Workspace/Work/Projects/dmxs/pkg' \
+        --exclude '/home/*/Workspace/Work/Projects/dmxs/.cache' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/bin/' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/build/' \
         --exclude 're:/*var/cache/' \
