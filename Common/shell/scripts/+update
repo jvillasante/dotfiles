@@ -58,7 +58,7 @@ fedora_update() {
     sudo dnf -y autoremove
     test $? -eq 0 || usage 1
 
-    sudo flatpak update -y
+    flatpak update --user -y
     test $? -eq 0 || usage 1
 }
 
