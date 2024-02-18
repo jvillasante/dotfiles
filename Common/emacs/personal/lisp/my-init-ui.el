@@ -40,8 +40,9 @@
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
 (add-hook 'prog-mode-hook                            ;; ... but add comment auto-fill in prog-mode
           (lambda ()
+              (display-fill-column-indicator-mode +1)
               (setq-local comment-auto-fill-only-comments t)
-              (auto-fill-mode 1)))
+              (auto-fill-mode +1)))
 
 ;; Set the font (M-x `menu-set-font' to see font faces)
 (add-hook 'emacs-startup-hook
