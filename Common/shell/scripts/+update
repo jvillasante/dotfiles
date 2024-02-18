@@ -101,8 +101,10 @@ dotfiles_update() {
 emacs_update() {
     # Preconditions
     ! hash emacs 2> /dev/null && echo "emacs not installed, exiting..." && usage 1
-    [[ ! -d "$HOME"/Workspace/Software ]] && echo "$HOME/Workspace/Software does not exists, exiting..." && usage 1
-    [[ ! -d "$HOME"/Workspace/Software/emacs ]] && echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
+    [[ ! -d "$HOME"/Workspace/Software ]] &&
+        echo "$HOME/Workspace/Software does not exists, exiting..." && usage 1
+    [[ ! -d "$HOME"/Workspace/Software/emacs ]] &&
+        echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
 
     # Stop the service
     emacsclient --eval '(save-buffers-kill-emacs)'
@@ -144,10 +146,14 @@ emacs_update() {
         DOTFILES_DIR="$(find_dotfiles)"
         test $? -eq 0 || usage 1
 
-        [[ ! -d "$DOTFILES_DIR"/Common/emacs/personal ]] && echo "Emacs personal configuration not found, exiting..." && usage 1
-        [[ -f "$DOTFILES_DIR"/Common/emacs/personal/custom.el ]] && rm -rf "$DOTFILES_DIR"/Common/emacs/personal/custom.el
-        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var ]] && rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var
-        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter ]] && rm -rf "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter
+        [[ ! -d "$DOTFILES_DIR"/Common/emacs/personal ]] &&
+            echo "Emacs personal configuration not found, exiting..." && usage 1
+        [[ -f "$DOTFILES_DIR"/Common/emacs/personal/custom.el ]] &&
+            rm -rf "$DOTFILES_DIR"/Common/emacs/personal/custom.el
+        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var ]] &&
+            rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var
+        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter ]] &&
+            rm -rf "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter
         emacs --init-directory="$DOTFILES_DIR"/Common/emacs/personal
     fi
 

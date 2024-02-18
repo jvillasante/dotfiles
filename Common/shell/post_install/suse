@@ -31,6 +31,9 @@ install_berkeley_mono_font() {
     "$(pwd)"/../scripts/+crypt -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg
     [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] && notify-send "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface directory does not exists" --expire-time=20 && return
 
+    # just in case
+    mkdir -p ~/.local/share/fonts
+
     # remove all fonts from ~/.local/share/fonts that start with "BerkeleyMono"
     rm -rf ~/.local/share/fonts/BerkeleyMono*
 
@@ -51,6 +54,9 @@ install_iosevka_comfy_font() {
         git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy pull
     fi
 
+    # just in case
+    mkdir -p ~/.local/share/fonts
+
     # remove all fonts from ~/.local/share/fonts that start with "iosevka-comfy"
     rm -rf ~/.local/share/fonts/iosevka-comfy*
 
@@ -70,6 +76,9 @@ install_monaspace_font() {
         git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git --work-tree="$HOME"/Workspace/Software/fonts/monaspace reset --hard HEAD
         git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git --work-tree="$HOME"/Workspace/Software/fonts/monaspace pull
     fi
+
+    # just in case
+    mkdir -p ~/.local/share/fonts
 
     # remove all fonts from ~/.local/share/fonts that start with "monaspace"
     rm -rf ~/.local/share/fonts/Monaspace*
@@ -668,7 +677,7 @@ suse_install() {
                         continue
                 }
 
-                XREMAP_VERSION=v0.8.12
+                XREMAP_VERSION=v0.8.14
                 XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
                 [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]] && XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
 
