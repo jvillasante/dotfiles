@@ -4,9 +4,11 @@
 
 [includeIf "gitdir:~/Workspace/Work/"]
     path = ~/Workspace/Work/.gitconfig
+    # https://git-scm.com/docs/git-config#_includes
 
-[commit]
-    template = ~/.config/git/commit_template
+[url "git@github.com:"]
+    insteadOf = "https://github.com/"
+    # prefer ssh clone over https on github
 
 [alias]
     prune = fetch --prune
@@ -26,20 +28,53 @@
     # https://git-scm.com/docs/git-log
     # via https://medium.com/@payload.dd/thanks-for-the-git-st-i-will-use-this-4da5839a21a4
 
+[init]
+    defaultBranch = main
+    # Create a main branch instead of a master branch when creating a new repo.
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-initdefaultBranch
+
+[branch]
+    sort = -committerdate
+    # Makes git branch sort by most recently used branches instead of alphabetical
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-branchsort
+
+[commit]
+    template = ~/.config/git/commit_template
+    # Specify the pathname of a file to use as the template for new commit messages.
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-committemplate
+
+    # verbose = true
+    # This adds the whole commit diff in the text editor where you’re writing your commit message, to help you remember what you were doing.
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-commitverbose
+
+[diff]
+    algorithm = histogram
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-diffalgorithm
+
+[rebase]
+    autosquash = true
+    # Enable --autosquash option by default.
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-rebaseautoSquash
+
+    # autostash = true
+    # Automatically runs git stash before a git rebase and git stash pop after.
+    # NOTE: The final stash application after a successful rebase might result in non-trivial conflicts!
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-mergeautoStash
+
 [merge]
-    ff = only
+    # ff = only
     # I pretty much never mean to do a real merge, since I use a rebase workflow.
     # Note: this global option applies to all merges, including those done during a git pull
     # https://git-scm.com/docs/git-config#git-config-mergeff
 
-    conflictstyle = diff3
+    conflictstyle = zdiff3
     # Standard diff is two sets of final changes. This introduces the original text before each side's changes.
     # https://git-scm.com/docs/git-config#git-config-mergeconflictStyle
 
 [push]
-    default = simple
-    # "push the current branch back to the branch whose changes are usually integrated into the current branch"
-    # "refuse to push if the upstream branch’s name is different from the local one"
+    default = current
+    # Push the current branch to update a branch with the same name on the receiving end.
+    # NOTE: Make sure you're never going to make a local branch with the same name as an unrelated remote branch.
     # https://git-scm.com/docs/git-config#git-config-pushdefault
 
     followTags = true
@@ -47,7 +82,9 @@
     # https://git-scm.com/docs/git-config#git-config-pushfollowTags
 
 [pull]
-	ff = only
+    ff = only
+    # Avoid accidentally creating a merge commit when you run git pull on a branch where the upstream branch has diverged.
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-pullff
 
 [status]
     showUntrackedFiles = all
