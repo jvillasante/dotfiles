@@ -503,11 +503,11 @@ fedora_install() {
                 flatpak install --user -y flathub com.dropbox.Client
                 flatpak install --user -y flathub com.slack.Slack
                 flatpak install --user -y flathub org.videolan.VLC
-                flatpak install --user -y flathub com.transmissionbt.Transmission
                 flatpak install --user -y flathub org.wireshark.Wireshark
-                flatpak install --user -y flathub com.github.tchx84.Flatseal            # manage flatpak permisions
-                flatpak install --user -y flathub io.github.Hexchat                     # irc client
-                flatpak install --user -y flathub engineer.atlas.Nyxt
+                flatpak install --user -y flathub com.github.tchx84.Flatseal
+                # flatpak install --user -y flathub com.transmissionbt.Transmission
+                # flatpak install --user -y flathub io.github.Hexchat
+                # flatpak install --user -y flathub engineer.atlas.Nyxt
                 # flatpak install --user -y flathub org.mozilla.firefox
                 # flatpak install --user -y flathub org.telegram.desktop
                 # flatpak install --user -y flathub org.gnucash.GnuCash
