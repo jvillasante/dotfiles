@@ -28,23 +28,13 @@
 ;; activate `mouse-avoidance-mode'
 (mouse-avoidance-mode 'cat-and-mouse)
 
-;; by default when a long line is truncated, emacs displays
-;; a "$" sign at the border of window, which is ugly, replace "$" with " "
-;; see: https://emacs.stackexchange.com/questions/54817/remove-dollar-sign-at-beginning-of-line
-(add-hook 'prog-mode-hook #'my--display-truncation-and-wrap-indicator-as-whitespace)
-(add-hook 'text-mode-hook #'my--display-truncation-and-wrap-indicator-as-whitespace)
-
 ;; setup visual-line and auto-fill
 (setq visual-line-fringe-indicators
-      '(left-curly-arrow right-curly-arrow))         ;; display line indication
-(setq-default fill-column 120)                       ;; Wrap lines at 120 characters
-(remove-hook 'text-mode-hook 'turn-on-auto-fill)     ;; auto-fill insert hard line breaks
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode) ;; ... visual-line-mode is much better
-(add-hook 'prog-mode-hook                            ;; ... but add comment auto-fill in prog-mode
-          (lambda ()
-              (display-fill-column-indicator-mode +1)
-              (setq-local comment-auto-fill-only-comments t)
-              (auto-fill-mode +1)))
+      '(left-curly-arrow right-curly-arrow))              ;; display line indication on fringe
+(setq-default fill-column 120)                            ;; Wrap lines at 120 characters
+(remove-hook 'text-mode-hook 'turn-on-auto-fill)          ;; auto-fill insert hard line breaks
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)      ;; ... visual-line-mode is much better
+(add-hook 'prog-mode-hook 'display-fill-column-indicator-mode) ;; ... fill column indication on prog-mode is nice
 
 ;; Set the font (M-x `menu-set-font' to see font faces)
 (add-hook 'emacs-startup-hook

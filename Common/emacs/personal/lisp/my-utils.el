@@ -48,13 +48,6 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
     "Set the default font to a smaller sized font for current buffer."
     (face-remap-add-relative 'default :height 145 :family "Iosevka Aile"))
 
-(defun my--display-truncation-and-wrap-indicator-as-whitespace ()
-    "Remove those ugly Emacs default truncation."
-    (when (not (char-table-p buffer-display-table))
-        (setq buffer-display-table (make-display-table)))
-    (set-display-table-slot buffer-display-table 'truncation 32)
-    (set-display-table-slot buffer-display-table 'wrap 32))
-
 ;;; VCS
 
 (defun my--project-todos ()
