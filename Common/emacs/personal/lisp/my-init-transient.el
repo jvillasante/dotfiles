@@ -8,8 +8,8 @@
 (use-package transient-dwim
     :bind ("M-s =" . transient-dwim-dispatch))
 
-;; isearch
-(transient-define-prefix my--isearch-menu ()
+;; Transient menu for isearch.
+(transient-define-prefix my--isearch-menu-transient ()
     [["Edit Search String"
       ("e"
        "Edit the search string (recursive)"
@@ -35,6 +35,7 @@
        "Pull thing from buffer"
        isearch-forward-thing-at-point
        :transient nil)]
+
      ["Replace"
       ("q"
        "Start ‘query-replace’"
@@ -46,33 +47,43 @@
        isearch-query-replace-regexp
        :if-nil buffer-read-only
        :transient nil)]]
+
     [["Toggle"
       ("X"
-       "Toggle regexp searching"
+       "Regexp searching"
        isearch-toggle-regexp
        :transient nil)
       ("S"
-       "Toggle symbol searching"
+       "Symbol searching"
        isearch-toggle-symbol
        :transient nil)
       ("W"
-       "Toggle word searching"
+       "Word searching"
        isearch-toggle-word
        :transient nil)
       ("F"
-       "Toggle case fold"
+       "Case fold"
        isearch-toggle-case-fold
        :transient nil)
       ("L"
-       "Toggle lax whitespace"
+       "Lax whitespace"
        isearch-toggle-lax-whitespace
        :transient nil)]
+
      ["Misc"
       ("o"
        "occur"
        isearch-occur
+       :transient nil)
+      ("h"
+       "highlight"
+       isearch-highlight-regexp
+       :transient nil)
+      ("H"
+       "highlight lines"
+       isearch-highlight-lines-matching-regexp
        :transient nil)]])
-(define-key isearch-mode-map (kbd "M-s =") 'my--isearch-menu)
+(define-key isearch-mode-map (kbd "M-s =") 'my--isearch-menu-transient)
 
 (provide 'my-init-transient)
 ;;; my-init-transient.el ends here
