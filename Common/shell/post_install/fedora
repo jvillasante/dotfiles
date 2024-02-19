@@ -423,9 +423,9 @@ fedora_install() {
                 # sudo dnf group upgrade -y --with-optional Multimedia
 
                 # Install additional codecs
-                sudo dnf groupupdate multimedia --setop="install_weak_deps=False" \
+                sudo dnf -y groupupdate multimedia --setop="install_weak_deps=False" \
                      --exclude=PackageKit-gstreamer-plugin --allowerasing
-                sudo dnf groupupdate sound-and-video
+                sudo dnf -y groupupdate sound-and-video
 
                 # Install Hardware Accelerated Codec
                 if test "$(cat /proc/cpuinfo | grep vendor | uniq | grep -iFc "intel")"; then
@@ -433,8 +433,8 @@ fedora_install() {
                     sudo dnf install -y intel-media-driver
                 elif test "$(cat /proc/cpuinfo | grep vendor | uniq | grep -iFc "amd")"; then
                     echo "$CHOICE) Installing Hardware Accelerated Codecs for AMD Architecture"
-                    sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
-                    sudo dnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+                    sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
+                    sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
                 else
                     echo "$CHOICE) Unknown Architecture. Not Installing Hardware Accelerated Codecs"
                 fi
@@ -492,8 +492,8 @@ fedora_install() {
                 sudo dnf install -y jetbrains-mono-fonts-all
                 sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
                 install_berkeley_mono_font
-                install_iosevka_comfy_font
-                install_monaspace_font
+                # install_iosevka_comfy_font
+                # install_monaspace_font
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
