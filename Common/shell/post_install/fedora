@@ -594,7 +594,7 @@ fedora_install() {
                 hash emacs 2> /dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
 
                 # Install dependencies
-                sudo dnf builddep emacs
+                sudo dnf -y builddep emacs
                 sudo dnf install -y libgccjit libgccjit-devel gtk3 gtk3-devel gtk4 gtk4-devel \
                      libtree-sitter libtree-sitter-devel jansson-devel libvterm-devel gnutls-devel
                 sudo dnf install -y enchant2-devel pkgconf # necessary for jinx
