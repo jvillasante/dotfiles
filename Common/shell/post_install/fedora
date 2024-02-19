@@ -278,7 +278,7 @@ fedora_install() {
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf install -y \*-firmware
 
-                read -rp "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
                 ;;
             4)
                 echo "$CHOICE) Installing NVIDIA Drivers. Disable secure boot in the bios."
@@ -292,7 +292,7 @@ fedora_install() {
                 sudo dnf install -y xorg-x11-drv-nvidia-power
                 systemctl enable nvidia-{suspend,resume,hibernate}
 
-                read -rp "$CHOICE) Done. Press enter to continue..."
+                read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
                 ;;
             5)
                 echo "$CHOICE) Installing Software"
