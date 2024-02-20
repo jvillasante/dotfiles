@@ -164,10 +164,11 @@ suse_install() {
                 ;;
             3)
                 echo "$CHOICE) Firmware Update"
-                sudo fwupdmgr get-devices
-                sudo fwupdmgr refresh --force
-                sudo fwupdmgr get-updates
-                sudo fwupdmgr update
+
+                # sudo fwupdmgr get-devices
+                # sudo fwupdmgr refresh --force
+                # sudo fwupdmgr get-updates
+                # sudo fwupdmgr update
 
                 read -rp "$CHOICE) Done (May need to reboot). Press enter to continue..."
                 ;;
@@ -320,9 +321,6 @@ suse_install() {
                     # sudo zypper install -y latte-dock
                     # sudo zypper install -y kazam
                 fi
-
-                # lazygit: A simple terminal UI for git commands
-                sudo zypper install -y lazygit
 
                 # tmux: A terminal multiplexer
                 sudo zypper install -y tmux

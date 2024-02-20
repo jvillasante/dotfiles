@@ -279,10 +279,10 @@ EOF
                 sudo apt install -y linux-headers-amd64 firmware-linux
 
                 # Install Firmware
-                sudo fwupdmgr get-devices
-                sudo fwupdmgr refresh --force
-                sudo fwupdmgr get-updates
-                sudo fwupdmgr update
+                # sudo fwupdmgr get-devices
+                # sudo fwupdmgr refresh --force
+                # sudo fwupdmgr get-updates
+                # sudo fwupdmgr update
 
                 read -rp "2) Firmware updates has been installed. Reboot may be required. Press enter to continue..."
                 ;;
@@ -313,11 +313,11 @@ EOF
                 sudo apt install -y btop htop nvtop isync libpcap-dev make mercurial msmtp neofetch
                 sudo apt install -y vim neovim pandoc pass poppler-utils poppler-data ripgrep
                 sudo apt install -y scdaemon subversion telnet tldr tree w3m wget
-                sudo apt install -y wordnet imagemagick ninja-build
+                sudo apt install -y wordnet imagemagick
                 sudo apt install -y python3 python3-pip pandoc poppler-utils poppler-data libtool
                 sudo apt install -y shfmt editorconfig glslang-tools glslang-dev shellcheck parallel
                 sudo apt install -y tidy sqlite3 pkg-config bison flex
-                sudo apt install -y cmake ccache meson
+                sudo apt install -y cmake ninja-build ccache meson
                 sudo apt install -y valgrind minicom mc strace
                 sudo apt install -y ffmpegthumbnailer mediainfo
                 sudo apt install -y feh mpv qrencode findutils locate
@@ -330,7 +330,8 @@ EOF
                     sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 
                 NODE_MAJOR=21
-                echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" |
+                NODE_URL="https://deb.nodesource.com/node_$NODE_MAJOR.x"
+                echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] $NODE_URL nodistro main" |
                     sudo tee /etc/apt/sources.list.d/nodesource.list
                 sudo apt update && sudo apt install nodejs -y
 
@@ -472,8 +473,9 @@ EOF
                 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
                 # set up the repository
+                DOCKER_URL=https://download.docker.com/linux/debian
                 echo \
-                    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+                    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] $DOCKER_URL \
                     "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |
                     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
