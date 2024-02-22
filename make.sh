@@ -105,10 +105,18 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME/.config..."
-files="git nyxt alacritty foot shell tmux zellij ranger rofi nvim psd i3 nushell keyd xkeysnail xremap starship.toml"
+files="git nyxt alacritty foot shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml"
 for file in $files; do
     [ -L "$HOME/.config/$file" ] && unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
+done
+
+echo ">>> Linking nvim files in $HOME/.config..."
+for dir in "$DOTFILES_DIR"/Common/nvim/*/; do
+    dir=${dir%*/}
+    dir_name=${dir##*/}
+    [ -L "$HOME/.config/nvim-${dir_name}" ] && unlink "$HOME/.config/nvim-${dir_name}"
+    ln -s "$dir" "$HOME/.config/nvim-${dir_name}"
 done
 
 echo ">>> Linking scripts files in $HOME/.local/bin..."

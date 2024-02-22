@@ -72,7 +72,10 @@ fi
 
 # vim
 type vim > /dev/null 2>&1 && alias vi=vim
-type nvim > /dev/null 2>&1 && alias vim=nvim
+if type nvim > /dev/null 2>&1; then
+    alias vim=nvim
+    alias nvim='NVIM_APPNAME="nvim-personal/" nvim'
+fi
 
 # gpg
 if type gpg2 > /dev/null 2> /dev/null; then
