@@ -151,39 +151,50 @@ if [ -d "$HOME/Workspace/Work" ]; then
     ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/"
 
     if [ -d "$HOME/Workspace/Work/Projects/dmxs" ]; then
-        [ -L "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt" ] && unlink "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
+        [ -L "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt" ] &&
+            unlink "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
         if [ -f /etc/fedora-release ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.fedora.txt" "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
+            ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.fedora.txt" \
+                "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
         elif [ -f /etc/debian_version ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.debian.txt" "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
+            ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.debian.txt" \
+                "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
         elif [ -f /etc/products.d/openSUSE.prod ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.suse.txt" "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
+            ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.suse.txt" \
+                "$HOME/Workspace/Work/Projects/dmxs/compile_flags.txt"
         else
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
 
-        [ -L "$HOME/Workspace/Work/Projects/dmxs/.dir-locals.el" ] && unlink "$HOME/Workspace/Work/Projects/dmxs/.dir-locals.el"
+        [ -L "$HOME/Workspace/Work/Projects/dmxs/.dir-locals.el" ] &&
+            unlink "$HOME/Workspace/Work/Projects/dmxs/.dir-locals.el"
         ln -s "$DOTFILES_DIR/Misc/work/dmxs/.dir-locals.el" "$HOME/Workspace/Work/Projects/dmxs/"
     fi
 
     if [ -d "$HOME/Workspace/Work/Projects/sm2-dhcpee" ]; then
-        [ -L "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt" ] && unlink "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
+        [ -L "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt" ] &&
+            unlink "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
         if [ -f /etc/fedora-release ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.fedora.txt" "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
+            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.fedora.txt" \
+                "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
         elif [ -f /etc/debian_version ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.debian.txt" "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
+            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.debian.txt" \
+                "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
         elif [ -f /etc/products.d/openSUSE.prod ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.suse.txt" "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
+            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.suse.txt" \
+                "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
         else
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
 
-        [ -L "$HOME/Workspace/Work/Projects/sm2-dhcpee/.dir-locals.el" ] && unlink "$HOME/Workspace/Work/Projects/sm2-dhcpee/.dir-locals.el"
+        [ -L "$HOME/Workspace/Work/Projects/sm2-dhcpee/.dir-locals.el" ] &&
+            unlink "$HOME/Workspace/Work/Projects/sm2-dhcpee/.dir-locals.el"
         ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/.dir-locals.el" "$HOME/Workspace/Work/Projects/sm2-dhcpee/"
     fi
 
     if [ -d "$HOME/Workspace/Work/Projects/smi" ]; then
-        [ -L "$HOME/Workspace/Work/Projects/smi/.dir-locals.el" ] && unlink "$HOME/Workspace/Work/Projects/smi/.dir-locals.el"
+        [ -L "$HOME/Workspace/Work/Projects/smi/.dir-locals.el" ] &&
+            unlink "$HOME/Workspace/Work/Projects/smi/.dir-locals.el"
         ln -s "$DOTFILES_DIR/Misc/work/smi/.dir-locals.el" "$HOME/Workspace/Work/Projects/smi/"
     fi
 fi
