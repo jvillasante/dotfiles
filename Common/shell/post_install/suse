@@ -353,6 +353,9 @@ suse_install() {
                 # Neovim
                 sudo zypper install -y neovim python3-neovim
 
+                # Lazy Git
+                sudo zypper install -y lazygit
+
                 # profile sync daemon
                 sudo zypper install -y profile-sync-daemon
                 if [ -f /usr/share/psd/contrib/brave ]; then
