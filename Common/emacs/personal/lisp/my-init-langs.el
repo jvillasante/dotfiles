@@ -34,17 +34,12 @@
 ;; c++ treesiter
 (use-package c++-ts-mode
     :ensure nil ;; emacs built-in
-    :mode "\\.h\\'"
-    :mode "\\.hpp\\'"
-    :mode "\\.cpp\\'"
-    :mode "\\.cxx\\'"
-    :mode "\\.cc\\'"
-    :mode "\\.C\\'"
     :preface (defun my--c-ts-indent-style()
                  "Override the built-in BSD indentation style with some additional rules.
          Docs: https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html
          Notes: `treesit-explore-mode' can be very useful to see where you're at in the tree-sitter tree,
-                especially paired with `(setq treesit--indent-verbose t)' to debug what rules is being applied at a given point."
+                especially paired with `(setq treesit--indent-verbose t)' to debug what rules is being
+                applied at a given point."
                  `(
                    ;; do not indent preprocessor statements
                    ((node-is "preproc") column-0 0)
