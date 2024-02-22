@@ -172,6 +172,8 @@ if [ -d "$HOME/Workspace/Work" ]; then
             ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.fedora.txt" "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
         elif [ -f /etc/debian_version ]; then
             ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.debian.txt" "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
+        elif [ -f /etc/products.d/openSUSE.prod ]; then
+            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.suse.txt" "$HOME/Workspace/Work/Projects/sm2-dhcpee/compile_flags.txt"
         else
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
