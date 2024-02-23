@@ -62,8 +62,9 @@
      (go-ts-mode . eglot-ensure)
      (sql-mode . eglot-ensure))
     :config
-    (setq eglot-autoshutdown t)
     (setq eglot-events-buffer-size 0)
+    (fset #'jsonrpc--log-event #'ignore)
+    (setq eglot-autoshutdown t)
     (setq eglot-extend-to-xref t)
     (setq eglot-sync-connect nil)
     (setq eglot-confirm-server-initiated-edits nil)
