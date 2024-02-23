@@ -368,6 +368,9 @@ suse_install() {
                 fi
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
+                # Lua style
+                sudo zypper install -y StyLua
+
                 # non zypper software
                 pip install cmake-language-server --break-system-packages
                 pip install pyright --break-system-packages
