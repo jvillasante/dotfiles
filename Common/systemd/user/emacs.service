@@ -1,8 +1,7 @@
 [Unit]
 Description=Emacs server daemon
 Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
-Requires=plasma-kwin_wayland.service
-After=plasma-kwin_wayland.service
+After=graphical-session.target
 
 [Service]
 Type=simple
