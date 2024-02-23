@@ -20,16 +20,23 @@ WINDOW_MANAGER="$WM_KDE"
 
 install_berkeley_mono_font() {
     [ ! -d "$(pwd)"/fonts ] && notify-send "$(pwd)/fonts is not a directory" --expire-time=20 && return
-    [ ! -f "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg ] && notify-send "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
-    [ ! -f "$(pwd)"/../scripts/+crypt ] && notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && return
+    [ ! -f "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
+        notify-send "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
+    [ ! -f "$(pwd)"/../scripts/+crypt ] &&
+        notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && return
     [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
-    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] && rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
+    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
+        rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
 
     # copy and decrypt Berkeley Mono typeface
     cp "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg "$HOME"/Workspace/Software/fonts
-    [ ! -f "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg ] && notify-send "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
+    [ ! -f "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
+        notify-send "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" \
+                    --expire-time=20 && return
     "$(pwd)"/../scripts/+crypt -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg
-    [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] && notify-send "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface directory does not exists" --expire-time=20 && return
+    [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
+        notify-send "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface does not exists" \
+                    --expire-time=20 && return
 
     # just in case
     mkdir -p ~/.local/share/fonts
@@ -38,7 +45,8 @@ install_berkeley_mono_font() {
     rm -rf ~/.local/share/fonts/BerkeleyMono*
 
     # copy all ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface -type f \
+         -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # Build font information caches
     fc-cache -f
@@ -50,8 +58,10 @@ install_iosevka_comfy_font() {
     if [ ! -d "$HOME"/Workspace/Software/fonts/iosevka-comfy ]; then
         git clone --depth 1 https://git.sr.ht/~protesilaos/iosevka-comfy "$HOME"/Workspace/Software/fonts/iosevka-comfy
     else
-        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy reset --hard HEAD
-        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy pull
+        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git \
+            --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy reset --hard HEAD
+        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git \
+            --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy pull
     fi
 
     # just in case
@@ -61,7 +71,8 @@ install_iosevka_comfy_font() {
     rm -rf ~/.local/share/fonts/iosevka-comfy*
 
     # copy all otf/ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/iosevka-comfy/ -type f \( -name "*.ttf" -o -name "*.otf" \) -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+    find "$HOME"/Workspace/Software/fonts/iosevka-comfy/ -type f \( -name "*.ttf" -o -name "*.otf" \) \
+         -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # Build font information caches
     fc-cache -f
@@ -73,8 +84,10 @@ install_monaspace_font() {
     if [ ! -d "$HOME"/Workspace/Software/fonts/monaspace ]; then
         git clone git@github.com:githubnext/monaspace.git "$HOME"/Workspace/Software/fonts/monaspace
     else
-        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git --work-tree="$HOME"/Workspace/Software/fonts/monaspace reset --hard HEAD
-        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git --work-tree="$HOME"/Workspace/Software/fonts/monaspace pull
+        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git \
+            --work-tree="$HOME"/Workspace/Software/fonts/monaspace reset --hard HEAD
+        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git \
+            --work-tree="$HOME"/Workspace/Software/fonts/monaspace pull
     fi
 
     # just in case
@@ -84,7 +97,8 @@ install_monaspace_font() {
     rm -rf ~/.local/share/fonts/Monaspace*
 
     # copy all otf/ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/monaspace/ -type f \( -name "*.ttf" -o -name "*.otf" \) -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+    find "$HOME"/Workspace/Software/fonts/monaspace/ -type f \( -name "*.ttf" -o -name "*.otf" \) \
+         -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # Build font information caches
     fc-cache -f
@@ -132,8 +146,8 @@ suse_install() {
         9 "Enable Flatpak - Enables the Flatpak repo and installs packages"
         10 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         11 "Install Emacs - Install Emacs"
-        12 "Install Keyd - Install Keyd from source (using xremap at the moment, here for documentation only)"
-        13 "Install Xkeysnail - Install Xkeysnail from source (using xremap at the moment, here for documentation only)"
+        12 "Install Keyd - Install Keyd from source (using xremap, here for documentation only)"
+        13 "Install Xkeysnail - Install Xkeysnail from source (using xremap, here for documentation only)"
         14 "Install Xremap - Install Xremap"
         15 "Quit")
 
@@ -266,10 +280,14 @@ suse_install() {
                 if ! test "$(cat /proc/swaps | grep /dev/zram)"; then
                     sudo zypper in -y systemd-zram-service
                     echo -e "\n#Custom Settings" | sudo tee -a /etc/sysctl.conf
-                    echo -e "\nvm.vfs_cache_pressure=500 # increase frequency of clearing caches to free RAM" | sudo tee -a /etc/sysctl.conf
-                    echo -e "\nvm.swappiness=150 # increase percentage to start using zram earlier" | sudo tee -a /etc/sysctl.conf
-                    echo -e "\nvm.dirty_background_ratio=1 # amount of memory pages permitted to be 'dirty' before writing to zram" | sudo tee -a /etc/sysctl.conf
-                    echo -e "\nvm.dirty_ratio=50 # amount of memory pages permitted to be 'dirty' before writing to zram" | sudo tee -a /etc/sysctl.conf
+                    echo -e "\nvm.vfs_cache_pressure=500 # increase frequency of clearing caches to free RAM" |
+                        sudo tee -a /etc/sysctl.conf
+                    echo -e "\nvm.swappiness=150 # increase percentage to start using zram earlier" |
+                        sudo tee -a /etc/sysctl.conf
+                    echo -e "\nvm.dirty_background_ratio=1 # pages permitted to be 'dirty' before using zram" |
+                        sudo tee -a /etc/sysctl.conf
+                    echo -e "\nvm.dirty_ratio=50 # pages permitted to be 'dirty' before writing to zram" |
+                        sudo tee -a /etc/sysctl.conf
                     sudo systemctl enable zramswap.service && sudo systemctl start zramswap.service
                 fi
 
@@ -449,9 +467,9 @@ suse_install() {
                 flatpak install --user -y flathub org.videolan.VLC
                 flatpak install --user -y flathub com.transmissionbt.Transmission
                 flatpak install --user -y flathub org.wireshark.Wireshark
-                flatpak install --user -y flathub com.github.tchx84.Flatseal          # manage flatpak permisions
-                flatpak install --user -y flathub io.github.Hexchat                   # irc client
-                flatpak install --user -y flathub engineer.atlas.Nyxt
+                flatpak install --user -y flathub com.github.tchx84.Flatseal
+                # flatpak install --user -y flathub io.github.Hexchat
+                # flatpak install --user -y flathub engineer.atlas.Nyxt
                 # flatpak install --user -y flathub org.mozilla.firefox
                 # flatpak install --user -y flathub org.telegram.desktop
                 # flatpak install --user -y flathub org.gnucash.GnuCash
@@ -478,13 +496,17 @@ suse_install() {
                 read -rp "Enter keys backup directory: " KEYS_DIR
                 KEYS_DIR=${KEYS_DIR%/}
                 [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
-                [ ! -f "$(pwd)/../scripts/+crypt" ] && notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && continue
-                [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" --expire-time=20 && continue
-                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" --expire-time=20 && continue
+                [ ! -f "$(pwd)/../scripts/+crypt" ] &&
+                    notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && continue
+                [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] &&
+                    notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" --expire-time=20 && continue
+                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] &&
+                    notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" --expire-time=20 && continue
 
                 echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
                 "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" --expire-time=20 && continue
+                [ ! -d "$KEYS_DIR"/ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" \
+                                                        --expire-time=20 && continue
                 mkdir -p ~/.ssh && rm -rf ~/.ssh/*
                 cp "$KEYS_DIR"/ssh/id_* ~/.ssh
                 cp "$KEYS_DIR"/ssh/config ~/.ssh
@@ -496,7 +518,8 @@ suse_install() {
 
                 echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
                 "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" --expire-time=20 && continue
+                [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" \
+                                                        --expire-time=20 && continue
                 mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
                 cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
                 gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
@@ -509,9 +532,12 @@ suse_install() {
                 rm -rf "$KEYS_DIR"
 
                 # With the new keys we can go ahead and download some repos
-                [ ! -d "$HOME/.password-store" ] && git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
-                [ ! -d "$HOME"/Workspace/Public/dotfiles ] && git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
-                [ ! -d "$HOME"/Workspace/Public/resume ] && git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
+                [ ! -d "$HOME/.password-store" ] &&
+                    git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
+                [ ! -d "$HOME"/Workspace/Public/dotfiles ] &&
+                    git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
+                [ ! -d "$HOME"/Workspace/Public/resume ] &&
+                    git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
                 read -rp "$CHOICE) Secrets and repos are set. Press enter to continue..."
                 ;;
@@ -522,10 +548,11 @@ suse_install() {
                 hash emacs 2> /dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
 
                 # Install dependencies
-                sudo zypper install -y libgccjit0 libgccjit0-devel
-                sudo zypper install -y gtk3 gtk3-devel gtk4 gtk4-devel libgnutls-devel libxml2-devel libjansson-devel giflib-devel \
-                     libtiff-devel libotf-devel libvterm-devel
-                sudo zypper install -y tree-sitter tree-sitter-devel # treesitter
+                sudo zypper install -y libgccjit0 libgccjit-devel
+                sudo zypper install -y gtk3 gtk3-devel gtk4 gtk4-devel
+                sudo zypper install -y libgnutls-devel libxml2-devel libjansson-devel giflib-devel
+                sudo zypper install -y libtiff-devel libotf-devel libvterm-devel
+                sudo zypper install -y tree-sitter tree-sitter-devel
                 sudo zypper install -y enchant-devel pkgconf # jinx
 
                 # Prepare git repo
@@ -621,10 +648,12 @@ suse_install() {
                 continue
 
                 # Only works on X11
-                [[ "$WINDOW_SYSTEM" != "$WS_X11" ]] && notify-send "Xkeysnail only supports X11" --expire-time=20 && continue
+                [[ "$WINDOW_SYSTEM" != "$WS_X11" ]] &&
+                    notify-send "Xkeysnail only supports X11" --expire-time=20 && continue
 
                 # Is it already installed?
-                hash xkeysnail 2> /dev/null && notify-send "Xkeysnail is already installed" --expire-time=20 && continue
+                hash xkeysnail 2> /dev/null &&
+                    notify-send "Xkeysnail is already installed" --expire-time=20 && continue
 
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -655,17 +684,20 @@ suse_install() {
                 sudo gpasswd -a "$USER" uinput
 
                 # Second Create new udev rule granting access:
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xkeysnail/udev/70-xkeysnail.rules /etc/udev/rules.d/70-xkeysnail.rules
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xkeysnail/udev/70-xkeysnail.rules \
+                     /etc/udev/rules.d/70-xkeysnail.rules
 
                 # Enable the daemon
                 mkdir -p ~/.config/systemd/user/
-                [ -L "$HOME/.config/systemd/user/xkeysnail.service" ] && unlink "$HOME/.config/systemd/user/xkeysnail.service"
-                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xkeysnail.service" "$HOME/.config/systemd/user"
+                [ -L "$HOME/.config/systemd/user/xkeysnail.service" ] &&
+                    unlink "$HOME/.config/systemd/user/xkeysnail.service"
+                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xkeysnail.service" \
+                    "$HOME/.config/systemd/user"
                 systemctl --user daemon-reload
                 systemctl --user enable xkeysnail.service && systemctl --user start xkeysnail.service
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -rp "$CHOICE) Xkeysnail has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
+                read -rp "$CHOICE) Xkeysnail installed. Reboot for udev rules to take effect. Press enter to continue..."
                 ;;
             14)
                 echo "$CHOICE) Installing Xremap"
@@ -702,7 +734,8 @@ suse_install() {
                 sudo gpasswd -a "$USER" uinput
 
                 # Second Create new udev rule granting access:
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xremap/udev/70-xremap.rules /etc/udev/rules.d/70-xremap.rules
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xremap/udev/70-xremap.rules \
+                     /etc/udev/rules.d/70-xremap.rules
 
                 # Enable the daemon
                 [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
@@ -711,7 +744,7 @@ suse_install() {
                 systemctl --user daemon-reload
                 systemctl --user enable xremap.service && systemctl --user start xremap.service
 
-                read -rp "$CHOICE) Xremap has been installed. Reboot is necessary for udev rules to take effect. Press enter to continue..."
+                read -rp "$CHOICE) Xremap installed. Reboot for udev rules to take effect. Press enter to continue..."
                 ;;
             15)
                 exit 0
