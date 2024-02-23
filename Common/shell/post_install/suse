@@ -283,7 +283,7 @@ suse_install() {
                 sudo zypper install -y -t pattern devel_C_C++
                 sudo zypper install -y rpmdevtools make gcc-c++ gcc gdb automake autoconf autojump libtool
                 sudo zypper install -y cmake ninja ccache meson
-                sudo zypper install -y git ripgrep fd htop btop nvtop vim bat
+                sudo zypper install -y ripgrep fd htop btop nvtop vim bat
                 sudo zypper install -y aspell aspell-en aspell-es
                 sudo zypper install -y curl dos2unix doxygen msmtp neofetch
                 sudo zypper install -y graphviz mercurial password-store
@@ -322,6 +322,11 @@ suse_install() {
                     # sudo zypper install -y kazam
                 fi
 
+                # Git stuff
+                sudo zypper install -y git         # git itself
+                # sudo zypper install -y git-delta   # better diffs
+                # sudo zypper install -y lazygit     # terminal git
+
                 # tmux: A terminal multiplexer
                 sudo zypper install -y tmux
 
@@ -352,9 +357,6 @@ suse_install() {
 
                 # Neovim
                 sudo zypper install -y neovim python3-neovim
-
-                # Lazy Git
-                sudo zypper install -y lazygit
 
                 # profile sync daemon
                 sudo zypper install -y profile-sync-daemon

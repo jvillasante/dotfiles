@@ -376,11 +376,13 @@ EOF
                     sudo systemctl enable NetworkManager.service && sudo systemctl start NetworkManager.service
                 fi
 
+                # Git stuff
+                sudo apt install -y git
+                # sudo apt install -y git-delta   # better diffs
+                # sudo apt install -y lazygit     # terminal git
+
                 # tmux: A terminal multiplexer
                 sudo apt install -y tmux
-
-                # Git
-                sudo apt install -y git
 
                 # Alacritty - A fast, cross-platform, OpenGL terminal emulator
                 sudo apt install -y alacritty

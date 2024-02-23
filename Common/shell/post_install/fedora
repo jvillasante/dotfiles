@@ -301,7 +301,7 @@ fedora_install() {
                 sudo dnf install -y dnf-plugins-core copr-cli
                 sudo dnf groupinstall -y "Development Tools" "Development Libraries" \
                      "C Development Tools and Libraries"
-                sudo dnf install -y git ripgrep fd-find util-linux-user xprop xwininfo htop btop nvtop
+                sudo dnf install -y ripgrep fd-find util-linux-user xprop xwininfo htop btop nvtop
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
                 sudo dnf install -y curl dnsutils dos2unix doxygen msmtp neofetch
@@ -342,6 +342,11 @@ fedora_install() {
                 if [[ "$WINDOW_SYSTEM" == "$WS_X11" ]]; then
                     sudo dnf install -y xclip xinput xdotool x11-utils # some X11 tools
                 fi
+
+                # Git stuff
+                sudo dnf install -y git         # git itself
+                # sudo dnf install -y git-delta   # better diffs
+                # sudo dnf install -y lazygit     # terminal git
 
                 # tmux: A terminal multiplexer
                 sudo dnf install -y tmux
