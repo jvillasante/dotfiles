@@ -378,6 +378,7 @@ EOF
 
                 # Git stuff
                 sudo apt install -y git
+                # sudo apt install -y difftastic  # better diffs
                 # sudo apt install -y git-delta   # better diffs
                 # sudo apt install -y lazygit     # terminal git
 

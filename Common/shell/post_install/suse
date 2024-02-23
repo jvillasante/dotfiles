@@ -324,6 +324,7 @@ suse_install() {
 
                 # Git stuff
                 sudo zypper install -y git         # git itself
+                # sudo zypper install -y difftastic  # better diffs
                 # sudo zypper install -y git-delta   # better diffs
                 # sudo zypper install -y lazygit     # terminal git
 

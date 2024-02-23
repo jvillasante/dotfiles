@@ -345,6 +345,7 @@ fedora_install() {
 
                 # Git stuff
                 sudo dnf install -y git         # git itself
+                # sudo dnf install -y difftastic  # better diffs
                 # sudo dnf install -y git-delta   # better diffs
                 # sudo dnf install -y lazygit     # terminal git
 
