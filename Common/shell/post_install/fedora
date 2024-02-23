@@ -481,7 +481,7 @@ fedora_install() {
                 # Latex
                 #
 
-                sudo dnf install -y texlive-scheme-full
+                sudo dnf install -y texlive-scheme-basic
 
                 #
                 # Steam extras
