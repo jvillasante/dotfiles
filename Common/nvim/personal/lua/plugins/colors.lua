@@ -2,7 +2,6 @@ return {
     {
         -- Theme inspired modus-themes from Emacs
         "miikanissi/modus-themes.nvim",
-        priority = 1000,
         lazy = false,
         config = function()
             vim.o.background = "light"
