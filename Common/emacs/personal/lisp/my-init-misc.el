@@ -9,11 +9,12 @@
     ;; never save
     (setq auth-source-save-behavior nil)
 
-    ;; setup epa
+    ;; setup epg & epa
+    (require 'epg)
     (require 'epa-file)
     (epa-file-enable)
     (setq
-     ;; epg-pinentry-mode 'loopback
+     epg-pinentry-mode 'loopback
      epa-file-encrypt-to user-mail-address
      epa-file-select-keys 'silent
      epa-file-cache-passphrase-for-symmetric-encryption nil)
