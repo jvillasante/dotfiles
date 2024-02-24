@@ -9,12 +9,17 @@
     ;; never save
     (setq auth-source-save-behavior nil)
 
-    ;; setup epg & epa
+    ;; setup epg
     (require 'epg)
+    (setq
+     ;; epg-pinentry-mode 'loopback
+     epg-gpg-program "/usr/bin/gpg2"
+     epg-gpg-home-directory (expand-file-name ".gnupg" my--home-path))
+
+    ;; setup epa
     (require 'epa-file)
     (epa-file-enable)
     (setq
-     ;; epg-pinentry-mode 'loopback
      epa-file-encrypt-to user-mail-address
      epa-file-select-keys 'silent
      epa-file-cache-passphrase-for-symmetric-encryption nil)
@@ -33,7 +38,7 @@
     :config
     (setq ediff-keep-variants nil) ;; Kill variants upon quitting an Ediff session
     (setq ediff-split-window-function 'split-window-horizontally) ;; Show diffs side-by-side
-    (setq ediff-window-setup-function 'ediff-setup-windows-plain)) ;; Puts the control panel in the same frame as the diff windows
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain)) ;; Puts the control panel in the same frame
 
 (use-package electric
     :ensure nil ;; emacs built-in
