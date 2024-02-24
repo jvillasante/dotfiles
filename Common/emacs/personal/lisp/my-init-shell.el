@@ -57,11 +57,11 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
-    :bind (("C-c o t" . #'eat)
-           ("C-c o T" . #'eat-other-window)
+    :bind (("C-c o t" . #'eat-other-window)
+           ("C-c o T" . #'eat)
            :map project-prefix-map
-           ("t" . #'eat-project)
-           ("T" . #'eat-project-other-window))
+           ("t" . #'eat-project-other-window)
+           ("T" . #'eat-project))
     :init
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
