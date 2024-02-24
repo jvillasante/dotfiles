@@ -10,6 +10,10 @@ usage() {
     echo "        Update personal dotfiles (ask to pull from remote and then syncs on local)"
     echo "    $0 emacs:"
     echo "        Update emacs from source (will update to latest emacs from git repository)"
+    echo "    $0 stylua:"
+    echo "        Update StyLua from binary source"
+    echo "    $0 keyd:"
+    echo "        Update keyd from source"
     echo "    $0 xremap:"
     echo "        Update xreamp from binary source"
     echo
@@ -172,6 +176,59 @@ emacs_update() {
     fi
 }
 
+stylua_update() {
+    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+    [ ! -d "$HOME"/Workspace/Software/stylua ] && mkdir -p "$HOME"/Workspace/Software/stylua
+    [ -d "$HOME"/Workspace/Software/stylua ] && rm -rf "$HOME"/Workspace/Software/stylua/*
+
+    pushd "$HOME"/Workspace/Software/stylua || {
+        echo "Can't cd into $HOME/Workspace/Software/stylua"
+        usage 1
+    }
+
+    # Get the latest
+    STYLUA_VERSION=v0.20.0
+    STYLUA_RELEASE=stylua-linux-x86_64.zip
+    curl -LJO https://github.com/JohnnyMorganz/StyLua/releases/download/"$STYLUA_VERSION"/"$STYLUA_RELEASE"
+    atool --extract --explain "$STYLUA_RELEASE"
+    sudo cp -f stylua /usr/local/bin/
+
+    popd || {
+        echo "Can't pop directory"
+        usage 1
+    }
+}
+
+keyd_update() {
+    ! hash keyd 2> /dev/null && echo "keyd not installed, exiting..." && usage 1
+    [[ ! -d "$HOME"/Workspace/Software ]] &&
+        echo "$HOME/Workspace/Software does not exists, exiting..." && usage 1
+    [[ ! -d "$HOME"/Workspace/Software/keyd ]] &&
+        echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
+
+    # Stop the service
+    sudo systemctl stop keyd
+
+    # Prepare git repo
+    pushd "$HOME"/Workspace/Software/keyd || usage 1
+    sudo make uninstall
+    make clean && make distclean
+    git reset --hard HEAD
+    sudo git clean -dfx
+    git pull
+
+    # Install
+    make -j"$(nproc --ignore=2)"
+    sudo make install
+
+    # Restart daemon
+    sudo systemctl start keyd
+    sudo keyd reload
+
+    # Cleanup
+    popd || usage 1
+}
+
 xremap_update() {
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
     [ ! -d "$HOME"/Workspace/Software/xremap ] && mkdir -p "$HOME"/Workspace/Software/xremap
@@ -226,6 +283,14 @@ case $cmd in
     emacs)
         [[ "$nargs" -eq 1 ]] || usage 1
         emacs_update
+        ;;
+    stylua)
+        [[ "$nargs" -eq 1 ]] || usage 1
+        stylua_update
+        ;;
+    keyd)
+        [[ "$nargs" -eq 1 ]] || usage 1
+        keyd_update
         ;;
     xremap)
         [[ "$nargs" -eq 1 ]] || usage 1
