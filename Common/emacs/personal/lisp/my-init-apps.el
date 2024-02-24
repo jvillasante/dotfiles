@@ -204,6 +204,7 @@
             ;; Linux
             "http://dominique.leuenberger.net/blog/feed/rss/"
             ;; Misc
+            "https://susam.net/feed.xml"
             "https://mazzo.li/rss.xml"
             "https://neil.computer/rss"
             "https://chandlerc.blog/index.xml"
