@@ -11,18 +11,14 @@
 
     ;; setup epg
     (require 'epg)
-    (setq
-     ;; epg-pinentry-mode 'loopback
-     epg-gpg-program "/usr/bin/gpg2"
-     epg-gpg-home-directory (expand-file-name ".gnupg" my--home-path))
+    ;; (setq epg-pinentry-mode 'loopback)
 
     ;; setup epa
     (require 'epa-file)
-    (epa-file-enable)
     (setq
      epa-file-encrypt-to user-mail-address
-     epa-file-select-keys 'silent
      epa-file-cache-passphrase-for-symmetric-encryption nil)
+    (epa-file-enable)
 
     ;; setup org-crypt
     (require 'org-crypt)
