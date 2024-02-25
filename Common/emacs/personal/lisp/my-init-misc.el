@@ -181,26 +181,11 @@
                   (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
                   (unless (eq ibuffer-sorting-mode 'project-file-relative)
                       (ibuffer-do-sort-by-project-file-relative)))))
-;; ibuffer-vc :
-(use-package ibuffer-vc
-    :disabled t
-    :preface (defun my--ibuffer-vc-setup ()
-                 (ibuffer-vc-set-filter-groups-by-vc-root)
-                 (unless (eq ibuffer-sorting-mode 'alphabetic)
-                     (ibuffer-do-sort-by-alphabetic)))
-    :init (add-hook 'ibuffer-hook #'my--ibuffer-vc-setup))
-
 ;; vundo : visual undo
 (use-package vundo
     :commands (vundo)
     :config
     (setq vundo-compact-display nil))
-
-;; smartparens : minor mode for dealing with pairs in emacs
-(use-package smartparens
-    :disabled t ;; using electric-pair built-in
-    :hook (prog-mode . smartparens-mode)
-    :config (require 'smartparens-config))
 
 (use-package helpful
     :bind
@@ -258,7 +243,9 @@
 
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
-    :config (editorconfig-mode 1))
+    :config
+    (setq editorconfig-exclude-regexps '("\\.jar$" "\\.tar$" "\\.zip$" "\\.tar$" "\\.gz$"))
+    (editorconfig-mode 1))
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
