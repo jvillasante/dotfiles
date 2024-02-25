@@ -14,5 +14,12 @@
     ((chatgpt-shell-openai-key
       (auth-source-pick-first-password :host "api.openai.com"))))
 
+(use-package copilot
+    :defer t
+    :config
+    (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+    (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+    (add-hook 'prog-mode-hook 'copilot-mode))
+
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here
