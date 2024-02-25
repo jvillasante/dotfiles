@@ -5,6 +5,7 @@
 
 ;; password-store for emacs
 (use-package password-store
+    :defer t
     :preface (defun my--password-store-git-push ()
                  (interactive)
                  (with-editor-async-shell-command "pass git push"))
@@ -26,6 +27,7 @@
 
 ;; pdf
 (use-package pdf-tools
+    :defer t
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :init (setq pdf-view-display-size 'fit-page
                 pdf-view-use-scaling t
@@ -38,18 +40,21 @@
 ;; nov.el : Major mode for reading EPUBs in Emacs
 (use-package nov
     :disabled t
+    :defer t
     :mode ("\\.epub\\'" . nov-mode)
     :custom (nov-text-width t))
 
 ;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
 (use-package mastodon
     :disabled t
+    :defer t
     :init (setq mastodon-instance-url "https://hachyderm.io"
                 mastodon-active-user "jvillasante"))
 
 ;; circe : A client for IRC in Emacs
 (use-package circe
     :disabled t
+    :defer t
     :preface
     (defun my--circe-prompt ()
         (lui-set-prompt
@@ -77,10 +82,12 @@
 
 ;; speed-type : Practice speed typing
 (use-package speed-type
-    :disabled t)
+    :disabled t
+    :defer t)
 
 ;; docker : Emacs integration for Docker!
 (use-package docker
+    :defer t
     :bind ("C-c d" . docker)
     :config
     ;; always run with `vterm' if available
@@ -101,6 +108,7 @@
 
 ;; elfeed
 (use-package elfeed
+    :defer t
     :preface (defun my--elfeed-delete-window-after-kill-buffer (&rest args)
                  (delete-window (selected-window)))
     :init
