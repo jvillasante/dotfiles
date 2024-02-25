@@ -236,7 +236,8 @@
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
     :config
-    (setq editorconfig-exclude-regexps '("\\.jar$" "\\.tar$" "\\.zip$" "\\.tar$" "\\.gz$"))
+    (setq editorconfig-exclude-regexps
+          '("\\.jar$" "\\.tar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$"))
     (editorconfig-mode 1))
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
