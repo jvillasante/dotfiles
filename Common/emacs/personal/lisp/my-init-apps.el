@@ -29,20 +29,11 @@
 (use-package pdf-tools
     :defer t
     :mode ("\\.pdf\\'" . pdf-view-mode)
-    :init (setq pdf-view-display-size 'fit-page
-                pdf-view-use-scaling t
-                pdf-view-use-imagemagick nil
-                pdf-view-continuous t)
-    :config (add-hook 'pdf-outline-buffer-mode-hook
-                      (lambda ()
-                          (my--font-set-small-variable-font))))
-
-;; nov.el : Major mode for reading EPUBs in Emacs
-(use-package nov
-    :disabled t
-    :defer t
-    :mode ("\\.epub\\'" . nov-mode)
-    :custom (nov-text-width t))
+    :config
+    (setq pdf-view-display-size 'fit-page
+          pdf-view-use-scaling t
+          pdf-view-use-imagemagick nil
+          pdf-view-continuous t))
 
 ;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
 (use-package mastodon

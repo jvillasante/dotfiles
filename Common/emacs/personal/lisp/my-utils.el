@@ -34,20 +34,6 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
                             elt)
                        ,list)))
 
-;;; UI
-
-(defun my--font-installed-p (font-name)
-    "Check if a font with FONT-NAME is available."
-    (find-font (font-spec :name font-name)))
-
-(defun my--font-set-small-mono-font ()
-    "Set the default font to a smaller sized font for current buffer."
-    (face-remap-add-relative 'default :height 145))
-
-(defun my--font-set-small-variable-font ()
-    "Set the default font to a smaller sized font for current buffer."
-    (face-remap-add-relative 'default :height 145 :family "Iosevka Aile"))
-
 ;;; VCS
 
 (defun my--project-todos ()
