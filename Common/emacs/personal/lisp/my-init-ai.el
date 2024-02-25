@@ -4,7 +4,6 @@
 ;;; Code:
 
 (use-package gptel
-    :disabled t
     :defer t
     :custom
     ((gptel-default-mode 'org-mode)))
