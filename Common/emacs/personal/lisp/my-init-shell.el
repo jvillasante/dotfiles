@@ -170,11 +170,5 @@ the prefix argument is supplied."
 (use-package emamux
     :disabled t)
 
-(use-package chatgpt-shell
-    :custom
-    ((chatgpt-shell-openai-key
-      (lambda ()
-          (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))))
-
 (provide 'my-init-shell)
 ;;; my-init-shell.el ends here
