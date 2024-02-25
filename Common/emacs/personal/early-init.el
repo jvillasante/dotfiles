@@ -37,7 +37,7 @@
 (push '(mouse-color . "white") default-frame-alist)
 
 ;; Make the initial buffer load faster by setting its mode to fundamental-mode
-(setq initial-major-mode 'fundamental-mode)
+;; (setq initial-major-mode 'fundamental-mode)
 
 (provide 'early-init)
 ;;; early-init.el ends here

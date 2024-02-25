@@ -233,14 +233,6 @@
      ([remap move-beginning-of-line] . crux-move-beginning-of-line)
      ([remap kill-whole-line] . crux-kill-whole-line)))
 
-;; persistent-scratch : preserve scratch buffer across sessions
-(use-package persistent-scratch
-    :config
-    (setq persistent-scratch-save-file
-          (expand-file-name "persistent-scratch" no-littering-var-directory))
-    (persistent-scratch-setup-default)
-    (persistent-scratch-autosave-mode 1))
-
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
     :config
@@ -280,10 +272,6 @@
             ("e" . wgrep-change-to-wgrep-mode)
             ("C-x C-q" . wgrep-change-to-wgrep-mode)
             ("C-c C-c" . wgrep-finish-edit)))
-
-;; Emacs Everywhere
-(use-package emacs-everywhere
-    :disabled t) ;; does not work on Wayland
 
 ;; devdocs.el : Emacs viewer for DevDocs
 (use-package devdocs
