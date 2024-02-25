@@ -5,6 +5,7 @@
 
 ;; encryption
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
+;; https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
 (progn
     ;; never save
     (setq auth-source-save-behavior nil)
@@ -18,7 +19,12 @@
     (setq
      epa-file-encrypt-to user-mail-address
      epa-file-cache-passphrase-for-symmetric-encryption nil)
-    (epa-file-enable)
+    ;; (epa-file-enable)
+
+    ;; setup auth-sources
+    (require 'auth-source)
+    (setq auth-sources
+          (list (expand-file-name "secrets/.authinfo.gpg" no-littering-etc-directory)))
 
     ;; setup org-crypt
     (require 'org-crypt)

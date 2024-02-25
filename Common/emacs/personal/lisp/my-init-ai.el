@@ -3,11 +3,17 @@
 ;;
 ;;; Code:
 
+(use-package gptel
+    :disabled t
+    :defer t
+    :custom
+    ((gptel-default-mode 'org-mode)))
+
 (use-package chatgpt-shell
+    :defer t
     :custom
     ((chatgpt-shell-openai-key
-      (lambda ()
-          (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))))
+      (auth-source-pick-first-password :host "api.openai.com"))))
 
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here
