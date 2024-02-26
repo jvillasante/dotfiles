@@ -15,11 +15,11 @@
       (auth-source-pick-first-password :host "api.openai.com"))))
 
 (use-package copilot
+    :hook (prog-mode . copilot-mode)
     :defer t
     :config
     (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-    (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-    (add-hook 'prog-mode-hook 'copilot-mode))
+    (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
 
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here
