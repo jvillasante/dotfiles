@@ -4,7 +4,7 @@
 ;;; Code:
 
 ;; Start maximized
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Remove the titlebar
