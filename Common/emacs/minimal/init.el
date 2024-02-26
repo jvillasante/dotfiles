@@ -24,6 +24,9 @@
 ;; Disable splash screen
 (setq inhibit-startup-screen t)
 
+;; annoying!
+(blink-cursor-mode -1)
+
 ;;; Completion framework
 (unless (package-installed-p 'vertico)
     (package-install 'vertico))
