@@ -8,6 +8,32 @@
     :bind
     (:map org-mode-map
           ([remap fill-paragraph] . my--org-fill-or-unfill))
+    :init
+    (with-eval-after-load 'org
+        (org-babel-do-load-languages
+         'org-babel-load-languages
+         '((awk . t)
+           (calc .t)
+           (C . t)
+           (emacs-lisp . t)
+           (haskell . t)
+           (gnuplot . t)
+           (latex . t)
+           ;; (ledger . t)
+           (js . t)
+           (haskell . t)
+           ;; (http . t)
+           (perl . t)
+           (python . t)
+           ;; (gnuplot . t)
+           ;; org-babel does not currently support php.  That is really sad.
+           ;; (php . t)
+           (R . t)
+           (scheme . t)
+           ;; (sh . t)
+           (sql . t)
+           ;; (sqlite . t)
+           )))
     :config
     (setq org-directory (expand-file-name "Apps/org" my--dropbox-path))
     (setq org-id-locations-file (file-name-concat org-directory ".orgids"))
