@@ -17,9 +17,9 @@
       (auth-source-pick-first-password :host "api.openai.com"))))
 
 (use-package copilot
-    :hook ((prog-mode . copilot-mode)
-           (copilot-mode . (lambda ()
-                               (setq-local copilot--indent-warning-printed-p t))))
+    ;; :hook ((prog-mode . copilot-mode)
+    ;;        (copilot-mode . (lambda ()
+    ;;                            (setq-local copilot--indent-warning-printed-p t))))
     :bind (:map copilot-completion-map
                 ("<tab>" . 'copilot-accept-completion)
                 ("TAB" . 'copilot-accept-completion)))
