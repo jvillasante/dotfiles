@@ -15,9 +15,11 @@
 (global-set-key (kbd "C-x S") 'my--save-all) ; save some buffers without prompt
 (global-set-key (kbd "C-x C-o") 'ff-find-other-file) ; useful for C/C++ finding header/impl files
 
-;; I don't use C-z
+;; Rebind C-z
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
+(global-set-key (kbd "C-z") 'repeat)
+(global-set-key (kbd "C-x C-z") 'repeat)
 
 ;; really kill emacs even on `emacsclient'
 (global-set-key (kbd "C-x C-S-c") 'save-buffers-kill-emacs)
