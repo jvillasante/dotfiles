@@ -15,10 +15,9 @@
 (global-set-key (kbd "C-x S") 'my--save-all) ; save some buffers without prompt
 (global-set-key (kbd "C-x C-o") 'ff-find-other-file) ; useful for C/C++ finding header/impl files
 
-;; C-z does not make sense on graphical environment
-(when (display-graphic-p)
-    (global-unset-key (kbd "C-z"))
-    (global-unset-key (kbd "C-x C-z")))
+;; I don't use C-z
+(global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-x C-z"))
 
 ;; really kill emacs even on `emacsclient'
 (global-set-key (kbd "C-x C-S-c") 'save-buffers-kill-emacs)
