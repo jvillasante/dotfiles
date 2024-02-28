@@ -50,8 +50,8 @@
     ((eglot-managed-mode . my--eglot-eldoc)
      (prog-mode . my--maybe-start-eglot))
     :config
-    (fset #'jsonrpc--log-event #'ignore)
-    (setq eglot-events-buffer-size 0)
+    ;; (fset #'jsonrpc--log-event #'ignore)
+    ;; (setq eglot-events-buffer-size 0)
     (setq eglot-autoshutdown t)
     (setq eglot-extend-to-xref t)
     (setq eglot-sync-connect nil)
