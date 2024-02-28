@@ -37,33 +37,21 @@
     :ensure nil ;; emacs built-in
     :preface
     (defun my--eglot-eldoc ()
-        ;; Show flymake diagnostics first.
+        "Show flymake diagnostics first."
         (setq eldoc-documentation-functions
               (cons #'flymake-eldoc-function
                     (remove #'flymake-eldoc-function eldoc-documentation-functions))))
+    (defun my--maybe-start-eglot ()
+        "Exlude some mode from eglot."
+        (let ((disabled-modes '(emacs-lisp-mode dockerfile-ts-mode)))
+            (unless (apply 'derived-mode-p disabled-modes)
+                (eglot-ensure))))
     :hook
     ((eglot-managed-mode . my--eglot-eldoc)
-     (sh-mode . eglot-ensure)
-     (bash-ts-mode . eglot-ensure)
-     (cmake-mode . eglot-ensure)
-     (cmake-ts-mode . eglot-ensure)
-     (c-mode . eglot-ensure)
-     (c-ts-mode . eglot-ensure)
-     (c++-mode . eglot-ensure)
-     (c++-ts-mode . eglot-ensure)
-     (rust-mode . eglot-ensure)
-     (rust-ts-mode . eglot-ensure)
-     (zig-mode . eglot-ensure)
-     (js-mode . eglot-ensure)
-     (js-ts-mode . eglot-ensure)
-     (python-mode . eglot-ensure)
-     (python-ts-mode . eglot-ensure)
-     (go-mode . eglot-ensure)
-     (go-ts-mode . eglot-ensure)
-     (sql-mode . eglot-ensure))
+     (prog-mode . my--maybe-start-eglot))
     :config
-    (setq eglot-events-buffer-size 0)
     (fset #'jsonrpc--log-event #'ignore)
+    (setq eglot-events-buffer-size 0)
     (setq eglot-autoshutdown t)
     (setq eglot-extend-to-xref t)
     (setq eglot-sync-connect nil)

@@ -209,8 +209,6 @@
     ;; Configure SPC for separator insertion
     (:map corfu-map ("SPC" . corfu-insert-separator))
     :init
-    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-    (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible)
     (add-hook 'eshell-mode-hook
               (lambda ()
                   (setq-local corfu-auto nil)
@@ -239,6 +237,10 @@
            ("C-c p &"  . cape-sgml)
            ("C-c p r"  . cape-rfc1345))
     :init
+    ;; eglot integration with cape
+    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+    (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible)
+
     ;; Add to the global default value of `completion-at-point-functions' which is
     ;; used by `completion-at-point'.  The order of the functions matters, the
     ;; first function returning a result wins.  Note that the list of buffer-local
