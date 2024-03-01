@@ -17,6 +17,7 @@
       (auth-source-pick-first-password :host "api.openai.com"))))
 
 (use-package copilot
+    :preface
     (defun my--maybe-start-copilot ()
         "Exlude some modes from copilot."
         (let ((disabled-modes '(lisp-interaction-mode)))
