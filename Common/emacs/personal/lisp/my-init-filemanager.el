@@ -103,8 +103,7 @@
 ;; Addtional syntax highlighting for dired
 (use-package diredfl
     :hook
-    ((dired-mode . diredfl-mode)
-     (dirvish-directory-view-mode . diredfl-mode))
+    ((dired-mode . diredfl-mode))
     :config
     (set-face-attribute 'diredfl-dir-name nil :bold t))
 
