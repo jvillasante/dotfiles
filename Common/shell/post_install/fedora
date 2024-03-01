@@ -460,13 +460,14 @@ fedora_install() {
                 flatpak install --user -y flathub org.videolan.VLC
                 flatpak install --user -y flathub org.wireshark.Wireshark
                 flatpak install --user -y flathub com.github.tchx84.Flatseal
+                flatpak install --user -y flathub com.github.johnfactotum.Foliate
+                flatpak install --user -y flathub org.gimp.GIMP
                 # flatpak install --user -y flathub com.transmissionbt.Transmission
                 # flatpak install --user -y flathub io.github.Hexchat
                 # flatpak install --user -y flathub engineer.atlas.Nyxt
                 # flatpak install --user -y flathub org.mozilla.firefox
                 # flatpak install --user -y flathub org.telegram.desktop
                 # flatpak install --user -y flathub org.gnucash.GnuCash
-                # flatpak install --user -y flathub org.gimp.GIMP
                 # flatpak install --user -y flathub com.skype.Client
                 # flatpak install --user -y flathub com.valvesoftware.Steam
                 # flatpak install --user -y flathub im.riot.Riot
