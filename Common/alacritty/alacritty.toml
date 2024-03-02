@@ -1,8 +1,8 @@
 live_config_reload = true
 working_directory = "None"
 
-# colors : https://codeberg.org/anhsirk0/alacritty-themes
-import = ["~/.config/alacritty/alacritty-themes/themes/modus-operandi.toml"]
+# colors
+import = ["~/.config/alacritty/alacrity-modus-operandi.toml"]
 
 [cursor]
 style = "Block"
