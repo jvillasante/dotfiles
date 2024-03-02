@@ -229,9 +229,9 @@
      ("C-k" . crux-smart-kill-line)
      ;; ("C-<backspace>" . crux-kill-line-backwards)
      ;; ("C-x 4 t" . crux-transpose-windows)
-     ("C-x C-u" . crux-upcase-region)
-     ("C-x C-l" . crux-downcase-region)
-     ("C-x M-c" . crux-capitalize-region)
+     ;; ("C-x C-u" . crux-upcase-region)
+     ;; ("C-x C-l" . crux-downcase-region)
+     ;; ("C-x M-c" . crux-capitalize-region)
      ([remap move-beginning-of-line] . crux-move-beginning-of-line)
      ([remap kill-whole-line] . crux-kill-whole-line)))
 
