@@ -11,8 +11,7 @@
            (dired-mode . hl-line-mode))
     :bind ((:map dired-mode-map
                  ("C-<return>" . crux-open-with)))
-    :init
-    ;; (dired-async-mode 1)
+    :config
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
     (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
     (setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
@@ -109,6 +108,7 @@
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
+    :disabled t
     :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
     :commands (dired-sidebar-toggle-sidebar)
     :init
@@ -123,6 +123,63 @@
     (setq dired-sidebar-width 42)
     (setq dired-sidebar-window-fixed nil)
     (setq dired-sidebar-use-term-integration t))
+
+(use-package neotree
+    :preface
+    (defun my--neotree-project-dir ()
+        "Open NeoTree using project root."
+        (interactive)
+        (let ((project-dir (or (when-let ((project (project-current))) (project-root project))
+                               default-directory))
+              (file-name (buffer-file-name)))
+            (neotree-toggle)
+            (if project-dir
+                    (if (neo-global--window-exists-p)
+                            (progn
+                                (neotree-dir project-dir)
+                                (neotree-find file-name)))
+                (message "Could not find project root."))))
+
+    :bind (("C-x C-n" . my--neotree-project-dir))
+    :hook ((neotree-mode . hl-line-mode))
+    :config
+    (setq neo-theme 'ascii)
+    (setq neo-window-width 42)
+    (setq neo-smart-open t)
+    (setq neo-create-file-auto-open nil)
+    (setq neo-show-updir-line t)
+    (setq neo-show-hidden-files t)
+    (setq neo-auto-indent-point t)
+    (setq neo-vc-integration nil)
+    (setq neo-autorefresh nil)
+    (setq neo-auto-indent-point nil)
+    (setq neo-mode-line-type 'none)
+    (setq neo-banner-message nil)
+    (setq neo-confirm-create-file #'off-p)
+    (setq neo-confirm-create-directory #'off-p)
+    (setq neo-keymap-style 'concise)
+    (setq neo-hidden-regexp-list
+          '(;; vcs folders
+            "^\\.\\(?:git\\|hg\\|svn\\)$"
+            ;; compiled files
+            "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
+            ;; generated files, caches or local pkgs
+            "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+            ;; org-mode folders
+            "^\\.\\(?:sync\\|export\\|attach\\)$"
+            ;; temp files
+            "~$"
+            "^#.*#$"
+            ;; Others
+            "^\\.\\(cache\\|tox\\|coverage\\)$"
+            "^\\.\\(DS_Store\\|python\\-version\\)"
+            "^\\(htmlcov\\)$" "\\.elcs$"
+            "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
+            "^\\.#.*$" "^__pycache__$"
+            "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
+            "^\\.cproject$" "^\\.project$" "^\\.projectile$"
+            "^\\.log$"
+            "\\.egg\-info$")))
 
 (provide 'my-init-filemanager)
 ;;; my-init-filemanager.el ends here

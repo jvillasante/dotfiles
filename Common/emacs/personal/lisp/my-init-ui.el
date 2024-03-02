@@ -31,6 +31,10 @@
 ;; activate `mouse-avoidance-mode'
 (mouse-avoidance-mode 'cat-and-mouse)
 
+;; emacs29 mouse settings
+(setq dired-mouse-drag-files t)
+(setq mouse-drag-and-drop-region-cross-program t)
+
 ;; setup visual-line and auto-fill
 (setq visual-line-fringe-indicators
       '(left-curly-arrow right-curly-arrow))              ;; display line indication on fringe

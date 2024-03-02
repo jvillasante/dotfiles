@@ -59,10 +59,6 @@
     (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward) ; better navigation
     (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)) ; better navigation
 
-;; neotree
-(with-eval-after-load 'neotree
-    (define-key neotree-mode-map (kbd "TAB") 'neotree-stretch-toggle))
-
 ;; prog-mode
 (with-eval-after-load 'prog-mode
     (with-eval-after-load 'flymake

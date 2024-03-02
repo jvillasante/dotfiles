@@ -121,9 +121,10 @@
 ;; project.el : default project manager
 (use-package project
     :ensure nil ;; emacs built-in
-    :custom ((project-list-file (expand-file-name "projects" no-littering-var-directory))
-             (project-vc-extra-root-markers '(".project.el" ".projectile" ".dir-locals.el"))
-             (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
+    :custom
+    ((project-list-file (expand-file-name "projects" no-littering-var-directory))
+     (project-vc-extra-root-markers '(".project.el" ".projectile" ".dir-locals.el"))
+     (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
     :config (add-to-list 'project-switch-commands '(project-dired "Dired at root")))
 
 ;; tramp : Transparent Remote Access, Multiple Protocols
@@ -133,8 +134,13 @@
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
     :config
     (setq remote-file-name-inhibit-locks t)
-    (setq tramp-verbose 2)
+    (setq tramp-verbose 0)
+    (setq tramp-chunksize 2000)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (setq tramp-use-ssh-controlmaster-options nil) ; disable ssh controlmaster
+    (add-to-list 'tramp-connection-properties
+                 (list (regexp-quote "/ssh:YOUR_HOSTNAME:")
+                       "direct-async-process" t))
     (setq tramp-password-prompt-regexp   ; Add verification code support.
           (concat
            "^.*"
