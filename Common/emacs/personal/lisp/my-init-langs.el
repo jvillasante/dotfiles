@@ -54,38 +54,6 @@
     (setq c-ts-mode-indent-offset 4)
     (setq c-ts-mode-indent-style #'my--c-ts-indent-style))
 
-;; c/c++ mode
-(use-package cc-mode
-    :ensure nil ;; emacs built-in
-    :preface
-    (defun my--c-indent-then-complete ()
-        (interactive)
-        (if (= 0 (c-indent-line-or-region))
-                (completion-at-point)))
-    :config
-    (dolist (map (list c-mode-map c++-mode-map))
-        (define-key map (kbd "<tab>") #'my--c-indent-then-complete))
-    (add-hook 'c-mode-common-hook
-              (lambda ()
-                  (c-set-style "stroustrup")
-                  (c-set-offset 'innamespace [0]) ; Do not indent in namespaces
-                  (c-set-offset 'cpp-macro 0 nil) ; Indent C/C++ macros as normal code
-                  (c-set-offset 'substatement-open 0) ; Align braces with the if/for statement. If not set, a half indent will be used
-                  (c-set-offset 'arglist-intro '+) ; Align multiline arguments with a standard indent (instead of with parenthesis)
-                  (c-set-offset 'arglist-close 0) ; Align the parenthesis at the end of the arguments with the opening statement indent
-                  (setq-local c-basic-offset 4) ; Base indent size when indented automatically
-                  (setq-local tab-width 4)
-                  (setq-local indent-tabs-mode nil)))
-    :init
-    (add-to-list 'auto-mode-alist '("\\.h\\'"   . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.hxx\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.cxx\\'" . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.cc\\'"  . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.C\\'"   . c++-mode))
-    (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode)))
-
 ;; cmake
 (use-package cmake-mode)
 
