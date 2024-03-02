@@ -108,6 +108,7 @@
 
 ;; web-mode : Support various web files
 (use-package web-mode
+    :disabled t
     :mode ("\\.css\\'" "\\.html\\'" "\\.ts\\'" "\\.js\\'" "\\.jsx?$" "\\.vue\\'")
     :custom
     (web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section

@@ -11,6 +11,7 @@
     ((gptel-default-mode 'org-mode)))
 
 (use-package chatgpt-shell
+    :disabled t
     :defer t
     :custom
     ((chatgpt-shell-openai-key
