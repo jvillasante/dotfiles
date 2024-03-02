@@ -139,12 +139,12 @@
                                 (neotree-dir project-dir)
                                 (neotree-find file-name)))
                 (message "Could not find project root."))))
-
-    :bind (("C-x C-n" . my--neotree-project-dir))
+    :bind (("C-x C-n" . my--neotree-project-dir)
+           (:map neotree-mode-map ("." . neotree-hidden-file-toggle)))
     :hook ((neotree-mode . hl-line-mode))
     :config
     (setq neo-theme 'ascii)
-    (setq neo-window-width 42)
+    (setq neo-window-width 48)
     (setq neo-smart-open t)
     (setq neo-create-file-auto-open nil)
     (setq neo-show-updir-line t)
