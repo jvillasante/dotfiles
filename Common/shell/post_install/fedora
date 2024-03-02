@@ -243,7 +243,7 @@ fedora_install() {
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
                 sudo dnf install -y curl dnsutils dos2unix doxygen msmtp neofetch
-                sudo dnf install -y graphviz htop mercurial ninja-build pass
+                sudo dnf install -y graphviz htop mercurial ninja-build
                 sudo dnf install -y nodejs npm python3 python3-pip
                 sudo dnf install -y pandoc poppler poppler-utils poppler-data
                 sudo dnf install -y subversion tldr tree w3m wget libtool texinfo
@@ -283,6 +283,9 @@ fedora_install() {
                 if [[ "$WINDOW_SYSTEM" == "$WS_X11" ]]; then
                     sudo dnf install -y xclip xinput xdotool x11-utils # some X11 tools
                 fi
+
+                # Pass (password-store)
+                sudo dnf install -y pass gopass
 
                 # Git stuff
                 sudo dnf install -y git         # git itself
@@ -463,6 +466,7 @@ fedora_install() {
                 flatpak install --user -y flathub com.github.tchx84.Flatseal
                 flatpak install --user -y flathub com.github.johnfactotum.Foliate
                 flatpak install --user -y flathub org.gimp.GIMP
+                flatpak install --user -y flathub org.keepassxc.KeePassXC
                 # flatpak install --user -y flathub com.transmissionbt.Transmission
                 # flatpak install --user -y flathub io.github.Hexchat
                 # flatpak install --user -y flathub engineer.atlas.Nyxt
@@ -472,7 +476,7 @@ fedora_install() {
                 # flatpak install --user -y flathub com.skype.Client
                 # flatpak install --user -y flathub com.valvesoftware.Steam
                 # flatpak install --user -y flathub im.riot.Riot
-                # flatpak install --user -y flathub org.keepassxc.KeePassXC
+
                 # flatpak install --user -y flathub com.obsproject.Studio
                 # flatpak install --user -y flathub com.brave.Browser
                 # flatpak install --user -y flathub org.shotcut.Shotcut
