@@ -281,6 +281,12 @@ Run this function at the post theme load phase, such as with the
     (setq aw-minibuffer-flag t)
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
+;; golden-ratio : resize windows automatically
+(use-package golden-ratio
+    :config
+    (add-to-list 'golden-ratio-extra-commands 'ace-window)
+    (golden-ratio-mode 1))
+
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 (progn
     (setq switch-to-buffer-obey-display-actions t
