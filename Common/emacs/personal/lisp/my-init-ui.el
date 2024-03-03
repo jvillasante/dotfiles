@@ -164,6 +164,7 @@
                     ;; tabs -> » else >
                     (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 
+;; tab-bar : frame-local tabs with named persistent window configurations
 (use-package tab-bar
     :ensure nil ;; emacs built-in
     :init
@@ -174,11 +175,6 @@
           tab-bar-format '(tab-bar-format-tabs-groups
                            tab-bar-separator))
     (add-hook 'pre-command-hook 'tab-bar-history-mode))
-
-;; modeline
-(use-package mini-echo
-    :disabled t
-    :init (mini-echo-mode))
 
 ;; theme
 (use-package modus-themes
@@ -255,6 +251,7 @@ Run this function at the post theme load phase, such as with the
             (push 'overwrite-mode minions-prominent-modes))
         (add-hook 'after-init-hook 'minions-mode)))
 
+;; which-key : displays the key bindings following your currently entered incomplete command (a prefix) in a popup.
 (use-package which-key
     :init
     (add-hook 'pre-command-hook 'which-key-mode)
@@ -262,6 +259,7 @@ Run this function at the post theme load phase, such as with the
     (setq which-key-idle-delay 1
           which-key-popup-type 'minibuffer))
 
+;; anzu : displays current match and total matches information in the mode-line in various search modes.
 (use-package anzu
     :init (global-anzu-mode +1)
     :config
@@ -275,6 +273,13 @@ Run this function at the post theme load phase, such as with the
     (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
     (define-key isearch-mode-map [remap isearch-query-replace] #'anzu-isearch-query-replace)
     (define-key isearch-mode-map [remap isearch-query-replace-regexp] #'anzu-isearch-query-replace-regexp))
+
+;; ace-window : GNU Emacs package for selecting a window to switch to
+(use-package ace-window
+    :bind (("C-x o" . ace-window))
+    :config
+    (setq aw-minibuffer-flag t)
+    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 (progn
