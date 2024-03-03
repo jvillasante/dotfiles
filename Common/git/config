@@ -51,6 +51,12 @@
     algorithm = histogram
     # https://git-scm.com/docs/git-config#Documentation/git-config.txt-diffalgorithm
 
+    colormoved = "default"
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-diffcolorMoved
+
+    colormovedws = "allow-indentation-change"
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-diffcolorMovedWS
+
 [rebase]
     autosquash = true
     # Enable --autosquash option by default.
