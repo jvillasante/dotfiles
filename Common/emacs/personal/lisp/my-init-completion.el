@@ -348,6 +348,9 @@
            ("C-c C-d" . 'consult-dir)
            ("C-c C-j" . 'consult-dir-jump-file)))
 
+(use-package consult-eglot
+    :after eglot)
+
 (use-package embark
     :bind (("C-;" . embark-act)            ;; pick some comfortable binding
            ("M-;" . embark-dwim)        ;; good alternative: C-M-;
