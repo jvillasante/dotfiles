@@ -282,6 +282,10 @@
             ("C-x C-q" . wgrep-change-to-wgrep-mode)
             ("C-c C-c" . wgrep-finish-edit)))
 
+;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
+(use-package surround
+    :bind-keymap ("M-'" . surround-keymap))
+
 ;; devdocs.el : Emacs viewer for DevDocs
 (use-package devdocs
     :bind (("C-h D" . devdocs-lookup)))
