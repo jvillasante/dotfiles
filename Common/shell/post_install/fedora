@@ -342,7 +342,7 @@ fedora_install() {
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # Go
-                # sudo dnf install -y go
+                sudo dnf install -y go
 
                 # non dnf software
                 pip install cmake-language-server
