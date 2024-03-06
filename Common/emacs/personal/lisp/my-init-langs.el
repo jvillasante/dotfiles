@@ -94,7 +94,7 @@
            ("\\.qmd\\'" . markdown-mode))
     :bind ((:map markdown-mode-map
                  ("TAB" . 'markdown-cycle)))
-    :init (add-hook 'markdown-mode-hook 'markdown-toggle-markup-hiding)
+    ;; :init (add-hook 'markdown-mode-hook 'markdown-toggle-markup-hiding)
     :config (setq markdown-fontify-code-blocks-natively t
                   markdown-fontify-whole-heading-line t
                   markdown-enable-math t))
