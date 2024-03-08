@@ -8,14 +8,18 @@
     :bind (:map gptel-mode-map
                 ("C-c C-c" . 'gptel-send))
     :custom
-    ((gptel-default-mode 'org-mode)))
+    ((gptel-api-key
+      (lambda ()
+          (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))
+     (gptel-default-mode 'org-mode)))
 
 (use-package chatgpt-shell
     :disabled t
     :defer t
     :custom
     ((chatgpt-shell-openai-key
-      (auth-source-pick-first-password :host "api.openai.com"))))
+      (lambda ()
+          (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))))
 
 (use-package copilot
     :disabled t
