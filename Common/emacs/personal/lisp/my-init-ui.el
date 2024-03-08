@@ -285,6 +285,7 @@ Run this function at the post theme load phase, such as with the
 (use-package golden-ratio
     :config
     (add-to-list 'golden-ratio-extra-commands 'ace-window)
+    (add-to-list 'golden-ratio-exclude-modes 'dired-sidebar-mode)
     (golden-ratio-mode 1))
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
