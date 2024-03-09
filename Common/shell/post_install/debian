@@ -54,59 +54,6 @@ install_berkeley_mono_font() {
     fc-cache -f
 }
 
-install_iosevka_comfy_font() {
-    # Prepare git repo
-    [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
-    if [ ! -d "$HOME"/Workspace/Software/fonts/iosevka-comfy ]; then
-        git clone --depth 1 https://git.sr.ht/~protesilaos/iosevka-comfy \
-            "$HOME"/Workspace/Software/fonts/iosevka-comfy
-    else
-        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git \
-            --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy reset --hard HEAD
-        git --git-dir="$HOME"/Workspace/Software/fonts/iosevka-comfy/.git \
-            --work-tree="$HOME"/Workspace/Software/fonts/iosevka-comfy pull
-    fi
-
-    # just in case
-    mkdir -p ~/.local/share/fonts
-
-    # remove all fonts from ~/.local/share/fonts that start with "iosevka-comfy"
-    rm -rf ~/.local/share/fonts/iosevka-comfy*
-
-    # copy all otf/ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/iosevka-comfy/ -type f \( -name "*.ttf" -o -name "*.otf" \) \
-         -exec cp {} "$HOME"/.local/share/fonts/ \; -print
-
-    # Build font information caches
-    fc-cache -f
-}
-
-install_monaspace_font() {
-    # Prepare git repo
-    [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
-    if [ ! -d "$HOME"/Workspace/Software/fonts/monaspace ]; then
-        git clone git@github.com:githubnext/monaspace.git "$HOME"/Workspace/Software/fonts/monaspace
-    else
-        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git \
-            --work-tree="$HOME"/Workspace/Software/fonts/monaspace reset --hard HEAD
-        git --git-dir="$HOME"/Workspace/Software/fonts/monaspace/.git \
-            --work-tree="$HOME"/Workspace/Software/fonts/monaspace pull
-    fi
-
-    # just in case
-    mkdir -p ~/.local/share/fonts
-
-    # remove all fonts from ~/.local/share/fonts that start with "monaspace"
-    rm -rf ~/.local/share/fonts/Monaspace*
-
-    # copy all otf/ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/monaspace/ -type f \( -name "*.ttf" -o -name "*.otf" \) \
-         -exec cp {} "$HOME"/.local/share/fonts/ \; -print
-
-    # Build font information caches
-    fc-cache -f
-}
-
 debian_install() {
     HEIGHT=25
     WIDTH=100
@@ -511,8 +458,6 @@ EOF
 
                 sudo apt install -y fonts-jetbrains-mono
                 install_berkeley_mono_font
-                install_iosevka_comfy_font
-                install_monaspace_font
 
                 #
                 # Remove pre-installed Gnome games
