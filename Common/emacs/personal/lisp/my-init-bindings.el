@@ -9,6 +9,8 @@
 ;; General
 (global-set-key (kbd "C-x C-m") 'execute-extended-command) ; ALT may or may not be available
 (global-set-key (kbd "C-c C-m") 'execute-extended-command) ; ALT may or may not be available
+(global-set-key (kbd "C-x C-M") 'execute-extended-command-for-buffer) ; ALT may or may not be available
+(global-set-key (kbd "C-c C-M") 'execute-extended-command-for-buffer) ; ALT may or may not be available
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
 (global-set-key (kbd "C-x k") 'kill-this-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
