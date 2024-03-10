@@ -17,6 +17,9 @@
 (global-set-key (kbd "C-x S") 'my--save-all) ; save some buffers without prompt
 (global-set-key (kbd "C-x C-o") 'ff-find-other-file) ; useful for C/C++ finding header/impl files
 
+;; Use Ctrl+arrow keys to move between windows.
+(windmove-default-keybindings 'control)
+
 ;; Rebind C-z
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
@@ -76,7 +79,6 @@
     (define-key global-map [remap list-buffers] 'ibuffer)
     (define-key ibuffer-mode-map (kbd "q") 'kill-this-buffer))
 
-;; vertico
 (with-eval-after-load 'vertico
     ;; (define-key vertico-map (kbd "RET") 'vertico-directory-enter)
     ;; (define-key vertico-map (kbd "DEL") 'vertico-directory-delete-word)
@@ -84,11 +86,9 @@
     (define-key vertico-map (kbd "M-,") 'vertico-quick-insert)
     (define-key vertico-map (kbd "M-.") 'vertico-quick-exit))
 
-;; corfu
 (with-eval-after-load 'corfu
     (define-key corfu-map (kbd "SPC") 'corfu-insert-separator))
 
-;; cape
 (with-eval-after-load 'cape
     (global-set-key (kbd "C-c p p") 'completion-at-point) ;; capf
     (global-set-key (kbd "C-c p t") 'complete-tag)        ;; etags
@@ -218,25 +218,6 @@
     (define-key project-prefix-map (kbd "T") 'eat-project))
 
 (with-eval-after-load 'vterm
-    (defun my--vterm-project ()
-        (interactive)
-        (defvar vterm-buffer-name)
-        (let* ((default-directory (project-root (project-current t)))
-               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
-               (vterm-buffer (get-buffer vterm-buffer-name)))
-            (if (and vterm-buffer (not current-prefix-arg))
-                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
-                (vterm))))
-    (defun my--vterm-project-other-window ()
-        (interactive)
-        (defvar vterm-buffer-name)
-        (let* ((default-directory (project-root     (project-current t)))
-               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
-               (vterm-buffer (get-buffer vterm-buffer-name)))
-            (if (and vterm-buffer (not current-prefix-arg))
-                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
-                (vterm-other-window))))
-
     ;; global keys
     (global-set-key (kbd "C-c o t") 'vterm-other-window)
     (global-set-key (kbd "C-c o T") 'vterm)
@@ -274,6 +255,86 @@
     (global-set-key (kbd "C-h F")                    'helpful-function)
     (global-set-key (kbd "C-h K")                    'describe-keymap))
 
+(with-eval-after-load 'crux
+    (define-key dired-mode-map (kbd "C-<return>") 'crux-open-with)
+    ;; (global-set-key (kbd "C-c o") 'crux-open-with)
+    ;; (global-set-key (kbd "C-c u") 'crux-view-url)
+    ;; (global-set-key (kbd "C-o") 'crux-smart-open-line)
+    ;; (global-set-key (kbd "M-o") 'crux-smart-open-line-above)
+    ;; (global-set-key (kbd "C-x C-r") 'crux-recentf-find-file)
+    ;; (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
+    ;; (global-set-key (kbd "C-c F") 'crux-recentf-find-directory)
+    ;; (global-set-key (kbd "C-c n") 'crux-cleanup-buffer-or-region)
+    ;; (global-set-key (kbd "C-M-z") 'crux-indent-defun)
+    (global-set-key (kbd "C-c e") 'crux-eval-and-replace)
+    ;; (global-set-key (kbd "C-c w") 'crux-swap-windows)
+    (global-set-key (kbd "C-c D") 'crux-delete-file-and-buffer)
+    (global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
+    ;; (global-set-key (kbd "C-c t") 'crux-visit-term-buffer)
+    (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
+    (global-set-key (kbd "C-c TAB") 'crux-indent-rigidly-and-copy-to-clipboard)
+    (global-set-key (kbd "C-c I") 'crux-find-user-custom-file)
+    (global-set-key (kbd "C-c S") 'crux-find-shell-init-file)
+    (global-set-key (kbd "C-^") 'crux-top-join-line)
+    (global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
+    (global-set-key (kbd "C-k") 'crux-smart-kill-line)
+    ;; (global-set-key (kbd "C-<backspace>" . crux-kill-line-backwards)
+    ;; (global-set-key (kbd "C-x 4 t") 'crux-transpose-windows)
+    ;; (global-set-key (kbd "C-x C-u") 'crux-upcase-region)
+    ;; (global-set-key (kbd "C-x C-l") 'crux-downcase-region)
+    ;; (global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
+    (define-key global-map [remap move-beginning-of-line] 'crux-move-beginning-of-line)
+    (define-key global-map [remap kill-whole-line] 'crux-kill-whole-line))
+
+(with-eval-after-load 'avy
+    (global-set-key (kbd "M-j") 'avy-goto-char-timer)
+    (global-set-key (kbd "C-c C-j") 'avy-resume))
+
+(with-eval-after-load 'expand-region
+    (global-set-key (kbd "C-=") 'er/expand-region)
+    (global-set-key (kbd "C--") 'er/contract-region))
+
+(with-eval-after-load 'multiple-cursors
+    (global-set-key (kbd "H-SPC") 'set-rectangular-region-anchor)
+    (global-set-key (kbd "C-M-SPC") 'set-rectangular-region-anchor)
+    (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+    (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+    (global-set-key (kbd "C-c C->") 'mc/mark-all-like-this)
+    (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines))
+
+(with-eval-after-load 'wgrep
+    (define-key grep-mode-map (kbd "e") 'wgrep-change-to-wgrep-mode)
+    (define-key grep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
+    (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
+
+(with-eval-after-load 'devdocs
+    (global-set-key (kbd "C-h D") 'devdocs-lookup))
+
+(with-eval-after-load 'dired-x
+    (define-key dired-mode-map (kbd ".") 'dired-omit-mode))
+
+(with-eval-after-load 'dired-sidebar
+    (global-set-key (kbd "C-x C-n") 'dired-sidebar-toggle-sidebar))
+
+(with-eval-after-load 'neotree
+    (global-set-key (kbd "C-x C-n") 'my--neotree-project-dir)
+    (define-key neotree-mode-map (kbd ".") 'neotree-hidden-file-toggle))
+
+(with-eval-after-load 'ace-window
+    (global-set-key (kbd "C-x o") 'ace-window))
+
+(with-eval-after-load 'pixel-scroll
+    (define-key global-map [remap scroll-up-command]   'my--pixel-scroll-up-command)
+    (define-key global-map [remap scroll-down-command] 'my--pixel-scroll-down-command)
+    (define-key global-map [remap recenter-top-bottom] 'my--pixel-recenter-top-bottom))
+
+(with-eval-after-load 'gptel
+    (define-key gptel-mode-map (kbd "C-c C-c") 'gptel-send))
+
+(with-eval-after-load 'copilot
+    (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+    (define-key copilot-completion-map (kbd "TAB")   'copilot-accept-completion))
+
 ;;; Prefix
 ;; C-c f : find
 (global-set-key (kbd "C-c f f") 'project-find-file)
@@ -293,8 +354,9 @@
 (global-set-key (kbd "C-c f L") 'consult-line-multi)
 
 ;; C-c w : windows
-(global-set-key (kbd "C-c w M") 'maximize-window)
 (global-set-key (kbd "C-c w m") 'minimize-window)
+(global-set-key (kbd "C-c w M") 'maximize-window)
+(global-set-key (kbd "C-c w =") 'balance-windows)
 (with-eval-after-load 'crux
     (global-set-key (kbd "C-c w w") 'crux-swap-windows))
 (with-eval-after-load 'winner

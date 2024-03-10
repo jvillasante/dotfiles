@@ -198,36 +198,7 @@
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
-(use-package crux
-    :bind
-    (;; ("C-c o" . crux-open-with)
-     ;; ("C-c u" . crux-view-url)
-     ;; ("C-o" . crux-smart-open-line)
-     ;; ("M-o" . crux-smart-open-line-above)
-     ;; ("C-x C-r" . crux-recentf-find-file)
-     ;; ("C-c f" . crux-recentf-find-file)
-     ;; ("C-c F" . crux-recentf-find-directory)
-     ;; ("C-c n" . crux-cleanup-buffer-or-region)
-     ;; ("C-M-z" . crux-indent-defun)
-     ("C-c e" . crux-eval-and-replace)
-     ;; ("C-c w" . crux-swap-windows)
-     ("C-c D" . crux-delete-file-and-buffer)
-     ("C-c r" . crux-rename-buffer-and-file)
-     ;; ("C-c t" . crux-visit-term-buffer)
-     ("C-c k" . crux-kill-other-buffers)
-     ("C-c TAB" . crux-indent-rigidly-and-copy-to-clipboard)
-     ("C-c I" . crux-find-user-custom-file)
-     ("C-c S" . crux-find-shell-init-file)
-     ("C-^" . crux-top-join-line)
-     ("C-c s" . crux-ispell-word-then-abbrev)
-     ("C-k" . crux-smart-kill-line)
-     ;; ("C-<backspace>" . crux-kill-line-backwards)
-     ;; ("C-x 4 t" . crux-transpose-windows)
-     ;; ("C-x C-u" . crux-upcase-region)
-     ;; ("C-x C-l" . crux-downcase-region)
-     ;; ("C-x M-c" . crux-capitalize-region)
-     ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-     ([remap kill-whole-line] . crux-kill-whole-line)))
+(use-package crux)
 
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
@@ -238,45 +209,29 @@
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
-    :bind (("M-j" . avy-goto-char-timer)
-           ("C-c C-j" . avy-resume))
     :config
     (avy-setup-default)
     (setq avy-all-windows nil))
 
 ;; Expand Region : expand or contract selection
-(use-package expand-region
-    :bind
-    ("C-=" . 'er/expand-region)
-    ("C--" . 'er/contract-region))
+(use-package expand-region)
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
     :init (whole-line-or-region-global-mode))
 
 ;; multiple-cursors: Multiple cursors for Emacs
-(use-package multiple-cursors
-    :bind (("H-SPC" . set-rectangular-region-anchor)
-           ("C-M-SPC" . set-rectangular-region-anchor)
-           ("C->" . mc/mark-next-like-this)
-           ("C-<" . mc/mark-previous-like-this)
-           ("C-c C->" . mc/mark-all-like-this)
-           ("C-S-c C-S-c" . mc/edit-lines)))
+(use-package multiple-cursors)
 
 ;; wgrep : edit grep results
-(use-package wgrep
-    :bind ( :map grep-mode-map
-            ("e" . wgrep-change-to-wgrep-mode)
-            ("C-x C-q" . wgrep-change-to-wgrep-mode)
-            ("C-c C-c" . wgrep-finish-edit)))
+(use-package wgrep)
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround
     :bind-keymap ("M-'" . surround-keymap))
 
 ;; devdocs.el : Emacs viewer for DevDocs
-(use-package devdocs
-    :bind (("C-h D" . devdocs-lookup)))
+(use-package devdocs)
 
 ;; engine-mode : search the web
 (use-package engine-mode

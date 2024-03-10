@@ -25,9 +25,6 @@
 (set-display-table-slot standard-display-table 'truncation 32)
 (set-display-table-slot standard-display-table 'wrap 32)
 
-;; Use Ctrl+arrow keys to move between windows.
-(windmove-default-keybindings 'control)
-
 ;; activate `mouse-avoidance-mode'
 (mouse-avoidance-mode 'cat-and-mouse)
 
@@ -96,20 +93,6 @@
     :if (fboundp 'pixel-scroll-precision-mode)
     :preface
     (defvar my--default-scroll-lines 20) ;; scroll less than default
-    :custom
-    ((pixel-scroll-precision-interpolation-factor 1.0)
-     (pixel-scroll-precision-use-momentum t)
-     (pixel-scroll-precision-interpolate-mice t)
-     (pixel-scroll-precision-large-scroll-height 10.0)
-     (pixel-scroll-precision-interpolation-total-time 0.2)
-     (pixel-scroll-precision-interpolate-page t))
-    :bind
-    (([remap scroll-up-command]   . my--pixel-scroll-up-command)
-     ([remap scroll-down-command] . my--pixel-scroll-down-command)
-     ([remap recenter-top-bottom] . my--pixel-recenter-top-bottom))
-    :hook
-    (after-init . pixel-scroll-precision-mode)
-    :config
     (defun my--pixel-scroll-up-command ()
         "Similar to `scroll-up-command' but with pixel scrolling."
         (interactive)
@@ -126,7 +109,14 @@
                                (recenter-top-bottom)
                                (cdr (nth 6 (posn-at-point)))))
                (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
-            (pixel-scroll-precision-interpolate distance-in-pixels))))
+            (pixel-scroll-precision-interpolate distance-in-pixels)))
+    :custom ((pixel-scroll-precision-interpolation-factor 1.0)
+             (pixel-scroll-precision-use-momentum t)
+             (pixel-scroll-precision-interpolate-mice t)
+             (pixel-scroll-precision-large-scroll-height 10.0)
+             (pixel-scroll-precision-interpolation-total-time 0.2)
+             (pixel-scroll-precision-interpolate-page t))
+    :hook (after-init . pixel-scroll-precision-mode))
 
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
@@ -282,7 +272,6 @@ Run this function at the post theme load phase, such as with the
 
 ;; ace-window : GNU Emacs package for selecting a window to switch to
 (use-package ace-window
-    :bind (("C-x o" . ace-window))
     :config
     (setq aw-minibuffer-flag t)
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))

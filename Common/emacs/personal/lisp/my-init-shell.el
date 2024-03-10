@@ -70,6 +70,25 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
+    :preface
+    (defun my--vterm-project ()
+        (interactive)
+        (defvar vterm-buffer-name)
+        (let* ((default-directory (project-root (project-current t)))
+               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+               (vterm-buffer (get-buffer vterm-buffer-name)))
+            (if (and vterm-buffer (not current-prefix-arg))
+                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
+                (vterm))))
+    (defun my--vterm-project-other-window ()
+        (interactive)
+        (defvar vterm-buffer-name)
+        (let* ((default-directory (project-root     (project-current t)))
+               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+               (vterm-buffer (get-buffer vterm-buffer-name)))
+            (if (and vterm-buffer (not current-prefix-arg))
+                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
+                (vterm-other-window))))
     :init
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (setq vterm-always-compile-module t)

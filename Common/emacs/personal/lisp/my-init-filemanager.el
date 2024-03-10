@@ -9,8 +9,6 @@
     :hook ((dired-mode . auto-revert-mode)
            (dired-mode . dired-hide-details-mode)
            (dired-mode . hl-line-mode))
-    :bind ((:map dired-mode-map
-                 ("C-<return>" . crux-open-with)))
     :config
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
     (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
@@ -61,7 +59,6 @@
 ;; dired-x : dired eXtenxions
 (use-package dired-x
     :ensure nil ;; emacs built-in
-    :bind (:map dired-mode-map ("." . dired-omit-mode))
     :config
     (setq dired-omit-extensions
           (append dired-latex-unclean-extensions
@@ -102,7 +99,6 @@
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
-    :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
     :commands (dired-sidebar-toggle-sidebar)
     :init
     (add-hook 'dired-sidebar-mode-hook
@@ -133,8 +129,6 @@
                                 (neotree-dir project-dir)
                                 (neotree-find file-name)))
                 (message "Could not find project root."))))
-    :bind (("C-x C-n" . my--neotree-project-dir)
-           (:map neotree-mode-map ("." . neotree-hidden-file-toggle)))
     :hook ((neotree-mode . hl-line-mode))
     :config
     (setq neo-theme 'ascii)

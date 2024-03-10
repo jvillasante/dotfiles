@@ -5,8 +5,6 @@
 
 (use-package gptel
     :defer t
-    :bind (:map gptel-mode-map
-                ("C-c C-c" . 'gptel-send))
     :custom
     ((gptel-api-key
       (lambda ()
@@ -29,12 +27,10 @@
         (let ((disabled-modes '(lisp-interaction-mode)))
             (unless (apply 'derived-mode-p disabled-modes)
                 (copilot-mode))))
-    :hook ((prog-mode . my--maybe-start-copilot)
-           (copilot-mode . (lambda ()
-                               (setq-local copilot--indent-warning-printed-p t))))
-    :bind (:map copilot-completion-map
-                ("<tab>" . 'copilot-accept-completion)
-                ("TAB" . 'copilot-accept-completion)))
+    :hook
+    ((prog-mode . my--maybe-start-copilot)
+     (copilot-mode . (lambda ()
+                         (setq-local copilot--indent-warning-printed-p t)))))
 
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here
