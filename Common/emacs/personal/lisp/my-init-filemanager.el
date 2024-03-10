@@ -42,14 +42,8 @@
                   dired-guess-shell-alist-user))
 
     ;; Dired listing switches
-    ;;  -a : Do not ignore entries starting with .
-    ;;  -l : Use long listing format.
-    ;;  -h : Human-readable sizes like 1K, 234M, ..
-    ;;  -v : Do natural sort .. so the file names starting with . will show up first.
-    ;;  -F : Classify filenames by appending '*' to executables, '/' to directories, etc.
-    (setq dired-listing-switches (if (eq system-type 'windows-nt)
-                                         "-alh"
-                                     "-alhvF --group-directories-first"))
+    (setq dired-listing-switches
+          "-l --almost-all --human-readable --group-directories-first --no-group")
 
     ;; enable some really cool extensions like C-x C-j(dired-jump)
     (if (< emacs-major-version 28)
@@ -108,7 +102,6 @@
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
-    :disabled t
     :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
     :commands (dired-sidebar-toggle-sidebar)
     :init
@@ -125,6 +118,7 @@
     (setq dired-sidebar-use-term-integration t))
 
 (use-package neotree
+    :disabled t
     :preface
     (defun my--neotree-project-dir ()
         "Open NeoTree using project root."
