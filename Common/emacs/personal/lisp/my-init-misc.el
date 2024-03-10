@@ -21,7 +21,7 @@
     (setq
      epa-file-encrypt-to user-mail-address
      epa-file-cache-passphrase-for-symmetric-encryption nil)
-    (epa-file-enable)
+    ;; (epa-file-enable) ;; already enabled?
 
     ;; setup auth-sources
     (require 'auth-source)
