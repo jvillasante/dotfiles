@@ -192,16 +192,7 @@
     :config
     (setq vundo-compact-display nil))
 
-(use-package helpful
-    :bind
-    (([remap describe-function] . helpful-callable)
-     ([remap describe-variable] . helpful-variable)
-     ([remap describe-command] . helpful-command)
-     ([remap describe-key] . helpful-key)
-     ([remap describe-symbol] . helpful-symbol)
-     ("C-c C-d" . helpful-at-point)
-     ("C-h F" . helpful-function)
-     ("C-h K" . describe-keymap)))
+(use-package helpful)
 
 (use-package rainbow-delimiters
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))

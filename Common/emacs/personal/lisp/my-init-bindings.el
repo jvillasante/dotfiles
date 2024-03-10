@@ -217,12 +217,62 @@
     (define-key project-prefix-map (kbd "t") 'eat-project-other-window)
     (define-key project-prefix-map (kbd "T") 'eat-project))
 
+(with-eval-after-load 'vterm
+    (defun my--vterm-project ()
+        (interactive)
+        (defvar vterm-buffer-name)
+        (let* ((default-directory (project-root (project-current t)))
+               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+               (vterm-buffer (get-buffer vterm-buffer-name)))
+            (if (and vterm-buffer (not current-prefix-arg))
+                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
+                (vterm))))
+    (defun my--vterm-project-other-window ()
+        (interactive)
+        (defvar vterm-buffer-name)
+        (let* ((default-directory (project-root     (project-current t)))
+               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+               (vterm-buffer (get-buffer vterm-buffer-name)))
+            (if (and vterm-buffer (not current-prefix-arg))
+                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
+                (vterm-other-window))))
+
+    ;; global keys
+    (global-set-key (kbd "C-c o t") 'vterm-other-window)
+    (global-set-key (kbd "C-c o T") 'vterm)
+
+    ;; project-prefix-map
+    (define-key project-prefix-map (kbd "t") 'my--vterm-project-other-window)
+    (define-key project-prefix-map (kbd "T") 'my--vterm-project)
+
+    ;; vterm-mode-map
+    (define-key vterm-mode-map (kbd "<insert>") 'ignore)
+    (define-key vterm-mode-map (kbd "RET")      'vterm-send-return)
+    (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)
+    (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
+    (define-key vterm-mode-map (kbd "C-y")      'vterm-yank)
+    (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape)
+
+    ;; vterm-copy-mode-map
+    (define-key vterm-copy-mode-map (kbd "M-w") 'vterm-copy-mode-done)
+    (define-key vterm-copy-mode-map (kbd "C-g") 'vterm-copy-mode-done))
+
 (with-eval-after-load 'dwim-shell-command
     (define-key global-map [remap shell-command] 'dwim-shell-command)
     (define-key global-map [remap async-shell-command] 'dwim-shell-command)
     (define-key dired-mode-map [remap dired-do-shell-command] 'dwim-shell-command)
     (define-key dired-mode-map [remap dired-do-async-shell-command] 'dwim-shell-command)
     (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command))
+
+(with-eval-after-load 'helpful
+    (define-key global-map [remap describe-function] 'helpful-callable)
+    (define-key global-map [remap describe-variable] 'helpful-variable)
+    (define-key global-map [remap describe-command]  'helpful-command)
+    (define-key global-map [remap describe-key]      'helpful-key)
+    (define-key global-map [remap describe-symbol]   'helpful-symbol)
+    (global-set-key (kbd "C-c C-d")                  'helpful-at-point)
+    (global-set-key (kbd "C-h F")                    'helpful-function)
+    (global-set-key (kbd "C-h K")                    'describe-keymap))
 
 ;;; Prefix
 ;; C-c f : find

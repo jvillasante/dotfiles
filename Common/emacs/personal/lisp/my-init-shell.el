@@ -55,6 +55,7 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
+    :disabled t
     :init
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
@@ -69,43 +70,6 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
-    :preface
-    (defun my--vterm-project (&optional _)
-        "Launch `vterm' in current project.
-Opens an existing vterm buffer for a project if present, unless
-the prefix argument is supplied."
-        (interactive "P")
-        (let* ((default-directory (project-root (project-current t)))
-               (name (project-prefixed-buffer-name "vterm")))
-            (if (and (not current-prefix-arg) (get-buffer name))
-                    (switch-to-buffer name)
-                (funcall-interactively #'vterm name))))
-    (defun my--vterm-project-other-window (&optional _)
-        "Launch `vterm-other-window' in current project.
-Opens an existing vterm buffer for a project if present, unless
-the prefix argument is supplied."
-        (interactive "P")
-        (let* ((default-directory (project-root (project-current t)))
-               (name (project-prefixed-buffer-name "vterm")))
-            (if (and (not current-prefix-arg) (get-buffer name))
-                    (switch-to-buffer name)
-                (funcall-interactively #'vterm-other-window name))))
-    :bind (("C-c o t" . #'vterm)
-           ("C-c o T" . #'vterm-other-window)
-           :map project-prefix-map
-           ("t" . #'my--vterm-project)
-           ("T" . #'my--vterm-project-other-window)
-           :map vterm-mode-map
-           ("<insert>" . ignore)
-           ([return]   . #'vterm-send-return)
-           ("C-q"      . #'vterm-send-next-key)
-           ("M-["      . #'vterm-copy-mode)
-           ("C-y"      . #'vterm-yank)
-           ("C-g"      . #'vterm-send-escape)
-           :map vterm-copy-mode-map
-           ("M-w" . #'vterm-copy-mode-done)
-           ("C-g" . #'vterm-copy-mode-done))
     :init
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (setq vterm-always-compile-module t)
@@ -118,7 +82,7 @@ the prefix argument is supplied."
     (setq vterm-copy-exclude-prompt t)
     (setq vterm-max-scrollback 100000)
     (setq vterm-shell (executable-find "bash"))
-    (setq vterm-tramp-shells '(("ssh" "/bin/sh")
+    (setq vterm-tramp-shells '(("ssh" "/bin/bash")
                                ("podman" "/bin/bash"))))
 
 ;; dwim-shell-command : Bring command-line utilities to your Emacs workflows
