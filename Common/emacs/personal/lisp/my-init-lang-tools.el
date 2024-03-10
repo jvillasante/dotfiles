@@ -119,7 +119,6 @@
     (compilation-always-kill t))
 
 (use-package fancy-compilation
-    :commands (fancy-compilation-mode)
     :init
     (with-eval-after-load 'compile
         (fancy-compilation-mode))

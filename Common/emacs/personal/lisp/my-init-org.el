@@ -123,7 +123,6 @@
 ;; deft : plain text notes
 (use-package deft
     :after org
-    :commands (deft)
     :custom ((deft-directory (expand-file-name "Apps/org/notes" my--dropbox-path))
              (deft-extensions '("org" "md" "txt"))
              (deft-default-extension "org")

@@ -188,7 +188,6 @@
                       (ibuffer-do-sort-by-project-file-relative)))))
 ;; vundo : visual undo
 (use-package vundo
-    :commands (vundo)
     :config
     (setq vundo-compact-display nil))
 

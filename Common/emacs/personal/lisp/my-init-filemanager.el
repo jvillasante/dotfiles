@@ -99,7 +99,6 @@
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
-    :commands (dired-sidebar-toggle-sidebar)
     :init
     (add-hook 'dired-sidebar-mode-hook
               (lambda ()
