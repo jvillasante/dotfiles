@@ -227,8 +227,7 @@
 (use-package wgrep)
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
-(use-package surround
-    :bind-keymap ("M-'" . surround-keymap))
+(use-package surround)
 
 ;; devdocs.el : Emacs viewer for DevDocs
 (use-package devdocs)
