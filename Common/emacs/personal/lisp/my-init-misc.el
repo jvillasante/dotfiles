@@ -174,10 +174,7 @@
 
 ;; ibuffer
 (use-package ibuffer
-    :ensure nil ;; emacs built-in
-    :bind (([remap list-buffers] . 'ibuffer)
-           :map ibuffer-mode-map
-           ("q" . 'kill-this-buffer)))
+    :ensure nil) ;; emacs built-in
 
 ;; ibuffer :
 (use-package ibuffer-project
@@ -222,7 +219,7 @@
      ;; ("C-c n" . crux-cleanup-buffer-or-region)
      ;; ("C-M-z" . crux-indent-defun)
      ("C-c e" . crux-eval-and-replace)
-     ("C-c w" . crux-swap-windows)
+     ;; ("C-c w" . crux-swap-windows)
      ("C-c D" . crux-delete-file-and-buffer)
      ("C-c r" . crux-rename-buffer-and-file)
      ;; ("C-c t" . crux-visit-term-buffer)

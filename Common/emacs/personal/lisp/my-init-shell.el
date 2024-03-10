@@ -6,14 +6,12 @@
 ;; ielm : elisp shell
 (use-package ielm
     :ensure nil ;; emacs built-in
-    :bind (("C-c o i" . #'ielm))
     :init (add-hook 'ielm-mode-hook 'eldoc-mode))
 
 ;; eshell : the emacs shell
 (use-package eshell-prompt-extras)
 (use-package eshell
     :ensure nil ;; emacs built-in
-    :bind (("C-c o e" . #'eshell))
     :init
     (with-eval-after-load 'esh-opt
         (autoload 'epe-theme-lambda "eshell-prompt-extras")
@@ -57,11 +55,6 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
-    :bind (("C-c o t" . #'eat-other-window)
-           ("C-c o T" . #'eat)
-           :map project-prefix-map
-           ("t" . #'eat-project-other-window)
-           ("T" . #'eat-project))
     :init
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
@@ -137,11 +130,6 @@ the prefix argument is supplied."
 ;;   <<*>>   (all files joined)
 ;;   <<cb>>  (clipboard)
 (use-package dwim-shell-command
-    :bind (([remap shell-command] . dwim-shell-command)
-           :map dired-mode-map
-           ([remap dired-do-async-shell-command] . dwim-shell-command)
-           ([remap dired-do-shell-command] . dwim-shell-command)
-           ([remap dired-smart-shell-command] . dwim-shell-command))
     :init
     (require 'dwim-shell-commands)
     (defun my--dwim-shell-command-convert-to-gif ()

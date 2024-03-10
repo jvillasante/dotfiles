@@ -173,13 +173,7 @@
     ;; a sub-directory and use, say, `find-file' to go to your home '~/'
     ;; or root '/' directory, Vertico will clear the old path to keep
     ;; only your current input.
-    (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
-    :bind (:map vertico-map
-                ;; ("RET" . #'vertico-directory-enter)
-                ;; ("DEL" . #'vertico-directory-delete-word)
-                ("M-d" . #'vertico-directory-delete-char)
-                ("M-," . #'vertico-quick-insert)
-                ("M-." . #'vertico-quick-exit)))
+    (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
 
 (use-package orderless
     :init
@@ -205,9 +199,6 @@
      ;; (corfu-on-exact-match nil)      ; Don't auto expand tempel snippets
      (corfu-quit-no-match t)
      (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
-    :bind
-    ;; Configure SPC for separator insertion
-    (:map corfu-map ("SPC" . corfu-insert-separator))
     :init
     (add-hook 'eshell-mode-hook
               (lambda ()
@@ -218,24 +209,6 @@
     (corfu-popupinfo-mode))
 
 (use-package cape
-    ;; Bind dedicated completion commands
-    :bind (("C-c p p"  . completion-at-point) ;; capf
-           ("C-c p t"  . complete-tag)        ;; etags
-           ("C-c p d"  . cape-dabbrev)        ;; or dabbrev-completion
-           ("C-c p h"  . cape-history)
-           ("C-c p f"  . cape-file)
-           ("C-c p k"  . cape-keyword)
-           ("C-c p s"  . cape-elisp-symbol)
-           ("C-c p e"  . cape-elisp-block)
-           ("C-c p a"  . cape-abbrev)
-           ("C-c p l"  . cape-line)
-           ("C-c p w"  . cape-dict)
-           ("C-c p :"  . cape-emoji)
-           ("C-c p \\" . cape-tex)
-           ("C-c p _"  . cape-tex)
-           ("C-c p ^"  . cape-tex)
-           ("C-c p &"  . cape-sgml)
-           ("C-c p r"  . cape-rfc1345))
     :init
     ;; eglot integration with cape
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
@@ -260,58 +233,6 @@
     )
 
 (use-package consult
-    :bind (;; C-c bindings (mode-specific-map)
-           ("C-c M-x" . consult-mode-command)
-           ("C-c h" . consult-history)
-           ("C-c k" . consult-kmacro)
-           ("C-c m" . consult-man)
-           ("C-c i" . consult-info)
-           ([remap Info-search] . consult-info)
-           ;; C-x bindings (ctl-x-map)
-           ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-           ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-           ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-           ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-           ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-           ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
-           ("C-x C-r" . consult-recent-file)         ;; orig. find-file-readonly
-           ;; Custom M-# bindings for fast register access
-           ("M-#" . consult-register-load)
-           ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-           ("C-M-#" . consult-register)
-           ;; Other custom bindings
-           ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-           ;; M-g bindings (goto-map)
-           ("M-g e" . consult-compile-error)
-           ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-           ("M-g g" . consult-goto-line)             ;; orig. goto-line
-           ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-           ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-           ("M-g m" . consult-mark)
-           ("M-g k" . consult-global-mark)
-           ("M-g i" . consult-imenu)
-           ("M-g I" . consult-imenu-multi)
-           ;; M-s bindings (search-map)
-           ("M-s d" . consult-find)
-           ("M-s D" . consult-locate)
-           ("M-s g" . consult-grep)
-           ("M-s G" . consult-git-grep)
-           ("M-s r" . consult-ripgrep)
-           ("M-s l" . consult-line)
-           ("M-s L" . consult-line-multi)
-           ("M-s k" . consult-keep-lines)
-           ("M-s u" . consult-focus-lines)
-           ;; Isearch integration
-           ("M-s e" . consult-isearch-history)
-           :map isearch-mode-map
-           ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-           ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-           ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-           ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-           ;; Minibuffer history
-           :map minibuffer-local-map
-           ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-           ("M-r" . consult-history))                ;; orig. previous-matching-history-element
     :init
     ;; Use Consult to select xref locations with preview
     (setq xref-show-xrefs-function #'consult-xref
@@ -342,20 +263,12 @@
     (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
     (require 'consult-imenu))
 
-(use-package consult-dir
-    :bind (([remap list-directory] . consult-dir)
-           :map vertico-map
-           ("C-c C-d" . 'consult-dir)
-           ("C-c C-j" . 'consult-dir-jump-file)))
+(use-package consult-dir)
 
 (use-package consult-eglot
     :after eglot)
 
 (use-package embark
-    :bind (("C-;" . embark-act)            ;; pick some comfortable binding
-           ("M-;" . embark-dwim)        ;; good alternative: C-M-;
-           ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
     :init
     ;; Optionally replace the key help with a completing-read interface
     (setq prefix-help-command #'embark-prefix-help-command)
@@ -378,25 +291,16 @@
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
-    ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-    ;; available in the *Completions* buffer, add it to the
-    ;; `completion-list-mode-map'.
-    :bind (:map minibuffer-local-map
-                ("M-A" . marginalia-cycle))
     :init (marginalia-mode))
 
 ;; jinx : Enchanted Spell Checker
 (use-package jinx
-    :hook (emacs-startup . global-jinx-mode)
-    :bind (("M-$" . jinx-correct)
-           ("C-M-$" . jinx-languages)))
+    :hook (emacs-startup . global-jinx-mode))
 
 ;; tempel - Simple templates for Emacs
 (use-package tempel-collection :disabled t :after tempel)
 (use-package tempel
     :disabled t
-    :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
-           ("M-*" . tempel-insert))
     :init
     (setq tempel-path (expand-file-name "tempel-templates" no-littering-etc-directory))
 
@@ -426,8 +330,6 @@
 ;; yasnippet : template system for Emacs
 (use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
-    :bind (("M-+" . yas-expand)
-           ("M-*" . yas-insert-snippet))
     :config
     (let ((snippets-shim (expand-file-name "yasnippet-treesitter-shim/snippets/" no-littering-etc-directory)))
         (when (file-directory-p snippets-shim)
@@ -438,11 +340,6 @@
 ;; languagetool : multilingual grammar, style, and spell checker
 (use-package langtool
     :defer t
-    :bind (("C-x 4 w" . langtool-check)
-           ("C-x 4 W" . langtool-check-done)
-           ("C-x 4 c" . langtool-interactive-correction)
-           ("C-x 4 l" . langtool-switch-default-language)
-           ("C-x 4 4" . langtool-show-message-at-point))
     :config
     (setq langtool-default-language "en-US")
     (setq langtool-java-user-arguments '("-Dfile.encoding=UTF-8"))

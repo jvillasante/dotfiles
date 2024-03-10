@@ -9,8 +9,6 @@
 (use-package magit
     :defines magit-status-mode-map
     :functions magit-status magit-restore-window-configuration magit-mode-get-buffers
-    :bind
-    (("C-x g" . #'magit-status))
     :custom
     ((magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
      (magit-bury-buffer-function #'magit-restore-window-configuration)

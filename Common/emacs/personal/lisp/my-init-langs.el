@@ -32,24 +32,21 @@
     (advice-add #'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 ;; c++ treesiter
-(use-package c++-ts-mode
+(use-package c-ts-mode
     :ensure nil ;; emacs built-in
-    :preface (defun my--c-ts-indent-style()
-                 "Override the built-in BSD indentation style with some additional rules.
+    :preface
+    (defun my--c-ts-indent-style()
+        "Override the built-in BSD indentation style with some additional rules.
          Docs: https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html
          Notes: `treesit-explore-mode' can be very useful to see where you're at in the tree-sitter tree,
                 especially paired with `(setq treesit--indent-verbose t)' to debug what rules is being
                 applied at a given point."
-                 `(
-                   ;; do not indent preprocessor statements
-                   ((node-is "preproc") column-0 0)
-                   ;; do not indent namespace children
-                   ((n-p-gp nil nil "namespace_definition") grand-parent 0)
-                   ;; append to bsd style
-                   ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
-    :bind (:map c++-ts-mode-map
-                ("M-<up>" . treesit-beginning-of-defun)
-                ("M-<down>" . treesit-end-of-defun))
+        `(;; do not indent preprocessor statements
+          ((node-is "preproc") column-0 0)
+          ;; do not indent namespace children
+          ((n-p-gp nil nil "namespace_definition") grand-parent 0)
+          ;; append to bsd style
+          ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
     :config
     (setq c-ts-mode-indent-offset 4)
     (setq c-ts-mode-indent-style #'my--c-ts-indent-style))
@@ -92,8 +89,6 @@
 (use-package markdown-mode
     :mode (("\\.[Rr]md\\'" . markdown-mode)
            ("\\.qmd\\'" . markdown-mode))
-    :bind ((:map markdown-mode-map
-                 ("TAB" . 'markdown-cycle)))
     ;; :init (add-hook 'markdown-mode-hook 'markdown-toggle-markup-hiding)
     :config (setq markdown-fontify-code-blocks-natively t
                   markdown-fontify-whole-heading-line t

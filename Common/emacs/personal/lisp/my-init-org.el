@@ -5,9 +5,6 @@
 
 (use-package org
     :ensure nil ;; emacs built-in
-    :bind
-    (:map org-mode-map
-          ([remap fill-paragraph] . my--org-fill-or-unfill))
     :init
     (with-eval-after-load 'org
         (org-babel-do-load-languages
