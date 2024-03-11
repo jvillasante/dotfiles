@@ -43,6 +43,10 @@
     # Specify the pathname of a file to use as the template for new commit messages.
     # https://git-scm.com/docs/git-config#Documentation/git-config.txt-committemplate
 
+    cleanup = strip
+    # Strip leading and trailing empty lines, trailing whitespace, commentary and collapse consecutive empty lines.
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-commitcleanup
+
     # verbose = true
     # This adds the whole commit diff in the text editor where you’re writing your commit message, to help you remember what you were doing.
     # https://git-scm.com/docs/git-config#Documentation/git-config.txt-commitverbose
