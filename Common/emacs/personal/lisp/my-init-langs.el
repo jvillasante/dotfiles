@@ -108,7 +108,7 @@
 
 ;; rust-mode : blazingly fast
 (use-package rust-mode
-    :init (setq rust-format-on-save nil))
+    :config (setq rust-format-on-save nil))
 
 ;; zig
 (use-package zig-mode)
