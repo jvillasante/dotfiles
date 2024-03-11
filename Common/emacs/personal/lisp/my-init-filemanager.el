@@ -41,7 +41,7 @@
 
     ;; Dired listing switches
     (setq dired-listing-switches
-          "-l --almost-all --human-readable --group-directories-first --no-group")
+          "-l --all --human-readable --group-directories-first --no-group")
 
     ;; enable some really cool extensions like C-x C-j(dired-jump)
     (if (< emacs-major-version 28)
