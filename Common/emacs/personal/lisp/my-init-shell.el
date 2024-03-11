@@ -12,6 +12,13 @@
 (use-package eshell-prompt-extras)
 (use-package eshell
     :ensure nil ;; emacs built-in
+    :preface
+    (defun my--eshell-other-window ()
+        "Open a `eshell' in a new window."
+        (interactive)
+        (let ((buf (eshell)))
+            (switch-to-buffer (other-buffer buf))
+            (switch-to-buffer-other-window buf)))
     :init
     (with-eval-after-load 'esh-opt
         (autoload 'epe-theme-lambda "eshell-prompt-extras")
@@ -52,6 +59,17 @@
     (setq eshell-hist-ignoredups t)
     (setq eshell-save-history-on-exit t)
     (setq eshell-destroy-buffer-when-process-dies t))
+
+;; shell : shell in emacs
+(use-package shell
+    :ensure nil ;; emacs built-in
+    :preface
+    (defun my--shell-other-window ()
+        "Open a `shell' in a new window."
+        (interactive)
+        (let ((buf (shell)))
+            (switch-to-buffer (other-buffer buf))
+            (switch-to-buffer-other-window buf))))
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat

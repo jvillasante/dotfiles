@@ -211,6 +211,14 @@
 (with-eval-after-load 'markdown-mode
     (define-key markdown-mode-map (kbd "TAB") 'markdown-cycle))
 
+(with-eval-after-load 'eshell
+    (global-set-key (kbd "C-c o e") 'my--eshell-other-window)
+    (global-set-key (kbd "C-c o E") 'eshell))
+
+(with-eval-after-load 'shell
+    (global-set-key (kbd "C-c o s") 'my--shell-other-window)
+    (global-set-key (kbd "C-c o S") 'shell))
+
 (with-eval-after-load 'eat
     (global-set-key (kbd "C-c o t") 'eat-other-window)
     (global-set-key (kbd "C-c o T") 'eat)
@@ -390,10 +398,8 @@
 
 ;; C-c o : Open
 (global-set-key (kbd "C-c o f") 'elfeed)
-(global-set-key (kbd "C-c o p") 'dired-sidebar-toggle-sidebar)
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o i") 'ielm)
-(global-set-key (kbd "C-c o e") 'eshell)
 
 ;; C-c l : lookup
 (global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)
