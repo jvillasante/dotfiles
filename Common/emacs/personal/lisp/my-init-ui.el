@@ -143,7 +143,7 @@
 
     ;; Define the whitespace style (`C-h v whitespace-style' for more styles)
     (setq-default whitespace-style
-                  '(face empty tabs newline trailing tab-mark))
+                  '(face empty tabs newline trailing tab-mark newline-mark))
 
     ;; Set whitespace actions (`C-h f whitespace-cleanup' for more cleanup actions)
     (setq-default whitespace-action
