@@ -92,7 +92,7 @@
     :functions vertico-scroll-down vertico-scroll-up corfu-scroll-down corfu-scroll-up
     :if (fboundp 'pixel-scroll-precision-mode)
     :preface
-    (defvar my--default-scroll-lines 20) ;; scroll less than default
+    (defvar my--default-scroll-lines 25) ;; scroll less than default
     (defun my--pixel-scroll-up-command ()
         "Similar to `scroll-up-command' but with pixel scrolling."
         (interactive)
