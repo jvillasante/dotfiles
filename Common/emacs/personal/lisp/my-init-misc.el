@@ -27,6 +27,7 @@
     (require 'auth-source)
     (setq auth-sources
           (list (expand-file-name "secrets/.authinfo.gpg" no-littering-etc-directory)))
+    (setq tramp-completion-use-auth-sources nil) ;; do use `.authinfo.gpg' for tramp
 
     ;; setup org-crypt
     (require 'org-crypt)
