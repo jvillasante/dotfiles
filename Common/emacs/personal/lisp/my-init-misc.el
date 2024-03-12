@@ -27,7 +27,6 @@
     (require 'auth-source)
     (setq auth-sources
           (list (expand-file-name "secrets/.authinfo.gpg" no-littering-etc-directory)))
-    (setq tramp-completion-use-auth-sources nil) ;; do use `.authinfo.gpg' for tramp
 
     ;; setup org-crypt
     (require 'org-crypt)
@@ -139,6 +138,7 @@
     (setq tramp-chunksize 2000)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq tramp-use-ssh-controlmaster-options nil) ; disable ssh controlmaster
+    (setq tramp-completion-use-auth-sources nil) ; do use `.authinfo.gpg' for tramp
     (add-to-list 'tramp-connection-properties
                  (list (regexp-quote "/ssh:YOUR_HOSTNAME:")
                        "direct-async-process" t))
