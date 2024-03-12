@@ -6,18 +6,14 @@
 (use-package gptel
     :defer t
     :custom
-    ((gptel-api-key
-      (lambda ()
-          (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))
-     (gptel-default-mode 'org-mode)))
+    ((gptel-default-mode 'org-mode)))
 
 (use-package chatgpt-shell
     :disabled t
     :defer t
     :custom
     ((chatgpt-shell-openai-key
-      (lambda ()
-          (string-trim (nth 4 (process-lines "pass" "show" "Logins/openai.com")))))))
+      (auth-source-pick-first-password :host "api.openai.com"))))
 
 (use-package copilot
     :disabled t
