@@ -56,8 +56,8 @@
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook (lambda ()
                               (setq-local line-spacing 0.1)))
-;; (add-hook 'org-mode-hook 'variable-pitch-mode)
-;; (add-hook 'markdown-mode-hook 'variable-pitch-mode)
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+(add-hook 'markdown-mode-hook 'variable-pitch-mode)
 
 ;; Set default frame title
 (setq-default frame-title-format

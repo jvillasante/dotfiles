@@ -400,6 +400,7 @@
 (global-set-key (kbd "C-c o f") 'elfeed)
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o i") 'ielm)
+(global-set-key (kbd "C-c o m") 'my--new-scratch-buffer-in-markdown)
 
 ;; C-c l : lookup
 (global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)
