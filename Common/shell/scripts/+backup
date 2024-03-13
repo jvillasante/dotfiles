@@ -75,6 +75,7 @@ do_borg_backup() {
         --exclude '/home/**/*.*~' \
         --exclude '/home/**/.#*' \
         --exclude '/home/**/*.o' \
+        --exclude '/home/**/*.so' \
         --exclude '/home/**/*.lo' \
         --exclude '/home/**/*.rs.bk' \
         --exclude '/home/**/.SynologyNAS' \
@@ -93,7 +94,8 @@ do_borg_backup() {
         --exclude '/home/*/Workspace/Work/Projects/dmxs/inc' \
         --exclude '/home/*/Workspace/Work/Projects/dmxs/lib' \
         --exclude '/home/*/Workspace/Work/Projects/dmxs/pkg' \
-        --exclude '/home/*/Workspace/Work/Projects/dmxs/.cache' \
+        --exclude '/home/*/Workspace/Work/Projects/dmxs/models/generated' \
+        --exclude '/home/*/Workspace/Work/Projects/dmxs/models/test' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/bin/' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/build/' \
         --exclude 're:/*var/cache/' \
