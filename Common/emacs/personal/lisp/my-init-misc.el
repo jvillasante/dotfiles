@@ -36,6 +36,10 @@
           org-crypt-key nil
           org-crypt-key user-mail-address))
 
+(use-package 're-builder
+    :ensure nil ;; emacs built-in
+    :config (setq reb-re-syntax 'string))
+
 ;; http://www.yummymelon.com/devnull/using-ediff-in-2023.html
 (use-package ediff
     :ensure nil ;; emacs built-in
