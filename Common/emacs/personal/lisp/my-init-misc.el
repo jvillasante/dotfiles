@@ -36,7 +36,7 @@
           org-crypt-key nil
           org-crypt-key user-mail-address))
 
-(use-package 're-builder
+(use-package re-builder
     :ensure nil ;; emacs built-in
     :config (setq reb-re-syntax 'string))
 
