@@ -101,7 +101,7 @@
     (defun my--vterm-project-other-window ()
         (interactive)
         (defvar vterm-buffer-name)
-        (let* ((default-directory (project-root     (project-current t)))
+        (let* ((default-directory (project-root (project-current t)))
                (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
                (vterm-buffer (get-buffer vterm-buffer-name)))
             (if (and vterm-buffer (not current-prefix-arg))
