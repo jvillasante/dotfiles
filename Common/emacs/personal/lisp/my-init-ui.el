@@ -281,15 +281,18 @@ Run this function at the post theme load phase, such as with the
 
 ;; all-the-icons
 (progn
-    (use-package all-the-icons)
+    (use-package all-the-icons :disabled t)
     (use-package all-the-icons-ibuffer
+        :disabled t
         :after (all-the-icons)
         :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
     (use-package all-the-icons-completion
+        :disabled t
         :after (marginalia all-the-icons)
         :init (all-the-icons-completion-mode)
         :hook (marginalia-mode all-the-icons-completion-marginalia-setup))
     (use-package all-the-icons-dired
+        :disabled t
         :after (all-the-icons)
         :hook (dired-mode . all-the-icons-dired-mode)))
 
