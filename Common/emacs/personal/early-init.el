@@ -4,14 +4,48 @@
 ;;; Code:
 
 ;; increase gc threshold to speedup starting up
-(setq gc-cons-percentage 1)
-(setq gc-cons-threshold most-positive-fixnum)
+(let ((original-gc-cons-threshold gc-cons-threshold))
+    (setq
+     gc-cons-threshold most-positive-fixnum
+     read-process-output-max (* 1024 1024 4) ; 4mb
+     inhibit-startup-message t
+     inhibit-compacting-font-caches t
+     message-log-max 16384
+     package-enable-at-startup t
+     load-prefer-newer noninteractive)
+    (add-hook 'emacs-startup-hook
+              (lambda nil
+                  (setq gc-cons-threshold original-gc-cons-threshold)
+                  (message "Emacs startup time: %s" (emacs-init-time)))))
 
-;; prefer loading newest compiled .el file
-(setq load-prefer-newer t)
+;; set default UI
+(setq-default default-frame-alist '((width . 170)
+                                    (height . 56)
+                                    (tool-bar-lines . 0)
+                                    (menu-bar-lines . 0)
+                                    (vertical-scroll-bars)
+                                    (mouse-color . "white")
+                                    (bottom-divider-width . 0)
+                                    (right-divider-width . 1))
+              initial-frame-alist default-frame-alist
+              frame-inhibit-implied-resize t
+              fringe-indicator-alist (assq-delete-all 'truncation fringe-indicator-alist))
 
-;; Initialize installed packages
-(setq package-enable-at-startup t)
+(unless (or (daemonp) noninteractive)
+    (let ((original-file-name-handler-alist file-name-handler-alist))
+        (setq-default file-name-handler-alist nil)
+        (add-hook 'emacs-startup-hook
+                  (lambda nil
+                      (setq file-name-handler-alist
+                            (delete-dups (append file-name-handler-alist
+                                                 original-file-name-handler-alist))))
+                  101))
+    (when (fboundp #'tool-bar-mode)
+        (tool-bar-mode -1))
+    (when (fboundp #'scroll-bar-mode)
+        (scroll-bar-mode -1))
+    (when (fboundp #'menu-bar-mode)
+        (menu-bar-mode -1)))
 
 ;;; Native compilation settings
 (when (featurep 'native-compile)
@@ -28,13 +62,6 @@
             (startup-redirect-eln-cache
              (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory)))))
     (add-to-list 'native-comp-eln-load-path (expand-file-name "var/eln-cache/" user-emacs-directory)))
-
-;;; UI configuration
-(setq inhibit-startup-message t)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
-(push '(mouse-color . "white") default-frame-alist)
 
 ;; Make the initial buffer load faster by setting its mode to fundamental-mode
 ;; (setq initial-major-mode 'fundamental-mode)

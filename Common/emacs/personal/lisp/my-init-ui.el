@@ -172,6 +172,9 @@
                            tab-bar-separator))
     (add-hook 'pre-command-hook 'tab-bar-history-mode))
 
+;; modeline
+(setq mode-line-compact t)
+
 ;; theme
 (use-package modus-themes
     :preface
@@ -276,6 +279,20 @@ Run this function at the post theme load phase, such as with the
     (setq aw-minibuffer-flag t)
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
+;; all-the-icons
+(progn
+    (use-package all-the-icons)
+    (use-package all-the-icons-ibuffer
+        :after (all-the-icons)
+        :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
+    (use-package all-the-icons-completion
+        :after (marginalia all-the-icons)
+        :init (all-the-icons-completion-mode)
+        :hook (marginalia-mode all-the-icons-completion-marginalia-setup))
+    (use-package all-the-icons-dired
+        :after (all-the-icons)
+        :hook (dired-mode . all-the-icons-dired-mode)))
+
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 (progn
     (setq switch-to-buffer-obey-display-actions t
@@ -298,6 +315,17 @@ Run this function at the post theme load phase, such as with the
     ;;                (direction . right)
     ;;                (side . right)
     ;;                (slot . 1)))
+
+    (add-to-list 'display-buffer-alist
+                 '("\\*Async" display-buffer-no-window
+                   (allow-no-window . t)))
+
+    (add-to-list 'display-buffer-alist
+                 '("\\*Proced" display-buffer-same-window))
+
+    (add-to-list 'display-buffer-alist
+                 '("\\*Help\\*"
+                   (display-buffer-reuse-window display-buffer-same-window)))
 
     (add-to-list 'display-buffer-alist
                  '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"

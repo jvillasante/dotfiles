@@ -39,6 +39,27 @@
     (use-package-always-ensure t)
     (use-package-expand-minimally t))
 
+;; bootstrap use-package vc
+(when (version<= "29.0" emacs-version)
+    ;; will be able to remove the following package-vc-install as of emacs30
+    ;; as this will be built-in
+    (unless (package-installed-p 'vc-use-package)
+        (package-vc-install "https://github.com/slotThe/vc-use-package"))
+
+    ;; now use-package has the :vc keyword!
+    ;; (use-package org-ql
+    ;;     :defer t
+    ;;     :vc (:fetcher github :repo "alphapapa/org-ql"))
+    ;; (use-package ada-mode
+    ;;     :vc (:fetcher github :repo "captainflasmr/old-ada-mode"))
+    ;; (use-package kbd-mode
+    ;;     :vc (:fetcher github :repo "kmonad/kbd-mode")
+    ;;     :custom
+    ;;     (kbd-mode-kill-kmonad "pkill -9 kmonad")
+    ;;     (kbd-mode-start-kmonad "kmonad ~/.config/kmonad/keyboard.kbd"))
+    )
+
+
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
     :functions exec-path-from-shell-initialize exec-path-from-shell-copy-env
@@ -77,17 +98,6 @@
 (load (expand-file-name "lisp/my-init-bindings" user-emacs-directory))
 (load (expand-file-name "lisp/my-init-transient" user-emacs-directory))
 (load (expand-file-name "lisp/modus-themes-exporter" user-emacs-directory))
-
-;; after started, stop debug on error
-(setq debug-on-error nil)
-
-;; after started up, reset GC threshold to normal.
-(run-with-idle-timer 4 nil
-                     (lambda ()
-                         "Clean up gc."
-                         (setq gc-cons-threshold  67108864) ; 64M
-                         (setq gc-cons-percentage 0.1) ; original value
-                         (garbage-collect)))
 
 (provide 'init)
 ;;; init.el ends here

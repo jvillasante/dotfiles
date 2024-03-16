@@ -84,7 +84,11 @@
     ;; (define-key vertico-map (kbd "DEL") 'vertico-directory-delete-word)
     (define-key vertico-map (kbd "M-d") 'vertico-directory-delete-char)
     (define-key vertico-map (kbd "M-,") 'vertico-quick-insert)
-    (define-key vertico-map (kbd "M-.") 'vertico-quick-exit))
+    (define-key vertico-map (kbd "M-.") 'vertico-quick-exit)
+    (define-key vertico-map (kbd "M-G") 'vertico-multiform-grid)
+    (define-key vertico-map (kbd "M-F") 'vertico-multiform-flat)
+    (define-key vertico-map (kbd "M-R") 'vertico-multiform-reverse)
+    (define-key vertico-map (kbd "M-U") 'vertico-multiform-unobtrusive))
 
 (with-eval-after-load 'corfu
     (define-key corfu-map (kbd "SPC") 'corfu-insert-separator))

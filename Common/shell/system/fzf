@@ -3,7 +3,7 @@
 #
 # fzf
 #
-if type fzf >/dev/null 2>/dev/null; then
+if type fzf > /dev/null 2> /dev/null; then
     [ -f "$HOME"/.fzf.zsh ] && source "$HOME"/.fzf.zsh
     [ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
     [ -f /usr/share/bash-completion/completions/fzf-key-bindings ] && source /usr/share/bash-completion/completions/fzf-key-bindings
@@ -14,7 +14,8 @@ if type fzf >/dev/null 2>/dev/null; then
 
     # Options to fzf command
     # export FZF_TMUX_OPTS="-u40%"
-    export FZF_DEFAULT_OPTS='--height 40% --ansi --extended --layout=reverse --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
+    # export FZF_DEFAULT_OPTS='--height 40% --ansi --extended --layout=reverse --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
+    export FZF_DEFAULT_OPTS='--height 40% --ansi --extended --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -59,7 +60,7 @@ if type fzf >/dev/null 2>/dev/null; then
         if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
             tmux new-session -s "$selected_name" -c "$selected"
         else
-            if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+            if ! tmux has-session -t="$selected_name" 2> /dev/null; then
                 tmux new-session -ds "$selected_name" -c "$selected"
             fi
             tmux switch-client -t "$selected_name"
@@ -112,7 +113,7 @@ if type fzf >/dev/null 2>/dev/null; then
     fbr() {
         local branches branch
         branches=$(git branch --all | grep -v HEAD) &&
-            branch=$(echo "$branches" | fzf -d $((2 + $(wc -l <<<"$branches"))) +m) &&
+            branch=$(echo "$branches" | fzf -d $((2 + $(wc -l <<< "$branches"))) +m) &&
             git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
     }
 
@@ -123,7 +124,7 @@ if type fzf >/dev/null 2>/dev/null; then
             git --no-pager branch --all \
                 --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" |
                 sed '/^$/d'
-                ) || return
+        )         || return
         tags=$(git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
         target=$(
             (
@@ -132,8 +133,8 @@ if type fzf >/dev/null 2>/dev/null; then
             ) |
                 fzf --no-hscroll --no-multi -n 2 \
                     --ansi
-              ) || return
-        git checkout "$(awk '{print $2}' <<<"$target")"
+        )       || return
+        git checkout "$(awk '{print $2}' <<< "$target")"
     }
 
     # fcoc - checkout git commit
@@ -159,13 +160,13 @@ FZF-EOF"
     #
     # Pass
     #
-    if type pass >/dev/null 2>/dev/null; then
+    if type pass > /dev/null 2> /dev/null; then
         -fpass() {
             local passfile actions action
             pushd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || return
             passfile=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
             if [ -z "$passfile" ]; then
-                popd && return || return;
+                popd && return || return
             fi
             popd || return
             actions="Copy Password\nCopy Password and Quit\nView File\nView File and Quit\nEdit File\nEdit File and Quit\nQuit"
@@ -211,8 +212,8 @@ FZF-EOF"
 
             while :; do
                 clear
-                selection=$(fd .gpg ~/.password-store/ \
-                                | fzf --query "${tmp}" \
+                selection=$(fd .gpg ~/.password-store/ |
+                                  fzf --query "${tmp}" \
                                       --with-nth 5.. \
                                       --delimiter "/" \
                                       --no-multi \
@@ -282,7 +283,7 @@ M-p: git pull, M-P: git push, C-g/Esc: clear query or exit' \
                             printf "\033[0;32mNumber of characters:\033[0m "
                             read -r
                             pass ${arg} --in-place "${tmp}" "${REPLY}" \
-                                 2> /dev/null || pass ${arg} "${tmp}" "${REPLY}"
+                                2> /dev/null  || pass ${arg} "${tmp}" "${REPLY}"
                             tmp="${selection:=$tmp}"
                             printf "\nPress any key to continue. "
                             read -rsn1
