@@ -173,7 +173,7 @@
     (add-hook 'pre-command-hook 'tab-bar-history-mode))
 
 ;; modeline
-(setq mode-line-compact t)
+(setq mode-line-compact 'long)
 
 ;; theme
 (use-package modus-themes
