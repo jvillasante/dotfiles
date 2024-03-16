@@ -50,13 +50,6 @@
     ;; (use-package org-ql
     ;;     :defer t
     ;;     :vc (:fetcher github :repo "alphapapa/org-ql"))
-    ;; (use-package ada-mode
-    ;;     :vc (:fetcher github :repo "captainflasmr/old-ada-mode"))
-    ;; (use-package kbd-mode
-    ;;     :vc (:fetcher github :repo "kmonad/kbd-mode")
-    ;;     :custom
-    ;;     (kbd-mode-kill-kmonad "pkill -9 kmonad")
-    ;;     (kbd-mode-start-kmonad "kmonad ~/.config/kmonad/keyboard.kbd"))
     )
 
 
