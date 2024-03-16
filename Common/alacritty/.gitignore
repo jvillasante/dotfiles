@@ -4,4 +4,4 @@
 # But not these files...
 !.gitignore
 !alacritty.toml
-!/themes/
+!alacrity-modus-operandi.toml
