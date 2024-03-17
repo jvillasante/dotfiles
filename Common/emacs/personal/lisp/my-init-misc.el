@@ -36,16 +36,23 @@
           org-crypt-key nil
           org-crypt-key user-mail-address))
 
-;; fortune : a fortune frontend for Emacs.
+;; fortune : a fortune front-end for Emacs.
 (use-package fortune
-    :init
-    (when (executable-find "fortune")
-        (setq initial-scratch-message
-              (with-temp-buffer
-                  (shell-command "fortune" t)
-                  (let ((comment-start ";;"))
-                      (comment-region (point-min) (point-max)))
-                  (concat (buffer-string) "\n"))))
+    :preface
+    (defun my--fortune ()
+        (interactive)
+        (when (executable-find "fortune")
+            (switch-to-buffer (make-temp-name "fortune"))
+            (shell-command "fortune" t)
+            (concat (buffer-string) "\n")))
+    ;; :init
+    ;; (when (executable-find "fortune")
+    ;;     (setq initial-scratch-message
+    ;;           (with-temp-buffer
+    ;;               (shell-command "fortune" t)
+    ;;               (let ((comment-start ";;"))
+    ;;                   (comment-region (point-min) (point-max)))
+    ;;               (concat (buffer-string) "\n"))))
     :config
     (setq fortune-dir "/usr/share/games/fortune")
     (setq fortune-file "/usr/share/games/fortune/fortunes"))
