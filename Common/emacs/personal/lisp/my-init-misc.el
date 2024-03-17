@@ -36,6 +36,20 @@
           org-crypt-key nil
           org-crypt-key user-mail-address))
 
+;; fortune : a fortune frontend for Emacs.
+(use-package fortune
+    :init
+    (when (executable-find "fortune")
+        (setq initial-scratch-message
+              (with-temp-buffer
+                  (shell-command "fortune" t)
+                  (let ((comment-start ";;"))
+                      (comment-region (point-min) (point-max)))
+                  (concat (buffer-string) "\n"))))
+    :config
+    (setq fortune-dir "/usr/share/games/fortune")
+    (setq fortune-file "/usr/share/games/fortune/fortunes"))
+
 (use-package re-builder
     :ensure nil ;; emacs built-in
     :config (setq reb-re-syntax 'string))
@@ -239,9 +253,8 @@
 ;; monkeytype : A typing game/tutor inspired by the open source and community driven monkeytype.com
 (use-package monkeytype
     :config
-    (setq
-     ;; Default directory for saving Monkeytype data
-     monkeytype-directory (expand-file-name "monkeytype" no-littering-etc-directory)))
+    (setq monkeytype-directory
+          (expand-file-name "monkeytype" no-littering-etc-directory)))
 
 ;; engine-mode : search the web
 (use-package engine-mode
