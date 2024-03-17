@@ -236,6 +236,13 @@
 ;; devdocs.el : Emacs viewer for DevDocs
 (use-package devdocs)
 
+;; monkeytype : A typing game/tutor inspired by the open source and community driven monkeytype.com
+(use-package monkeytype
+    :config
+    (setq
+     ;; Default directory for saving Monkeytype data
+     monkeytype-directory (expand-file-name "monkeytype" no-littering-etc-directory)))
+
 ;; engine-mode : search the web
 (use-package engine-mode
     :init
