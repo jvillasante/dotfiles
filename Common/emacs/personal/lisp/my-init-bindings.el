@@ -58,6 +58,7 @@
 
 ;; prog-mode
 (with-eval-after-load 'prog-mode
+    (define-key emacs-lisp-mode-map (kbd "C-h .") 'helpful-at-point)
     (with-eval-after-load 'treesit
         (global-set-key (kbd "M-<up>")   'treesit-beginning-of-defun)
         (global-set-key (kbd "M-<down>") 'treesit-end-of-defun))
