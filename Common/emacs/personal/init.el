@@ -52,7 +52,6 @@
     ;;     :vc (:fetcher github :repo "alphapapa/org-ql"))
     )
 
-
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
     :functions exec-path-from-shell-initialize exec-path-from-shell-copy-env
