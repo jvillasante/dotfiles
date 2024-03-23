@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: maybe_unused
+# key: unused
+# --
+[[maybe_unused]] $0
