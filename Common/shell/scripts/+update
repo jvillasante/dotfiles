@@ -152,8 +152,6 @@ emacs_update() {
 
         [[ ! -d "$DOTFILES_DIR"/Common/emacs/personal ]] &&
             echo "Emacs personal configuration not found, exiting..." && usage 1
-        [[ -f "$DOTFILES_DIR"/Common/emacs/personal/custom.el ]] &&
-            rm -rf "$DOTFILES_DIR"/Common/emacs/personal/custom.el
         [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var ]] &&
             rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var
         [[ -d "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter ]] &&
