@@ -30,10 +30,7 @@
     :defer t
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :config
-    (setq pdf-view-display-size 'fit-page
-          pdf-view-use-scaling t
-          pdf-view-use-imagemagick nil
-          pdf-view-continuous t))
+    (setq pdf-view-continuous t))
 
 ;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
 (use-package mastodon

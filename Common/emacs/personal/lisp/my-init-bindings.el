@@ -351,6 +351,10 @@
     (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
     (define-key copilot-completion-map (kbd "TAB")   'copilot-accept-completion))
 
+(with-eval-after-load 'pdf-tools
+    (define-key pdf-view-mode-map (kbd "o") 'pdf-outline)
+    (define-key pdf-view-mode-map (kbd "q") nil))
+
 ;;; Prefix
 ;; C-c f : find
 (global-set-key (kbd "C-c f f") 'project-find-file)
