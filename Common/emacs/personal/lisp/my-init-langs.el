@@ -19,6 +19,7 @@
     ;; Workaround for https://github.com/renzmann/treesit-auto/issues/76
     (setq major-mode-remap-alist (treesit-auto--build-major-mode-remap-alist))
 
+    ;; enable globally
     (global-treesit-auto-mode))
 
 ;; elisp
