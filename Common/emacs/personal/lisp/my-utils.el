@@ -34,6 +34,17 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
                             elt)
                        ,list)))
 
+;;; UI
+
+(defun my--toggle-continuation-fringe-indicator ()
+    "Toggling the continuation indicator."
+    (interactive)
+    (setq-default
+     fringe-indicator-alist
+     (if (assq 'continuation fringe-indicator-alist)
+             (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)
+         (cons '(continuation right-curly-arrow left-curly-arrow) fringe-indicator-alist))))
+
 ;;; VCS
 
 (defun my--project-todos ()
