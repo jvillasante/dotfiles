@@ -25,6 +25,10 @@
     :ensure nil ;; emacs built-in
     :init (setq eww-search-prefix "https://duckduckgo.com/?q="))
 
+;; casual : Transient-based porcelain for Emacs Calc.
+(use-package casual
+    :defer t)
+
 ;; pdf
 (use-package pdf-tools
     :defer t
