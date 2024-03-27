@@ -69,6 +69,9 @@ if type emacs > /dev/null 2> /dev/null; then
     function estatus  { systemctl --user status emacs.service; }
     function edebug   { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/personal/ "$@"; }
     function eminimal { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal/ "$@"; }
+
+    # eat alias to open a file inside emacs
+    alias eopen='_eat_msg open'
 fi
 
 # vim
