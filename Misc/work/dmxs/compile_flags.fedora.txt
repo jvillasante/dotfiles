@@ -17,6 +17,7 @@
 -I./inc
 -I./Dmxs
 -I./models/generated
+-I./Programs/agw
 -I./Test/fakes
 -I./Test/mocks
 -I./Test/tests
