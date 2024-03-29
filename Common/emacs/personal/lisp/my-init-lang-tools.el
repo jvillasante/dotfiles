@@ -57,7 +57,7 @@
     (setq eglot-sync-connect nil)
     (setq eglot-confirm-server-initiated-edits nil)
     (setq eglot-ignored-server-capabilities
-          '(:documentHighlightProvider
+          '(;; :documentHighlightProvider
             :inlayHintProvider))
 
     ;; Setting the workspace configuration for every buffer, this can also be
