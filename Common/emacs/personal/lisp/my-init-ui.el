@@ -297,6 +297,23 @@ Run this function at the post theme load phase, such as with the
         :after (all-the-icons)
         :hook (dired-mode . all-the-icons-dired-mode)))
 
+;; nerd-icons
+(progn
+    (use-package nerd-icons)
+    (use-package nerd-icons-ibuffer
+        :after (nerd-icons)
+        :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+    (use-package nerd-icons-completion
+        :after (marginalia nerd-icons)
+        :init (nerd-icons-completion-mode)
+        :hook (marginalia-mode nerd-icons-completion-marginalia-setup))
+    (use-package nerd-icons-corfu
+        :after (corfu nerd-icons)
+        :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+    (use-package nerd-icons-dired
+        :after (nerd-icons)
+        :hook (dired-mode . nerd-icons-dired-mode)))
+
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 (progn
     (setq switch-to-buffer-obey-display-actions t
