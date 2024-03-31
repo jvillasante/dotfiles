@@ -27,6 +27,19 @@ keymap:
           b: C-Shift-tab
           # Close Tab
           k: C-w
+  - name: Brave
+    application:
+      only: Brave-browser
+    remap:
+      C-Shift-p: C-Shift-n
+      C-x:
+        remap:
+          # Private Window
+          C-p: C-Shift-n
+          # Switch tabs
+          o: C-pagedown
+          # Close Tab
+          k: C-w
   - name: Emacs
     application:
       not: [emacs, nyxt, Alacritty, foot, konsole]
