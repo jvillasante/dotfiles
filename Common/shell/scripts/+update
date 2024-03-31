@@ -175,6 +175,7 @@ emacs_update() {
 }
 
 stylua_update() {
+    ! hash stylua 2> /dev/null && echo "stylua not installed, exiting..." && usage 1
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
     [ ! -d "$HOME"/Workspace/Software/stylua ] && mkdir -p "$HOME"/Workspace/Software/stylua
     [ -d "$HOME"/Workspace/Software/stylua ] && rm -rf "$HOME"/Workspace/Software/stylua/*
@@ -228,6 +229,7 @@ keyd_update() {
 }
 
 xremap_update() {
+    ! hash xremap 2> /dev/null && echo "xremap not installed, exiting..." && usage 1
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
     [ ! -d "$HOME"/Workspace/Software/xremap ] && mkdir -p "$HOME"/Workspace/Software/xremap
     [ -d "$HOME"/Workspace/Software/xremap ] && rm -rf "$HOME"/Workspace/Software/xremap/*

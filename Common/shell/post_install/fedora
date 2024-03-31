@@ -759,8 +759,7 @@ fedora_install() {
                 }
 
                 # First create a new group to which we allow access to the input stuff; add this group to your user:
-                sudo groupadd -f uinput
-                sudo gpasswd -a "$USER" uinput
+                sudo gpasswd -a "$USER" input
 
                 # Second Create new udev rule granting access:
                 sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xremap/udev/70-xremap.rules \
@@ -775,7 +774,9 @@ fedora_install() {
                 systemctl --user daemon-reload
                 systemctl --user enable xremap.service && systemctl --user start xremap.service
 
-                read -rp "12) Xremap installed. Reboot for udev rules to take effect. Press enter to continue..."
+                read -rp "12) Xremap installed. Reboot for udev rules to take effect.
+                              On Gnome, install the extension at https://extensions.gnome.org/extension/5060/xremap/.
+                              Press enter to continue..."
                 ;;
             13)
                 exit 0

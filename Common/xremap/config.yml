@@ -61,17 +61,21 @@ keymap:
       M-d: [C-delete, { set_mark: false }]
       # Kill line
       C-k: [Shift-end, C-x, { set_mark: false }]
+      # Kill word backward
+      Alt-backspace: [C-backspace, {set_mark: false}]
+      # set mark next word continuously.
+      C-M-space: [C-Shift-right, {set_mark: true}]
       # Undo
       C-slash: [C-z, { set_mark: false }]
       C-Shift-ro: C-z
       # Mark
       C-space: { set_mark: true }
       # Search
-      C-s: F3
+      C-s: C-f
       C-r: Shift-F3
       M-Shift-5: C-h
       # Cancel
-      C-g: [Esc, { set_mark: false }]
+      C-g: [esc, { set_mark: false }]
       # C-x YYY
       C-x:
         remap:
