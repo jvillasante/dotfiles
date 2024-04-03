@@ -307,6 +307,10 @@
     (global-set-key (kbd "C-=") 'er/expand-region)
     (global-set-key (kbd "C--") 'er/contract-region))
 
+(with-eval-after-load 'expreg
+    (global-set-key (kbd "C-=") 'expreg-expand)
+    (global-set-key (kbd "C--") 'expreg-contract))
+
 (with-eval-after-load 'multiple-cursors
     (global-set-key (kbd "H-SPC") 'set-rectangular-region-anchor)
     (global-set-key (kbd "C-M-SPC") 'set-rectangular-region-anchor)
