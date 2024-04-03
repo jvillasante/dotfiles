@@ -11,7 +11,6 @@ modmap:
         alone: [Enter]
         alone_timeout_millis: 1000
 
-# Credit: https://github.com/mooz/xkeysnail/
 keymap:
   - name: Firefox
     application:
