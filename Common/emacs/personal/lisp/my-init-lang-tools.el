@@ -15,6 +15,11 @@
     :init
     (add-hook 'prog-mode-hook 'hs-minor-mode))
 
+;; subword-mode
+(use-package subword
+    :ensure nil ;; emacs built-in
+    :hook ((prog-mode . subword-mode)))
+
 ;; flymake
 (use-package flymake
     :ensure nil ;; emacs built-in
