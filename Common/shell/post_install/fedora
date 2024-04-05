@@ -285,6 +285,32 @@ fedora_install() {
                     sudo dnf install -y xclip xinput xdotool x11-utils # some X11 tools
                 fi
 
+                # tomb
+                # Download and extract
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                pushd "$HOME"/Workspace/Software || {
+                        notify-send "Can't cd into $HOME/Workspace/Software" --expire-time=20
+                        continue
+                }
+                TOMB_RELEASE=Tomb-2.10
+                TOMB_TAR_FILE="$TOMB_RELEASE.tar.gz"
+                curl -LJO https://files.dyne.org/tomb/"$TOMB_TAR_FILE"
+                atool --extract --explain "$TOMB_TAR_FILE" && rm -rf "$TOMB_TAR_FILE"
+                popd || {
+                        notify-send "Can't cd to previous directory" --expire-time=20
+                        continue
+                }
+                # Build and install
+                pushd "$HOME"/Workspace/Software/"$TOMB_RELEASE" || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/$TOMB_RELEASE" --expire-time=20
+                        continue
+                }
+                sudo make install
+                popd || {
+                        notify-send "Can't cd to previous directory" --expire-time=20
+                        continue
+                }
+
                 # Pass (password-store)
                 sudo dnf install -y pass gopass
 
