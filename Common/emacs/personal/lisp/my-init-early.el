@@ -154,6 +154,11 @@
             (connection-local-set-profiles
              `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile))))
 
+    (progn ;; bookmarks
+        (setq bookmark-default-file
+              (expand-file-name "bookmarks.el" no-littering-var-directory))
+        (setq bookmark-save-flag 1))
+
     (when IS-MAC
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (setq browse-url-browser-function 'browse-url-generic)
