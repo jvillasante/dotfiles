@@ -329,6 +329,8 @@
 
 (with-eval-after-load 'devdocs
     (global-set-key (kbd "C-h D") 'devdocs-lookup))
+(with-eval-after-load 'devdocs-browser
+    (global-set-key (kbd "C-h D") 'devdocs-browser-open))
 
 (with-eval-after-load 'dired-x
     (define-key dired-mode-map (kbd ".") 'dired-omit-mode))

@@ -258,14 +258,20 @@
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround)
 
-;; devdocs.el : Emacs viewer for DevDocs
-(use-package devdocs)
-
 ;; monkeytype : A typing game/tutor inspired by the open source and community driven monkeytype.com
 (use-package monkeytype
     :config
     (setq monkeytype-directory
           (expand-file-name "monkeytype" no-littering-etc-directory)))
+
+;; devdocs.el : Emacs viewer for DevDocs
+(use-package devdocs
+    :disabled t
+    :custom (devdocs-data-dir (no-littering-expand-var-file-name "devdocs")))
+
+;; devdocs-browser : Browse devdocs.io documents inside Emacs!
+(use-package devdocs-browser
+    :custom (devdocs-browser-cache-directory (no-littering-expand-var-file-name "devdocs-browser")))
 
 ;; engine-mode : search the web
 (use-package engine-mode
