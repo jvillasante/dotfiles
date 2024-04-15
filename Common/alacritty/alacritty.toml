@@ -44,7 +44,7 @@ history = 10000
 multiplier = 2
 
 [shell]
-args = ["-l", "-c", "tmux attach || tmux new -s Default"]
+# args = ["-l", "-c", "tmux attach || tmux new -s Default"]
 program = "/usr/bin/bash"
 
 [window]
