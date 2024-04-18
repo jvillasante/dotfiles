@@ -45,7 +45,8 @@
         `(;; do not indent preprocessor statements
           ((node-is "preproc") column-0 0)
           ;; do not indent namespace children
-          ((n-p-gp nil nil "namespace_definition") grand-parent 0)
+          ;; ((n-p-gp nil nil "namespace_definition") grand-parent 0)
+          ((n-p-gp nil "declaration_list" "namespace_definition") parent-bol 0)
           ;; append to bsd style
           ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
     :config
