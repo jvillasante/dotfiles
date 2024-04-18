@@ -134,7 +134,8 @@
     :custom
     (fancy-compilation-override-colors nil))
 
-(use-package rmsbolt)
+(use-package compiler-explorer
+    :vc (:fetcher github :repo "mkcms/compiler-explorer.el"))
 
 (provide 'my-init-lang-tools)
 ;;; my-init-lang-tools.el ends here
