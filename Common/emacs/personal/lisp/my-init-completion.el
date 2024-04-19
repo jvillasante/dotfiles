@@ -279,10 +279,11 @@
     (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
     (require 'consult-imenu))
 
-(use-package consult-dir)
+(use-package consult-dir
+    :after consult)
 
 (use-package consult-eglot
-    :after eglot)
+    :after (consult eglot))
 
 (use-package embark
     :init
