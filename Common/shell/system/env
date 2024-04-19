@@ -47,19 +47,20 @@ fi
 if [ -d "$HOME/.cargo/bin" ]; then
     export CARGO_HOME="$HOME/.cargo"
     if [ -f "$CARGO_HOME/env" ]; then
-        . "$CARGO_HOME/env"
+        # shellcheck source=/dev/null
+        source "$CARGO_HOME/env"
     else
         export PATH="$CARGO_HOME/bin:$PATH"
     fi
 
-    export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib:$LD_LIBRARY_PATH"
-    export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+    LD_LIBRARY_PATH="$(rustc --print sysroot)/lib:$LD_LIBRARY_PATH" && export LD_LIBRARY_PATH
+    RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src" && export RUST_SRC_PATH
 fi
 
 # Go
 if type go > /dev/null 2> /dev/null; then
     [ ! -d "$HOME/.go/" ] && mkdir -p "$HOME/.go/"
-    export GOPATH="$HOME/.go"
-    export GOBIN="$GOPATH/bin"
-    export PATH="$GOBIN:$PATH"
+    GOPATH="$HOME/.go" && export GOPATH
+    GOBIN="$GOPATH/bin" && export GOBIN
+    PATH="$GOBIN:$PATH" && export PATH
 fi

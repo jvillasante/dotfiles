@@ -4,8 +4,13 @@
 [[ "$-" != *i* ]] && return
 
 # Source in global settings
-[ -f /etc/bashrc ] && . /etc/bashrc
+# shellcheck source=/dev/null
+[ -f /etc/bashrc ] && source /etc/bashrc
+
+# Env
+# shellcheck source=/dev/null
+source "${HOME}/.config/shell/system/env"
 
 # Custom
-source "${HOME}/.config/shell/system/env"
+# shellcheck source=/dev/null
 source "${HOME}/.config/shell/system/custom"

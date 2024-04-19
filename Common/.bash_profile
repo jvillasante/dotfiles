@@ -5,4 +5,5 @@
 umask 022
 
 # if running bash include `.bashrc` if it exists
+# shellcheck source=/dev/null
 [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"

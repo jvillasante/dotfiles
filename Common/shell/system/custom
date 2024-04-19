@@ -6,19 +6,19 @@ stty erase ^? # kill ^u intr ^c eof ^d stop ^s
 set -o emacs
 
 # term
-export TERM=xterm-256color
+TERM=xterm-256color && export TERM
 
 # You may need to manually set your language environment
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
+LC_ALL=en_US.UTF-8 && export LC_ALL
+LANG=en_US.UTF-8 && export LANG
+LANGUAGE=en_US.UTF-8 && export LANGUAGE
 
 # XDG_* should be set
-export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-export XDG_LIB_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}"
-export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}" && export XDG_CACHE_HOME
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}" && export XDG_CONFIG_HOME
+XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}" && export XDG_DATA_HOME
+XDG_LIB_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}" && export XDG_LIB_HOME
+XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}" && export XDG_STATE_HOME
 
 # Don't put duplicate lines or liens starting with space int he history.
 # See bash(1) for more options
@@ -45,9 +45,11 @@ shopt -s globstar
 # enable programmable completion features
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
+        # shellcheck source=/dev/null
+        source /usr/share/bash-completion/bash_completion
     elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
+        # shellcheck source=/dev/null
+        source /etc/bash_completion
     fi
 fi
 
@@ -88,12 +90,12 @@ if type gpg2 > /dev/null 2> /dev/null; then
     # gpg is not gpg2 if installed
     alias gpg='gpg2'
 fi
-export GPG_TTY=$(tty)
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+GPG_TTY="$(tty)" && export GPG_TTY
+SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)" && export SSH_AUTH_SOCK
 
 # ssh
 alias ssh="TERM=xterm-256color ssh"
-export SSH_KEY_PATH="$HOME/.ssh/dsa_id"
+SSH_KEY_PATH="$HOME/.ssh/dsa_id" && export SSH_KEY_PATH
 
 # utils
 alias hex="od -Ax -tx1z -v"
