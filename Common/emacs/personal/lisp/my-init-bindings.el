@@ -217,27 +217,27 @@
     (define-key markdown-mode-map (kbd "TAB") 'markdown-cycle))
 
 (with-eval-after-load 'eshell
-    (global-set-key (kbd "C-c o e") 'my--eshell-other-window)
-    (global-set-key (kbd "C-c o E") 'eshell))
+    (global-set-key (kbd "C-c o e") 'eshell)
+    (global-set-key (kbd "C-c o E") 'my--eshell-other-window))
 
 (with-eval-after-load 'shell
-    (global-set-key (kbd "C-c o s") 'my--shell-other-window)
-    (global-set-key (kbd "C-c o S") 'shell))
+    (global-set-key (kbd "C-c o s") 'shell)
+    (global-set-key (kbd "C-c o S") 'my--shell-other-window))
 
 (with-eval-after-load 'eat
-    (global-set-key (kbd "C-c o t") 'eat-other-window)
-    (global-set-key (kbd "C-c o T") 'eat)
-    (define-key project-prefix-map (kbd "t") 'eat-project-other-window)
-    (define-key project-prefix-map (kbd "T") 'eat-project))
+    (global-set-key (kbd "C-c o t") 'eat)
+    (global-set-key (kbd "C-c o T") 'eat-other-window)
+    (define-key project-prefix-map (kbd "t") 'eat-project)
+    (define-key project-prefix-map (kbd "T") 'eat-project-other-window))
 
 (with-eval-after-load 'vterm
     ;; global keys
-    (global-set-key (kbd "C-c o t") 'vterm-other-window)
-    (global-set-key (kbd "C-c o T") 'vterm)
+    (global-set-key (kbd "C-c o t") 'vterm)
+    (global-set-key (kbd "C-c o T") 'vterm-other-window)
 
     ;; project-prefix-map
-    (define-key project-prefix-map (kbd "t") 'my--vterm-project-other-window)
-    (define-key project-prefix-map (kbd "T") 'my--vterm-project)
+    (define-key project-prefix-map (kbd "t") 'my--vterm-project)
+    (define-key project-prefix-map (kbd "T") 'my--vterm-project-other-window)
 
     ;; vterm-mode-map
     (define-key vterm-mode-map (kbd "<insert>") 'ignore)
