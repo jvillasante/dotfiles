@@ -3,6 +3,9 @@
 ;;
 ;;; Code:
 
+;; needed somehow
+(use-package request)
+
 ;; hideshow
 (use-package hideshow
     :ensure nil ;; emacs built-in
