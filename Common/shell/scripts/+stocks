@@ -11,7 +11,7 @@ LC_NUMERIC=C
 
 SYMBOLS=("$@")
 
-if ! type jq >/dev/null 2>&1; then
+if ! type jq > /dev/null 2>&1; then
     echo "'jq' is not in the PATH. (See: https://stedolan.github.io/jq/)"
     exit 1
 fi
@@ -25,6 +25,7 @@ FIELDS=(symbol marketState regularMarketPrice regularMarketChange regularMarketC
     preMarketPrice preMarketChange preMarketChangePercent postMarketPrice postMarketChange postMarketChangePercent)
 API_ENDPOINT="https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com"
 
+NO_COLOR=""
 if [ -z "$NO_COLOR" ]; then
     : "${COLOR_BOLD:=\e[1;37m}"
     : "${COLOR_GREEN:=\e[32m}"
