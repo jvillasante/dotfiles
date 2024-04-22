@@ -76,6 +76,7 @@
     :preface
     (defun my--eat-open (file)
         "Helper function to open files from eat terminal."
+        (interactive)
         (if (file-exists-p file)
                 (find-file-other-window file t)
             (warn "File doesn't exist")))
