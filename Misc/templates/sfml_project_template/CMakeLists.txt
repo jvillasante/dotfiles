@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 
 # THIS HAS TO COME BEFORE THE PROJECT LINE
-set(CLANG_PREFIX "/usr/local/opt/llvm")
-set(CMAKE_C_COMPILER "${CLANG_PREFIX}/bin/clang")
-set(CMAKE_CXX_COMPILER "${CLANG_PREFIX}/bin/clang++")
+set(GCC_PREFIX "/usr/bin")
+set(CMAKE_C_COMPILER "${GCC_PREFIX}/gcc")
+set(CMAKE_CXX_COMPILER "${GCC_PREFIX}/g++")
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 
 # Specify default build type if none provided (before project() command)
@@ -198,15 +198,19 @@ macro(build_subproject SUBPROJECT_NAME)
       DESTINATION ${SUBPROJECT_NAME}
       RUNTIME DESTINATION ${SUBPROJECT_NAME})
 
-    install(
-      DIRECTORY ${SUBPROJECT_DIR}/Media
-      DESTINATION ${SUBPROJECT_NAME}
-      PATTERN "CMakeLists.txt" EXCLUDE)
+      set(resource_source "${SUBPROJECT_DIR}/media")
+      set(resource_destination
+          "${CMAKE_INSTALL_PREFIX}/${SUBPROJECT_NAME}/media")
+      add_custom_command(
+        TARGET ${SUBPROJECT_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${resource_source}
+                ${resource_destination} DEPENDS ${resource_destination})
   endif()
 endmacro()
 
 set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
-set(LIBS_PATH "$ENV{HOME}/Workspace/Software/clang")
+# set(LIBS_PATH "$ENV{HOME}/Workspace/Software/clang")
 
 # Override install dir
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
