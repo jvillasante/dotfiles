@@ -384,8 +384,8 @@
 (global-set-key (kbd "C-c f p") 'project-switch-project)
 (global-set-key (kbd "C-c f g") 'consult-ripgrep)
 (global-set-key (kbd "C-c f a") 'embark-act)
-(global-set-key (kbd "C-c f j") 'evil-collection-consult-jump-list)
-(global-set-key (kbd "C-c f m") 'evil-collection-consult-mark)
+;; (global-set-key (kbd "C-c f j") 'evil-collection-consult-jump-list)
+;; (global-set-key (kbd "C-c f m") 'evil-collection-consult-mark)
 (global-set-key (kbd "C-c f i") 'consult-imenu)
 (global-set-key (kbd "C-c f I") 'consult-imenu-multi)
 (global-set-key (kbd "C-c f l") 'consult-line)
@@ -424,7 +424,8 @@
 (global-set-key (kbd "C-c n a") 'org-agenda)
 
 ;; C-c o : Open
-(global-set-key (kbd "C-c o f") 'elfeed)
+(when (package-installed-p 'elfeed)
+    (global-set-key (kbd "C-c o f") 'elfeed))
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o i") 'ielm)
 (global-set-key (kbd "C-c o m") 'my--new-scratch-buffer-in-markdown)
