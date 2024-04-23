@@ -80,7 +80,6 @@
 ;; docker : Emacs integration for Docker!
 (use-package docker
     :defer t
-    :bind ("C-c d" . docker)
     :config
     ;; always run with `vterm' if available
     (if (fboundp 'vterm)

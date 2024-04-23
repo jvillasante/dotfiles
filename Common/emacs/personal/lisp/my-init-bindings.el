@@ -43,9 +43,9 @@
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 
-;; Open line(s) below/above current one
-(global-set-key (kbd "C-o") 'my--open-next-line)
-(global-set-key (kbd "M-o") 'my--open-previous-line)
+;; Open line(s) below/above current one (using crux implementation)
+;; (global-set-key (kbd "C-o") 'my--open-next-line)
+;; (global-set-key (kbd "M-o") 'my--open-previous-line)
 
 ;; better comment/un-comment
 (global-set-key (kbd "M-;") 'my--comment-or-uncomment)
@@ -271,31 +271,37 @@
 (with-eval-after-load 'crux
     (define-key dired-mode-map (kbd "C-<return>") 'crux-open-with)
     ;; (global-set-key (kbd "C-c o") 'crux-open-with)
-    ;; (global-set-key (kbd "C-c u") 'crux-view-url)
-    ;; (global-set-key (kbd "C-o") 'crux-smart-open-line)
-    ;; (global-set-key (kbd "M-o") 'crux-smart-open-line-above)
-    ;; (global-set-key (kbd "C-x C-r") 'crux-recentf-find-file)
+    (global-set-key (kbd "C-k") 'crux-smart-kill-line)
+    (global-set-key (kbd "M-o") 'crux-smart-open-line-above)
+    (global-set-key (kbd "C-o") 'crux-smart-open-line)
+    ;; (global-set-key (kbd "C-c n") 'crux-cleanup-buffer-or-region)
     ;; (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
     ;; (global-set-key (kbd "C-c F") 'crux-recentf-find-directory)
-    ;; (global-set-key (kbd "C-c n") 'crux-cleanup-buffer-or-region)
-    ;; (global-set-key (kbd "C-M-z") 'crux-indent-defun)
-    (global-set-key (kbd "C-c e") 'crux-eval-and-replace)
-    ;; (global-set-key (kbd "C-c w") 'crux-swap-windows)
+    ;; (global-set-key (kbd "C-c u") 'crux-view-url)
+    ;; (global-set-key (kbd "C-c e") 'crux-eval-and-replace)
+    ;; (global-set-key (kbd "C-x 4 t") 'crux-transpose-windows)
     (global-set-key (kbd "C-c D") 'crux-delete-file-and-buffer)
+    ;; (global-set-key (kbd "C-c c") 'crux-copy-file-preserve-attributes)
+    (global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
+    (global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
     (global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
     ;; (global-set-key (kbd "C-c t") 'crux-visit-term-buffer)
     (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
+    ;; (global-set-key (kbd "C-M-z") 'crux-indent-defun)
     (global-set-key (kbd "C-c TAB") 'crux-indent-rigidly-and-copy-to-clipboard)
-    (global-set-key (kbd "C-c I") 'crux-find-user-custom-file)
-    (global-set-key (kbd "C-c S") 'crux-find-shell-init-file)
+    ;; (global-set-key (kbd "C-c i") 'crux-find-user-init-file)
+    ;; (global-set-key (kbd "C-c I") 'crux-find-user-custom-file)
+    ;; (global-set-key (kbd "C-c S") 'crux-find-shell-init-file)
     (global-set-key (kbd "C-^") 'crux-top-join-line)
-    (global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
-    (global-set-key (kbd "C-k") 'crux-smart-kill-line)
     ;; (global-set-key (kbd "C-<backspace>" . crux-kill-line-backwards)
-    ;; (global-set-key (kbd "C-x 4 t") 'crux-transpose-windows)
+    ;; (global-set-key (kbd "C-S-Backspace") 'crux-kill-and-join-forward)
+    ;; (global-set-key (kbd "C-c P") 'crux-kill-buffer-truename)
+    ;; (global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
     ;; (global-set-key (kbd "C-x C-u") 'crux-upcase-region)
     ;; (global-set-key (kbd "C-x C-l") 'crux-downcase-region)
     ;; (global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
+    ;; (global-set-key (kbd "m-o") 'crux-other-window-or-switch-buffer)
+    ;; (global-set-key (kbd "C-c w") 'crux-swap-windows)
     (define-key global-map [remap move-beginning-of-line] 'crux-move-beginning-of-line)
     (define-key global-map [remap kill-whole-line] 'crux-kill-whole-line))
 
@@ -363,6 +369,9 @@
 
 (with-eval-after-load 'calc
     (define-key calc-mode-map (kbd "C-o") 'casual-main-menu))
+
+(when  (package-installed-p 'docker)
+    (global-set-key (kbd "C-c o d") 'docker))
 
 ;;; Prefix
 ;; C-c f : find
