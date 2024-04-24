@@ -26,5 +26,5 @@
 -I./Test/tests/socket
 -I./Test/tests/thread
 -I./Test/tests/wifi
--I./Test/googletest-release-1.8.0/googletest/include
--I./Test/googletest-release-1.8.0/googlemock/include
+-I./Test/googletest-release-1.13.0/googletest/include
+-I./Test/googletest-release-1.13.0/googlemock/include
