@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # tty
 stty -ixon    # Disable flow control, i.e. ^s "freeze screen" and ^q resume
 stty erase ^? # kill ^u intr ^c eof ^d stop ^s
@@ -185,5 +183,5 @@ fi
 #
 # Fuzzy Finder
 #
-# . "${HOME}/.config/shell/system/skim"
-. "${HOME}/.config/shell/system/fzf"
+# shellcheck source=/dev/null
+source "${HOME}/.config/shell/system/fzf.sh"

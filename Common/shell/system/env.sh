@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Set the path to include:
 #  - /usr/local/bin  for Homebrew on OSX
 #  - /usr/local/sbin

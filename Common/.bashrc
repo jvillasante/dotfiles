@@ -9,8 +9,8 @@
 
 # Env
 # shellcheck source=/dev/null
-source "${HOME}/.config/shell/system/env"
+source "${HOME}/.config/shell/system/env.sh"
 
 # Custom
 # shellcheck source=/dev/null
-source "${HOME}/.config/shell/system/custom"
+source "${HOME}/.config/shell/system/custom.sh"

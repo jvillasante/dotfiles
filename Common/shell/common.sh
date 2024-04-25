@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #
 # Find current shell
 # Call it like: CURRENT_SHELL=$(find_current_shell)
@@ -55,7 +53,6 @@ find_dotfiles() {
     echo "$DOTFILES_DIR"
 }
 
-
 # Encapsulates the mess that DE detection was, is, or will ever be...
 # Without arguments, check if in a Desktop Environment at all
 # Subshell is intentional so we don't have to save/restore IFS
@@ -76,10 +73,12 @@ is_desktop_environment() (
     if [[ -z "$de" ]]; then if [[ "$DEs" ]]; then return; else return 1; fi; fi
 
     # Lowercase both
-    de=${de,,}; DEs=${DEs,,}
+    de=${de,,}
+                DEs=${DEs,,}
 
     # Check de against each DEs component
-    IFS=:; for DE in $DEs; do if [[ "$de" == "$DE" ]]; then return; fi; done
+    IFS=:
+           for DE in $DEs; do if [[ "$de" == "$DE" ]]; then return; fi; done
 
     # Not found
     return 1
@@ -119,7 +118,7 @@ ask() {
         echo "$1 [$prompt] "
 
         # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
-        read -r reply </dev/tty
+        read -r reply < /dev/tty
 
         # Default?
         if [ -z "$reply" ]; then
