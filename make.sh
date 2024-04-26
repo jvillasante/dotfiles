@@ -93,7 +93,7 @@ install_emacs() {
 }
 
 install_shell "bash"
-install_emacs
+# install_emacs
 
 echo ">>> Linking common files in $HOME..."
 files=".inputrc .editorconfig .sbclrc .mbsyncrc .msmtprc .tidyrc"

@@ -571,7 +571,7 @@ fedora_install() {
                 # Set dotfiles
                 if [ -f "$HOME"/Workspace/Public/dotfiles/make.sh ]; then
                     [ -f "$HOME"/.bashrc ] && mv "$HOME"/.bashrc "$HOME"/.bashrc.bak
-                    [ -f "$HOME"/.bashrc_profile ] && mv "$HOME"/.bash_profile "$HOME"/.bash_profile.bak
+                    [ -f "$HOME"/.bash_profile ] && mv "$HOME"/.bash_profile "$HOME"/.bash_profile.bak
                     [ -d "$HOME"/.config/psd ] && rm -rf "$HOME"/.config/psd
                     "$HOME"/Workspace/Public/dotfiles/make.sh
                 fi
