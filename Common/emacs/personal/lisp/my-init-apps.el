@@ -5,10 +5,13 @@
 
 ;; password-store for emacs
 (use-package password-store
-    :defer t
-    :preface (defun my--password-store-git-push ()
-                 (interactive)
-                 (with-editor-async-shell-command "pass git push"))
+    :preface
+    (defun my--password-store-git-push ()
+        (interactive)
+        (with-editor-async-shell-command "pass git push"))
+    (defun my--password-store-reset-gpg-pcscd ()
+        (interactive)
+        (with-editor-async-shell-command "sudo systemctl restart pcscd"))
     :bind (("C-c P c" . password-store-copy)
            ("C-c P C" . password-store-copy-field)
            ("C-c P g" . password-store-generate)
@@ -17,7 +20,8 @@
            ("C-c P r" . password-store-rename)
            ("C-c P R" . password-store-remove)
            ("C-c P i" . password-store-insert)
-           ("C-c P P" . my--password-store-git-push))
+           ("C-c P P" . my--password-store-git-push)
+           ("C-c P X" . my--password-store-reset-gpg-pcscd))
     :custom ((password-store-password-length 25)))
 
 ;; eww
