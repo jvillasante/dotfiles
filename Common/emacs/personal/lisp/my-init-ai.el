@@ -6,7 +6,14 @@
 (use-package gptel
     :defer t
     :custom
-    ((gptel-default-mode 'org-mode)))
+    ((gptel-default-mode 'org-mode))
+    :config
+    (setq
+     gptel-model "llama3:latest"
+     gptel-backend (gptel-make-ollama "Ollama"
+                       :host "localhost:11434"
+                       :stream t
+                       :models '("llama3:latest"))))
 
 (use-package chatgpt-shell
     :disabled t
