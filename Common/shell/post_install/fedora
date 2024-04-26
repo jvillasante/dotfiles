@@ -287,32 +287,32 @@ fedora_install() {
 
                 # tomb
                 # Download and extract
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                pushd "$HOME"/Workspace/Software || {
-                        notify-send "Can't cd into $HOME/Workspace/Software" --expire-time=20
-                        continue
-                }
-                TOMB_RELEASE=Tomb-2.10
-                TOMB_TAR_FILE="$TOMB_RELEASE.tar.gz"
-                curl -LJO https://files.dyne.org/tomb/"$TOMB_TAR_FILE"
-                atool --extract --explain "$TOMB_TAR_FILE" && rm -rf "$TOMB_TAR_FILE"
-                popd || {
-                        notify-send "Can't cd to previous directory" --expire-time=20
-                        continue
-                }
-                # Build and install
-                pushd "$HOME"/Workspace/Software/"$TOMB_RELEASE" || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/$TOMB_RELEASE" --expire-time=20
-                        continue
-                }
-                sudo make install
-                popd || {
-                        notify-send "Can't cd to previous directory" --expire-time=20
-                        continue
-                }
+                # [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                # pushd "$HOME"/Workspace/Software || {
+                #         notify-send "Can't cd into $HOME/Workspace/Software" --expire-time=20
+                #         continue
+                # }
+                # TOMB_RELEASE=Tomb-2.10
+                # TOMB_TAR_FILE="$TOMB_RELEASE.tar.gz"
+                # curl -LJO https://files.dyne.org/tomb/"$TOMB_TAR_FILE"
+                # atool --extract --explain "$TOMB_TAR_FILE" && rm -rf "$TOMB_TAR_FILE"
+                # popd || {
+                #         notify-send "Can't cd to previous directory" --expire-time=20
+                #         continue
+                # }
+                # # Build and install
+                # pushd "$HOME"/Workspace/Software/"$TOMB_RELEASE" || {
+                #         notify-send "Can't cd into $HOME/Workspace/Software/$TOMB_RELEASE" --expire-time=20
+                #         continue
+                # }
+                # sudo make install
+                # popd || {
+                #         notify-send "Can't cd to previous directory" --expire-time=20
+                #         continue
+                # }
 
                 # Pass (password-store)
-                sudo dnf install -y pass gopass
+                sudo dnf install -y pass
 
                 # Git stuff
                 sudo dnf install -y git         # git itself
@@ -508,7 +508,6 @@ fedora_install() {
                 # flatpak install --user -y flathub com.skype.Client
                 # flatpak install --user -y flathub com.valvesoftware.Steam
                 # flatpak install --user -y flathub im.riot.Riot
-
                 # flatpak install --user -y flathub com.obsproject.Studio
                 # flatpak install --user -y flathub com.brave.Browser
                 # flatpak install --user -y flathub org.shotcut.Shotcut
@@ -569,6 +568,14 @@ fedora_install() {
                 [ ! -d "$HOME"/Workspace/Public/resume ] &&
                     git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
 
+                # Set dotfiles
+                if [ -f "$HOME"/Workspace/Public/dotfiles/make.sh ]; then
+                    [ -f "$HOME"/.bashrc ] && mv "$HOME"/.bashrc "$HOME"/.bashrc.bak
+                    [ -f "$HOME"/.bashrc_profile ] && mv "$HOME"/.bash_profile "$HOME"/.bash_profile.bak
+                    [ -d "$HOME"/.config/psd ] && rm -rf "$HOME"/.config/psd
+                    "$HOME"/Workspace/Public/dotfiles/make.sh
+                fi
+
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             8)
@@ -623,6 +630,30 @@ fedora_install() {
                 sudo make install
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20
+
+                # Update packages
+                read -rp "Emacs has been installed, do you want to update packages now? (Y/N): " confirm
+                if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+                    local DOTFILES_DIR
+                    DOTFILES_DIR="$HOME"/Workspace/Public/dotfiles/
+
+                    [[ ! -d "$DOTFILES_DIR"/Common/emacs/personal ]] &&
+                        echo "Emacs personal configuration not found, exiting..." && usage 1
+                    [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var ]] &&
+                        rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var
+                    [[ -d "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter ]] &&
+                        rm -rf "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter
+                    emacs --init-directory="$DOTFILES_DIR"/Common/emacs/personal
+                fi
+
+                read -rp "Emacs packages updated, do you want to start the systemd service now? (Y/N): " confirm
+                if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+                    systemctl --user daemon-reload
+                    sleep 1 && systemctl --user enable emacs.service
+                    sleep 1 && systemctl --user start emacs.service
+                    sleep 2 && systemctl --user status emacs.service
+                fi
+
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             9)
