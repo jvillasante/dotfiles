@@ -101,6 +101,9 @@
                              "-w /tmp/sm"
                              "--name dmxs" . ,docker-image-run-default-args))))
 
+;; emacs-everywhere : does not supports Wayland :(
+(use-package emacs-everywhere :disabled t)
+
 ;; elfeed
 (use-package elfeed
     :defer t
