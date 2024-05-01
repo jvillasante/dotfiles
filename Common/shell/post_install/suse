@@ -251,7 +251,7 @@ suse_install() {
                 sudo zypper install -y cmake ninja ccache meson
                 sudo zypper install -y ripgrep fd htop btop nvtop vim bat
                 sudo zypper install -y aspell aspell-en aspell-es
-                sudo zypper install -y curl dos2unix doxygen msmtp neofetch
+                sudo zypper install -y curl dos2unix doxygen msmtp fastfetch
                 sudo zypper install -y graphviz mercurial password-store
                 sudo zypper install -y pandoc poppler-tools poppler-data
                 sudo zypper install -y subversion tree w3m wget texinfo

@@ -257,7 +257,7 @@ EOF
                 sudo apt install -y tar p7zip-full zip unzip rsync rar unrar atool
                 sudo apt install -y silversearcher-ag aspell aspell-en aspell-es autojump autoconf automake
                 sudo apt install -y bat curl dnsutils dos2unix doxygen fd-find font-manager
-                sudo apt install -y btop htop nvtop isync libpcap-dev make mercurial msmtp neofetch
+                sudo apt install -y btop htop nvtop isync libpcap-dev make mercurial msmtp fastfetch
                 sudo apt install -y vim neovim pandoc pass poppler-utils poppler-data ripgrep
                 sudo apt install -y scdaemon subversion telnet tldr tree w3m wget
                 sudo apt install -y wordnet imagemagick
