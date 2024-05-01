@@ -33,6 +33,11 @@
 (use-package casual
     :defer t)
 
+;; nov : Major mode for reading EPUBs in Emacs
+(use-package nov
+    :defer t
+    :mode ("\\.epub\\'" . nov-mode))
+
 ;; pdf
 (use-package pdf-tools
     :defer t

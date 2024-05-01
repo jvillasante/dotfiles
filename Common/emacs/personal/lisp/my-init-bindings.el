@@ -367,6 +367,9 @@
     (define-key pdf-view-mode-map (kbd "o") 'pdf-outline)
     (define-key pdf-view-mode-map (kbd "q") nil))
 
+(with-eval-after-load 'nov
+    (define-key nov-mode-map (kbd "q") nil))
+
 (with-eval-after-load 'calc
     (define-key calc-mode-map (kbd "C-o") 'casual-main-menu))
 

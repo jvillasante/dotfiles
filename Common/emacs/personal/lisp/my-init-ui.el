@@ -58,6 +58,7 @@
                               (setq-local line-spacing 0.1)))
 (add-hook 'org-mode-hook 'variable-pitch-mode)
 (add-hook 'markdown-mode-hook 'variable-pitch-mode)
+(add-hook 'nov-mode-hook 'variable-pitch-mode)
 
 ;; Set default frame title
 (setq-default frame-title-format
@@ -139,7 +140,8 @@
                         ibuffer-mode
                         dired-mode
                         occur-mode
-                        circe-mode))
+                        circe-mode
+                        nov-mode))
 
     ;; Define the whitespace style (`C-h v whitespace-style' for more styles)
     (setq-default whitespace-style
@@ -191,7 +193,7 @@ Run this function at the post theme load phase, such as with the
     (setq modus-themes-italic-constructs t
           modus-themes-bold-constructs nil
           modus-themes-mixed-fonts t
-          modus-themes-variable-pitch-ui nil
+          modus-themes-variable-pitch-ui t
           modus-themes-custom-auto-reload t
           modus-themes-disable-other-themes t
 
