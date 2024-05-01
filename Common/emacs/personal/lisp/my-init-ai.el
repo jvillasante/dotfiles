@@ -5,15 +5,14 @@
 
 (use-package gptel
     :defer t
-    :custom
-    ((gptel-default-mode 'org-mode))
+    :custom ((gptel-default-mode 'org-mode))
     :config
-    (setq
-     gptel-model "llama3:latest"
-     gptel-backend (gptel-make-ollama "Ollama"
-                       :host "localhost:11434"
-                       :stream t
-                       :models '("llama3:latest"))))
+    (setq gptel-expert-commands t)
+    (setq gptel-model "llama3:latest"
+          gptel-backend (gptel-make-ollama "Ollama"
+                            :host "localhost:11434"
+                            :stream t
+                            :models '("llama3:latest"))))
 
 (use-package chatgpt-shell
     :disabled t
@@ -26,7 +25,7 @@
     :disabled t
     :preface
     (defun my--maybe-start-copilot ()
-        "Exlude some modes from copilot."
+        "Exclude some modes from copilot."
         (let ((disabled-modes '(lisp-interaction-mode)))
             (unless (apply 'derived-mode-p disabled-modes)
                 (copilot-mode))))
