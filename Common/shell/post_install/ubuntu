@@ -279,6 +279,7 @@ ubuntu_install() {
                 sudo apt install -y ffmpegthumbnailer mediainfo
                 sudo apt install -y feh mpv qrencode findutils locate
                 sudo apt install -y ncurses-term
+                sudo apt install -y gnuplot
 
                 # Firefox
                 install_mozilla_firefox

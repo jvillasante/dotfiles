@@ -261,6 +261,7 @@ fedora_install() {
                 sudo dnf install -y zlib-devel bzip2 bzip2-devel readline-devel xz xz-devel \
                      libffi-devel findutils tk-devel libyaml-devel
                 sudo dnf install -y fortune-mod
+                sudo dnf install -y gnuplot
 
                 # Gnome Software
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
