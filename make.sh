@@ -105,7 +105,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME/.config..."
-files="git nyxt alacritty foot shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml"
+files="git btop nyxt alacritty foot shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml"
 for file in $files; do
     [ -L "$HOME/.config/$file" ] && unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
