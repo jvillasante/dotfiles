@@ -301,18 +301,22 @@ Run this function at the post theme load phase, such as with the
 
 ;; nerd-icons
 (progn
-    (use-package nerd-icons)
+    (use-package nerd-icons :disabled t)
     (use-package nerd-icons-ibuffer
+        :disabled t
         :after (nerd-icons)
         :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
     (use-package nerd-icons-completion
+        :disabled t
         :after (marginalia nerd-icons)
         :init (nerd-icons-completion-mode)
         :hook (marginalia-mode nerd-icons-completion-marginalia-setup))
     (use-package nerd-icons-corfu
+        :disabled t
         :after (corfu nerd-icons)
         :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
     (use-package nerd-icons-dired
+        :disabled t
         :after (nerd-icons)
         :hook (dired-mode . nerd-icons-dired-mode)))
 
