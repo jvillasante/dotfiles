@@ -344,6 +344,10 @@
 (with-eval-after-load 'dired-sidebar
     (global-set-key (kbd "C-x C-n") 'dired-sidebar-toggle-sidebar))
 
+(with-eval-after-load 'dired
+    (when  (package-installed-p 'casual-dired)
+        (define-key dired-mode-map (kbd "C-o") 'casual-dired-tmenu)))
+
 (with-eval-after-load 'neotree
     (global-set-key (kbd "C-x C-n") 'my--neotree-project-dir)
     (define-key neotree-mode-map (kbd ".") 'neotree-hidden-file-toggle))

@@ -30,8 +30,7 @@
     :init (setq eww-search-prefix "https://duckduckgo.com/?q="))
 
 ;; casual : Transient-based porcelain for Emacs Calc.
-(use-package casual
-    :defer t)
+(use-package casual :defer t)
 
 ;; nov : Major mode for reading EPUBs in Emacs
 (use-package nov

@@ -116,6 +116,9 @@
     (setq dired-sidebar-window-fixed nil)
     (setq dired-sidebar-use-term-integration t))
 
+;; casual-dired : An opinionated Transient-based porcelain for the Emacs file manager Dired.
+(use-package casual-dired :defer t)
+
 (use-package neotree
     :disabled t
     :preface
