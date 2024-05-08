@@ -201,6 +201,9 @@ EOF
                     # Force alt + tab to switch only on current workspace
                     gsettings set org.gnome.shell.app-switcher current-workspace-only true
 
+                    # Allow max volume
+                    gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
+
                     # Set fractional scaling (only for wayland)
                     # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
