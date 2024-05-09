@@ -14,7 +14,7 @@
     (require 'epg)
     (setq epg-gpg-home-directory (expand-file-name ".gnupg" my--home-path))
     (setq epg-gpg-program (executable-find "gpg2"))
-    ;; (setq epg-pinentry-mode 'loopback)
+    (setq epg-pinentry-mode 'loopback)
 
     ;; setup epa
     (require 'epa-file)
