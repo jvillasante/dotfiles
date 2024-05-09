@@ -16,6 +16,9 @@
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
+;; fine resize
+(setq frame-resize-pixelwise t)
+
 (blink-cursor-mode -1) ; annoying!
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; Disable scrollbar
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; Disable toolbar

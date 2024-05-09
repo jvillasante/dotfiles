@@ -24,6 +24,62 @@
            ("C-c P X" . my--password-store-reset-gpg-pcscd))
     :custom ((password-store-password-length 25)))
 
+;; gnus
+(use-package gnus
+    :ensure nil ;; emacs built-in
+    :defer t
+    :config
+    (require 'gnus-topic)
+    (setq gnus-select-method '(nnnil))
+    (add-to-list 'gnus-secondary-select-methods
+                 '(nntp "news.eternal-september.org"
+                        (nntp-open-connection-function nntp-open-ssl-stream)
+                        (nntp-port-number 563)))
+
+    (setq gnus-asynchronous t ;; async
+          gnus-use-article-prefetch 15
+          ;; article
+          gnus-visible-headers (mapcar (lambda (str) (concat "^" str ":"))
+                                       '("From" "To" "Cc" "Subject" "Newsgroup"
+                                         "Date" "Followup-To" "Reply-To"
+                                         "Organization" "X-Newsreader" "X-Mailer"))
+          gnus-sorted-header-list gnus-visible-headers
+          gnus-thread-sort-functions '(gnus-thread-sort-by-number
+                                       gnus-thread-sort-by-subject
+                                       (not gnus-thread-sort-by-date))
+          ;; group
+          gnus-level-subscribed 6
+          gnus-level-unsubscribed 7
+          gnus-level-zombie 8
+          gnus-group-sort-function '((gnus-group-sort-by-unread)
+                                     (gnus-group-sort-by-alphabet)
+                                     (gnus-group-sort-by-rank))
+          gnus-group-line-format "%M%p%P%5y:%B%(%g%)\n"
+          gnus-group-mode-line-format "%%b"
+          gnus-topic-display-empty-topics nil
+          ;; summary
+          gnus-auto-select-first nil
+          gnus-summary-ignore-duplicates t
+          gnus-suppress-duplicates t
+          gnus-summary-to-prefix "To:"
+          gnus-summary-line-format "%U%R %-18,18&user-date; %4L:%-25,25f %B%s\n"
+          gnus-summary-mode-line-format "[%U] %p"
+          gnus-sum-thread-tree-false-root ""
+          gnus-sum-thread-tree-indent " "
+          gnus-sum-thread-tree-single-indent ""
+          gnus-sum-thread-tree-leaf-with-other "+->"
+          gnus-sum-thread-tree-root ""
+          gnus-sum-thread-tree-single-leaf "\\->"
+          gnus-sum-thread-tree-vertical "|")
+
+    ;; (add-hook 'dired-mode-hook #'gnus-dired-mode)
+    (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
+    (add-hook 'gnus-select-group-hook #'gnus-group-set-timestamp)
+    (add-hook 'gnus-article-mode-hook #'(lambda () (text-scale-adjust 1)))
+
+    (dolist (mode '(gnus-group-mode-hook gnus-summary-mode-hook gnus-browse-mode-hook))
+        (add-hook mode #'hl-line-mode)))
+
 ;; eww
 (use-package eww
     :ensure nil ;; emacs built-in
@@ -43,6 +99,24 @@
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :config
     (setq pdf-view-continuous t))
+
+(use-package pdf-view-restore
+    :after pdf-tools
+    :defer t
+    :hook (pdf-view-mode . pdf-view-restore-mode)
+    :config
+    (setq pdf-view-restore-filename
+          (expand-file-name "pdf-view-restore" no-littering-var-directory)))
+
+(use-package atomic-chrome
+    :init
+    (atomic-chrome-start-server)
+    :config
+    (setq atomic-chrome-buffer-open-style 'frame)
+    (setq atomic-chrome-default-major-mode 'markdown-mode
+          atomic-chrome-url-major-mode-alist `(("github\\.com" . gfm-mode)
+                                               ("gitlab\\.com" . gfm-mode)
+                                               ("reddit\\.com" . markdown-mode))))
 
 ;; mastodon.el : Emacs client for the AcitivityPub social networks that implement the Mastodon API.
 (use-package mastodon
@@ -104,9 +178,6 @@
                  `("sm\\:*" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm"
                              "-w /tmp/sm"
                              "--name dmxs" . ,docker-image-run-default-args))))
-
-;; emacs-everywhere : does not supports Wayland :(
-(use-package emacs-everywhere :disabled t)
 
 ;; elfeed
 (use-package elfeed
