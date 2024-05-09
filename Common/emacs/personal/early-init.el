@@ -15,8 +15,7 @@
      load-prefer-newer noninteractive)
     (add-hook 'emacs-startup-hook
               (lambda nil
-                  (setq gc-cons-threshold original-gc-cons-threshold)
-                  (message "Emacs startup time: %s" (emacs-init-time)))))
+                  (setq gc-cons-threshold original-gc-cons-threshold))))
 
 ;; set default UI
 (setq-default default-frame-alist '((width . 170)
