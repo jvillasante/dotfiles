@@ -233,10 +233,7 @@
     (editorconfig-mode 1))
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
-(use-package avy
-    :config
-    (avy-setup-default)
-    (setq avy-all-windows nil))
+(use-package avy)
 
 ;; Expand Region : expand or contract selection
 (use-package expand-region

@@ -307,7 +307,10 @@
 
 (with-eval-after-load 'avy
     (global-set-key (kbd "M-j") 'avy-goto-char-timer)
-    (global-set-key (kbd "C-c C-j") 'avy-resume))
+    (global-set-key (kbd "C-c C-j") 'avy-resume)
+
+    ;; Isearch integration
+    (define-key isearch-mode-map (kbd "M-j") 'avy-isearch))
 
 (with-eval-after-load 'expand-region
     (global-set-key (kbd "C-=") 'er/expand-region)
