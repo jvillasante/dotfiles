@@ -341,15 +341,16 @@
 (with-eval-after-load 'devdocs-browser
     (global-set-key (kbd "C-h D") 'devdocs-browser-open))
 
+(with-eval-after-load 'dired
+    (define-key dired-mode-map (kbd "E") 'dired-toggle-read-only)
+    (when  (package-installed-p 'casual-dired)
+        (define-key dired-mode-map (kbd "C-o") 'casual-dired-tmenu)))
+
 (with-eval-after-load 'dired-x
     (define-key dired-mode-map (kbd ".") 'dired-omit-mode))
 
 (with-eval-after-load 'dired-sidebar
     (global-set-key (kbd "C-x C-n") 'dired-sidebar-toggle-sidebar))
-
-(with-eval-after-load 'dired
-    (when  (package-installed-p 'casual-dired)
-        (define-key dired-mode-map (kbd "C-o") 'casual-dired-tmenu)))
 
 (with-eval-after-load 'neotree
     (global-set-key (kbd "C-x C-n") 'my--neotree-project-dir)
