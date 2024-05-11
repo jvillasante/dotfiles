@@ -78,11 +78,6 @@
                           (concat dired-directory))
                          (t (buffer-name))))))
 
-;; window split and resizing
-(setq window-combination-resize t)
-(setq split-height-threshold 80)
-(setq split-width-threshold 125)
-
 ;; winner-mode : "undo" and "redo" changes in window configurations
 (use-package winner
     :ensure nil ;; emacs built-in
@@ -325,14 +320,13 @@ Run this function at the post theme load phase, such as with the
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 (progn
-    ;; (setq switch-to-buffer-obey-display-actions t
-    ;;       async-shell-command-display-buffer nil
-    ;;       fit-window-to-buffer-horizontally t
-    ;;       fit-frame-to-buffer t)
-    ;; (setq display-buffer-base-action
-    ;;       '((display-buffer-reuse-window
-    ;;          display-buffer-in-previous-window
-    ;;          display-buffer-reuse-mode-window)))
+    (setq window-combination-resize t)
+    (setq even-window-sizes 'height-only)
+    (setq window-sides-vertical nil)
+    (setq switch-to-buffer-in-dedicated-window 'pop)
+    (setq split-height-threshold 80)
+    (setq split-width-threshold 125)
+    (setq window-min-height 3)
 
     ;; (add-to-list 'display-buffer-alist
     ;;              '("\\*\\(e?shell\\|.*vterm\\|ielm\\|.*eat\\)\\*"
@@ -346,29 +340,28 @@ Run this function at the post theme load phase, such as with the
     ;;                (side . right)
     ;;                (slot . 1)))
 
-    ;; (add-to-list 'display-buffer-alist
-    ;;              '("\\*Async" display-buffer-no-window
-    ;;                (allow-no-window . t)))
+    (add-to-list 'display-buffer-alist
+                 '("\\*Async Shell Command" display-buffer-no-window
+                   (allow-no-window . t)))
 
-    ;; (add-to-list 'display-buffer-alist
-    ;;              '("\\*Proced" display-buffer-same-window))
+    (add-to-list 'display-buffer-alist
+                 '("\\*Proced" display-buffer-same-window))
 
-    ;; (add-to-list 'display-buffer-alist
-    ;;              '("\\*Help\\*"
-    ;;                (display-buffer-reuse-window display-buffer-same-window)))
+    (add-to-list 'display-buffer-alist
+                 '("\\*Help\\*"
+                   (display-buffer-reuse-window display-buffer-same-window)))
 
-    ;; (add-to-list 'display-buffer-alist
-    ;;              '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
-    ;;                (display-buffer-reuse-window
-    ;;                 display-buffer-in-direction
-    ;;                 display-buffer-in-side-window)
-    ;;                (body-function . select-window)
-    ;;                (window-height . .40)
-    ;;                (window-width .  .50)
-    ;;                (direction . right)
-    ;;                (side . right)
-    ;;                (slot . 1)))
-    )
+    (add-to-list 'display-buffer-alist
+                 '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
+                   (display-buffer-reuse-window
+                    display-buffer-in-direction
+                    display-buffer-in-side-window)
+                   (body-function . select-window)
+                   (window-height . .40)
+                   (window-width .  .50)
+                   (direction . right)
+                   (side . right)
+                   (slot . 1))))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
