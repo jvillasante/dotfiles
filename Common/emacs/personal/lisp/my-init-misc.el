@@ -236,11 +236,11 @@
 (use-package avy)
 
 ;; Expand Region : expand or contract selection
-(use-package expand-region
-    :disabled t)
+(use-package expand-region)
 
 ;; Expreg : like expand-region but nicer
-(use-package expreg)
+(use-package expreg
+    :disabled t)
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
