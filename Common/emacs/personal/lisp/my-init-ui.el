@@ -320,13 +320,19 @@ Run this function at the post theme load phase, such as with the
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 (progn
+    ;; window split and resizing
     (setq window-combination-resize t)
-    (setq even-window-sizes 'height-only)
-    (setq window-sides-vertical nil)
-    (setq switch-to-buffer-in-dedicated-window 'pop)
     (setq split-height-threshold 80)
     (setq split-width-threshold 125)
-    (setq window-min-height 3)
+
+    ;; some default actions
+    (setq switch-to-buffer-obey-display-actions t
+          async-shell-command-display-buffer nil
+          fit-window-to-buffer-horizontally t
+          fit-frame-to-buffer t)
+    (setq display-buffer-base-action
+          '((display-buffer-reuse-window
+             display-buffer-in-previous-window)))
 
     ;; (add-to-list 'display-buffer-alist
     ;;              '("\\*\\(e?shell\\|.*vterm\\|ielm\\|.*eat\\)\\*"
