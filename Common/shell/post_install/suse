@@ -265,6 +265,7 @@ suse_install() {
                 sudo zypper install -y feh mpv qrencode findutils
                 sudo zypper install -y valgrind minicom mc strace tidy
                 sudo zypper install -y gnuplot
+                sudo zypper install -y telnet
 
                 # Node
                 sudo zypper install -y nodejs21 npm21

@@ -273,6 +273,7 @@ EOF
                 sudo apt install -y feh mpv qrencode findutils locate
                 sudo apt install -y ncurses-term
                 sudo apt install -y gnuplot
+                sudo apt install -y telnet
 
                 # Node
                 sudo apt install -y ca-certificates curl gnupg

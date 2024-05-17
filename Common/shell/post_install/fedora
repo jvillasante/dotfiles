@@ -265,6 +265,7 @@ fedora_install() {
                      libffi-devel findutils tk-devel libyaml-devel
                 sudo dnf install -y fortune-mod
                 sudo dnf install -y gnuplot
+                sudo dnf install -y telnet
 
                 # Gnome Software
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
