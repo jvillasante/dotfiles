@@ -138,6 +138,7 @@
     (fancy-compilation-override-colors nil))
 
 (use-package compiler-explorer
+    :defer t
     :vc (:fetcher github :repo "mkcms/compiler-explorer.el"))
 
 (provide 'my-init-lang-tools)
