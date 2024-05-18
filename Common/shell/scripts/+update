@@ -132,6 +132,7 @@ emacs_update() {
     [[ "$XDG_SESSION_TYPE" == wayland ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
     ./configure \
         $EMACS_WINDOW_SYSTEM_OPTION \
+        --with-x-toolkit=lucid \
         --without-compress-install \
         --with-native-compilation=aot \
         --with-tree-sitter \
