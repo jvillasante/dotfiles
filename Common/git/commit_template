@@ -13,20 +13,20 @@ Add your title here
 # Describe the purpose, such as a goal, or use case, or user story, etc.
 # For every line, use 72 char maximum width, which is this line's width.
 ########################################################################
-Why:
+# Why:
 
 ########################################################################
 # How is this change happening?
 # Describe any relevant algorithms, protocols, implementation spec, etc.
 # For every line, use 72 char maximum width, which is this line's width.
 ########################################################################
-How:
+# How:
 
 ########################################################################
 # Add any tags you want, such as search text, hashtags, keywords, codes.
 # For every line, use 72 char maximum width, which is this line's width.
 ########################################################################
-Tags:
+# Tags:
 
 ########################################################################
 #
