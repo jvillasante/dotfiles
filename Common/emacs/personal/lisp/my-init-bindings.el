@@ -207,8 +207,11 @@
     (global-set-key (kbd "C-x 4 l") 'langtool-switch-default-language)
     (global-set-key (kbd "C-x 4 4") 'langtool-show-message-at-point))
 
-(with-eval-after-load 'magit
-    (global-set-key (kbd "C-x g") 'magit-status))
+(when (package-installed-p 'magit)
+    (global-set-key (kbd "C-x g") 'magit-status)
+    (with-eval-after-load 'magit
+        (define-key magit-status-mode-map (kbd "q") 'my--magit-kill-buffers)
+        (define-key magit-status-mode-map (kbd "C-x k") 'my--magit-kill-buffers)))
 
 (with-eval-after-load 'org
     (define-key org-mode-map [remap fill-paragraph] 'my--org-fill-or-unfill))
@@ -381,7 +384,7 @@
 (with-eval-after-load 'calc
     (define-key calc-mode-map (kbd "C-o") 'casual-main-menu))
 
-(when  (package-installed-p 'docker)
+(when (package-installed-p 'docker)
     (global-set-key (kbd "C-c o d") 'docker))
 
 ;;; Prefix
