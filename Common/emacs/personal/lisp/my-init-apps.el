@@ -36,6 +36,11 @@
                         (nntp-open-connection-function nntp-open-ssl-stream)
                         (nntp-port-number 563)))
 
+    (setq ;; init file
+     gnus-startup-file (expand-file-name "Apps/gnus/newsrc" my--dropbox-path)
+     gnus-save-newsrc-file nil
+     gnus-read-newsrc-file nil)
+
     (setq gnus-asynchronous t ;; async
           gnus-use-article-prefetch 15
           ;; article
@@ -191,7 +196,6 @@
     ;; you have finished reading.
     (advice-add #'elfeed-kill-buffer :after #'my--elfeed-delete-window-after-kill-buffer)
     :config
-    (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory))
     (setq elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
     (setq elfeed-search-title-min-width 60)
     (setq elfeed-search-title-max-width 100)
