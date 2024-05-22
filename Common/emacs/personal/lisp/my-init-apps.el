@@ -77,8 +77,7 @@
           gnus-sum-thread-tree-single-leaf "\\->"
           gnus-sum-thread-tree-vertical "|")
 
-    (with-eval-after-load 'gnus
-        (add-hook 'dired-mode-hook #'gnus-dired-mode))
+    (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
     (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
     (add-hook 'gnus-select-group-hook #'gnus-group-set-timestamp)
     (add-hook 'gnus-article-mode-hook #'(lambda () (text-scale-adjust 1)))
