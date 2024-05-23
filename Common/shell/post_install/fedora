@@ -90,7 +90,7 @@ fedora_install() {
 
     OPTIONS=(
         1 "Setup Defaults - Set some defaults (hostname, folders structure, global settings, etc)"
-        2 "Setup RPM Fussion - Update Kernel & RPM Fussion (reboot needed)"
+        2 "Setup RPM Fussion - Update Kernel, RPM Fussion & Firmware (reboot needed)"
         3 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
         4 "Install Software - Installs a bunch of my most used software"
         5 "Install Extras - Themes Fonts and Codecs"
@@ -203,7 +203,7 @@ fedora_install() {
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             2)
-                echo "$CHOICE) Setting up RPM Fussion"
+                echo "$CHOICE) Setting up RPM Fusion and Updating Firmware"
 
                 # update kernel
                 sudo dnf install -y gcc kernel-headers kernel-devel
@@ -218,6 +218,12 @@ fedora_install() {
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf install -y \*-firmware
+
+                # Update system firmware
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
 
                 read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
                 ;;
