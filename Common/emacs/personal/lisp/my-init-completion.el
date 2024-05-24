@@ -169,7 +169,7 @@
     (vertico-multiform-mode 1)
     :config
     (setq vertico-count 13)
-    (setq vertico-resize t)
+    (setq vertico-resize nil)
     (setq vertico-multiform-categories
           '((t reverse)))
     (setq vertico-multiform-commands
