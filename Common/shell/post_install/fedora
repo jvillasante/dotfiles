@@ -50,6 +50,10 @@ install_berkeley_mono_font() {
 
     # Build font information caches
     fc-cache -f
+
+    if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+        gsettings set org.gnome.desktop.interface monospace-font-name 'Berkeley Mono'
+    fi
 }
 
 fedora_install() {
@@ -189,6 +193,11 @@ fedora_install() {
 
                     # Set fractional scaling (only for wayland)
                     # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+
+                    # font
+                    gsettings set org.gnome.desktop.interface font-hinting 'full'
+                    gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
+                    gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
 
                     # Stop Gnome Software downloading updates
                     # gsettings set org.gnome.software allow-updates false

@@ -48,11 +48,11 @@
           (lambda ()
               (setq x-underline-at-descent-line nil)
               (set-face-attribute 'default nil :family "Berkeley Mono"
-                                  :height 160
+                                  :height 140
                                   :width 'normal
                                   :weight 'normal)
               (set-face-attribute 'variable-pitch nil :family "Berkeley Mono Variable"
-                                  :height 160
+                                  :height 140
                                   :width 'normal
                                   :weight 'normal)))
 
