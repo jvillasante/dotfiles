@@ -52,13 +52,9 @@
                                   :height 140
                                   :weight 'regular)
               (set-face-attribute 'fixed-pitch nil
-                                  :family "Berkeley Mono"
-                                  :height 140
-                                  :weight 'regular)
+                                  :family "Berkeley Mono")
               (set-face-attribute 'variable-pitch nil
-                                  :family "Berkeley Mono Variable"
-                                  :height 140
-                                  :weight 'regular)))
+                                  :family "Berkeley Mono Variable")))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook 'variable-pitch-mode)
