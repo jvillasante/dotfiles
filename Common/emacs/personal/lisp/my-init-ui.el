@@ -50,7 +50,8 @@
               (set-face-attribute 'default nil
                                   :family "Berkeley Mono"
                                   :height 140
-                                  :weight 'regular)
+                                  :width  'normal
+                                  :weight 'normal)
               (set-face-attribute 'fixed-pitch nil
                                   :family "Berkeley Mono")
               (set-face-attribute 'variable-pitch nil
