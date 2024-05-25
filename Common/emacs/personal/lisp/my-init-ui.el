@@ -47,21 +47,21 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
               (setq x-underline-at-descent-line nil)
-              (set-face-attribute 'default nil :family "Berkeley Mono"
+              (set-face-attribute 'default nil
+                                  :family "Berkeley Mono"
                                   :height 140
-                                  :width 'normal
-                                  :weight 'normal)
-              (set-face-attribute 'variable-pitch nil :family "Berkeley Mono Variable"
+                                  :weight 'regular)
+              (set-face-attribute 'fixed-pitch nil
+                                  :family "Berkeley Mono"
                                   :height 140
-                                  :width 'normal
-                                  :weight 'normal)))
+                                  :weight 'regular)
+              (set-face-attribute 'variable-pitch nil
+                                  :family "Berkeley Mono Variable"
+                                  :height 140
+                                  :weight 'regular)))
 
 ;; Use variable-pitch fonts
-(add-hook 'text-mode-hook (lambda ()
-                              (setq-local line-spacing 0.1)))
-(add-hook 'org-mode-hook 'variable-pitch-mode)
-(add-hook 'markdown-mode-hook 'variable-pitch-mode)
-(add-hook 'nov-mode-hook 'variable-pitch-mode)
+(add-hook 'text-mode-hook 'variable-pitch-mode)
 
 ;; Set default frame title
 (setq-default frame-title-format
