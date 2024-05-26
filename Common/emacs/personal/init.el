@@ -58,6 +58,17 @@
                        "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH"))
             (exec-path-from-shell-copy-env var))))
 
+;; Idle garbage collection
+(use-package gcmh
+    :config
+    ;; (setopt garbage-collection-messages t)
+    ;; (setopt gcmh-high-cons-threshold (* 256 1000 1000))
+    ;; (setopt gcmh-low-cons-threshold (* 16 1000 1000))
+    ;; (setopt gcmh-idle-delay 3)
+    ;; (setopt gcmh-verbose t)
+    ;; (setopt gc-cons-percentage 0.2)
+    (add-hook 'after-init-hook #'gcmh-mode))
+
 ;; no-littering needs to come first
 (use-package no-littering)
 
