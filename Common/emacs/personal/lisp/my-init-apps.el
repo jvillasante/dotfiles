@@ -89,6 +89,11 @@
     :ensure nil ;; emacs built-in
     :init (setq eww-search-prefix "https://duckduckgo.com/?q="))
 
+;; calc
+(use-package calc-mode
+    :ensure nil ;; emacs built-in
+    :config (setq calc-window-height 20))
+
 ;; casual : Transient-based porcelain for Emacs Calc.
 (use-package casual :defer t)
 
