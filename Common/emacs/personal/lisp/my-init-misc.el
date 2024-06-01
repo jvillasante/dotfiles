@@ -233,7 +233,11 @@
     (editorconfig-mode 1))
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
-(use-package avy)
+(use-package avy
+    :config
+    (setq avy-orders-alist
+          '((avy-goto-char-timer . avy-order-closest)
+            (avy-goto-line . avy-order-closest))))
 
 ;; Expand Region : expand or contract selection
 (use-package expand-region)
