@@ -303,7 +303,6 @@
             "https://drewdevault.com/blog/index.xml"
             "https://incolumitas.com/feeds/all.atom.xml"
             "http://www.mycpu.org/feed.xml"
-            "https://muit.tech/index.xml"
             "https://blog.codinghorror.com/rss/"
             "https://www.micahcantor.com/atom.xml"
             "https://kerkour.com/feed.xml"
