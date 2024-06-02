@@ -316,6 +316,7 @@
             "http://somethingfast.net/feed.rss.xml"
             "https://www.tedinski.com/feed.xml"
             "https://matklad.github.io/feed.xml"
+            "https://unixism.net/feed/"
             "https://thelinuxcode.com/feed/")))
 
 (provide 'my-init-apps)
