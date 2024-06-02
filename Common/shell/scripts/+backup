@@ -22,7 +22,8 @@ export BORG_CACHE_DIR=/home/"$USER"/.cache/borgbackup/
 export BORG_REPO=ssh://synology-backup.lan/volume1/BorgBackup
 
 # See the section "Passphrase notes" for more infos.
-export BORG_PASSPHRASE=$(pass Apps/borgbackup | head -n 1)
+BORG_PASSPHRASE=$(pass Apps/borgbackup | head -n 1)
+export BORG_PASSPHRASE
 
 usage() {
     echo "Usage:"
@@ -90,7 +91,6 @@ do_borg_backup() {
         --exclude '/home/*/Workspace/Work/Profishark/' \
         --exclude '/home/*/Workspace/Work/captures/' \
         --exclude '/home/*/Workspace/Work/agw/captures/' \
-        --exclude '/home/*/Workspace/Work/Projects/sm-*' \
         --exclude '/home/*/Workspace/Work/Projects/dmxs/bin' \
         --exclude '/home/*/Workspace/Work/Projects/dmxs/inc' \
         --exclude '/home/*/Workspace/Work/Projects/dmxs/lib' \
