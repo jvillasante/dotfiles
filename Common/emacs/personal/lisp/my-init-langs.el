@@ -6,13 +6,11 @@
 ;; treesit : treesitter for Emacs
 (use-package treesit
     :ensure nil ;; emacs built-in
-    :custom
-    (treesit-font-lock-level 4))
+    :custom (treesit-font-lock-level 4))
 
 ;; treesit-auto : Automatically install and use tree-sitter major modes in Emacs 29+.
 (use-package treesit-auto
-    :custom
-    (treesit-auto-install 'prompt)
+    :custom (treesit-auto-install 'prompt)
     :config
     (treesit-auto-add-to-auto-mode-alist 'all)
 

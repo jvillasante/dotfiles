@@ -5,8 +5,18 @@
 
 (use-package org
     :ensure nil ;; emacs built-in
-    :init
-    (with-eval-after-load 'org
+    :preface
+    (defun my--org-setup ()
+        ;; org wants 8 as tab-width
+        (setq-local tab-width 8)
+        (setq-local indent-tabs-mode nil)
+
+        ;; disable auto-pairing of "<" in org-mode
+        (setq-local electric-pair-inhibit-predicate
+                    `(lambda (c)
+                         (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))
+
+        ;; setup org-babel languages
         (org-babel-do-load-languages
          'org-babel-load-languages
          '((awk . t)
@@ -29,8 +39,8 @@
            (scheme . t)
            ;; (sh . t)
            (sql . t)
-           ;; (sqlite . t)
-           )))
+           (sqlite . t))))
+    :hook ((org-mode . my--org-setup))
     :config
     (setq org-directory (expand-file-name "Apps/org" my--dropbox-path))
     (setq org-id-locations-file (file-name-concat org-directory ".orgids"))
@@ -52,13 +62,7 @@
     (setq org-hide-emphasis-markers t)
 
     ;; Hide the first N-1 stars in a headline.
-    (setq org-hide-leading-stars t)
-
-    ;; disable auto-pairing of "<" in org-mode
-    (add-hook 'org-mode-hook (lambda ()
-                                 (setq-local electric-pair-inhibit-predicate
-                                             `(lambda (c)
-                                                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c)))))))
+    (setq org-hide-leading-stars t))
 
 (use-package org-capture
     :ensure nil ;; emacs built-in
@@ -122,7 +126,6 @@
 
 ;; deft : plain text notes
 (use-package deft
-    :after org
     :custom ((deft-directory (expand-file-name "Apps/org/notes" my--dropbox-path))
              (deft-extensions '("org" "md" "txt"))
              (deft-default-extension "org")

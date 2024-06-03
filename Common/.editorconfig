@@ -37,3 +37,7 @@ indent_size = 2
 # javascript files uses 4 indent size (normally 2 but work makes me do this!)
 [*.js]
 indent_size = 4
+
+# org-mode insist on 8 tab width
+[*.org]
+indent_size = 8
