@@ -137,5 +137,9 @@
                                        (case-fn . downcase)))
              (deft-auto-save-interval 0)))
 
+;; verb :: allows you to organize and send HTTP requests.
+(use-package verb
+    :after org)
+
 (provide 'my-init-org)
 ;;; my-init-org.el ends here

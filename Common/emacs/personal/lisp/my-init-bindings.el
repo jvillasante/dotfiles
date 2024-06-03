@@ -215,7 +215,9 @@
         (define-key magit-status-mode-map (kbd "C-x k") 'my--magit-kill-buffers)))
 
 (with-eval-after-load 'org
-    (define-key org-mode-map [remap fill-paragraph] 'my--org-fill-or-unfill))
+    (define-key org-mode-map [remap fill-paragraph] 'my--org-fill-or-unfill)
+    (when (package-installed-p 'verb)
+        (define-key org-mode-map (kbd "C-c C-r") verb-command-map)))
 
 (with-eval-after-load 'markdown-mode
     (define-key markdown-mode-map (kbd "TAB") 'markdown-cycle))
