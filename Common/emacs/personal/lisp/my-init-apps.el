@@ -254,7 +254,6 @@
             "http://tristanbrindle.com/feed.xml"
             "http://templated-thoughts.blogspot.com/feeds/posts/default"
             "http://www.fluentcpp.com/feed/"
-            "https://pniedzielski.net/feed.xml"
             "https://dvmirchevcpp.blogspot.com/feeds/posts/default"
             "https://blog.galowicz.de//feed.xml"
             "https://baptiste-wicht.com/rss.xml"
