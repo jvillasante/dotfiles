@@ -695,7 +695,7 @@ fedora_install() {
                     systemctl --user daemon-reload
                     sleep 1 && systemctl --user enable emacs.service
                     sleep 1 && systemctl --user start emacs.service
-                    sleep 2 && systemctl --user status emacs.service
+                    sleep 1 && systemctl --user status emacs.service
                 fi
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
