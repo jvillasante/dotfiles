@@ -120,24 +120,30 @@ emacs_update() {
     make clean && make distclean
     git reset --hard HEAD
     sudo git clean -dfx
-    git pull
 
-    # Build (emacs-29) and install
+    # Setup git branch
     local BRANCH
     BRANCH=$(git branch --show-current)
     [[ "$BRANCH" != emacs-29 ]] && git checkout emacs-29
-    ./autogen.sh
+    # [[ "$BRANCH" != master ]] && git checkout master
+    git fetch && git pull
 
-    EMACS_WINDOW_SYSTEM_OPTION=--with-x
-    [[ "$XDG_SESSION_TYPE" == wayland ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
+    # Build and install
+    ./autogen.sh
     ./configure \
-        $EMACS_WINDOW_SYSTEM_OPTION \
+        --prefix=/usr/local \
+        --with-pgtk \
         --without-compress-install \
         --with-native-compilation=aot \
         --with-tree-sitter \
         --with-json \
         --with-mailutils \
-        CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
+        CFLAGS="-O3 -fno-math-errno -funsafe-math-optimizations -fno-finite-math-only -fno-trapping-math \
+                  -freciprocal-math -fno-rounding-math -fno-signaling-nans \
+                  -fassociative-math -fno-signed-zeros -frename-registers -funroll-loops \
+                  -mtune=native -march=native -fomit-frame-pointer \
+                  -fallow-store-data-races -fno-semantic-interposition -floop-parallelize-all \
+                  -ftree-parallelize-loops=4"
     make -j"$(nproc --ignore=2)"
     sudo make install
 

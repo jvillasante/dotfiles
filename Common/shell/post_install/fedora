@@ -609,9 +609,22 @@ fedora_install() {
                 hash emacs 2> /dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
 
                 # Install dependencies
+                sudo dnf group install "Development Tools"
                 sudo dnf -y builddep emacs
-                sudo dnf install -y libgccjit libgccjit-devel gtk3 gtk3-devel gtk4 gtk4-devel \
-                     libtree-sitter libtree-sitter-devel jansson-devel libvterm-devel gnutls-devel
+
+                # images packages install
+                sudo dnf install -y Xaw3d Xaw3d-devel libpng libpng-devel zlib libjpeg-turbo libjpeg-devel \
+                     libtiff libtiff-devel giflib giflib-devel librsvg2 librsvg2-devel libwebp libwebp-devel \
+                     ImageMagick ImageMagick-devel
+
+                # emacs packages install
+                sudo dnf install -y autoconf gnutls-devel gmp-devel gtk3-devel gtk4-devel jansson-devel \
+                     libgccjit libgccjit-devel libmpc-devel libvterm-devel mpfr-devel ncurses-devel texinfo
+
+                # tree-sitter packages
+                sudo dnf install -y libtree-sitter libtree-sitter-devel tree-sitter-cli gcc-c++
+
+                # enchant package (jinx)
                 sudo dnf install -y enchant2-devel pkgconf # necessary for jinx
 
                 # Prepare git repo
@@ -632,24 +645,31 @@ fedora_install() {
                     make clean && make distclean
                     git reset --hard HEAD
                     sudo git clean -dfx
-                    git pull
                 fi
 
-                # Build (emacs-29)
-                git checkout emacs-29
-                ./autogen.sh
+                # Setup git branch
+                local BRANCH
+                BRANCH=$(git branch --show-current)
+                [[ "$BRANCH" != emacs-29 ]] && git checkout emacs-29
+                # [[ "$BRANCH" != master ]] && git checkout master
+                git fetch && git pull
 
                 # Install
-                EMACS_WINDOW_SYSTEM_OPTION=--with-x
-                [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
+                ./autogen.sh
                 ./configure \
-                    $EMACS_WINDOW_SYSTEM_OPTION \
+                    --prefix=/usr/local \
+                    --with-pgtk \
                     --without-compress-install \
                     --with-native-compilation=aot \
                     --with-tree-sitter \
                     --with-json \
                     --with-mailutils \
-                    CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
+                    CFLAGS="-O3 -fno-math-errno -funsafe-math-optimizations -fno-finite-math-only -fno-trapping-math \
+                  -freciprocal-math -fno-rounding-math -fno-signaling-nans \
+                  -fassociative-math -fno-signed-zeros -frename-registers -funroll-loops \
+                  -mtune=native -march=native -fomit-frame-pointer \
+                  -fallow-store-data-races -fno-semantic-interposition -floop-parallelize-all \
+                  -ftree-parallelize-loops=4"
                 make -j"$(nproc --ignore=2)"
                 sudo make install
 
