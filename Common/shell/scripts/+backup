@@ -86,17 +86,17 @@ do_borg_backup() {
         --exclude '/home/*/Dropbox' \
         --exclude '/home/*/Workspace/Public/' \
         --exclude '/home/*/Workspace/Software/' \
-        --exclude '/home/*/Workspace/Work/Firmware/' \
-        --exclude '/home/*/Workspace/Work/Software/' \
-        --exclude '/home/*/Workspace/Work/Profishark/' \
-        --exclude '/home/*/Workspace/Work/captures/' \
-        --exclude '/home/*/Workspace/Work/agw/captures/' \
-        --exclude '/home/*/Workspace/Work/Projects/dmxs/bin' \
-        --exclude '/home/*/Workspace/Work/Projects/dmxs/inc' \
-        --exclude '/home/*/Workspace/Work/Projects/dmxs/lib' \
-        --exclude '/home/*/Workspace/Work/Projects/dmxs/pkg' \
-        --exclude '/home/*/Workspace/Work/Projects/dmxs/models/generated' \
-        --exclude '/home/*/Workspace/Work/Projects/dmxs/models/test' \
+        --exclude '/home/*/Workspace/Work/Nielsen/Firmware/' \
+        --exclude '/home/*/Workspace/Work/Nielsen/Software/' \
+        --exclude '/home/*/Workspace/Work/Nielsen/Profishark/' \
+        --exclude '/home/*/Workspace/Work/Nielsen/captures/' \
+        --exclude '/home/*/Workspace/Work/Nielsen/agw/captures/' \
+        --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/bin' \
+        --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/inc' \
+        --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/lib' \
+        --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/pkg' \
+        --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/models/generated' \
+        --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/models/test' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/bin/' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/build/' \
         --exclude 're:/*var/cache/' \
