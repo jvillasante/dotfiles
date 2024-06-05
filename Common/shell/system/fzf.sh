@@ -38,7 +38,7 @@ if type fzf > /dev/null 2> /dev/null; then
     fproj() {
         local selected tmux_running selected_name
         selected=$(find "$HOME"/Workspace/Private/Projects/*/ "$HOME"/Workspace/Public \
-                        "$HOME"/Workspace/Work/Projects -mindepth 1 -maxdepth 1 -type d | fzf)
+                        "$HOME"/Workspace/Work/Nielsen/Projects -mindepth 1 -maxdepth 1 -type d | fzf)
         [[ -z $selected ]] && return
 
         selected_name=$(basename "$selected" | tr . _)
