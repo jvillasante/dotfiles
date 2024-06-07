@@ -31,6 +31,11 @@
 ;; activate `mouse-avoidance-mode'
 (mouse-avoidance-mode 'cat-and-mouse)
 
+;; avoid inadvertently changing font size when scrolling
+(global-set-key (kbd "<pinch>") 'ignore)
+(global-set-key (kbd "<C-wheel-up>") 'ignore)
+(global-set-key (kbd "<C-wheel-down>") 'ignore)
+
 ;; emacs29 mouse settings
 (setq dired-mouse-drag-files t)
 (setq mouse-drag-and-drop-region-cross-program t)
