@@ -80,24 +80,6 @@
     (my/setup-install-grammars)
     (setq treesit-font-lock-level 4))
 
-;; treesit : treesitter for Emacs
-;; (use-package treesit
-;;     :ensure nil ;; emacs built-in
-;;     :custom (treesit-font-lock-level 4))
-
-;; treesit-auto : Automatically install and use tree-sitter major modes in Emacs 29+.
-;; (use-package treesit-auto
-;;     :custom (treesit-auto-install 'prompt)
-;;     :config
-;;     (delete 'janet treesit-auto-langs)
-;;     (treesit-auto-add-to-auto-mode-alist 'all)
-
-;;     ;; Workaround for https://github.com/renzmann/treesit-auto/issues/76
-;;     (setq major-mode-remap-alist (treesit-auto--build-major-mode-remap-alist))
-
-;;     ;; enable globally
-;;     (global-treesit-auto-mode))
-
 ;; elisp
 (use-package elisp-mode
     :ensure nil ;; emacs built-in
