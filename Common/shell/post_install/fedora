@@ -51,9 +51,9 @@ install_berkeley_mono_font() {
     # Build font information caches
     fc-cache -f
 
-    if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-        gsettings set org.gnome.desktop.interface monospace-font-name 'Berkeley Mono'
-    fi
+    # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+    #     gsettings set org.gnome.desktop.interface monospace-font-name 'Berkeley Mono'
+    # fi
 }
 
 fedora_install() {
