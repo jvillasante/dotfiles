@@ -12,8 +12,8 @@ if type fzf > /dev/null 2> /dev/null; then
 
     # Options to fzf command
     # export FZF_TMUX_OPTS="-u40%"
-    # export FZF_DEFAULT_OPTS='--height 40% --ansi --extended --layout=reverse --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
-    export FZF_DEFAULT_OPTS='--height 40% --ansi --extended --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
+    export FZF_DEFAULT_OPTS='--height 40% --ansi --extended --layout=reverse --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
+    # export FZF_DEFAULT_OPTS='--height 40% --ansi --extended --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 

@@ -166,24 +166,9 @@
 (use-package vertico
     :init
     (vertico-mode 1)
-    (vertico-multiform-mode 1)
     :config
-    (setq vertico-count 13)
+    (setq vertico-count 15)
     (setq vertico-resize nil)
-    (setq vertico-multiform-categories
-          '((t reverse)))
-    (setq vertico-multiform-commands
-          '((consult-ripgrep buffer)
-            (consult-project-buffer buffer)
-            ;; (consult-line buffer)
-            ;; (consult-line-thing-at-point buffer)
-            ;; (consult-recent-file buffer)
-            ;; (consult-mode-command buffer)
-            ;; (consult-complex-command buffer)
-            ;; (embark-bindings buffer)
-            ;; (consult-locate buffer)
-            ;; (consult-fd buffer)
-            ))
 
     ;; This works with `file-name-shadow-mode' enabled.  When you are in
     ;; a sub-directory and use, say, `find-file' to go to your home '~/'
