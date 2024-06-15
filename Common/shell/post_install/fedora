@@ -279,7 +279,7 @@ fedora_install() {
                 sudo dnf install -y ripgrep fd-find util-linux-user xprop xwininfo htop btop nvtop
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
-                sudo dnf install -y curl dnsutils dos2unix doxygen msmtp fastfetch
+                sudo dnf install -y dnsutils dos2unix doxygen msmtp fastfetch
                 sudo dnf install -y graphviz htop mercurial ninja-build
                 sudo dnf install -y nodejs npm python3 python3-pip
                 sudo dnf install -y pandoc poppler poppler-utils poppler-data
@@ -290,7 +290,11 @@ fedora_install() {
                 sudo dnf install -y tar unar unrar unzip p7zip p7zip-plugins
                 sudo dnf install -y ImageMagick ImageMagick-devel ffmpegthumbnailer mediainfo
                 sudo dnf install -y sqlite sqlite-devel
+                sudo dnf install -y curl libcurl libcurl-devel
                 sudo dnf install -y valgrind minicom mc strace tidy
+                sudo dnf install -y libatomic libatomic-static
+                sudo dnf install -y libunwind libunwind-devel
+                sudo dnf install -y gperftools gperftools-libs gperftools-devel
                 sudo dnf install -y ffmpegthumbnailer mediainfo
                 sudo dnf install -y feh mpv eza
                 sudo dnf install -y ncurses-term
