@@ -205,6 +205,24 @@ fedora_install() {
                     # gsettings set org.gnome.software download-updates-notify false
                 fi
 
+                #
+                # Grub
+                #
+
+                # Grub should load in graphical mode and the resolution should be right
+                sudo cp /etc/default/grub /etc/default/grub.bak
+                sudo sed -i 's/GRUB_TERMINAL_OUTPUT="console"/GRUB_TERMINAL_OUTPUT="gfxterm"/' /etc/default/grub
+
+                # TODO: add nvidia_drm.modeset=1 to the end of GRUB_CMDLINE_LINUX in /etc/default/grub
+
+                # Apply Grub configuration
+                sudo cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.bak
+                sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
+                # ...
+                sed '/3696/ s/$/running/' file.txt
+                sed '/3696/ s/$/running/' file.txt
+
                 # Setup dnf configs and update
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
                 sudo dnf upgrade -y --refresh
@@ -247,6 +265,11 @@ fedora_install() {
                 sudo dnf install -y vulkan vulkan-tools
                 sudo dnf install -y xorg-x11-drv-nvidia-power
                 systemctl enable nvidia-{suspend,resume,hibernate}
+
+                # Add to Dracut/Plymouth Fix
+                echo -e '# Custom Settings\nforce_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |\
+                    sudo tee -a /etc/dracut.conf.d/nvidia.conf
+                sudo dracut -f
 
                 read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
                 ;;
@@ -463,7 +486,12 @@ fedora_install() {
                 #
                 # Wireguard
                 #
-                # sudo dnf install -y wireguard-tools
+                sudo dnf install -y wireguard-tools
+
+                #
+                # OpenVPN
+                #
+                sudo dnf install openvpn
 
                 #
                 # Docker
@@ -532,6 +560,7 @@ fedora_install() {
                 # flatpak install --user -y flathub org.gnucash.GnuCash
                 # flatpak install --user -y flathub com.skype.Client
                 # flatpak install --user -y flathub com.valvesoftware.Steam
+                # flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
                 # flatpak install --user -y flathub im.riot.Riot
                 # flatpak install --user -y flathub com.obsproject.Studio
                 # flatpak install --user -y flathub com.brave.Browser
