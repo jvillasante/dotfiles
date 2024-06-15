@@ -38,7 +38,8 @@ if type fzf > /dev/null 2> /dev/null; then
     fproj() {
         local selected tmux_running selected_name
         selected=$(find "$HOME"/Workspace/Private/Projects/*/ "$HOME"/Workspace/Public \
-                        "$HOME"/Workspace/Work/Nielsen/Projects -mindepth 1 -maxdepth 1 -type d | fzf)
+                        "$HOME"/Workspace/Work/Nielsen/Projects "$HOME"/Workspace/Work/Omicron/Projects \
+                        -mindepth 1 -maxdepth 1 -type d | fzf)
         [[ -z $selected ]] && return
 
         selected_name=$(basename "$selected" | tr . _)
@@ -51,6 +52,11 @@ if type fzf > /dev/null 2> /dev/null; then
 
         if [[ sm2-dhcpee = "$selected_name" ]]; then
             "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/dhcpee.session" "$selected" "$selected_name"
+            return
+        fi
+
+        if [[ nntpcode = "$selected_name" ]]; then
+            "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/nntpcode.session" "$selected" "$selected_name"
             return
         fi
 

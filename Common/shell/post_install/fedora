@@ -219,10 +219,6 @@ fedora_install() {
                 sudo cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.bak
                 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
-                # ...
-                sed '/3696/ s/$/running/' file.txt
-                sed '/3696/ s/$/running/' file.txt
-
                 # Setup dnf configs and update
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
                 sudo dnf upgrade -y --refresh
