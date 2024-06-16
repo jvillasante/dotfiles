@@ -17,7 +17,7 @@ configure() {
     local image="nntp:latest"
 
     tmux send-keys -t "$selected_name" \
-         "docker run --rm --interactive --tty --volume $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp nntp:latest /bin/bash" Enter
+         "docker run --user nntpuser --rm --interactive --tty --volume $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp nntp:latest /bin/bash" Enter
     tmux send-keys -t "$selected_name" "mkdir build && cd build && ln -s ../Makefile" Enter
     tmux send-keys -t "$selected_name" "clear" Enter
 }
