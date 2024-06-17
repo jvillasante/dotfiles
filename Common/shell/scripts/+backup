@@ -97,6 +97,7 @@ do_borg_backup() {
         --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/pkg' \
         --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/models/generated' \
         --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/models/test' \
+        --exclude '/home/*/Workspace/Work/Omicron/Projects/nntpcode/build' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/bin/' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/build/' \
         --exclude 're:/*var/cache/' \
