@@ -63,20 +63,14 @@ if type emacs > /dev/null 2> /dev/null; then
     export VISUAL="emacsclient -c -a ''"   # $VISUAL opens in GUI and waits
     export EDITOR="$VISUAL"
 
-    function e        { emacsclient -c -a '' --eval \
-                        "(progn (select-frame-set-input-focus (selected-frame)) (find-file \"$1\"))"; }
-    function et       { emacsclient -t -a '' --eval \
-                        "(progn (find-file \"$1\"))"; }
-    function ediff    { emacsclient -c -a '' --eval \
-                        "(progn (select-frame-set-input-focus (selected-frame)) (ediff-files \"$1\" \"$2\"))"; }
-    function edired   { emacsclient -c -a '' --eval \
-                        "(progn (select-frame-set-input-focus (selected-frame)) (dired \"$1\"))"; }
-    function emagit   { emacsclient -c -a '' --eval \
-                        "(progn (select-frame-set-input-focus (selected-frame)) (magit-status \"$1\"))"; }
+    function e        { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (find-file \"$1\"))"; }
+    function et       { emacsclient -t -a '' --eval "(progn (find-file \"$1\"))"; }
+    function ediff    { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (ediff-files \"$1\" \"$2\"))"; }
+    function edired   { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (dired \"$1\"))"; }
+    function emagit   { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (magit-status \"$1\"))"; }
     function ekill    { emacsclient --eval '(save-buffers-kill-emacs)'; }
     function estatus  { systemctl --user status emacs.service; }
-    function edebug   { emacs --debug-init \
-                        --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/personal/ "$@"; }
+    function edebug   { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/personal/ "$@"; }
     function eminimal { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal/ "$@"; }
 
     # eat alias to open a file inside emacs
