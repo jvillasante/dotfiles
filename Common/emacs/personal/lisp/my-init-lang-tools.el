@@ -66,6 +66,9 @@
     (setq eglot-confirm-server-initiated-edits nil)
     (setq eglot-ignored-server-capabilities
           '(;; :documentHighlightProvider
+            ;; :documentFormattingProvider
+            ;; :documentRangeFormattingProvider
+            :documentOnTypeFormattingProvider
             :inlayHintProvider))
 
     ;; Setting the workspace configuration for every buffer, this can also be
