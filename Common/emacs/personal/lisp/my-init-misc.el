@@ -101,6 +101,9 @@
             (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
             (ad-activate 'isearch-search))))
 
+;; casual-isearch : A Transient menu for I-Search
+(use-package casual-isearch)
+
 ;; saveplace : remembers your location in a file when saving files
 (use-package saveplace
     :ensure nil ;; emacs built-in

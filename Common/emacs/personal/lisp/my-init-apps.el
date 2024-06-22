@@ -94,8 +94,8 @@
     :ensure nil ;; emacs built-in
     :config (setq calc-window-height 20))
 
-;; casual : Transient-based porcelain for Emacs Calc.
-(use-package casual :defer t)
+;; casual-calc : Transient-based porcelain for Emacs Calc.
+(use-package casual-calc)
 
 ;; nov : Major mode for reading EPUBs in Emacs
 (use-package nov

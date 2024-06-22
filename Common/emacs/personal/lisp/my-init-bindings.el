@@ -74,8 +74,10 @@
     ;; Prevents issue where you have to press backspace twice when trying to remove the first character that fails a search
     (define-key isearch-mode-map [remap isearch-delete-char] 'isearch-del-char)
     (define-key isearch-mode-map (kbd "C-o") 'isearch-occur) ; occur
-    (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward) ; better navigation
-    (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)) ; better navigation
+    (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward)
+    (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)
+    (when (package-installed-p 'casual-isearch)
+        (define-key isearch-mode-map (kbd "<f2>") 'casual-isearch-tmenu)))
 
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
@@ -385,7 +387,8 @@
     (define-key nov-mode-map (kbd "q") nil))
 
 (with-eval-after-load 'calc
-    (define-key calc-mode-map (kbd "C-o") 'casual-main-menu))
+    (when  (package-installed-p 'casual-calc)
+        (define-key calc-mode-map (kbd "C-o") 'casual-calc-tmenu)))
 
 (when (package-installed-p 'docker)
     (global-set-key (kbd "C-c o d") 'docker))

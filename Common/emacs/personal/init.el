@@ -95,7 +95,7 @@
 (load (expand-file-name "lisp/my-init-ui" user-emacs-directory))
 (load (expand-file-name "lisp/my-init-ai" user-emacs-directory))
 (load (expand-file-name "lisp/my-init-bindings" user-emacs-directory))
-(load (expand-file-name "lisp/my-init-transient" user-emacs-directory))
+;; (load (expand-file-name "lisp/my-init-transient" user-emacs-directory))
 (load (expand-file-name "lisp/modus-themes-exporter" user-emacs-directory))
 
 (provide 'init)
