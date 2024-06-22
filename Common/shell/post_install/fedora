@@ -411,6 +411,9 @@ fedora_install() {
                 fi
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
+                # Ulauncher
+                sudo dnf install -y ulauncher wmctrl
+
                 # Go
                 sudo dnf install -y go
 
