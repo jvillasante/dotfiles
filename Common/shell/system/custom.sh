@@ -111,10 +111,10 @@ alias reboot='systemctl reboot'
 alias poweroff='systemctl poweroff'
 
 # eza (ls replacement)
-if type eza > /dev/null 2> /dev/null; then
-    alias ls='eza --git --group-directories-first --color=automatic'
-    alias ll='eza -agFlh --git --group-directories-first --color=automatic'
-fi
+# if type eza > /dev/null 2> /dev/null; then
+#     alias ls='eza --git --group-directories-first --color=automatic'
+#     alias ll='eza -agFlh --git --group-directories-first --color=automatic'
+# fi
 
 # ripgrep
 if type rg > /dev/null 2> /dev/null; then
