@@ -75,9 +75,7 @@
     (define-key isearch-mode-map [remap isearch-delete-char] 'isearch-del-char)
     (define-key isearch-mode-map (kbd "C-o") 'isearch-occur) ; occur
     (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward)
-    (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)
-    (when (package-installed-p 'casual-isearch)
-        (define-key isearch-mode-map (kbd "<f2>") 'casual-isearch-tmenu)))
+    (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward))
 
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
@@ -350,9 +348,7 @@
     (global-set-key (kbd "C-h D") 'devdocs-browser-open))
 
 (with-eval-after-load 'dired
-    (define-key dired-mode-map (kbd "E") 'dired-toggle-read-only)
-    (when  (package-installed-p 'casual-dired)
-        (define-key dired-mode-map (kbd "C-o") 'casual-dired-tmenu)))
+    (define-key dired-mode-map (kbd "E") 'dired-toggle-read-only))
 
 (with-eval-after-load 'dired-x
     (define-key dired-mode-map (kbd ".") 'dired-omit-mode))
@@ -385,10 +381,6 @@
 
 (with-eval-after-load 'nov
     (define-key nov-mode-map (kbd "q") nil))
-
-(with-eval-after-load 'calc
-    (when  (package-installed-p 'casual-calc)
-        (define-key calc-mode-map (kbd "C-o") 'casual-calc-tmenu)))
 
 (when (package-installed-p 'docker)
     (global-set-key (kbd "C-c o d") 'docker))

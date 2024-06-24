@@ -3,87 +3,27 @@
 ;;
 ;;; Code:
 
-(require 'transient)
+(use-package casual-suite)
 
-(use-package transient-dwim
-    :bind ("M-s =" . transient-dwim-dispatch))
+(use-package casual-calc
+    :requires casual-suite
+    :bind (:map calc-mode-map ("C-o" . casual-calc-tmenu)))
 
-;; Transient menu for isearch.
-(transient-define-prefix my--isearch-menu-transient ()
-    [["Edit Search String"
-      ("e"
-       "Edit the search string (recursive)"
-       isearch-edit-string
-       :transient nil)
-      ("w"
-       "Pull next word or character word from buffer"
-       isearch-yank-word-or-char
-       :transient nil)
-      ("s"
-       "Pull next symbol or character from buffer"
-       isearch-yank-symbol-or-char
-       :transient nil)
-      ("l"
-       "Pull rest of line from buffer"
-       isearch-yank-line
-       :transient nil)
-      ("y"
-       "Pull string from kill ring"
-       isearch-yank-kill
-       :transient nil)
-      ("t"
-       "Pull thing from buffer"
-       isearch-forward-thing-at-point
-       :transient nil)]
+(use-package casual-info
+    :requires casual-suite
+    :bind (:map Info-mode-map ("C-o" . casual-info-tmenu)))
 
-     ["Replace"
-      ("q"
-       "Start ‘query-replace’"
-       isearch-query-replace
-       :if-nil buffer-read-only
-       :transient nil)
-      ("x"
-       "Start ‘query-replace-regexp’"
-       isearch-query-replace-regexp
-       :if-nil buffer-read-only
-       :transient nil)]]
+(use-package casual-dired
+    :requires casual-suite
+    :bind (:map dired-mode-map ("C-o" . casual-dired-tmenu)))
 
-    [["Toggle"
-      ("X"
-       "Regexp searching"
-       isearch-toggle-regexp
-       :transient nil)
-      ("S"
-       "Symbol searching"
-       isearch-toggle-symbol
-       :transient nil)
-      ("W"
-       "Word searching"
-       isearch-toggle-word
-       :transient nil)
-      ("F"
-       "Case fold"
-       isearch-toggle-case-fold
-       :transient nil)
-      ("L"
-       "Lax whitespace"
-       isearch-toggle-lax-whitespace
-       :transient nil)]
+(use-package casual-avy
+    :requires casual-suite
+    :bind ("M-g" . casual-avy-tmenu))
 
-     ["Misc"
-      ("o"
-       "occur"
-       isearch-occur
-       :transient nil)
-      ("h"
-       "highlight"
-       isearch-highlight-regexp
-       :transient nil)
-      ("H"
-       "highlight lines"
-       isearch-highlight-lines-matching-regexp
-       :transient nil)]])
-(define-key isearch-mode-map (kbd "M-s =") 'my--isearch-menu-transient)
+(use-package casual-isearch
+    :requires casual-suite
+    :bind (:map isearch-mode-map ("<f2>" . casual-isearch-tmenu)))
 
 (provide 'my-init-transient)
 ;;; my-init-transient.el ends here
