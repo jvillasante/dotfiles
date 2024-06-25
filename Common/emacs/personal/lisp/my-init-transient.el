@@ -17,9 +17,9 @@
     :requires casual-suite
     :bind (:map dired-mode-map ("C-o" . casual-dired-tmenu)))
 
-(use-package casual-avy
-    :requires casual-suite
-    :bind ("M-g" . casual-avy-tmenu))
+;; (use-package casual-avy
+;;     :requires casual-suite
+;;     :bind ("M-g" . casual-avy-tmenu))
 
 (use-package casual-isearch
     :requires casual-suite
