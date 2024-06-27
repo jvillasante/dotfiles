@@ -327,15 +327,6 @@ Run this function at the post theme load phase, such as with the
     (setq split-height-threshold 80)
     (setq split-width-threshold 125)
 
-    ;; some default actions
-    (setq switch-to-buffer-obey-display-actions t
-          async-shell-command-display-buffer nil
-          fit-window-to-buffer-horizontally t
-          fit-frame-to-buffer t)
-    (setq display-buffer-base-action
-          '((display-buffer-reuse-window
-             display-buffer-in-previous-window)))
-
     ;; (add-to-list 'display-buffer-alist
     ;;              '("\\*\\(e?shell\\|.*vterm\\|ielm\\|.*eat\\)\\*"
     ;;                (display-buffer-reuse-window
