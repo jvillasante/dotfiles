@@ -100,8 +100,8 @@ SSH_KEY_PATH="$HOME/.ssh/dsa_id" && export SSH_KEY_PATH
 
 # utils
 alias hex="od -Ax -tx1z -v"
-alias ls="ls --group-directories-first --color"
-alias ll="ls -AlFh --group-directories-first --color"
+alias ls="ls --group-directories-first --color=auto"
+alias ll="ls -AlFh --group-directories-first --color=auto"
 alias cp="cp -iv"
 alias mv="mv -iv"
 alias rm="rm -I" # IMHO, much better than 'rm -i'
@@ -190,6 +190,7 @@ if type emacs > /dev/null 2> /dev/null; then
         SESSION_NAME=$1
 
         if [ "$SESSION_NAME" == "ls" ]; then
+            # shellcheck disable=SC2033
             tmux ls
             return
         fi
@@ -201,8 +202,8 @@ if type emacs > /dev/null 2> /dev/null; then
         fi
 
         # If we are outside of tmux, attach to the session if it exists, otherwise create it and attach.
-        tmux ls | grep "^${SESSION_NAME}:" -q
-        if [ "$?" -eq 0 ]; then
+        # shellcheck disable=SC2033
+        if tmux ls | grep "^${SESSION_NAME}:" -q; then
             tmux attach -t "$SESSION_NAME"
         else
             tmux new -s "$SESSION_NAME"
