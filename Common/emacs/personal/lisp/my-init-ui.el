@@ -165,14 +165,16 @@
 ;; tab-bar : frame-local tabs with named persistent window configurations
 (use-package tab-bar
     :ensure nil ;; emacs built-in
-    :init
+    :hook
+    ((after-init . tab-bar-mode)
+     (pre-command . tab-bar-history-mode))
+    :config
     (setq tab-bar-show 1
           tab-bar-close-button-show nil
           tab-bar-new-tab-choice "*scratch*"
           tab-bar-tab-hints t
-          tab-bar-format '(tab-bar-format-tabs-groups
-                           tab-bar-separator))
-    (add-hook 'pre-command-hook 'tab-bar-history-mode))
+          tab-bar-format '(tab-bar-format-tabs
+                           tab-bar-separator)))
 
 ;; modeline
 (setq mode-line-compact 'long)
