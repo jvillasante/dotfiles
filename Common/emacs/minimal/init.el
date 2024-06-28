@@ -10,7 +10,7 @@
 (load-theme 'modus-operandi t)
 
 ;; Set default font face
-(set-face-attribute 'default nil :font "Berkeley Mono 16")
+(set-face-attribute 'default nil :font "Berkeley Mono 14")
 
 ;; Disable the menu bar
 (menu-bar-mode -1)
