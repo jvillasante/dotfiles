@@ -48,7 +48,7 @@ multiplier = 2
 program = "/usr/bin/bash"
 
 [window]
-decorations = "full"
+decorations = "none"
 dynamic_padding = true
 startup_mode = "Maximized"
 title = "Alacritty"
