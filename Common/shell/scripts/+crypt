@@ -81,8 +81,10 @@ encrypt() {
     rm -f "$file_to_encrypt"
     test $? -eq 0 || usage 1
 
-    rm -rf "$file_name"
-    test $? -eq 0 || usage 1
+    # TODO: Add a flag for output directory
+    # TODO: Remove original (put this behind a flag)
+    # rm -rf "$file_name"
+    # test $? -eq 0 || usage 1
 }
 
 do_decrypt() {
