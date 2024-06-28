@@ -167,23 +167,18 @@
 
 ;; docker : Emacs integration for Docker!
 (use-package docker
-    :defer t
     :config
-    ;; always run with `vterm' if available
-    (if (fboundp 'vterm)
-            (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
-
     ;; When docker run is called on an image whose repository name matches the regular expression "^postgres",
     ;; the option "-e POSTGRES_PASSWORD=postgres" will appear as set along with the defaults specified by `docker-image-run-default-args'.
     (add-to-list 'docker-image-run-custom-args
                  `("^postgres" ("-e POSTGRES_PASSWORD=postgres" . ,docker-image-run-default-args)))
 
-    ;; docker run --rm --interactive --tty --volume /home/jvillasante/Workspace/Work/Projects/dmxs:/tmp/sm -w /tmp/sm --name dmxs sm:latest /bin/bash
-    ;; docker run --rm --interactive --tty --volume /home/jvillasante/Workspace/Work/Projects/dmxs:/tmp/sm -w /tmp/sm --name dmxs registry.gitlab.com/nielsen-media/eng/meters/dmxs/dmxs/sm:dmx2-dmx4-dmx5 /bin/bash
+    ;; docker run --user nntpuser --rm --interactive --tty --volume $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp nntp:latest /bin/bash
     (add-to-list 'docker-image-run-custom-args
-                 `("sm\\:*" ("-v \"$HOME\"/Workspace/Work/Projects/dmxs:/tmp/sm"
-                             "-w /tmp/sm"
-                             "--name dmxs" . ,docker-image-run-default-args))))
+                 `("nntp\\:*" ("-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntpcode:/tmp/nntpcode"
+                               "--user nntpuser"
+                               "-w /tmp/nntpcode"
+                               "--name nntpcode" . ,docker-image-run-default-args))))
 
 ;; elfeed
 (use-package elfeed
