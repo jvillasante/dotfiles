@@ -350,46 +350,56 @@ Run this function at the post theme load phase, such as with the
         :hook (dired-mode . nerd-icons-dired-mode)))
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
+;;          https://www.masteringemacs.org/article/demystifying-emacs-window-manager
 (progn
     ;; window split and resizing
     (setq window-combination-resize t)
     (setq split-height-threshold 80)
     (setq split-width-threshold 125)
 
-    ;; (add-to-list 'display-buffer-alist
-    ;;              '("\\*\\(e?shell\\|.*vterm\\|ielm\\|.*eat\\)\\*"
-    ;;                (display-buffer-reuse-window
-    ;;                 display-buffer-in-direction
-    ;;                 display-buffer-in-side-window)
-    ;;                (body-function . select-window)
-    ;;                (window-height . .40)
-    ;;                (window-width .  .50)
-    ;;                (direction . right)
-    ;;                (side . right)
-    ;;                (slot . 1)))
+    ;; defaults
+    (setq switch-to-buffer-in-dedicated-window 'pop)
+    (setq switch-to-buffer-obey-display-actions t)
 
     (add-to-list 'display-buffer-alist
-                 '("\\*Async Shell Command" display-buffer-no-window
+                 '("\\*Async Shell Command"
+                   display-buffer-no-window
                    (allow-no-window . t)))
 
     (add-to-list 'display-buffer-alist
-                 '("\\*Proced" display-buffer-same-window))
+                 '("\\*Proced"
+                   display-buffer-same-window))
 
     (add-to-list 'display-buffer-alist
                  '("\\*Help\\*"
-                   (display-buffer-reuse-window display-buffer-same-window)))
+                   (display-buffer-reuse-window display-buffer-pop-up-window)
+                   (inhibit-same-window . t)))
 
     (add-to-list 'display-buffer-alist
                  '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
-                   (display-buffer-reuse-window
-                    display-buffer-in-direction
-                    display-buffer-in-side-window)
-                   (body-function . select-window)
-                   (window-height . .40)
-                   (window-width .  .50)
-                   (direction . right)
+                   display-buffer-reuse-window))
+
+    (add-to-list 'display-buffer-alist
+                 '("\\*info\\*"
+                   (display-buffer-in-side-window)
                    (side . right)
-                   (slot . 1))))
+                   (slot . 0)
+                   ;; (window-width . 80)
+                   (window-parameters
+                    (no-delete-other-windows . t))))
+
+    (add-to-list 'display-buffer-alist
+                 '("\\*vterm\\*"
+                   display-buffer-reuse-mode-window
+                   (inhibit-same-window . nil)
+                   (mode vterm-mode vterm-copy-mode)))
+
+    (add-to-list 'display-buffer-alist
+                 `(,(rx (| "*xref*"
+                           "*grep*"
+                           "*Occur*"))
+                   display-buffer-reuse-window
+                   (inhibit-same-window . nil))))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
