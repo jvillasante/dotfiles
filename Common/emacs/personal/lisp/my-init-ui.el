@@ -53,18 +53,24 @@
 (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode) ;; ... fill column indication on prog-mode is nice
 
 ;; Set the font (M-x `menu-set-font' to see font faces)
-(add-hook 'emacs-startup-hook
-          (lambda ()
-              (setq x-underline-at-descent-line nil)
-              (set-face-attribute 'default nil
-                                  :family "Berkeley Mono"
-                                  :height 140
-                                  :width  'normal
-                                  :weight 'normal)
-              (set-face-attribute 'fixed-pitch nil
-                                  :family "Berkeley Mono")
-              (set-face-attribute 'variable-pitch nil
-                                  :family "Berkeley Mono Variable")))
+(defun my--setup-fonts ()
+    "Set up fonts at startup."
+    (setq x-underline-at-descent-line nil)
+    (set-face-attribute 'default nil
+                        :family "Berkeley Mono"
+                        :height 140
+                        :width  'normal
+                        :weight 'normal)
+    (set-face-attribute 'fixed-pitch nil
+                        :family "Berkeley Mono")
+    (set-face-attribute 'variable-pitch nil
+                        :family "Berkeley Mono Variable"))
+(if (daemonp)
+        (add-hook 'after-make-frame-functions
+                  (lambda (frame)
+                      (with-selected-frame frame
+                          (my--setup-fonts))))
+    (my--setup-fonts))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook 'variable-pitch-mode)
@@ -174,12 +180,28 @@
     ((after-init . tab-bar-mode)
      (pre-command . tab-bar-history-mode))
     :config
-    (setq tab-bar-show 1
+    (setq tab-bar-show t
+          tab-bar-new-button nil
+          tab-bar-history-limit 100
+          tab-bar-new-tab-to 'right
           tab-bar-close-button-show nil
           tab-bar-new-tab-choice "*scratch*"
           tab-bar-tab-hints t
+          tab-bar-separator nil
           tab-bar-format '(tab-bar-format-tabs
-                           tab-bar-separator)))
+                           tab-bar-separator))
+    (set-face-attribute 'tab-bar nil
+                        :background "#ffffff"
+                        :foreground "#808080"
+                        :box '(:line-width 6 :color nil :style flat-button))
+    (set-face-attribute 'tab-bar-tab-inactive nil
+                        :background "#ffffff"
+                        :foreground "#808080"
+                        :box '(:line-width 6 :color nil :style flat-button))
+    (set-face-attribute 'tab-bar-tab nil
+                        :background "#ffffff"
+                        :foreground "#a61fde"
+                        :box '(:line-width 6 :color nil :style flat-button)))
 
 ;; modeline
 (setq mode-line-compact 'long)

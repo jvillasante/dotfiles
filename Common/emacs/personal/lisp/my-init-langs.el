@@ -23,8 +23,7 @@
         "Install Tree-sitter grammars if they are absent."
         (interactive)
         (dolist (grammar
-                 '(
-                   (awk        "https://github.com/Beaglefoot/tree-sitter-awk")
+                 '((awk        "https://github.com/Beaglefoot/tree-sitter-awk")
                    (bash       "https://github.com/tree-sitter/tree-sitter-bash")
                    ;; (bibtex     "https://github.com/latex-lsp/tree-sitter-bibtex")
                    ;; (blueprint  "https://github.com/huanie/tree-sitter-blueprint")
@@ -58,7 +57,7 @@
                    ;; (markdown   "https://github.com/tree-sitter-grammars/tree-sitter-markdown")
                    (nix        "https://github.com/nix-community/tree-sitter-nix")
                    ;; (nushell    "https://github.com/nushell/tree-sitter-nu")
-                   (org        "https://github.com/milisims/tree-sitter-org")
+                   ;; (org        "https://github.com/milisims/tree-sitter-org")
                    (perl       "https://github.com/ganezdragon/tree-sitter-perl")
                    (proto      "https://github.com/mitchellh/tree-sitter-proto")
                    (python     "https://github.com/tree-sitter/tree-sitter-python")
@@ -121,7 +120,7 @@
                        ((poly-markdown-mode markdown-mode)              . markdown-ts-mode)
                        (nix-mode                                        . nix-ts-mode)
                        ;; (nushell-mode                                    . nushell-ts-mode)
-                       (org-mode                                        . org-ts-mode)
+                       ;; (org-mode                                        . org-ts-mode)
                        (perl-mode                                       . perl-ts-mode)
                        (protobuf-mode                                   . protobuf-ts-mode)
                        (python-mode                                     . python-ts-mode)
@@ -262,24 +261,9 @@
 
 (use-package csv-mode
     :ensure nil ;; emacs built-in
-    :preface
-    (require 'color)
-    (defun csv-highlight (&optional separator)
-        (interactive (list (when current-prefix-arg (read-char "Separator: "))))
-        (font-lock-mode 1)
-        (let* ((separator (or separator ?\,))
-               (n (count-matches (string separator) (pos-bol) (pos-eol)))
-               (colors (cl-loop for i from 0 to 1.0 by (/ 2.0 n)
-                                collect (apply #'color-rgb-to-hex
-                                               (color-hsl-to-rgb i 0.3 0.5)))))
-            (cl-loop for i from 2 to n by 2
-                     for c in colors
-                     for r = (format "^\\([^%c\n]+%c\\)\\{%d\\}" separator separator i)
-                     do (font-lock-add-keywords nil `((,r (1 '(face (:foreground ,c)))))))))
     :init
-    (add-hook 'csv-mode-hook 'csv-highlight)
     (add-hook 'csv-mode-hook 'csv-align-mode)
-    (add-hook 'csv-mode-hook '(lambda () (interactive) (toggle-truncate-lines nil))))
+    (add-hook 'csv-mode-hook (lambda () (interactive) (toggle-truncate-lines nil))))
 
 (provide 'my-init-langs)
 ;;; my-init-langs.el ends here
