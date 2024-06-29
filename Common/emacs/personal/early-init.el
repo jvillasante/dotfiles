@@ -19,7 +19,7 @@
 
 ;; set default UI
 (setq-default default-frame-alist '((width . 170)
-                                    (height . 56)
+                                    (height . 50)
                                     (tool-bar-lines . 0)
                                     (menu-bar-lines . 0)
                                     (vertical-scroll-bars)
