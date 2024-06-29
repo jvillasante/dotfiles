@@ -178,25 +178,12 @@
     (setq tab-bar-show t
           tab-bar-new-button nil
           tab-bar-history-limit 100
-          tab-bar-new-tab-to 'right
           tab-bar-close-button-show nil
           tab-bar-new-tab-choice "*scratch*"
           tab-bar-tab-hints t
           tab-bar-separator nil
           tab-bar-format '(tab-bar-format-tabs
-                           tab-bar-separator))
-    (set-face-attribute 'tab-bar nil
-                        :background "#ffffff"
-                        :foreground "#808080"
-                        :box '(:line-width 6 :color nil :style flat-button))
-    (set-face-attribute 'tab-bar-tab-inactive nil
-                        :background "#ffffff"
-                        :foreground "#808080"
-                        :box '(:line-width 6 :color nil :style flat-button))
-    (set-face-attribute 'tab-bar-tab nil
-                        :background "#ffffff"
-                        :foreground "#a61fde"
-                        :box '(:line-width 6 :color nil :style flat-button)))
+                           tab-bar-separator)))
 
 ;; modeline
 (setq mode-line-compact 'long)
