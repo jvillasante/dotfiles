@@ -3,16 +3,12 @@
 ;;
 ;;; Code:
 
-;; Remove the titlebar
-(defconst my--no-titlebar t)
-(when my--no-titlebar
-    (setq default-frame-alist '((undecorated . t)))
-    (add-to-list 'default-frame-alist '(drag-internal-border . 1))
-    (add-to-list 'default-frame-alist '(internal-border-width . 5)))
-
 ;; Start maximized
 ;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; remove the title bar only when frame is maximized
+(add-hook 'window-size-change-functions 'frame-hide-title-bar-when-maximized)
 
 ;; Select and raise the frame, always
 (select-frame-set-input-focus (selected-frame))
@@ -76,20 +72,19 @@
 (add-hook 'text-mode-hook 'variable-pitch-mode)
 
 ;; Set default frame title
-(unless my--no-titlebar
-    (setq-default frame-title-format
-                  '(:eval
-                    (format "%s@%s: %s"
-                            (or (file-remote-p default-directory 'user)
-                                user-real-login-name)
-                            (or (file-remote-p default-directory 'host)
-                                system-name)
-                            (cond
-                             (buffer-file-truename
-                              (concat buffer-file-truename))
-                             (dired-directory
-                              (concat dired-directory))
-                             (t (buffer-name)))))))
+(setq-default frame-title-format
+              '(:eval
+                (format "%s@%s: %s"
+                        (or (file-remote-p default-directory 'user)
+                            user-real-login-name)
+                        (or (file-remote-p default-directory 'host)
+                            system-name)
+                        (cond
+                         (buffer-file-truename
+                          (concat buffer-file-truename))
+                         (dired-directory
+                          (concat dired-directory))
+                         (t (buffer-name))))))
 
 ;; winner-mode : "undo" and "redo" changes in window configurations
 (use-package winner
