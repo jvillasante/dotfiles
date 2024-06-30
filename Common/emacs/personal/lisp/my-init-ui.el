@@ -175,7 +175,7 @@
     ((after-init . tab-bar-mode)
      (pre-command . tab-bar-history-mode))
     :config
-    (setq tab-bar-show t
+    (setq tab-bar-show 1
           tab-bar-new-button nil
           tab-bar-history-limit 100
           tab-bar-close-button-show nil
