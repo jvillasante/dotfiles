@@ -166,7 +166,9 @@
     (add-to-list 'tramp-connection-properties
                  (list (regexp-quote "/ssh:YOUR_HOSTNAME:")
                        "direct-async-process" t))
-    (setq tramp-password-prompt-regexp   ; Add verification code support.
+    (setq tramp-shell-prompt-pattern
+          "\\(?:^\\|\\)[^]\n#-%>]*#?[]#-%>].*[[:blank:]]*") ; Tramp hangs: Not recognising the remote shell prompt
+    (setq tramp-password-prompt-regexp ; Add verification code support.
           (concat
            "^.*"
            (regexp-opt
