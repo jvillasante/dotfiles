@@ -46,7 +46,7 @@
 (setq-default fill-column 120)                            ;; Wrap lines at 120 characters
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)          ;; auto-fill insert hard line breaks
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)      ;; ... visual-line-mode is much better
-(add-hook 'prog-mode-hook 'display-fill-column-indicator-mode) ;; ... fill column indication on prog-mode is nice
+;; (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode) ;; ... fill column indication on prog-mode is nice
 
 ;; Set the font (M-x `menu-set-font' to see font faces)
 (defun my--setup-fonts ()
