@@ -341,14 +341,13 @@
 
 ;; languagetool : multilingual grammar, style, and spell checker
 (use-package langtool
-    :defer t
     :config
     (setq langtool-default-language "en-US")
     (setq langtool-java-user-arguments '("-Dfile.encoding=UTF-8"))
     (setq langtool-language-tool-jar
-          (expand-file-name "LanguageTool-6.3/languagetool-commandline.jar" my--software-path))
+          (expand-file-name "LanguageTool-6.4/languagetool-commandline.jar" my--software-path))
     (setq langtool-language-tool-server-jar
-          (expand-file-name "LanguageTool-6.3/languagetool-server.jar" my--software-path)))
+          (expand-file-name "LanguageTool-6.4/languagetool-server.jar" my--software-path)))
 
 (provide 'my-init-completion)
 ;;; my-init-completion.el ends here
