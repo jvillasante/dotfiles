@@ -41,41 +41,27 @@
           gnus-save-newsrc-file nil
           gnus-read-newsrc-file nil)
 
+    ;; other settings
     (setq gnus-asynchronous t ;; async
-          gnus-use-article-prefetch 15
-          ;; article
-          gnus-visible-headers (mapcar (lambda (str) (concat "^" str ":"))
-                                       '("From" "To" "Cc" "Subject" "Newsgroup"
-                                         "Date" "Followup-To" "Reply-To"
-                                         "Organization" "X-Newsreader" "X-Mailer"))
-          gnus-sorted-header-list gnus-visible-headers
-          gnus-thread-sort-functions '(gnus-thread-sort-by-number
-                                       gnus-thread-sort-by-subject
-                                       (not gnus-thread-sort-by-date))
-          ;; group
-          gnus-level-subscribed 6
-          gnus-level-unsubscribed 7
-          gnus-level-zombie 8
-          gnus-group-sort-function '((gnus-group-sort-by-unread)
-                                     (gnus-group-sort-by-alphabet)
-                                     (gnus-group-sort-by-rank))
-          gnus-group-line-format "%M%p%P%5y:%B%(%g%)\n"
-          gnus-group-mode-line-format "%%b"
-          gnus-topic-display-empty-topics nil
-          ;; summary
-          gnus-auto-select-first nil
-          gnus-summary-ignore-duplicates t
-          gnus-suppress-duplicates t
-          gnus-summary-to-prefix "To:"
-          gnus-summary-line-format "%U%R %-18,18&user-date; %4L:%-25,25f %B%s\n"
-          gnus-summary-mode-line-format "[%U] %p"
-          gnus-sum-thread-tree-false-root ""
-          gnus-sum-thread-tree-indent " "
-          gnus-sum-thread-tree-single-indent ""
-          gnus-sum-thread-tree-leaf-with-other "+->"
+          gnus-sum-thread-tree-indent "  "
           gnus-sum-thread-tree-root ""
-          gnus-sum-thread-tree-single-leaf "\\->"
-          gnus-sum-thread-tree-vertical "|")
+          gnus-sum-thread-tree-false-root ""
+          gnus-sum-thread-tree-single-indent ""
+          gnus-sum-thread-tree-vertical        "│"
+          gnus-sum-thread-tree-leaf-with-other "├─► "
+          gnus-sum-thread-tree-single-leaf     "╰─► "
+          gnus-summary-line-format
+          (concat
+           "%0{%U%R%z%}"
+           "%3{│%}" "%1{%d%}" "%3{│%}" ;; date
+           "  "
+           "%4{%-20,20f%}"             ;; name
+           "  "
+           "%3{│%}"
+           " "
+           "%1{%B%}"
+           "%s\n")
+          gnus-summary-display-arrow t)
 
     (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
     (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
