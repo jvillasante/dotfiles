@@ -79,7 +79,7 @@
 
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
-    (define-key ibuffer-mode-map (kbd "q") 'kill-this-buffer))
+    (define-key ibuffer-mode-map (kbd "q") 'kill-current-buffer))
 
 (with-eval-after-load 'vertico
     ;; (define-key vertico-map (kbd "RET") 'vertico-directory-enter)
