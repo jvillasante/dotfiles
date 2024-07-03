@@ -12,7 +12,7 @@
 (global-set-key (kbd "C-x C-M") 'execute-extended-command-for-buffer) ; ALT may or may not be available
 (global-set-key (kbd "C-c C-M") 'execute-extended-command-for-buffer) ; ALT may or may not be available
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
-(global-set-key (kbd "C-x k") 'kill-this-buffer) ; kill buffer without prompt
+(global-set-key (kbd "C-x k") 'kill-current-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
 (global-set-key (kbd "C-x S") 'my--save-all) ; save some buffers without prompt
 (global-set-key (kbd "C-x C-o") 'ff-find-other-file) ; useful for C/C++ finding header/impl files
