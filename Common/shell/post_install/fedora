@@ -263,7 +263,7 @@ fedora_install() {
                 systemctl enable nvidia-{suspend,resume,hibernate}
 
                 # Add to Dracut/Plymouth Fix
-                echo -e '# Custom Settings\nforce_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |\
+                echo -e '# Custom Settings\nforce_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |
                     sudo tee -a /etc/dracut.conf.d/nvidia.conf
                 sudo dracut -f
 
