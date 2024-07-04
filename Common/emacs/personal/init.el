@@ -60,6 +60,7 @@
 
 ;; Idle garbage collection
 (use-package gcmh
+    :function gcmh-mode
     :config
     ;; (setopt garbage-collection-messages t)
     ;; (setopt gcmh-high-cons-threshold (* 256 1000 1000))

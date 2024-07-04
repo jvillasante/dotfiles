@@ -5,6 +5,8 @@
 
 (use-package gptel
     :defer t
+    :defines gptel-expert-commands
+    :functions gptel-make-ollama
     :custom ((gptel-default-mode 'org-mode))
     :config
     (setq gptel-expert-commands t)
