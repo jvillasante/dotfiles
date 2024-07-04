@@ -133,6 +133,7 @@ emacs_update() {
     ./configure \
         --prefix=/usr/local \
         --with-pgtk \
+        --with-x-toolkit=no \
         --without-compress-install \
         --with-native-compilation=aot \
         --with-tree-sitter \
