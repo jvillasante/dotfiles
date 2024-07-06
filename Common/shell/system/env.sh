@@ -16,11 +16,20 @@ if [ "${INSIDE_EMACS/*tramp*/tramp}" == "tramp" ]; then
 fi
 
 # emacs vterm: https://github.com/akermu/emacs-libvterm
-if [ "$INSIDE_EMACS" = 'vterm' ] &&
-    [ -n "$EMACS_VTERM_PATH" ] &&
-    [ -f "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh" ]; then
-    # shellcheck source=/dev/null
-    source "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh"
+if [ "$INSIDE_EMACS" = 'vterm' ] && [ -n "$EMACS_VTERM_PATH" ]; then
+    if [ "$(readlink /proc/$$/exe)" = "$(which bash)" ]; then
+        # shellcheck source=/dev/null
+        [ -f "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh" ] &&
+            source "$EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh"
+    elif [ "$(readlink /proc/$$/exe)" = "$(which zsh)" ]; then
+        # shellcheck source=/dev/null
+        [ -f "$EMACS_VTERM_PATH/etc/emacs-vterm-zsh.sh" ] &&
+            source "$EMACS_VTERM_PATH/etc/emacs-vterm-zsh.sh"
+    elif [ "$(readlink /proc/$$/exe)" = "$(which fish)" ]; then
+        # shellcheck source=/dev/null
+        [ -f "$EMACS_VTERM_PATH/etc/emacs-vterm-fish.sh" ] &&
+            source "$EMACS_VTERM_PATH/etc/emacs-vterm-fish.sh"
+    fi
 
     find_file() {
         vterm_cmd find-file "$(realpath "${@:-.}")"

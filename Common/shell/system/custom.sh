@@ -177,7 +177,7 @@ fi
 # Tmux
 #
 
-if type emacs > /dev/null 2> /dev/null; then
+if type tmux > /dev/null 2> /dev/null; then
     # A shortcut function for easy tmux navigation.
     #
     # tx ls will give a list of active tmux sessions.
@@ -186,7 +186,7 @@ if type emacs > /dev/null 2> /dev/null; then
     #    tx {session_name} will attach to {session_name} if it exists, else will create {session_name}
     # if inside tmux:
     #    tx {session_name} will switch to {session_name} if it exists, else will print an error message.
-    tx () {
+    tx()  {
         SESSION_NAME=$1
 
         if [ "$SESSION_NAME" == "ls" ]; then
