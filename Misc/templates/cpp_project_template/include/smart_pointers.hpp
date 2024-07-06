@@ -2,7 +2,8 @@
 #include <memory>
 #include <algorithm>
 
-namespace utils::smart_pointers {
+namespace utils::smart_pointers
+{
 /**
  * @brief Converts std::unique_ptr of base type to std::unique_ptr of derived type
  * by using static_cast internally
@@ -47,7 +48,8 @@ std::unique_ptr<Derived> static_ptr_cast(std::unique_ptr<Base> base) noexcept
 template <typename Derived, typename Base, typename Deleter>
 std::unique_ptr<Derived, Deleter> dynamic_ptr_cast(std::unique_ptr<Base, Deleter>&& base)
 {
-    if (auto derived = dynamic_cast<Derived*>(base.get())) {
+    if (auto derived = dynamic_cast<Derived*>(base.get()))
+    {
         auto deleter = base.get_deleter();
         base.release();
         return std::unique_ptr<Derived, Deleter>(derived, std::move(deleter));
@@ -64,7 +66,8 @@ std::unique_ptr<Derived, Deleter> dynamic_ptr_cast(std::unique_ptr<Base, Deleter
 template <typename Derived, typename Base>
 std::unique_ptr<Derived> dynamic_ptr_cast(std::unique_ptr<Base>&& base) noexcept
 {
-    if (auto derived = dynamic_cast<Derived*>(base.get())) {
+    if (auto derived = dynamic_cast<Derived*>(base.get()))
+    {
         base.release();
         return std::unique_ptr<Derived>(derived);
     }

@@ -2,7 +2,8 @@
 #include <chrono>
 #include <functional>
 
-namespace utils::chrono::bench {
+namespace utils::chrono::bench
+{
 //
 // Perf timer implementation to measure functions
 //
@@ -23,7 +24,8 @@ namespace utils::chrono::bench {
 // auto hours = std::chrono::duration<double, std::ratio<3600>>(t).count();
 //
 template <typename Time = std::chrono::microseconds, typename Clock = std::chrono::steady_clock>
-struct perf_timer {
+struct perf_timer
+{
     template <typename F, typename... Args>
     static Time duration(F&& f, Args&&... args)
     {

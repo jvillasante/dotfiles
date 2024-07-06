@@ -1,8 +1,9 @@
 #pragma once
 
-namespace utils {
+namespace utils
+{
 template <typename... Ts>
-inline constexpr void unused(Ts&&... ts)
+inline constexpr void unused(Ts&&... ts) // NOLINT
 {
     ((void)ts, ...);
 }

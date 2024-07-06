@@ -4,11 +4,13 @@
 #include <algorithm>
 #include <cassert>
 
-namespace utils::collections {
+namespace utils::collections
+{
 template <typename T>
 void quick_remove_at(std::vector<T>& v, typename std::vector<T>::size_type const idx)
 {
-    if (idx < v.size()) {
+    if (idx < v.size())
+    {
         v[idx] = std::move(v.back());
         v.pop_back();
     }
@@ -17,7 +19,8 @@ void quick_remove_at(std::vector<T>& v, typename std::vector<T>::size_type const
 template <typename T>
 void quick_remove_at(std::vector<T>& v, typename std::vector<T>::iterator const it)
 {
-    if (it != std::end(v)) {
+    if (it != std::end(v))
+    {
         *it = std::move(v.back());
         v.pop_back();
     }

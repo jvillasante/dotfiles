@@ -1,10 +1,11 @@
 #pragma once
+#include <algorithm>
 #include <map>
 #include <queue>
 #include <numeric>
-#include <functional>
 
-namespace utils::functional {
+namespace utils::functional
+{
 template <typename F, typename R>
 inline R mapf(F&& f, R r)
 {
@@ -16,7 +17,8 @@ template <typename F, typename T, typename U>
 inline std::map<T, U> mapf(F&& f, const std::map<T, U>& m)
 {
     std::map<T, U> r;
-    for (auto&& kvp : m) {
+    for (auto&& kvp : m)
+    {
         // r.insert(f(kvp));
         r.insert(f(std::forward<decltype(kvp)>(kvp)));
     }
@@ -29,7 +31,8 @@ inline std::queue<T> mapf(F&& f, std::queue<T> q)
 {
     std::queue<T> r;
 
-    while (!q.empty()) {
+    while (!q.empty())
+    {
         // r.push(f(q.front()));
         r.push(f(std::forward<T>(q.front())));
         q.pop();
@@ -56,7 +59,8 @@ inline constexpr T foldr(F&& f, R&& r, T i)
 template <typename F, typename T>
 inline constexpr T foldl(F&& f, std::queue<T> q, T i)
 {
-    while (!q.empty()) {
+    while (!q.empty())
+    {
         // i = f(i, q.front());
         i = f(std::forward<T>(i), std::forward<T>(q.front()));
         q.pop();
@@ -68,27 +72,29 @@ inline constexpr T foldl(F&& f, std::queue<T> q, T i)
 template <typename T>
 auto map(T const fn)
 {
-    return
-        [=](auto const reduce_fn) { return [=](auto accumulator, auto const input) { return reduce_fn(accumulator, fn(input)); }; };
+    return [=](auto const reduce_fn) {
+        return [=](auto accumulator, auto const input) { return reduce_fn(accumulator, fn(input)); };
+    };
 }
 
 template <typename T>
 auto filter(T const predicate)
 {
     return [=](auto const reduce_fn) {
-        return [=](auto accumulator, auto const input) { return predicate(input) ? reduce_fn(accumulator, input) : accumulator; };
+        return [=](auto accumulator, auto const input) {
+            return predicate(input) ? reduce_fn(accumulator, input) : accumulator;
+        };
     };
 }
 
 template <typename T, typename... Ts>
 auto concat(T t, Ts... ts)
 {
-    if constexpr (sizeof...(ts) > 0) {
+    if constexpr (sizeof...(ts) > 0)
+    {
         return [=](auto... parameters) { return t(concat(ts...)(parameters...)); };
     }
-    else {
-        return t;
-    }
+    else { return t; }
 }
 
 template <typename A, typename B, typename F>

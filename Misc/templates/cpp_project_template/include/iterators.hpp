@@ -1,9 +1,11 @@
 #pragma once
 #include <iterator>
 
-namespace utils::iterators {
+namespace utils::iterators
+{
 template <typename Delim, typename CharT = char, typename Traits = std::char_traits<CharT>>
-class ostream_joiner {
+class ostream_joiner
+{
 public:
     using char_type = CharT;
     using traits_type = Traits;
@@ -21,9 +23,7 @@ public:
     template <typename Tp>
     ostream_joiner& operator=(const Tp& v)
     {
-        if (!first) {
-            *output_iter << delim;
-        }
+        if (!first) { *output_iter << delim; }
 
         first = false;
         *output_iter << v;
@@ -41,8 +41,8 @@ private:
 };
 
 template <class CharT, class Traits, class Delim>
-inline ostream_joiner<typename std::decay<Delim>::type, CharT, Traits> make_ostream_joiner(std::basic_ostream<CharT, Traits>& os,
-                                                                                           Delim&& d)
+inline ostream_joiner<typename std::decay<Delim>::type, CharT, Traits>
+make_ostream_joiner(std::basic_ostream<CharT, Traits>& os, Delim&& d)
 {
     return ostream_joiner<typename std::decay<Delim>::type, CharT, Traits>(os, std::forward<Delim>(d));
 }

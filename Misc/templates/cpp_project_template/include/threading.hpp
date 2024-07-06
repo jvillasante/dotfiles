@@ -6,8 +6,10 @@
 #include <algorithm>
 #include <functional>
 
-namespace utils::threading {
-struct pcout : public std::stringstream {
+namespace utils::threading
+{
+struct pcout : public std::stringstream
+{
     static inline std::mutex mtx_; // NOLINT
     ~pcout() override
     {

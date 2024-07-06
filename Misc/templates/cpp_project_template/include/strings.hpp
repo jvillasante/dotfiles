@@ -11,7 +11,8 @@
 
 #include <iterators.hpp>
 
-namespace utils::strings {
+namespace utils::strings
+{
 template <typename CharT>
 using tstring = std::basic_string<CharT, std::char_traits<CharT>, std::allocator<CharT>>;
 
@@ -51,7 +52,8 @@ inline char my_toupper(CharT const ch, std::locale const& loc = std::locale())
 
 // ----------
 
-namespace mutable_version {
+namespace mutable_version
+{
 template <typename CharT>
 inline void to_upper(tstring<CharT>& text)
 {
@@ -74,10 +76,9 @@ template <typename CharT>
 inline void trim(tstring<CharT>& text)
 {
     auto first{text.find_first_not_of(' ')};
-    if (first == std::string::npos) {
-        text.clear();
-    }
-    else {
+    if (first == std::string::npos) { text.clear(); }
+    else
+    {
         auto last{text.find_last_not_of(' ')};
         text = text.substr(first, (last - first + 1));
     }
@@ -87,12 +88,8 @@ template <typename CharT>
 inline void trimleft(tstring<CharT>& text)
 {
     auto first{text.find_first_not_of(' ')};
-    if (first == std::string::npos) {
-        text.clear();
-    }
-    else {
-        text = text.substr(first, text.size() - first);
-    }
+    if (first == std::string::npos) { text.clear(); }
+    else { text = text.substr(first, text.size() - first); }
 }
 
 template <typename CharT>
@@ -118,7 +115,8 @@ inline bool ends_with(tstringview<CharT> const input, tstringview<CharT> const s
 template <typename CharT>
 bool contains(tstringview<CharT> const input, tstringview<CharT> const needle, bool const ignore_case = false)
 {
-    if (input.size() >= needle.size()) {
+    if (input.size() >= needle.size())
+    {
         return std::search(std::begin(input), std::end(input), std::begin(needle), std::end(needle),
                            [&](CharT const c1, CharT const c2) {
                                return ignore_case ? my_tolower(c1) == my_tolower(c2) : c1 == c2;
@@ -131,7 +129,8 @@ bool contains(tstringview<CharT> const input, tstringview<CharT> const needle, b
 template <typename CharT>
 bool equal(tstringview<CharT> const str1, tstringview<CharT> const str2, bool const ignore_case = false)
 {
-    if (str1.size() == str2.size()) {
+    if (str1.size() == str2.size())
+    {
         return std::equal(str1.begin(), str1.end(), str2.begin(), [=](CharT const c1, CharT const c2) {
             return ignore_case ? my_tolower(c1) == my_tolower(c2) : c1 == c2;
         });
@@ -165,9 +164,7 @@ template <typename CharT>
 inline tstring<CharT> trim(tstring<CharT> const& text)
 {
     auto const first{text.find_first_not_of(' ')};
-    if (first == std::string::npos) {
-        return {};
-    }
+    if (first == std::string::npos) { return {}; }
 
     auto const last{text.find_last_not_of(' ')};
     return text.substr(first, (last - first + 1));
@@ -177,9 +174,7 @@ template <typename CharT>
 inline tstring<CharT> trimleft(tstring<CharT> const& text)
 {
     auto const first{text.find_first_not_of(' ')};
-    if (first == std::string::npos) {
-        return {};
-    }
+    if (first == std::string::npos) { return {}; }
 
     return text.substr(first, text.size() - first);
 }
@@ -195,9 +190,7 @@ template <typename CharT>
 inline tstring<CharT> trim(tstring<CharT> const& text, tstring<CharT> const& chars)
 {
     auto const first{text.find_first_not_of(chars)};
-    if (first == std::string::npos) {
-        return {};
-    }
+    if (first == std::string::npos) { return {}; }
 
     auto const last{text.find_last_not_of(chars)};
     return text.substr(first, (last - first + 1));
@@ -207,9 +200,7 @@ template <typename CharT>
 inline tstring<CharT> trimleft(tstring<CharT> const& text, tstring<CharT> const& chars)
 {
     auto const first{text.find_first_not_of(chars)};
-    if (first == std::string::npos) {
-        return {};
-    }
+    if (first == std::string::npos) { return {}; }
 
     return text.substr(first, text.size() - first);
 }
@@ -249,10 +240,9 @@ inline std::vector<tstring<CharT>> split(tstring<CharT> text, CharT const delimi
     tstringstream<CharT> sstr{std::move(text)};
     std::vector<tstring<CharT>> tokens;
     tstring<CharT> token;
-    while (std::getline(sstr, token, delimiter)) {
-        if (!token.empty()) {
-            tokens.emplace_back(token);
-        }
+    while (std::getline(sstr, token, delimiter))
+    {
+        if (!token.empty()) { tokens.emplace_back(token); }
     }
 
     return tokens;
@@ -264,17 +254,14 @@ inline std::vector<tstring<CharT>> split(tstring<CharT> const& text, tstring<Cha
     std::vector<tstring<CharT>> tokens;
     std::size_t pos = 0;
     std::size_t prev_pos = 0;
-    while ((pos = text.find_first_of(delimiters, prev_pos)) != std::string::npos) {
-        if (pos > prev_pos) {
-            tokens.emplace_back(text.substr(prev_pos, pos - prev_pos));
-        }
+    while ((pos = text.find_first_of(delimiters, prev_pos)) != std::string::npos)
+    {
+        if (pos > prev_pos) { tokens.emplace_back(text.substr(prev_pos, pos - prev_pos)); }
 
         prev_pos = pos + 1;
     }
 
-    if (prev_pos < text.size()) {
-        tokens.emplace_back(text.substr(prev_pos, std::string::npos));
-    }
+    if (prev_pos < text.size()) { tokens.emplace_back(text.substr(prev_pos, std::string::npos)); }
 
     return tokens;
 }
@@ -283,15 +270,12 @@ template <typename CharT, typename Iter>
 inline tstring<CharT> to_hex(Iter begin, Iter end, bool use_uppercase = true, bool insert_spaces = false)
 {
     tstringstream<CharT> oss;
-    if (use_uppercase) {
-        oss.setf(std::ios_base::uppercase);
-    }
+    if (use_uppercase) { oss.setf(std::ios_base::uppercase); }
 
-    for (auto current = begin; current != end; ++current) {
+    for (auto current = begin; current != end; ++current)
+    {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(*current);
-        if (insert_spaces && current != end) {
-            oss << ' ';
-        }
+        if (insert_spaces && current != end) { oss << ' '; }
     }
 
     return oss.str();
@@ -307,15 +291,9 @@ template <typename CharT>
 std::vector<std::byte> to_bytes(tstringview<CharT> const str)
 {
     auto const hexchar_to_int = [](CharT const ch) {
-        if (ch >= '0' && ch <= '9') {
-            return ch - '0';
-        }
-        if (ch >= 'A' && ch <= 'F') {
-            return ch - 'A' + 10;
-        }
-        if (ch >= 'a' && ch <= 'f') {
-            return ch - 'a' + 10;
-        }
+        if (ch >= '0' && ch <= '9') { return ch - '0'; }
+        if (ch >= 'A' && ch <= 'F') { return ch - 'A' + 10; }
+        if (ch >= 'a' && ch <= 'f') { return ch - 'a' + 10; }
 
         throw std::invalid_argument("Invalid hexadecimal character");
     };
@@ -324,12 +302,14 @@ std::vector<std::byte> to_bytes(tstringview<CharT> const str)
     auto const size{str.size()};
 
     std::size_t i{0};
-    if (size % 2 != 0) {
+    if (size % 2 != 0)
+    {
         result.push_back((hexchar_to_int('0') << 4) | hexchar_to_int(str[i]));
         ++i;
     }
 
-    for (; i < size; i += 2) {
+    for (; i < size; i += 2)
+    {
         result.push_back((hexchar_to_int(str[i]) << 4) | hexchar_to_int(str[i + 1]));
     }
 

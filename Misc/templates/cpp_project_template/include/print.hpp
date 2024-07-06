@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <string_view>
-#include <sstream>
 #include <utility>
 #include <algorithm>
 #include <vector>
@@ -10,26 +9,29 @@
 #include <iterators.hpp>
 
 // For printing map items
-// NOLINTNEXTLINE
-namespace std {
+namespace std
+{
 template <typename First, typename Second>
-std::ostream& operator<<(std::ostream& os, std::pair<First, Second> const& p)
+std::ostream& operator<<(std::ostream& os, std::pair<First, Second> const& p) // NOLINT
 {
     os << "(" << p.first << ':' << p.second << ")";
     return os;
 }
 } // namespace std
 
-namespace utils::print {
+namespace utils::print
+{
 inline std::ostream& line(char const c = '=', std::size_t const s = 80, std::ostream& os = std::cout)
 {
     os << std::string(s, c) << '\n';
     return os;
 }
 
-inline std::ostream& line(std::string_view const header, char const c = '=', std::size_t const s = 80, std::ostream& os = std::cout)
+inline std::ostream& line(std::string_view const header, char const c = '=', std::size_t const s = 80,
+                          std::ostream& os = std::cout)
 {
-    if (header.size() < s) {
+    if (header.size() < s)
+    {
         os << "===" << header << std::string(s - header.size() - 3, c) << '\n';
         return os;
     }
@@ -55,7 +57,8 @@ std::ostream& collection(Iterator begin, Iterator end, char const start_char = '
 }
 
 template <typename Collection>
-std::ostream& collection(Collection const& c, char const start_char = '[', char const end_char = ']', std::ostream& os = std::cout)
+std::ostream& collection(Collection const& c, char const start_char = '[', char const end_char = ']',
+                         std::ostream& os = std::cout)
 {
     return collection(std::cbegin(c), std::cend(c), start_char, end_char, os);
 }
