@@ -11,7 +11,7 @@
  '(package-selected-packages
    '(adoc-mode anzu apheleia atomic-chrome bind-key cape casual-suite cl-generic cl-lib cmake-mode compat compiler-explorer
                consult-dir consult-eglot corfu crux csv-mode deft devdocs-browser diff-hl dired-sidebar diredfl docker
-               dwim-shell-command editorconfig eglot eglot-hierarchy eldoc elfeed elisp-demos embark-consult engine-mode erc
+               dwim-shell-command editorconfig eglot eldoc elfeed elisp-demos embark-consult engine-mode erc
                eshell-prompt-extras exec-path-from-shell expand-region external-completion faceup fancy-compilation flymake
                gcmh go-mode gptel helpful hl-todo ibuffer-project idlwave jinx js2-mode json-mode jsonrpc langtool let-alist
                lua-mode magit map marginalia markdown-mode minions modus-themes monkeytype multiple-cursors nadvice

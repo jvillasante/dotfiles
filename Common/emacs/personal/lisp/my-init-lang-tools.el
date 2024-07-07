@@ -104,10 +104,6 @@
                       "--header-insertion=never"
                       "--header-insertion-decorators=0"))))
 
-(use-package eglot-hierarchy
-    :after eglot
-    :vc (:url "https://github.com/dolmens/eglot-hierarchy" :rev :newest))
-
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
     :preface
