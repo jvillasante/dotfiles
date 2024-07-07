@@ -395,6 +395,9 @@ fedora_install() {
                 # dnf install -y skim
                 sudo dnf install -y fzf
 
+                # Emacs (on fedora is up to date)
+                sudo dnf install -y emacs
+
                 # Neovim
                 sudo dnf install -y neovim
 
