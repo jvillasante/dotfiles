@@ -6,6 +6,10 @@
 (use-package emacs
     :ensure nil ;; emacs built-in
     :init
+    ;; Emacs 30: subdivide grep output into sections, one per file.
+    (when (>= emacs-major-version 30)
+        (setq grep-use-headings t))
+
     ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
     ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
     (setq read-extended-command-predicate #'command-completion-default-include-p)
