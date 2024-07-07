@@ -106,7 +106,7 @@
 
 (use-package eglot-hierarchy
     :after eglot
-    :vc (:fetcher github :repo "dolmens/eglot-hierarchy"))
+    :vc (:url "https://github.com/dolmens/eglot-hierarchy" :rev :newest))
 
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
@@ -145,7 +145,7 @@
 
 (use-package compiler-explorer
     :defer t
-    :vc (:fetcher github :repo "mkcms/compiler-explorer.el"))
+    :vc (:url "https://github.com/mkcms/compiler-explorer.el" :rev :newest))
 
 (provide 'my-init-lang-tools)
 ;;; my-init-lang-tools.el ends here

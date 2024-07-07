@@ -395,10 +395,10 @@ fedora_install() {
                 # dnf install -y skim
                 sudo dnf install -y fzf
 
-                # Emacs (on fedora is up to date)
-                sudo dnf install -y emacs
-                sudo dnf install -y libvterm libvterm-devel # necessary for vterm
-                sudo dnf install -y enchant2-devel pkgconf  # necessary for jinx
+                # Emacs (on fedora is up to date but I prefer to compile it myself)
+                # sudo dnf install -y emacs
+                # sudo dnf install -y libvterm libvterm-devel # necessary for vterm
+                # sudo dnf install -y enchant2-devel pkgconf  # necessary for jinx
 
                 # Neovim
                 sudo dnf install -y neovim
@@ -687,8 +687,8 @@ fedora_install() {
                 # Setup git branch
                 local BRANCH
                 BRANCH=$(git branch --show-current)
-                [[ "$BRANCH" != emacs-29 ]] && git checkout emacs-29
-                # [[ "$BRANCH" != master ]] && git checkout master
+                # [[ "$BRANCH" != emacs-29 ]] && git checkout emacs-29
+                [[ "$BRANCH" != emacs-30 ]] && git checkout emacs-30
                 git fetch && git pull
 
                 # Install
