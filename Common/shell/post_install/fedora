@@ -213,6 +213,7 @@ fedora_install() {
                 sudo cp /etc/default/grub /etc/default/grub.bak
                 sudo sed -i 's/GRUB_TERMINAL_OUTPUT="console"/GRUB_TERMINAL_OUTPUT="gfxterm"/' /etc/default/grub
 
+                # TODO: add nvidia.NVreg_EnableGpuFirmware=0 to the end of GRUB_CMDLINE_LINUX in /etc/default/grub
                 # TODO: add nvidia_drm.modeset=1 to the end of GRUB_CMDLINE_LINUX in /etc/default/grub
 
                 # Apply Grub configuration
@@ -396,9 +397,9 @@ fedora_install() {
                 sudo dnf install -y fzf
 
                 # Emacs (on fedora is up to date but I prefer to compile it myself)
-                sudo dnf install -y emacs
-                sudo dnf install -y libvterm libvterm-devel # necessary for vterm
-                sudo dnf install -y enchant2-devel pkgconf  # necessary for jinx
+                # sudo dnf install -y emacs
+                # sudo dnf install -y libvterm libvterm-devel # necessary for vterm
+                # sudo dnf install -y enchant2-devel pkgconf  # necessary for jinx
 
                 # Neovim
                 sudo dnf install -y neovim
