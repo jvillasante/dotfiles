@@ -29,5 +29,13 @@
     :defines isearch-mode-map
     :bind (:map isearch-mode-map ("<f2>" . casual-isearch-tmenu)))
 
+(use-package casual-ibuffer
+    :requires casual-suite
+    :defines ibuffer-mode-map
+    :bind (:map ibuffer-mode-map
+                ("C-o" . casual-ibuffer-tmenu)
+                ("F" . casual-ibuffer-filter-tmenu)
+                ("s" . casual-ibuffer-sortby-tmenu)))
+
 (provide 'my-init-transient)
 ;;; my-init-transient.el ends here

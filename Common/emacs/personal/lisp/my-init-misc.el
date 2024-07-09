@@ -202,7 +202,14 @@
 
 ;; ibuffer
 (use-package ibuffer
-    :ensure nil) ;; emacs built-in
+    :ensure nil  ;; emacs built-in
+    :config
+    (require 'hl-line)
+    (require 'mouse)
+    (add-hook 'ibuffer-mode-hook #'hl-line-mode)
+    (add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
+    (keymap-set ibuffer-mode-map "<double-mouse-1>" #'ibuffer-visit-buffer)
+    (keymap-set ibuffer-mode-map "M-<double-mouse-1>" #'ibuffer-visit-buffer-other-window))
 
 ;; ibuffer :
 (use-package ibuffer-project

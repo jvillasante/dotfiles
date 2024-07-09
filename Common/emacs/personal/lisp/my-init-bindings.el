@@ -79,7 +79,12 @@
 
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
-    (define-key ibuffer-mode-map (kbd "q") 'kill-current-buffer))
+    (define-key ibuffer-mode-map (kbd "q") 'kill-current-buffer)
+    (keymap-set ibuffer-mode-map "{" #'ibuffer-backwards-next-marked)
+    (keymap-set ibuffer-mode-map "}" #'ibuffer-forward-next-marked)
+    (keymap-set ibuffer-mode-map "[" #'ibuffer-backward-filter-group)
+    (keymap-set ibuffer-mode-map "]" #'ibuffer-forward-filter-group)
+    (keymap-set ibuffer-mode-map "$" #'ibuffer-toggle-filter-group))
 
 (with-eval-after-load 'vertico
     ;; (define-key vertico-map (kbd "RET") 'vertico-directory-enter)
