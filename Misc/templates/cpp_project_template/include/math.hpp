@@ -4,6 +4,34 @@
 
 namespace utils::math
 {
+template <typename input_t = std::uint32_t>
+input_t get_bit(input_t num, input_t pos)
+{
+    return (num >> pos) & 1;
+}
+
+template <typename input_t = std::uint32_t>
+input_t set_bit(input_t num, input_t pos, bool value)
+{
+    return value ? (num | (1 << pos)) : (num & ~(1 << pos));
+}
+
+template <typename input_t = std::uint32_t>
+input_t set_bit_range(input_t num, input_t start, input_t end, input_t value)
+{
+    input_t mask = ((1U << (end - start + 1)) - 1) << start;
+    num &= ~mask;                   // Clear the bit range just in case it has old values
+    num |= (value << start) & mask; // Set the bit range to the desired value
+    return num;
+}
+
+template <typename input_t = std::uint32_t>
+input_t get_bit_range(input_t num, input_t start, input_t end)
+{
+    input_t mask = ((1U << (end - start + 1)) - 1) << start;
+    return (num & mask) >> start;
+}
+
 template <std::uint8_t N, typename input_t = std::uint32_t, typename sum_t = std::uint64_t>
 class simple_moving_average
 {
