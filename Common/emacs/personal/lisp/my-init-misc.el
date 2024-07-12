@@ -249,11 +249,10 @@
             (avy-goto-line . avy-order-closest))))
 
 ;; Expand Region : expand or contract selection
-(use-package expand-region)
+(use-package expand-region :disabled t)
 
 ;; Expreg : like expand-region but nicer
-(use-package expreg
-    :disabled t)
+(use-package expreg)
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
