@@ -3,6 +3,8 @@
 -Wextra
 -Werror
 -DDEBUG
+-DLINUX
+-Dlinux
 -isystem/usr/lib/gcc/x86_64-redhat-linux/14/../../../../include/c++/14
 -isystem/usr/lib/gcc/x86_64-redhat-linux/14/../../../../include/c++/14/x86_64-redhat-linux
 -isystem/usr/lib/gcc/x86_64-redhat-linux/14/../../../../include/c++/14/backward
