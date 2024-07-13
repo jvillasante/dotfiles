@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <cstdint>
+#include <random>
 
 namespace utils::math
 {
@@ -30,6 +31,13 @@ input_t get_bit_range(input_t num, input_t start, input_t end)
 {
     input_t mask = ((1U << (end - start + 1)) - 1) << start;
     return (num & mask) >> start;
+}
+
+inline int random_int(int min, int max)
+{
+    // One engine instance per thread
+    auto thread_local static engine = std::default_random_engine{std::random_device{}()};
+    return std::uniform_int_distribution<>{min, max}(engine);
 }
 
 template <std::uint8_t N, typename input_t = std::uint32_t, typename sum_t = std::uint64_t>
