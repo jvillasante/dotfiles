@@ -5,12 +5,9 @@
 
 (use-package gptel
     :defer t
-    :defines gptel-expert-commands
-    :functions gptel-make-ollama
-    :custom ((gptel-default-mode 'org-mode))
-    :config
-    (setq gptel-expert-commands t)
-    (setq gptel-model "gpt-4o"))
+    :custom ((gptel-default-mode 'org-mode)
+             (gptel-expert-commands t)
+             (gptel-model "gpt-4o")))
 
 (use-package chatgpt-shell
     :disabled t
