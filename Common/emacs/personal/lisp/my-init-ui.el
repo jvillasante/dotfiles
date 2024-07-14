@@ -37,8 +37,8 @@
 (global-set-key (kbd "<C-wheel-down>") 'ignore)
 
 ;; emacs29 mouse settings
-(setq dired-mouse-drag-files t)
-(setq mouse-drag-and-drop-region-cross-program t)
+;; (setq dired-mouse-drag-files t)
+;; (setq mouse-drag-and-drop-region-cross-program t)
 
 ;; setup visual-line and auto-fill
 (setq visual-line-fringe-indicators
