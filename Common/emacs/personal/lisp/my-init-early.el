@@ -164,8 +164,7 @@
 
     (when IS-MAC
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-        (setq browse-url-browser-function 'browse-url-generic)
-        (setq browse-url-generic-program "open")
+        (setq browse-url-browser-function 'eww-browse-url)
         (setq ns-use-proxy-icon nil)
         (setq ns-use-thin-smoothing t)
         (setq ns-alternate-modifier nil)
@@ -185,8 +184,7 @@
 
     (when IS-LINUX
         (setq x-super-keysym 'meta)
-        (setq browse-url-browser-function 'browse-url-generic)
-        (setq browse-url-generic-program "xdg-open")
+        (setq browse-url-browser-function 'eww-browse-url)
         (defconst my--clang-path "/usr/bin/clang")
         (defconst my--mu-path "/usr/bin/mu")
         (defconst my--msmtp-path "/usr/bin/msmtp")))
