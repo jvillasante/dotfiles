@@ -10,10 +10,7 @@
     :custom ((gptel-default-mode 'org-mode))
     :config
     (setq gptel-expert-commands t)
-    (gptel-make-ollama "Ollama"
-        :host "localhost:11434"
-        :stream t
-        :models '("llama3:latest")))
+    (setq gptel-model "gpt-4o"))
 
 (use-package chatgpt-shell
     :disabled t
