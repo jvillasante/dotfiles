@@ -14,13 +14,12 @@
     (require 'epg)
     (setq epg-gpg-home-directory (expand-file-name ".gnupg" my--home-path))
     (setq epg-gpg-program (executable-find "gpg2"))
-    (setq epg-pinentry-mode 'loopback)
+    ;; (setq epg-pinentry-mode 'loopback)
 
     ;; setup epa
     (require 'epa-file)
-    (setq
-     epa-file-encrypt-to user-mail-address
-     epa-file-cache-passphrase-for-symmetric-encryption nil)
+    (setq epa-file-encrypt-to user-mail-address
+          epa-file-cache-passphrase-for-symmetric-encryption nil)
     ;; (epa-file-enable) ;; already enabled?
 
     ;; setup auth-sources
