@@ -37,5 +37,11 @@
                 ("F" . casual-ibuffer-filter-tmenu)
                 ("s" . casual-ibuffer-sortby-tmenu)))
 
+(require 're-builder)
+(use-package casual-re-builder
+    :requires casual-suite
+    :bind (:map reb-mode-map
+                ("C-o" . casual-re-builder-tmenu)))
+
 (provide 'my-init-transient)
 ;;; my-init-transient.el ends here
