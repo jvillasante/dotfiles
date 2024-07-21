@@ -34,10 +34,9 @@
 ;; bootstrap use-package
 (use-package use-package
     :ensure nil ;; emacs built-in
-    :custom
-    (use-package-verbose t)
-    (use-package-always-ensure t)
-    (use-package-expand-minimally t))
+    :custom ((use-package-verbose t)
+             (use-package-always-ensure t)
+             (use-package-expand-minimally t)))
 
 ;; bootstrap use-package `:vc'
 (when (version<= "29.0" emacs-version)
