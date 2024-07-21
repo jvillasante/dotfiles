@@ -1,4 +1,4 @@
-;;; Personal configuration -*- lexical-binding: t -*-
+;;; minimal configuration -*- lexical-binding: t -*-
 ;;; https://emacs.amodernist.com/
 
 ;; Add the NonGNU ELPA package archive
