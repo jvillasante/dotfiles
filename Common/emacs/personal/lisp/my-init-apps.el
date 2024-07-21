@@ -100,8 +100,8 @@
           (expand-file-name "pdf-view-restore" no-littering-var-directory)))
 
 (use-package atomic-chrome
-    :init
-    (atomic-chrome-start-server)
+    :disabled t
+    :init (atomic-chrome-start-server)
     :config
     (setq atomic-chrome-buffer-open-style 'frame)
     (setq atomic-chrome-default-major-mode 'markdown-mode
