@@ -256,20 +256,19 @@ Run this function at the post theme load phase, such as with the
 
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
+    :hook (after-init . minions-mode)
     :config
     (progn
         (with-eval-after-load 'minions
             (push 'flymake-mode minions-prominent-modes)
-            (push 'overwrite-mode minions-prominent-modes))
-        (add-hook 'after-init-hook 'minions-mode)))
+            (push 'overwrite-mode minions-prominent-modes))))
 
 ;; which-key : displays the key bindings following your currently entered incomplete command (a prefix) in a popup.
 (use-package which-key
-    :init
-    (add-hook 'pre-command-hook 'which-key-mode)
-    :config
-    (setq which-key-idle-delay 1
-          which-key-popup-type 'minibuffer))
+    :ensure nil ;; emacs built-in
+    :hook (after-init . which-key-mode)
+    :custom ((which-key-idle-delay 1)
+             (which-key-popup-type 'minibuffer)))
 
 ;; anzu : displays current match and total matches information in the mode-line in various search modes.
 (use-package anzu

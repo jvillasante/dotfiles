@@ -17,8 +17,8 @@
            minions modus-themes monkeytype multiple-cursors nadvice no-littering nov ntlm orderless org org-superstar
            password-store pdf-view-restore peg project python rainbow-delimiters request rust-mode seq so-long
            soap-client surround svg tabspaces track-changes tramp transient treesit-auto use-package vc-use-package verb
-           verilog-mode vertico vterm vundo wgrep which-key whole-line-or-region window-tool-bar xref yaml-mode
-           yasnippet-snippets zig-mode))
+           verilog-mode vertico vterm vundo wgrep whole-line-or-region window-tool-bar xref yaml-mode yasnippet-snippets
+           zig-mode))
  '(package-vc-selected-packages
       '((vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package"))))
 (custom-set-faces
