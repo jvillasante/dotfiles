@@ -125,8 +125,8 @@ emacs_update() {
     # Setup git branch
     local BRANCH
     BRANCH=$(git branch --show-current)
-    [[ "$BRANCH" != emacs-29 ]] && git checkout emacs-29
-    # [[ "$BRANCH" != emacs-30 ]] && git checkout emacs-30
+    # [[ "$BRANCH" != emacs-29 ]] && git checkout emacs-29
+    [[ "$BRANCH" != emacs-30 ]] && git checkout emacs-30
     git fetch && git pull
 
     # Build and install
