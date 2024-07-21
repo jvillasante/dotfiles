@@ -103,28 +103,24 @@
 ;; saveplace : remembers your location in a file when saving files
 (use-package saveplace
     :ensure nil ;; emacs built-in
-    :config
-    (setq save-place-file (expand-file-name "saveplace" no-littering-var-directory))
-    (setq save-place-forget-unreadable-files nil)
-    (save-place-mode 1))
+    :init (save-place-mode +1))
 
 ;; savehist : save minibuffer history
 (use-package savehist
     :ensure nil ;; emacs built-in
+    :init (savehist-mode +1)
     :config
     (setq history-length t
           history-delete-duplicates t
           savehist-save-minibuffer-history t
-          savehist-additional-variables '(register-alist kill-ring search-ring regexp-search-ring) ;; search entries
-          savehist-file (expand-file-name "savehist" no-littering-var-directory))
-    (savehist-mode +1))
+          savehist-additional-variables '(register-alist kill-ring search-ring regexp-search-ring)))
 
 ;; recentf : recent files
 (use-package recentf
     :ensure nil ;; emacs built-in
+    :init (recentf-mode +1)
     :config
-    (setq recentf-save-file (expand-file-name "recentf" no-littering-var-directory)
-          recentf-max-saved-items 500
+    (setq recentf-max-saved-items 500
           recentf-max-menu-items 15
           recentf-auto-cleanup 'never)
     (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-var-directory))
@@ -139,8 +135,7 @@
     (add-to-list 'recentf-exclude "/usr/")
     (add-to-list 'recentf-exclude "\\.?ido\\.last$")
     (add-to-list 'recentf-exclude "^/nix/store/")
-    (add-to-list 'recentf-exclude ".+\\.mp3$")
-    (recentf-mode +1))
+    (add-to-list 'recentf-exclude ".+\\.mp3$"))
 
 ;; project.el : default project manager
 (use-package project

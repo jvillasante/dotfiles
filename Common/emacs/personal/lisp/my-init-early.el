@@ -110,7 +110,7 @@
 ;; s.el : The long lost Emacs string manipulation library.
 (use-package s)
 
-;; backups and auto-safe
+;; backups and auto-save
 (require 'my-utils)
 (use-package emacs
     :ensure nil ;; emacs built-in
