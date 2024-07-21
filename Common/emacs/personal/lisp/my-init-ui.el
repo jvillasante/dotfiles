@@ -252,7 +252,8 @@ Run this function at the post theme load phase, such as with the
               #'my--modus-themes-org-fontify-block-delimiter-lines)
 
     ;; Load theme
-    (my--switch-theme 'modus-operandi))
+    ;; (my--switch-theme 'modus-operandi)
+    (modus-themes-load-theme 'modus-operandi))
 
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
