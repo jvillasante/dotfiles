@@ -36,9 +36,10 @@
 (global-set-key (kbd "<C-wheel-up>") 'ignore)
 (global-set-key (kbd "<C-wheel-down>") 'ignore)
 
-;; emacs29 mouse settings
-;; (setq dired-mouse-drag-files t)
-;; (setq mouse-drag-and-drop-region-cross-program t)
+;; emacs29_ mouse settings
+(when (>= emacs-major-version 29)
+    (setq dired-mouse-drag-files t)
+    (setq mouse-drag-and-drop-region-cross-program t))
 
 ;; setup visual-line and auto-fill
 (setq visual-line-fringe-indicators
@@ -171,18 +172,16 @@
 ;; tab-bar : frame-local tabs with named persistent window configurations
 (use-package tab-bar
     :ensure nil ;; emacs built-in
-    :hook
-    ((after-init . tab-bar-mode)
-     (pre-command . tab-bar-history-mode))
+    :hook ((after-init . tab-bar-mode)
+           (pre-command . tab-bar-history-mode))
     :config
-    (setq tab-bar-show 1
-          tab-bar-new-button nil
-          tab-bar-history-limit 100
-          tab-bar-close-button-show nil
-          tab-bar-new-tab-choice "*scratch*"
-          tab-bar-tab-hints t
-          tab-bar-separator nil
-          tab-bar-format '(tab-bar-format-tabs
+    (setq tab-bar-show 1                           ;; hide bar if <= 1 tabs open
+          tab-bar-new-button nil                   ;; hide button for creating new tabs
+          tab-bar-close-button-show nil            ;; hide tab close / X button
+          tab-bar-history-limit 100                ;; the number of history elements
+          tab-bar-new-tab-choice "*scratch*"       ;; buffer to show in new tabs
+          tab-bar-tab-hints t                      ;; show tab numbers
+          tab-bar-format '(tab-bar-format-tabs     ;; elements to include in bar
                            tab-bar-separator)))
 
 ;; modeline
