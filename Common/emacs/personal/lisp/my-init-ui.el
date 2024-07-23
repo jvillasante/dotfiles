@@ -67,7 +67,7 @@
                   (lambda (frame)
                       (with-selected-frame frame
                           (my--setup-fonts))))
-    (my--setup-fonts))
+    (add-hook 'after-init-hook #'my--setup-fonts))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook 'variable-pitch-mode)
