@@ -72,7 +72,14 @@
 ;; eww
 (use-package eww
     :ensure nil ;; emacs built-in
-    :init (setq eww-search-prefix "https://duckduckgo.com/?q="))
+    :init
+    (setq
+     browse-url-browser-function 'eww-browse-url      ; Use eww as the default browser
+     shr-use-fonts  nil                               ; No special fonts
+     shr-use-colors nil                               ; No colours
+     shr-indentation 2                                ; Left-side margin
+     shr-width 78                                     ; Fold text to 78 columns
+     eww-search-prefix "https://duckduckgo.com/?q=")) ; Use another engine for searching
 
 ;; calc
 (use-package calc-mode
