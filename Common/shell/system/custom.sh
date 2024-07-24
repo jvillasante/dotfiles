@@ -68,7 +68,7 @@ if type emacs > /dev/null 2> /dev/null; then
     function ediff    { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (ediff-files \"$1\" \"$2\"))"; }
     function edired   { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (dired \"$1\"))"; }
     function emagit   { emacsclient -c -a '' --eval "(progn (select-frame-set-input-focus (selected-frame)) (magit-status \"$1\"))"; }
-    function eww      { emacsclient -c -a '' --eval '(eww-browse-url "'"$1"'")'; }
+    function eww      { emacsclient -c -a '' --eval "(eww-browse-url \"$*\")"; }
     function ekill    { emacsclient --eval '(save-buffers-kill-emacs)'; }
     function estatus  { systemctl --user status emacs.service; }
     function edebug   { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/personal/ "$@"; }
