@@ -6,9 +6,10 @@
 ;; dired : built-in navigation of folders
 (use-package dired
     :ensure nil ;; emacs built-in
-    :hook ((dired-mode . auto-revert-mode)
-           (dired-mode . dired-hide-details-mode)
-           (dired-mode . hl-line-mode))
+    :hook((dired-mode . (lambda ()
+                            (auto-revert-mode)
+                            (dired-hide-details-mode)
+                            (hl-line-mode))))
     :config
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
     (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
