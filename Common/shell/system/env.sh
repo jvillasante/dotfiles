@@ -42,6 +42,9 @@ if [ -n "$EAT_SHELL_INTEGRATION_DIR" ]; then
         # shellcheck source=/dev/null
         source "$EAT_SHELL_INTEGRATION_DIR/bash"
     fi
+
+    # eat alias to open a file inside emacs
+    alias eopen='_eat_msg open'
 fi
 
 # snap

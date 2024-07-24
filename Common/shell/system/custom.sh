@@ -71,11 +71,8 @@ if type emacs > /dev/null 2> /dev/null; then
     function eww      { emacsclient -c -a '' --eval "(eww-browse-url \"$*\")"; }
     function ekill    { emacsclient --eval '(save-buffers-kill-emacs)'; }
     function estatus  { systemctl --user status emacs.service; }
-    function edebug   { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/personal/ "$@"; }
-    function eminimal { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal/ "$@"; }
-
-    # eat alias to open a file inside emacs
-    alias eopen='_eat_msg open'
+    function edebug   { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/personal/ "$*"; }
+    function eminimal { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal/ "$*"; }
 fi
 
 # vim
