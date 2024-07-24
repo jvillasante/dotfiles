@@ -12,6 +12,9 @@
 ;; Set default font face
 (set-face-attribute 'default nil :font "Berkeley Mono 14")
 
+;; remove the title bar only when frame is maximized
+(add-hook 'window-size-change-functions 'frame-hide-title-bar-when-maximized)
+
 ;; Disable the menu bar
 (menu-bar-mode -1)
 
