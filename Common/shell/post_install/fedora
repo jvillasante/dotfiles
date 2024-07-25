@@ -50,10 +50,6 @@ install_berkeley_mono_font() {
 
     # Build font information caches
     fc-cache -f
-
-    # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-    #     gsettings set org.gnome.desktop.interface monospace-font-name 'Berkeley Mono'
-    # fi
 }
 
 fedora_install() {
@@ -193,11 +189,6 @@ fedora_install() {
 
                     # Set fractional scaling (only for wayland)
                     gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
-
-                    # font
-                    gsettings set org.gnome.desktop.interface font-hinting 'full'
-                    gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
-                    # gsettings set org.gnome.desktop.interface text-scaling-factor 1.25 # using fractional scaling instead
 
                     # Stop Gnome Software downloading updates
                     # gsettings set org.gnome.software allow-updates false
@@ -535,7 +526,17 @@ fedora_install() {
                 sudo dnf install -y adobe-source-code-pro-fonts
                 sudo dnf install -y jetbrains-mono-fonts-all
                 sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
+                sudo dnf install -y rsms-inter-fonts rsms-inter-vf-fonts
                 install_berkeley_mono_font
+
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    gsettings set org.gnome.desktop.interface font-hinting 'full'
+                    gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
+                    gsettings set org.gnome.desktop.interface font-name 'Inter Variable 11'
+                    gsettings set org.gnome.desktop.interface document-font-name 'Inter 11'
+                    gsettings set org.gnome.desktop.interface monospace-font-name 'Berkeley Mono 11'
+                    # gsettings set org.gnome.desktop.interface text-scaling-factor 1.25 # using fractional scaling instead
+                fi
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
