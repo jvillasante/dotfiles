@@ -74,13 +74,25 @@
 
 ;; web-mode : Support various web files
 (use-package web-mode
-    :disabled t
-    :mode ("\\.css\\'" "\\.html\\'" "\\.ts\\'" "\\.js\\'" "\\.jsx?$" "\\.vue\\'")
-    :custom
-    (web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
-    (web-mode-markup-indent-offset 2)
-    (web-mode-css-indent-offset 2)
-    (web-mode-code-indent-offset 2))
+    :mode ("\\.css\\'"
+           "\\.html?\\'"
+           "\\.html\\.twig\\'"
+           "\\.phtml\\'"
+           "\\.tpl\\.php\\'"
+           "\\.ts\\'"
+           "\\.js\\'"
+           "\\.jsx?$"
+           "\\.vue\\'")
+    :custom ((web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
+             (web-mode-markup-indent-offset 2)
+             (web-mode-css-indent-offset 2)
+             (web-mode-code-indent-offset 2)))
+
+;; php-mode
+(use-package php-mode
+    :custom ((php-mode-coding-style 'psr2)
+             (php-mode-template-compatibility nil)
+             (php-imenu-generic-expression 'php-imenu-generic-expression-simple)))
 
 (use-package python
     :config
