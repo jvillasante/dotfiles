@@ -40,10 +40,9 @@
 
 ;; bootstrap use-package `:vc'
 (when (version<= "29.0" emacs-version)
-    ;; will be able to remove the following package-vc-install as of emacs30
-    ;; as this will be built-in. Example usage:
-    ;; (use-package org-ql
-    ;;     :vc (:fetcher github :repo "alphapapa/org-ql"))
+    ;; Example usage:
+    ;;   (use-package org-ql
+    ;;       :vc (:fetcher github :repo "alphapapa/org-ql"))
     (unless (package-installed-p 'vc-use-package)
         (package-vc-install "https://github.com/slotThe/vc-use-package")))
 
