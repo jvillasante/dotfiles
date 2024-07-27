@@ -34,7 +34,7 @@
 (global-set-key (kbd "C-x 9") 'my--clone-buffer-in-new-window-readonly) ; same
 
 ;; ctl-x-4-map
-(define-key ctl-x-4-map (kbd "t") 'my--toggle-window-split)
+(define-key ctl-x-4-map (kbd "T") 'my--toggle-window-split)
 
 ;; duplicate current line or region
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
@@ -290,7 +290,7 @@
     ;; (global-set-key (kbd "C-c F") 'crux-recentf-find-directory)
     ;; (global-set-key (kbd "C-c u") 'crux-view-url)
     ;; (global-set-key (kbd "C-c e") 'crux-eval-and-replace)
-    ;; (global-set-key (kbd "C-x 4 t") 'crux-transpose-windows)
+    (global-set-key (kbd "C-x 4 t") 'crux-transpose-windows)
     (global-set-key (kbd "C-c D") 'crux-delete-file-and-buffer)
     ;; (global-set-key (kbd "C-c c") 'crux-copy-file-preserve-attributes)
     (global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
@@ -299,7 +299,7 @@
     ;; (global-set-key (kbd "C-c t") 'crux-visit-term-buffer)
     (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
     ;; (global-set-key (kbd "C-M-z") 'crux-indent-defun)
-    (global-set-key (kbd "C-c TAB") 'crux-indent-rigidly-and-copy-to-clipboard)
+    ;; (global-set-key (kbd "C-c TAB") 'crux-indent-rigidly-and-copy-to-clipboard)
     ;; (global-set-key (kbd "C-c i") 'crux-find-user-init-file)
     ;; (global-set-key (kbd "C-c I") 'crux-find-user-custom-file)
     ;; (global-set-key (kbd "C-c S") 'crux-find-shell-init-file)
