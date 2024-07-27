@@ -130,6 +130,7 @@
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".mail/" my--home-path)))
     (add-to-list 'recentf-exclude "/dev/shm/")
     (add-to-list 'recentf-exclude "\\.git")
+    (add-to-list 'recentf-exclude "\\.jar$\\.rar$\\.zip$\\.tar$\\.gz$\\.iso$\\.7z$")
     (add-to-list 'recentf-exclude "/tmp/")
     (add-to-list 'recentf-exclude "/ssh:")
     (add-to-list 'recentf-exclude "/usr/")
@@ -232,7 +233,7 @@
 (use-package editorconfig
     :config
     (setq editorconfig-exclude-regexps
-          '("\\.jar$" "\\.tar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$"))
+          '("\\.jar$" "\\.rar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$"))
     (editorconfig-mode 1))
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
