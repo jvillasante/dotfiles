@@ -16,9 +16,7 @@
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-;; fine resize
-(setq frame-resize-pixelwise t)
-
+(setq frame-resize-pixelwise t) ;; fine resize
 (blink-cursor-mode -1) ; annoying!
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; Disable scrollbar
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; Disable toolbar
@@ -291,44 +289,6 @@ Run this function at the post theme load phase, such as with the
     :config
     (setq aw-minibuffer-flag t)
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
-
-;; all-the-icons
-(progn
-    (use-package all-the-icons :disabled t)
-    (use-package all-the-icons-ibuffer
-        :disabled t
-        :after (all-the-icons)
-        :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
-    (use-package all-the-icons-completion
-        :disabled t
-        :after (marginalia all-the-icons)
-        :init (all-the-icons-completion-mode)
-        :hook (marginalia-mode all-the-icons-completion-marginalia-setup))
-    (use-package all-the-icons-dired
-        :disabled t
-        :after (all-the-icons)
-        :hook (dired-mode . all-the-icons-dired-mode)))
-
-;; nerd-icons
-(progn
-    (use-package nerd-icons :disabled t)
-    (use-package nerd-icons-ibuffer
-        :disabled t
-        :after (nerd-icons)
-        :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
-    (use-package nerd-icons-completion
-        :disabled t
-        :after (marginalia nerd-icons)
-        :init (nerd-icons-completion-mode)
-        :hook (marginalia-mode nerd-icons-completion-marginalia-setup))
-    (use-package nerd-icons-corfu
-        :disabled t
-        :after (corfu nerd-icons)
-        :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-    (use-package nerd-icons-dired
-        :disabled t
-        :after (nerd-icons)
-        :hook (dired-mode . nerd-icons-dired-mode)))
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 ;;          https://www.masteringemacs.org/article/demystifying-emacs-window-manager
