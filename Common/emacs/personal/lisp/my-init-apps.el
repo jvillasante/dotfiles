@@ -31,8 +31,12 @@
     :config
     (require 'gnus-topic)
     (setq gnus-select-method '(nnnil))
+    ;; (add-to-list 'gnus-secondary-select-methods
+    ;;              '(nntp "news.eternal-september.org"
+    ;;                     (nntp-open-connection-function nntp-open-ssl-stream)
+    ;;                     (nntp-port-number 563)))
     (add-to-list 'gnus-secondary-select-methods
-                 '(nntp "news.eternal-september.org"
+                 '(nntp "news.newshosting.com"
                         (nntp-open-connection-function nntp-open-ssl-stream)
                         (nntp-port-number 563)))
 
