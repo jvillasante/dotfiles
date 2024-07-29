@@ -43,5 +43,11 @@
     :bind (:map reb-mode-map
                 ("C-o" . casual-re-builder-tmenu)))
 
+(require 'bookmarks)
+(use-package casual-bookmarks
+    :requires casual-suite
+    :bind (:map bookmark-bmenu-mode-map
+                ("C-o" . casual-bookmarks-tmenu)))
+
 (provide 'my-init-transient)
 ;;; my-init-transient.el ends here
