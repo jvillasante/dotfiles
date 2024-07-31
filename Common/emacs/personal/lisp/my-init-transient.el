@@ -37,15 +37,15 @@
                 ("F" . casual-ibuffer-filter-tmenu)
                 ("s" . casual-ibuffer-sortby-tmenu)))
 
-(require 're-builder)
 (use-package casual-re-builder
     :requires casual-suite
+    :defines reb-mode-map
     :bind (:map reb-mode-map
                 ("C-o" . casual-re-builder-tmenu)))
 
-(require 'bookmarks)
 (use-package casual-bookmarks
     :requires casual-suite
+    :defines bookmark-bmenu-mode-map
     :bind (:map bookmark-bmenu-mode-map
                 ("C-o" . casual-bookmarks-tmenu)))
 
