@@ -14,8 +14,6 @@ configure() {
     tmux send-keys -t "$selected_name" "git status" Enter
     tmux split-window -v -l 80% -t "$selected_name" -c "$selected"
 
-    local image="nntp:latest"
-
     tmux send-keys -t "$selected_name" \
          "docker run --user nntpuser --rm --interactive --tty --volume $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp nntp:latest /bin/bash" Enter
     tmux send-keys -t "$selected_name" "mkdir build && cd build && ln -s ../Makefile" Enter
