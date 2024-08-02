@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-. "$HOME/.config/shell/common.sh"
+# shellcheck source=/dev/null
+source "$HOME/.config/shell/common.sh"
 
 usage() {
     echo "Usage:"
@@ -66,21 +67,23 @@ update() {
     test $? -eq 0 || usage 1
     echo ">>> Updating 'user.js' file for $PROFILE"
 
-    cat > "${PROFILE}/user.js" << ENDOFFILE
-/*********************************************************************
-*
-* name: user.js
-* descr.: Mozilla Firefox configuration file: 'user.js'
-*
-**********************************************************************/
+    # Cleanup
+    [ -f "${PROFILE}"/user.js ] && rm -f "${PROFILE}"/user.js
+    [ -f "${PROFILE}"/user-overrides.js ] && rm -f "${PROFILE}"/user-overrides.js
 
-// Some Defaults
+    # Get latest
+    curl -o "${PROFILE}"/user.js https://raw.githubusercontent.com/yokoffing/Betterfox/main/user.js
+    test $? -eq 0 || usage 1
+
+    # Add overrides
+    cat > "${PROFILE}/user-overrides.js" << ENDOFFILE
+// Re-enables 'about:home' page for startup landing page and new tabs
 user_pref("browser.startup.page", 1);
 user_pref("browser.startup.homepage", "about:home");
 user_pref("browser.newtabpage.enabled", true);
 user_pref("browser.newtab.preload", true);
 
-// Disables Pocket extension.
+// Disables Pocket extension
 user_pref("extensions.pocket.enabled", false);
 
 // Make tabbar height smaller
@@ -89,13 +92,27 @@ user_pref("browser.uidensity", 1);
 // Disable show menu on ALT press
 user_pref("ui.key.menuAccessKeyFocuses", false);
 
+// Enable container tabs
+user_pref("privacy.userContext.enabled", true);
+
+// Disable login manager
+user_pref("signon.rememberSignons", false);
+
+// Disable address and credit card manager
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.creditCards.enabled", false);
+
+// Do not allow embedded tweets, Instagram, Reddit, and Tiktok posts
+user_pref("urlclassifier.trackingSkipURLs", "");
+user_pref("urlclassifier.features.socialtracking.skipURLs", "");
+
 // Run on the GPU
 user_pref("layers.acceleration.force-enabled", true);
 
 // 1=always block, 2=you want to be prompted for every site that tries to autoplay
 user_pref("media.autoplay.default", 1);
 
-// END: internal custom pref to test for syntax errors
+/* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
     test $? -eq 0 || usage 1
