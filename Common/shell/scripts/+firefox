@@ -106,6 +106,16 @@ user_pref("extensions.formautofill.creditCards.enabled", false);
 user_pref("urlclassifier.trackingSkipURLs", "");
 user_pref("urlclassifier.features.socialtracking.skipURLs", "");
 
+// Enable HTTPS-Only Mode
+user_pref("dom.security.https_only_mode", true);
+user_pref("dom.security.https_only_mode_error_page_user_suggestions", true);
+
+// Set DoH provider
+user_pref("network.trr.uri", "https://dns.quad9.net/dns-query");
+
+// Enforce DNS-over-HTTPS (DoH)
+user_pref("network.trr.mode", 3);
+
 // Run on the GPU
 user_pref("layers.acceleration.force-enabled", true);
 
