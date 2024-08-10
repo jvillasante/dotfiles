@@ -195,7 +195,7 @@
             (doom-modeline-icon nil)
             (doom-modeline-major-mode-icon nil)
             (doom-modeline-major-mode-color-icon nil)
-            (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+            (doom-modeline-buffer-file-name-style 'auto)
             (doom-modeline-buffer-state-icon nil)
             (doom-modeline-buffer-modification-icon nil)
             (doom-modeline-minor-modes nil)
