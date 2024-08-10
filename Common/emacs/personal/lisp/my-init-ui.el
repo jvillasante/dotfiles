@@ -22,6 +22,9 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; Disable toolbar
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))     ; Disable menubar
 
+;; only display real names in the modeline
+(setq find-file-visit-truename t)
+
 ;; ???
 (set-display-table-slot standard-display-table 'truncation 32)
 (set-display-table-slot standard-display-table 'wrap 32)
@@ -184,6 +187,28 @@
 
 ;; modeline
 (setq mode-line-compact 'long)
+(setq mode-line-right-align-edge 'right-fringe)
+(use-package doom-modeline
+    :custom((doom-modeline-icon nil)
+            (doom-modeline-height 1)
+            (doom-modeline-bar-width 1)
+            (doom-modeline-icon nil)
+            (doom-modeline-major-mode-icon nil)
+            (doom-modeline-major-mode-color-icon nil)
+            (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+            (doom-modeline-buffer-state-icon nil)
+            (doom-modeline-buffer-modification-icon nil)
+            (doom-modeline-minor-modes nil)
+            (doom-modeline-enable-word-count nil)
+            (doom-modeline-buffer-encoding t)
+            (doom-modeline-indent-info nil)
+            (doom-modeline-check-simple-format t)
+            (doom-modeline-vcs-max-length 16)
+            (doom-modeline-env-version t)
+            (doom-modeline-irc-stylize 'identity)
+            (doom-modeline-github-timer nil)
+            (doom-modeline-gnus-timer nil))
+    :hook (after-init . doom-modeline-mode))
 
 ;; theme
 (use-package modus-themes
