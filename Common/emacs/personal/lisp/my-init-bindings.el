@@ -385,6 +385,10 @@
 (when (package-installed-p 'docker)
     (global-set-key (kbd "C-c o d") 'docker))
 
+;; override `C-x C-o' with eglot support
+(with-eval-after-load 'c-ts-mode
+    (define-key c-ts-base-mode-map (kbd "C-x C-o") 'my--eglot-clangd-find-other-file))
+
 ;;; Prefix
 ;; C-c f : find
 (global-set-key (kbd "C-c f f") 'project-find-file)

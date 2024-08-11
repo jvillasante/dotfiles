@@ -57,6 +57,19 @@
         (let ((disabled-modes '(emacs-lisp-mode dockerfile-ts-mode)))
             (unless (apply 'derived-mode-p disabled-modes)
                 (eglot-ensure))))
+    (defun my--eglot-clangd-find-other-file ()
+        "Switch between the corresponding C/C++ source and header file."
+        (interactive)
+        (let* ((server (eglot--current-server-or-lose))
+               (rep
+                (jsonrpc-request
+                 server
+                 :textDocument/switchSourceHeader
+                 (eglot--TextDocumentIdentifier))))
+            (unless (equal rep nil)
+                (if (equal current-prefix-arg nil)
+                        (funcall #'find-file (eglot--uri-to-path rep))
+                    (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
     :hook
     ((eglot-managed-mode . my--eglot-eldoc)
      (prog-mode . my--maybe-start-eglot))
