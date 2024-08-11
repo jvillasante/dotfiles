@@ -312,6 +312,7 @@ fedora_install() {
                 # Wayland stuff
                 if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
                     sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
+                    sudo dnf install -y ydotool
                 fi
 
                 # X11 stuff
