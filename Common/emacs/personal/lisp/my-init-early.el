@@ -68,10 +68,6 @@
 (setq user-full-name "Julio C. Villasante"
       user-mail-address "jvillasantegomez@gmail.com"
       user-login-name "jvillasante")
-(setq scroll-margin 3
-      scroll-step 1
-      scroll-conservatively 10000
-      auto-window-vscroll nil)
 (setq visible-cursor nil) ;; make it work in terminal too
 (setq inhibit-startup-screen t) ; Hide the startup screen
 (if (boundp 'use-short-answers) ;; Use "y" and "n" to confirm/negate prompt

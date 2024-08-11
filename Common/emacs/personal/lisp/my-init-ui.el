@@ -88,6 +88,12 @@
                           (concat dired-directory))
                          (t (buffer-name))))))
 
+;; scrolling
+(setq-default scroll-margin 3
+              scroll-step 1
+              scroll-conservatively 10000
+              auto-window-vscroll nil)
+
 ;; winner-mode : "undo" and "redo" changes in window configurations
 (use-package winner
     :ensure nil ;; emacs built-in
@@ -98,7 +104,7 @@
 (use-package pixel-scroll
     :ensure nil ;; emacs built-in
     :if (fboundp 'pixel-scroll-precision-mode)
-    :custom ((pixel-scroll-precision-interpolation-factor 1.0)
+    :custom ((pixel-scroll-precision-interpolation-factor 0.75)
              (pixel-scroll-precision-use-momentum t)
              (pixel-scroll-precision-interpolate-mice t)
              (pixel-scroll-precision-large-scroll-height 10.0)
