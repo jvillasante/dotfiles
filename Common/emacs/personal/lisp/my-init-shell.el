@@ -122,6 +122,7 @@
     (add-to-list 'project-switch-commands '(my--vterm-project-other-window "vTerm other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
     :config
+    (setq vterm-timer-delay 0.01)
     (setq vterm-copy-mode-remove-fake-newlines t)
     (setq vterm-kill-buffer-on-exit t)
     (setq vterm-copy-exclude-prompt t)
