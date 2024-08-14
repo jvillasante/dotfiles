@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <sstream>
+#include <memory>
 #include <mutex>
 #include <thread>
 #include <algorithm>
@@ -36,4 +37,26 @@ void join_all(Collection& collection)
 {
     join_all(std::begin(collection), std::end(collection));
 }
+
+/**
+ * The anti-lock unlocks a `mutex` at construction and locks it at destruction.
+ */
+template <typename Guard>
+struct anti_lock
+{
+    using mutex_type = typename Guard::mutex_type;
+
+    explicit anti_lock(Guard& guard) : mutex_(guard.mutex())
+    {
+        if (mutex_) { mutex_->unlock(); }
+    }
+
+private:
+    struct anti_lock_deleter
+    {
+        void operator()(mutex_type* mutex) { mutex->lock(); }
+    };
+
+    std::unique_ptr<mutex_type, anti_lock_deleter> mutex_;
+};
 } // namespace utils::threading
