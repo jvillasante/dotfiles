@@ -104,6 +104,25 @@
 (use-package pixel-scroll
     :ensure nil ;; emacs built-in
     :if (fboundp 'pixel-scroll-precision-mode)
+    :preface
+    (defvar my--default-scroll-lines 25) ;; scroll less than default
+    (defun my--pixel-scroll-up-command ()
+        "Similar to `scroll-up-command' but with pixel scrolling."
+        (interactive)
+        (pixel-scroll-precision-interpolate (- (* my--default-scroll-lines (line-pixel-height)))))
+    (defun my--pixel-scroll-down-command ()
+        "Similar to `scroll-down-command' but with pixel scrolling."
+        (interactive)
+        (pixel-scroll-precision-interpolate (* my--default-scroll-lines (line-pixel-height))))
+    (defun my--pixel-recenter-top-bottom ()
+        "Similar to `recenter-top-bottom' but with pixel scrolling."
+        (interactive)
+        (let* ((current-row (cdr (nth 6 (posn-at-point))))
+               (target-row (save-window-excursion
+                               (recenter-top-bottom)
+                               (cdr (nth 6 (posn-at-point)))))
+               (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
+            (pixel-scroll-precision-interpolate distance-in-pixels)))
     :custom ((pixel-scroll-precision-interpolation-factor 0.75)
              (pixel-scroll-precision-use-momentum t)
              (pixel-scroll-precision-interpolate-mice t)

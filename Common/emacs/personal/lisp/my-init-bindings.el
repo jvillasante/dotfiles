@@ -368,6 +368,11 @@
 (with-eval-after-load 'ace-window
     (global-set-key (kbd "C-x o") 'ace-window))
 
+(with-eval-after-load 'pixel-scroll
+    (define-key global-map [remap scroll-up-command]   'my--pixel-scroll-up-command)
+    (define-key global-map [remap scroll-down-command] 'my--pixel-scroll-down-command)
+    (define-key global-map [remap recenter-top-bottom] 'my--pixel-recenter-top-bottom))
+
 (with-eval-after-load 'gptel
     (define-key gptel-mode-map (kbd "C-c C-c") 'gptel-send))
 
