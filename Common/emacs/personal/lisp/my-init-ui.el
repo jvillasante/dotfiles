@@ -88,19 +88,17 @@
                           (concat dired-directory))
                          (t (buffer-name))))))
 
-;; scrolling
-(setq-default scroll-margin 3
-              scroll-step 1
-              scroll-conservatively 10000
-              auto-window-vscroll nil)
-
 ;; winner-mode : "undo" and "redo" changes in window configurations
 (use-package winner
     :ensure nil ;; emacs built-in
     :config
     (winner-mode 1))
 
-;; enable pixel-scroll-precision if available
+;; scrolling
+(setq-default scroll-margin 0
+              scroll-step 1
+              scroll-conservatively 10000
+              auto-window-vscroll nil)
 (use-package pixel-scroll
     :ensure nil ;; emacs built-in
     :if (fboundp 'pixel-scroll-precision-mode)
