@@ -95,7 +95,7 @@
     (winner-mode 1))
 
 ;; scrolling
-(setq-default scroll-margin 0
+(setq-default scroll-margin 3
               scroll-step 1
               scroll-conservatively 10000
               auto-window-vscroll nil)
