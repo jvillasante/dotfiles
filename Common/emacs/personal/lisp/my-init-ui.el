@@ -22,6 +22,9 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; Disable toolbar
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))     ; Disable menubar
 
+;; default amount of padding to use when calling `aligh-regexp'
+(setq align-default-spacing 0)
+
 ;; only display real names in the modeline
 (setq find-file-visit-truename t)
 
