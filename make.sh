@@ -90,6 +90,13 @@ install_emacs() {
     #     git clone git@github.com:fbrosda/yasnippet-treesitter-shim.git "$DOTFILES_DIR/.yasnippet-treesitter-shim"
     #     check $?
     # fi
+
+    # Install Emacs Minimal
+    # if [ ! -d "$DOTFILES_DIR/.emacs.minimal" ]; then
+    #     echo ">>> Installing Emacs Minimal at $DOTFILES_DIR/.emacs.minimal"
+    #     git clone --depth 1 git@github.com:jamescherti/minimal-emacs.d.git "$DOTFILES_DIR/.emacs.minimal"
+    #     check $?
+    # fi
 }
 
 install_shell "bash"
