@@ -231,6 +231,7 @@
 
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
+    :ensure nil ;; emacs built-in
     :config
     (setq editorconfig-exclude-regexps
           '("\\.jar$" "\\.rar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$"))
