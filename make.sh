@@ -153,30 +153,34 @@ if [ -d "$HOME/.var/app/engineer.atlas.Nyxt/config/" ]; then
 fi
 
 echo ">>> Linking work files in $HOME/Workspace/Work..."
-if [ -d "$HOME/Workspace/Work/Omicron" ]; then
-    [ -L "$HOME/Workspace/Work/Omicron/.gitconfig" ] && unlink "$HOME/Workspace/Work/Omicron/.gitconfig"
-    ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Omicron"
+if [ -d "$HOME/Workspace/Work/Omicron/Projects/nntpcode/" ]; then
+    echo ">>> Got here..."
+    worktrees="master review scratch test work"
+    [ -L "$HOME/Workspace/Work/Omicron/Projects/.gitconfig" ] &&
+           unlink "$HOME/Workspace/Work/Omicron/Projects/.gitconfig"
+    ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Omicron/Projects"
 
-    if [ -d "$HOME/Workspace/Work/Omicron/Projects/nntpcode" ]; then
-        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt" ] &&
-            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
+    for worktree in $worktrees; do
+        echo ">>> Worktree: $worktree..."
+        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/compile_flags.txt" ] &&
+            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/compile_flags.txt"
         if [ -f /etc/fedora-release ]; then
             ln -s "$DOTFILES_DIR/Misc/work/nntpcode/compile_flags.fedora.txt" \
-                "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
+                "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/compile_flags.txt"
         elif [ -f /etc/debian_version ]; then
             ln -s "$DOTFILES_DIR/Misc/work/nntpcode/compile_flags.debian.txt" \
-                "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
+                "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/compile_flags.txt"
         elif [ -f /etc/products.d/openSUSE.prod ]; then
             ln -s "$DOTFILES_DIR/Misc/work/nntpcode/compile_flags.suse.txt" \
-                "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
+                "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/compile_flags.txt"
         else
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
 
-        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el" ] &&
-            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el"
-        ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.dir-locals.el" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
-    fi
+        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/.dir-locals.el" ] &&
+            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/.dir-locals.el"
+        ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.dir-locals.el" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/"
+    done
 fi
 
 if [ -d "$HOME/Workspace/Work/Nielsen" ]; then
