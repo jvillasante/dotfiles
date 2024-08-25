@@ -161,7 +161,6 @@ if [ -d "$HOME/Workspace/Work/Omicron/Projects/nntpcode/" ]; then
     ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Omicron/Projects"
 
     for worktree in $worktrees; do
-        echo ">>> Worktree: $worktree..."
         [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/compile_flags.txt" ] &&
             unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/$worktree/compile_flags.txt"
         if [ -f /etc/fedora-release ]; then
