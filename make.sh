@@ -153,9 +153,10 @@ if [ -d "$HOME/.var/app/engineer.atlas.Nyxt/config/" ]; then
 fi
 
 echo ">>> Linking work files in $HOME/Workspace/Work..."
-if [ -d "$HOME/Workspace/Work/Omicron" ]; then
-    [ -L "$HOME/Workspace/Work/Omicron/.gitconfig" ] && unlink "$HOME/Workspace/Work/Omicron/.gitconfig"
-    ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Omicron"
+if [ -d "$HOME/Workspace/Work/Omicron/Projects" ]; then
+    [ -L "$HOME/Workspace/Work/Omicron/Projects/.gitconfig" ] &&
+        unlink "$HOME/Workspace/Work/Omicron/Projects/.gitconfig"
+    ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Omicron/Projects"
 
     if [ -d "$HOME/Workspace/Work/Omicron/Projects/nntpcode" ]; then
         [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt" ] &&
