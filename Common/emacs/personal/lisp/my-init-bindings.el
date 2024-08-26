@@ -24,7 +24,6 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 (global-set-key (kbd "C-.") 'repeat)
-(global-set-key (kbd "C-z") 'repeat)
 (global-set-key (kbd "C-x C-z") 'repeat)
 
 ;; really kill emacs even on `emacsclient'
