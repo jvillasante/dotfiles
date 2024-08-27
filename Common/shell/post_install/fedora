@@ -350,7 +350,8 @@ fedora_install() {
                 sudo dnf install -y pass
 
                 # Git stuff
-                sudo dnf install -y git         # git itself
+                sudo dnf install -y git           # git itself
+                sudo dnf install -y git-email     # support for email based workflow
                 # sudo dnf install -y difftastic  # better diffs
                 # sudo dnf install -y git-delta   # better diffs
                 # sudo dnf install -y lazygit     # terminal git
