@@ -1,4 +1,4 @@
-;;; my-init-vcs.el --- -*- lexical-binding: t; -*-
+;;; my-init-vcs.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -7,8 +7,6 @@
 (setq vc-follow-symlinks t)
 
 (use-package magit
-    :defines magit-status-mode-map
-    :functions magit-status magit-restore-window-configuration magit-mode-get-buffers
     :preface
     (defun my--magit-kill-buffers ()
         "Restore window configuration and kill all Magit buffers."
@@ -25,14 +23,12 @@
              (magit-define-global-key-bindings nil)))
 
 (use-package diff-hl
-    :functions global-diff-hl-mode
     :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)
            (magit-post-refresh . diff-hl-magit-post-refresh)
            (dired-mode . diff-hl-dir-mode))
     :config (global-diff-hl-mode))
 
 (use-package hl-todo
-    :defines hl-todo-highlight-punctuation
     :hook ((prog-mode . hl-todo-mode)
            (conf-mode . hl-todo-mode))
     :config (setq hl-todo-highlight-punctuation ":"))

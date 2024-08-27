@@ -1,4 +1,4 @@
-;;; my-init-org.el --- -*- lexical-binding: t; -*-
+;;; my-init-org.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

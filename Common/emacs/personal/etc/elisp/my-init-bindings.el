@@ -1,4 +1,4 @@
-;;; my-init-bindings.el --- -*- lexical-binding: t; -*-
+;;; my-init-bindings.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

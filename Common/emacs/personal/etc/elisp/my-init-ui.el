@@ -1,4 +1,4 @@
-;;; my-init-ui.el --- -*- lexical-binding: t; -*-
+;;; my-init-ui.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

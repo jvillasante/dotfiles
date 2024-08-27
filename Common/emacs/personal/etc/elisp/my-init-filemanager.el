@@ -1,4 +1,4 @@
-;;; my-init-filemanager.el --- -*- lexical-binding: t; -*-
+;;; my-init-filemanager.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

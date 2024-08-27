@@ -5,8 +5,5 @@
 !.gitignore
 !early-init.el
 !init.el
-!custom.el
 !/etc/
 !/etc/**
-!/lisp/
-!/lisp/**

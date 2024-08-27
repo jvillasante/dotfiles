@@ -1,4 +1,4 @@
-;;; modus-themes-exporter.el --- Help port the active Modus theme to external applications -*- lexical-binding:t -*-
+;;; modus-themes-exporter.el --- Help port the active Modus theme to external applications -*- no-byte-compile: t; lexical-binding:t -*-
 
 ;; Copyright (C) 2021-2023  Protesilaos Stavrou
 

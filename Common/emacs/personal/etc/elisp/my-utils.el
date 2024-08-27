@@ -1,4 +1,4 @@
-;;; my-utils.el --- -*- lexical-binding: t; -*-
+;;; my-utils.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

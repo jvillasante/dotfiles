@@ -1,4 +1,4 @@
-;;; my-init-modal.el --- -*- lexical-binding: t; -*-
+;;; my-init-modal.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

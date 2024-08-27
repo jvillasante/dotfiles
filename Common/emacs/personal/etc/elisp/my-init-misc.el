@@ -1,4 +1,4 @@
-;;; my-init-misc.el --- -*- lexical-binding: t; -*-
+;;; my-init-misc.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

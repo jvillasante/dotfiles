@@ -1,13 +1,14 @@
-;;; init.el --- -*- lexical-binding: t; -*-
+;;; init.el --- Init -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
 
-;; config changes made through the customize UI will be stored here
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(when (and custom-file
-           (file-exists-p custom-file))
-    (load custom-file nil 'nomessage))
+;; custom
+;; (setq custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
+;; (when (and custom-file
+;;            (file-exists-p custom-file))
+;;     (load custom-file nil 'nomessage))
+(setq custom-file null-device)
 
 ;; set EDITOTR to `emacsclient' as early as possible
 (setf (getenv "EDITOR") "emacsclient")
@@ -38,17 +39,8 @@
              (use-package-always-ensure t)
              (use-package-expand-minimally t)))
 
-;; bootstrap use-package `:vc'
-(when (version<= "29.0" emacs-version)
-    ;; Example usage:
-    ;;   (use-package org-ql
-    ;;       :vc (:fetcher github :repo "alphapapa/org-ql"))
-    (unless (package-installed-p 'vc-use-package)
-        (package-vc-install "https://github.com/slotThe/vc-use-package")))
-
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
-    :functions exec-path-from-shell-initialize exec-path-from-shell-copy-env
     :init
     (when (daemonp)
         (exec-path-from-shell-initialize)
@@ -58,7 +50,6 @@
 
 ;; Idle garbage collection
 (use-package gcmh
-    :functions gcmh-mode
     :config
     ;; (setopt garbage-collection-messages t)
     ;; (setopt gcmh-high-cons-threshold (* 256 1000 1000))
@@ -78,24 +69,24 @@
 (defconst my--dropbox-path (expand-file-name "Dropbox/" my--home-path))
 
 ;; load config
-(load (expand-file-name "lisp/my-utils"              user-emacs-directory))
-(load (expand-file-name "lisp/my-init-early"         user-emacs-directory))
-(load (expand-file-name "lisp/my-init-completion"    user-emacs-directory))
-(load (expand-file-name "lisp/my-init-vcs"           user-emacs-directory))
-(load (expand-file-name "lisp/my-init-org"           user-emacs-directory))
-(load (expand-file-name "lisp/my-init-langs"         user-emacs-directory))
-(load (expand-file-name "lisp/my-init-lang-tools"    user-emacs-directory))
-(load (expand-file-name "lisp/my-init-apps"          user-emacs-directory))
-(load (expand-file-name "lisp/my-init-shell"         user-emacs-directory))
-(load (expand-file-name "lisp/my-init-misc"          user-emacs-directory))
-(load (expand-file-name "lisp/my-init-filemanager"   user-emacs-directory))
-(load (expand-file-name "lisp/my-init-workspaces"    user-emacs-directory))
-(load (expand-file-name "lisp/my-init-modal"         user-emacs-directory))
-(load (expand-file-name "lisp/my-init-ui"            user-emacs-directory))
-(load (expand-file-name "lisp/my-init-ai"            user-emacs-directory))
-(load (expand-file-name "lisp/my-init-bindings"      user-emacs-directory))
-(load (expand-file-name "lisp/my-init-transient"     user-emacs-directory))
-(load (expand-file-name "lisp/modus-themes-exporter" user-emacs-directory))
+(load (expand-file-name "elisp/my-utils"              no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-early"         no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-completion"    no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-vcs"           no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-org"           no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-langs"         no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-lang-tools"    no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-apps"          no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-shell"         no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-misc"          no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-filemanager"   no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-workspaces"    no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-modal"         no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-ui"            no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-ai"            no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-bindings"      no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-transient"     no-littering-etc-directory))
+(load (expand-file-name "elisp/modus-themes-exporter" no-littering-etc-directory))
 
 (provide 'init)
 ;;; init.el ends here

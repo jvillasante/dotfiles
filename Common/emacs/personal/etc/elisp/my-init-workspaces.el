@@ -1,4 +1,4 @@
-;;; my-init-workspaces.el --- -*- lexical-binding: t; -*-
+;;; my-init-workspaces.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

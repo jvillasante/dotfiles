@@ -1,4 +1,4 @@
-;;; my-init-completion.el --- -*- lexical-binding: t; -*-
+;;; my-init-completion.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

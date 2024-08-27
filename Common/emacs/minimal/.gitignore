@@ -5,3 +5,6 @@
 !.gitignore
 !init.el
 !early-init.el
+!custom.el
+!/etc/
+!/etc/**

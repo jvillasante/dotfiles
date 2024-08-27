@@ -1,4 +1,4 @@
-;;; my-init-apps.el --- -*- lexical-binding: t; -*-
+;;; my-init-apps.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -182,8 +182,9 @@
 ;; elfeed
 (use-package elfeed
     :defer t
-    :preface (defun my--elfeed-delete-window-after-kill-buffer (&rest args)
-                 (delete-window (selected-window)))
+    :preface
+    (defun my--elfeed-delete-window-after-kill-buffer (&rest args)
+        (delete-window (selected-window)))
     :init
     ;; `elfeed-kill-buffer' only kills the buffer, but won't delete
     ;; the window. This is not an ideal behavior since you typically
