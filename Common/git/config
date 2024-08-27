@@ -2,6 +2,9 @@
     name = Julio C. Villasante
     email = jvillasantegomez@gmail.com
 
+[github]
+    user = jvillasante
+
 [includeIf "gitdir:~/Workspace/Work/"]
     path = ~/Workspace/Work/.gitconfig
     # https://git-scm.com/docs/git-config#_includes
