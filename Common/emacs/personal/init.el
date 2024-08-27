@@ -80,10 +80,10 @@
 ;; load config
 (load (expand-file-name "lisp/my-utils"              user-emacs-directory))
 (load (expand-file-name "lisp/my-init-early"         user-emacs-directory))
-;; (load (expand-file-name "lisp/my-init-completion"    user-emacs-directory))
+(load (expand-file-name "lisp/my-init-completion"    user-emacs-directory))
 (load (expand-file-name "lisp/my-init-vcs"           user-emacs-directory))
 (load (expand-file-name "lisp/my-init-org"           user-emacs-directory))
-;; (load (expand-file-name "lisp/my-init-langs"         user-emacs-directory))
+(load (expand-file-name "lisp/my-init-langs"         user-emacs-directory))
 (load (expand-file-name "lisp/my-init-lang-tools"    user-emacs-directory))
 (load (expand-file-name "lisp/my-init-apps"          user-emacs-directory))
 (load (expand-file-name "lisp/my-init-shell"         user-emacs-directory))
