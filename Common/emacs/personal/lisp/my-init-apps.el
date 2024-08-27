@@ -278,6 +278,7 @@
             ;; Linux
             "http://dominique.leuenberger.net/blog/feed/rss/"
             ;; Misc
+            "https://world.hey.com/dhh/feed.atom"
             "https://susam.net/feed.xml"
             "https://mazzo.li/rss.xml"
             "https://neil.computer/rss"
