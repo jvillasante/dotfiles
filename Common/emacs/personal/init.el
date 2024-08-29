@@ -3,13 +3,6 @@
 ;;
 ;;; Code:
 
-;; custom
-;; (setq custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
-;; (when (and custom-file
-;;            (file-exists-p custom-file))
-;;     (load custom-file nil 'nomessage))
-(setq custom-file null-device)
-
 ;; set EDITOTR to `emacsclient' as early as possible
 (setf (getenv "EDITOR") "emacsclient")
 
@@ -67,6 +60,12 @@
 (defconst my--dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my--home-path))
 (defconst my--software-path (expand-file-name "Workspace/Software/" my--home-path))
 (defconst my--dropbox-path (expand-file-name "Dropbox/" my--home-path))
+
+;; custom
+(setq custom-file (expand-file-name "custom.el" no-littering-etc-directory))
+(when (and custom-file
+           (file-exists-p custom-file))
+    (load custom-file nil 'nomessage))
 
 ;; load config
 (load (expand-file-name "elisp/my-utils"              no-littering-etc-directory))

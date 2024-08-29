@@ -9,6 +9,11 @@
              (gptel-expert-commands t)
              (gptel-model "gpt-4o")))
 
+(use-package gptel-quick
+    :defer t
+    :vc (:url "https://github.com/karthink/gptel-quick"
+              :rev :newest))
+
 (use-package chatgpt-shell
     :disabled t
     :defer t
