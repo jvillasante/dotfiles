@@ -19,7 +19,7 @@
 (use-package treesit
     :ensure nil ;; emacs built-in
     :preface
-    (defun my--setup-install-grammars ()
+    (defun my--treesit-install-language-grammars ()
         "Install Tree-sitter grammars if they are absent."
         (interactive)
         (dolist (grammar

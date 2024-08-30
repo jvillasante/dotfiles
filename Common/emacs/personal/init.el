@@ -61,13 +61,6 @@
 (defconst my--software-path (expand-file-name "Workspace/Software/" my--home-path))
 (defconst my--dropbox-path (expand-file-name "Dropbox/" my--home-path))
 
-;; custom
-(let ((custom-file
-       (expand-file-name "custom.el" no-littering-etc-directory)))
-    (when (and custom-file
-               (file-exists-p custom-file))
-        (load custom-file nil 'nomessage)))
-
 ;; load config
 (load (expand-file-name "elisp/my-utils"              no-littering-etc-directory))
 (load (expand-file-name "elisp/my-init-early"         no-littering-etc-directory))

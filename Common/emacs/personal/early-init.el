@@ -17,6 +17,14 @@
               (lambda nil
                   (setq gc-cons-threshold original-gc-cons-threshold))))
 
+;; custom
+(setq custom-file (expand-file-name "etc/custom.el" user-emacs-directory))
+(add-hook 'emacs-startup-hook
+          (lambda nil
+              (when (and custom-file
+                         (file-exists-p custom-file))
+                  (load custom-file nil 'nomessage))))
+
 ;; set default UI
 (setq-default default-frame-alist '((width . 170)
                                     (height . 50)
