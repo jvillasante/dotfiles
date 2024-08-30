@@ -3,6 +3,7 @@
 ;;
 ;;; Code:
 
+;; Give `treesit-explore-mode' or `treesit-inspect-mode' a try!
 (use-package treesit
     :ensure nil ;; emacs built-in
     :config (setq treesit-font-lock-level 4))
