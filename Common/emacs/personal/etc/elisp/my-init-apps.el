@@ -192,6 +192,7 @@
     ;; you have finished reading.
     (advice-add #'elfeed-kill-buffer :after #'my--elfeed-delete-window-after-kill-buffer)
     :config
+    (setq elfeed-use-curl t)
     (setq elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
     (setq elfeed-search-title-min-width 60)
     (setq elfeed-search-title-max-width 100)
