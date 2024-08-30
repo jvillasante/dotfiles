@@ -380,8 +380,8 @@
     (define-key copilot-completion-map (kbd "TAB")   'copilot-accept-completion))
 
 (with-eval-after-load 'pdf-tools
-    (define-key pdf-view-mode-map (kbd "o") 'pdf-outline)
-    (define-key pdf-view-mode-map (kbd "q") nil))
+    ;; (define-key pdf-view-mode-map (kbd "q") nil)
+    (define-key pdf-view-mode-map (kbd "o") 'pdf-outline))
 
 (with-eval-after-load 'nov
     (define-key nov-mode-map (kbd "q") nil))
