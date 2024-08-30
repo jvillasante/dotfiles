@@ -145,26 +145,6 @@
           `(,(no-littering-expand-var-file-name "tree-sitter")))
     (setq treesit-font-lock-level 4))
 
-;; treesit-auto : Automatically install and use tree-sitter major modes in Emacs 29+
-(use-package treesit-auto
-    :disabled t
-    :custom
-    (treesit-auto-install 'prompt)
-    :config
-    (when (version<= "29.0" emacs-version)
-        (add-to-list 'treesit-auto-recipe-list
-                     (make-treesit-auto-recipe
-                      :lang 'cpp
-                      :ts-mode 'c++-ts-mode
-                      :remap 'c++-mode
-                      :url "https://github.com/tree-sitter/tree-sitter-cpp"
-                      :revision "v0.22.0" ;; BUG: newer grammar breaks syntax highlighting in `c++-ts-mode'
-                      :ext "\\.cpp\\'"))
-        (setq major-mode-remap-alist
-              (treesit-auto--build-major-mode-remap-alist))) ;; BUG: https://github.com/renzmann/treesit-auto/issues/76
-    (treesit-auto-add-to-auto-mode-alist 'all)
-    (global-treesit-auto-mode))
-
 ;; elisp
 (use-package elisp-mode
     :ensure nil ;; emacs built-in
