@@ -6,7 +6,10 @@
 ;; Give `treesit-explore-mode' or `treesit-inspect-mode' a try!
 (use-package treesit
     :ensure nil ;; emacs built-in
-    :config (setq treesit-font-lock-level 4))
+    :config
+    (treesit-extra-load-path
+     `(,(no-littering-expand-var-file-name "tree-sitter")))
+    (setq treesit-font-lock-level 4))
 
 ;; treesit-auto : Automatically install and use tree-sitter major modes in Emacs 29+
 (use-package treesit-auto
