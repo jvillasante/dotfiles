@@ -124,7 +124,7 @@
           recentf-max-menu-items 15
           recentf-auto-cleanup 'never)
     (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-var-directory))
-    (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-etc-directory))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "secrets/" no-littering-etc-directory)))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "Apps/elfeed/elfeed_db/" my--dropbox-path)))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".password-store/" my--home-path)))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".mail/" my--home-path)))
@@ -145,7 +145,8 @@
     ((project-list-file (expand-file-name "projects" no-littering-var-directory))
      (project-vc-extra-root-markers '(".project.el" ".projectile" ".dir-locals.el"))
      (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
-    :config (add-to-list 'project-switch-commands '(project-dired "Dired at root")))
+    :config
+    (add-to-list 'project-switch-commands '(project-dired "Dired at root")))
 
 ;; tramp : Transparent Remote Access, Multiple Protocols
 (use-package tramp
