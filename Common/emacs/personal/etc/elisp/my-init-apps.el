@@ -80,9 +80,9 @@
     (setq
      browse-url-browser-function 'eww-browse-url      ; Use eww as the default browser
      shr-use-fonts  nil                               ; No special fonts
-     shr-use-colors nil                               ; No colours
+     shr-use-colors nil                               ; No colors
      shr-indentation 2                                ; Left-side margin
-     shr-width 78                                     ; Fold text to 78 columns
+     shr-width 79                                     ; Fold text to 79 columns
      eww-search-prefix "https://duckduckgo.com/?q=")) ; Use another engine for searching
 
 ;; calc
