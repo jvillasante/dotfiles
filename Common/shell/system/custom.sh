@@ -4,7 +4,8 @@ stty erase ^? # kill ^u intr ^c eof ^d stop ^s
 set -o emacs
 
 # term
-TERM=xterm-256color && export TERM
+export TERM=xterm-256color
+export COLORTERM=truecolor
 
 # You may need to manually set your language environment
 LC_ALL=en_US.UTF-8 && export LC_ALL
