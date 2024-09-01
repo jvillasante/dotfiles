@@ -357,12 +357,13 @@
 (with-eval-after-load 'dired-x
     (define-key dired-mode-map (kbd ".") 'dired-omit-mode))
 
-(with-eval-after-load 'dired-sidebar
+(when (package-installed-p 'dired-sidebar)
     (global-set-key (kbd "C-x C-n") 'dired-sidebar-toggle-sidebar))
 
-(with-eval-after-load 'neotree
+(when (package-installed-p 'neotree)
     (global-set-key (kbd "C-x C-n") 'my--neotree-project-dir)
-    (define-key neotree-mode-map (kbd ".") 'neotree-hidden-file-toggle))
+    (with-eval-after-load 'neotree
+        (define-key neotree-mode-map (kbd ".") 'neotree-hidden-file-toggle)))
 
 (with-eval-after-load 'ace-window
     (global-set-key (kbd "C-x o") 'ace-window))
