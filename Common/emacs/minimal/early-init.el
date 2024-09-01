@@ -44,12 +44,12 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 
 ;;; Set custom
 
-;; (setq custom-theme-directory
-;;       (expand-file-name "themes/" my--user-directory))
-;; (setq custom-file
-;;       (expand-file-name "custom.el" my--user-directory))
+(setq custom-theme-directory
+      (expand-file-name "etc/themes/" my--user-directory))
+(setq custom-file
+      (expand-file-name "etc/custom.el" my--user-directory))
 
-(setq custom-file null-device)
+;; (setq custom-file null-device)
 
 ;;; Misc
 
@@ -274,12 +274,17 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)
 (setq use-package-always-ensure t)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(when (version< emacs-version "28")
+    (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(setq package-archive-priorities
+      '(("gnu"           . 99)
+        ("melpa-stable"  . 80)
+        ("melpa"         . 60)
+        ("nongnu"        . 10)))
 (customize-set-variable 'package-archive-priorities '(("gnu"    . 99)
-                                                      ("nongnu" . 80)
+                                                      ;; ("nongnu" . 80)
                                                       ("stable" . 70)
                                                       ("melpa"  . 0)))
 
