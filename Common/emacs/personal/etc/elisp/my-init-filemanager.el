@@ -104,7 +104,8 @@
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
-    :disabled t
+    :vc (:url "https://github.com/jojojames/dired-sidebar.git"
+              :rev :newest)
     :init
     (add-hook 'dired-sidebar-mode-hook
               (lambda ()
@@ -119,6 +120,7 @@
     (setq dired-sidebar-use-term-integration t))
 
 (use-package neotree
+    :disabled t
     :preface
     (defun my--neotree-project-dir ()
         "Open NeoTree using project root."
