@@ -271,6 +271,7 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 (defalias #'view-hello-file #'ignore)  ; Never show the hello file
 
 ;;; package.el
+(require 'package)
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)
 (setq use-package-always-ensure t)
