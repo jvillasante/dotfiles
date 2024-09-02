@@ -281,9 +281,9 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (setq package-archive-priorities
       '(("gnu"           . 99)
-        ("melpa-stable"  . 80)
-        ("melpa"         . 60)
-        ("nongnu"        . 10)))
+        ("nongnu"        . 80)
+        ("melpa-stable"  . 60)
+        ("melpa"         . 40)))
 
 ;; Ensure that some built-in (e.g., org-mode) are always up to date
 (setq package-install-upgrade-built-in t)

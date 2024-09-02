@@ -10,13 +10,15 @@
 (require 'package)
 (when (version< emacs-version "28")
     (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (setq package-archive-priorities
       '(("gnu"           . 99)
-        ("melpa-stable"  . 80)
-        ("melpa"         . 60)
-        ("nongnu"        . 10)))
+        ("nongnu"        . 80)
+        ("melpa-stable"  . 60)
+        ("melpa"         . 40)))
 (setq package-user-dir (expand-file-name "var/elpa" user-emacs-directory))
 (when (boundp 'package-gnupghome-dir)
     (setq package-gnupghome-dir
