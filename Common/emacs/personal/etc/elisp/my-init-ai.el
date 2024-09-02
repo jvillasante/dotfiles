@@ -5,9 +5,16 @@
 
 (use-package gptel
     :defer t
-    :custom ((gptel-default-mode 'org-mode)
-             (gptel-expert-commands t)
-             (gptel-model "gpt-4o")))
+    :custom
+    (gptel-default-mode 'org-mode)
+    (gptel-expert-commands t)
+    :config
+    ;; (setq gptel-model "gpt-4o")
+    (setq
+     gptel-model "claude-3-sonnet-20240229"
+     gptel-backend (gptel-make-anthropic "Claude"
+                       :stream t
+                       :key (auth-source-pick-first-password :host "console.claude.com"))))
 
 (use-package gptel-quick
     :defer t
@@ -18,6 +25,7 @@
 
 ;; Define word or phrase
 (use-package gptel
+    :defer t
     :config
     (defvar my--gptel-define-word-prompt
         "Please give a short definition of this word or phrase. Then, provide 3 usage examples, synonyms and antonyms"
@@ -44,26 +52,6 @@
                               (message response))
                 :system my--gptel-define-word-prompt
                 :context input))))
-
-(use-package chatgpt-shell
-    :disabled t
-    :defer t
-    :custom
-    ((chatgpt-shell-openai-key
-      (auth-source-pick-first-password :host "api.openai.com"))))
-
-(use-package copilot
-    :disabled t
-    :preface
-    (defun my--maybe-start-copilot ()
-        "Exclude some modes from copilot."
-        (let ((disabled-modes '(lisp-interaction-mode)))
-            (unless (apply 'derived-mode-p disabled-modes)
-                (copilot-mode))))
-    :hook
-    ((prog-mode . my--maybe-start-copilot)
-     (copilot-mode . (lambda ()
-                         (setq-local copilot--indent-warning-printed-p t)))))
 
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here
