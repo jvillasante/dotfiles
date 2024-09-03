@@ -21,13 +21,13 @@
            modus-themes monkeytype multiple-cursors nadvice no-littering nov
            ntlm orderless org org-superstar password-store pdf-view-restore peg
            php-mode project python rainbow-delimiters request rust-mode seq
-           show-font so-long soap-client surround svg tabspaces track-changes
-           tramp use-package verb verilog-mode vertico vundo web-mode wgrep
-           which-key whole-line-or-region window-tool-bar xref yaml-mode
+           so-long soap-client surround svg tabspaces track-changes tramp
+           use-package verb verilog-mode vertico vundo web-mode wgrep which-key
+           whole-line-or-region window-tool-bar xref yaml-mode
            yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
-      '((show-font :url "git@github.com:protesilaos/show-font.git")
-           (gptel-quick :url "https://github.com/karthink/gptel-quick"))))
+      '((gptel-quick :url "git@github.com:karthink/gptel-quick.git")
+           (dired-sidebar :url "git@github.com:jojojames/dired-sidebar.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
