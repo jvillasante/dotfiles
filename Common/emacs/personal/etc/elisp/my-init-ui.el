@@ -76,6 +76,11 @@
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook 'variable-pitch-mode)
 
+;; useful to show the fonts
+(use-package show-font
+    :vc (:url "git@github.com:protesilaos/show-font.git"
+              :rev :newest))
+
 ;; Set default frame title
 (setq-default frame-title-format
               '(:eval

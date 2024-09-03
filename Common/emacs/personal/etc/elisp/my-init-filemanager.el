@@ -104,7 +104,7 @@
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
-    :vc (:url "https://github.com/jojojames/dired-sidebar.git"
+    :vc (:url "git@github.com:jojojames/dired-sidebar.git"
               :rev :newest)
     :init
     (add-hook 'dired-sidebar-mode-hook

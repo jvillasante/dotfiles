@@ -18,7 +18,7 @@
 
 (use-package gptel-quick
     :defer t
-    :vc (:url "https://github.com/karthink/gptel-quick"
+    :vc (:url "git@github.com:karthink/gptel-quick.git"
               :rev :newest)
     :config
     (keymap-set embark-general-map "?" #'gptel-quick))
@@ -47,11 +47,11 @@
             (error "You must have a region set"))
         (let ((input (buffer-substring-no-properties (region-beginning) (region-end))))
             (gptel-request nil
-                :callback (lambda (response info)
-                              (my--gptel-stash-response "*Last Definition*" (plist-get info :context) response)
-                              (message response))
-                :system my--gptel-define-word-prompt
-                :context input))))
+                           :callback (lambda (response info)
+                                         (my--gptel-stash-response "*Last Definition*" (plist-get info :context) response)
+                                         (message response))
+                           :system my--gptel-define-word-prompt
+                           :context input))))
 
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here
