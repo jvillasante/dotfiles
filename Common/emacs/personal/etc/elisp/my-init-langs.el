@@ -32,7 +32,7 @@
                    (clojure    "https://github.com/sogaiu/tree-sitter-clojure" "master" "src")
                    (cmake      "https://github.com/uyha/tree-sitter-cmake")
                    (commonlisp "https://github.com/tree-sitter-grammars/tree-sitter-commonlisp")
-                   (cpp        "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")
+                   (cpp        "https://github.com/tree-sitter/tree-sitter-cpp/" "v0.22.3" "src")
                    (css        "https://github.com/tree-sitter/tree-sitter-css")
                    (dart       "https://github.com/ast-grep/tree-sitter-dart")
                    (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "main" "src")
