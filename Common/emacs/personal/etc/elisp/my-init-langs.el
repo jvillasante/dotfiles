@@ -81,9 +81,6 @@
             (unless (treesit-language-available-p (car grammar))
                 (treesit-install-language-grammar (car grammar)
                                                   (no-littering-expand-var-file-name "tree-sitter")))))
-    :init
-    (my--treesit-install-language-grammars)
-
     :config
     ;; Optional, but recommended. Tree-sitter enabled major modes are
     ;; distinct from their ordinary counterparts.
