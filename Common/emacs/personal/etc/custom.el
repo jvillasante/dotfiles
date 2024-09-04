@@ -11,7 +11,7 @@
  '(package-selected-packages
       '(adoc-mode anzu apheleia bind-key cape casual-suite cl-generic cl-lib
            cmake-mode compat consult-dir consult-eglot corfu crux csv-mode deft
-           devdocs-browser diff-hl dired-sidebar diredfl docker doom-modeline
+           devdocs-browser diff-hl dired-sidebar diredfl doom-modeline
            dwim-shell-command eat editorconfig eglot eldoc elfeed elisp-demos
            embark-consult engine-mode erc eshell-prompt-extras
            exec-path-from-shell expreg external-completion faceup

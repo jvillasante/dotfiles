@@ -161,24 +161,6 @@
     :disabled t
     :defer t)
 
-;; docker : Emacs integration for Docker!
-(use-package docker
-    :config
-    (when (package-installed-p 'vterm)
-        (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
-
-    ;; When docker run is called on an image whose repository name matches the regular expression "^postgres",
-    ;; the option "-e POSTGRES_PASSWORD=postgres" will appear as set along with the defaults specified by `docker-image-run-default-args'.
-    (add-to-list 'docker-image-run-custom-args
-                 `("^postgres" ("-e POSTGRES_PASSWORD=postgres" . ,docker-image-run-default-args)))
-
-    ;; docker run --user nntpuser --rm --interactive --tty --volume $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp nntp:latest /bin/bash
-    (add-to-list 'docker-image-run-custom-args
-                 `("^nntp" ("-u nntpuser"
-                            "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntpcode:/tmp/nntpcode"
-                            "-w /tmp/nntpcode"
-                            "--name nntpcode" . ,docker-image-run-default-args))))
-
 ;; elfeed
 (use-package elfeed
     :defer t
