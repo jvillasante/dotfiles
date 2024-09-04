@@ -564,15 +564,14 @@ fedora_install() {
                 flatpak install --user -y flathub org.keepassxc.KeePassXC
                 flatpak install --user -y flathub com.transmissionbt.Transmission
                 flatpak install --user -y flathub org.telegram.desktop
+                flatpak install --user -y flathub com.valvesoftware.Steam
+                flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
                 # flatpak install --user -y flathub com.borgbase.Vorta
                 # flatpak install --user -y flathub io.github.Hexchat
                 # flatpak install --user -y flathub engineer.atlas.Nyxt
                 # flatpak install --user -y flathub org.mozilla.firefox
-                # flatpak install --user -y flathub org.telegram.desktop
                 # flatpak install --user -y flathub org.gnucash.GnuCash
                 # flatpak install --user -y flathub com.skype.Client
-                # flatpak install --user -y flathub com.valvesoftware.Steam
-                # flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
                 # flatpak install --user -y flathub im.riot.Riot
                 # flatpak install --user -y flathub com.obsproject.Studio
                 # flatpak install --user -y flathub com.brave.Browser
