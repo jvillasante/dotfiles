@@ -28,10 +28,6 @@
 ;; only display real names in the modeline
 (setq find-file-visit-truename t)
 
-;; ???
-(set-display-table-slot standard-display-table 'truncation 32)
-(set-display-table-slot standard-display-table 'wrap 32)
-
 ;; activate `mouse-avoidance-mode'
 (mouse-avoidance-mode 'cat-and-mouse)
 
@@ -150,6 +146,7 @@
                         help-mode
                         magit-mode
                         magit-diff-mode
+                        archive-mode
                         ibuffer-mode
                         dired-mode
                         occur-mode
@@ -162,7 +159,7 @@
 
     ;; Set whitespace actions (`C-h f whitespace-cleanup' for more cleanup actions)
     (setq-default whitespace-action
-                  '(cleanup auto-cleanup))
+                  '(auto-cleanup))
 
     ;; Make these characters represent whitespace
     (setq-default whitespace-display-mappings
