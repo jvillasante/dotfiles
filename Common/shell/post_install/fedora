@@ -197,6 +197,13 @@ fedora_install() {
                 fi
 
                 #
+                # Udev rules for ZSA Voyager
+                #
+
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/50-zsa.rules \
+                     /etc/udev/rules.d/50-zsa.rules
+
+                #
                 # Grub
                 #
 
@@ -853,7 +860,7 @@ fedora_install() {
                 sudo gpasswd -a "$USER" uinput
 
                 # Second Create new udev rule granting access:
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xkeysnail/udev/70-xkeysnail.rules \
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/70-xkeysnail.rules \
                      /etc/udev/rules.d/70-xkeysnail.rules
 
                 # Enable the daemon
@@ -903,7 +910,7 @@ fedora_install() {
                 sudo gpasswd -a "$USER" input
 
                 # Second Create new udev rule granting access:
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xremap/udev/70-xremap.rules \
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/70-xremap.rules \
                      /etc/udev/rules.d/70-xremap.rules
 
                 # Enable the daemon
