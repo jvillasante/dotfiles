@@ -56,6 +56,10 @@
     (setq fortune-dir "/usr/share/games/fortune")
     (setq fortune-file "/usr/share/games/fortune/fortunes"))
 
+;; persistent-scratch : preserves the state of scratch buffers accross Emacs sessions
+(use-package persistent-scratch
+    :hook (after-init . persistent-scratch-setup-default))
+
 (use-package re-builder
     :ensure nil ;; emacs built-in
     :config (setq reb-re-syntax 'string))

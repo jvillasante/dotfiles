@@ -20,11 +20,11 @@
            let-alist lua-mode magit map marginalia markdown-mode minions
            modus-themes monkeytype multiple-cursors nadvice no-littering nov
            ntlm orderless org org-superstar password-store pdf-view-restore peg
-           php-mode project python rainbow-delimiters request rust-mode seq
-           so-long soap-client surround svg tabspaces track-changes tramp
-           use-package verb verilog-mode vertico vundo web-mode wgrep which-key
-           whole-line-or-region window-tool-bar xref yaml-mode
-           yasnippet-snippets zig-mode))
+           persistent-scratch php-mode project python rainbow-delimiters
+           request rust-mode seq so-long soap-client surround svg tabspaces
+           track-changes tramp use-package verb verilog-mode vertico vundo
+           web-mode wgrep which-key whole-line-or-region window-tool-bar xref
+           yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel-quick :url "git@github.com:karthink/gptel-quick.git")
            (dired-sidebar :url "git@github.com:jojojames/dired-sidebar.git"))))
