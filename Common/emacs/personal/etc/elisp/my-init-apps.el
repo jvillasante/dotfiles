@@ -292,7 +292,8 @@
             "https://www.tedinski.com/feed.xml"
             "https://matklad.github.io/feed.xml"
             "https://unixism.net/feed/"
-            "https://thelinuxcode.com/feed/")))
+            "https://thelinuxcode.com/feed/"
+            "https://selfboot.cn/en/atom.xml")))
 
 (provide 'my-init-apps)
 ;;; my-init-apps.el ends here
