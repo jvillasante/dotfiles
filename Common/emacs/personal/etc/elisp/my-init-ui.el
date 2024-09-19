@@ -191,6 +191,7 @@
 (setq mode-line-compact 'long)
 (setq mode-line-right-align-edge 'right-fringe)
 (use-package doom-modeline
+    :disabled t
     :custom((doom-modeline-icon nil)
             (doom-modeline-height 1)
             (doom-modeline-bar-width 1)
@@ -356,12 +357,13 @@ Run this function at the post theme load phase, such as with the
                    (window-parameters
                     (no-delete-other-windows . t))))
 
-    (add-to-list 'display-buffer-alist
-                 `(,(rx (| "*xref*"
-                           "*grep*"
-                           "*Occur*"))
-                   display-buffer-reuse-window
-                   (inhibit-same-window . nil))))
+    ;; (add-to-list 'display-buffer-alist
+    ;;              `(,(rx (| "*xref*"
+    ;;                        "*grep*"
+    ;;                        "*Occur*"))
+    ;;                display-buffer-reuse-window
+    ;;                (inhibit-same-window . nil)))
+    )
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
