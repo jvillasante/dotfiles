@@ -326,6 +326,10 @@
     (global-set-key (kbd "C-=") 'er/expand-region)
     (global-set-key (kbd "C--") 'er/contract-region))
 
+(with-eval-after-load 'easy-kill
+    (global-set-key [remap kill-ring-save] 'easy-kill)
+    (global-set-key [remap mark-sexp] 'easy-mark))
+
 (with-eval-after-load 'expreg
     (global-set-key (kbd "C-=") 'expreg-expand)
     (global-set-key (kbd "C--") 'expreg-contract))

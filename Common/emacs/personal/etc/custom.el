@@ -12,8 +12,8 @@
       '(adoc-mode anzu apheleia bind-key cape casual-suite cl-generic cl-lib
            cmake-mode compat consult-dir consult-eglot corfu crux csv-mode deft
            devdocs-browser diff-hl dired-sidebar diredfl doom-modeline
-           dwim-shell-command eat editorconfig eglot eldoc elfeed elisp-demos
-           embark-consult engine-mode erc eshell-prompt-extras
+           dwim-shell-command easy-kill eat editorconfig eglot eldoc elfeed
+           elisp-demos embark-consult engine-mode erc eshell-prompt-extras
            exec-path-from-shell expreg external-completion faceup
            fancy-compilation flymake gcmh go-mode gptel-quick helpful hl-todo
            ibuffer-project idlwave jinx js2-mode json-mode jsonrpc langtool
@@ -23,8 +23,8 @@
            persistent-scratch php-mode project python rainbow-delimiters
            request rust-mode seq so-long soap-client surround svg tabspaces
            track-changes tramp use-package verb verilog-mode vertico vundo
-           web-mode wgrep which-key whole-line-or-region window-tool-bar xref
-           yaml-mode yasnippet-snippets zig-mode))
+           web-mode wgrep which-key window-tool-bar xref yaml-mode
+           yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel-quick :url "git@github.com:karthink/gptel-quick.git")
            (dired-sidebar :url "git@github.com:jojojames/dired-sidebar.git"))))

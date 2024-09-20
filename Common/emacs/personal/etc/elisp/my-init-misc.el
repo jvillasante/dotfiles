@@ -257,7 +257,11 @@
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
+    :disabled t ;; using easy-kill instead
     :init (whole-line-or-region-global-mode))
+
+;; easy-kill : Kill & Mark Things Easily in Emacs
+(use-package easy-kill)
 
 ;; multiple-cursors: Multiple cursors for Emacs
 (use-package multiple-cursors)
