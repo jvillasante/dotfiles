@@ -11,15 +11,15 @@
  '(package-selected-packages
       '(adoc-mode anzu apheleia bind-key cape casual-suite cl-generic cl-lib
            cmake-mode compat consult-dir consult-eglot corfu crux csv-mode deft
-           devdocs-browser diff-hl dired-sidebar diredfl doom-modeline
-           dwim-shell-command easy-kill eat editorconfig eglot eldoc elfeed
-           elisp-demos embark-consult engine-mode erc eshell-prompt-extras
+           devdocs-browser diff-hl dired-sidebar diredfl dwim-shell-command
+           easy-kill eat editorconfig eglot eldoc elfeed elisp-demos
+           embark-consult engine-mode erc eshell-prompt-extras
            exec-path-from-shell expreg external-completion faceup
            fancy-compilation flymake gcmh go-mode gptel-quick helpful hl-todo
            ibuffer-project idlwave jinx js2-mode json-mode jsonrpc langtool
-           let-alist lua-mode magit map marginalia markdown-mode minions
-           modus-themes monkeytype multiple-cursors nadvice no-littering nov
-           ntlm orderless org org-superstar password-store pdf-view-restore peg
+           let-alist lua-mode map marginalia markdown-mode minions modus-themes
+           monkeytype multiple-cursors nadvice no-littering nov ntlm orderless
+           org org-superstar password-store pdf-view-restore peg
            persistent-scratch php-mode project python rainbow-delimiters
            request rust-mode seq so-long soap-client surround svg tabspaces
            track-changes tramp use-package verb verilog-mode vertico vundo
