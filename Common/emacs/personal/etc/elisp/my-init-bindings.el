@@ -269,6 +269,7 @@
     (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command))
 
 (with-eval-after-load 'helpful
+    ;; (define-key helpful-mode-map (kbd "q") 'kill-current-buffer)
     (define-key global-map [remap describe-function] 'helpful-callable)
     (define-key global-map [remap describe-variable] 'helpful-variable)
     (define-key global-map [remap describe-command]  'helpful-command)
@@ -356,6 +357,7 @@
     (global-set-key (kbd "C-h D") 'devdocs-browser-open))
 
 (with-eval-after-load 'dired
+    (define-key dired-mode-map (kbd "q") 'kill-current-buffer)
     (define-key dired-mode-map (kbd "E") 'dired-toggle-read-only))
 
 (with-eval-after-load 'dired-x
