@@ -78,7 +78,7 @@
 
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
-    (define-key ibuffer-mode-map (kbd "q") 'kill-current-buffer)
+    (define-key ibuffer-mode-map (kbd "q") 'my--close-buffer-and-window)
     (keymap-set ibuffer-mode-map "{" #'ibuffer-backwards-next-marked)
     (keymap-set ibuffer-mode-map "}" #'ibuffer-forward-next-marked)
     (keymap-set ibuffer-mode-map "[" #'ibuffer-backward-filter-group)
@@ -357,7 +357,7 @@
     (global-set-key (kbd "C-h D") 'devdocs-browser-open))
 
 (with-eval-after-load 'dired
-    (define-key dired-mode-map (kbd "q") 'kill-current-buffer)
+    (define-key dired-mode-map (kbd "q") 'my--close-buffer-and-window)
     (define-key dired-mode-map (kbd "E") 'dired-toggle-read-only))
 
 (with-eval-after-load 'dired-x
@@ -391,7 +391,8 @@
     (define-key pdf-view-mode-map (kbd "o") 'pdf-outline))
 
 (with-eval-after-load 'nov
-    (define-key nov-mode-map (kbd "q") nil))
+    ;; (define-key nov-mode-map (kbd "q") nil)
+    )
 
 (when (package-installed-p 'docker)
     (global-set-key (kbd "C-c o d") 'docker))
@@ -456,6 +457,7 @@
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o i") 'ielm)
 (global-set-key (kbd "C-c o m") 'my--new-scratch-buffer-in-markdown)
+(global-set-key (kbd "C-c o b") 'my--open-link-at-point-or-minibuffer-with-choice)
 
 ;; C-c l : lookup
 (global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)

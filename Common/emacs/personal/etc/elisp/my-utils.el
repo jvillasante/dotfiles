@@ -79,7 +79,42 @@ If region (BEG to END) is active, use the selected region as the symbol."
             (tab-bar-close-tab)
         (kill-emacs)))
 
+;;; Browser
+
+;; Open link in eww or browser
+(defun my--open-link-at-point-or-minibuffer-with-choice ()
+    "Use `consult` to select link at point.
+Then choose to open it in default browser or eww.
+If 'eww' is chosen, the link is opened in a window that occupies 80% of the frame height below the current one."
+    (interactive)
+    (let* ((url (or (thing-at-point 'url)                             ;; Check if there's a URL at point
+                    ;; (consult--read (thing-at-point--list 'url))       ;; Use consult to select a URL from the buffer
+                    ;; (consult-omni)                                    ;; Use consult-omni results to select a link
+                    (read-string "Enter URL: "))))                    ;; Fall back to manual URL entry
+        (if url
+                (let ((choice (completing-read "Open link in: " '("Firefox" "eww"))))
+                    (cond
+                     ((string-equal choice "Firefox")
+                      (shell-command (concat browse-url-generic-program " " (shell-quote-argument url))))
+                     ((string-equal choice "eww")
+                      ;; Calculate the height for the top window (20% of the frame height)
+                      (let ((window (selected-window))
+                            (top-window-height (floor (* 0.2 (window-total-height)))))
+                          ;; Split window with 20% height on top and 80% height for eww on the bottom
+                          (select-window (split-window window top-window-height))
+                          (eww url)))))
+            (message "No URL provided."))))
+
 ;;; Misc
+
+;; close buffer and window
+(defun my--close-buffer-and-window ()
+    "Close the current buffer and the window it's in."
+    (interactive)
+    (let ((window (selected-window)))
+        (kill-buffer)                  ;; Kill the current buffer
+        (when (window-live-p window)   ;; Check if the window is still live
+            (delete-window))))         ;; Delete the window if it exists
 
 (defun my--clone-buffer-in-new-window-readonly ()
     "Clone the current buffer in a new window.
