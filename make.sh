@@ -174,6 +174,10 @@ if [ -d "$HOME/Workspace/Work/Omicron/Projects" ]; then
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
 
+        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy" ] &&
+            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy"
+        ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.clang-tidy" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
+
         [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el" ] &&
             unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el"
         ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.dir-locals.el" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
