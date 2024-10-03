@@ -11,7 +11,12 @@ Checks: "*,
         -readability-else-after-return,
         -readability-static-accessed-through-instance,
         -readability-avoid-const-params-in-decls,
+        -readability-function-cognitive-complexity,
         -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+        -cppcoreguidelines-avoid-non-const-global-variables,
+        -cppcoreguidelines-pro-type-vararg,
+        -cert-err58-cpp,
+        -hicpp-vararg,
         -*-non-private-member-variables-in-classes,
         -*-magic-numbers,
         -*-identifier-length,
@@ -31,3 +36,5 @@ CheckOptions:
     value: true
   - key: hicpp-signed-bitwise.IgnorePositiveIntegerLiterals
     value: true
+  - key: performance-unnecessary-value-param.AllowedTypes
+    value: 'SUBSTR'
