@@ -297,7 +297,10 @@
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
-    :init (marginalia-mode))
+    :config
+    (setq marginalia-annotator-registry
+          (assq-delete-all 'file marginalia-annotator-registry))
+    :hook (emacs-startup . marginalia-mode))
 
 ;; jinx : Enchanted Spell Checker
 (use-package jinx
