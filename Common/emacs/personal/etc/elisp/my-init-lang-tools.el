@@ -34,6 +34,7 @@
                             (flymake-mode)
                             (which-function-mode)))))
 
+;; flymake-proselint : use proselint with Emacs built-in Flymake
 (use-package flymake-proselint
     :after flymake
     :hook (text-mode . (lambda ()
