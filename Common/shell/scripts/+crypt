@@ -105,8 +105,9 @@ do_decrypt() {
     rm -f "$p.tar.gz"
     test $? -eq 0 || usage 1
 
-    rm -rf "$1"
-    test $? -eq 0 || usage 1
+    # TODO: Remove original (put this behind a flag)
+    # rm -rf "$1"
+    # test $? -eq 0 || usage 1
 
     echo "Decrypted $1 to $p ($2)"
 }
