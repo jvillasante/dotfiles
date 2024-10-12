@@ -426,6 +426,9 @@ fedora_install() {
                 # sudo dnf config-manager --add-repo https://repository.mullvad.net/rpm/stable/mullvad.repo
                 # sudo dnf install -y mullvad-vpn
 
+                # grammar linter (python)
+                sudo dnf install -y proselint
+
                 # non dnf software
                 pip install cmake-language-server
                 pip install pyright
