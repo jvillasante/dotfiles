@@ -15,16 +15,16 @@
            easy-kill eat editorconfig eglot eldoc elfeed elisp-demos
            embark-consult engine-mode erc eshell-prompt-extras
            exec-path-from-shell expreg external-completion faceup
-           fancy-compilation flymake gcmh go-mode gptel-quick helpful hl-todo
-           ibuffer-project idlwave jinx js2-mode json-mode jsonrpc langtool
-           let-alist lua-mode map marginalia markdown-mode minions modus-themes
-           monkeytype multiple-cursors nadvice no-littering nov ntlm orderless
-           org org-superstar password-store pdf-view-restore peg
-           persistent-scratch php-mode project python rainbow-delimiters
-           request rust-mode seq so-long soap-client surround svg tabspaces
-           track-changes tramp use-package verb verilog-mode vertico vundo
-           web-mode wgrep which-key window-tool-bar xref yaml-mode
-           yasnippet-snippets zig-mode))
+           fancy-compilation flymake flymake-proselint gcmh go-mode gptel-quick
+           helpful hl-todo ibuffer-project idlwave jinx js2-mode json-mode
+           jsonrpc langtool let-alist lua-mode map marginalia markdown-mode
+           minions modus-themes monkeytype multiple-cursors nadvice
+           no-littering nov ntlm orderless org org-superstar password-store
+           pdf-view-restore peg persistent-scratch php-mode project python
+           rainbow-delimiters request rust-mode seq so-long soap-client
+           surround svg tabspaces track-changes tramp use-package verb
+           verilog-mode vertico vundo web-mode wgrep which-key window-tool-bar
+           xref yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel-quick :url "git@github.com:karthink/gptel-quick.git")
            (dired-sidebar :url "git@github.com:jojojames/dired-sidebar.git"))))

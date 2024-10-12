@@ -31,8 +31,14 @@
     (setq flymake-no-changes-timeout 3) ;; Don't be so hasty in syntax checking.
     (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
     :hook ((prog-mode . (lambda ()
-                            (flymake-mode +1)
+                            (flymake-mode)
                             (which-function-mode)))))
+
+(use-package flymake-proselint
+    :after flymake
+    :hook (text-mode . (lambda ()
+                           (flymake-mode)
+                           (flymake-proselint-setup))))
 
 (use-package eldoc
     :ensure nil ;; emacs built-in
