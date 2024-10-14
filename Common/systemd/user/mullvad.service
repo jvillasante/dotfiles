@@ -1,0 +1,8 @@
+[Unit]
+Description=Start Wireguard connection for mullvad.us-mia-wg-001
+
+[Service]
+ExecStart=/usr/bin/nmcli connection up mullvad.us-mia-wg-001
+
+[Install]
+WantedBy=default.target
