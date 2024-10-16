@@ -92,9 +92,9 @@ If 'eww' is chosen, the link is opened in a window that occupies 80% of the fram
                     ;; (consult-omni)                                    ;; Use consult-omni results to select a link
                     (read-string "Enter URL: "))))                    ;; Fall back to manual URL entry
         (if url
-                (let ((choice (completing-read "Open link in: " '("Firefox" "eww"))))
+                (let ((choice (completing-read "Open link in: " '("Browser" "eww"))))
                     (cond
-                     ((string-equal choice "Firefox")
+                     ((string-equal choice "Browser")
                       (shell-command (concat browse-url-generic-program " " (shell-quote-argument url))))
                      ((string-equal choice "eww")
                       ;; Calculate the height for the top window (20% of the frame height)
