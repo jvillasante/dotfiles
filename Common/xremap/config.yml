@@ -1,8 +1,8 @@
 modmap:
   - name: Global
-    device:
+    # device:
       # Exclude ZSA Voyager
-      not: '/dev/input/event3'
+      # not: '/dev/input/event3'
     remap:
       CapsLock:
         held: [Ctrl_L]
