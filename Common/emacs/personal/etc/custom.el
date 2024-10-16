@@ -23,8 +23,8 @@
            pdf-view-restore peg persistent-scratch php-mode project python
            rainbow-delimiters request rust-mode seq so-long soap-client
            surround svg tabspaces track-changes tramp use-package verb
-           verilog-mode vertico vundo web-mode wgrep which-key window-tool-bar
-           xref yaml-mode yasnippet-snippets zig-mode))
+           verilog-mode vertico web-mode wgrep which-key window-tool-bar xref
+           yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel-quick :url "git@github.com:karthink/gptel-quick.git")
            (dired-sidebar :url "git@github.com:jojojames/dired-sidebar.git"))))
