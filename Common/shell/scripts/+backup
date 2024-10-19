@@ -53,12 +53,43 @@ usage() {
     exit "$1"
 }
 
+info() { printf "\n%s %s\n\n" "$(date)" "$*" >&2; }
+
+do_ssh_backup() {
+    read -rp "ssh backup to dropbox, symetric gpg with password prompt. Proceed? (Y/N): " confirm
+    if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+        [ ! -d "$HOME/.ssh" ] &&
+            info "$HOME/.ssh does not exists" && exit 1
+
+        [ ! -f "$HOME/.ssh.tar.gz.gpg" ] && rm -f "$HOME/.ssh.tar.gz.gpg"
+        +crypt -e -s "$HOME/.ssh" > /dev/null 2>&1;
+        [ ! -f "$HOME/.ssh.tar.gz.gpg" ] &&
+            info "Could not create $HOME/.ssh.tar.gz.gpg" && exit 1
+
+        if [ -f "$HOME/Dropbox/Personal/secrets/keys/ssh.tar.gz.gpg" ]; then
+            [ -f "$HOME/Dropbox/Personal/secrets/keys/ssh.old.tar.gz.gpg" ] &&
+                rm -f "$HOME/Dropbox/Personal/secrets/keys/ssh.old.tar.gz.gpg"
+            mv "$HOME/Dropbox/Personal/secrets/keys/ssh.tar.gz.gpg" \
+               "$HOME/Dropbox/Personal/secrets/keys/ssh.old.tar.gz.gpg"
+            [ ! -f "$HOME/Dropbox/Personal/secrets/keys/ssh.old.tar.gz.gpg" ] &&
+                info "Could not create $HOME/Dropbox/Personal/secrets/keys/ssh.old.tar.gz.gpg" && exit 1
+        fi
+
+        mv "$HOME/.ssh.tar.gz.gpg" "$HOME/Dropbox/Personal/secrets/keys/ssh.tar.gz.gpg"
+        [ ! -f "$HOME/Dropbox/Personal/secrets/keys/ssh.tar.gz.gpg" ] &&
+            info "Could not create $HOME/Dropbox/Personal/secrets/keys/ssh.tar.gz.gpg" && exit 1
+    else
+        info "Skipping ssh backup..."
+    fi
+
+    echo 0
+}
+
 do_borg_backup() {
     # some helpers and error handling:
-    info() { printf "\n%s %s\n\n" "$(date)" "$*" >&2; }
     trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
 
-    info "Starting backup"
+    info "Starting borg backup"
 
     # Backup the most important directories into an archive named after the machine this script is currently running on
     borg create \
@@ -172,7 +203,9 @@ case $cmd in
         ;;
     create)
         [ "$nargs" -gt 1 ] && usage 64
-        rc=$(do_borg_backup)
+        ssh_backup=$(do_ssh_backup)
+        borg_backup=$(do_borg_backup)
+        rc=$((ssh_backup > borg_backup ? ssh_backup : borg_backup))
         ;;
     delete)
         [ "$nargs" -gt 2 ] && usage 64
