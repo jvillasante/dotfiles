@@ -80,7 +80,7 @@
 (load (expand-file-name "elisp/my-init-ui"            no-littering-etc-directory))
 (load (expand-file-name "elisp/my-init-ai"            no-littering-etc-directory))
 (load (expand-file-name "elisp/my-init-bindings"      no-littering-etc-directory))
-(load (expand-file-name "elisp/my-init-transient"     no-littering-etc-directory))
+;; (load (expand-file-name "elisp/my-init-transient"     no-littering-etc-directory))
 (load (expand-file-name "elisp/modus-themes-exporter" no-littering-etc-directory))
 
 (provide 'init)

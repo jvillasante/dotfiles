@@ -3,6 +3,8 @@
 ;;
 ;;; Code:
 
+;; TODO: Install the new casual packages...
+
 (use-package casual-suite)
 
 (use-package casual-calc
