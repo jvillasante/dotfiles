@@ -197,13 +197,6 @@ fedora_install() {
                 fi
 
                 #
-                # Udev rules for ZSA Voyager
-                #
-
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/50-zsa.rules \
-                     /etc/udev/rules.d/50-zsa.rules
-
-                #
                 # Grub
                 #
 
@@ -235,7 +228,7 @@ fedora_install() {
                      https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
                      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
                 sudo dnf upgrade -y --refresh
-                sudo dnf -y groupupdate core
+                sudo dnf -y group upgrade core
                 sudo dnf install -y rpmfusion-free-release-tainted
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
@@ -273,7 +266,7 @@ fedora_install() {
 
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
-                sudo dnf groupinstall -y "development-tools" "c-development"
+                sudo dnf group install -y "development-tools" "c-development"
                 sudo dnf install -y ripgrep fd-find util-linux-user xprop xwininfo htop btop nvtop
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
@@ -422,7 +415,7 @@ fedora_install() {
                 sudo dnf install -y go
 
                 # Mullvad VPN (Using Network Manager)
-                sudo dnf config-manager --add-repo https://repository.mullvad.net/rpm/stable/mullvad.repo
+                sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
                 sudo dnf install -y mullvad-vpn
 
                 # grammar linter (python)
@@ -448,7 +441,7 @@ fedora_install() {
                 #
 
                 # Old...
-                # sudo dnf groupupdate -y sound-and-video
+                # sudo dnf group upgrade -y sound-and-video
                 # sudo dnf install -y libdvdcss
                 # sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} \
                     #     gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel ffmpeg gstreamer-ffmpeg
@@ -458,9 +451,10 @@ fedora_install() {
                 # sudo dnf group upgrade -y --with-optional Multimedia
 
                 # Install additional codecs
-                sudo dnf -y groupupdate multimedia --setop="install_weak_deps=False" \
-                     --exclude=PackageKit-gstreamer-plugin --allowerasing
-                sudo dnf -y groupupdate sound-and-video
+                sudo dnf -y group install multimedia && \
+                    sudo dnf -y group upgrade multimedia
+                sudo dnf -y group install sound-and-video && \
+                    sudo dnf -y group upgrade sound-and-video
 
                 # Install Hardware Accelerated Codec
                 if test "$(cat /proc/cpuinfo | grep vendor | uniq | grep -iFc "intel")"; then
@@ -509,7 +503,7 @@ fedora_install() {
 
                 # Install and Enable Docker (not working on fedora-38)
                 sudo dnf install -y dnf-plugins-core
-                sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+                sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
                 sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
                 sudo systemctl enable docker && sudo systemctl start docker
 
@@ -608,16 +602,16 @@ fedora_install() {
 
                 echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
                 "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" \
+                [ ! -d "$KEYS_DIR"/.ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" \
                                                         --expire-time=20 && continue
                 mkdir -p ~/.ssh && rm -rf ~/.ssh/*
-                cp "$KEYS_DIR"/ssh/id_* ~/.ssh
-                cp "$KEYS_DIR"/ssh/config ~/.ssh
+                cp "$KEYS_DIR"/.ssh/id_* ~/.ssh
+                cp "$KEYS_DIR"/.ssh/config ~/.ssh
                 chmod 700 ~/.ssh
                 chmod 644 ~/.ssh/config
                 chmod 600 ~/.ssh/id_*
                 chmod 644 ~/.ssh/id_*.pub
-                rm -rf "$KEYS_DIR"/ssh
+                rm -rf "$KEYS_DIR"/.ssh
 
                 echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
                 "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
@@ -648,6 +642,10 @@ fedora_install() {
                     [ -f "$HOME"/.bash_profile ] && mv "$HOME"/.bash_profile "$HOME"/.bash_profile.bak
                     [ -d "$HOME"/.config/psd ] && rm -rf "$HOME"/.config/psd
                     "$HOME"/Workspace/Public/dotfiles/make.sh
+
+                    # Udev rules for ZSA Voyager
+                    sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/50-zsa.rules \
+                         /etc/udev/rules.d/50-zsa.rules
                 fi
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
