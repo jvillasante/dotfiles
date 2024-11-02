@@ -273,8 +273,7 @@ fedora_install() {
 
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
-                sudo dnf groupinstall -y "Development Tools" "Development Libraries" \
-                     "C Development Tools and Libraries"
+                sudo dnf groupinstall -y "development-tools" "c-development"
                 sudo dnf install -y ripgrep fd-find util-linux-user xprop xwininfo htop btop nvtop
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
@@ -660,7 +659,7 @@ fedora_install() {
                 hash emacs 2> /dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
 
                 # Install dependencies
-                sudo dnf group install "Development Tools"
+                sudo dnf group install "development-tools"
                 sudo dnf -y builddep emacs
 
                 # images packages install
