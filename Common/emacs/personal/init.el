@@ -71,6 +71,7 @@
 (load (expand-file-name "elisp/my-init-org"           no-littering-etc-directory))
 (load (expand-file-name "elisp/my-init-langs"         no-littering-etc-directory))
 (load (expand-file-name "elisp/my-init-lang-tools"    no-littering-etc-directory))
+(load (expand-file-name "elisp/my-init-docker"        no-littering-etc-directory))
 (load (expand-file-name "elisp/my-init-apps"          no-littering-etc-directory))
 (load (expand-file-name "elisp/my-init-shell"         no-littering-etc-directory))
 (load (expand-file-name "elisp/my-init-misc"          no-littering-etc-directory))
