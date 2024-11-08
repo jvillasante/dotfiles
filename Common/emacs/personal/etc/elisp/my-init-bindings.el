@@ -241,25 +241,26 @@
     (define-key project-prefix-map (kbd "T") 'eat-project-other-window))
 
 (with-eval-after-load 'vterm
-    ;; global keys
-    (global-set-key (kbd "C-c o t") 'vterm)
-    (global-set-key (kbd "C-c o T") 'vterm-other-window)
+    (unless (package-installed-p 'eat)
+        ;; global keys
+        (global-set-key (kbd "C-c o t") 'vterm)
+        (global-set-key (kbd "C-c o T") 'vterm-other-window)
 
-    ;; project-prefix-map
-    (define-key project-prefix-map (kbd "t") 'my--vterm-project)
-    (define-key project-prefix-map (kbd "T") 'my--vterm-project-other-window)
+        ;; project-prefix-map
+        (define-key project-prefix-map (kbd "t") 'my--vterm-project)
+        (define-key project-prefix-map (kbd "T") 'my--vterm-project-other-window)
 
-    ;; vterm-mode-map
-    (define-key vterm-mode-map (kbd "<insert>") 'ignore)
-    (define-key vterm-mode-map (kbd "RET")      'vterm-send-return)
-    (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)
-    (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
-    (define-key vterm-mode-map (kbd "C-y")      'vterm-yank)
-    (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape)
+        ;; vterm-mode-map
+        (define-key vterm-mode-map (kbd "<insert>") 'ignore)
+        (define-key vterm-mode-map (kbd "RET")      'vterm-send-return)
+        (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)
+        (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
+        (define-key vterm-mode-map (kbd "C-y")      'vterm-yank)
+        (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape)
 
-    ;; vterm-copy-mode-map
-    (define-key vterm-copy-mode-map (kbd "M-w") 'vterm-copy-mode-done)
-    (define-key vterm-copy-mode-map (kbd "C-g") 'vterm-copy-mode-done))
+        ;; vterm-copy-mode-map
+        (define-key vterm-copy-mode-map (kbd "M-w") 'vterm-copy-mode-done)
+        (define-key vterm-copy-mode-map (kbd "C-g") 'vterm-copy-mode-done)))
 
 (with-eval-after-load 'dwim-shell-command
     (define-key global-map [remap shell-command] 'dwim-shell-command)

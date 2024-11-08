@@ -95,7 +95,6 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
     :preface
     (defun my--vterm-project ()
         (interactive)
@@ -118,9 +117,10 @@
     :init
     ;; (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (setq vterm-always-compile-module t)
-    (add-to-list 'project-switch-commands '(my--vterm-project "vTerm") t)
-    (add-to-list 'project-switch-commands '(my--vterm-project-other-window "vTerm other window") t)
-    (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
+    (unless (package-installed-p 'eat)
+        (add-to-list 'project-switch-commands '(my--vterm-project "vTerm") t)
+        (add-to-list 'project-switch-commands '(my--vterm-project-other-window "vTerm other window") t)
+        (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode)))
     :config
     (setq vterm-timer-delay 0.01)
     (setq vterm-copy-mode-remove-fake-newlines t)
