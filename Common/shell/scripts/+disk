@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
+# Check disk usage and send alert if usage exceeds 80%
+df -h | awk '{ if($5+0 > THRESHOLD) print $0; }' | while read -r output; do
+    echo "Disk usage: $output"
+done
