@@ -11,6 +11,17 @@
     :group 'my)
 
 (use-package docker
+    :preface
+    (defun my--docker-run-async-with-buffer-eat (program &rest args)
+        "Execute \"PROGRAM ARGS\" and display output in a new `eat' buffer."
+        (defvar eat-buffer-name)
+        (defvar eat-kill-buffer-on-exit)
+        (if (fboundp 'eat-other-window)
+                (let* ((process-args (-remove 's-blank? (-flatten args)))
+                       (eat-buffer-name (s-join " " (-insert-at 0 program process-args)))
+                       (eat-kill-buffer-on-exit nil))
+                    (eat-other-window eat-buffer-name args))
+            (error "The eat package is not installed")))
     :config
     (when (eq my--docker-executable 'docker)
         (setq docker-command "docker")
@@ -20,8 +31,8 @@
         (setq docker-command "podman")
         (setq docker-compose-command "podman-compose"))
 
-    (when (package-installed-p 'vterm)
-        (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
+    (when (package-installed-p 'eat)
+        (setq docker-run-async-with-buffer-function #'my--docker-run-async-with-buffer-eat))
 
     ;; When docker run is called on an image whose repository name matches the regular expression "^postgres",
     ;; the option "-e POSTGRES_PASSWORD=postgres" will appear as set along with the defaults specified by `docker-image-run-default-args'.
