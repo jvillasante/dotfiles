@@ -1,20 +1,19 @@
 ;;; early-init.el --- Early Init -*- no-byte-compile: t; lexical-binding: t; -*-
-
 ;;; Commentary:
-
+;;;
 ;;; Code:
 
 ;;; Variables
 
-(defvar my--ui-features '(context-menu)
-    "List of user interface features to disable in Emacs setup.
+(defvar my--ui-features '()
+    "List of user interface features to disable in minimal Emacs setup.
 
 This variable holds a list Emacs UI features that can be enabled:
 - `context-menu`: Enables the context menu in graphical environments.
-- `tool-bar`:     Enables the tool bar in graphical environments.
-- `menu-bar`:     Enables the menu bar in graphical environments.
-- `dialogs`:      Enables both file dialogs and dialog boxes.
-- `tooltips`:     Enables tooltips.
+- `tool-bar`: Enables the tool bar in graphical environments.
+- `menu-bar`: Enables the menu bar in graphical environments.
+- `dialogs`: Enables both file dialogs and dialog boxes.
+- `tooltips`: Enables tooltips.
 
 Each feature in the list corresponds to a specific UI component that can be
 turned on.")
@@ -36,20 +35,32 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 (defvar my--user-directory user-emacs-directory
     "The default value of the `user-emacs-directory' variable.")
 
+(defun my--load-user-init (filename)
+    "Execute a file of Lisp code named FILENAME."
+    (let ((user-init-file
+           (expand-file-name filename
+                             my--user-directory)))
+        (when (file-exists-p user-init-file)
+            (load user-init-file nil t))))
+
 ;; Reducing clutter in ~/.emacs.d by redirecting files to ~/emacs.d/var/
 (setq my--var-dir (expand-file-name "var/" my--user-directory))
 (setq my--etc-dir (expand-file-name "etc/" my--user-directory))
 (setq package-user-dir (expand-file-name "elpa" my--var-dir))
 (setq user-emacs-directory my--var-dir)
 
-;;; Set custom
+;; set custom files
+(setq custom-theme-directory (expand-file-name "themes/" my--user-directory))
+(setq custom-file (expand-file-name "custom.el" my--user-directory))
 
-(setq custom-theme-directory
-      (expand-file-name "etc/themes/" my--user-directory))
-(setq custom-file
-      (expand-file-name "etc/custom.el" my--user-directory))
+;;; Garbage collection
+;; Garbage collection significantly affects startup times. This setting delays
+;; garbage collection during startup but will be reset later.
 
-;; (setq custom-file null-device)
+(setq gc-cons-threshold most-positive-fixnum)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+              (setq gc-cons-threshold my--gc-cons-threshold)))
 
 ;;; Misc
 
@@ -58,48 +69,10 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 ;; Set-language-environment sets default-input-method, which is unwanted.
 (setq default-input-method nil)
 
-;; Some features that are not represented as packages can be found in
-;; `features', but this can be inconsistent. The following enforce consistency:
-(if (fboundp #'json-parse-string)
-        (push 'jansson features))
-(if (string-match-p "HARFBUZZ" system-configuration-features) ; no alternative
-        (push 'harfbuzz features))
-(if (bound-and-true-p module-file-suffix)
-        (push 'dynamic-modules features))
-
-;;; Garbage collection
-;; Garbage collection significantly affects startup times. This setting delays
-;; garbage collection during startup but will be reset later.
-
-(setq gc-cons-threshold most-positive-fixnum)
-
-(add-hook 'emacs-startup-hook
-          (lambda ()
-              (setq gc-cons-threshold my--gc-cons-threshold)))
-
 ;;; Performance
 
 ;; Prefer loading newer compiled files
 (setq load-prefer-newer t)
-
-;; Increase how much is read from processes in a single chunk (default is 4kb).
-(setq read-process-output-max (* 512 1024))  ; 512kb
-
-;; Reduce rendering/line scan work by not rendering cursors or regions in
-;; non-focused windows.
-(setq-default cursor-in-non-selected-windows nil)
-(setq highlight-nonselected-windows nil)
-
-;; Disable warnings from the legacy advice API. They aren't useful.
-(setq ad-redefinition-action 'accept)
-
-(setq warning-suppress-types '((lexical-binding)))
-
-;; Don't ping things that look like domain names.
-(setq ffap-machine-p-known 'reject)
-
-;; By default, Emacs "updates" its ui more often than it needs to
-(setq idle-update-delay 1.0)
 
 ;; Font compacting can be very resource-intensive, especially when rendering
 ;; icon fonts on Windows. This will increase memory usage.
@@ -131,35 +104,46 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
                   101))
 
     (unless noninteractive
-        (progn
-            ;; Disable mode-line-format during init
-            (defun my--reset-inhibited-vars-h ()
-                (setq-default inhibit-redisplay nil
-                              ;; Inhibiting `message' only prevents redraws and
-                              inhibit-message nil)
-                (redraw-frame))
+        (unless my--debug
+            (unless my--debug
+                ;; Suppress redisplay and redraw during startup to avoid delays and
+                ;; prevent flashing an unstyled Emacs frame.
+                ;; (setq-default inhibit-redisplay t) ; Can cause artifacts
+                (setq-default inhibit-message t)
 
-            (defvar my--default-mode-line-format mode-line-format
-                "Default value of `mode-line-format'.")
+                ;; Reset the above variables to prevent Emacs from appearing frozen or
+                ;; visually corrupted after startup or if a startup error occurs.
+                (defun my---reset-inhibited-vars-h ()
+                    ;; (setq-default inhibit-redisplay nil) ; Can cause artifacts
+                    (setq-default inhibit-message nil)
+                    (remove-hook 'post-command-hook #'my---reset-inhibited-vars-h))
+
+                (add-hook 'post-command-hook
+                          #'my---reset-inhibited-vars-h -100))
+
+            (dolist (buf (buffer-list))
+                (with-current-buffer buf
+                    (setq mode-line-format nil)))
+
+            (put 'mode-line-format 'initial-value
+                 (default-toplevel-value 'mode-line-format))
             (setq-default mode-line-format nil)
 
-            (defun my--startup-load-user-init-file (fn &rest args)
+            (defun my---startup-load-user-init-file (fn &rest args)
                 "Advice for startup--load-user-init-file to reset mode-line-format."
-                (let (init)
-                    (unwind-protect
-                            (progn
-                                (apply fn args)  ; Start up as normal
-                                (setq init t))
-                        (unless init
-                            ;; If we don't undo inhibit-{message, redisplay} and there's an
-                            ;; error, we'll see nothing but a blank Emacs frame.
-                            (my--reset-inhibited-vars-h))
-                        (unless (default-toplevel-value 'mode-line-format)
-                            (setq-default mode-line-format
-                                          my--default-mode-line-format)))))
+                (unwind-protect
+                        (progn
+                            ;; Start up as normal
+                            (apply fn args))
+                    ;; If we don't undo inhibit-{message, redisplay} and there's an
+                    ;; error, we'll see nothing but a blank Emacs frame.
+                    (setq-default inhibit-message nil)
+                    (unless (default-toplevel-value 'mode-line-format)
+                        (setq-default mode-line-format
+                                      (get 'mode-line-format 'initial-value)))))
 
             (advice-add 'startup--load-user-init-file :around
-                        #'my--startup-load-user-init-file))
+                        #'my---startup-load-user-init-file))
 
         ;; Without this, Emacs will try to resize itself to a specific column size
         (setq frame-inhibit-implied-resize t)
@@ -190,8 +174,8 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
         ;; `inhibit-startup-screen', but it would still initialize anyway.
         (advice-add #'display-startup-screen :override #'ignore)
 
-        ;; ;; Shave seconds off startup time by starting the scratch buffer in
-        ;; ;; `fundamental-mode'
+        ;; Shave seconds off startup time by starting the scratch buffer in
+        ;; `fundamental-mode'
         ;; (setq initial-major-mode 'fundamental-mode
         ;;       initial-scratch-message nil)
 
@@ -244,10 +228,27 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
     (unless (memq window-system '(mac ns))
         (setq menu-bar-mode nil)))
 
+(unless (daemonp)
+    (unless noninteractive
+        (when (fboundp 'tool-bar-setup)
+            ;; Temporarily override the tool-bar-setup function to prevent it from
+            ;; running during the initial stages of startup
+            (advice-add #'tool-bar-setup :override #'ignore)
+            (define-advice startup--load-user-init-file
+                    (:after (&rest _) my--setup-toolbar)
+                (advice-remove #'tool-bar-setup #'ignore)
+                (when tool-bar-mode
+                    (tool-bar-setup))))))
 (unless (memq 'tool-bar my--ui-features)
     (push '(tool-bar-lines . 0) default-frame-alist)
     (setq tool-bar-mode nil))
 
+;; set default UI
+(setq-default initial-frame-alist default-frame-alist
+              fringe-indicator-alist (assq-delete-all 'truncation fringe-indicator-alist))
+(push '(mouse-color . "white") default-frame-alist)
+(push '(bottom-divider-width . 0) default-frame-alist)
+(push '(right-divider-width . 1) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 (push '(horizontal-scroll-bars) default-frame-alist)
 (setq scroll-bar-mode nil)
@@ -264,30 +265,18 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
     (setq use-file-dialog nil)
     (setq use-dialog-box nil))
 
-;; Allow for shorter responses: "y" for yes and "n" for no.
-(if (boundp 'use-short-answers)
-        (setq use-short-answers t)
-    (advice-add #'yes-or-no-p :override #'y-or-n-p))
-(defalias #'view-hello-file #'ignore)  ; Never show the hello file
-
 ;;; package.el
-(require 'package)
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)
 (setq use-package-always-ensure t)
-(when (version< emacs-version "28")
-    (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(setq package-archive-priorities
-      '(("gnu"           . 99)
-        ("nongnu"        . 80)
-        ("melpa-stable"  . 60)
-        ("melpa"         . 40)))
-
-;; Ensure that some built-in (e.g., org-mode) are always up to date
-(setq package-install-upgrade-built-in t)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(customize-set-variable 'package-archive-priorities '(("gnu"    . 99)
+                                                      ("nongnu" . 80)
+                                                      ("stable" . 70)
+                                                      ("melpa"  . 0)))
 
 (provide 'early-init)
-
 ;;; early-init.el ends here

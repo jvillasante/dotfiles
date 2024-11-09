@@ -1,18 +1,30 @@
-;;; ui.el --- UI -*- no-byte-compile: t; lexical-binding: t; -*-
-
+;;; my-init-ui.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
-
+;;;
 ;;; Code:
 
 ;; remove the title bar only when frame is maximized
 (add-hook 'window-size-change-functions 'frame-hide-title-bar-when-maximized)
 
-(use-package which-key
-    :ensure t
-    :config
-    (which-key-mode))
+;; misc
+(display-time-mode)
+(show-paren-mode +1)  ; Paren match highlighting
+(winner-mode 1)
+(pixel-scroll-precision-mode 1)
 
-(pixel-scroll-precision-mode)
+;; Window dividers separate windows visually. Window dividers are bars that can
+;; be dragged with the mouse, thus allowing you to easily resize adjacent
+;; windows.
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Dividers.html
+(add-hook 'after-init-hook #'window-divider-mode)
+
+;; setup visual-line and auto-fill
+(setq visual-line-fringe-indicators
+      '(left-curly-arrow right-curly-arrow))              ;; display line indication on fringe
+(setq-default fill-column 79)                             ;; Wrap lines at 79 characters
+(remove-hook 'text-mode-hook 'turn-on-auto-fill)          ;; auto-fill insert hard line breaks
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)      ;; ... visual-line-mode is much better
+;; (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode) ;; ... fill column indication on prog-mode is nice
 
 ;; Set the font (M-x `menu-set-font' to see font faces)
 (defun my--setup-fonts ()
@@ -34,8 +46,11 @@
                           (my--setup-fonts))))
     (add-hook 'after-init-hook #'my--setup-fonts))
 
+;; Use variable-pitch fonts
+(add-hook 'text-mode-hook 'variable-pitch-mode)
+
+;; theme
 (use-package modus-themes
-    :ensure t
     :preface
     (defun my--modus-themes-org-fontify-block-delimiter-lines ()
         "Match `org-fontify-whole-block-delimiter-line' to theme style.
@@ -101,5 +116,5 @@ Run this function at the post theme load phase, such as with the
     ;; (my--switch-theme 'modus-operandi)
     (modus-themes-load-theme 'modus-operandi))
 
-(provide 'ui)
-;;; ui.el ends here
+(provide 'my-init-ui)
+;;; my-init-ui.el ends here

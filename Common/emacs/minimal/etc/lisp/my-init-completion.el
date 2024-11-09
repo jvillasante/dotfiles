@@ -1,9 +1,21 @@
-;;; completion.el --- UI -*- no-byte-compile: t; lexical-binding: t; -*-
-
+;;; my-init-completion.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
-
+;;;
 ;;; Code:
 
+;; Vertico, Consult, and Embark collectively enhance Emacs' completion and
+;; navigation capabilities. Vertico provides a vertical completion interface,
+;; making it easier to navigate and select from completion candidates (e.g.,
+;; when M-x is pressed). Consult offers a suite of commands for efficient
+;; searching, previewing, and interacting with buffers, file contents, and
+;; more, improving various tasks. Embark integrates with these tools to provide
+;; context-sensitive actions and quick access to commands based on the current
+;; selection, further improving user efficiency and workflow within Emacs.
+;; Together, they create a cohesive and powerful environment for managing
+;; completions and interactions.
+
+;; Tip: You can remove the `vertico-mode' use-package and replace it
+;;      with the built-in `fido-vertical-mode'.
 (use-package vertico
     ;; (Note: It is recommended to also enable the savehist package.)
     :ensure t
@@ -137,5 +149,5 @@
      :preview-key '(:debounce 0.4 any))
     (setq consult-narrow-key "<"))
 
-(provide 'completion)
-;;; completion.el ends here
+(provide 'my-init-completion)
+;;; my-init-completion.el ends here
