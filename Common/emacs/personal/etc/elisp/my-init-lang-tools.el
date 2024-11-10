@@ -6,7 +6,7 @@
 ;; needed somehow
 (use-package request)
 
-;; hideshow : TODO: Try ts-fold or treesit-fold instead
+;; hideshow : code folding
 (use-package hideshow
     :ensure nil ;; emacs built-in
     :preface
