@@ -66,7 +66,6 @@
            "%1{%B%}"
            "%s\n")
           gnus-summary-display-arrow t)
-
     (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
     (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
     (add-hook 'gnus-select-group-hook #'gnus-group-set-timestamp)
