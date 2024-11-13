@@ -340,9 +340,10 @@
 (use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
     :config
-    (let ((snippets-shim (expand-file-name "yasnippet-treesitter-shim/snippets/" no-littering-etc-directory)))
-        (when (file-directory-p snippets-shim)
-            (add-to-list 'yas-snippet-dirs snippets-shim)))
+    ;; The snippets-shim is only need when using `treesit-auto'
+    ;; (let ((snippets-shim (expand-file-name "yasnippet-treesitter-shim/snippets/" no-littering-etc-directory)))
+    ;;     (when (file-directory-p snippets-shim)
+    ;;         (add-to-list 'yas-snippet-dirs snippets-shim)))
     (yas-reload-all)
     :hook (after-init . yas-global-mode))
 
