@@ -348,6 +348,7 @@
 
 ;; languagetool : multilingual grammar, style, and spell checker
 (use-package langtool
+    :disabled t
     :config
     (setq langtool-default-language "en-US")
     (setq langtool-java-user-arguments '("-Dfile.encoding=UTF-8"))
