@@ -124,9 +124,9 @@
         (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode)))
     :config
     (setq vterm-timer-delay 0.01)
+    (setq vterm-copy-exclude-prompt t)
     (setq vterm-copy-mode-remove-fake-newlines t)
     (setq vterm-kill-buffer-on-exit t)
-    (setq vterm-copy-exclude-prompt t)
     (setq vterm-max-scrollback 100000)
     (setq vterm-shell (executable-find "bash"))
     (setq vterm-tramp-shells '(("ssh" "/bin/bash")
