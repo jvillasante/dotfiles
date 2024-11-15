@@ -1,57 +1,223 @@
 #
-# gmail
+# Gmail (jvillasantegomez@gmail.com)
 #
-IMAPAccount gmail
+# IMAPAccount gmail
+# Host imap.gmail.com
+# User jvillasantegomez@gmail.com
+# PassCmd "pass show Apps/mu4e-gmail | head -n1"
+# Port 993
+# SSLType IMAPS
+# AuthMechs *
+# CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+# IMAPStore gmail-remote
+# Account gmail
+
+# MaildirStore gmail-local
+# SubFolders Verbatim
+# Path ~/.mail/gmail/
+# Inbox ~/.mail/gmail/INBOX
+
+# Channel gmail
+# Far :gmail-remote:
+# Near :gmail-local:
+# Patterns *
+# Create Near
+# Sync All
+# Expunge Both
+# SyncState *
+
+#########
+
+IMAPAccount Gmail
 Host imap.gmail.com
 User jvillasantegomez@gmail.com
 PassCmd "pass show Apps/mu4e-gmail | head -n1"
-Port 993
-SSLType IMAPS
-AuthMechs *
+AuthMechs LOGIN
+TLSType IMAPS
+TLSVersions +1.2
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-IMAPStore gmail-remote
-Account gmail
-
-MaildirStore gmail-local
+MaildirStore Gmail-local
+Path ~/.Mail/jvillasantegomez@gmail.com/
+Inbox ~/.Mail/jvillasantegomez@gmail.com/Inbox
 SubFolders Verbatim
-Path ~/.mail/gmail/
-Inbox ~/.mail/gmail/INBOX
 
-Channel gmail
-Far :gmail-remote:
-Near :gmail-local:
-Patterns *
-Create Near
-Sync All
+IMAPStore Gmail-remote
+Account Gmail
+
+Channel Gmail-inbox
+Far :Gmail-remote:"INBOX"
+Near :Gmail-local:"INBOX"
+CopyArrivalDate yes
+Create Both
 Expunge Both
 SyncState *
+
+Channel Gmail-trash
+Far :Gmail-remote:"[Gmail]/Trash"
+Near :Gmail-local:"Trash"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+Channel Gmail-spam
+Far :Gmail-remote:"[Gmail]/Spam"
+Near :Gmail-local:"Spam"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+Channel Gmail-all
+Far :Gmail-remote:"[Gmail]/All Mail"
+Near :Gmail-local:"Archive"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+Channel Gmail-drafts
+Far :Gmail-remote:"[Gmail]/Drafts"
+Near :Gmail-local:"Drafts"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+Group Gmail
+Channel Gmail-inbox
+Channel Gmail-trash
+Channel Gmail-all
+Channel Gmail-spam
+Channel Gmail-drafts
 
 #
 # iCloud
 #
-IMAPAccount icloud
+# IMAPAccount icloud
+# Host imap.mail.me.com
+# User julio.villasante@icloud.com
+# PassCmd "pass show Apps/mu4e-icloud | head -n1"
+# Port 993
+# SSLType IMAPS
+# AuthMechs *
+# CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+# IMAPStore icloud-remote
+# Account icloud
+
+# MaildirStore icloud-local
+# SubFolders Verbatim
+# Path ~/.mail/icloud/
+# Inbox ~/.mail/icloud/INBOX
+
+# Channel icloud
+# Far :icloud-remote:
+# Near :icloud-local:
+# Patterns *
+# Create Near
+# Sync All
+# Expunge Both
+# SyncState *
+
+IMAPAccount Apple
 Host imap.mail.me.com
+PORT 993
 User julio.villasante@icloud.com
 PassCmd "pass show Apps/mu4e-icloud | head -n1"
-Port 993
-SSLType IMAPS
-AuthMechs *
+AuthMechs LOGIN
+TLSType IMAPS
+TLSVersions +1.2
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-IMAPStore icloud-remote
-Account icloud
-
-MaildirStore icloud-local
+MaildirStore Apple-local
+Path ~/.Mail/julio.villasante@icloud.com/
+Inbox ~/.Mail/julio.villasante@icloud.com/Inbox
 SubFolders Verbatim
-Path ~/.mail/icloud/
-Inbox ~/.mail/icloud/INBOX
 
-Channel icloud
-Far :icloud-remote:
-Near :icloud-local:
-Patterns *
-Create Near
-Sync All
+IMAPStore Apple-remote
+Account Apple
+
+Channel Apple-all
+Far :Apple-remote:
+Near :Apple-local:
+Patterns "INBOX" "Archive" "Trash" "Spam" "Drafts"
+CopyArrivalDate yes
+Create Both
 Expunge Both
 SyncState *
+
+Channel Apple-sent
+Far :Apple-remote:"Sent Messages"
+Near :Apple-local:"Sent"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+Group Apple
+Channel Apple-sent
+Channel Apple-all
+
+#
+# Outlook
+#
+# IMAPAccount Outlook
+# Host outlook.office365.com
+# User julio.villasante@omicronmedia.com
+# # PassCmd "mutt_oauth2.py -t ~/.password-store/Work/Omicron/mu4e-microsoft.gpg"
+# PassCmd "oama access julio.villasante@omicronmedia.com"
+# Port 993
+# SSLType IMAPS
+# SSLVersions TLSv1.1 TLSv1.2
+# AuthMechs XOAUTH2
+# # AuthMechs PLAIN
+
+IMAPAccount Omicron
+Host outlook.office365.com
+User julio.villasante@omicronmedia.com
+Port 993
+SSLType IMAPS
+SSLVersions TLSv1.1 TLSv1.2
+AuthMechs XOAUTH2
+PassCmd "oama access julio.villasante@omicronmedia.com"
+
+MaildirStore Omicron-local
+Path ~/.Mail/julio.villasante@omicronmedia.com/
+Inbox ~/.Mail/julio.villasante@omicronmedia.com/Inbox
+SubFolders Verbatim
+
+IMAPStore Omicron-remote
+Account Omicron
+
+Channel Omicron-all
+Far :Omicron-remote:
+Near :Omicron-local:
+Patterns "INBOX" "Archive" "Sent"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+Channel Omicron-junk
+Far :Omicron-remote:"Junk"
+Near :Omicron-local:"Spam"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+Channel Omicron-trash
+Far :Omicron-remote:"Deleted"
+Near :Omicron-local:"Trash"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+Group Omicron
+Channel Omicron-all
+Channel Omicron-junk
+Channel Omicron-trash

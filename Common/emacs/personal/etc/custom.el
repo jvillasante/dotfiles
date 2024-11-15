@@ -21,8 +21,8 @@
            orderless org-superstar password-store pdf-view-restore peg
            persistent-scratch php-mode python rainbow-delimiters request
            rust-mode so-long soap-client surround svg tabspaces track-changes
-           tramp use-package verb verilog-mode vertico web-mode wgrep which-key
-           window-tool-bar yaml-mode yasnippet-snippets zig-mode)))
+           tramp use-package verb verilog-mode vertico vterm web-mode wgrep
+           which-key window-tool-bar yaml-mode yasnippet-snippets zig-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
