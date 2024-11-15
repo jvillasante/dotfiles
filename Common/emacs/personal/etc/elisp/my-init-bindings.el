@@ -250,8 +250,7 @@
     (define-key project-prefix-map (kbd "T") 'my--vterm-project-other-window)
 
     ;; vterm-copy-mode-map
-    (define-key vterm-copy-mode-map (kbd "RET") 'vterm-copy-mode-done)
-    (define-key vterm-copy-mode-map (kbd "C-g") 'vterm-copy-mode-done)
+    ;; (define-key vterm-copy-mode-map (kbd "M-w") 'vterm-copy-mode-done)
 
     ;; vterm-mode-map
     (define-key vterm-mode-map (kbd "<insert>") 'ignore)
