@@ -73,6 +73,7 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
+    :disabled t
     :preface
     (defun my--eat-open (file)
         "Helper function to open files from eat terminal."
@@ -95,7 +96,6 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
     :preface
     (defun my--vterm-project ()
         (interactive)
@@ -130,6 +130,7 @@
     (setq vterm-max-scrollback 100000)
     (setq vterm-shell (executable-find "bash"))
     (setq vterm-tramp-shells '(("ssh" "/bin/bash")
+                               ("docker" "/bin/bash")
                                ("podman" "/bin/bash"))))
 
 ;; dwim-shell-command : Bring command-line utilities to your Emacs workflows
