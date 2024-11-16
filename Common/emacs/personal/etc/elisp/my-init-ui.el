@@ -87,6 +87,15 @@
                           (concat dired-directory))
                          (t (buffer-name))))))
 
+;; unique buffer names dependent on file name
+(use-package uniquify
+    :ensure nil ;; emacs built-in
+    :custom
+    (uniquify-buffer-name-style 'reverse)
+    (uniquify-separator "•")
+    (uniquify-after-kill-buffer-p t)
+    (uniquify-ignore-buffers-re "^\\*"))
+
 ;; winner-mode : "undo" and "redo" changes in window configurations
 (use-package winner
     :ensure nil ;; emacs built-in
@@ -192,28 +201,20 @@
 ;; modeline
 (setq mode-line-compact 'long)
 (setq mode-line-right-align-edge 'right-fringe)
-(use-package doom-modeline
-    :disabled t
-    :custom((doom-modeline-icon nil)
-            (doom-modeline-height 1)
-            (doom-modeline-bar-width 1)
-            (doom-modeline-icon nil)
-            (doom-modeline-major-mode-icon nil)
-            (doom-modeline-major-mode-color-icon nil)
-            (doom-modeline-buffer-file-name-style 'auto)
-            (doom-modeline-buffer-state-icon nil)
-            (doom-modeline-buffer-modification-icon nil)
-            (doom-modeline-minor-modes nil)
-            (doom-modeline-enable-word-count nil)
-            (doom-modeline-buffer-encoding t)
-            (doom-modeline-indent-info nil)
-            (doom-modeline-check-simple-format t)
-            (doom-modeline-vcs-max-length 18)
-            (doom-modeline-env-version t)
-            (doom-modeline-irc-stylize 'identity)
-            (doom-modeline-github-timer nil)
-            (doom-modeline-gnus-timer nil))
-    :hook (after-init . doom-modeline-mode))
+(use-package shrink-path
+    :preface
+    (defun my--pretty-buffername ()
+        (if buffer-file-truename
+                (let* ((cur-dir (file-name-directory buffer-file-truename))
+                       (two-up-dir (-as-> cur-dir it (or (f-parent it) "") (or (f-parent it) "")))
+                       (shrunk (shrink-path-file-mixed two-up-dir cur-dir buffer-file-truename)))
+                    (concat (car shrunk)
+                            (mapconcat #'identity (butlast (cdr shrunk)) "/")
+                            (car (last shrunk))))
+            (buffer-name)))
+    :init
+    (setq-default mode-line-buffer-identification
+                  '(:eval (my--pretty-buffername))))
 
 ;; theme
 (use-package modus-themes
