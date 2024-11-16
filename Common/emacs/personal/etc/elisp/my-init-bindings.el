@@ -277,7 +277,7 @@
     (global-set-key (kbd "C-h K")                    'describe-keymap))
 
 (with-eval-after-load 'crux
-    (define-key dired-mode-map (kbd "C-<return>") 'crux-open-with)
+    ;; (define-key dired-mode-map (kbd "C-<return>") 'crux-open-with)
     ;; (global-set-key (kbd "C-c o") 'crux-open-with)
     (global-set-key (kbd "C-k") 'crux-smart-kill-line)
     (global-set-key (kbd "M-o") 'crux-smart-open-line-above)
@@ -354,6 +354,7 @@
     (global-set-key (kbd "C-h D") 'devdocs-browser-open))
 
 (with-eval-after-load 'dired
+    (define-key dired-mode-map (kbd "C-<return>") 'dired-do-open)
     (define-key dired-mode-map (kbd "q") 'my--close-buffer-and-window)
     (define-key dired-mode-map (kbd "E") 'dired-toggle-read-only))
 
