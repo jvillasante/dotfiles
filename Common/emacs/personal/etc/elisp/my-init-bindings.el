@@ -250,13 +250,13 @@
     (define-key project-prefix-map (kbd "T") 'my--vterm-project-other-window)
 
     ;; vterm-copy-mode-map
-    ;; (define-key vterm-copy-mode-map (kbd "M-w") 'vterm-copy-mode-done)
+    (define-key vterm-copy-mode-map (kbd "<return>") 'my--vterm-copy-mode-cancel)
+    (define-key vterm-copy-mode-map (kbd "RET")      'my--vterm-copy-mode-cancel)
 
     ;; vterm-mode-map
     (define-key vterm-mode-map (kbd "<insert>") 'ignore)
     (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
-    (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)
-    (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape))
+    (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key))
 
 (with-eval-after-load 'dwim-shell-command
     (define-key global-map [remap shell-command] 'dwim-shell-command)

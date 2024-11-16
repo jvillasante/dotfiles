@@ -97,6 +97,9 @@
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
     :preface
+    (defun my--vterm-copy-mode-cancel ()
+        (interactive)
+        (vterm-copy-mode -1))
     (defun my--vterm-project ()
         (interactive)
         (defvar vterm-buffer-name)
