@@ -254,10 +254,8 @@
 
     ;; vterm-mode-map
     (define-key vterm-mode-map (kbd "<insert>") 'ignore)
-    (define-key vterm-mode-map (kbd "RET")      'vterm-send-return)
-    (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)
     (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
-    (define-key vterm-mode-map (kbd "C-y")      'vterm-yank)
+    (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)
     (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape))
 
 (with-eval-after-load 'dwim-shell-command
