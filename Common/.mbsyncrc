@@ -178,11 +178,11 @@ Channel Apple-all
 IMAPAccount Omicron
 Host outlook.office365.com
 User julio.villasante@omicronmedia.com
-Port 993
-SSLType IMAPS
-SSLVersions TLSv1.1 TLSv1.2
+PassCmd "mutt_oauth2.py -t ~/.password-store/Work/Omicron/mu4e-microsoft.gpg"
 AuthMechs XOAUTH2
-PassCmd "oama access julio.villasante@omicronmedia.com"
+TLSType IMAPS
+TLSVersions +1.2
+CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 MaildirStore Omicron-local
 Path ~/.Mail/julio.villasante@omicronmedia.com/
