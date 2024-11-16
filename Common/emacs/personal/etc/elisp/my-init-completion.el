@@ -125,6 +125,11 @@
     (minibuffer-depth-indicate-mode 1)
     (minibuffer-electric-default-mode 1))
 
+(use-package imenu
+    :ensure nil ;; emacs built-in
+    :config
+    (setq imenu-flatten 'prefix))
+
 (use-package dabbrev
     :ensure nil ;; emacs built-in
     :init
