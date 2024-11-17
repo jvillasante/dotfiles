@@ -212,9 +212,9 @@ if type tmux > /dev/null 2> /dev/null; then
     alias txk='tmux kill-session -t'
 
     # Execute tmux (alacritty supports this natively)
-    if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ] && [ -z "$INSIDE_EMACS" ]; then
-        ( tmux attach || tmux new -s Default > /dev/null 2>&1 ) && exit 0
-    fi
+    # if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ] && [ -z "$INSIDE_EMACS" ]; then
+    #     ( tmux attach || tmux new -s Default > /dev/null 2>&1 ) && exit 0
+    # fi
 fi
 
 #
