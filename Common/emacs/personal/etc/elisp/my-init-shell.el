@@ -119,9 +119,7 @@
                     (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
                 (vterm-other-window))))
     :hook ((vterm-copy-mode . (lambda ()
-                                  (if (eq buffer-read-only nil)
-                                          (setq buffer-read-only t)
-                                      (setq buffer-read-only nil))
+                                  (set-buffer-modified-p (not (buffer-modified-p)))
                                   (force-mode-line-update))))
     :init
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
