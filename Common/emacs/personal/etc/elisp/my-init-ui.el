@@ -126,7 +126,11 @@
     (setq mouse-wheel-scroll-amount '(1))
 
     ;; On a long mouse scroll keep scrolling by 1 line.
-    (setq mouse-wheel-progressive-speed nil))
+    (setq mouse-wheel-progressive-speed nil)
+
+    ;; Speedup cursor movement.
+    ;; https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
+    (setq auto-window-vscroll nil))
 (use-package pixel-scroll
     :ensure nil ;; emacs built-in
     :if (fboundp 'pixel-scroll-precision-mode)
