@@ -27,7 +27,7 @@
 ;; (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode) ;; ... fill column indication on prog-mode is nice
 
 ;; Set the font (M-x `menu-set-font' to see font faces)
-(defun my--setup-fonts ()
+(defun my/setup-fonts ()
     "Set up fonts at startup."
     (setq x-underline-at-descent-line nil)
     (set-face-attribute 'default nil
@@ -43,8 +43,8 @@
         (add-hook 'after-make-frame-functions
                   (lambda (frame)
                       (with-selected-frame frame
-                          (my--setup-fonts))))
-    (add-hook 'after-init-hook #'my--setup-fonts))
+                          (my/setup-fonts))))
+    (add-hook 'after-init-hook #'my/setup-fonts))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook 'variable-pitch-mode)
@@ -52,7 +52,7 @@
 ;; theme
 (use-package modus-themes
     :preface
-    (defun my--modus-themes-org-fontify-block-delimiter-lines ()
+    (defun my/modus-themes-org-fontify-block-delimiter-lines ()
         "Match `org-fontify-whole-block-delimiter-line' to theme style.
 Run this function at the post theme load phase, such as with the
 `modus-themes-after-load-theme-hook'."
@@ -110,10 +110,10 @@ Run this function at the post theme load phase, such as with the
                               (border-mode-line-inactive unspecified)))
 
     (add-hook 'modus-themes-after-load-theme-hook
-              #'my--modus-themes-org-fontify-block-delimiter-lines)
+              #'my/modus-themes-org-fontify-block-delimiter-lines)
 
     ;; Load theme
-    ;; (my--switch-theme 'modus-operandi)
+    ;; (my/switch-theme 'modus-operandi)
     (modus-themes-load-theme 'modus-operandi))
 
 (provide 'my-init-ui)

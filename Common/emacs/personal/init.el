@@ -56,10 +56,10 @@
 (use-package no-littering)
 
 ;; Paths
-(defconst my--home-path (expand-file-name "~/"))
-(defconst my--dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my--home-path))
-(defconst my--software-path (expand-file-name "Workspace/Software/" my--home-path))
-(defconst my--dropbox-path (expand-file-name "Dropbox/" my--home-path))
+(defconst my/home-path (expand-file-name "~/"))
+(defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
+(defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
+(defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
 
 ;; load config
 (load (expand-file-name "elisp/my-utils"              no-littering-etc-directory))

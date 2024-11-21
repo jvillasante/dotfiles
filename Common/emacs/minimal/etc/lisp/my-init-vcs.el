@@ -8,7 +8,7 @@
 
 (use-package magit
     :preface
-    (defun my--magit-kill-buffers ()
+    (defun my/magit-kill-buffers ()
         "Restore window configuration and kill all Magit buffers."
         (interactive)
         (let ((buffers (magit-mode-get-buffers)))
@@ -26,8 +26,8 @@
 (when (package-installed-p 'magit)
     (global-set-key (kbd "C-x g") 'magit-status)
     (with-eval-after-load 'magit
-        (define-key magit-status-mode-map (kbd "q") 'my--magit-kill-buffers)
-        (define-key magit-status-mode-map (kbd "C-x k") 'my--magit-kill-buffers)))
+        (define-key magit-status-mode-map (kbd "q") 'my/magit-kill-buffers)
+        (define-key magit-status-mode-map (kbd "C-x k") 'my/magit-kill-buffers)))
 
 (use-package diff-hl
     :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)

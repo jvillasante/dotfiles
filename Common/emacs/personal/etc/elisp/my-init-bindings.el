@@ -14,7 +14,7 @@
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
 (global-set-key (kbd "C-x k") 'kill-current-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
-(global-set-key (kbd "C-x S") 'my--save-all) ; save some buffers without prompt
+(global-set-key (kbd "C-x S") 'my/save-all) ; save some buffers without prompt
 (global-set-key (kbd "C-x C-o") 'ff-find-other-file) ; useful for C/C++ finding header/impl files
 
 ;; Use Ctrl+arrow keys to move between windows.
@@ -30,10 +30,10 @@
 (global-set-key (kbd "C-x C-S-c") 'save-buffers-kill-emacs)
 
 ;; Clone the current buffer in a new window with `q' to exit
-(global-set-key (kbd "C-x 9") 'my--clone-buffer-in-new-window-readonly) ; same
+(global-set-key (kbd "C-x 9") 'my/clone-buffer-in-new-window-readonly) ; same
 
 ;; ctl-x-4-map
-(define-key ctl-x-4-map (kbd "T") 'my--toggle-window-split)
+(define-key ctl-x-4-map (kbd "T") 'my/toggle-window-split)
 
 ;; duplicate current line or region
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
@@ -44,17 +44,17 @@
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 
 ;; Open line(s) below/above current one (using crux implementation)
-;; (global-set-key (kbd "C-o") 'my--open-next-line)
-;; (global-set-key (kbd "M-o") 'my--open-previous-line)
+;; (global-set-key (kbd "C-o") 'my/open-next-line)
+;; (global-set-key (kbd "M-o") 'my/open-previous-line)
 
 ;; better comment/un-comment
-(global-set-key (kbd "M-;") 'my--comment-or-uncomment)
-(global-set-key (kbd "C-x C-;") 'my--comment-or-uncomment)
+(global-set-key (kbd "M-;") 'my/comment-or-uncomment)
+(global-set-key (kbd "C-x C-;") 'my/comment-or-uncomment)
 
 ;; fill-unfill
-(define-key global-map [remap fill-paragraph] 'my--fill-or-unfill)
-(global-set-key (kbd "M-Q") 'my--unfill-paragraph)
-(global-set-key (kbd "C-M-Q") 'my--unfill-region)
+(define-key global-map [remap fill-paragraph] 'my/fill-or-unfill)
+(global-set-key (kbd "M-Q") 'my/unfill-paragraph)
+(global-set-key (kbd "C-M-Q") 'my/unfill-region)
 
 ;; prog-mode
 (with-eval-after-load 'prog-mode
@@ -78,7 +78,7 @@
 
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
-    (define-key ibuffer-mode-map (kbd "q") 'my--close-buffer-and-window)
+    (define-key ibuffer-mode-map (kbd "q") 'my/close-buffer-and-window)
     (keymap-set ibuffer-mode-map "{" #'ibuffer-backwards-next-marked)
     (keymap-set ibuffer-mode-map "}" #'ibuffer-forward-next-marked)
     (keymap-set ibuffer-mode-map "[" #'ibuffer-backward-filter-group)
@@ -215,11 +215,11 @@
 (when (package-installed-p 'magit)
     (global-set-key (kbd "C-x g") 'magit-status)
     (with-eval-after-load 'magit
-        (define-key magit-status-mode-map (kbd "q") 'my--magit-kill-buffers)
-        (define-key magit-status-mode-map (kbd "C-x k") 'my--magit-kill-buffers)))
+        (define-key magit-status-mode-map (kbd "q") 'my/magit-kill-buffers)
+        (define-key magit-status-mode-map (kbd "C-x k") 'my/magit-kill-buffers)))
 
 (with-eval-after-load 'org
-    (define-key org-mode-map [remap fill-paragraph] 'my--org-fill-or-unfill)
+    (define-key org-mode-map [remap fill-paragraph] 'my/org-fill-or-unfill)
     (when (package-installed-p 'verb)
         (define-key org-mode-map (kbd "C-c C-r") verb-command-map)))
 
@@ -228,11 +228,11 @@
 
 (with-eval-after-load 'eshell
     (global-set-key (kbd "C-c o e") 'eshell)
-    (global-set-key (kbd "C-c o E") 'my--eshell-other-window))
+    (global-set-key (kbd "C-c o E") 'my/eshell-other-window))
 
 (with-eval-after-load 'shell
     (global-set-key (kbd "C-c o s") 'shell)
-    (global-set-key (kbd "C-c o S") 'my--shell-other-window))
+    (global-set-key (kbd "C-c o S") 'my/shell-other-window))
 
 (with-eval-after-load 'eat
     (global-set-key (kbd "C-c o t") 'eat)
@@ -246,12 +246,12 @@
     (global-set-key (kbd "C-c o T") 'vterm-other-window)
 
     ;; project-prefix-map
-    (define-key project-prefix-map (kbd "t") 'my--vterm-project)
-    (define-key project-prefix-map (kbd "T") 'my--vterm-project-other-window)
+    (define-key project-prefix-map (kbd "t") 'my/vterm-project)
+    (define-key project-prefix-map (kbd "T") 'my/vterm-project-other-window)
 
     ;; vterm-copy-mode-map
-    (define-key vterm-copy-mode-map (kbd "<return>") 'my--vterm-copy-mode-cancel)
-    (define-key vterm-copy-mode-map (kbd "RET")      'my--vterm-copy-mode-cancel)
+    (define-key vterm-copy-mode-map (kbd "<return>") 'my/vterm-copy-mode-cancel)
+    (define-key vterm-copy-mode-map (kbd "RET")      'my/vterm-copy-mode-cancel)
 
     ;; vterm-mode-map
     (define-key vterm-mode-map (kbd "<insert>") 'ignore)
@@ -355,7 +355,7 @@
 
 (with-eval-after-load 'dired
     (define-key dired-mode-map (kbd "C-<return>") 'dired-do-open)
-    (define-key dired-mode-map (kbd "q") 'my--close-buffer-and-window)
+    (define-key dired-mode-map (kbd "q") 'my/close-buffer-and-window)
     (define-key dired-mode-map (kbd "E") 'dired-toggle-read-only))
 
 (with-eval-after-load 'dired-x
@@ -365,7 +365,7 @@
     (global-set-key (kbd "C-x C-n") 'dired-sidebar-toggle-sidebar))
 
 (when (package-installed-p 'neotree)
-    (global-set-key (kbd "C-x C-n") 'my--neotree-project-dir)
+    (global-set-key (kbd "C-x C-n") 'my/neotree-project-dir)
     (with-eval-after-load 'neotree
         (define-key neotree-mode-map (kbd ".") 'neotree-hidden-file-toggle)))
 
@@ -373,9 +373,9 @@
     (global-set-key (kbd "C-x o") 'ace-window))
 
 (with-eval-after-load 'pixel-scroll
-    (define-key global-map [remap scroll-up-command]   'my--pixel-scroll-up-command)
-    (define-key global-map [remap scroll-down-command] 'my--pixel-scroll-down-command)
-    (define-key global-map [remap recenter-top-bottom] 'my--pixel-recenter-top-bottom))
+    (define-key global-map [remap scroll-up-command]   'my/pixel-scroll-up-command)
+    (define-key global-map [remap scroll-down-command] 'my/pixel-scroll-down-command)
+    (define-key global-map [remap recenter-top-bottom] 'my/pixel-recenter-top-bottom))
 
 (with-eval-after-load 'gptel
     (define-key gptel-mode-map (kbd "C-c C-c") 'gptel-send))
@@ -397,7 +397,7 @@
 
 ;; override `C-x C-o' with eglot support
 (with-eval-after-load 'c-ts-mode
-    (define-key c-ts-base-mode-map (kbd "C-x C-o") 'my--eglot-clangd-find-other-file))
+    (define-key c-ts-base-mode-map (kbd "C-x C-o") 'my/eglot-clangd-find-other-file))
 
 ;;; Prefix
 ;; C-c f : find
@@ -428,7 +428,7 @@
     (global-set-key (kbd "C-c w r") 'winner-redo))
 
 ;; C-c c : Code
-(global-set-key (kbd "C-c c f") 'my--toggle-fold)
+(global-set-key (kbd "C-c c f") 'my/toggle-fold)
 (global-set-key (kbd "C-c c h") 'eldoc)
 (with-eval-after-load 'consult-eglot
     (define-key eglot-mode-map (kbd "C-c c s") 'consult-eglot-symbols))
@@ -454,8 +454,8 @@
     (global-set-key (kbd "C-c o f") 'elfeed))
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o i") 'ielm)
-(global-set-key (kbd "C-c o m") 'my--new-scratch-buffer-in-markdown)
-(global-set-key (kbd "C-c o b") 'my--open-link-at-point-or-minibuffer-with-choice)
+(global-set-key (kbd "C-c o m") 'my/new-scratch-buffer-in-markdown)
+(global-set-key (kbd "C-c o b") 'my/open-link-at-point-or-minibuffer-with-choice)
 
 ;; C-c l : lookup
 (global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)

@@ -8,7 +8,7 @@
 
 (use-package magit
     :preface
-    (defun my--magit-kill-buffers ()
+    (defun my/magit-kill-buffers ()
         "Restore window configuration and kill all Magit buffers."
         (interactive)
         (let ((buffers (magit-mode-get-buffers)))

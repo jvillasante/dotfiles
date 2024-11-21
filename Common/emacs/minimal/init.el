@@ -9,7 +9,7 @@
 (setq ffap-machine-p-known 'reject)
 
 ;;; package.el
-(when (bound-and-true-p my--package-initialize-and-refresh)
+(when (bound-and-true-p my/package-initialize-and-refresh)
     ;; Initialize and refresh package contents again if needed
     (package-initialize)
     (unless package-archive-contents
@@ -254,7 +254,7 @@
 ;;; Mouse Scroll
 
 ;; Emacs 29
-(when (memq 'context-menu my--ui-features)
+(when (memq 'context-menu my/ui-features)
     (when (and (display-graphic-p) (fboundp 'context-menu-mode))
         (add-hook 'after-init-hook #'context-menu-mode)))
 
@@ -384,20 +384,20 @@
       user-login-name "jvillasante")
 
 ;; Paths
-(defconst my--home-path (expand-file-name "~/"))
-(defconst my--dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my--home-path))
-(defconst my--software-path (expand-file-name "Workspace/Software/" my--home-path))
-(defconst my--dropbox-path (expand-file-name "Dropbox/" my--home-path))
+(defconst my/home-path (expand-file-name "~/"))
+(defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
+(defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
+(defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
 
 ;; Load configuration
-(my--load-user-init "etc/lisp/my-init-utils.el")
-(my--load-user-init "etc/lisp/my-init-early.el")
-(my--load-user-init "etc/lisp/my-init-misc.el")
-(my--load-user-init "etc/lisp/my-init-shell.el")
-(my--load-user-init "etc/lisp/my-init-completion.el")
-(my--load-user-init "etc/lisp/my-init-langs.el")
-(my--load-user-init "etc/lisp/my-init-vcs.el")
-(my--load-user-init "etc/lisp/my-init-ui.el")
+(my/load-user-init "etc/lisp/my-init-utils.el")
+(my/load-user-init "etc/lisp/my-init-early.el")
+(my/load-user-init "etc/lisp/my-init-misc.el")
+(my/load-user-init "etc/lisp/my-init-shell.el")
+(my/load-user-init "etc/lisp/my-init-completion.el")
+(my/load-user-init "etc/lisp/my-init-langs.el")
+(my/load-user-init "etc/lisp/my-init-vcs.el")
+(my/load-user-init "etc/lisp/my-init-ui.el")
 
 (provide 'init)
 

@@ -10,7 +10,7 @@
 (use-package hideshow
     :ensure nil ;; emacs built-in
     :preface
-    (defun my--toggle-fold ()
+    (defun my/toggle-fold ()
         (interactive)
         (save-excursion
             (end-of-line)
@@ -55,17 +55,17 @@
 (use-package eglot
     :ensure nil ;; emacs built-in
     :preface
-    (defun my--eglot-eldoc ()
+    (defun my/eglot-eldoc ()
         "Show flymake diagnostics first."
         (setq eldoc-documentation-functions
               (cons #'flymake-eldoc-function
                     (remove #'flymake-eldoc-function eldoc-documentation-functions))))
-    (defun my--maybe-start-eglot ()
+    (defun my/maybe-start-eglot ()
         "Exlude some mode from eglot."
         (let ((disabled-modes '(emacs-lisp-mode)))
             (unless (apply 'derived-mode-p disabled-modes)
                 (eglot-ensure))))
-    (defun my--eglot-clangd-find-other-file ()
+    (defun my/eglot-clangd-find-other-file ()
         "Switch between the corresponding C/C++ source and header file."
         (interactive)
         (let* ((server (eglot--current-server-or-lose))
@@ -79,8 +79,8 @@
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
     :hook
-    ((eglot-managed-mode . my--eglot-eldoc)
-     (prog-mode . my--maybe-start-eglot))
+    ((eglot-managed-mode . my/eglot-eldoc)
+     (prog-mode . my/maybe-start-eglot))
     :config
     (setq eglot-events-buffer-config '(:size 0 :format full))
     (setq eglot-events-buffer-size 0)
@@ -130,11 +130,11 @@
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
     :preface
-    (defun my--disable-apheleia ()
+    (defun my/disable-apheleia ()
         (apheleia-mode -1))
     :hook
     ((prog-mode . apheleia-mode)
-     (web-mode . my--disable-apheleia))
+     (web-mode . my/disable-apheleia))
     :config
     ;; Set custom formatting commands
     (dolist (formatter-cmd '((shfmt    . ("shfmt" "-i" "4" "-ci" "-kp" "-sr"))

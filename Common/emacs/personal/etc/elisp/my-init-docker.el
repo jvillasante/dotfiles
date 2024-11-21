@@ -3,7 +3,7 @@
 ;;
 ;;; Code:
 
-(defcustom my--docker-executable 'docker
+(defcustom my/docker-executable 'docker
     "The executable to be used with docker-mode."
     :type '(choice
             (const :tag "docker" docker)
@@ -12,7 +12,7 @@
 
 (use-package docker
     :preface
-    (defun my--docker-run-async-with-buffer-eat (program &rest args)
+    (defun my/docker-run-async-with-buffer-eat (program &rest args)
         "Execute \"PROGRAM ARGS\" and display output in a new `eat' buffer."
         (defvar eat-buffer-name)
         (defvar eat-kill-buffer-on-exit)
@@ -23,16 +23,16 @@
                     (eat-other-window eat-buffer-name args))
             (error "The eat package is not installed")))
     :config
-    (when (eq my--docker-executable 'docker)
+    (when (eq my/docker-executable 'docker)
         (setq docker-command "docker")
         (setq docker-compose-command "docker-compose"))
 
-    (when (eq my--docker-executable 'podman)
+    (when (eq my/docker-executable 'podman)
         (setq docker-command "podman")
         (setq docker-compose-command "podman-compose"))
 
     ;; (when (package-installed-p 'eat)
-    ;;     (setq docker-run-async-with-buffer-function #'my--docker-run-async-with-buffer-eat))
+    ;;     (setq docker-run-async-with-buffer-function #'my/docker-run-async-with-buffer-eat))
     (when (package-installed-p 'vterm)
         (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
 
@@ -51,10 +51,10 @@
 (use-package dockerfile-mode
     :mode "\\Dockerfile\\'"
     :config
-    (when (eq my--docker-executable 'docker)
+    (when (eq my/docker-executable 'docker)
         (setq dockerfile-mode-command "docker"))
 
-    (when (eq my--docker-executable 'podman)
+    (when (eq my/docker-executable 'podman)
         (setq dockerfile-mode-command "podman")))
 
 (provide 'my-init-docker)

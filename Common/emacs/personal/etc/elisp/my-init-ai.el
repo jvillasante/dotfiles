@@ -6,11 +6,11 @@
 (use-package gptel
     :defer t
     :preface
-    (defvar my--gptel-define-word-prompt
+    (defvar my/gptel-define-word-prompt
         "Please give a short definition of this word or phrase. Then, provide 3 usage examples, synonyms and antonyms"
         "The ChatGPT style prompt used define a word.")
 
-    (defun my--gptel-stash-response (buffer prompt response)
+    (defun my/gptel-stash-response (buffer prompt response)
         "Store a response in a well known buffer we can look at if we want"
         (let ((buffer (get-buffer-create buffer)))
             (with-current-buffer buffer
@@ -19,7 +19,7 @@
                 (insert "\n\n-->\n\n")
                 (insert response))))
 
-    (defun my--gptel-define-word (start end)
+    (defun my/gptel-define-word (start end)
         "Use ChatGPT to define the current word of the region."
         (interactive "r")
         (unless (region-active-p)
@@ -27,9 +27,9 @@
         (let ((input (buffer-substring-no-properties (region-beginning) (region-end))))
             (gptel-request nil
                 :callback (lambda (response info)
-                              (my--gptel-stash-response "*Last Definition*" (plist-get info :context) response)
+                              (my/gptel-stash-response "*Last Definition*" (plist-get info :context) response)
                               (message response))
-                :system my--gptel-define-word-prompt
+                :system my/gptel-define-word-prompt
                 :context input)))
     :custom
     (gptel-default-mode 'org-mode)

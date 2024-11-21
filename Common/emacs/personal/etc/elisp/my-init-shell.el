@@ -13,7 +13,7 @@
 (use-package eshell
     :ensure nil ;; emacs built-in
     :preface
-    (defun my--eshell-other-window ()
+    (defun my/eshell-other-window ()
         "Open a `eshell' in a new window."
         (interactive)
         (let ((buf (eshell)))
@@ -64,7 +64,7 @@
 (use-package shell
     :ensure nil ;; emacs built-in
     :preface
-    (defun my--shell-other-window ()
+    (defun my/shell-other-window ()
         "Open a `shell' in a new window."
         (interactive)
         (let ((buf (shell)))
@@ -75,7 +75,7 @@
 (use-package eat
     :disabled t
     :preface
-    (defun my--eat-open (file)
+    (defun my/eat-open (file)
         "Helper function to open files from eat terminal."
         (interactive)
         (if (file-exists-p file)
@@ -86,7 +86,7 @@
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
     :config
-    (add-to-list 'eat-message-handler-alist (cons "open" 'my--eat-open))
+    (add-to-list 'eat-message-handler-alist (cons "open" 'my/eat-open))
     (setq process-adaptive-read-buffering nil) ; makes EAT a lot quicker!
     (setq eat-term-name "xterm-256color") ; https://codeberg.org/akib/emacs-eat/issues/119"
     (setq eat-kill-buffer-on-exit t)
@@ -97,10 +97,10 @@
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
     :preface
-    (defun my--vterm-copy-mode-cancel ()
+    (defun my/vterm-copy-mode-cancel ()
         (interactive)
         (vterm-copy-mode -1))
-    (defun my--vterm-project ()
+    (defun my/vterm-project ()
         (interactive)
         (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
@@ -109,7 +109,7 @@
             (if (and vterm-buffer (not current-prefix-arg))
                     (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
                 (vterm))))
-    (defun my--vterm-project-other-window ()
+    (defun my/vterm-project-other-window ()
         (interactive)
         (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
@@ -124,8 +124,8 @@
     :init
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (setq vterm-always-compile-module t)
-    (add-to-list 'project-switch-commands '(my--vterm-project "vTerm") t)
-    (add-to-list 'project-switch-commands '(my--vterm-project-other-window "vTerm other window") t)
+    (add-to-list 'project-switch-commands '(my/vterm-project "vTerm") t)
+    (add-to-list 'project-switch-commands '(my/vterm-project-other-window "vTerm other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
     :config
     (setq vterm-timer-delay 0.01)
@@ -149,21 +149,21 @@
 (use-package dwim-shell-command
     :init
     (require 'dwim-shell-commands)
-    (defun my--dwim-shell-command-convert-to-gif ()
+    (defun my/dwim-shell-command-convert-to-gif ()
         "Convert all marked videos to optimized gif(s)."
         (interactive)
         (dwim-shell-command-on-marked-files
          "Convert to gif"
          "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
          :utils "ffmpeg"))
-    (defun my--dwim-shell-command-copy-to-www-sm2 ()
+    (defun my/dwim-shell-command-copy-to-www-sm2 ()
         "Copfy files to SM2's www directory"
         (interactive)
         (dwim-shell-command-on-marked-files
          "Copy marked files to SM2's www directory"
          "scp -Or <<f>> dmxs.sm2.lan:/opt/dmxs/www"
          :utils "scp"))
-    (defun my--dwim-shell-command-copy-to-bin-sm2 ()
+    (defun my/dwim-shell-command-copy-to-bin-sm2 ()
         "Copy files to SM2's www directory"
         (interactive)
         (dwim-shell-command-on-marked-files

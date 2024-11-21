@@ -19,7 +19,7 @@
 (use-package treesit
     :ensure nil ;; emacs built-in
     :preface
-    (defun my--treesit-install-language-grammars ()
+    (defun my/treesit-install-language-grammars ()
         "Install Tree-sitter grammars if they are absent."
         (interactive)
         (dolist (grammar
@@ -158,7 +158,7 @@
 (use-package c-ts-mode
     :ensure nil ;; emacs built-in
     :preface
-    (defun my--c-ts-indent-style()
+    (defun my/c-ts-indent-style()
         "Override the built-in BSD indentation style with some additional rules.
          Docs: https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html
          Notes: `treesit-explore-mode' can be very useful to see where you're at in the tree-sitter tree,
@@ -173,7 +173,7 @@
           ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
     :config
     (setq c-ts-mode-indent-offset 4)
-    (setq c-ts-mode-indent-style #'my--c-ts-indent-style))
+    (setq c-ts-mode-indent-style #'my/c-ts-indent-style))
 
 ;; cmake
 (use-package cmake-mode)
@@ -214,11 +214,11 @@
 
 (use-package python
     :config
-    (defvar my--python-enable-ipython t
+    (defvar my/python-enable-ipython t
         "use ipython as the embedded REPL.")
     (setq python-indent-offset 4)
 
-    (when my--python-enable-ipython
+    (when my/python-enable-ipython
         (setq python-shell-interpreter "ipython3")
         (setq python-shell-interpreter-args "-i --simple-prompt --no-color-info")))
 
@@ -232,12 +232,12 @@
 
 (use-package go-mode
     :preface
-    (defun my--go-setup ()
+    (defun my/go-setup ()
         (setq-local c-basic-offset 4) ; Base indent size when indented automatically
         (setq-local tab-width 4)
         (setq-local indent-tabs-mode nil))
-    :hook ((go-mode . my--go-setup)
-           (go-ts-mode . my--go-setup)))
+    :hook ((go-mode . my/go-setup)
+           (go-ts-mode . my/go-setup)))
 
 (use-package sql
     :config (add-hook 'sql-mode-hook (setq-local tab-width 4)))

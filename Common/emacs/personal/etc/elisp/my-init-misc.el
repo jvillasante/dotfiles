@@ -12,7 +12,7 @@
 
     ;; setup epg
     (require 'epg)
-    (setq epg-gpg-home-directory (expand-file-name ".gnupg" my--home-path))
+    (setq epg-gpg-home-directory (expand-file-name ".gnupg" my/home-path))
     (setq epg-gpg-program (executable-find "gpg2"))
     ;; (setq epg-pinentry-mode 'loopback)
 
@@ -41,7 +41,7 @@
 ;; fortune : a fortune front-end for Emacs.
 (use-package fortune
     :preface
-    (defun my--fortune ()
+    (defun my/fortune ()
         (interactive)
         (when (executable-find "fortune")
             (switch-to-buffer (make-temp-name "fortune"))
@@ -77,7 +77,7 @@
 
 (use-package electric
     :ensure nil ;; emacs built-in
-    :preface (defun my--electric-indent-local-mode-maybe ()
+    :preface (defun my/electric-indent-local-mode-maybe ()
                  "Enable `electric-indent-local-mode' if appropriate."
                  (unless (or (eq major-mode 'fundamental-mode)
                              (eq major-mode 'text-mode)
@@ -87,7 +87,7 @@
     (setq-default electric-indent-chars '(?\n ?\^?))
     (setq-default electric-indent-inhibit t) ;; Making electric-indent behave sanely
     (electric-indent-mode 0) ;; disable by default
-    (add-hook 'after-change-major-mode-hook #'my--electric-indent-local-mode-maybe))
+    (add-hook 'after-change-major-mode-hook #'my/electric-indent-local-mode-maybe))
 
 (use-package isearch
     :ensure nil ;; emacs built-in
@@ -132,9 +132,9 @@
           recentf-auto-cleanup 'never)
     (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-var-directory))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "secrets/" no-littering-etc-directory)))
-    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "Apps/elfeed/elfeed_db/" my--dropbox-path)))
-    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".password-store/" my--home-path)))
-    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".mail/" my--home-path)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "Apps/elfeed/elfeed_db/" my/dropbox-path)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".password-store/" my/home-path)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".mail/" my/home-path)))
     (add-to-list 'recentf-exclude "/dev/shm/")
     (add-to-list 'recentf-exclude "\\.git")
     (add-to-list 'recentf-exclude "\\.jar$\\.rar$\\.zip$\\.tar$\\.gz$\\.iso$\\.7z$")
