@@ -22,6 +22,12 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; Disable toolbar
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))     ; Disable menubar
 
+;; Disable GUIs because they are inconsistent across systems, desktop
+;; environments, and themes, and they don't match the look of Emacs.
+(unless (memq 'dialogs my--ui-features)
+    (setq use-file-dialog nil)
+    (setq use-dialog-box nil))
+
 ;; default amount of padding to use when calling `aligh-regexp'
 (setq align-default-spacing 0)
 
