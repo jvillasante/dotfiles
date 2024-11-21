@@ -4,29 +4,7 @@
 ;;; Code:
 
 (use-package gptel
-    :defer t
-    :custom
-    (gptel-default-mode 'org-mode)
-    (gptel-expert-commands t)
-    :config
-    ;; (setq gptel-model "gpt-4o")
-    (setq
-     gptel-model "claude-3-sonnet-20240229"
-     gptel-backend (gptel-make-anthropic "Claude"
-                       :stream t
-                       :key (auth-source-pick-first-password :host "console.claude.com"))))
-
-(use-package gptel-quick
-    :defer t
-    :vc (:url "git@github.com:karthink/gptel-quick.git"
-              :rev :newest)
-    :config
-    (keymap-set embark-general-map "?" #'gptel-quick))
-
-;; Define word or phrase
-(use-package gptel
-    :defer t
-    :config
+    :preface
     (defvar my--gptel-define-word-prompt
         "Please give a short definition of this word or phrase. Then, provide 3 usage examples, synonyms and antonyms"
         "The ChatGPT style prompt used define a word.")
@@ -47,11 +25,24 @@
             (error "You must have a region set"))
         (let ((input (buffer-substring-no-properties (region-beginning) (region-end))))
             (gptel-request nil
-                           :callback (lambda (response info)
-                                         (my--gptel-stash-response "*Last Definition*" (plist-get info :context) response)
-                                         (message response))
-                           :system my--gptel-define-word-prompt
-                           :context input))))
+                :callback (lambda (response info)
+                              (my--gptel-stash-response "*Last Definition*" (plist-get info :context) response)
+                              (message response))
+                :system my--gptel-define-word-prompt
+                :context input)))
+    :custom
+    (gptel-default-mode 'org-mode)
+    (gptel-expert-commands t)
+    :config
+    (setq gptel-model "gpt-4o")
+    (setq gptel-api-key
+          (password-store-get-field "Logins/openai.com" "API Key")))
+
+(use-package gptel-quick
+    :vc (:url "git@github.com:karthink/gptel-quick.git"
+              :rev :newest)
+    :config
+    (keymap-set embark-general-map "?" #'gptel-quick))
 
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here
