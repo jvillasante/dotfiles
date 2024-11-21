@@ -7,11 +7,15 @@
 (setq process-adaptive-read-buffering nil)
 (setq read-process-output-max (* 4 1024 1024))
 
-;; encoding
-(prefer-coding-system 'utf-8)
+;; everything is UTF8
+(set-language-environment 'utf-8)
+(setq locale-coding-system 'utf-8)
+(setq buffer-file-coding-system 'utf-8-unix)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 (require 'time)
