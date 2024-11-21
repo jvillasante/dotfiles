@@ -1,0 +1,4 @@
+Diagnostics:
+    ClangTidy:
+        # https://github.com/llvm/llvm-project/issues/109367
+        Remove: boost-use-ranges

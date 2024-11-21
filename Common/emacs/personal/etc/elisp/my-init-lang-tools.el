@@ -120,7 +120,7 @@
                       "--log=error"
                       "--malloc-trim"
                       "--background-index"
-                      "--clang-tidy=0" ; TODO: clang-tidy is crashing the entire clangd, disabling for now...
+                      "--clang-tidy"
                       "--all-scopes-completion"
                       "--completion-style=detailed"
                       "--pch-storage=memory"

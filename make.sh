@@ -174,6 +174,10 @@ if [ -d "$HOME/Workspace/Work/Omicron/Projects" ]; then
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
 
+        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd" ] &&
+            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd"
+        ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
+
         [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy" ] &&
             unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy"
         ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.clang-tidy" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
@@ -204,6 +208,10 @@ if [ -d "$HOME/Workspace/Work/Nielsen" ]; then
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
 
+        [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd" ] &&
+            unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd"
+        ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/dmxs/"
+
         [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.dir-locals.el" ] &&
             unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.dir-locals.el"
         ln -s "$DOTFILES_DIR/Misc/work/dmxs/.dir-locals.el" "$HOME/Workspace/Work/Nielsen/Projects/dmxs/"
@@ -224,6 +232,10 @@ if [ -d "$HOME/Workspace/Work/Nielsen" ]; then
         else
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
+
+        [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd" ] &&
+            unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd"
+        ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /"
 
         [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/.dir-locals.el" ] &&
             unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/.dir-locals.el"
