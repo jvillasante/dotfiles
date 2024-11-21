@@ -106,6 +106,7 @@
 (setq create-lockfiles nil) ;; no lock files
 (put 'narrow-to-region 'disabled nil) ; enable narrow to region (disabled by default)
 (setq undo-limit 100000000) ; raise Emacs undo memory to 10 MB
+(setq select-enable-clipboard t) ; Non-nil means cutting and pasting uses the clipboard.
 
 ;; s.el : The long lost Emacs string manipulation library.
 (use-package s)
