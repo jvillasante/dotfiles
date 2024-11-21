@@ -7,9 +7,9 @@
 
 ;;; Constants
 
-(defconst IS-MAC (eq system-type 'darwin))
-(defconst IS-LINUX (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
-(defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
+(defconst my--os-mac (eq system-type 'darwin))
+(defconst my--os-linux (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
+(defconst my--os-windows (memq system-type '(cygwin windows-nt ms-dos)))
 
 ;;; Macros
 

@@ -158,7 +158,7 @@
               (expand-file-name "bookmarks.el" no-littering-var-directory))
         (setq bookmark-save-flag 1))
 
-    (when IS-MAC
+    (when my--os-mac
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (setq browse-url-browser-function 'browse-url-generic)
         (setq browse-url-generic-program "open")
@@ -179,7 +179,7 @@
               ;; Visit files opened outside of Emacs in existing frame, not a new one
               ns-pop-up-frames nil))
 
-    (when IS-LINUX
+    (when my--os-linux
         (setq x-super-keysym 'meta)
         (setq browse-url-browser-function 'browse-url-generic)
         (setq browse-url-generic-program "xdg-open")
