@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package gptel
+    :defer t
     :preface
     (defvar my--gptel-define-word-prompt
         "Please give a short definition of this word or phrase. Then, provide 3 usage examples, synonyms and antonyms"
@@ -39,6 +40,7 @@
           (password-store-get-field "Logins/openai.com" "API Key")))
 
 (use-package gptel-quick
+    :defer t
     :vc (:url "git@github.com:karthink/gptel-quick.git"
               :rev :newest)
     :config
