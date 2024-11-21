@@ -352,57 +352,41 @@ Run this function at the post theme load phase, such as with the
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 ;;          https://www.masteringemacs.org/article/demystifying-emacs-window-manager
-;; (progn
-;;     ;; window split and resizing
-;;     (setq window-combination-resize t)
-;;     (setq split-height-threshold 80)
-;;     (setq split-width-threshold 135)
+(progn
+    ;; window split and resizing
+    (setq window-combination-resize t)
+    (setq split-height-threshold 80)
+    (setq split-width-threshold 135)
 
-;;     ;; defaults
-;;     (setq switch-to-buffer-in-dedicated-window 'pop)
-;;     (setq switch-to-buffer-obey-display-actions t)
-;;     (setq display-buffer-base-action
-;;           '((display-buffer--maybe-same-window
-;;              display-buffer-reuse-window
-;;              display-buffer--maybe-pop-up-frame-or-window
-;;              display-buffer-in-previous-window
-;;              display-buffer-below-selected
-;;              display-buffer-at-bottom
-;;              display-buffer-pop-up-frame)))
+    ;; defaults
+    (setq switch-to-buffer-in-dedicated-window 'pop)
+    (setq switch-to-buffer-obey-display-actions t)
 
-;;     (add-to-list 'display-buffer-alist
-;;                  '("\\*Async Shell Command"
-;;                    display-buffer-no-window
-;;                    (allow-no-window . t)))
+    ;; do not show async shell command window
+    (add-to-list 'display-buffer-alist
+                 '("\\*Async Shell Command\\*"
+                   display-buffer-no-window
+                   (allow-no-window . t)))
 
-;;     (add-to-list 'display-buffer-alist
-;;                  '("\\*Proced"
-;;                    display-buffer-same-window))
+    ;; same window for proced
+    (add-to-list 'display-buffer-alist
+                 '("\\*Proced\\*"
+                   display-buffer-same-window))
 
-;;     (add-to-list 'display-buffer-alist
-;;                  '("\\*Help\\*"
-;;                    (display-buffer-reuse-window display-buffer-pop-up-window)
-;;                    (inhibit-same-window . t)))
+    ;; several buffers that should not pop new windows
+    (add-to-list 'display-buffer-alist
+                 '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
+                   display-buffer-reuse-window))
 
-;;     (add-to-list 'display-buffer-alist
-;;                  '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
-;;                    display-buffer-reuse-window))
-
-;;     (add-to-list 'display-buffer-alist
-;;                  '("\\*info\\*"
-;;                    (display-buffer-in-side-window)
-;;                    (side . right)
-;;                    (slot . 0)
-;;                    (window-width . 80)
-;;                    (window-parameters
-;;                     (no-delete-other-windows . t))))
-
-;;     (add-to-list 'display-buffer-alist
-;;                  `(,(rx (| "*xref*"
-;;                            "*grep*"
-;;                            "*Occur*"))
-;;                    display-buffer-reuse-window
-;;                    (inhibit-same-window . nil))))
+    ;; Info/Help windows
+    (add-to-list 'display-buffer-alist
+                 '((or (major-mode . Info-mode)
+                       (major-mode . help-mode)
+                       (major-mode . helpful-mode)
+                       (major-mode . Man-mode)
+                       (major-mode . woman-mode))
+                   (display-buffer-reuse-window display-buffer-pop-up-window)
+                   (inhibit-same-window . t))))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
