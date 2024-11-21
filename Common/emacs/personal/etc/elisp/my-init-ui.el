@@ -103,10 +103,24 @@
     (winner-mode 1))
 
 ;; scrolling
-(setq-default scroll-margin 3
-              scroll-step 1
-              scroll-conservatively 10000
-              auto-window-vscroll nil)
+(progn
+    ;; The number of lines to try scrolling a window by when point moves out.
+    (setq scroll-step 1)
+
+    ;; Marker distance from center (don't jump to center).
+    (setq scroll-conservatively 100000)
+
+    ;; Try to keep screen position when PgDn/PgUp.
+    (setq scroll-preserve-screen-position 1)
+
+    ;; Start scrolling when marker at top/bottom.
+    (setq scroll-margin 0)
+
+    ;; Mouse scroll moves 1 line at a time, instead of 5 lines.
+    (setq mouse-wheel-scroll-amount '(1))
+
+    ;; On a long mouse scroll keep scrolling by 1 line.
+    (setq mouse-wheel-progressive-speed nil))
 (use-package pixel-scroll
     :ensure nil ;; emacs built-in
     :if (fboundp 'pixel-scroll-precision-mode)
