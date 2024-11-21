@@ -24,9 +24,8 @@
 
 ;; Disable GUIs because they are inconsistent across systems, desktop
 ;; environments, and themes, and they don't match the look of Emacs.
-(unless (memq 'dialogs my--ui-features)
-    (setq use-file-dialog nil)
-    (setq use-dialog-box nil))
+(setq use-file-dialog nil)
+(setq use-dialog-box nil)
 
 ;; Make URLs in comments/strings clickable, (Emacs > v22).
 ;; (add-hook 'find-file-hooks 'goto-address-prog-mode)
