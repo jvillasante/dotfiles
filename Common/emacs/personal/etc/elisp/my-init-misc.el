@@ -16,6 +16,9 @@
     (setq epg-gpg-program (executable-find "gpg2"))
     ;; (setq epg-pinentry-mode 'loopback)
 
+    ;; For gpg (works on Linux and macOS) to disable custom prompt.
+    (setenv "GPG_AGENT_INFO" nil)
+
     ;; setup epa
     (require 'epa-file)
     (setq epa-file-encrypt-to user-mail-address
