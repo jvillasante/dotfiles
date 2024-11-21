@@ -165,9 +165,10 @@
         (setq ns-use-proxy-icon nil)
         (setq ns-use-thin-smoothing t)
         (setq ns-alternate-modifier nil)
-        (setq mac-command-modifier 'meta)
-        (setq mac-option-modifier 'alt)
-        (setq mac-right-option-modifier 'alt)
+        (setq mac-command-key-is-meta nil
+              mac-command-modifier 'super
+              mac-option-key-is-meta t
+              mac-option-modifier 'meta)
         (setq default-input-method "MacOSX")
         (defconst my--clang-path "/usr/local/opt/llvm/bin/clang")
         (defconst my--mu-path "/usr/local/bin/mu")
