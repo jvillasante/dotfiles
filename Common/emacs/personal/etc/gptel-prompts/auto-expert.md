@@ -1,5 +1,3 @@
-
-
 <!-- #+description: Auto-Expert v3 by Dustin Miller -->
 <!-- #+name: auto-expert -->
 

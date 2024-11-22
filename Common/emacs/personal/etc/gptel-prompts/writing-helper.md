@@ -1,7 +1,5 @@
 <!-- Writing collaborator -->
-<!--    :PROPERTIES: -->
-<!--    :image:    img/collaborating-writers-mutual-inspiration-2.jpeg-crop-4-3.png -->
-<!--    :END: -->
+
 <!--    Consider combining this prompt with a personality such as Bojack, Ernest Hemingway, Dorothy Parker, Raymond Chandler etc.  But what's really valuable is giving it a lot of context (for high-context models) with your own writing in draft form. -->
 
 <!--    #+description: Creative writing collaborator -->

@@ -1,7 +1,4 @@
 <!-- Medium outline to multiple paragaphs -->
-<!--     :PROPERTIES: -->
-<!--     :image:    img/author-1-with-etherial-ideas-crop-3-4.png|img/author-2-with-etherial-ideas-crop-3-4.png|img/peruvian-writer-5-crop-4-3.png|img/peruvian-writer-6-crop-4-3.png|img/rockies-writer-1-crop-4-3.png -->
-<!--     :END: -->
 
 <!--     #+description: Medium/Substack writing from outline -->
 <!--     #+name: medium-writer -->

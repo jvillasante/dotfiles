@@ -31,11 +31,42 @@
                               (message response))
                 :system my/gptel-define-word-prompt
                 :context input)))
+
+    (defun my/parse-prompt-file (prompt-file)
+        "Parse a single prompt file and return its description and content."
+        (with-temp-buffer
+            (insert-file-contents prompt-file)
+            (let ((prompt-description "NO DESCRIPTION"))
+                ;; nab the description - single-line descriptions only!
+                (goto-char (point-min))
+                (when (re-search-forward "#\\+description: \\(.*?\\) *--> *$" nil t)
+                    (setq prompt-description (match-string 1)))
+                ;; remove all comments
+                (delete-matching-lines "^ *<!--" (point-min) (point-max))
+                ;; remove leading blank lines
+                (goto-char (point-min))
+                (while (and (looking-at "^$") (not (eobp)))
+                    (delete-char 1))
+                ;; return the description and content
+                (list prompt-description (buffer-substring-no-properties (point-min) (point-max))))))
+
+    (defun my/gptel-build-directives (promptdir)
+        "Build `gptel-directives' from Markdown files in PROMPTDIR."
+        (let* ((prompt-files (directory-files promptdir t "md$")))
+            (mapcar (lambda (prompt-file)
+                        (let ((parsed-prompt (my/parse-prompt-file prompt-file)))
+                            (cons (intern (f-base prompt-file))  ; gptel-directives key
+                                  (nth 1 parsed-prompt))))       ; prompt content
+                    prompt-files)))
     :custom
-    (gptel-default-mode 'org-mode)
+    (gptel-default-mode 'markdown-mode)
     (gptel-expert-commands t)
     :config
-    (setq gptel-model "gpt-4o")
+    (setq gptel-directives
+          (my/gptel-build-directives
+           (expand-file-name "Common/emacs/personal/etc/gptel-prompts" my/dotfiles-path)))
+    ;; (setq gptel-model 'gpt-4o)
+    (setq gptel-model 'gpt-4o-mini)
     (setq gptel-api-key
           (password-store-get-field "Logins/openai.com" "API Key")))
 

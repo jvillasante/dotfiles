@@ -1,7 +1,5 @@
 <!-- Sparse Priming Representation decompressor -->
-<!--    :PROPERTIES: -->
-<!--    :image:    img/tardis-interior.jpg-crop-4-3.png|img/recycle-reviatalizer-crop-4-3.png|img/recycle-reviatalizer-crop-4-3.png|img/recycle-reviatalizer-crop-4-3.png|img/recycle-reviatalizer-crop-4-3.png -->
-<!--    :END: -->
+
 <!--    #+description: Sparse Priming Representation decompressor (lossy!) -->
 <!--    #+name: spr-decompressor -->
 

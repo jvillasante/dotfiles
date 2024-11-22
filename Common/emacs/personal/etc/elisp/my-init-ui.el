@@ -385,8 +385,10 @@ Run this function at the post theme load phase, such as with the
                        (major-mode . helpful-mode)
                        (major-mode . Man-mode)
                        (major-mode . woman-mode))
-                   (display-buffer-reuse-window display-buffer-pop-up-window)
-                   (inhibit-same-window . t))))
+                   (display-buffer-reuse-mode-window
+                    display-buffer-pop-up-window)
+                   ;; (inhibit-same-window . t)
+                   )))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
