@@ -8,6 +8,7 @@
     :preface
     (defun my/tabspace-setup ()
         "Set up tabspace at startup."
+        ;; Add *Messages* and *splash* to Tab \`Default\'
         (tabspaces-mode 1)
         (progn
             (tab-bar-rename-tab "Default")
@@ -21,6 +22,7 @@
                                      'buffer-list
                                      (cons (get-buffer "*splash*")
                                            (frame-parameter nil 'buffer-list))))))
+
     (defun my/consult-tabspaces ()
         "Deactivate isolated buffers when not using tabspaces."
         (require 'consult)
@@ -32,17 +34,13 @@
                ;; reset consult-buffer to show all buffers
                (consult-customize consult--source-buffer :hidden nil :default t)
                (setq consult-buffer-sources (remove #'consult--source-workspace consult-buffer-sources)))))
-    :hook ((tabspaces-mode . my/consult-tabspaces))
+    :commands
+    (tabspaces-switch-or-create-workspace
+     tabspaces-open-or-create-project-and-workspace)
+    :hook
+    ((after-init . my/tabspace-setup)
+     (tabspaces-mode . my/consult-tabspaces))
     :init
-    ;; Initialize correctly
-    (if (daemonp)
-            (add-hook 'after-make-frame-functions
-                      (lambda (frame)
-                          (with-selected-frame frame
-                              (my/tabspace-setup))))
-        (my/tabspace-setup))
-
-    ;; Filter Buffers for Consult-Buffer
     (with-eval-after-load 'consult
         ;; hide full buffer list (still available with "b" prefix)
         (consult-customize consult--source-buffer :hidden t :default nil)
@@ -67,6 +65,7 @@
     (tabspaces-remove-to-default t)
     (tabspaces-include-buffers '("*scratch*"))
     (tabspaces-initialize-project-with-todo nil)
+    (tabspaces-todo-file-name "project-todo.org")
     ;; sessions
     (tabspaces-session nil)
     (tabspaces-session-auto-restore nil))
