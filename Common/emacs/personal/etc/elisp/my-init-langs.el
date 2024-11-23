@@ -188,7 +188,7 @@
 
 ;; yaml-mode : Support gitlab-ci.yml
 (use-package yaml-mode
-    :mode "\\.yml\\'" "\\.yaml\\'")
+    :mode "\\.yml\\'" "\\.yaml\\'" "\\.clangd\\'")
 
 ;; web-mode : Support various web files
 (use-package web-mode
