@@ -26,11 +26,11 @@
             (error "You must have a region set"))
         (let ((input (buffer-substring-no-properties (region-beginning) (region-end))))
             (gptel-request nil
-                :callback (lambda (response info)
-                              (my/gptel-stash-response "*Last Definition*" (plist-get info :context) response)
-                              (message response))
-                :system my/gptel-define-word-prompt
-                :context input)))
+                           :callback (lambda (response info)
+                                         (my/gptel-stash-response "*Last Definition*" (plist-get info :context) response)
+                                         (message response))
+                           :system my/gptel-define-word-prompt
+                           :context input)))
 
     (defun my/parse-prompt-file (prompt-file)
         "Parse a single prompt file and return its description and content."
@@ -67,15 +67,24 @@
            (expand-file-name "Common/emacs/personal/etc/gptel-prompts" my/dotfiles-path)))
     ;; (setq gptel-model 'gpt-4o)
     (setq gptel-model 'gpt-4o-mini)
-    (setq gptel-api-key
-          (password-store-get-field "Logins/openai.com" "API Key")))
+    (setq gptel-api-key (lambda ()
+                            (password-store-get-field "Logins/openai.com" "API Key"))))
 
 (use-package gptel-quick
     :defer t
+    :after gptel
     :vc (:url "git@github.com:karthink/gptel-quick.git"
               :rev :newest)
     :config
     (keymap-set embark-general-map "?" #'gptel-quick))
+
+(use-package chatgpt-shell
+    :disabled t
+    :defer t
+    :custom
+    ((chatgpt-shell-openai-key
+      (lambda ()
+          (password-store-get-field "Logins/openai.com" "API Key")))))
 
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here

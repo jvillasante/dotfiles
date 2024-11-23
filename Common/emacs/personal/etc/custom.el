@@ -9,9 +9,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-      '(adoc-mode anzu apheleia avy bind-key cape cl-generic cl-lib cmake-mode compat
-           consult-dir consult-eglot corfu crux csv-mode deft devdocs-browser
-           diff-hl dired-sidebar diredfl docker dockerfile-mode
+      '(adoc-mode anzu apheleia avy bind-key cape chatgpt-shell cl-generic cl-lib
+           cmake-mode compat consult-dir consult-eglot corfu crux csv-mode deft
+           devdocs-browser diff-hl dired-sidebar diredfl docker dockerfile-mode
            dwim-shell-command easy-kill editorconfig eglot eldoc elfeed
            elisp-demos embark-consult engine-mode erc eshell-prompt-extras
            exec-path-from-shell expreg external-completion faceup
