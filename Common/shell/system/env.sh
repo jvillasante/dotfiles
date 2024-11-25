@@ -57,6 +57,12 @@ fi
 # snap
 [ -d "/snap/bin" ] && export PATH="$PATH:/snap/bin"
 
+# vcpkg
+if [ -d "$HOME/Workspace/Software/vcpkg/" ]; then
+    export VCPKG_ROOT="$HOME/Workspace/Software/vcpkg"
+    export PATH="$PATH:$VCPKG_ROOT"
+fi
+
 # llvm
 [ -d "/usr/local/opt/llvm/bin" ] && export PATH="/usr/local/opt/llvm/bin:$PATH"
 

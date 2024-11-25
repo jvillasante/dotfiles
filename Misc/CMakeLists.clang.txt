@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.22)
 
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 set(CLANG_PREFIX "/usr/bin")
-set(CMAKE_C_COMPILER "${CLANG_PREFIX}/bin/clang")
-set(CMAKE_CXX_COMPILER "${CLANG_PREFIX}/bin/clang++")
+set(CMAKE_C_COMPILER "${CLANG_PREFIX}/clang")
+set(CMAKE_CXX_COMPILER "${CLANG_PREFIX}/clang++")
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 
 # Use ccache if available
