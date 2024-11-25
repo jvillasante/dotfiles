@@ -62,9 +62,9 @@
     (gptel-default-mode 'markdown-mode)
     (gptel-expert-commands t)
     :config
-    (setq gptel-directives
-          (my/gptel-build-directives
-           (expand-file-name "Common/emacs/personal/etc/gptel-prompts" my/dotfiles-path)))
+    ;; (setq gptel-directives
+    ;;       (my/gptel-build-directives
+    ;;        (expand-file-name "Common/emacs/personal/etc/gptel-prompts" my/dotfiles-path)))
     ;; (setq gptel-model 'gpt-4o)
     (setq gptel-model 'gpt-4o-mini)
     (setq gptel-api-key (lambda ()
