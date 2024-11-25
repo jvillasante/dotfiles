@@ -276,6 +276,9 @@
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround)
 
+;; emacs-everywhere : use emacs everywhere
+;; (use-package emacs-everywhere)
+
 ;; monkeytype : A typing game/tutor inspired by the open source and community driven monkeytype.com
 (use-package monkeytype
     :config
