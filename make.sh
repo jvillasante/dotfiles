@@ -118,6 +118,13 @@ for file in $files; do
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
 done
 
+echo ">>> Linking misc files in $HOME/.config..."
+files=".clangd"
+for file in $files; do
+    [ -L "$HOME/.config/$file" ] && unlink "$HOME/.config/$file"
+    ln -s "$DOTFILES_DIR/Misc/$file" "$HOME/.config"
+done
+
 echo ">>> Linking nvim files in $HOME/.config..."
 for dir in "$DOTFILES_DIR"/Common/nvim/*/; do
     dir=${dir%*/}
@@ -174,9 +181,9 @@ if [ -d "$HOME/Workspace/Work/Omicron/Projects" ]; then
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
 
-        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd" ] &&
-            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd"
-        ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
+        # [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd" ] &&
+        #     unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd"
+        # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
 
         [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy" ] &&
             unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy"
@@ -208,9 +215,9 @@ if [ -d "$HOME/Workspace/Work/Nielsen" ]; then
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
 
-        [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd" ] &&
-            unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd"
-        ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/dmxs/"
+        # [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd" ] &&
+        #     unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd"
+        # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/dmxs/"
 
         [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.dir-locals.el" ] &&
             unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.dir-locals.el"
@@ -233,9 +240,9 @@ if [ -d "$HOME/Workspace/Work/Nielsen" ]; then
             echo ">>> Unknown OS (only fedora and debian are supported)..."
         fi
 
-        [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd" ] &&
-            unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd"
-        ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /"
+        # [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd" ] &&
+        #     unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd"
+        # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/"
 
         [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/.dir-locals.el" ] &&
             unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/.dir-locals.el"
