@@ -316,36 +316,6 @@ Run this function at the post theme load phase, such as with the
     ;; (my/switch-theme 'modus-operandi)
     (modus-themes-load-theme 'modus-operandi))
 
-;; spacious-padding : padding/spacing of Emacs frames and windows
-(use-package spacious-padding
-    :disabled t
-    :hook (after-init . spacious-padding-mode)
-    :custom
-    (spacious-padding-widths
-     '(
-       ;; space between the boundaries of the Emacs frame and where the text contents start.
-       :internal-border-width 1
-
-       ;; space between two side-by-side windows.
-       :right-divider-width 1
-
-       ;; applies to the fringes on either side of the window.
-       :fringe-width 1
-
-       ;; concerns the padding around buttons of all tabbed interfaces
-       :tab-width 1
-
-       ;; concerns the padding around buttons of the tab-bar-mode.
-       :tab-bar-width 1
-
-       ;;  concerns the padding around buttons of the tab-line.
-       :tab-line-width 1
-
-       ;; point to the header-line, mode-line, and scroll-bar, respectively.
-       :header-line-width 1
-       :mode-line-width 1
-       :scroll-bar-width 1)))
-
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
     :hook (after-init . minions-mode)
