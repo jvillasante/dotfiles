@@ -279,6 +279,12 @@
 (use-package consult-eglot
     :after (consult eglot))
 
+;; consult-xref-stack : Navigate the Xref stack with Consult.
+(use-package consult-xref-stack
+    :vc (:url "https://github.com/brett-lempereur/consult-xref-stack" :branch "main")
+    :after consult
+    :bind (("C-," . consult-xref-stack-backward)))
+
 (use-package embark
     :init
     ;; Optionally replace the key help with a completing-read interface
