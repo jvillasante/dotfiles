@@ -3,8 +3,15 @@
 ;;
 ;;; Code:
 
+;; project-tab-groups : enhances `project.el' to support keeping projects isolated in named tab groups.
+(use-package project-tab-groups
+    :after tab-bar project
+    :config
+    (project-tab-groups-mode 1))
+
 ;; tabspaces : https://github.com/mclear-tools/tabspaces
 (use-package tabspaces
+    :disabled t
     :preface
     (defun my/tabspace-setup ()
         "Set up tabspace at startup."

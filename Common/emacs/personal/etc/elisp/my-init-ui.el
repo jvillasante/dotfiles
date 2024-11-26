@@ -226,8 +226,11 @@
           tab-bar-history-limit 100                ;; the number of history elements
           tab-bar-new-tab-choice "*scratch*"       ;; buffer to show in new tabs
           tab-bar-tab-hints t                      ;; show tab numbers
-          tab-bar-format '(tab-bar-format-tabs     ;; elements to include in bar
-                           tab-bar-separator)))
+          tab-bar-format '(tab-bar-format-history  ;; elements to include in bar
+                           tab-bar-format-tabs-groups
+                           tab-bar-separator
+                           tab-bar-format-add-tab))
+    )
 
 ;; modeline
 (setq mode-line-compact 'long)
