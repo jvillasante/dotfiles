@@ -229,8 +229,7 @@
           tab-bar-format '(tab-bar-format-history  ;; elements to include in bar
                            tab-bar-format-tabs-groups
                            tab-bar-separator
-                           tab-bar-format-add-tab))
-    )
+                           tab-bar-format-add-tab)))
 
 ;; modeline
 (setq mode-line-compact 'long)
