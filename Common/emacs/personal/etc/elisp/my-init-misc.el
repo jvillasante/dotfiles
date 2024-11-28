@@ -150,7 +150,7 @@
     :ensure nil ;; emacs built-in
     :custom
     ((project-list-file (expand-file-name "projects" no-littering-var-directory))
-     (project-vc-extra-root-markers '(".project.el" ".projectile" ".dir-locals.el"))
+     ;; (project-vc-extra-root-markers '(".project.el" ".projectile" ".dir-locals.el"))
      (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
     :config
     (add-to-list 'project-switch-commands '(project-dired "Dired at root")))
