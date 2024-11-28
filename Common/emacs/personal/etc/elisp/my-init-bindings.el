@@ -17,11 +17,11 @@
 (global-set-key (kbd "C-x S") 'my/save-all) ; save some buffers without prompt
 (global-set-key (kbd "C-x C-o") 'ff-find-other-file) ; useful for C/C++ finding header/impl files
 
-;; better `keyword-quit'
-(define-key global-map (kbd "C-g") #'my/keyboard-quit-dwim)
-
 ;; Use Ctrl+arrow keys to move between windows.
 (windmove-default-keybindings 'control)
+
+;; better `keyword-quit'
+(define-key global-map [remap keyboard-quit] 'my/keyboard-quit-dwim)
 
 ;; Rebind C-z
 (global-unset-key (kbd "C-z"))
