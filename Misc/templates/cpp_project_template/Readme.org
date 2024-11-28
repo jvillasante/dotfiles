@@ -1,1 +1,3 @@
-* CPP-20 Project Template
+#+title: CPP-20 Project Template
+#+description: Template for C++20 project that uses vcpkg, googletest and benchmark
+#+author: Julio C. Villasante
