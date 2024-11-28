@@ -45,21 +45,7 @@ set(CMAKE_CXX_FLAGS_DEBUG
 set(CMAKE_CXX_FLAGS_RELEASE
     "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON} -O3")
 
-# Mac OS X: clang uses libc++ standard library
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-command-line-argument")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${CLANG_PREFIX}/include")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${CLANG_PREFIX}/include/c++/v1")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CLANG_PREFIX}/lib")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,-rpath,${CLANG_PREFIX}/lib")
-  endif()
-endif()
-
 set(INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
-set(LIBS_PATH "$ENV{HOME}/Workspace/Software/clang")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib")

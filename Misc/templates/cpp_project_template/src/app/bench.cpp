@@ -14,4 +14,3 @@ static void BM_SomeFunction(benchmark::State& state)
 }
 
 BENCHMARK(BM_SomeFunction);
-BENCHMARK_MAIN();
