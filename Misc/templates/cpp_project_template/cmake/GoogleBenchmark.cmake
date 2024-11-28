@@ -19,5 +19,4 @@
 # Using vcpkg
 #
 
-enable_testing()
 find_package(benchmark CONFIG REQUIRED)

@@ -2,7 +2,6 @@
 # Using FetchContent
 #
 
-# enable_testing()
 # include(FetchContent)
 # FetchContent_Declare(
 #     googletest
@@ -17,5 +16,4 @@
 # Using vcpkg
 #
 
-enable_testing()
 find_package(GTest CONFIG REQUIRED)
