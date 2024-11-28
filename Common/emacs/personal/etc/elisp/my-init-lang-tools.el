@@ -128,6 +128,10 @@
                       "--header-insertion=never"
                       "--header-insertion-decorators=0"))))
 
+;; dape : Debug Adapter Protocol for Emacs
+(use-package dape
+    :disabled t)
+
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
     :preface
