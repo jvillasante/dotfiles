@@ -1,6 +1,7 @@
 [user]
     name = Julio C. Villasante
     email = jvillasantegomez@gmail.com
+    signingkey = ~/.ssh/id_rsa.pub
 
 [github]
     user = jvillasante

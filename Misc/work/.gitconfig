@@ -1,3 +1,4 @@
 [user]
     name = Julio C. Villasante
     email = julio.villasante@omicronmedia.com
+    signingkey = ~/.ssh/id_omicron_rsa.pub
