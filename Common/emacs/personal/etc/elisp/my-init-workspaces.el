@@ -3,8 +3,22 @@
 ;;
 ;;; Code:
 
+;; otpp : One tab per project, with unique names
+(use-package otpp
+    :after tab-bar project
+    :init
+    ;; If you like to define some aliases for better user experience
+    (defalias 'one-tab-per-project-mode 'otpp-mode)
+    (defalias 'one-tab-per-project-override-mode 'otpp-override-mode)
+    ;; Enable `otpp-mode` globally
+    (otpp-mode 1)
+    ;; If you want to advice the commands in `otpp-override-commands`
+    ;; to be run in the current's tab (so, current project's) root directory
+    (otpp-override-mode 1))
+
 ;; project-tab-groups : enhances `project.el' to support keeping projects isolated in named tab groups.
 (use-package project-tab-groups
+    :disabled t
     :after tab-bar project
     :config
     (project-tab-groups-mode 1))

@@ -19,12 +19,12 @@
            hl-todo ibuffer-project idlwave jinx js2-mode json-mode jsonrpc
            let-alist lua-mode magit map marginalia markdown-mode minions
            modern-tab-bar modus-themes monkeytype multiple-cursors nadvice
-           no-littering nov ntlm orderless org org-superstar password-store
-           pdf-view-restore peg persistent-scratch php-mode project
-           project-tab-groups python rainbow-delimiters request rust-mode seq
-           shrink-path so-long soap-client surround svg tab-bar-echo-area
-           tabspaces track-changes tramp use-package verb verilog-mode vertico
-           vterm web-mode wgrep which-key window-tool-bar xref yaml-mode
+           no-littering nov ntlm orderless org org-superstar otpp
+           password-store pdf-view-restore peg persistent-scratch php-mode
+           project python rainbow-delimiters request rust-mode seq shrink-path
+           so-long soap-client surround svg tab-bar-echo-area tabspaces
+           track-changes tramp use-package verb verilog-mode vertico vterm
+           web-mode wgrep which-key window-tool-bar xref yaml-mode
            yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((consult-xref-stack :url
