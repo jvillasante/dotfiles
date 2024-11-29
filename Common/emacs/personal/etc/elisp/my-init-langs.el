@@ -145,7 +145,6 @@
           `(,(no-littering-expand-var-file-name "tree-sitter")))
     (setq treesit-font-lock-level 4))
 
-;; elisp
 (use-package elisp-mode
     :ensure nil ;; emacs built-in
     :config (setq lisp-body-indent 4))
