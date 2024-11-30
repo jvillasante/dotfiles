@@ -419,7 +419,10 @@ fedora_install() {
                 sudo dnf install -y mullvad-vpn
 
                 # grammar linter (python)
-                sudo dnf install -y proselint
+                # sudo dnf install -y proselint
+
+                # ebook reader/converver
+                sudo dnf install -y calibre
 
                 # non dnf software
                 pip install cmake-language-server
