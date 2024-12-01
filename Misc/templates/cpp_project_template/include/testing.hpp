@@ -91,66 +91,33 @@ public:
     Lifetime() noexcept : value_()
     {
         increment_stat(Stats::DefaultConstructor);
-        if constexpr (Print)
-        {
-            std::cout << std::source_location::current().function_name() //
-                      << "\n\t self=" << value_ << " @ " << this         //
-                      << '\n';
-        }
+        if constexpr (Print) { print(std::source_location::current(), this); }
     }
-    Lifetime(T value) noexcept : value_(value) // NOLINT
+    Lifetime(T value) noexcept : value_(value) // NOLINT (explicit-conversion)
     {
         increment_stat(Stats::Constructor);
-        if constexpr (Print)
-        {
-            std::cout << std::source_location::current().function_name() //
-                      << "\n\t self=" << value_ << " @ " << this         //
-                      << '\n';
-        }
+        if constexpr (Print) { print(std::source_location::current(), this); }
     }
     Lifetime(Lifetime const& rhs) noexcept : value_(rhs.value_)
     {
         increment_stat(Stats::CopyConstructor);
-        if constexpr (Print)
-        {
-            std::cout << std::source_location::current().function_name() //
-                      << "\n\t  rhs=" << rhs.value_ << " @ " << &rhs     //
-                      << "\n\t self=" << value_ << " @ " << this         //
-                      << '\n';
-        }
+        if constexpr (Print) { print(std::source_location::current(), this, &rhs); }
     }
     Lifetime(Lifetime&& rhs) noexcept : value_(std::move(rhs.value_))
     {
         increment_stat(Stats::MoveConstructor);
-        if constexpr (Print)
-        {
-            std::cout << std::source_location::current().function_name() //
-                      << "\n\t  rhs=" << rhs.value_ << " @ " << &rhs     //
-                      << "\n\t self=" << value_ << " @ " << this         //
-                      << '\n';
-        }
+        if constexpr (Print) { print(std::source_location::current(), this, &rhs); }
     }
     ~Lifetime() noexcept
     {
         increment_stat(Stats::Destructor);
-        if constexpr (Print)
-        {
-            std::cout << std::source_location::current().function_name() //
-                      << "\n\t self=" << value_ << " @ " << this         //
-                      << '\n';
-        }
+        if constexpr (Print) { print(std::source_location::current(), this); }
     }
     Lifetime& operator=(Lifetime const& rhs) noexcept // NOLINT (don't care about self assignment)
     {
         value_ = rhs.value_;
         increment_stat(Stats::CopyAssignment);
-        if constexpr (Print)
-        {
-            std::cout << std::source_location::current().function_name() //
-                      << "\n\t  rhs=" << rhs.value_ << " @ " << &rhs     //
-                      << "\n\t self=" << value_ << " @ " << this         //
-                      << '\n';
-        }
+        if constexpr (Print) { print(std::source_location::current(), this, &rhs); }
 
         return *this;
     }
@@ -158,13 +125,7 @@ public:
     {
         value_ = std::move(rhs.value_);
         increment_stat(Stats::MoveAssignment);
-        if constexpr (Print)
-        {
-            std::cout << std::source_location::current().function_name() //
-                      << "\n\t  rhs=" << rhs.value_ << " @ " << &rhs     //
-                      << "\n\t self=" << value_ << " @ " << this         //
-                      << '\n';
-        }
+        if constexpr (Print) { print(std::source_location::current(), this, &rhs); }
 
         return *this;
     }
@@ -179,5 +140,13 @@ public:
 
 private:
     T value_;
+
+    void print(std::source_location const& loc, Lifetime const* self = nullptr, Lifetime const* rhs = nullptr) const
+    {
+        std::cout << loc.function_name();
+        if (self != nullptr) { std::cout << "\n\t self=" << self->value_ << " @ " << self; }
+        if (rhs != nullptr) { std::cout << "\n\t  rhs=" << rhs->value_ << " @ " << rhs; }
+        std::cout << '\n';
+    }
 };
 } // namespace utils::testing
