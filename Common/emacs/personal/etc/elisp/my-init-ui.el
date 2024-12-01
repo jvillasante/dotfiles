@@ -356,9 +356,9 @@ Run this function at the post theme load phase, such as with the
 ;;          https://www.masteringemacs.org/article/demystifying-emacs-window-manager
 (progn
     ;; window split and resizing
-    (setq window-combination-resize t)
-    (setq split-height-threshold 80)
-    (setq split-width-threshold 135)
+    ;; (setq window-combination-resize t)
+    ;; (setq split-height-threshold 80)
+    ;; (setq split-width-threshold 135)
 
     ;; defaults
     (setq switch-to-buffer-in-dedicated-window 'pop)
