@@ -45,8 +45,10 @@
     ;;  -l : Use long listing format.
     ;;  -h : Human-readable sizes like 1K, 234M, ..
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
+    ;; (setq dired-listing-switches
+    ;;       "-a -l -h -v --group-directories-first --color=never")
     (setq dired-listing-switches
-          "-a -l -h -v --group-directories-first --color=never")
+          "-AGFhlv --group-directories-first --time-style=long-iso --color=never")
 
     ;; enable some really cool extensions like C-x C-j(dired-jump)
     (if (< emacs-major-version 28)
