@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <source_location>
+#include <unordered_map>
 
 namespace utils::testing
 {
@@ -41,36 +42,55 @@ public:
 //
 // Lifetime Statistics
 //
-template <typename T, bool Print = false>
-struct Lifetime
+struct StatsCounter
 {
-    static inline std::size_t default_constructor_calls = 0;
-    static inline std::size_t value_constructor_calls = 0;
-    static inline std::size_t copy_constructor_calls = 0;
-    static inline std::size_t move_constructor_calls = 0;
-    static inline std::size_t destructor_calls = 0;
-    static inline std::size_t copy_assignment_operator_calls = 0;
-    static inline std::size_t move_assignment_operator_calls = 0;
+    enum class Stats : std::uint8_t
+    {
+        DefaultConstructor,
+        Constructor,
+        CopyConstructor,
+        MoveConstructor,
+        Destructor,
+        CopyAssignment,
+        MoveAssignment,
+    };
+
+    static void clear_stats()
+    {
+        for (auto& [_, value] : stats_)
+        {
+            value = 0;
+        }
+    }
     static void print_stats(char const* header, std::ostream& os = std::cout)
     {
         os << "----- " << header << '\n';
-        os << "      default_constructor_calls = " << default_constructor_calls << '\n';
-        os << "        value_constructor_calls = " << value_constructor_calls << '\n';
-        os << "        copy_constructor_calls  = " << copy_constructor_calls << '\n';
-        os << "        move_constructor_calls  = " << move_constructor_calls << '\n';
-        os << "              destructor_calls  = " << destructor_calls << '\n';
-        os << "copy_assignment_operator_calls  = " << copy_assignment_operator_calls << '\n';
-        os << "move_assignment_operator_calls  = " << move_assignment_operator_calls << '\n';
+        os << "default constructor calls = " << stats_[Stats::DefaultConstructor] << '\n';
+        os << "        constructor calls = " << stats_[Stats::Constructor] << '\n';
+        os << "   copy constructor calls = " << stats_[Stats::CopyConstructor] << '\n';
+        os << "   move constructor calls = " << stats_[Stats::MoveConstructor] << '\n';
+        os << "         destructor calls = " << stats_[Stats::Destructor] << '\n';
+        os << "    copy assignment calls = " << stats_[Stats::CopyAssignment] << '\n';
+        os << "    move assignment calls = " << stats_[Stats::MoveAssignment] << '\n';
     }
-    static void clear_stats()
-    {
-        default_constructor_calls = value_constructor_calls = move_constructor_calls = copy_constructor_calls =
-            destructor_calls = copy_assignment_operator_calls = move_assignment_operator_calls = 0;
-    }
+    static void increment_stat(Stats const key) { stats_.at(key)++; }
+    static std::size_t get_stat(Stats const key) { return stats_.at(key); }
 
+private:
+    // NOLINTNEXTLINE
+    inline static std::unordered_map<Stats, std::size_t> stats_ = {
+        {Stats::DefaultConstructor, 0}, {Stats::Constructor, 0}, {Stats::CopyConstructor, 0},
+        {Stats::MoveConstructor, 0},    {Stats::Destructor, 0},  {Stats::CopyAssignment, 0},
+        {Stats::MoveAssignment, 0},
+    };
+};
+template <typename T, bool Print = false>
+class Lifetime : public StatsCounter
+{
+public:
     Lifetime() noexcept : value_()
     {
-        ++default_constructor_calls;
+        increment_stat(Stats::DefaultConstructor);
         if constexpr (Print)
         {
             std::cout << std::source_location::current().function_name() //
@@ -80,7 +100,7 @@ struct Lifetime
     }
     Lifetime(T value) noexcept : value_(value) // NOLINT
     {
-        ++value_constructor_calls;
+        increment_stat(Stats::Constructor);
         if constexpr (Print)
         {
             std::cout << std::source_location::current().function_name() //
@@ -90,7 +110,7 @@ struct Lifetime
     }
     Lifetime(Lifetime const& rhs) noexcept : value_(rhs.value_)
     {
-        ++copy_constructor_calls;
+        increment_stat(Stats::CopyConstructor);
         if constexpr (Print)
         {
             std::cout << std::source_location::current().function_name() //
@@ -101,7 +121,7 @@ struct Lifetime
     }
     Lifetime(Lifetime&& rhs) noexcept : value_(std::move(rhs.value_))
     {
-        ++move_constructor_calls;
+        increment_stat(Stats::MoveConstructor);
         if constexpr (Print)
         {
             std::cout << std::source_location::current().function_name() //
@@ -112,7 +132,7 @@ struct Lifetime
     }
     ~Lifetime() noexcept
     {
-        ++destructor_calls;
+        increment_stat(Stats::Destructor);
         if constexpr (Print)
         {
             std::cout << std::source_location::current().function_name() //
@@ -123,7 +143,7 @@ struct Lifetime
     Lifetime& operator=(Lifetime const& rhs) noexcept // NOLINT (don't care about self assignment)
     {
         value_ = rhs.value_;
-        ++copy_assignment_operator_calls;
+        increment_stat(Stats::CopyAssignment);
         if constexpr (Print)
         {
             std::cout << std::source_location::current().function_name() //
@@ -137,7 +157,7 @@ struct Lifetime
     Lifetime& operator=(Lifetime&& rhs) noexcept // NOLINT (don't care about self assignment)
     {
         value_ = std::move(rhs.value_);
-        ++move_assignment_operator_calls;
+        increment_stat(Stats::MoveAssignment);
         if constexpr (Print)
         {
             std::cout << std::source_location::current().function_name() //
