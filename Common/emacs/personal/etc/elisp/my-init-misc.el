@@ -257,7 +257,10 @@
 (use-package expand-region :disabled t)
 
 ;; Expreg : like expand-region but nicer
-(use-package expreg)
+(use-package expreg
+    :init (add-hook 'text-mode-hook
+                    (lambda ()
+                        (add-to-list 'expreg-functions 'expreg--sentence))))
 
 ;; better C-w and M-w
 (use-package whole-line-or-region

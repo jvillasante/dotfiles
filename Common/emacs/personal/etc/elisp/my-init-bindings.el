@@ -349,7 +349,7 @@
     (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
 (with-eval-after-load 'surround
-    (define-key global-map (kbd "M-\"") surround-keymap))
+    (define-key global-map (kbd "M-'") surround-keymap))
 
 (with-eval-after-load 'devdocs
     (global-set-key (kbd "C-h D") 'devdocs-lookup))
