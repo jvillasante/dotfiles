@@ -126,9 +126,9 @@ struct Lifetime
         ++copy_assignment_operator_calls;
         if constexpr (Print)
         {
-            std::cout << std::source_location::current().function_name()     //
-                      << "\n\t  rhs=" << rhs.value_ << " @ " << &rhs << '\n' //
-                      << "\n\t self=" << value_ << " @ " << this             //
+            std::cout << std::source_location::current().function_name() //
+                      << "\n\t  rhs=" << rhs.value_ << " @ " << &rhs     //
+                      << "\n\t self=" << value_ << " @ " << this         //
                       << '\n';
         }
 
@@ -140,9 +140,9 @@ struct Lifetime
         ++move_assignment_operator_calls;
         if constexpr (Print)
         {
-            std::cout << std::source_location::current().function_name()     //
-                      << "\n\t  rhs=" << rhs.value_ << " @ " << &rhs << '\n' //
-                      << "\n\t self=" << value_ << " @ " << this             //
+            std::cout << std::source_location::current().function_name() //
+                      << "\n\t  rhs=" << rhs.value_ << " @ " << &rhs     //
+                      << "\n\t self=" << value_ << " @ " << this         //
                       << '\n';
         }
 
