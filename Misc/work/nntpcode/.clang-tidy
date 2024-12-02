@@ -33,6 +33,8 @@ Checks: "*,
         -*-identifier-length,
         -*-easily-swappable-parameters,
         -*-use-auto,
+        -*-use-default-member-init,
+        -*-use-anonymous-namespace,
 "
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
