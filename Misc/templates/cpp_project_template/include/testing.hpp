@@ -43,6 +43,8 @@ public:
 //
 // Lifetime Statistics
 //
+namespace internal
+{
 struct StatsCounter
 {
     enum class Stats : std::uint8_t
@@ -60,13 +62,6 @@ struct StatsCounter
         ObjectTotalCount,
     };
 
-    static void clear_stats()
-    {
-        for (auto& [_, value] : stats_)
-        {
-            value = 0;
-        }
-    }
     static void print_stats(char const* header, std::ostream& os = std::cout)
     {
         os << "----- " << header << '\n';
@@ -79,10 +74,18 @@ struct StatsCounter
         os << "    move assignment calls = " << stats_[Stats::MoveAssignment] << '\n';
         os << "        member swap calls = " << stats_[Stats::MemberSwap] << '\n';
         os << "    non member swap calls = " << stats_[Stats::NonMemberSwap] << '\n';
-        os << "             object count = " << stats_[Stats::ObjectCount] << '\n';
-        os << "       object total count = " << stats_[Stats::ObjectTotalCount] << '\n';
+        os << "            objects count = " << stats_[Stats::ObjectCount] << '\n';
+        os << "      total objects count = " << stats_[Stats::ObjectTotalCount] << '\n';
     }
 
+    static void clear_stat(Stats const key) { stats_.at(key) = 0; }
+    static void clear_stats()
+    {
+        for (auto& [_, value] : stats_)
+        {
+            value = 0;
+        }
+    }
     static void increment_stat(Stats const key) { stats_.at(key)++; }
     static void increment_stats(std::initializer_list<Stats const> il)
     {
@@ -110,10 +113,24 @@ private:
         {Stats::ObjectCount, 0},        {Stats::ObjectTotalCount, 0},
     };
 };
+} // namespace internal
+
 template <typename T, bool Print = false>
-class Lifetime : public StatsCounter
+class Lifetime : public internal::StatsCounter
 {
 public:
+    using Stats::Constructor;
+    using Stats::CopyAssignment;
+    using Stats::CopyConstructor;
+    using Stats::DefaultConstructor;
+    using Stats::Destructor;
+    using Stats::MemberSwap;
+    using Stats::MoveAssignment;
+    using Stats::MoveConstructor;
+    using Stats::NonMemberSwap;
+    using Stats::ObjectCount;
+    using Stats::ObjectTotalCount;
+
     Lifetime() noexcept : value_()
     {
         increment_stats({Stats::DefaultConstructor, Stats::ObjectCount, Stats::ObjectTotalCount});
@@ -172,9 +189,9 @@ public:
     }
     friend bool operator==(Lifetime const& lhs, Lifetime const& rhs) { return lhs.value_ == rhs.value_; }
     friend bool operator!=(Lifetime const& lhs, Lifetime const& rhs) { return !(lhs == rhs); }
-    friend std::ostream& operator<<(std::ostream& out, Lifetime const& lp)
+    friend std::ostream& operator<<(std::ostream& out, Lifetime const& l)
     {
-        out << lp.value_;
+        out << l.value_;
         return out;
     }
 
