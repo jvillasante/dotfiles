@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <sstream>
+#include <utility>
 #include <source_location>
 #include <unordered_map>
 
@@ -53,6 +54,8 @@ struct StatsCounter
         Destructor,
         CopyAssignment,
         MoveAssignment,
+        MemberSwap,
+        NonMemberSwap,
     };
 
     static void clear_stats()
@@ -72,6 +75,8 @@ struct StatsCounter
         os << "         destructor calls = " << stats_[Stats::Destructor] << '\n';
         os << "    copy assignment calls = " << stats_[Stats::CopyAssignment] << '\n';
         os << "    move assignment calls = " << stats_[Stats::MoveAssignment] << '\n';
+        os << "        member swap calls = " << stats_[Stats::MemberSwap] << '\n';
+        os << "    non member swap calls = " << stats_[Stats::NonMemberSwap] << '\n';
     }
     static void increment_stat(Stats const key) { stats_.at(key)++; }
     static std::size_t get_stat(Stats const key) { return stats_.at(key); }
@@ -81,7 +86,7 @@ private:
     inline static std::unordered_map<Stats, std::size_t> stats_ = {
         {Stats::DefaultConstructor, 0}, {Stats::Constructor, 0}, {Stats::CopyConstructor, 0},
         {Stats::MoveConstructor, 0},    {Stats::Destructor, 0},  {Stats::CopyAssignment, 0},
-        {Stats::MoveAssignment, 0},
+        {Stats::MoveAssignment, 0},     {Stats::MemberSwap, 0},  {Stats::NonMemberSwap, 0},
     };
 };
 template <typename T, bool Print = false>
@@ -130,8 +135,21 @@ public:
         return *this;
     }
 
-    friend bool operator==(Lifetime const& lhs, Lifetime const& rhs) { return lhs.value_ == rhs.value_; }
     [[nodiscard]] T value() const { return value_; }
+    void swap(Lifetime& rhs) noexcept
+    {
+        increment_stat(Stats::MemberSwap);
+
+        using std::swap;
+        swap(value_, rhs.value_);
+    }
+    friend void swap(Lifetime& lhs, Lifetime& rhs) noexcept
+    {
+        increment_stat(Stats::NonMemberSwap);
+        lhs.swap(rhs);
+    }
+    friend bool operator==(Lifetime const& lhs, Lifetime const& rhs) { return lhs.value_ == rhs.value_; }
+    friend bool operator!=(Lifetime const& lhs, Lifetime const& rhs) { return !(lhs == rhs); }
     friend std::ostream& operator<<(std::ostream& out, Lifetime const& lp)
     {
         out << lp.value_;
