@@ -56,6 +56,8 @@ struct StatsCounter
         MoveAssignment,
         MemberSwap,
         NonMemberSwap,
+        ObjectCount,
+        ObjectTotalCount,
     };
 
     static void clear_stats()
@@ -77,16 +79,35 @@ struct StatsCounter
         os << "    move assignment calls = " << stats_[Stats::MoveAssignment] << '\n';
         os << "        member swap calls = " << stats_[Stats::MemberSwap] << '\n';
         os << "    non member swap calls = " << stats_[Stats::NonMemberSwap] << '\n';
+        os << "             object count = " << stats_[Stats::ObjectCount] << '\n';
+        os << "       object total count = " << stats_[Stats::ObjectTotalCount] << '\n';
     }
+
     static void increment_stat(Stats const key) { stats_.at(key)++; }
+    static void increment_stats(std::initializer_list<Stats const> il)
+    {
+        for (Stats const key : il)
+        {
+            increment_stat(key);
+        }
+    }
+    static void decrement_stat(Stats const key) { stats_.at(key)--; }
+    static void decrement_stats(std::initializer_list<Stats const> il)
+    {
+        for (Stats const key : il)
+        {
+            decrement_stat(key);
+        }
+    }
     static std::size_t get_stat(Stats const key) { return stats_.at(key); }
 
 private:
     // NOLINTNEXTLINE
     inline static std::unordered_map<Stats, std::size_t> stats_ = {
-        {Stats::DefaultConstructor, 0}, {Stats::Constructor, 0}, {Stats::CopyConstructor, 0},
-        {Stats::MoveConstructor, 0},    {Stats::Destructor, 0},  {Stats::CopyAssignment, 0},
-        {Stats::MoveAssignment, 0},     {Stats::MemberSwap, 0},  {Stats::NonMemberSwap, 0},
+        {Stats::DefaultConstructor, 0}, {Stats::Constructor, 0},      {Stats::CopyConstructor, 0},
+        {Stats::MoveConstructor, 0},    {Stats::Destructor, 0},       {Stats::CopyAssignment, 0},
+        {Stats::MoveAssignment, 0},     {Stats::MemberSwap, 0},       {Stats::NonMemberSwap, 0},
+        {Stats::ObjectCount, 0},        {Stats::ObjectTotalCount, 0},
     };
 };
 template <typename T, bool Print = false>
@@ -95,27 +116,28 @@ class Lifetime : public StatsCounter
 public:
     Lifetime() noexcept : value_()
     {
-        increment_stat(Stats::DefaultConstructor);
+        increment_stats({Stats::DefaultConstructor, Stats::ObjectCount, Stats::ObjectTotalCount});
         if constexpr (Print) { print(std::source_location::current(), this); }
     }
     Lifetime(T value) noexcept : value_(value) // NOLINT (explicit-conversion)
     {
-        increment_stat(Stats::Constructor);
+        increment_stats({Stats::Constructor, Stats::ObjectCount, Stats::ObjectTotalCount});
         if constexpr (Print) { print(std::source_location::current(), this); }
     }
     Lifetime(Lifetime const& rhs) noexcept : value_(rhs.value_)
     {
-        increment_stat(Stats::CopyConstructor);
+        increment_stats({Stats::CopyConstructor, Stats::ObjectCount, Stats::ObjectTotalCount});
         if constexpr (Print) { print(std::source_location::current(), this, &rhs); }
     }
     Lifetime(Lifetime&& rhs) noexcept : value_(std::move(rhs.value_))
     {
-        increment_stat(Stats::MoveConstructor);
+        increment_stats({Stats::MoveConstructor, Stats::ObjectCount, Stats::ObjectTotalCount});
         if constexpr (Print) { print(std::source_location::current(), this, &rhs); }
     }
     ~Lifetime() noexcept
     {
         increment_stat(Stats::Destructor);
+        decrement_stat(Stats::ObjectCount);
         if constexpr (Print) { print(std::source_location::current(), this); }
     }
     Lifetime& operator=(Lifetime const& rhs) noexcept // NOLINT (don't care about self assignment)
