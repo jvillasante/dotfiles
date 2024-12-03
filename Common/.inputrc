@@ -26,6 +26,7 @@ set visible-stats On
 
 # Emacs please
 set editing-mode emacs
+set keymap emacs
 
 # Do not bell on tab-completion
 # set bell-style none
