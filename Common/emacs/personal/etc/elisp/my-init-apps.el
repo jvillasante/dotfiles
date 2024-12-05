@@ -261,6 +261,7 @@
             ;; Linux
             "http://dominique.leuenberger.net/blog/feed/rss/"
             ;; Misc
+            "https://michaelneuper.com/index.xml"
             "https://world.hey.com/dhh/feed.atom"
             "https://susam.net/feed.xml"
             "https://mazzo.li/rss.xml"
