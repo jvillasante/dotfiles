@@ -350,10 +350,12 @@ fedora_install() {
 
                 # Git stuff
                 sudo dnf install -y git           # git itself
-                sudo dnf install -y git-email     # support for email based workflow
+                # sudo dnf install -y git-email   # support for email based workflow
                 # sudo dnf install -y difftastic  # better diffs
                 # sudo dnf install -y git-delta   # better diffs
-                # sudo dnf install -y lazygit     # terminal git
+                # terminal git
+                # sudo dnf copr enable atim/lazygit -y
+                # sudo dnf install -y lazygit
 
                 # tmux: A terminal multiplexer
                 sudo dnf install -y tmux
