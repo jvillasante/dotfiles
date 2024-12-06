@@ -158,10 +158,14 @@ emacs_update() {
 
         [[ ! -d "$DOTFILES_DIR"/Common/emacs/personal ]] &&
             echo "Emacs personal configuration not found, exiting..." && usage 1
-        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var ]] &&
-            rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var
-        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter ]] &&
-            rm -rf "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter
+        [[ ! -d "$DOTFILES_DIR"/Common/emacs/personal/var ]] &&
+            echo "Emacs personal var configuration not found, exiting..." && usage 1
+        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var/eln-cache ]] &&
+            rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var/eln-cache
+        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var/elpa ]] &&
+            rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var/elpa
+        [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var/tree-sitter ]] &&
+            rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var/tree-sitter
         /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/personal
     fi
 
@@ -175,7 +179,7 @@ emacs_update() {
         systemctl --user start emacs.service
         test $? -eq 0 || usage 1
 
-        sleep 1 && systemctl --user status emacs.service
+        sleep 5 && systemctl --user status emacs.service
         test $? -eq 0 || usage 1
     fi
 }
