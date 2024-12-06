@@ -10,7 +10,7 @@
 (use-package hideshow
     :ensure nil ;; emacs built-in
     :preface
-    (defun my/toggle-fold ()
+    (defun my/hs-toggle-hidding ()
         (interactive)
         (save-excursion
             (end-of-line)

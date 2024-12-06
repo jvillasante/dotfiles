@@ -277,6 +277,7 @@
     :after consult)
 
 (use-package consult-eglot
+    :disabled t
     :after (consult eglot))
 
 ;; consult-xref-stack : Navigate the Xref stack with Consult.

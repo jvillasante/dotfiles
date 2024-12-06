@@ -60,7 +60,7 @@
 (global-set-key (kbd "C-M-Q") 'my/unfill-region)
 
 ;; folding
-;; (define-key hs-minor-mode-map (kbd "C-<tab>") 'my/toggle-fold)
+(define-key hs-minor-mode-map [remap hs-toggle-hiding] 'my/hs-toggle-hidding)
 
 ;; prog-mode
 (with-eval-after-load 'prog-mode
@@ -434,8 +434,8 @@
     (global-set-key (kbd "C-c w r") 'winner-redo))
 
 ;; C-c c : Code
-;; (with-eval-after-load 'hs-minor-mode
-;;     (define-key hs-minor-mode-map (kbd "C-c c f") 'my/toggle-fold))
+(with-eval-after-load 'hs-minor-mode
+    (define-key hs-minor-mode-map (kbd "C-c c f") 'my/hs-toggle-hidding))
 (global-set-key (kbd "C-c c h") 'eldoc)
 (with-eval-after-load 'consult-eglot
     (define-key eglot-mode-map (kbd "C-c c s") 'consult-eglot-symbols))
