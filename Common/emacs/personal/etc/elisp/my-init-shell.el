@@ -138,6 +138,9 @@
                                ("docker" "/bin/bash")
                                ("podman" "/bin/bash"))))
 
+;; emamux.el : Interact with tmux from Emacs.
+(use-package emamux)
+
 ;; dwim-shell-command : Bring command-line utilities to your Emacs workflows
 ;; noweb templates operate on drawn files using either the following:
 ;;   <<f>>   (file path)
