@@ -346,6 +346,13 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
     (when electric-indent-mode
         (indent-according-to-mode)))
 
+;; Tmux
+
+(defun my/tmux-run (command)
+    "Run the specified COMMAND in the currently active tmux pane."
+    (interactive "sCommand: ")
+    (call-process "tmux" nil nil nil "send-keys" command "Enter"))
+
 ;; Movement
 
 (defun my/move-character-backward ()
