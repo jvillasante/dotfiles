@@ -352,8 +352,8 @@ Run this function at the post theme load phase, such as with the
     (setq aw-minibuffer-flag t)
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
-;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
-;;          https://www.masteringemacs.org/article/demystifying-emacs-window-manager
+;; Windows: https://www.masteringemacs.org/article/demystifying-emacs-window-manager
+;;          https://karthinks.com/software/emacs-window-management-almanac/
 (progn
     ;; window split and resizing
     ;; (setq window-combination-resize t)
