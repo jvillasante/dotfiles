@@ -165,7 +165,8 @@
     (progn ;; bookmarks
         (setq bookmark-default-file
               (expand-file-name "bookmarks.el" no-littering-var-directory))
-        (setq bookmark-save-flag 1))
+        (setq bookmark-fringe-mark nil)
+        (setq bookmark-save-flag t))
 
     (when my/os-mac
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
