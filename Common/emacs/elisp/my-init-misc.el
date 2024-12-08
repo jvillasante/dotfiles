@@ -279,30 +279,6 @@
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround)
 
-;; emacs-everywhere : use emacs everywhere
-(use-package emacs-everywhere
-    :preface
-    (defun my/emacs-everywhere--app-info-linux-wayland ()
-        "Return information on the current active window, on a Linux Wayland sessions."
-        (let ((window-id nil))
-            (let ((app-name "Wayland")
-                  (window-title "Wayland")
-                  (window-geometry nil))
-                (make-emacs-everywhere-app
-                 :id window-id
-                 :class app-name
-                 :title window-title
-                 :geometry window-geometry))))
-    :init
-    (remove-hook 'emacs-everywhere-init-hooks 'emacs-everywhere-set-frame-position t)
-    :config
-    (setq emacs-everywhere-frame-parameters
-          `((name . "emacs-everywhere")
-            (fullscreen . nil) ; Helps on GNOME at least
-            (width . 120)
-            (height . 40)))
-    (setq emacs-everywhere-app-info-function #'my/emacs-everywhere--app-info-linux-wayland))
-
 ;; monkeytype : A typing game/tutor inspired by the open source and community driven monkeytype.com
 (use-package monkeytype
     :config
