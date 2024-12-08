@@ -71,9 +71,8 @@ if type emacs > /dev/null 2> /dev/null; then
     function emagit   { emacsclient -c -a '' --eval "(progn (magit-status \"$1\"))"; }
     function eww      { emacsclient -c -a '' --eval "(eww-browse-url \"$*\")"; }
     function ekill    { emacsclient --eval '(save-buffers-kill-emacs)'; }
-    function estatus  { systemctl --user status emacs.service; }
-    function edebug   { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/personal/ "$@"; }
-    function eminimal { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal/ "$@"; }
+    function edebug   { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
+    function eminimal { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal.emacs.d/ "$@"; }
 fi
 
 # vim
