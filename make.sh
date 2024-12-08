@@ -96,6 +96,9 @@ install_emacs() {
     #     echo ">>> Installing Emacs Minimal at $DOTFILES_DIR/.emacs.minimal"
     #     git clone --depth 1 git@github.com:jamescherti/minimal-emacs.d.git "$DOTFILES_DIR/.emacs.minimal"
     #     check $?
+    # else
+    #     echo ">>> Updating Emacs Minimal at $DOTFILES_DIR/.emacs.minimal"
+    #     git -C "$DOTFILES_DIR/.emacs.minimal" pull
     # fi
 }
 

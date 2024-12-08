@@ -18,7 +18,15 @@
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-(setq frame-resize-pixelwise t) ;; fine resize
+;; Resizing the Emacs frame can be costly when changing the font. Disable this
+;; to improve startup times with fonts larger than the system default.
+(setq frame-resize-pixelwise t)
+
+;; However, do not resize windows pixelwise, as this can cause crashes in some
+;; cases when resizing too many windows at once or rapidly.
+(setq window-resize-pixelwise nil)
+(setq resize-mini-windows 'grow-only)
+
 (blink-cursor-mode -1) ; annoying!
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; Disable scrollbar
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; Disable toolbar
@@ -49,10 +57,15 @@
 (global-set-key (kbd "<C-wheel-up>") 'ignore)
 (global-set-key (kbd "<C-wheel-down>") 'ignore)
 
-;; emacs29_ mouse settings
+;; emacs29 - mouse settings
 (when (>= emacs-major-version 29)
     (setq dired-mouse-drag-files t)
     (setq mouse-drag-and-drop-region-cross-program t))
+
+;; Emacs 29 - context menu
+;; (when (memq 'context-menu my/ui-features)
+;;     (when (and (display-graphic-p) (fboundp 'context-menu-mode))
+;;         (add-hook 'after-init-hook #'context-menu-mode)))
 
 ;; setup visual-line and auto-fill
 (setq visual-line-fringe-indicators
@@ -117,17 +130,35 @@
 
 ;; scrolling
 (progn
+    ;; Enables faster scrolling through unfontified regions. This may result in
+    ;; brief periods of inaccurate syntax highlighting immediately after scrolling,
+    ;; which should quickly self-correct.
+    (setq fast-but-imprecise-scrolling t)
+
+    ;; Move point to top/bottom of buffer before signaling a scrolling error.
+    (setq scroll-error-top-bottom t)
+
     ;; The number of lines to try scrolling a window by when point moves out.
     (setq scroll-step 1)
 
-    ;; Marker distance from center (don't jump to center).
-    (setq scroll-conservatively 100000)
+    ;; Emacs spends excessive time recentering the screen when the cursor moves more
+    ;; than N lines past the window edges (where N is the value of
+    ;; `scroll-conservatively`). This can be particularly slow in larger files
+    ;; during extensive scrolling. If `scroll-conservatively` is set above 100, the
+    ;; window is never automatically recentered. The default value of 0 triggers
+    ;; recentering too aggressively. Setting it to 10 reduces excessive recentering
+    ;; and only recenters the window when scrolling significantly off-screen.
+    (setq scroll-conservatively 10)
 
     ;; Try to keep screen position when PgDn/PgUp.
-    (setq scroll-preserve-screen-position 1)
+    (setq scroll-preserve-screen-position t)
 
     ;; Start scrolling when marker at top/bottom.
     (setq scroll-margin 0)
+
+    ;; Horizontal scrolling
+    (setq hscroll-margin 2
+          hscroll-step 1)
 
     ;; Mouse scroll moves 1 line at a time, instead of 5 lines.
     (setq mouse-wheel-scroll-amount '(1))
@@ -161,7 +192,7 @@
                (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
             (pixel-scroll-precision-interpolate distance-in-pixels)))
     :custom ((pixel-scroll-precision-interpolation-factor 0.75)
-             (pixel-scroll-precision-use-momentum t)
+             (pixel-scroll-precision-use-momentum nil)
              (pixel-scroll-precision-interpolate-mice t)
              (pixel-scroll-precision-large-scroll-height 10.0)
              (pixel-scroll-precision-interpolation-total-time 0.2)
@@ -171,8 +202,11 @@
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
     :ensure nil ;; emacs built-in
-    :init (setq display-line-numbers-type t)
-    :config (add-hook 'prog-mode-hook #'display-line-numbers-mode))
+    :hook (prog-mode . display-line-numbers-mode)
+    :config
+    (setq display-line-numbers-type t)
+    (setq display-line-numbers-width 3)
+    (setq display-line-numbers-widen t))
 
 ;; whitespace : visualize blanks (tabs, spaces, newline, etc)
 (use-package whitespace

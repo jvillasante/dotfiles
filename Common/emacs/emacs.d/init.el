@@ -53,7 +53,10 @@
     (add-hook 'after-init-hook #'gcmh-mode))
 
 ;; no-littering needs to come first
-(use-package no-littering)
+(use-package no-littering
+    :config
+    (setq my/var-dir no-littering-var-directory)
+    (setq my/etc-dir no-littering-etc-directory))
 
 ;; Paths
 (defconst my/home-path (expand-file-name "~/"))

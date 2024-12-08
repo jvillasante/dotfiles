@@ -146,7 +146,7 @@
     (setq dabbrev-upcase-means-case-search t)
 
     ;; `abbrev' (Abbreviations, else Abbrevs)
-    (setq abbrev-file-name (expand-file-name "abbrevs" no-littering-etc-directory))
+    (setq abbrev-file-name (expand-file-name "abbrevs" my/etc-dir))
     (setq only-global-abbrevs nil))
 
 ;; hippie expand is dabbrev expand on steroids
@@ -323,7 +323,7 @@
 (use-package tempel
     :disabled t
     :init
-    (setq tempel-path (expand-file-name "tempel-templates" no-littering-etc-directory))
+    (setq tempel-path (expand-file-name "tempel-templates" my/etc-dir))
 
     ;; Setup completion at point
     (defun tempel-setup-capf ()
@@ -353,7 +353,7 @@
 (use-package yasnippet
     :config
     ;; The snippets-shim is only need when using `treesit-auto'
-    ;; (let ((snippets-shim (expand-file-name "yasnippet-treesitter-shim/snippets/" no-littering-etc-directory)))
+    ;; (let ((snippets-shim (expand-file-name "yasnippet-treesitter-shim/snippets/" my/etc-dir)))
     ;;     (when (file-directory-p snippets-shim)
     ;;         (add-to-list 'yas-snippet-dirs snippets-shim)))
     (yas-reload-all)

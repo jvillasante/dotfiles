@@ -1,7 +1,11 @@
 ;;; init.el --- Init -*- no-byte-compile: t; lexical-binding: t; -*-
+
 ;;; Commentary:
-;;;
+
 ;;; Code:
+
+;; set EDITOTR to `emacsclient' as early as possible
+(setf (getenv "EDITOR") "emacsclient")
 
 ;;; Networking
 
@@ -24,12 +28,25 @@
         (require 'use-package)))
 
 ;; Ensure the 'use-package' package is installed and loaded
+(use-package use-package
+    :ensure nil ;; emacs built-in
+    :custom ((use-package-verbose t)
+             (use-package-always-ensure t)
+             (use-package-expand-minimally t)))
+
+;; exec-path-from-shell : Sane environment variables
+(use-package exec-path-from-shell
+    :init
+    (when (daemonp)
+        (exec-path-from-shell-initialize)
+        (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"
+                       "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH" "VCPKG_ROOT"))
+            (exec-path-from-shell-copy-env var))))
 
 ;;; Features, warnings, and errors
 
 ;; Disable warnings from the legacy advice API. They aren't useful.
 (setq ad-redefinition-action 'accept)
-
 (setq warning-suppress-types '((lexical-binding)))
 
 ;; Some features that are not represented as packages can be found in
@@ -80,10 +97,6 @@
 ;; parentheses.
 (setq rainbow-delimiters-max-face-count 5)
 
-;; Can be activated with `display-line-numbers-mode'
-(setq-default display-line-numbers-width 3)
-(setq-default display-line-numbers-widen t)
-
 (setq comint-prompt-read-only t)
 (setq comint-buffer-maximum-size 2048)
 
@@ -102,6 +115,11 @@
 ;; Collects and displays all available documentation immediately, even if
 ;; multiple sources provide it. It concatenates the results.
 (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
+
+;; For some reason, `abbrev_defs` is located in ~/.emacs.d/abbrev_defs, even
+;; when `user-emacs-directory` is modified. This ensures the abbrev file is
+;; correctly located based on the updated `user-emacs-directory`.
+(setq abbrev-file-name (expand-file-name "abbrev_defs" user-emacs-directory))
 
 ;;; Files
 
@@ -131,43 +149,6 @@
       window-divider-default-places t
       window-divider-default-right-width 1)
 
-;;; Backup files
-
-;; Avoid generating backups or lockfiles to prevent creating world-readable
-;; copies of files.
-(setq create-lockfiles nil)
-(setq make-backup-files nil)
-
-(setq backup-directory-alist
-      `(("." . ,(expand-file-name "backup" user-emacs-directory))))
-(setq tramp-backup-directory-alist backup-directory-alist)
-(setq backup-by-copying-when-linked t)
-(setq backup-by-copying t)  ; Backup by copying rather renaming
-(setq delete-old-versions t)  ; Delete excess backup versions silently
-(setq version-control t)  ; Use version numbers for backup files
-(setq kept-new-versions 5)
-(setq kept-old-versions 5)
-(setq vc-make-backup-files nil)  ; Do not backup version controlled files
-
-;;; Auto save
-;; Enable auto-save to safeguard against crashes or data loss. The
-;; `recover-file' or `recover-session' functions can be used to restore
-;; auto-saved data.
-(setq auto-save-default t)
-
-;; Do not auto-disable auto-save after deleting large chunks of
-;; text. The purpose of auto-save is to provide a failsafe, and
-;; disabling it contradicts this objective.
-(setq auto-save-include-big-deletions t)
-
-(setq auto-save-list-file-prefix
-      (expand-file-name "autosave/" user-emacs-directory))
-(setq tramp-auto-save-directory
-      (expand-file-name "tramp-autosave/" user-emacs-directory))
-
-;; Auto save options
-(setq kill-buffer-delete-auto-save-files t)
-
 ;;; Auto revert
 ;; Auto-revert in Emacs is a feature that automatically updates the
 ;; contents of a buffer to reflect changes made to the underlying file
@@ -179,84 +160,9 @@
 ;; Revert other buffers (e.g, Dired)
 (setq global-auto-revert-non-file-buffers t)
 
-;;; recentf
-;; `recentf' is an Emacs package that maintains a list of recently
-;; accessed files, making it easier to reopen files you have worked on
-;; recently.
-(setq recentf-max-saved-items 300) ; default is 20
-(setq recentf-auto-cleanup 'mode)
-
-;;; saveplace
-;; `save-place-mode` enables Emacs to remember the last location within a file
-;; upon reopening. This feature is particularly beneficial for resuming work at
-;; the precise point where you previously left off.
-(setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
-(setq save-place-limit 600)
-
-;;; savehist
-;; `savehist` is an Emacs feature that preserves the minibuffer history between
-;; sessions. It saves the history of inputs in the minibuffer, such as commands,
-;; search strings, and other prompts, to a file. This allows users to retain
-;; their minibuffer history across Emacs restarts.
-(setq history-length 300)
-(setq savehist-save-minibuffer-history t)  ;; Default
-
 ;;; Frames and windows
 
-;; Resizing the Emacs frame can be costly when changing the font. Disable this
-;; to improve startup times with fonts larger than the system default.
-(setq frame-resize-pixelwise t)
-
-;; However, do not resize windows pixelwise, as this can cause crashes in some
-;; cases when resizing too many windows at once or rapidly.
-(setq window-resize-pixelwise nil)
-
-(setq resize-mini-windows 'grow-only)
-
-;;; Scrolling
-;; Enables faster scrolling through unfontified regions. This may result in
-;; brief periods of inaccurate syntax highlighting immediately after scrolling,
-;; which should quickly self-correct.
-(setq fast-but-imprecise-scrolling t)
-
-;; Move point to top/bottom of buffer before signaling a scrolling error.
-(setq scroll-error-top-bottom t)
-
-;; Keeps screen position if the scroll command moved it vertically out of the
-;; window.
-(setq scroll-preserve-screen-position t)
-
-;; Emacs spends excessive time recentering the screen when the cursor moves more
-;; than N lines past the window edges (where N is the value of
-;; `scroll-conservatively`). This can be particularly slow in larger files
-;; during extensive scrolling. If `scroll-conservatively` is set above 100, the
-;; window is never automatically recentered. The default value of 0 triggers
-;; recentering too aggressively. Setting it to 10 reduces excessive recentering
-;; and only recenters the window when scrolling significantly off-screen.
-(setq scroll-conservatively 10)
-
-;; Enables smooth scrolling by making Emacs scroll the window by 1 line whenever
-;; the cursor moves off the visible screen.
-(setq scroll-step 1)
-
-;; Reduce cursor lag by :
-;; 1. Prevent automatic adjustments to `window-vscroll' for long lines.
-;; 2. Resolve the issue of random half-screen jumps during scrolling.
-(setq auto-window-vscroll nil)
-
-;; Number of lines of margin at the top and bottom of a window.
-(setq scroll-margin 0)
-
-;; Horizontal scrolling
-(setq hscroll-margin 2
-      hscroll-step 1)
-
 ;;; Mouse Scroll
-
-;; Emacs 29
-(when (memq 'context-menu my/ui-features)
-    (when (and (display-graphic-p) (fboundp 'context-menu-mode))
-        (add-hook 'after-init-hook #'context-menu-mode)))
 
 ;;; Cursor
 ;; The blinking cursor is distracting and interferes with cursor settings in
@@ -287,6 +193,10 @@
 ;; `delete-pair'. A longer delay can be annoying as it causes a noticeable pause
 ;; after each deletion, disrupting the flow of editing.
 (setq delete-pair-blink-delay 0.03)
+
+;; Ensure window-start is never invisible. This enhances user experience when
+;; folding/unfolding code (outline, org-mode, outline-minor-mode...)
+(setq-default make-window-start-visible t)
 
 ;;; Indent and formatting
 (setq-default left-fringe-width  8)
@@ -361,7 +271,12 @@
 
 (setq sh-indent-after-continuation 'always)
 
-(setq dired-clean-confirm-killing-deleted-buffers nil
+;;; Dired
+
+(setq dired-free-space nil
+      dired-deletion-confirmer 'y-or-n-p
+      dired-filter-verbose nil
+      dired-clean-confirm-killing-deleted-buffers nil
       dired-recursive-deletes 'top
       dired-recursive-copies  'always
       dired-create-destination-dirs 'ask)
@@ -377,11 +292,38 @@
 (setq ediff-window-setup-function #'ediff-setup-windows-plain
       ediff-split-window-function #'split-window-horizontally)
 
-;; User
-;; Some Defaults
-(setq user-full-name "Julio C. Villasante"
-      user-mail-address "jvillasantegomez@gmail.com"
-      user-login-name "jvillasante")
+;;; User stuff
+(use-package compile-angel
+    :ensure t
+    :demand t
+    :config
+    (compile-angel-on-load-mode)
+    (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
+
+;; Hide warnings and display only errors
+(setq warning-minimum-level :error)
+
+(display-time-mode)
+(show-paren-mode +1)  ; Paren match highlighting
+(winner-mode 1)
+(delete-selection-mode 1)  ; Replace selected text with typed text
+
+;; Configure Emacs to ask for confirmation before exiting
+(setq confirm-kill-emacs 'y-or-n-p)
+
+(use-package uniquify
+    :ensure nil
+    :custom
+    (uniquify-buffer-name-style 'reverse)
+    (uniquify-separator " - ")
+    (uniquify-after-kill-buffer-p t)
+    (uniquify-ignore-buffers-re "^\\*"))
+
+;; Window dividers separate windows visually. Window dividers are bars that can
+;; be dragged with the mouse, thus allowing you to easily resize adjacent
+;; windows.
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Dividers.html
+(add-hook 'after-init-hook #'window-divider-mode)
 
 ;; Paths
 (defconst my/home-path (expand-file-name "~/"))
@@ -389,15 +331,26 @@
 (defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
 (defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
 
-;; Load configuration
-(my/load-user-init "etc/lisp/my-init-utils.el")
-(my/load-user-init "etc/lisp/my-init-early.el")
-(my/load-user-init "etc/lisp/my-init-misc.el")
-(my/load-user-init "etc/lisp/my-init-shell.el")
-(my/load-user-init "etc/lisp/my-init-completion.el")
-(my/load-user-init "etc/lisp/my-init-langs.el")
-(my/load-user-init "etc/lisp/my-init-vcs.el")
-(my/load-user-init "etc/lisp/my-init-ui.el")
+;; load config
+(load (expand-file-name "Common/emacs/elisp/my-utils"              my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-early"         my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-completion"    my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-vcs"           my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-org"           my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-langs"         my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-lang-tools"    my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-docker"        my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-apps"          my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-shell"         my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-misc"          my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-filemanager"   my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-workspaces"    my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-modal"         my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-ui"            my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-ai"            my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-bindings"      my/dotfiles-path))
+;; (load (expand-file-name "Common/emacs/elisp/my-init-transient"     my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/modus-themes-exporter" my/dotfiles-path))
 
 (provide 'init)
 

@@ -80,7 +80,7 @@
             ;; this obviously prevents that from happening.
             (unless (treesit-language-available-p (car grammar))
                 (treesit-install-language-grammar (car grammar)
-                                                  (no-littering-expand-var-file-name "tree-sitter")))))
+                                                  (expand-file-name "tree-sitter" my/var-dir)))))
     :config
     ;; Optional, but recommended. Tree-sitter enabled major modes are
     ;; distinct from their ordinary counterparts.
@@ -141,7 +141,7 @@
                        (yaml-mode                                       . yaml-ts-mode)))
         (add-to-list 'major-mode-remap-alist mapping))
     (setq treesit-extra-load-path
-          `(,(no-littering-expand-var-file-name "tree-sitter")))
+          `(,(expand-file-name "tree-sitter" my/var-dir)))
     (setq treesit-font-lock-level 4))
 
 (use-package elisp-mode

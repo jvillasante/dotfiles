@@ -107,7 +107,6 @@
 (setq read-buffer-completion-ignore-case t)    ;; ... and, ignore case whem completing buffers
 (setq delete-by-moving-to-trash t) ;; use the system trash
 (setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
-(setq create-lockfiles nil) ;; no lock files
 (put 'narrow-to-region 'disabled nil) ; enable narrow to region (disabled by default)
 (setq undo-limit 100000000) ; raise Emacs undo memory to 10 MB
 (setq select-enable-clipboard t) ; Non-nil means cutting and pasting uses the clipboard.
@@ -119,19 +118,21 @@
 (require 'my-utils)
 (use-package emacs
     :ensure nil ;; emacs built-in
-    :functions no-littering-expand-var-file-name s-starts-with? s-contains?
     :config
     (progn ;; backups
-        (setq make-backup-files t    ; backup of a file the first time it is saved.
-              backup-by-copying t    ; don't clobber symlinks
-              version-control t      ; version numbers for backup files
-              delete-old-versions t  ; delete excess backup files silently
-              kept-old-versions 2    ; oldest versions to keep when a new numbered backup is made (default: 2)
-              kept-new-versions 6)   ; newest versions to keep when a new numbered backup is made (default: 2)
+        (setq create-lockfiles nil      ; avoid generating lockfiles
+              make-backup-files t       ; backup of a file the first time it is saved.
+              backup-by-copying t       ; don't clobber symlinks
+              version-control t         ; version numbers for backup files
+              delete-old-versions t     ; delete excess backup files silently
+              kept-old-versions 5       ; oldest versions to keep when a new numbered backup is made (default: 2)
+              kept-new-versions 5       ; newest versions to keep when a new numbered backup is made (default: 2)
+              vc-make-backup-files nil) ; Do not backup version controlled files
 
         ;; backup all files
         (setq backup-directory-alist
-              `(("." . ,(no-littering-expand-var-file-name "backup/"))))
+              `(("." . ,(expand-file-name "backup" my/var-dir))))
+        (setq tramp-backup-directory-alist backup-directory-alist)
 
         ;; ... do not backup some
         (setq backup-enable-predicate
@@ -146,9 +147,21 @@
               auto-save-timeout 20     ; number of seconds idle time before auto-save (default: 30)
               auto-save-interval 200)  ; number of keystrokes between auto-saves (default: 300)
 
+        ;; Do not auto-disable auto-save after deleting large chunks of
+        ;; text. The purpose of auto-save is to provide a fail-safe, and
+        ;; disabling it contradicts this objective.
+        (setq auto-save-include-big-deletions t)
+
+        ;; Auto save options
+        (setq kill-buffer-delete-auto-save-files t)
+
         ;; auto-save files
-        (setq auto-save-file-name-transforms
-              `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+        ;; (setq auto-save-file-name-transforms
+        ;;       `((".*" ,(expand-file-name "auto-save" my/var-dir) t)))
+        (setq auto-save-list-file-prefix
+              (expand-file-name "auto-save/" my/var-dir))
+        (setq tramp-auto-save-directory
+              (expand-file-name "tramp-autosave/" my/var-dir))
 
         ;; disable auto-save on certain tramp profiles
         (connection-local-set-profile-variables
@@ -164,7 +177,7 @@
 
     (progn ;; bookmarks
         (setq bookmark-default-file
-              (expand-file-name "bookmarks.el" no-littering-var-directory))
+              (expand-file-name "bookmarks.el" my/var-dir))
         (setq bookmark-save-flag 1))
 
     (when my/os-mac

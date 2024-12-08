@@ -1,6 +1,7 @@
 ;;; early-init.el --- Early Init -*- no-byte-compile: t; lexical-binding: t; -*-
+
 ;;; Commentary:
-;;;
+
 ;;; Code:
 
 ;;; Variables
@@ -35,13 +36,13 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 (defvar my/user-directory user-emacs-directory
     "The default value of the `user-emacs-directory' variable.")
 
-(defun my/load-user-init (filename)
-    "Execute a file of Lisp code named FILENAME."
-    (let ((user-init-file
-           (expand-file-name filename
-                             my/user-directory)))
-        (when (file-exists-p user-init-file)
-            (load user-init-file nil t))))
+;; Ui features
+(setq my/ui-features '(context-menu))
+
+;; Custom
+
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file :no-error-if-file-is-missing)
 
 ;; Reducing clutter in ~/.emacs.d by redirecting files to ~/emacs.d/var/
 (setq my/var-dir (expand-file-name "var/" my/user-directory))
@@ -49,15 +50,12 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 (setq package-user-dir (expand-file-name "elpa" my/var-dir))
 (setq user-emacs-directory my/var-dir)
 
-;; set custom files
-(setq custom-theme-directory (expand-file-name "themes/" my/user-directory))
-(setq custom-file (expand-file-name "custom.el" my/user-directory))
-
 ;;; Garbage collection
 ;; Garbage collection significantly affects startup times. This setting delays
 ;; garbage collection during startup but will be reset later.
 
 (setq gc-cons-threshold most-positive-fixnum)
+
 (add-hook 'emacs-startup-hook
           (lambda ()
               (setq gc-cons-threshold my/gc-cons-threshold)))
@@ -196,8 +194,34 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
         (setq native-comp-jit-compilation t
               native-comp-deferred-compilation t  ; Obsolete since Emacs 29.1
               package-native-compile t)
+
+    ;; Set the right directory to store the native compilation cache
+    (when (fboundp 'startup-redirect-eln-cache)
+        (if (version< emacs-version "29")
+                (add-to-list 'native-comp-eln-load-path
+                             (convert-standard-filename (expand-file-name "eln-cache/" my/var-dir)))
+            (startup-redirect-eln-cache
+             (convert-standard-filename (expand-file-name "eln-cache/" my/var-dir)))))
+    (add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache/" my/var-dir))
+
     ;; Deactivate the `native-compile' feature if it is not available
     (setq features (delq 'native-compile features)))
+
+;; ;;; Native compilation settings
+;; (when (featurep 'native-compile)
+;;     ;; Silence compiler warnings as they can be pretty disruptive
+;;     (defvar native-comp-async-report-warnings-errors)
+;;     (setq native-comp-async-report-warnings-errors 'silent)
+
+;;     ;; Set the right directory to store the native compilation cache
+;;     ;; NOTE the method for setting the eln-cache directory depends on the emacs version
+;;     (when (fboundp 'startup-redirect-eln-cache)
+;;         (if (version< emacs-version "29")
+;;                 (add-to-list 'native-comp-eln-load-path
+;;                              (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory)))
+;;             (startup-redirect-eln-cache
+;;              (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory)))))
+;;     (add-to-list 'native-comp-eln-load-path (expand-file-name "var/eln-cache/" user-emacs-directory)))
 
 ;; Suppress compiler warnings and don't inundate users with their popups.
 (setq native-comp-async-report-warnings-errors
@@ -243,12 +267,6 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
     (push '(tool-bar-lines . 0) default-frame-alist)
     (setq tool-bar-mode nil))
 
-;; set default UI
-(setq-default initial-frame-alist default-frame-alist
-              fringe-indicator-alist (assq-delete-all 'truncation fringe-indicator-alist))
-(push '(mouse-color . "white") default-frame-alist)
-(push '(bottom-divider-width . 0) default-frame-alist)
-(push '(right-divider-width . 1) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 (push '(horizontal-scroll-bars) default-frame-alist)
 (setq scroll-bar-mode nil)
@@ -268,7 +286,7 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 ;;; package.el
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)
-(setq use-package-always-ensure t)
+(setq package-install-upgrade-built-in t)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
@@ -279,4 +297,5 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
                                                       ("melpa"  . 0)))
 
 (provide 'early-init)
+
 ;;; early-init.el ends here

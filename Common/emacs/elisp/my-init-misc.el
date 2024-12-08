@@ -28,7 +28,7 @@
     ;; setup auth-sources
     (require 'auth-source)
     (setq auth-sources
-          (list (expand-file-name "secrets/.authinfo.gpg" no-littering-etc-directory)))
+          (list (expand-file-name "secrets/.authinfo.gpg" my/etc-dir)))
 
     ;; setup org-crypt
     (require 'org-crypt)
@@ -110,14 +110,17 @@
 ;; saveplace : remembers your location in a file when saving files
 (use-package saveplace
     :ensure nil ;; emacs built-in
-    :init (save-place-mode +1))
+    :hook (after-init . save-place-mode)
+    :config
+    (setq save-place-file (expand-file-name "saveplace" my/var-dir))
+    (setq save-place-limit 600))
 
 ;; savehist : save minibuffer history
 (use-package savehist
     :ensure nil ;; emacs built-in
-    :init (savehist-mode +1)
+    :hook (after-init . savehist-mode)
     :config
-    (setq history-length t
+    (setq history-length 300
           history-delete-duplicates t
           savehist-save-minibuffer-history t
           savehist-additional-variables '(register-alist kill-ring search-ring regexp-search-ring)))
@@ -125,13 +128,13 @@
 ;; recentf : recent files
 (use-package recentf
     :ensure nil ;; emacs built-in
-    :init (recentf-mode +1)
+    :hook (after-init . recentf-mode)
     :config
     (setq recentf-max-saved-items 500
           recentf-max-menu-items 15
-          recentf-auto-cleanup 'never)
-    (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-var-directory))
-    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "secrets/" no-littering-etc-directory)))
+          recentf-auto-cleanup 'mode)
+    (add-to-list 'recentf-exclude (recentf-expand-file-name my/var-dir))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "secrets/" my/etc-dir)))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "Apps/elfeed/elfeed_db/" my/dropbox-path)))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".password-store/" my/home-path)))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".mail/" my/home-path)))
@@ -149,7 +152,7 @@
 (use-package project
     :ensure nil ;; emacs built-in
     :custom
-    ((project-list-file (expand-file-name "projects" no-littering-var-directory))
+    ((project-list-file (expand-file-name "projects" my/var-dir))
      ;; (project-vc-extra-root-markers '(".project.el" ".projectile" ".dir-locals.el"))
      (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
     :config
@@ -283,16 +286,18 @@
 (use-package monkeytype
     :config
     (setq monkeytype-directory
-          (expand-file-name "monkeytype" no-littering-etc-directory)))
+          (expand-file-name "monkeytype" my/etc-dir)))
 
 ;; devdocs.el : Emacs viewer for DevDocs
 (use-package devdocs
     :disabled t
-    :custom (devdocs-data-dir (no-littering-expand-var-file-name "devdocs")))
+    :custom (devdocs-data-dir
+             (expand-file-name "devdocs" my/var-dir)))
 
 ;; devdocs-browser : Browse devdocs.io documents inside Emacs!
 (use-package devdocs-browser
-    :custom (devdocs-browser-cache-directory (no-littering-expand-var-file-name "devdocs-browser")))
+    :custom (devdocs-browser-cache-directory
+             (expand-file-name "devdocs-browser" my/var-dir)))
 
 ;; engine-mode : search the web
 (use-package engine-mode
