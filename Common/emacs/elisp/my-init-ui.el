@@ -63,9 +63,8 @@
     (setq mouse-drag-and-drop-region-cross-program t))
 
 ;; Emacs 29 - context menu
-;; (when (memq 'context-menu my/ui-features)
-;;     (when (and (display-graphic-p) (fboundp 'context-menu-mode))
-;;         (add-hook 'after-init-hook #'context-menu-mode)))
+(when (>= emacs-major-version 29)
+    (add-hook 'after-init-hook #'context-menu-mode))
 
 ;; setup visual-line and auto-fill
 (setq visual-line-fringe-indicators

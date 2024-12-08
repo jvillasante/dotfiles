@@ -274,7 +274,9 @@
 (use-package easy-kill)
 
 ;; multiple-cursors: Multiple cursors for Emacs
-(use-package multiple-cursors)
+(use-package multiple-cursors
+    :init
+    (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
 ;; wgrep : edit grep results
 (use-package wgrep)
