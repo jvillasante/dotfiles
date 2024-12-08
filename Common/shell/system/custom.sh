@@ -64,15 +64,17 @@ if type emacs > /dev/null 2> /dev/null; then
     export VISUAL="emacsclient -c -a ''"   # $VISUAL opens in GUI and waits
     export EDITOR="$VISUAL"
 
-    function e        { emacsclient -c -a '' --eval "(progn (find-file \"$1\"))"; }
-    function et       { emacsclient -t -a '' --eval "(progn (find-file \"$1\"))"; }
-    function ediff    { emacsclient -c -a '' --eval "(progn (ediff-files \"$1\" \"$2\"))"; }
-    function edired   { emacsclient -c -a '' --eval "(progn (dired \"$1\"))"; }
-    function emagit   { emacsclient -c -a '' --eval "(progn (magit-status \"$1\"))"; }
-    function eww      { emacsclient -c -a '' --eval "(eww-browse-url \"$*\")"; }
-    function ekill    { emacsclient --eval '(save-buffers-kill-emacs)'; }
-    function edebug   { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
-    function eminimal { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal.emacs.d/ "$@"; }
+    function e         { emacsclient -c -a '' --eval "(progn (find-file \"$1\"))"; }
+    function et        { emacsclient -t -a '' --eval "(progn (find-file \"$1\"))"; }
+    function ediff     { emacsclient -c -a '' --eval "(progn (ediff-files \"$1\" \"$2\"))"; }
+    function edired    { emacsclient -c -a '' --eval "(progn (dired \"$1\"))"; }
+    function emagit    { emacsclient -c -a '' --eval "(progn (magit-status \"$1\"))"; }
+    function emarkdown { emacsclient -c -a '' -F "((name . \"emacs-markdown\") (height . 30) (width . 80))" \
+                                     --eval "(progn (my/new-scratch-buffer-in-markdown))"; }
+    function eww       { emacsclient -c -a '' --eval "(eww-browse-url \"$*\")"; }
+    function ekill     { emacsclient --eval '(save-buffers-kill-emacs)'; }
+    function edebug    { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
+    function eminimal  { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal.emacs.d/ "$@"; }
 fi
 
 # vim
