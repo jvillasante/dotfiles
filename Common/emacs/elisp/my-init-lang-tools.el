@@ -82,8 +82,7 @@
     ((eglot-managed-mode . my/eglot-eldoc)
      (prog-mode . my/maybe-start-eglot))
     :config
-    (setq eglot-events-buffer-config '(:size 0 :format full))
-    (setq eglot-events-buffer-size 0)
+    (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)
     (setq jsonrpc-event-hook nil)
     (setq eglot-autoshutdown t)
@@ -136,6 +135,14 @@
     (eglot-inactive-regions-opacity 0.4)
     :config
     (eglot-inactive-regions-mode 1))
+
+;; eglot-booster : Boost eglot using lsp-booster
+(use-package eglot-booster
+    :vc (:url "git@github.com:jdtsmith/eglot-booster.git"
+              :rev :newest)
+    :after eglot
+    :custom (eglot-booster-no-remote-boost t)
+    :config (eglot-booster-mode))
 
 ;; dape : Debug Adapter Protocol for Emacs
 (use-package dape

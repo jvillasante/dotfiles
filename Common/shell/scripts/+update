@@ -10,6 +10,8 @@ usage() {
     echo "        Update personal dotfiles (ask to pull from remote and then syncs on local)"
     echo "    $0 emacs:"
     echo "        Update emacs from source (will update to latest emacs from git repository)"
+    echo "    $0 emacs-lsp-booster:"
+    echo "        Update emacs-lsp-booster from binary source"
     echo "    $0 stylua:"
     echo "        Update StyLua from binary source"
     echo "    $0 keyd:"
@@ -180,6 +182,29 @@ emacs_update() {
     fi
 }
 
+emacs_lsp_booster_update() {
+    ! hash emacs-lsp-booster 2> /dev/null && echo "emacs-lsp-booster not installed, exiting..." && usage 1
+    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+    [ ! -d "$HOME"/Workspace/Software/emacs-lsp-booster ] && mkdir -p "$HOME"/Workspace/Software/emacs-lsp-booster
+    [ -d "$HOME"/Workspace/Software/emacs-lsp-booster ] && rm -rf "$HOME"/Workspace/Software/emacs-lsp-booster/*
+
+    pushd "$HOME"/Workspace/Software/emacs-lsp-booster || {
+        echo "Can't cd into $HOME/Workspace/Software/emacs-lsp-booster"
+        usage 1
+    }
+
+    EMACS_LSP_BOOSTER_VERSION=v0.2.1
+    EMACS_LSP_BOOSTER_RELEASE=emacs-lsp-booster_"$EMACS_LSP_BOOSTER_VERSION"_x86_64-unknown-linux-musl.zip
+    curl -LJO https://github.com/blahgeek/emacs-lsp-booster/releases/download/"$EMACS_LSP_BOOSTER_VERSION"/"$EMACS_LSP_BOOSTER_RELEASE"
+    atool --extract --explain "$EMACS_LSP_BOOSTER_RELEASE"
+    sudo cp -f emacs-lsp-booster /usr/local/bin/
+
+    popd || {
+        echo "Can't pop directory"
+        usage 1
+    }
+}
+
 stylua_update() {
     ! hash stylua 2> /dev/null && echo "stylua not installed, exiting..." && usage 1
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -289,6 +314,10 @@ case $cmd in
     emacs)
         [[ "$nargs" -eq 1 ]] || usage 1
         emacs_update
+        ;;
+    emacs-lsp-booster)
+        [[ "$nargs" -eq 1 ]] || usage 1
+        emacs_lsp_booster_update
         ;;
     stylua)
         [[ "$nargs" -eq 1 ]] || usage 1

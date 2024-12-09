@@ -659,7 +659,38 @@ fedora_install() {
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             8)
-                echo "$CHOICE) Installing Emacs"
+                echo "$CHOICE) Installing emacs-lsp-booster & Emacs"
+
+                #
+                # First install emacs-lsp-booster to speed up lsp in emacs
+                #
+
+                # Is it already installed?
+                hash emacs-lsp-booster 2> /dev/null && notify-send "emacs-lsp-booster is already installed" --expire-time=20 && continue
+
+                # Install
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                [ ! -d "$HOME"/Workspace/Software/emacs-lsp-booster ] && mkdir -p "$HOME"/Workspace/Software/emacs-lsp-booster
+
+                pushd "$HOME"/Workspace/Software/emacs-lsp-booster || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/emacs-lsp-booster" --expire-time=20
+                        continue
+                }
+
+                EMACS_LSP_BOOSTER_VERSION=v0.2.1
+                EMACS_LSP_BOOSTER_RELEASE=emacs-lsp-booster_"$EMACS_LSP_BOOSTER_VERSION"_x86_64-unknown-linux-musl.zip
+                curl -LJO https://github.com/blahgeek/emacs-lsp-booster/releases/download/"$EMACS_LSP_BOOSTER_VERSION"/"$EMACS_LSP_BOOSTER_RELEASE"
+                atool --extract --explain "$EMACS_LSP_BOOSTER_RELEASE"
+                sudo cp -f emacs-lsp-booster /usr/local/bin/
+
+                popd || {
+                        notify-send "Can't cd to previous directory" --expire-time=20
+                        continue
+                }
+
+                #
+                # We are now ready to install emacs
+                #
 
                 # Is it already installed?
                 hash emacs 2> /dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue

@@ -282,7 +282,8 @@
 
 ;; consult-xref-stack : Navigate the Xref stack with Consult.
 (use-package consult-xref-stack
-    :vc (:url "https://github.com/brett-lempereur/consult-xref-stack" :branch "main")
+    :vc (:url "git@github.com:brett-lempereur/consult-xref-stack.git"
+              :rev :newest)
     :after consult
     :bind (("C-," . consult-xref-stack-backward)))
 
