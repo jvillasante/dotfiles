@@ -381,7 +381,7 @@ fedora_install() {
                 sudo dnf install -y yubikey-manager
 
                 # mail
-                sudo dnf install -y isync mu maildir-utils
+                sudo dnf install -y isync mu maildir-utils gnutls
 
                 # ncdu (text-based disk usage viewer)
                 sudo dnf install -y ncdu
