@@ -128,6 +128,15 @@
                       "--header-insertion=never"
                       "--header-insertion-decorators=0"))))
 
+;; eglot-inactive-regions : Eglot extension to visually style inactive pre-processor branches
+(use-package eglot-inactive-regions
+    :after eglot
+    :custom
+    (eglot-inactive-regions-style 'darken-foreground)
+    (eglot-inactive-regions-opacity 0.4)
+    :config
+    (eglot-inactive-regions-mode 1))
+
 ;; dape : Debug Adapter Protocol for Emacs
 (use-package dape
     :disabled t)
