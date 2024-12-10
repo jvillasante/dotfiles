@@ -35,6 +35,8 @@ Checks: "*,
         -*-use-auto,
         -*-use-default-member-init,
         -*-use-anonymous-namespace,
+        -*-array-to-pointer-decay,
+        -*-no-array-decay,
 "
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
