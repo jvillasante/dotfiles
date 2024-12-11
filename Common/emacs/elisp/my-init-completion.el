@@ -190,10 +190,9 @@
     (completion-styles '(orderless basic))
     (completion-category-overrides '((file (styles basic partial-completion))))
     :init
-    ;; (setq orderless-component-separator " +")
-    ;; Remember to check my `completion-styles' and the `completion-category-overrides'.
-    ;; (setq orderless-matching-styles
-    ;;       '(orderless-prefixes orderless-regexp))
+    (setq orderless-component-separator " +")
+    (setq orderless-matching-styles
+          '(orderless-prefixes orderless-regexp))
 
     ;; SPC should never complete: use it for `orderless' groups.
     ;; The `?' is a regexp construct.
