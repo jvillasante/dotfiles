@@ -226,6 +226,8 @@
 
 (with-eval-after-load 'org
     (define-key org-mode-map [remap fill-paragraph] 'my/org-fill-or-unfill)
+    (define-key org-mode-map (kbd "M-n") 'org-next-visible-heading)
+    (define-key org-mode-map (kbd "M-p") 'org-previous-visible-heading)
     (when (package-installed-p 'verb)
         (define-key org-mode-map (kbd "C-c C-r") verb-command-map)))
 

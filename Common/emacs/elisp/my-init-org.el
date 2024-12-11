@@ -50,6 +50,7 @@
     (setq org-fontify-quote-and-verse-blocks t)
     (setq org-startup-indented t)
     (setq org-startup-folded t)
+    (setq org-use-fast-todo-selection 'expert)
 
     ;; Return or left-click with mouse follows link
     (setq org-return-follows-link t)
@@ -119,9 +120,13 @@
     :after org
     :init (add-hook 'org-mode-hook (lambda () (org-superstar-mode)))
     :config
-    (setq org-superstar-remove-leading-stars t)
-    (setq org-superstar-leading-bullet ?\s)
+    ;; (setq org-superstar-remove-leading-stars t)
+    ;; (setq org-superstar-leading-bullet ?\s)
     (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
+    ;; (setq org-superstar-headline-bullets-list
+    ;;       (mapcar #'string
+    ;;               (number-sequence ?\N{CIRCLED DIGIT ONE}
+    ;;                                ?\N{CIRCLED NUMBER TWELVE})))
     (setq org-superstar-special-todo-items t))
 
 ;; deft : plain text notes
