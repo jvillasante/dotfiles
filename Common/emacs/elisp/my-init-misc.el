@@ -98,14 +98,7 @@
     (setq isearch-allow-motion t) ; enable Emacs28 isearch motions
     (setq isearch-lazy-count nil) ; using anzu instead
     (setq lazy-count-prefix-format "(%s/%s) ")
-    (setq lazy-count-suffix-format nil)
-    (defadvice isearch-search (after isearch-no-fail activate)
-        (unless isearch-success
-            (ad-disable-advice 'isearch-search 'after 'isearch-no-fail)
-            (ad-activate 'isearch-search)
-            (isearch-repeat (if isearch-forward 'forward))
-            (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
-            (ad-activate 'isearch-search))))
+    (setq lazy-count-suffix-format nil))
 
 ;; saveplace : remembers your location in a file when saving files
 (use-package saveplace
