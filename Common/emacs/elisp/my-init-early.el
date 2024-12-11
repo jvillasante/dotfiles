@@ -180,6 +180,12 @@
               (expand-file-name "bookmarks.el" my/var-dir))
         (setq bookmark-save-flag 1))
 
+    (progn ;; make `save-some-buffers` show diff on demand
+        (add-to-list 'save-some-buffers-action-alist
+                     (list "d"
+                           (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
+                           "show diff between the buffer and its file")))
+
     (when my/os-mac
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (setq browse-url-browser-function 'browse-url-generic)
