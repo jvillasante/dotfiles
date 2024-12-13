@@ -6,7 +6,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages nil)
  '(package-vc-selected-packages
-      '((gptel-quick :url "git@github.com:karthink/gptel-quick.git")
+      '((eglot-booster :url "git@github.com:jdtsmith/eglot-booster.git")
+           (gptel-quick :url "git@github.com:karthink/gptel-quick.git")
            (consult-xref-stack :url
                "https://github.com/brett-lempereur/consult-xref-stack" :branch
                "main"))))

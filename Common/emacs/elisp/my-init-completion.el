@@ -6,8 +6,11 @@
 (use-package emacs
     :ensure nil ;; emacs built-in
     :init
-    ;; Emacs 30: subdivide grep output into sections, one per file.
     (when (>= emacs-major-version 30)
+        ;; Disable Ispell completion function. Try `cape-dict' as an alternative.
+        ;; (text-mode-ispell-word-completion nil)
+
+        ;; subdivide grep output into sections, one per file.
         (setq grep-use-headings t))
 
     ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
@@ -16,8 +19,6 @@
 
     ;; TAB cycle if there are only few candidates
     (setq completion-cycle-threshold 3)
-    ;; Enable indentation+completion using the TAB key.
-    ;; `completion-at-point' is often bound to M-TAB.
     (setq tab-always-indent 'complete)
 
     (setq completion-ignore-case t)
@@ -26,8 +27,6 @@
     (setq-default case-fold-search t)   ; For general regexp
 
     (setq enable-recursive-minibuffers t)
-    ;; Allow Emacs to resize mini windows, otherwise this does not work:
-    ;;   (setq org-use-fast-todo-selection 'expert)
     (setq resize-mini-windows t)
     (setq minibuffer-eldef-shorten-default t)
 
@@ -42,6 +41,21 @@
           '(read-only t cursor-intangible t face minibuffer-prompt))
     (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
+    (file-name-shadow-mode 1)
+    (minibuffer-depth-indicate-mode 1)
+    (minibuffer-electric-default-mode 1)
+
+    ;; emacs default completion
+    ;; (setf completion-styles '(basic flex)
+    ;;       completion-auto-select t ;; Show completion on first call
+    ;;       completion-auto-help 'visible ;; Display *Completions* upon first request
+    ;;       completions-format 'one-column ;; Use only one column
+    ;;       completions-sort 'historical ;; Order based on minibuffer history
+    ;;       completions-max-height 20 ;; Limit completions to 15 (completions start at line 5)
+    ;;       completion-ignore-case t)
+    ;; (fido-vertical-mode)
+    ;; ;; (completion-preview-mode)
+
     ;; Add prompt indicator to `completing-read-multiple'.  We display
     ;; [CRM<separator>], e.g., [CRM,] if the separator is a comma.  This
     ;; is copied from the README of the `vertico' package.  I made some
@@ -55,11 +69,7 @@
                        'face 'error)
                       (car args))
               (cdr args)))
-    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
-    (file-name-shadow-mode 1)
-    (minibuffer-depth-indicate-mode 1)
-    (minibuffer-electric-default-mode 1))
+    (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
 
 (use-package imenu
     :ensure nil ;; emacs built-in
@@ -124,7 +134,8 @@
 (use-package orderless
     :custom
     (completion-styles '(orderless basic))
-    (completion-category-overrides '((file (styles basic partial-completion))))
+    (completion-category-defaults nil)
+    (completion-category-overrides '((file (styles partial-completion))))
     :init
     (setq orderless-component-separator " +")
     (setq orderless-matching-styles
@@ -139,12 +150,7 @@
 (use-package corfu
     :custom
     ((corfu-auto t)
-     (corf-auto-prefix 2)
-     ;; (corfu-auto-delay 0.0)
-     ;; (corfu-popupinfo-delay '(0.5 . 0.2))
-     ;; (corfu-preview-current 'insert) ; Do not preview current candidate
-     ;; (corfu-preselect 'prompt)
-     ;; (corfu-on-exact-match nil)      ; Don't auto expand tempel snippets
+     (corfu-auto-prefix 3)
      (corfu-quit-no-match t)
      (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
     :init

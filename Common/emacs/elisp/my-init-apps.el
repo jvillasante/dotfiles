@@ -160,6 +160,10 @@
     :disabled t
     :defer t)
 
+;; (use-package ledger-mode
+;;     :vc (:url "git@github.com:ledger/ledger-mode.git"
+;;               :rev :newest))
+
 ;; elfeed
 (use-package elfeed
     :defer t

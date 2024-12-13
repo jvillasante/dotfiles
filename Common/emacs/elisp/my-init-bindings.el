@@ -186,8 +186,9 @@
 
 (with-eval-after-load 'consult-dir
     (define-key global-map [remap list-directory] 'consult-dir)
-    (define-key vertico-map (kbd "C-c C-d") 'consult-dir)
-    (define-key vertico-map (kbd "C-c C-j") 'consult-dir-jump-file))
+    (with-eval-after-load 'vertico
+        (define-key vertico-map (kbd "C-c C-d") 'consult-dir)
+        (define-key vertico-map (kbd "C-c C-j") 'consult-dir-jump-file)))
 
 (with-eval-after-load 'embark
     (global-set-key (kbd "C-;") 'embark-act)         ;; pick some comfortable binding

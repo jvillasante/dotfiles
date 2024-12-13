@@ -383,6 +383,9 @@ fedora_install() {
                 # mail
                 sudo dnf install -y isync mu maildir-utils gnutls
 
+                # ledger (https://ledger-cli.org/)
+                sudo dnf install -y ledger
+
                 # ncdu (text-based disk usage viewer)
                 sudo dnf install -y ncdu
 
