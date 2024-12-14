@@ -1,6 +1,17 @@
 ;;; my-init-completion.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
+;; Minibuffer Completion:
+;;     vertico    - Frontend completion UI
+;;     orderless  - Backend completion style
+;;     consult    - Backend completion functions
+;;     marginalia - Annotations
+;;     embark     - Actions on completion buffer
+;; In-buffer Completion:
+;;     corfu     - Frontend completion UI
+;;     orderless - Backend completion style
+;;     cape      - Backend completion functions
+;;
 ;;; Code:
 
 (use-package emacs
@@ -121,9 +132,20 @@
 (use-package vertico
     :init
     (vertico-mode 1)
+    ;; (vertico-multiform-mode 1)
     :config
     (setq vertico-count 15)
     (setq vertico-resize nil)
+    ;; (setq vertico-multiform-commands
+    ;;       '((consult-line buffer)
+    ;;         (consult-line-thing-at-point buffer)
+    ;;         (consult-recent-file buffer)
+    ;;         (consult-mode-command buffer)
+    ;;         (consult-complex-command buffer)
+    ;;         (consult-locate buffer)
+    ;;         (consult-project-buffer buffer)
+    ;;         (consult-ripgrep buffer)
+    ;;         (consult-fd buffer)))
 
     ;; This works with `file-name-shadow-mode' enabled.  When you are in
     ;; a sub-directory and use, say, `find-file' to go to your home '~/'
@@ -135,7 +157,9 @@
     :custom
     (completion-styles '(orderless basic))
     (completion-category-defaults nil)
-    (completion-category-overrides '((file (styles partial-completion))))
+    (completion-category-overrides
+     '((file (styles partial-completion))
+       (eglot (styles orderless))))
     :init
     (setq orderless-component-separator " +")
     (setq orderless-matching-styles
@@ -254,9 +278,9 @@
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
-    :config
-    (setq marginalia-annotator-registry
-          (assq-delete-all 'file marginalia-annotator-registry))
+    ;; :config
+    ;; (setq marginalia-annotator-registry
+    ;;       (assq-delete-all 'file marginalia-annotator-registry))
     :hook (emacs-startup . marginalia-mode))
 
 ;; jinx : Enchanted Spell Checker
@@ -296,13 +320,12 @@
 ;; yasnippet : template system for Emacs
 (use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
-    :config
-    ;; The snippets-shim is only need when using `treesit-auto'
-    ;; (let ((snippets-shim (expand-file-name "yasnippet-treesitter-shim/snippets/" my/etc-dir)))
-    ;;     (when (file-directory-p snippets-shim)
-    ;;         (add-to-list 'yas-snippet-dirs snippets-shim)))
-    (yas-reload-all)
+    :config (yas-reload-all)
     :hook (after-init . yas-global-mode))
+
+;; yasnippet-capf
+(use-package yasnippet-capf
+    :after cape)
 
 ;; languagetool : multilingual grammar, style, and spell checker
 (use-package langtool

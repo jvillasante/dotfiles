@@ -413,6 +413,12 @@ Run this function at the post theme load phase, such as with the
                  '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
                    display-buffer-reuse-window))
 
+    ;; hide compilation buffer
+    ;; (add-to-list 'display-buffer-alist
+    ;;              '((major-mode . compilation-mode)
+    ;;                (display-buffer-no-window)
+    ;;                (allow-no-window . t)))
+
     ;; Info/Help windows
     (add-to-list 'display-buffer-alist
                  '((or (major-mode . Info-mode)
