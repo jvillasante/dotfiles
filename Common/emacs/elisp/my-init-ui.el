@@ -69,7 +69,7 @@
 ;; setup visual-line and auto-fill
 (setq visual-line-fringe-indicators
       '(left-curly-arrow right-curly-arrow))              ;; display line indication on fringe
-(setq-default fill-column 79)                             ;; Wrap lines at 79 characters
+(setq-default fill-column 80)                             ;; Wrap lines at 80 characters
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)          ;; auto-fill insert hard line breaks
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)      ;; ... visual-line-mode is much better
 ;; (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode) ;; ... fill column indication on prog-mode is nice
