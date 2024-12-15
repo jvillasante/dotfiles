@@ -73,6 +73,7 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
+    :disabled t
     :preface
     (defun my/eat-open (file)
         "Helper function to open files from eat terminal."
@@ -95,7 +96,6 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
     :preface
     (defun my/vterm-copy-mode-cancel ()
         (interactive)
@@ -106,18 +106,21 @@
         (let* ((default-directory (project-root (project-current t)))
                (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
                (vterm-buffer (get-buffer vterm-buffer-name)))
-            (if (and vterm-buffer (not current-prefix-arg))
-                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
-                (vterm))))
+            (vterm)))
     (defun my/vterm-project-other-window ()
         (interactive)
         (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
                (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
                (vterm-buffer (get-buffer vterm-buffer-name)))
-            (if (and vterm-buffer (not current-prefix-arg))
-                    (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
-                (vterm-other-window))))
+            (vterm-other-window)))
+    (defun my/vterm-project-other-window1 ()
+        (interactive)
+        (defvar vterm-buffer-name)
+        (let* ((default-directory (project-root (project-current t)))
+               (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+               (vterm-buffer (get-buffer vterm-buffer-name)))
+            (vterm-other-window)))
     :hook ((vterm-copy-mode . (lambda ()
                                   (set-buffer-modified-p (not (buffer-modified-p)))
                                   (force-mode-line-update))))
