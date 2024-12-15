@@ -770,13 +770,15 @@ fedora_install() {
                     local DOTFILES_DIR
                     DOTFILES_DIR="$HOME"/Workspace/Public/dotfiles/
 
-                    [[ ! -d "$DOTFILES_DIR"/Common/emacs/personal ]] &&
+                    [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d ]] &&
                         echo "Emacs personal configuration not found, exiting..." && usage 1
-                    [[ -d "$DOTFILES_DIR"/Common/emacs/personal/var ]] &&
-                        rm -rf "$DOTFILES_DIR"/Common/emacs/personal/var
-                    [[ -d "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter ]] &&
-                        rm -rf "$DOTFILES_DIR"/Common/emacs/personal/tree-sitter
-                    /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/personal
+                    [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache ]] &&
+                        rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache
+                    [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa ]] &&
+                        rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa
+                    [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter ]] &&
+                        rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
+                    /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/emacs.d
                 fi
 
                 read -rp "Emacs packages updated, do you want to start the systemd service now? (Y/N): " confirm
