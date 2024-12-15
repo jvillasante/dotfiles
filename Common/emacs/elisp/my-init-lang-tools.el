@@ -62,7 +62,8 @@
                     (remove #'flymake-eldoc-function eldoc-documentation-functions))))
     (defun my/maybe-start-eglot ()
         "Exlude some mode from eglot."
-        (let ((disabled-modes '(emacs-lisp-mode)))
+        (let ((disabled-modes '(emacs-lisp-mode
+                                cmake-mode)))
             (unless (apply 'derived-mode-p disabled-modes)
                 (eglot-ensure))))
     (defun my/eglot-clangd-find-other-file ()
