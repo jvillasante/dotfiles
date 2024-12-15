@@ -4,11 +4,9 @@
 ;;; Code:
 
 (use-package activities
-    :disabled t
     :init
     (activities-mode)
     (activities-tabs-mode)
-    ;; Prevent `edebug' default bindings from interfering.
     (setq edebug-inhibit-emacs-lisp-mode-bindings t)
 
     :bind
@@ -18,12 +16,13 @@
      ("C-x C-a C-s" . activities-suspend)
      ("C-x C-a C-k" . activities-kill)
      ("C-x C-a RET" . activities-switch)
-     ("C-x C-a b" . activities-switch-buffer)
-     ("C-x C-a g" . activities-revert)
-     ("C-x C-a l" . activities-list)))
+     ("C-x C-a b"   . activities-switch-buffer)
+     ("C-x C-a g"   . activities-revert)
+     ("C-x C-a l"   . activities-list)))
 
 ;; otpp : One tab per project, with unique names
 (use-package otpp
+    :disabled t
     :after tab-bar project
     :init
     ;; If you like to define some aliases for better user experience
