@@ -72,6 +72,12 @@ If region (BEG to END) is active, use the selected region as the symbol."
 
 ;;; OS
 
+(defun my/server-shutdown ()
+    "Save buffers, Quit, and Shutdown (kill) server"
+    (interactive)
+    (setq confirm-kill-emacs nil)
+    (save-buffers-kill-emacs))
+
 (defun my/macos-cmd-w ()
     "If there is only one tab, close EMACS, otherwise close one tab."
     (interactive)

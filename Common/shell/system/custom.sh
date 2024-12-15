@@ -72,7 +72,7 @@ if type emacs > /dev/null 2> /dev/null; then
     function emarkdown { emacsclient -c -a '' -F "((name . \"emacs-markdown\") (height . 30) (width . 80))" \
                                      --eval "(progn (my/new-scratch-buffer-in-markdown))"; }
     function eww       { emacsclient -c -a '' --eval "(eww-browse-url \"$*\")"; }
-    function ekill     { emacsclient --eval '(save-buffers-kill-emacs)'; }
+    function ekill     { emacsclient --eval '(progn (my/server-shutdown))'; }
     function estatus   { systemctl --user status emacs.service; }
     function edebug    { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
     function eminimal  { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal.emacs.d/ "$@"; }

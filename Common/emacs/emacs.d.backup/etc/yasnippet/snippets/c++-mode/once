@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: pragma once
+# key: once
+# --
+#pragma once

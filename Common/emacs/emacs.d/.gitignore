@@ -3,8 +3,8 @@
 
 # But not these files...
 !.gitignore
-!early-init.el
 !init.el
+!early-init.el
 !custom.el
 !/etc/
 !/etc/**
