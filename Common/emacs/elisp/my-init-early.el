@@ -178,7 +178,8 @@
     (progn ;; bookmarks
         (setq bookmark-default-file
               (expand-file-name "bookmarks.el" my/var-dir))
-        (setq bookmark-save-flag 1))
+        (setq bookmark-save-flag 1)
+        (setq bookmark-set-fringe-mark nil))
 
     (progn ;; make `save-some-buffers` show diff on demand
         (add-to-list 'save-some-buffers-action-alist
