@@ -266,6 +266,7 @@
             ;; Linux
             "http://dominique.leuenberger.net/blog/feed/rss/"
             ;; Misc
+            "https://cpp-rendering.io/feed/"
             "https://michaelneuper.com/index.xml"
             "https://world.hey.com/dhh/feed.atom"
             "https://susam.net/feed.xml"
