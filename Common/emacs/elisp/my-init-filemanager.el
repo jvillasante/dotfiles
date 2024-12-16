@@ -3,6 +3,8 @@
 ;;
 ;;; Code:
 
+;;; Dired
+
 ;; dired : built-in navigation of folders
 (use-package dired
     :ensure nil ;; emacs built-in
@@ -11,14 +13,16 @@
                             (dired-hide-details-mode)
                             (hl-line-mode))))
     :config
+    (setq dired-free-space nil
+          dired-deletion-confirmer 'y-or-n-p
+          dired-filter-verbose nil
+          dired-recursive-deletes 'top
+          dired-recursive-copies  'always
+          dired-create-destination-dirs 'ask)
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
-    (setq dired-recursive-copies 'always) ;; Never prompt for recursive copies of a directory
-    (setq dired-recursive-deletes 'always) ;; Never prompt for recursive deletes of a directory
     (setq dired-dwim-target t) ;; makes dired guess the target directory
     (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
     (setq dired-hide-details-hide-symlink-targets nil
-          ;; Ask whether destination dirs should get created when copying/removing files.
-          dired-create-destination-dirs 'ask
           ;; Disable the prompt about whether I want to kill the Dired buffer for a
           ;; deleted directory. Of course I do!
           dired-clean-confirm-killing-deleted-buffers nil)
