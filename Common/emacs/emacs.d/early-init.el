@@ -244,15 +244,14 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 (setq package-quickstart nil)
 (setq package-enable-at-startup t)
 (setq package-install-upgrade-built-in t)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+(setq package-archives '(("melpa"        . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+                         ("gnu"          . "https://elpa.gnu.org/packages/")
+                         ("nongnu"       . "https://elpa.nongnu.org/nongnu/")))
 (customize-set-variable 'package-archive-priorities '(("gnu"    . 99)
                                                       ("nongnu" . 80)
                                                       ("stable" . 70)
                                                       ("melpa"  . 0)))
-
 (provide 'early-init)
 
 ;;; early-init.el ends here
