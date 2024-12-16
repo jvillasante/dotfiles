@@ -6,22 +6,6 @@
 
 ;;; Variables
 
-(defvar my/ui-features '()
-    "List of user interface features to disable in minimal Emacs setup.
-
-This variable holds a list Emacs UI features that can be enabled:
-- `context-menu`: Enables the context menu in graphical environments.
-- `tool-bar`: Enables the tool bar in graphical environments.
-- `menu-bar`: Enables the menu bar in graphical environments.
-- `dialogs`: Enables both file dialogs and dialog boxes.
-- `tooltips`: Enables tooltips.
-
-Each feature in the list corresponds to a specific UI component that can be
-turned on.")
-
-(defvar my/frame-title-format "%b – Emacs"
-    "Template for displaying the title bar of visible and iconified frame.")
-
 (defvar my/debug nil
     "Non-nil to enable debug.")
 
@@ -35,9 +19,6 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 
 (defvar my/user-directory user-emacs-directory
     "The default value of the `user-emacs-directory' variable.")
-
-;; Ui features
-(setq my/ui-features '(context-menu))
 
 ;; Custom
 
@@ -207,22 +188,6 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
     ;; Deactivate the `native-compile' feature if it is not available
     (setq features (delq 'native-compile features)))
 
-;; ;;; Native compilation settings
-;; (when (featurep 'native-compile)
-;;     ;; Silence compiler warnings as they can be pretty disruptive
-;;     (defvar native-comp-async-report-warnings-errors)
-;;     (setq native-comp-async-report-warnings-errors 'silent)
-
-;;     ;; Set the right directory to store the native compilation cache
-;;     ;; NOTE the method for setting the eln-cache directory depends on the emacs version
-;;     (when (fboundp 'startup-redirect-eln-cache)
-;;         (if (version< emacs-version "29")
-;;                 (add-to-list 'native-comp-eln-load-path
-;;                              (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory)))
-;;             (startup-redirect-eln-cache
-;;              (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory)))))
-;;     (add-to-list 'native-comp-eln-load-path (expand-file-name "var/eln-cache/" user-emacs-directory)))
-
 ;; Suppress compiler warnings and don't inundate users with their popups.
 (setq native-comp-async-report-warnings-errors
       (or my/debug 'silent))
@@ -236,9 +201,6 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 
 ;;; UI elements
 
-(setq frame-title-format my/frame-title-format
-      icon-title-format my/frame-title-format)
-
 ;; Disable startup screens and messages
 (setq inhibit-splash-screen t)
 
@@ -247,10 +209,9 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 ;; a superfluous and potentially expensive frame redraw at startup, depending
 ;; on the window system. The variables must also be set to `nil' so users don't
 ;; have to call the functions twice to re-enable them.
-(unless (memq 'menu-bar my/ui-features)
-    (push '(menu-bar-lines . 0) default-frame-alist)
-    (unless (memq window-system '(mac ns))
-        (setq menu-bar-mode nil)))
+(push '(menu-bar-lines . 0) default-frame-alist)
+(unless (memq window-system '(mac ns))
+    (setq menu-bar-mode nil))
 
 (unless (daemonp)
     (unless noninteractive
@@ -263,9 +224,7 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
                 (advice-remove #'tool-bar-setup #'ignore)
                 (when tool-bar-mode
                     (tool-bar-setup))))))
-(unless (memq 'tool-bar my/ui-features)
-    (push '(tool-bar-lines . 0) default-frame-alist)
-    (setq tool-bar-mode nil))
+(push '(tool-bar-lines . 0) default-frame-alist)
 
 (push '(vertical-scroll-bars) default-frame-alist)
 (push '(horizontal-scroll-bars) default-frame-alist)
@@ -273,19 +232,17 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 (when (fboundp 'horizontal-scroll-bar-mode)
     (horizontal-scroll-bar-mode -1))
 
-(unless (memq 'tooltips my/ui-features)
-    (when (bound-and-true-p tooltip-mode)
-        (tooltip-mode -1)))
+(when (bound-and-true-p tooltip-mode)
+    (tooltip-mode -1))
 
 ;; Disable GUIs because they are inconsistent across systems, desktop
 ;; environments, and themes, and they don't match the look of Emacs.
-(unless (memq 'dialogs my/ui-features)
-    (setq use-file-dialog nil)
-    (setq use-dialog-box nil))
+(setq use-file-dialog nil)
+(setq use-dialog-box nil)
 
 ;;; package.el
-(setq package-enable-at-startup nil)
 (setq package-quickstart nil)
+(setq package-enable-at-startup t)
 (setq package-install-upgrade-built-in t)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")

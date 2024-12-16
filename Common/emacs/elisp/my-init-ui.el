@@ -111,6 +111,7 @@
                          (dired-directory
                           (concat dired-directory))
                          (t (buffer-name))))))
+(setq-default icon-title-format frame-title-format)
 
 ;; unique buffer names dependent on file name
 (use-package uniquify
