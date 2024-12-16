@@ -101,6 +101,7 @@ SSH_KEY_PATH="$HOME/.ssh/dsa_id" && export SSH_KEY_PATH
 
 # utils
 alias hex="od -Ax -tx1z -v"
+# shellcheck disable=SC2032
 alias ls="ls --group-directories-first --color=auto"
 alias ll="ls -AlFh --group-directories-first --color=auto"
 alias cp="cp -iv"
