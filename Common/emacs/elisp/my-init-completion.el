@@ -65,7 +65,7 @@
     ;;       completions-max-height 20 ;; Limit completions to 15 (completions start at line 5)
     ;;       completion-ignore-case t)
     ;; (fido-vertical-mode)
-    ;; ;; (completion-preview-mode)
+    ;; (completion-preview-mode)
 
     ;; Add prompt indicator to `completing-read-multiple'.  We display
     ;; [CRM<separator>], e.g., [CRM,] if the separator is a comma.  This

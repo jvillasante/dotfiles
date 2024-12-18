@@ -34,7 +34,9 @@
 (defalias 'kmacro-insert-macro 'insert-kbd-macro)
 (define-key kmacro-keymap (kbd "I") #'kmacro-insert-macro)
 
-;; the mark ring
+;; Make Emacs repeat the C-u C-SPC command (`set-mark-command') by
+;; following it up with another C-SPC.  It is faster to type
+;; C-u C-SPC, C-SPC, C-SPC, than C-u C-SPC, C-u C-SPC, C-u C-SPC...
 (setq-default set-mark-command-repeat-pop t)
 
 ;; enable repeat-mode if available, see: `describe-repeat-maps'

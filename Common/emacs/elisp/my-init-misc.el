@@ -271,6 +271,9 @@
     :init
     (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
+;; deadgrep : the fast, beautiful text search that your Emacs deserves.
+;; (use-package deadgrep)
+
 ;; wgrep : edit grep results
 (use-package wgrep)
 
