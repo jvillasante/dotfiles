@@ -56,17 +56,6 @@
     (minibuffer-depth-indicate-mode 1)
     (minibuffer-electric-default-mode 1)
 
-    ;; emacs default completion
-    ;; (setf completion-styles '(basic flex)
-    ;;       completion-auto-select t ;; Show completion on first call
-    ;;       completion-auto-help 'visible ;; Display *Completions* upon first request
-    ;;       completions-format 'one-column ;; Use only one column
-    ;;       completions-sort 'historical ;; Order based on minibuffer history
-    ;;       completions-max-height 20 ;; Limit completions to 15 (completions start at line 5)
-    ;;       completion-ignore-case t)
-    ;; (fido-vertical-mode)
-    ;; (completion-preview-mode)
-
     ;; Add prompt indicator to `completing-read-multiple'.  We display
     ;; [CRM<separator>], e.g., [CRM,] if the separator is a comma.  This
     ;; is copied from the README of the `vertico' package.  I made some
@@ -81,6 +70,44 @@
                       (car args))
               (cdr args)))
     (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
+
+;; emacs default completion
+(use-package icomplete
+    :disabled t
+    :ensure nil ;; emacs built-in
+    :bind
+    (:map icomplete-minibuffer-map
+          ("C-n" . icomplete-forward-completions)
+          ("C-p" . icomplete-backward-completions)
+          ("C-v" . icomplete-vertical-toggle)
+          ("RET" . icomplete-force-complete-and-exit))
+    :hook
+    (after-init . (lambda ()
+                      (fido-mode -1)
+                      (icomplete-mode 1)
+                      (icomplete-vertical-mode 1)
+                      (completion-preview-mode 1)))
+    :config
+    (setf completion-styles '(basic flex)
+          completion-auto-select t ;; Show completion on first call
+          completion-auto-help 'visible ;; Display *Completions* upon first request
+          completions-format 'one-column ;; Use only one column
+          completions-sort 'historical ;; Order based on minibuffer history
+          completions-max-height 20 ;; Limit completions to 15 (completions start at line 5)
+          completion-ignore-case t)
+    (setq tab-always-indent 'complete)  ;; Starts completion with TAB
+    (setq icomplete-delay-completions-threshold 0)
+    (setq icomplete-compute-delay 0)
+    (setq icomplete-show-matches-on-no-input t)
+    (setq icomplete-hide-common-prefix nil)
+    (setq icomplete-prospects-height 10)
+    (setq icomplete-separator " . ")
+    (setq icomplete-with-completion-tables t)
+    (setq icomplete-in-buffer t)
+    (setq icomplete-max-delay-chars 0)
+    (setq icomplete-scroll t)
+    (advice-add 'completion-at-point
+                :after #'minibuffer-hide-completions))
 
 (use-package imenu
     :ensure nil ;; emacs built-in
@@ -136,17 +163,6 @@
     :config
     (setq vertico-count 15)
     (setq vertico-resize nil)
-    ;; (setq vertico-multiform-commands
-    ;;       '((consult-line buffer)
-    ;;         (consult-line-thing-at-point buffer)
-    ;;         (consult-recent-file buffer)
-    ;;         (consult-mode-command buffer)
-    ;;         (consult-complex-command buffer)
-    ;;         (consult-locate buffer)
-    ;;         (consult-project-buffer buffer)
-    ;;         (consult-ripgrep buffer)
-    ;;         (consult-fd buffer)))
-
     ;; This works with `file-name-shadow-mode' enabled.  When you are in
     ;; a sub-directory and use, say, `find-file' to go to your home '~/'
     ;; or root '/' directory, Vertico will clear the old path to keep
