@@ -1,33 +1,6 @@
 #
 # Gmail (jvillasantegomez@gmail.com)
 #
-# IMAPAccount gmail
-# Host imap.gmail.com
-# User jvillasantegomez@gmail.com
-# PassCmd "pass show Apps/mu4e-gmail | head -n1"
-# Port 993
-# SSLType IMAPS
-# AuthMechs *
-# CertificateFile /etc/ssl/certs/ca-certificates.crt
-
-# IMAPStore gmail-remote
-# Account gmail
-
-# MaildirStore gmail-local
-# SubFolders Verbatim
-# Path ~/.mail/gmail/
-# Inbox ~/.mail/gmail/INBOX
-
-# Channel gmail
-# Far :gmail-remote:
-# Near :gmail-local:
-# Patterns *
-# Create Near
-# Sync All
-# Expunge Both
-# SyncState *
-
-#########
 
 IMAPAccount Gmail
 Host imap.gmail.com
@@ -96,31 +69,6 @@ Channel Gmail-drafts
 #
 # iCloud
 #
-# IMAPAccount icloud
-# Host imap.mail.me.com
-# User julio.villasante@icloud.com
-# PassCmd "pass show Apps/mu4e-icloud | head -n1"
-# Port 993
-# SSLType IMAPS
-# AuthMechs *
-# CertificateFile /etc/ssl/certs/ca-certificates.crt
-
-# IMAPStore icloud-remote
-# Account icloud
-
-# MaildirStore icloud-local
-# SubFolders Verbatim
-# Path ~/.mail/icloud/
-# Inbox ~/.mail/icloud/INBOX
-
-# Channel icloud
-# Far :icloud-remote:
-# Near :icloud-local:
-# Patterns *
-# Create Near
-# Sync All
-# Expunge Both
-# SyncState *
 
 IMAPAccount Apple
 Host imap.mail.me.com
@@ -162,18 +110,8 @@ Channel Apple-sent
 Channel Apple-all
 
 #
-# Outlook
+# Omicron (Outlook)
 #
-# IMAPAccount Outlook
-# Host outlook.office365.com
-# User julio.villasante@omicronmedia.com
-# # PassCmd "mutt_oauth2.py -t ~/.password-store/Work/Omicron/mu4e-microsoft.gpg"
-# PassCmd "oama access julio.villasante@omicronmedia.com"
-# Port 993
-# SSLType IMAPS
-# SSLVersions TLSv1.1 TLSv1.2
-# AuthMechs XOAUTH2
-# # AuthMechs PLAIN
 
 IMAPAccount Omicron
 Host outlook.office365.com
