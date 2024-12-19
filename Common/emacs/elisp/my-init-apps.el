@@ -193,34 +193,22 @@
                    (window-height . 0.85)))
     ;; feeds
     (setq elfeed-feeds
-          '(;; General
-            ;; "http://feeds.bbci.co.uk/news/rss.xml" ; BBC News
-            ;; ycombinator
-            "https://news.ycombinator.com/rss"
+          '(;; News
+            ("http://feeds.bbci.co.uk/news/rss.xml" news bbc)
+            ("https://news.ycombinator.com/rss" news ycombinator)
             ;; VPN
-            "https://mullvad.net/blog/feed/atom"
-            ;; Emacs
-            "https://planet.emacslife.com/atom.xml"
-            "http://www.terminally-incoherent.com/blog/feed"
-            "http://nullprogram.com/feed"
-            "http://fasciism.com/feed.xml"
-            "https://protesilaos.com/master.xml"
-            "https://jeffbowman.writeas.com/feed/"
-            "https://www.masteringemacs.org/feed"
-            "https://irreal.org/blog/?feed=rss2"
-            "https://olddeuteronomy.github.io/index.xml"
-            "https://bzoltan1.github.io/index.xml"
-            "https://systemcrafters.net/rss/news.xml"
-            ;; Embedded
-            "http://www.embeddedrelated.com/blogs_rss.php"
+            ("https://mullvad.net/blog/feed/atom" vpn mullvad)
+            ;; EMACS
+            ("https://planet.emacslife.com/atom.xml" emacs)
+            ("https://protesilaos.com/master.xml" emacs)
+            ("https://www.masteringemacs.org/feed" emacs)
+            ("https://irreal.org/blog/?feed=rss2" emacs misc)
+            ("https://systemcrafters.net/rss/news.xml" emacs craft)
             ;; C++
-            "https://isocpp.org/blog/rss"
-            "http://arne-mertz.de/feed/"
-            "http://herbsutter.com/feed/"
-            "http://feeds.feedburner.com/CppSoup"
-            "http://feeds.feedburner.com/CppTruths"
-            "http://www.drdobbs.com/articles/cpp/rss"
-            "http://scottmeyers.blogspot.com/feeds/posts/default"
+            ("https://isocpp.org/blog/rss" C++ ISO)
+            ("http://arne-mertz.de/feed/" C++)
+            ("http://herbsutter.com/feed/" C++)
+            ("http://scottmeyers.blogspot.com/feeds/posts/default" C++)
             "http://bartoszmilewski.com/feed/"
             "https://akrzemi1.wordpress.com/feed/"
             "https://www.fayewilliams.com/feed/"
@@ -254,10 +242,10 @@
             "http://bajamircea.github.io/feed.xml"
             "https://orodu.net/feed.xml"
             ;; Golang
-            "https://blog.golang.org/feed.atom"
+            ("https://blog.golang.org/feed.atom" golang)
             ;; Rust
-            "https://blog.rust-lang.org/feed.xml"
-            "https://readrust.net/all/feed.rss"
+            ("https://blog.rust-lang.org/feed.xml" rust)
+            ("https://readrust.net/all/feed.rss" rust)
             "http://www.integer32.com/feed.xml"
             "https://ehsanmkermani.com/feed/"
             "https://www.jameselford.com/rss.xml"
@@ -270,14 +258,12 @@
             "https://michaelneuper.com/index.xml"
             "https://world.hey.com/dhh/feed.atom"
             "https://susam.net/feed.xml"
-            "https://mazzo.li/rss.xml"
             "https://neil.computer/rss"
             "https://chandlerc.blog/index.xml"
             "https://sqrtminusone.xyz/posts/index.xml"
             "https://blog.orhun.dev/rss.xml"
             "https://ibob.bg/feed.xml"
             "https://rigtorp.se/index.xml"
-            "http://www.norvig.com/rss-feed.xml"
             "http://eli.thegreenplace.net/feeds/all.atom.xml"
             "https://www.murrayc.com/feed/"
             "https://gendignoux.com/blog/feed.xml"
@@ -293,13 +279,32 @@
             "https://unixsheikh.com/feed.rss"
             "https://michal.sapka.me/index.xml"
             "https://borretti.me/feed.xml"
-            "https://fabiensanglard.net/rss.xml"
             "http://somethingfast.net/feed.rss.xml"
             "https://www.tedinski.com/feed.xml"
-            "https://matklad.github.io/feed.xml"
             "https://unixism.net/feed/"
             "https://thelinuxcode.com/feed/"
-            "https://selfboot.cn/en/atom.xml")))
+            "https://selfboot.cn/en/atom.xml"
+            ;; More
+            ("https://mazzo.li/rss.xml" c low-level unix)
+            ("https://simblob.blogspot.com/feeds/posts/default" gamedev math algorithms)
+            ("https://box2d.org/posts/index.xml" gamedev math algorithms)
+            ("https://davidgomes.com/rss/")
+            ("https://fabiensanglard.net/rss.xml" retrogaming)
+            ("https://ferd.ca/feed.rss" distsys)
+            ("https://blog.singleton.io/index.xml")
+            ("https://johnnysswlab.com/feed/" cpp performance)
+            ("https://jvns.ca/atom.xml" webdev)
+            ("https://matklad.github.io/feed.xml" low-level programming)
+            ("https://jonathan-frere.com/index.xml" programming)
+            ("https://notes.eatonphil.com/rss.xml" distsys programming)
+            ("https://samwho.dev/blog" programming visualization)
+            ("https://wingolog.org/feed/atom" compilers guile scheme)
+            ("https://jakelazaroff.com/rss.xml" webdev)
+            ("https://www.localfirstnews.com/rss/" local-first)
+            ("https://www.internalpointers.com/rss" networking concurrency)
+            ("https://hazelweakly.me/rss.xml" observability)
+            ("https://norvig.com/rss-feed.xml" software)
+            ("https://pythonspeed.com/atom.xml" python))))
 
 (provide 'my-init-apps)
 ;;; my-init-apps.el ends here
