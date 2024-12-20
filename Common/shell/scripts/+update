@@ -113,7 +113,7 @@ emacs_update() {
         echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
 
     # Stop the service
-    emacsclient --eval '(save-buffers-kill-emacs)'
+    emacsclient --eval '(progn (setq confirm-kill-emacs nil) (save-buffers-kill-emacs))'
     systemctl --user stop emacs.service
 
     # Prepare git repo
@@ -141,11 +141,11 @@ emacs_update() {
         --with-tree-sitter \
         --with-mailutils \
         CFLAGS="-O3 -fno-math-errno -funsafe-math-optimizations -fno-finite-math-only -fno-trapping-math \
-                  -freciprocal-math -fno-rounding-math -fno-signaling-nans \
-                  -fassociative-math -fno-signed-zeros -frename-registers -funroll-loops \
-                  -mtune=native -march=native -fomit-frame-pointer \
-                  -fallow-store-data-races -fno-semantic-interposition -floop-parallelize-all \
-                  -ftree-parallelize-loops=4"
+                -freciprocal-math -fno-rounding-math -fno-signaling-nans \
+                -fassociative-math -fno-signed-zeros -frename-registers -funroll-loops \
+                -mtune=native -march=native -fomit-frame-pointer \
+                -fallow-store-data-races -fno-semantic-interposition -floop-parallelize-all \
+                -ftree-parallelize-loops=4"
     make -j"$(nproc --ignore=2)"
     sudo make install
 
@@ -176,6 +176,7 @@ emacs_update() {
         systemctl --user enable emacs.service
         test $? -eq 0 || usage 1
 
+        systemctl --user stop emacs.service
         systemctl --user start emacs.service
         test $? -eq 0 || usage 1
 

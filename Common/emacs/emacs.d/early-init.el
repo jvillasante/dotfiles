@@ -204,6 +204,13 @@ When set to non-nil, Emacs will automatically call `package-initialize' and
 ;; Disable startup screens and messages
 (setq inhibit-splash-screen t)
 
+;; some default-frame-alist
+(push '(width . 170) default-frame-alist)
+(push '(height . 50) default-frame-alist)
+(push '(mouse-color . "white") default-frame-alist)
+(push '(bottom-divider-width . 0) default-frame-alist)
+(push '(right-divider-width . 1) default-frame-alist)
+
 ;; I intentionally avoid calling `menu-bar-mode', `tool-bar-mode', and
 ;; `scroll-bar-mode' because manipulating frame parameters can trigger or queue
 ;; a superfluous and potentially expensive frame redraw at startup, depending

@@ -364,6 +364,23 @@ Run this function at the post theme load phase, such as with the
     :custom ((which-key-idle-delay 1)
              (which-key-popup-type 'minibuffer)))
 
+(use-package window
+    :ensure nil
+    :preface
+    (defun my/hsplit-last-buffer ()
+        "Focus to the last created horizontal window."
+        (interactive)
+        (split-window-below)
+        (other-window 1))
+    (defun my/vsplit-last-buffer ()
+        "Focus to the last created vertical window."
+        (interactive)
+        (split-window-right)
+        (other-window 1))
+    :config
+    (global-set-key (kbd "C-x 2") #'my/vsplit-last-buffer)
+    (global-set-key (kbd "C-x 3") #'my/hsplit-last-buffer))
+
 ;; anzu : displays current match and total matches information in the mode-line in various search modes.
 (use-package anzu
     :init (global-anzu-mode +1)
