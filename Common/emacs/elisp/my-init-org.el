@@ -52,6 +52,7 @@
     (setq org-startup-folded t)
     (setq org-use-fast-todo-selection 'expert)
     (setq org-M-RET-may-split-line '((item . nil)))
+    (setq org-confirm-babel-evaluate nil)
 
     ;; Return or left-click with mouse follows link
     (setq org-return-follows-link t)
