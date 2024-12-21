@@ -284,9 +284,12 @@
 
 ;;; User stuff
 (use-package compile-angel
-    :ensure t
     :demand t
+    :custom
+    (compile-angel-verbose nil)
     :config
+    ;; (setq compile-angel-excluded-files-regexps '("/\\.dir-config\\.el$"
+    ;;                                              "/\\.dir-locals\\.el$"))
     (compile-angel-on-load-mode)
     (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
 
