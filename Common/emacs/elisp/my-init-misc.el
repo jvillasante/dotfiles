@@ -234,6 +234,19 @@
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (use-package crux)
 
+;; scratch : create scratch buffers
+(use-package scratch
+    :hook ((org-mode . (lambda ()
+                           (when scratch-buffer
+                               (save-excursion
+                                   (goto-char (point-min))
+                                   (insert "#+TITLE: Scratch\n\n")))))
+           (markdown-mode . (lambda ()
+                                (when scratch-buffer
+                                    (save-excursion
+                                        (goto-char (point-min))
+                                        (insert "# Scratch\n\n")))))))
+
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
     :ensure nil ;; emacs built-in

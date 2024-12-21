@@ -367,19 +367,19 @@ Run this function at the post theme load phase, such as with the
 (use-package window
     :ensure nil
     :preface
-    (defun my/hsplit-last-buffer ()
+    (defun my/split-window-below ()
         "Focus to the last created horizontal window."
         (interactive)
         (split-window-below)
         (other-window 1))
-    (defun my/vsplit-last-buffer ()
+    (defun my/split-window-right ()
         "Focus to the last created vertical window."
         (interactive)
         (split-window-right)
         (other-window 1))
     :config
-    (global-set-key (kbd "C-x 2") #'my/vsplit-last-buffer)
-    (global-set-key (kbd "C-x 3") #'my/hsplit-last-buffer))
+    (global-set-key (kbd "C-x 2") #'my/split-window-below)
+    (global-set-key (kbd "C-x 3") #'my/split-window-right))
 
 ;; anzu : displays current match and total matches information in the mode-line in various search modes.
 (use-package anzu

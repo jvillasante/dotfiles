@@ -22,10 +22,10 @@
            monkeytype multiple-cursors nadvice nov ntlm orderless org
            org-superstar password-store pdf-view-restore peg persistent-scratch
            php-mode project python rainbow-delimiters request rmsbolt rust-mode
-           seq shrink-path so-long soap-client surround svg track-changes tramp
-           use-package verb verilog-mode vertico vterm web-mode wgrep which-key
-           window-tool-bar xref yaml-mode yasnippet-capf yasnippet-snippets
-           zig-mode))
+           scratch seq shrink-path so-long soap-client surround svg
+           track-changes tramp use-package verb verilog-mode vertico vterm
+           web-mode wgrep which-key window-tool-bar xref yaml-mode
+           yasnippet-capf yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel-quick :url "git@github.com:karthink/gptel-quick.git")
            (eglot-booster :url "git@github.com:jdtsmith/eglot-booster.git")

@@ -465,7 +465,6 @@
     (global-set-key (kbd "C-c o f") 'elfeed))
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o i") 'ielm)
-(global-set-key (kbd "C-c o m") 'my/new-scratch-buffer-in-markdown)
 (global-set-key (kbd "C-c o b") 'my/open-link-at-point-or-minibuffer-with-choice)
 
 ;; C-c l : lookup
