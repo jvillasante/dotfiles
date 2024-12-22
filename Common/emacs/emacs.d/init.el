@@ -5,7 +5,6 @@
 ;;; Code:
 
 ;;; package.el
-;; Initialize and refresh package contents again if needed
 (require 'package)
 (package-initialize)
 (when (< emacs-major-version 29)
