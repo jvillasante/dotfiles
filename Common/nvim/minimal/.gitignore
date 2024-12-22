@@ -4,5 +4,7 @@
 # But not these files...
 !.gitignore
 !init.lua
+!lazy-lock.json
+!stylua.toml
 !/lua/
 !/lua/**

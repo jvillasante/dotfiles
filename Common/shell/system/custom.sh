@@ -83,7 +83,6 @@ type vim > /dev/null 2>&1 && alias vi=vim
 if type nvim > /dev/null 2>&1; then
     alias vim=nvim
     alias nvim='NVIM_APPNAME="nvim-minimal/" nvim'
-    # alias nvim='NVIM_APPNAME="nvim-lazy/" nvim'
 fi
 
 # gpg
