@@ -26,8 +26,9 @@
 ;; Rebind C-z
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
+
+;; Repeat in emacs is not as good as vim :(
 (global-set-key (kbd "C-.") 'repeat)
-(global-set-key (kbd "C-x C-z") 'repeat)
 
 ;; really kill emacs even on `emacsclient'
 (global-set-key (kbd "C-x C-S-c") 'save-buffers-kill-emacs)
