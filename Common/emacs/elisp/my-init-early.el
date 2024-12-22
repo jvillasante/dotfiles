@@ -88,7 +88,6 @@
 (setq completions-detailed t) ; Detailed description for the built in describe symbol etc
 (column-number-mode t) ; Display column numbers in the status line
 (size-indication-mode t) ; Display size indication
-(delete-selection-mode +1) ; If text is selected, we expect that typing will replace the selection
 (setq show-paren-mode +1 ; Highlight the matching parenthessi
       show-paren-delay 0.1
       show-paren-highlight-openparen t
@@ -115,6 +114,11 @@
 
 ;; s.el : The long lost Emacs string manipulation library.
 (use-package s)
+
+;; delsel : delete selection if you insert
+(use-package delsel
+    :ensure nil ; emacs built-in
+    :hook (after-init . delete-selection-mode))
 
 ;; backups and auto-save
 (require 'my-utils)

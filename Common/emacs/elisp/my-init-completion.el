@@ -71,6 +71,15 @@
               (cdr args)))
     (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
 
+;; uniquify : Making Buffer Names Unique
+(use-package uniquify
+    :ensure nil ; emacs built-in
+    :custom
+    (uniquify-buffer-name-style 'reverse)
+    (uniquify-separator " - ")
+    (uniquify-after-kill-buffer-p t)
+    (uniquify-ignore-buffers-re "^\\*"))
+
 ;; emacs default completion
 (use-package icomplete
     :disabled t
@@ -192,15 +201,20 @@
     ((corfu-auto t)
      (corfu-auto-prefix 3)
      (corfu-quit-no-match t)
+     (corfu-preview-current nil)
+     (corfu-min-width 20)
+     (corfu-popupinfo-delay '(1.25 . 0.5))
      (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
-    :init
-    (add-hook 'eshell-mode-hook
-              (lambda ()
-                  (setq-local corfu-auto nil)
-                  (corfu-mode)))
-    (global-corfu-mode)
-    (corfu-history-mode)
-    (corfu-popupinfo-mode))
+    :bind (:map corfu-map ("<tab>" . corfu-complete))
+    :hook ((after-init . (lambda ()
+                             (global-corfu-mode)
+                             (corfu-popupinfo-mode)
+                             (with-eval-after-load 'savehist
+                                 (corfu-history-mode 1)
+                                 (add-to-list 'savehist-additional-variables 'corfu-history))))
+           (eshell-mode . (lambda ()
+                              (setq-local corfu-auto nil)
+                              (corfu-mode)))))
 
 (use-package cape
     :init
