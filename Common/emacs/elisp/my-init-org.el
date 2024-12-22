@@ -131,19 +131,6 @@
     ;;                                ?\N{CIRCLED NUMBER TWELVE})))
     (setq org-superstar-special-todo-items t))
 
-;; deft : plain text notes
-(use-package deft
-    :custom ((deft-directory (expand-file-name "Apps/org/notes" my/dropbox-path))
-             (deft-extensions '("org" "md" "txt"))
-             (deft-default-extension "org")
-             (deft-recursive nil)
-             (deft-use-filename-as-title nil)
-             (deft-use-filter-string-for-filename t)
-             (deft-file-naming-rules '((noslash . "-")
-                                       (nospace . "-")
-                                       (case-fn . downcase)))
-             (deft-auto-save-interval 0)))
-
 ;; verb :: allows you to organize and send HTTP requests.
 (use-package verb
     :after org)

@@ -285,6 +285,15 @@
     :after consult
     :bind (("C-," . consult-xref-stack-backward)))
 
+;; consult-notes : select notes via consult
+(use-package consult-notes
+    :after consult
+    :config
+    ;; (expand-file-name "Apps/org/notes" my/dropbox-path)
+    (setq consult-notes-file-dir-sources
+          `(("Org"       ?o ,(expand-file-name "Apps/org" my/dropbox-path))
+            ("Org Notes" ?n ,(expand-file-name "Apps/org/notes" my/dropbox-path)))))
+
 (use-package embark
     :init
     ;; Optionally replace the key help with a completing-read interface

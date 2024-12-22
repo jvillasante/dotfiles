@@ -456,8 +456,7 @@
     (define-key flymake-mode-map (kbd "C-c c E") 'flymake-show-project-diagnostics))
 
 ;; C-c n : Notes
-(global-set-key (kbd "C-c n d") 'deft-find-file)
-(global-set-key (kbd "C-c n D") 'deft)
+(global-set-key (kbd "C-c n o") 'consult-notes)
 (global-set-key (kbd "C-c n a") 'org-agenda)
 
 ;; C-c o : Open
