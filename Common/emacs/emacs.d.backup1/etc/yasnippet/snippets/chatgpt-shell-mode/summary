@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: Concise Summary
-# key: gptsum
-# --
-<text>$1</text>
-
-Provide a concise summary of the above text within <text> tags.
-$0

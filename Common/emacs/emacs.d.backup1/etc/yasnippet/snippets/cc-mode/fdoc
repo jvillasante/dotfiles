@@ -1,8 +1,0 @@
-# key: fdoc
-# name: file documentation comment
-# --
-/**
- * File: $0
- * ----------------------------
- * ${1:Description}
- */
