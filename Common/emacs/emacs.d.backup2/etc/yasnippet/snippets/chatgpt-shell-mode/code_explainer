@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: Code Explainer
+# key: gptce
+# --
+Explain the following code:
+`(yank)`
+
+In particular:
+  - Step-by-step, what does it do?
+  - What are the parameters?
+  - Are there any other noteworthy features of this code?
+
+Answer concisely.
+$0

@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: diagnostic ignore
+# key: dignore
+# --
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "$0"
+#pragma GCC diagnostic pop

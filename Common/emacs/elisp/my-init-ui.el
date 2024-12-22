@@ -415,11 +415,11 @@ Run this function at the post theme load phase, such as with the
     (setq switch-to-buffer-in-dedicated-window 'pop)
     (setq switch-to-buffer-obey-display-actions t)
 
-    ;; do not show warnings
-    ;; (add-to-list 'display-buffer-alist
-    ;;              '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
-    ;;                (display-buffer-no-window)
-    ;;                (allow-no-window . t)))
+    ;; do not show native-compilation warning/log
+    (add-to-list 'display-buffer-alist
+                 '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
+                   (display-buffer-no-window)
+                   (allow-no-window . t)))
 
     ;; do not show async shell command window
     (add-to-list 'display-buffer-alist
@@ -434,7 +434,7 @@ Run this function at the post theme load phase, such as with the
 
     ;; several buffers that should not pop new windows
     (add-to-list 'display-buffer-alist
-                 '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\|[Cc]ompilation\\)\\*"
+                 '("\\*\\(Backtrace\\|Messages\\|[Cc]ompilation\\)\\*"
                    display-buffer-reuse-window))
 
     ;; hide compilation buffer
@@ -451,9 +451,7 @@ Run this function at the post theme load phase, such as with the
                        (major-mode . Man-mode)
                        (major-mode . woman-mode))
                    (display-buffer-reuse-mode-window
-                    display-buffer-pop-up-window)
-                   ;; (inhibit-same-window . t)
-                   )))
+                    display-buffer-pop-up-window))))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here
