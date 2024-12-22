@@ -59,9 +59,6 @@
 (global-set-key (kbd "M-Q") 'my/unfill-paragraph)
 (global-set-key (kbd "C-M-Q") 'my/unfill-region)
 
-;; folding
-(define-key hs-minor-mode-map [remap hs-toggle-hiding] 'my/hs-toggle-hidding)
-
 ;; prog-mode
 (with-eval-after-load 'prog-mode
     (define-key emacs-lisp-mode-map (kbd "C-h .") 'helpful-at-point)

@@ -9,14 +9,7 @@
 ;; hideshow : code folding
 (use-package hideshow
     :ensure nil ;; emacs built-in
-    :preface
-    (defun my/hs-toggle-hidding ()
-        (interactive)
-        (save-excursion
-            (end-of-line)
-            (hs-toggle-hiding)))
-    :init
-    (add-hook 'prog-mode-hook 'hs-minor-mode))
+    :hook (prog-mode . hs-minor-mode))
 
 ;; subword-mode
 (use-package subword
