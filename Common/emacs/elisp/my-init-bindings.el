@@ -15,7 +15,11 @@
 (global-set-key (kbd "C-x k") 'kill-current-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
 (global-set-key (kbd "C-x S") 'my/save-all) ; save some buffers without prompt
-(global-set-key (kbd "C-x C-o") 'ff-find-other-file) ; useful for C/C++ finding header/impl files
+
+;; useful for C/C++ finding header/impl files (override with eglot)
+(global-set-key (kbd "C-x C-o") 'ff-find-other-file)
+(with-eval-after-load 'c-ts-mode
+    (define-key c-ts-base-mode-map (kbd "C-x C-o") 'my/eglot-clangd-find-other-file))
 
 ;; Use Ctrl+arrow keys to move between windows.
 (windmove-default-keybindings 'control)
@@ -393,19 +397,14 @@
     (define-key copilot-completion-map (kbd "TAB")   'copilot-accept-completion))
 
 (with-eval-after-load 'pdf-tools
-    ;; (define-key pdf-view-mode-map (kbd "q") nil)
+    (define-key pdf-view-mode-map (kbd "q") nil)
     (define-key pdf-view-mode-map (kbd "o") 'pdf-outline))
 
 (with-eval-after-load 'nov
-    ;; (define-key nov-mode-map (kbd "q") nil)
-    )
+    (define-key nov-mode-map (kbd "q") nil))
 
 (when (package-installed-p 'docker)
     (global-set-key (kbd "C-c o d") 'docker))
-
-;; override `C-x C-o' with eglot support
-(with-eval-after-load 'c-ts-mode
-    (define-key c-ts-base-mode-map (kbd "C-x C-o") 'my/eglot-clangd-find-other-file))
 
 ;;; Prefix
 ;; C-c f : find
@@ -453,13 +452,12 @@
     (define-key flymake-mode-map (kbd "C-c c e") 'flymake-show-buffer-diagnostics)
     (define-key flymake-mode-map (kbd "C-c c E") 'flymake-show-project-diagnostics))
 
-;; C-c n : Notes
-(global-set-key (kbd "C-c n o") 'consult-notes)
-(global-set-key (kbd "C-c n a") 'org-agenda)
-
 ;; C-c o : Open
 (when (package-installed-p 'elfeed)
     (global-set-key (kbd "C-c o f") 'elfeed))
+(when (package-installed-p 'consult-notes)
+    (global-set-key (kbd "C-c o n") 'consult-notes))
+(global-set-key (kbd "C-c o a") 'org-agenda)
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o i") 'ielm)
 (global-set-key (kbd "C-c o b") 'my/open-link-at-point-or-minibuffer-with-choice)
