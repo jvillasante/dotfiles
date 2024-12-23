@@ -74,8 +74,9 @@ if type emacs > /dev/null 2> /dev/null; then
     function eww       { emacsclient -c -a '' --eval "(eww-browse-url \"$*\")"; }
     function ekill     { emacsclient --eval '(progn (my/server-shutdown))'; }
     function estatus   { systemctl --user status emacs.service; }
-    function edebug    { emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
-    # function eminimal  { emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal.emacs.d/ "$@"; }
+    function emacs     { /usr/local/bin/emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
+    function edebug    { /usr/local/bin/emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
+    function eminimal  { /usr/local/bin/emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ -Q "$@"; }
 fi
 
 # vim
