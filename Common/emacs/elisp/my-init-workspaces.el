@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package activities
+    :disabled t
     :init
     (activities-mode)
     (activities-tabs-mode)
@@ -21,7 +22,6 @@
 
 ;; otpp : One tab per project, with unique names
 (use-package otpp
-    :disabled t
     :after tab-bar project
     :init
     ;; If you like to define some aliases for better user experience
