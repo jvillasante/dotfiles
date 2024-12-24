@@ -9,6 +9,21 @@
 (defvar my/user-directory user-emacs-directory
     "The default value of the `user-emacs-directory' variable.")
 
+(defvar my/emacs-gc-cons-threshold (* 16 1024 1024)
+    "The value of `gc-cons-threshold' after Emacs startup.")
+
+;;; Startup and garbage collection
+
+(setq gc-cons-threshold most-positive-fixnum)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+              (setq gc-cons-threshold my/emacs-gc-cons-threshold)
+              (message "Emacs loaded in %s with %d garbage collections."
+                       (format "%.2f seconds"
+                               (float-time
+                                (time-subtract after-init-time before-init-time)))
+                       gcs-done)))
+
 ;; Custom
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file :no-error-if-file-is-missing)
