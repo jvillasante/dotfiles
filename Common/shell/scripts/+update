@@ -166,7 +166,17 @@ emacs_update() {
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter ]] &&
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
+        [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist ]] &&
+            cp -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist/ \
+               "$DOTFILES_DIR"/Common/emacs/emacs.d/etc/persist/
         /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/emacs.d
+    fi
+
+    if ask "Copy activities backup?"; then
+        if [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist ]]; then
+            mv "$DOTFILES_DIR"/Common/emacs/emacs.d/etc/persist/ \
+               "$DOTFILES_DIR"/Common/emacs/emacs.d/var/
+        fi
     fi
 
     if ask "Emacs packages updated, do you want to start the daemon as a systemd service now?"; then
