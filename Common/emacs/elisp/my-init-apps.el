@@ -202,8 +202,7 @@
             ("https://planet.emacslife.com/atom.xml" emacs)
             ("https://protesilaos.com/master.xml" emacs)
             ("https://www.masteringemacs.org/feed" emacs)
-            ("https://irreal.org/blog/?feed=rss2" emacs misc)
-            ("https://systemcrafters.net/rss/news.xml" emacs craft)
+            ("https://emacs.tv/videos.rss" emacs videos)
             ;; C++
             ("https://isocpp.org/blog/rss" C++ ISO)
             ("http://arne-mertz.de/feed/" C++)
