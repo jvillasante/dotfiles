@@ -41,7 +41,7 @@ keymap:
           k: C-w
   - name: Emacs
     application:
-      not: [emacs, nyxt, Alacritty, foot, konsole, java-lang-Thread]
+      not: [emacs, Emacs, nyxt, Alacritty, foot, konsole, java-lang-Thread]
     remap:
       # Cursor
       C-b: { with_mark: left }

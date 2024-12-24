@@ -134,18 +134,20 @@ emacs_update() {
     ./autogen.sh
     ./configure \
         --prefix=/usr/local \
+        --disable-build-details \
+        --with-modules \
         --with-pgtk \
         --with-x-toolkit=no \
         --without-compress-install \
-        --with-native-compilation=aot \
+        --with-native-compilation \
         --with-tree-sitter \
+        --with-selinux \
         --with-mailutils \
         CFLAGS="-O3 -fno-math-errno -funsafe-math-optimizations -fno-finite-math-only -fno-trapping-math \
-                -freciprocal-math -fno-rounding-math -fno-signaling-nans \
-                -fassociative-math -fno-signed-zeros -frename-registers -funroll-loops \
-                -mtune=native -march=native -fomit-frame-pointer \
-                -fallow-store-data-races -fno-semantic-interposition -floop-parallelize-all \
-                -ftree-parallelize-loops=4"
+                -freciprocal-math -fno-rounding-math -fno-signaling-nans -fassociative-math \
+                -fno-signed-zeros -frename-registers -funroll-loops -mtune=native -march=native \
+                -fomit-frame-pointer -fallow-store-data-races -fno-semantic-interposition \
+                -floop-parallelize-all -ftree-parallelize-loops=4"
     make -j"$(nproc --ignore=2)"
     sudo make install
 
@@ -168,15 +170,8 @@ emacs_update() {
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist ]] &&
             cp -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist/ \
-               "$DOTFILES_DIR"/Common/emacs/emacs.d/etc/persist/
+               "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist.bak/
         /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/emacs.d
-    fi
-
-    if ask "Copy activities backup?"; then
-        if [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist ]]; then
-            mv "$DOTFILES_DIR"/Common/emacs/emacs.d/etc/persist/ \
-               "$DOTFILES_DIR"/Common/emacs/emacs.d/var/
-        fi
     fi
 
     if ask "Emacs packages updated, do you want to start the daemon as a systemd service now?"; then
