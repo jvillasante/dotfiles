@@ -57,6 +57,10 @@
 
 ;;; UI elements
 
+;; do not wait for GTK events
+(when (boundp 'pgtk-wait-for-event-timeout)
+    (setq pgtk-wait-for-event-timeout nil))
+
 ;; Disable startup screens and messages
 (setq inhibit-splash-screen t)
 
