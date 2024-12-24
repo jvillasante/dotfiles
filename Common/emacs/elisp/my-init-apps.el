@@ -194,7 +194,7 @@
     ;; feeds
     (setq elfeed-feeds
           '(;; News
-            ("http://feeds.bbci.co.uk/news/rss.xml" news bbc)
+            ;; ("http://feeds.bbci.co.uk/news/rss.xml" news bbc)
             ("https://news.ycombinator.com/rss" news ycombinator)
             ;; VPN
             ("https://mullvad.net/blog/feed/atom" vpn mullvad)
