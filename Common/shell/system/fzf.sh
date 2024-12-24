@@ -40,12 +40,16 @@ if type fzf > /dev/null 2> /dev/null; then
         selected=$(find "$HOME"/Workspace/Private/Projects/*/ \
                         "$HOME"/Workspace/Public \
                         "$HOME"/Workspace/Work/Nielsen/Projects \
-                        "$HOME"/Workspace/Work/Omicron/Projects \
+                        "$HOME"/Workspace/Work/Omicron/Projects/ \
+                        "$HOME"/Workspace/Work/Omicron/Projects/nntpcode \
                         -mindepth 1 -maxdepth 1 -type d | fzf)
         [[ -z $selected ]] && return
 
         selected_name=$(basename "$selected" | tr . _)
         [[ -z $selected ]] && return
+
+        selected_parent="$(dirname "$selected")"
+        [[ -z $selected_parent ]] && return
 
         if [[ dmxs = "$selected_name" ]]; then
             "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/dmxs.session" "$selected" "$selected_name"
@@ -57,7 +61,12 @@ if type fzf > /dev/null 2> /dev/null; then
             return
         fi
 
-        if [[ nntpcode = "$selected_name" ]]; then
+        if [[ nntpcode = $(basename "$selected_parent" | tr . _) ]]; then
+            if [[ $selected_name != @(master|review|scratch|fuzz|dev) ]]; then
+                echo ">> Error: Expecting one of master|review|scratch|fuzz|dev - Got $selected_name"
+                return
+            fi
+
             "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/nntpcode.session" "$selected" "$selected_name"
             return
         fi
