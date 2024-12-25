@@ -196,6 +196,7 @@
           '(;; News
             ;; ("http://feeds.bbci.co.uk/news/rss.xml" news bbc)
             ("https://news.ycombinator.com/rss" news ycombinator)
+            ("https://accu.org/index.xml" news accu)
             ;; VPN
             ("https://mullvad.net/blog/feed/atom" vpn mullvad)
             ;; EMACS

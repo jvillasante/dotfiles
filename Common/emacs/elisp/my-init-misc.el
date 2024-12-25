@@ -227,8 +227,10 @@
     :config
     (setq vundo-compact-display nil))
 
+;; helpful : better help buffers
 (use-package helpful)
 
+;; rainbow-delimiters : highlights delimiters such as parentheses
 (use-package rainbow-delimiters
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
