@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package activities
+    :disabled t
     :init
     (activities-mode)
     (activities-tabs-mode)
@@ -33,16 +34,8 @@
     ;; to be run in the current's tab (so, current project's) root directory
     (otpp-override-mode 1))
 
-;; project-tab-groups : enhances `project.el' to support keeping projects isolated in named tab groups.
-(use-package project-tab-groups
-    :disabled t
-    :after tab-bar project
-    :config
-    (project-tab-groups-mode 1))
-
-;; tabspaces : https://github.com/mclear-tools/tabspaces
+;; tabspaces : create buffer-isolated workspaces
 (use-package tabspaces
-    :disabled t
     :preface
     (defun my/tabspace-setup ()
         "Set up tabspace at startup."
@@ -98,6 +91,7 @@
             "Set workspace buffer list for consult-buffer.")
         (add-to-list 'consult-buffer-sources 'consult--source-workspace))
     :custom
+    (tabspaces-keymap-prefix "C-x TAB")
     (tabspaces-use-filtered-buffers-as-default t)
     (tabspaces-default-tab "Default")
     (tabspaces-remove-to-default t)
