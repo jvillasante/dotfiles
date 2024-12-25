@@ -36,17 +36,22 @@
     (when (package-installed-p 'vterm)
         (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
 
-    ;; When docker run is called on an image whose repository name matches the regular expression "^postgres",
-    ;; the option "-e POSTGRES_PASSWORD=postgres" will appear as set along with the defaults specified by `docker-image-run-default-args'.
+    ;; When docker run is called on an image whose repository name matches the
+    ;; regular expression "^postgres", the option "-e
+    ;; POSTGRES_PASSWORD=postgres" will appear as set along with the defaults
+    ;; specified by `docker-image-run-default-args'.
     (add-to-list 'docker-image-run-custom-args
                  `("^postgres" ("-e POSTGRES_PASSWORD=postgres" . ,docker-image-run-default-args)))
 
-    ;; docker run --user nntpuser --rm --interactive --tty --volume $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp nntp:latest /bin/bash
+    ;; TODO: This will always open in `nntpcode - dev' (make it project based!!!!)
+    ;; docker run --user nntpuser --rm --interactive --tty --volume
+    ;;   $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp-$selected_name
+    ;;   nntp:latest /bin/bash
     (add-to-list 'docker-image-run-custom-args
                  `("^nntp" ("-u nntpuser"
-                            "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntpcode:/tmp/nntpcode"
+                            "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntpcode/dev:/tmp/nntpcode"
                             "-w /tmp/nntpcode"
-                            "--name nntpcode" . ,docker-image-run-default-args))))
+                            "--name nntp-emacs-dev" . ,docker-image-run-default-args))))
 
 (use-package dockerfile-mode
     :mode "\\Dockerfile\\'"

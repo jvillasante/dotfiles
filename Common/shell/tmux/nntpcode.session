@@ -8,27 +8,30 @@ cd "$(dirname "$0")" || exit 1
 
 selected="$1"
 selected_name="$2"
+unique_name="nntp · $selected_name"
 tmux_running=$(pgrep tmux)
 
 configure() {
-    tmux send-keys -t "$selected_name" "git status" Enter
-    tmux split-window -v -l 80% -t "$selected_name" -c "$selected"
+    tmux send-keys -t "$unique_name" "git status" Enter
+    tmux split-window -v -l 80% -t "$unique_name" -c "$selected"
 
-    tmux send-keys -t "$selected_name" \
-         "docker run --user nntpuser --rm --interactive --tty --volume $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp nntp:latest /bin/bash" Enter
-    tmux send-keys -t "$selected_name" "mkdir build && cd build && ln -s ../Makefile" Enter
-    tmux send-keys -t "$selected_name" "clear" Enter
+    tmux send-keys -t "$unique_name" \
+         "docker run --user nntpuser --rm --interactive --tty " \
+         "--volume $selected:/tmp/nntpcode -w /tmp/nntpcode " \
+         "--name 'nntp-$selected_name' nntp:latest /bin/bash" Enter
+    tmux send-keys -t "$unique_name" "mkdir build && cd build && ln -s ../Makefile" Enter
+    tmux send-keys -t "$unique_name" "clear" Enter
 }
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s "$selected_name" -c "$selected"
+    tmux new-session -s "$unique_name" -c "$selected"
     configure
 else
-    if ! tmux has-session -t="$selected_name" 2> /dev/null; then
-        tmux new-session -ds "$selected_name" -c "$selected"
-        tmux switch-client -t "$selected_name"
+    if ! tmux has-session -t="$unique_name" 2> /dev/null; then
+        tmux new-session -ds "$unique_name" -c "$selected"
+        tmux switch-client -t "$unique_name"
         configure
     else
-        tmux switch-client -t "$selected_name"
+        tmux switch-client -t "$unique_name"
     fi
 fi
