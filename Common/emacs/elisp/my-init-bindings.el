@@ -193,10 +193,13 @@
         (define-key vertico-map (kbd "C-c C-j") 'consult-dir-jump-file)))
 
 (with-eval-after-load 'embark
-    (define-key minibuffer-local-map (kbd "C-;")   'embark-act)
-    (define-key minibuffer-local-map (kbd "C-SPC") 'embark-act-all)
-    (define-key minibuffer-local-map (kbd "M-;")   'embark-dwim)
-    (define-key minibuffer-local-map (kbd "C-h B") 'embark-bindings))
+    ;; (define-key minibuffer-local-map (kbd "C-;")   'embark-act)
+    ;; (define-key minibuffer-local-map (kbd "C-SPC") 'embark-act-all)
+    ;; (define-key minibuffer-local-map (kbd "M-;")   'embark-dwim)
+    ;; (define-key minibuffer-local-map (kbd "C-h B") 'embark-bindings)
+    (global-set-key (kbd "C-;")   'embark-act)
+    (global-set-key (kbd "M-;")   'embark-dwim)
+    (global-set-key (kbd "C-h B") 'embark-dwim))
 
 (with-eval-after-load 'marginalia
     ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
