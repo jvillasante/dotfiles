@@ -154,7 +154,7 @@
     (setq scroll-preserve-screen-position t)
 
     ;; Start scrolling when marker at top/bottom.
-    (setq scroll-margin 0)
+    (setq scroll-margin 3)
 
     ;; Horizontal scrolling
     (setq hscroll-margin 2
