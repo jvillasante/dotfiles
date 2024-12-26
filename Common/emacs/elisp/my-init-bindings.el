@@ -64,6 +64,10 @@
 (global-set-key (kbd "M-Q") 'my/unfill-paragraph)
 (global-set-key (kbd "C-M-Q") 'my/unfill-region)
 
+;; eldoc
+(with-eval-after-load 'eldoc
+    (global-set-key (kbd "C-h .") 'eldoc))
+
 ;; prog-mode
 (with-eval-after-load 'prog-mode
     (define-key emacs-lisp-mode-map (kbd "C-h .") 'helpful-at-point)
@@ -440,7 +444,6 @@
 ;; C-c c : Code
 (with-eval-after-load 'hs-minor-mode
     (define-key hs-minor-mode-map (kbd "C-c c f") 'my/hs-toggle-hidding))
-(global-set-key (kbd "C-c c h") 'eldoc)
 (with-eval-after-load 'consult-eglot
     (define-key eglot-mode-map (kbd "C-c c s") 'consult-eglot-symbols))
 (with-eval-after-load 'eglot

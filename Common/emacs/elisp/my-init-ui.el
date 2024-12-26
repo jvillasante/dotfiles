@@ -381,6 +381,12 @@ Run this function at the post theme load phase, such as with the
     (global-set-key (kbd "C-x 2") #'my/split-window-below)
     (global-set-key (kbd "C-x 3") #'my/split-window-right))
 
+;; hl-todo : Highlight TODO and similar keywords in comments and strings
+(use-package hl-todo
+    :hook ((prog-mode . hl-todo-mode)
+           (conf-mode . hl-todo-mode))
+    :config (setq hl-todo-highlight-punctuation ":"))
+
 ;; anzu : displays current match and total matches information in the mode-line in various search modes.
 (use-package anzu
     :init (global-anzu-mode +1)

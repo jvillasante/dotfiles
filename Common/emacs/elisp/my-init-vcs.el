@@ -5,6 +5,13 @@
 
 ;; always follow symlinks
 (setq vc-follow-symlinks t)
+;; make sure vc stuff is not making tramp slower
+(setq vc-ignore-dir-regexp
+      (format "\\(%s\\)\\|\\(%s\\)"
+              vc-ignore-dir-regexp
+              tramp-file-name-regexp))
+;; use a different diff option
+(setq vc-git-diff-switches '("--histogram"))
 
 (use-package magit
     :preface
@@ -22,16 +29,28 @@
              (magit-save-repository-buffers nil)
              (magit-define-global-key-bindings nil)))
 
+;; eldoc-diffstat : provides a way to display VCS diffstat information via eldoc.
+(use-package eldoc-diffstat
+    :hook (after-init . global-eldoc-diffstat-mode))
+
+;; diff-hl : highlights uncommitted changes on the left side
 (use-package diff-hl
+    :preface
+    (defun my/diff-hl-set-reference ()
+        "Set the reference revision for showing `diff-hl' changes.
+Do so buffer-locally."
+        (interactive)
+        (setq-local
+         diff-hl-reference-revision
+         (read-string
+          (format "Set reference revision (buffer %s): "
+                  (buffer-name))))
+        (diff-hl-update))
     :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)
            (magit-post-refresh . diff-hl-magit-post-refresh)
-           (dired-mode . diff-hl-dir-mode))
-    :config (global-diff-hl-mode))
-
-(use-package hl-todo
-    :hook ((prog-mode . hl-todo-mode)
-           (conf-mode . hl-todo-mode))
-    :config (setq hl-todo-highlight-punctuation ":"))
+           (dired-mode . diff-hl-dired-mode-unless-remote)
+           (after-init . global-diff-hl-mode))
+    :custom (diff-hl-disable-on-remote t))
 
 (provide 'my-init-vcs)
 ;;; my-init-vcs.el ends here

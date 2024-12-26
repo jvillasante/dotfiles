@@ -157,17 +157,14 @@
     :init
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
     :config
+    (setq tramp-use-connection-share nil) ; use Control* options from ssh config
     (setq remote-file-name-inhibit-locks t)
     (setq remote-file-name-inhibit-cache nil)
-    (setq vc-ignore-dir-regexp ;; make sure vc stuff is not making tramp slower
-          (format "%s\\|%s"
-                  vc-ignore-dir-regexp
-                  tramp-file-name-regexp))
     (setq tramp-verbose 1)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq tramp-completion-use-auth-sources nil) ; do use `.authinfo.gpg' for tramp
     (setq tramp-shell-prompt-pattern
-          "\\(?:^\\|\\)[^]\n#-%>]*#?[]#-%>].*[[:blank:]]*") ; Tramp hangs: Not recognising the remote shell prompt
+          "\\(?:^\\|\\)[^]\n#-%>]*#?[]#-%>].*[[:blank:]]*") ; Tramp hangs: Not recognizing the remote shell prompt
     (setq tramp-password-prompt-regexp ; Add verification code support.
           (concat
            "^.*"
