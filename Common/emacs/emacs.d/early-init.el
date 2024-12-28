@@ -82,7 +82,7 @@
 (setq use-dialog-box nil)
 
 ;;; package.el
-(setq load-prefer-newer)
+(setq load-prefer-newer t)
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)
 (setq package-install-upgrade-built-in t)
