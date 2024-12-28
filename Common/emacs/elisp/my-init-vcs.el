@@ -48,7 +48,7 @@ Do so buffer-locally."
         (diff-hl-update))
     :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)
            (magit-post-refresh . diff-hl-magit-post-refresh)
-           (dired-mode . diff-hl-dired-mode-unless-remote)
+           ;; (dired-mode . diff-hl-dired-mode-unless-remote)
            (after-init . global-diff-hl-mode))
     :custom (diff-hl-disable-on-remote t))
 
