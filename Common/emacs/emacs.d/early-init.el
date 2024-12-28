@@ -82,7 +82,9 @@
 (setq use-dialog-box nil)
 
 ;;; package.el
-(setq package-enable-at-startup t)
+(setq load-prefer-newer)
+(setq package-enable-at-startup nil)
+(setq package-quickstart nil)
 (setq package-install-upgrade-built-in t)
 (setq package-archives '(("melpa"        . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
