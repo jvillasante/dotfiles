@@ -43,13 +43,22 @@ install_berkeley_mono_font() {
 
     # remove all fonts from ~/.local/share/fonts that start with "BerkeleyMono"
     rm -rf ~/.local/share/fonts/BerkeleyMono*
+    rm -rf ~/.local/share/fonts/TX-02*
 
-    # copy all ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface \
+    # copy all V1 TTF fonts to ~/.local/share/fonts
+    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-01/ \
          -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+
+    # copy all V2 OTF fonts to ~/.local/share/fonts
+    # find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-02/ \
+    #      -type f -name "*.otf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # Build font information caches
     fc-cache -f
+
+    # cleanup
+    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
+        rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
 }
 
 fedora_install() {
