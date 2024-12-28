@@ -253,12 +253,6 @@
     (global-set-key (kbd "C-c o s") 'shell)
     (global-set-key (kbd "C-c o S") 'my/shell-other-window))
 
-(with-eval-after-load 'eat
-    (global-set-key (kbd "C-c o t") 'eat)
-    (global-set-key (kbd "C-c o T") 'eat-other-window)
-    (define-key project-prefix-map (kbd "t") 'eat-project)
-    (define-key project-prefix-map (kbd "T") 'eat-project-other-window))
-
 (with-eval-after-load 'vterm
     ;; global keys
     (global-set-key (kbd "C-c o t") 'vterm)
@@ -274,6 +268,7 @@
 
     ;; vterm-mode-map
     (define-key vterm-mode-map (kbd "<insert>") 'ignore)
+    (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape)
     (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
     (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key))
 
