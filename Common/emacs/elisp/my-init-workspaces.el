@@ -22,7 +22,6 @@
 
 ;; otpp : One tab per project, with unique names
 (use-package otpp
-    :disabled t
     :after tab-bar project
     :init
     ;; If you like to define some aliases for better user experience
@@ -36,6 +35,7 @@
 
 ;; tabspaces : create buffer-isolated workspaces
 (use-package tabspaces
+    :disabled t
     :preface
     (defun my/tabspace-setup ()
         "Set up tabspace at startup."
