@@ -16,6 +16,13 @@
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
 (global-set-key (kbd "C-x S") 'my/save-all) ; save some buffers without prompt
 
+;; Both `C-z' and `C-x C-z' are bound to `suspend-frame' which will effectively
+;; suspend the current frame. To bring back the suspended frame in GUI mode we
+;; need to send `SIGCONT' to emacs by `kill -CONT $emacs_pid' or `killall -CONT
+;; emacs' while in terminal `fg' or `%emacs' will work just fine.
+(global-unset-key (kbd "C-z"))
+;; (global-unset-key (kbd "C-x C-z"))
+
 ;; useful for C/C++ finding header/impl files (override with eglot)
 (global-set-key (kbd "C-x C-o") 'ff-find-other-file)
 (with-eval-after-load 'c-ts-mode
@@ -26,10 +33,6 @@
 
 ;; better `keyword-quit'
 (define-key global-map [remap keyboard-quit] 'my/keyboard-quit-dwim)
-
-;; Rebind C-z
-(global-unset-key (kbd "C-z"))
-(global-unset-key (kbd "C-x C-z"))
 
 ;; Repeat in emacs is not as good as vim :(
 (global-set-key (kbd "C-.") 'repeat)
