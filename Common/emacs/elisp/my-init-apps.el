@@ -72,17 +72,42 @@
     (dolist (mode '(gnus-group-mode-hook gnus-summary-mode-hook gnus-browse-mode-hook))
         (add-hook mode #'hl-line-mode)))
 
-;; eww
 (use-package eww
-    :ensure nil ;; emacs built-in
+    :ensure nil ; emacs built-in
+    (defmacro my/shr-display-block (tag)
+        "Register TAG a paragraph (in CSS parlance \"display:block;\").
+
+See https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content"
+        (let ((fname
+               (intern (format "shr-tag-%s" tag)))
+              (docstring
+               (format "Render \"%s\" tag as paragraph." tag)))
+            `(defun ,fname (dom)
+                 ,docstring
+                 (shr-ensure-paragraph)
+                 (shr-generic dom)
+                 (shr-ensure-paragraph))))
     :init
+    (my/shr-display-block "article")
+    (my/shr-display-block "aside")
+    (my/shr-display-block "footer")
+    (my/shr-display-block "header")
+    (my/shr-display-block "nav")
+    (my/shr-display-block "section")
     (setq
      browse-url-browser-function 'eww-browse-url      ; Use eww as the default browser
      shr-use-fonts  nil                               ; No special fonts
      shr-use-colors nil                               ; No colors
      shr-indentation 2                                ; Left-side margin
-     shr-width 79                                     ; Fold text to 79 columns
-     eww-search-prefix "https://duckduckgo.com/?q=")) ; Use another engine for searching
+     shr-width 80                                     ; Fold text to 80 columns
+     eww-search-prefix "https://duckduckgo.com/?q=") ; Use another engine for searching
+
+    ;; The `shr-map' is being applied after `eww-mode-map'; which means that
+    ;; attempts to register \"u\" for `eww-up-url' don't work.
+    (unbind-key "u" shr-map)
+    :bind (:map eww-mode-map
+                ("u" . eww-up-url)
+                ("h" . eww-home-url)))
 
 ;; calc
 (use-package calc-mode
