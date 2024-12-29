@@ -9,6 +9,8 @@
     (activities-mode)
     (activities-tabs-mode)
     (setq edebug-inhibit-emacs-lisp-mode-bindings t)
+    :custom
+    (activities-bookmark-store nil)
     :bind
     (("C-x C-a C-n" . activities-new)
      ("C-x C-a C-d" . activities-define)

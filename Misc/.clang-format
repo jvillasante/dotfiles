@@ -44,6 +44,6 @@ IndentWidth: 4
 AccessModifierOffset: -4
 
 # Disable formatting options which may break tests.
-SortIncludes: false
+SortIncludes: true
 ReflowComments: false
 ---
