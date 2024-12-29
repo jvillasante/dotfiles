@@ -16,11 +16,11 @@
            eglot eglot-booster eglot-inactive-regions eldoc eldoc-diffstat
            elfeed elisp-demos embark-consult engine-mode erc
            eshell-prompt-extras exec-path-from-shell expreg external-completion
-           faceup fancy-compilation flymake go-mode gptel-quick helpful hl-todo
-           ibuffer-project idlwave jinx js2-mode json-mode jsonrpc let-alist
-           lua-mode magit map marginalia markdown-mode minions modus-themes
-           monkeytype multiple-cursors nadvice nov ntlm orderless org
-           org-superstar otpp password-store pdf-view-restore peg
+           faceup fancy-compilation flymake geiser-guile go-mode gptel-quick
+           helpful hl-todo ibuffer-project idlwave jinx js2-mode json-mode
+           jsonrpc let-alist lua-mode magit map marginalia markdown-mode minions
+           modus-themes monkeytype multiple-cursors nadvice nov ntlm orderless
+           org org-superstar otpp password-store pdf-view-restore peg
            persistent-scratch php-mode project python rainbow-delimiters request
            rmsbolt rust-mode scratch seq shrink-path so-long soap-client
            surround svg track-changes tramp trashed use-package verb

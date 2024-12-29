@@ -138,6 +138,11 @@
     :custom (eglot-booster-no-remote-boost t)
     :config (eglot-booster-mode))
 
+;; geiser support for guile
+(use-package geiser-guile
+    :config
+    (setq geiser-guile-binary "guile3.0"))
+
 ;; dape : Debug Adapter Protocol for Emacs
 (use-package dape
     :disabled t)
