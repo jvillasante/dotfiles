@@ -62,10 +62,21 @@
 (push '(bottom-divider-width . 0) default-frame-alist)
 (push '(right-divider-width . 1) default-frame-alist)
 
-;; menu/tool bar
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
+;; menu-bar
+(push '(menu-bar-lines . 0) default-frame-alist)
+(unless (memq window-system '(mac ns))
+    (setq menu-bar-mode nil))
+
+;; tool-bar
+(push '(tool-bar-lines . 0) default-frame-alist)
+(setq tool-bar-mode nil)
+
+;; scroll bars
+(push '(vertical-scroll-bars) default-frame-alist)
+(push '(horizontal-scroll-bars) default-frame-alist)
+(setq scroll-bar-mode nil)
+(when (fboundp 'horizontal-scroll-bar-mode)
+    (horizontal-scroll-bar-mode -1))
 
 ;; Disable GUIs because they are inconsistent across systems, desktop
 ;; environments, and themes, and they don't match the look of Emacs.
