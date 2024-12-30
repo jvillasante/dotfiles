@@ -5,20 +5,26 @@
 ;;; Code:
 
 ;;; package.el
-(require 'package)
-(package-initialize)
-(when (< emacs-major-version 29)
-    (unless (package-installed-p 'use-package)
-        (unless package-archive-contents
-            (package-refresh-contents))
-        (package-install 'use-package)))
+(progn
+    (require 'package)
 
-;; Ensure the 'use-package' package is installed and loaded
-(use-package use-package
-    :ensure nil ;; emacs built-in
-    :custom ((use-package-verbose t)
-             (use-package-always-ensure t)
-             (use-package-expand-minimally t)))
+    ;; Initialize and refresh package contents again if needed
+    (package-initialize)
+    (unless package-archive-contents
+        (package-refresh-contents))
+
+    ;; Install use-package if necessary
+    (unless (package-installed-p 'use-package)
+        (package-install 'use-package))
+
+    ;; Ensure use-package is available at compile time
+    (eval-when-compile
+        (require 'use-package)
+        (use-package use-package
+            :ensure nil ;; emacs built-in
+            :custom ((use-package-verbose t)
+                     (use-package-always-ensure t)
+                     (use-package-expand-minimally t)))))
 
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
@@ -28,15 +34,6 @@
         (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"
                        "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH" "VCPKG_ROOT"))
             (exec-path-from-shell-copy-env var))))
-
-;;; compile-angel : Natively compile all the things
-(use-package compile-angel
-    :demand t
-    :custom
-    (compile-angel-verbose nil)
-    :config
-    (compile-angel-on-load-mode)
-    (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
 
 ;; Paths
 (defconst my/home-path (expand-file-name "~/"))

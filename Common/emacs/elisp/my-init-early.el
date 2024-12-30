@@ -112,6 +112,15 @@
 (setq undo-limit 100000000) ; raise Emacs undo memory to 10 MB
 (setq select-enable-clipboard t) ; Non-nil means cutting and pasting uses the clipboard.
 
+;;; compile-angel : Natively compile all the things
+(use-package compile-angel
+    :demand t
+    :custom
+    (compile-angel-verbose nil)
+    :config
+    (compile-angel-on-load-mode)
+    (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
+
 ;; s.el : The long lost Emacs string manipulation library.
 (use-package s)
 
