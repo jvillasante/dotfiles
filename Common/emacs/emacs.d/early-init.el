@@ -43,15 +43,6 @@
               native-comp-deferred-compilation t  ; Obsolete since Emacs 29.1
               package-native-compile t)
 
-    ;; Set the right directory to store the native compilation cache
-    (when (fboundp 'startup-redirect-eln-cache)
-        (if (version< emacs-version "29")
-                (add-to-list 'native-comp-eln-load-path
-                             (convert-standard-filename (expand-file-name "eln-cache/" my/var-dir)))
-            (startup-redirect-eln-cache
-             (convert-standard-filename (expand-file-name "eln-cache/" my/var-dir)))))
-    (add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache/" my/var-dir))
-
     ;; Deactivate the `native-compile' feature if it is not available
     (setq features (delq 'native-compile features)))
 
