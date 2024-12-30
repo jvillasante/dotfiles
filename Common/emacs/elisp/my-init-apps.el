@@ -91,7 +91,8 @@
                 (shr-ensure-newline))))
     :config
     (setq
-     shr-external-rendering-functions '((div . my/eww-tag-div)) ; use custom render
+     shr-external-rendering-functions ; use custom render
+     '((div . my/eww-tag-div))
      browse-url-browser-function 'eww-browse-url      ; Use eww as the default browser
      shr-use-fonts  nil                               ; No special fonts
      shr-use-colors nil                               ; No colors
