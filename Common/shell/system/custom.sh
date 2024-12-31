@@ -76,7 +76,8 @@ if type emacs > /dev/null 2> /dev/null; then
     function estatus   { systemctl --user status emacs.service; }
     function emacs     { /usr/local/bin/emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
     function edebug    { /usr/local/bin/emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
-    function eminimal  { /usr/local/bin/emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ -Q "$@"; }
+    # function eminimal  { /usr/local/bin/emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ -Q "$@"; }
+    function eminimal  { /usr/local/bin/emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal.emacs.d/ "$@"; }
 fi
 
 # guile

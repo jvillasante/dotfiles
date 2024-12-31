@@ -26,6 +26,8 @@
                      (use-package-always-ensure t)
                      (use-package-expand-minimally t)))))
 
+(setq make-backup-files nil)
+
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
     :init
@@ -54,13 +56,32 @@
 ;; (load (expand-file-name "Common/emacs/elisp/my-init-shell"         my/dotfiles-path))
 ;; (load (expand-file-name "Common/emacs/elisp/my-init-misc"          my/dotfiles-path))
 ;; (load (expand-file-name "Common/emacs/elisp/my-init-filemanager"   my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-workspaces"    my/dotfiles-path))
+;; (load (expand-file-name "Common/emacs/elisp/my-init-workspaces"    my/dotfiles-path))
 ;; (load (expand-file-name "Common/emacs/elisp/my-init-modal"         my/dotfiles-path))
 ;; (load (expand-file-name "Common/emacs/elisp/my-init-ui"            my/dotfiles-path))
 ;; (load (expand-file-name "Common/emacs/elisp/my-init-ai"            my/dotfiles-path))
 ;; (load (expand-file-name "Common/emacs/elisp/my-init-transient"     my/dotfiles-path))
 ;; (load (expand-file-name "Common/emacs/elisp/my-init-bindings"      my/dotfiles-path))
 ;; (load (expand-file-name "Common/emacs/elisp/modus-themes-exporter" my/dotfiles-path))
+
+(use-package activities
+    :init
+    (activities-mode)
+    (activities-tabs-mode)
+    (setq edebug-inhibit-emacs-lisp-mode-bindings t)
+    ;; :custom
+    ;; (activities-bookmark-store nil)
+    ;; (activities-always-persist nil)
+    :bind
+    (("C-x C-a C-n" . activities-new)
+     ("C-x C-a C-d" . activities-define)
+     ("C-x C-a C-a" . activities-resume)
+     ("C-x C-a C-s" . activities-suspend)
+     ("C-x C-a C-k" . activities-kill)
+     ("C-x C-a RET" . activities-switch)
+     ("C-x C-a b"   . activities-switch-buffer)
+     ("C-x C-a g"   . activities-revert)
+     ("C-x C-a l"   . activities-list)))
 
 (provide 'init)
 
