@@ -58,7 +58,6 @@
 ;; some default-frame-alist
 (push '(width . 160) default-frame-alist)
 (push '(height . 46) default-frame-alist)
-(push '(background-color . "white") default-frame-alist)
 (push '(mouse-color . "white") default-frame-alist)
 (push '(bottom-divider-width . 0) default-frame-alist)
 (push '(right-divider-width . 1) default-frame-alist)
