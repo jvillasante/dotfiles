@@ -76,12 +76,18 @@
     :ensure nil ; emacs built-in
     :config
     (setq
-     browse-url-browser-function 'eww-browse-url      ; Use eww as the default browser
-     shr-use-fonts  nil                               ; No special fonts
-     shr-use-colors nil                               ; No colors
-     shr-indentation 2                                ; Left-side margin
-     shr-width 80                                     ; Fold text to 80 columns
-     eww-search-prefix "https://duckduckgo.com/?q=")) ; Use another engine for searching
+     browse-url-browser-function 'eww-browse-url       ; Use eww as the default browser
+     shr-use-fonts  nil                                ; No special fonts
+     shr-use-colors nil                                ; No colors
+     shr-indentation 2                                 ; Left-side margin
+     shr-width 80                                      ; Fold text to 80 columns
+     eww-auto-rename-buffer 'url                       ; open url in new buffer
+     eww-retrieve-command nil                          ; the default, use `url-retrieve' to download the data
+     eww-download-directory
+     (expand-file-name "~/Documents/eww-downloads")    ; keeps eww downloads separate
+     eww-use-external-browser-for-content-type
+     "\\`\\(video/\\|audio\\)"                         ; On GNU/Linux check your mimeapps.list
+     eww-search-prefix "https://duckduckgo.com/?q="))  ; Use another engine for searching
 
 ;; calc
 (use-package calc-mode
