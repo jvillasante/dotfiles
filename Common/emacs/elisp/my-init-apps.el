@@ -74,25 +74,8 @@
 
 (use-package eww
     :ensure nil ; emacs built-in
-    :preface
-    (defun my/eww-tag-div (dom)
-        (let ((display (cdr (assq 'display shr-stylesheet))))
-            (if (or (equal display "inline")
-                    (equal display "inline-block"))
-                    (shr-generic dom)
-                (shr-ensure-newline)
-                ;; Modifications of the default function
-                (let ((shr-indentation
-                       (if (string-prefix-p "comment " (dom-attr dom 'class))
-                               (+ shr-indentation
-                                  (* 4 shr-table-separator-pixel-width))
-                           shr-indentation)))
-                    (shr-generic dom))
-                (shr-ensure-newline))))
     :config
     (setq
-     shr-external-rendering-functions ; use custom render
-     '((div . my/eww-tag-div))
      browse-url-browser-function 'eww-browse-url      ; Use eww as the default browser
      shr-use-fonts  nil                               ; No special fonts
      shr-use-colors nil                               ; No colors
