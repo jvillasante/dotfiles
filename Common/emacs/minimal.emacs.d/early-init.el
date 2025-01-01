@@ -12,18 +12,6 @@
 (defvar my/emacs-gc-cons-threshold (* 16 1024 1024)
     "The value of `gc-cons-threshold' after Emacs startup.")
 
-;;; Startup and garbage collection
-
-(setq gc-cons-threshold most-positive-fixnum)
-(add-hook 'emacs-startup-hook
-          (lambda ()
-              (setq gc-cons-threshold my/emacs-gc-cons-threshold)
-              (message "Emacs loaded in %s with %d garbage collections."
-                       (format "%.2f seconds"
-                               (float-time
-                                (time-subtract after-init-time before-init-time)))
-                       gcs-done)))
-
 ;; Custom
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file :no-error-if-file-is-missing)
@@ -38,19 +26,17 @@
 (if (and (featurep 'native-compile)
          (fboundp 'native-comp-available-p)
          (native-comp-available-p))
-        ;; Activate `native-compile'
-        (setq native-comp-jit-compilation t
-              native-comp-deferred-compilation t  ; Obsolete since Emacs 29.1
-              package-native-compile t)
 
-    ;; Deactivate the `native-compile' feature if it is not available
-    (setq features (delq 'native-compile features)))
+        ;; Activate `native-compile'
+        ;; (setq native-comp-jit-compilation t
+        ;;       package-native-compile t)
+
+        ;; Deactivate `native-compile'
+        (setq native-comp-jit-compilation nil
+              package-native-compile nil)
+    )
 
 ;;; UI elements
-
-;; do not wait for GTK events
-(when (boundp 'pgtk-wait-for-event-timeout)
-    (setq pgtk-wait-for-event-timeout nil))
 
 ;; Disable startup screens and messages
 (setq inhibit-splash-screen t)
@@ -85,17 +71,16 @@
 
 ;;; package.el
 (setq load-prefer-newer t)
-(setq package-enable-at-startup nil)
-(setq package-quickstart nil)
+(setq package-enable-at-startup t)
 (setq package-install-upgrade-built-in t)
 (setq package-archives '(("melpa"        . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu"          . "https://elpa.gnu.org/packages/")
                          ("nongnu"       . "https://elpa.nongnu.org/nongnu/")))
-(customize-set-variable 'package-archive-priorities '(("gnu"    . 99)
-                                                      ("nongnu" . 80)
-                                                      ("stable" . 70)
-                                                      ("melpa"  . 0)))
+(setq package-archive-priorities '(("gnu"    . 99)
+                                   ("nongnu" . 80)
+                                   ("stable" . 70)
+                                   ("melpa"  . 0)))
 (provide 'early-init)
 
 ;;; early-init.el ends here
