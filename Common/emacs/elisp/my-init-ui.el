@@ -389,7 +389,7 @@ Run this function at the post theme load phase, such as with the
 
 ;; anzu : displays current match and total matches information in the mode-line in various search modes.
 (use-package anzu
-    :init (global-anzu-mode +1)
+    :hook (after-init . global-anzu-mode)
     :custom
     (anzu-mode-lighter "")
     (anzu-deactivate-region t)
