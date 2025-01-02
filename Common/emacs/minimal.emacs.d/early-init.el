@@ -28,13 +28,8 @@
          (native-comp-available-p))
 
         ;; Activate `native-compile'
-        ;; (setq native-comp-jit-compilation t
-        ;;       package-native-compile t)
-
-        ;; Deactivate `native-compile'
-        (setq native-comp-jit-compilation nil
-              package-native-compile nil)
-    )
+        (setq native-comp-jit-compilation t
+              package-native-compile t))
 
 ;;; UI elements
 
@@ -73,10 +68,10 @@
 (setq load-prefer-newer t)
 (setq package-enable-at-startup t)
 (setq package-install-upgrade-built-in t)
-(setq package-archives '(("melpa"        . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("gnu"          . "https://elpa.gnu.org/packages/")
-                         ("nongnu"       . "https://elpa.nongnu.org/nongnu/")))
+(setq package-archives '(("melpa"  . "https://melpa.org/packages/")
+                         ("stable" . "https://stable.melpa.org/packages/")
+                         ("gnu"    . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 (setq package-archive-priorities '(("gnu"    . 99)
                                    ("nongnu" . 80)
                                    ("stable" . 70)
