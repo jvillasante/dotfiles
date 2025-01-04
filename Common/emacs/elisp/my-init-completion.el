@@ -143,13 +143,14 @@
     (setq only-global-abbrevs nil))
 
 ;; hippie expand is dabbrev expand on steroids
+;; A composable expansion tool that I find compliments `corfu' in that it
+;; looks in a different manner for completions.
+;;
+;; TODO: Perhaps I should spend a bit time investigating removing `hippie-exp'
+;; in favor of `corfu' and `cape' behavior.  Definitely spend a bit of time exploring
+;; this option.
 (use-package hippie-exp
-    ;; A composable expansion tool that I find compliments `corfu' in that it
-    ;; looks in a different manner for completions.
-    ;;
-    ;; TODO: Perhaps I should spend a bit time investigating removing `hippie-exp'
-    ;; in favor of `corfu' and `cape' behavior.  Definitely spend a bit of time exploring
-    ;; this option.
+    :ensure nil ;; emacs built-in
     :config
     (setq hippie-expand-try-functions-list
           '(yas-hippie-try-expand
