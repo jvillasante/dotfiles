@@ -3,6 +3,10 @@
 ;;
 ;;; Code:
 
+;; do not wait for GTK events
+(when (boundp 'pgtk-wait-for-event-timeout)
+    (setq pgtk-wait-for-event-timeout nil))
+
 ;; make IO better
 (setq process-adaptive-read-buffering nil)
 (setq read-process-output-max (* 4 1024 1024))
