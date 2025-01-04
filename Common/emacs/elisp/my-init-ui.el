@@ -79,16 +79,20 @@
 (defun my/setup-fonts ()
     "Set up fonts at startup."
     (setq x-underline-at-descent-line nil)
-    (set-face-attribute 'default nil
-                        :family "Berkeley Mono"
-                        :height 140
-                        :weight 'regular
-                        :width  'normal
-                        :slant  'normal)
-    (set-face-attribute 'fixed-pitch nil
-                        :family "Berkeley Mono")
-    (set-face-attribute 'variable-pitch nil
-                        :family "TX-02"))
+    (let ((mono-spaced-font "Berkeley Mono")
+          (proportionately-spaced-font "TX-02"))
+        (set-face-attribute 'default nil
+                            :family mono-spaced-font
+                            :height 140
+                            :weight 'regular
+                            :width  'normal
+                            :slant  'normal)
+        (set-face-attribute 'fixed-pitch nil
+                            :family mono-spaced-font
+                            :height 1.0)
+        (set-face-attribute 'variable-pitch nil
+                            :family proportionately-spaced-font
+                            :height 1.0)))
 (if (daemonp)
         (add-hook 'after-make-frame-functions
                   (lambda (frame)
