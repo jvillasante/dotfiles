@@ -12,7 +12,8 @@
 ;;; Custom
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
-(load custom-file :no-error-if-file-is-missing)
+(add-hook 'after-init-hook
+          (lambda () (load custom-file :no-error-if-file-is-missing)))
 
 ;;; Startup and garbage collection
 
@@ -79,7 +80,7 @@
 
 ;;; package.el
 (setq load-prefer-newer t)
-(setq package-enable-at-startup t)
+(setq package-enable-at-startup nil)
 (setq package-install-upgrade-built-in t)
 (setq package-user-dir (expand-file-name "elpa" my/var-dir))
 (setq package-archives '(("melpa"  . "https://melpa.org/packages/")
