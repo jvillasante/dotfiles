@@ -5,26 +5,20 @@
 ;;; Code:
 
 ;;; package.el
-(progn
-    (require 'package)
-
-    ;; Initialize and refresh package contents again if needed
-    (package-initialize)
-    (unless package-archive-contents
-        (package-refresh-contents))
-
-    ;; Install use-package if necessary
+(require 'package)
+(package-initialize)
+(when (< emacs-major-version 29)
     (unless (package-installed-p 'use-package)
-        (package-install 'use-package))
+        (unless package-archive-contents
+            (package-refresh-contents))
+        (package-install 'use-package)))
 
-    ;; Ensure use-package is available at compile time
-    (eval-when-compile
-        (require 'use-package)
-        (use-package use-package
-            :ensure nil ;; emacs built-in
-            :custom ((use-package-verbose t)
-                     (use-package-always-ensure t)
-                     (use-package-expand-minimally t)))))
+;; use-package : macro that allows to isolate package configuration
+(use-package use-package
+    :ensure nil ;; emacs built-in
+    :custom ((use-package-verbose t)
+             (use-package-always-ensure t)
+             (use-package-expand-minimally t)))
 
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell

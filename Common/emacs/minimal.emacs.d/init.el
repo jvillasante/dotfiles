@@ -47,7 +47,7 @@
     (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 
 (use-package modus-themes
-    :ensure t
+    :ensure t ; it is built-in
     :config
     (load-theme 'modus-operandi :no-confirm-loading))
 
