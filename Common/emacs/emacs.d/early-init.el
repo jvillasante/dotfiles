@@ -80,17 +80,17 @@
 
 ;;; package.el
 (setq load-prefer-newer t)
-(setq package-enable-at-startup nil)
-(setq package-install-upgrade-built-in t)
-(setq package-user-dir (expand-file-name "elpa" my/var-dir))
-(setq package-archives '(("melpa"  . "https://melpa.org/packages/")
-                         ("stable" . "https://stable.melpa.org/packages/")
-                         ("gnu"    . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-(setq package-archive-priorities '(("gnu"    . 99)
-                                   ("nongnu" . 80)
-                                   ("stable" . 70)
-                                   ("melpa"  . 0)))
+(setq package-enable-at-startup nil
+      package-install-upgrade-built-in t
+      package-user-dir (expand-file-name "elpa" my/var-dir)
+      package-archives '(("melpa"        . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("gnu"          . "https://elpa.gnu.org/packages/")
+                         ("nongnu"       . "https://elpa.nongnu.org/nongnu/"))
+      package-archive-priorities '(("gnu"          . 99)
+                                   ("nongnu"       . 80)
+                                   ("melpa-stable" . 70)
+                                   ("melpa"        . 0)))
 (provide 'early-init)
 
 ;;; early-init.el ends here
