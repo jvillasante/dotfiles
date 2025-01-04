@@ -46,8 +46,8 @@ install_berkeley_mono_font() {
     rm -rf ~/.local/share/fonts/TX-02*
 
     # copy all V1 TTF fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-01/ \
-         -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+    # find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-01/ \
+    #      -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # copy all V2 OTF fonts to ~/.local/share/fonts
     find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-02/ \

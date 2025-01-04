@@ -75,19 +75,20 @@
 ;; (add-hook 'prog-mode-hook
 ;;           'display-fill-column-indicator-mode) ;; ... fill column indication on prog-mode is nice
 
-;; Set the font (M-x `menu-set-font' to see font faces)
+;; Set the font (M-x `describe-font' to see available fonts)
 (defun my/setup-fonts ()
     "Set up fonts at startup."
     (setq x-underline-at-descent-line nil)
     (set-face-attribute 'default nil
                         :family "Berkeley Mono"
                         :height 140
+                        :weight 'regular
                         :width  'normal
-                        :weight 'normal)
+                        :slant  'normal)
     (set-face-attribute 'fixed-pitch nil
                         :family "Berkeley Mono")
     (set-face-attribute 'variable-pitch nil
-                        :family "Berkeley Mono Variable"))
+                        :family "TX-02"))
 (if (daemonp)
         (add-hook 'after-make-frame-functions
                   (lambda (frame)
