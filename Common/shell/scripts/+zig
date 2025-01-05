@@ -35,7 +35,7 @@ update_zig() {
     test $? -eq 0 || usage 1
 
     # Get lastest tarball from here: https://ziglang.org/download/
-    local ZIG_TAR_LOCATION="https://ziglang.org/builds/zig-linux-x86_64-0.12.0-dev.4+e7ba4b7f9.tar.xz"
+    local ZIG_TAR_LOCATION="https://ziglang.org/builds/zig-linux-x86_64-0.14.0-dev.2599+ff4f2753e.tar.xz"
     ZIG_TAR_FILE="$(basename $ZIG_TAR_LOCATION)"
     test $? -eq 0 || usage 1
 
@@ -75,8 +75,8 @@ update_zls() {
         zig build -Doptimize=ReleaseSafe
         test $? -eq 0 || usage 1
 
-        zig build gen -- --generate-version-data master
-        test $? -eq 0 || usage 1
+        # zig build gen -- --generate-version-data master
+        # test $? -eq 0 || usage 1
 
         popd || usage 1
 

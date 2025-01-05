@@ -104,6 +104,10 @@
                  '((rust-ts-mode rust-mode) .
                    ("rust-analyzer" :initializationOptions (:checkOnSave (:command "clippy")))))
 
+    ;; Zig
+    (add-to-list 'eglot-server-programs
+                 '(zig-mode . ("zls")))
+
     ;; C++
     (add-to-list 'eglot-server-programs
                  '((c-ts-mode c++-ts-mode c-mode c++-mode)

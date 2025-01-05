@@ -466,6 +466,11 @@
 (global-set-key (kbd "C-c o i") 'ielm)
 (global-set-key (kbd "C-c o b") 'my/open-link-at-point-or-minibuffer-with-choice)
 
+;; C c n : Notes
+(when (package-installed-p 'consult-notes)
+    (global-set-key (kbd "C-c n n") 'consult-notes))
+(global-set-key (kbd "C-c n a") 'org-agenda)
+
 ;; C-c l : lookup
 (global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)
 
