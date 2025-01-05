@@ -10,15 +10,21 @@
     :bind (:map ctl-x-map
                 ("p" . disproject-dispatch)))
 
-;; TODO: Configure other casual packages
-;; casual : A collection of opinionated Transient-based keyboard-driven user
-;;          interfaces for various built-in Emacs modes.
+;; casual : https://github.com/kickingvegas/casual
+;; A collection of opinionated Transient-based keyboard-driven user interfaces
+;; for various built-in Emacs modes: Agenda, Bookmarks, Calc, Calendar, Dired,
+;; EditKit, IBuffer, Info, I-Search, Re-Builder
 (use-package casual
     :config
     ;; dired
-    (keymap-set dired-mode-map "?" #'casual-dired-tmenu)
+    (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
     (keymap-set dired-mode-map "s" #'casual-dired-sort-by-tmenu) ; optional
-    (keymap-set dired-mode-map "/" #'casual-dired-search-replace-tmenu)) ; optional
+    (keymap-set dired-mode-map "/" #'casual-dired-search-replace-tmenu) ; optional
+
+    ;; ibuffer
+    (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
+    (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
+    (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu))
 
 (provide 'my-init-transient)
 ;;; my-init-transient.el ends here
