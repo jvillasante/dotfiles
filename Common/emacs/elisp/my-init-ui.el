@@ -411,8 +411,9 @@ Run this function at the post theme load phase, such as with the
 (use-package ace-window
     :disabled t
     :config
+    (setq aw-scope 'frame)
     (setq aw-minibuffer-flag t)
-    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+    (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)))
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 ;;          https://www.masteringemacs.org/article/demystifying-emacs-window-manager
