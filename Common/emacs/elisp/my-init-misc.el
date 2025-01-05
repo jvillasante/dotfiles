@@ -198,27 +198,19 @@
     (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
     (add-hook 'after-init-hook 'electric-pair-mode))
 
-;; ibuffer :
+;; ibuffer : replacement for the built-in `list-buffer'
 (use-package ibuffer
     :ensure nil  ;; emacs built-in
-    :config
-    (require 'hl-line)
-    (require 'mouse)
-    (add-hook 'ibuffer-mode-hook #'hl-line-mode)
-    (add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
-    (keymap-set ibuffer-mode-map "<double-mouse-1>" #'ibuffer-visit-buffer)
-    (keymap-set ibuffer-mode-map "M-<double-mouse-1>" #'ibuffer-visit-buffer-other-window))
+    :hook (ibuffer-mode . (lambda ()
+                              (hl-line-mode)
+                              (ibuffer-auto-mode))))
 
-;; ibuffer :
-(use-package ibuffer-project
-    :config
-    (setq ibuffer-project-use-cache t)
-    (add-to-list 'ibuffer-project-root-functions '(file-remote-p . "Remote"))
-    (add-hook 'ibuffer-hook
-              (lambda ()
-                  (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
-                  (unless (eq ibuffer-sorting-mode 'project-file-relative)
-                      (ibuffer-do-sort-by-project-file-relative)))))
+;; ibuffer-vc : Group buffers in ibuffer list by VC project
+(use-package ibuffer-vc
+    :hook (ibuffer . (lambda ()
+                         (ibuffer-vc-set-filter-groups-by-vc-root)
+                         (unless (eq ibuffer-sorting-mode 'alphabetic)
+                             (ibuffer-do-sort-by-alphabetic)))))
 
 ;; vundo : visual undo
 (use-package vundo

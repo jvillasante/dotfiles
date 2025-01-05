@@ -98,7 +98,9 @@
     (keymap-set ibuffer-mode-map "}" #'ibuffer-forward-next-marked)
     (keymap-set ibuffer-mode-map "[" #'ibuffer-backward-filter-group)
     (keymap-set ibuffer-mode-map "]" #'ibuffer-forward-filter-group)
-    (keymap-set ibuffer-mode-map "$" #'ibuffer-toggle-filter-group))
+    (keymap-set ibuffer-mode-map "$" #'ibuffer-toggle-filter-group)
+    (keymap-set ibuffer-mode-map "<double-mouse-1>" #'ibuffer-visit-buffer)
+    (keymap-set ibuffer-mode-map "M-<double-mouse-1>" #'ibuffer-visit-buffer-other-window))
 
 (with-eval-after-load 'vertico
     ;; (define-key vertico-map (kbd "RET") 'vertico-directory-enter)
