@@ -205,8 +205,19 @@
                               (hl-line-mode)
                               (ibuffer-auto-mode))))
 
+;; ibuffer-project : group buffers by custom functions or regexps.
+(use-package ibuffer-project
+    :hook (ibuffer . (lambda ()
+                         (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+                         (unless (eq ibuffer-sorting-mode 'project-file-relative)
+                             (ibuffer-do-sort-by-project-file-relative))))
+    :config
+    (setq ibuffer-project-root-functions '((ibuffer-project-project-root . "Project")))
+    (add-to-list 'ibuffer-project-root-functions '(file-remote-p . "Remote")))
+
 ;; ibuffer-vc : Group buffers in ibuffer list by VC project
 (use-package ibuffer-vc
+    :disabled t
     :hook (ibuffer . (lambda ()
                          (ibuffer-vc-set-filter-groups-by-vc-root)
                          (unless (eq ibuffer-sorting-mode 'alphabetic)
