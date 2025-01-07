@@ -155,9 +155,8 @@
 ;; tramp : Transparent Remote Access, Multiple Protocols
 (use-package tramp
     :ensure nil ;; emacs built-in
-    :init
-    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
     :config
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
     (setq tramp-use-connection-share nil) ; use Control* options from ssh config
     (setq remote-file-name-inhibit-locks t)
     (setq remote-file-name-inhibit-cache nil)
@@ -230,7 +229,7 @@
     (setq vundo-compact-display nil))
 
 ;; helpful : better help buffers
-(use-package helpful)
+(use-package helpful :defer t)
 
 ;; rainbow-delimiters : highlights delimiters such as parentheses
 (use-package rainbow-delimiters
@@ -286,8 +285,8 @@
 
 ;; multiple-cursors: Multiple cursors for Emacs
 (use-package multiple-cursors
-    :init
-    (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
+    :defer t
+    :config (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
 ;; deadgrep : the fast, beautiful text search that your Emacs deserves.
 ;; (use-package deadgrep)

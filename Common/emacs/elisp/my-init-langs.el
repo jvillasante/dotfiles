@@ -146,16 +146,19 @@
 
 (use-package elisp-mode
     :ensure nil ;; emacs built-in
+    :defer t
     :config (setq lisp-body-indent 4))
 
 (use-package elisp-demos
     :init
+    :after elisp-modee
     (advice-add #'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
     (advice-add #'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 ;; c++ treesiter
 (use-package c-ts-mode
     :ensure nil ;; emacs built-in
+    :defer t
     :preface
     (defun my/c-ts-indent-style()
         "Override the built-in BSD indentation style with some additional rules.
@@ -175,22 +178,26 @@
     (setq c-ts-mode-indent-style #'my/c-ts-indent-style))
 
 ;; cmake
-(use-package cmake-mode)
+(use-package cmake-mode :defer t)
 
 ;; adoc-mode : ascii docs
 (use-package adoc-mode
+    :defer t
     :mode "\\.adoc\\'")
 
 ;; csv-mode : Support for csv files (use csv-align-mode for alignment)
 (use-package csv-mode
+    :defer t
     :mode "\\.csv\\'")
 
 ;; yaml-mode : Support gitlab-ci.yml
 (use-package yaml-mode
+    :defer t
     :mode "\\.yml\\'" "\\.yaml\\'" "\\.clangd\\'")
 
 ;; web-mode : Support various web files
 (use-package web-mode
+    :defer t
     :mode ("\\.css\\'"
            "\\.html?\\'"
            "\\.html\\.twig\\'"
@@ -207,11 +214,13 @@
 
 ;; php-mode
 (use-package php-mode
+    :defer t
     :custom ((php-mode-coding-style 'psr2)
              (php-mode-template-compatibility nil)
              (php-imenu-generic-expression 'php-imenu-generic-expression-simple)))
 
 (use-package python
+    :defer t
     :config
     (defvar my/python-enable-ipython t
         "use ipython as the embedded REPL.")
@@ -222,6 +231,7 @@
         (setq python-shell-interpreter-args "-i --simple-prompt --no-color-info")))
 
 (use-package markdown-mode
+    :defer t
     :mode (("\\.[Rr]md\\'" . markdown-mode)
            ("\\.qmd\\'" . markdown-mode))
     ;; :init (add-hook 'markdown-mode-hook 'markdown-toggle-markup-hiding)
@@ -230,6 +240,7 @@
                   markdown-enable-math t))
 
 (use-package go-mode
+    :defer t
     :preface
     (defun my/go-setup ()
         (setq-local c-basic-offset 4) ; Base indent size when indented automatically
@@ -239,23 +250,26 @@
            (go-ts-mode . my/go-setup)))
 
 (use-package sql
+    :defer t
     :config (add-hook 'sql-mode-hook (setq-local tab-width 4)))
 
 ;; rust-mode : blazingly fast
 (use-package rust-mode
+    :defer t
     :config (setq rust-format-on-save nil))
 
 ;; zig
-(use-package zig-mode)
+(use-package zig-mode :defer t)
 
 ;; JSON Support
-(use-package json-mode)
+(use-package json-mode :defer t)
 
 ;; Lua Support
-(use-package lua-mode)
+(use-package lua-mode :defer t)
 
 ;; js is everywhere
 (use-package js2-mode
+    :defer t
     :init
     (add-hook 'js2-mode-hook
               (lambda ()
@@ -274,6 +288,7 @@
 
 (use-package csv-mode
     :ensure nil ;; emacs built-in
+    :defer t
     :init
     (add-hook 'csv-mode-hook 'csv-align-mode)
     (add-hook 'csv-mode-hook (lambda () (interactive) (toggle-truncate-lines nil))))

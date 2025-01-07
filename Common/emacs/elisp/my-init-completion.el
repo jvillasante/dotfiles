@@ -360,6 +360,7 @@
 
 ;; yasnippet-capf
 (use-package yasnippet-capf
+    :disabled t
     :after cape)
 
 ;; languagetool : multilingual grammar, style, and spell checker

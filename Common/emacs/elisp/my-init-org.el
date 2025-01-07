@@ -5,6 +5,7 @@
 
 (use-package org
     :ensure nil ;; emacs built-in
+    :defer t
     :preface
     (defun my/org-setup ()
         ;; org wants 8 as tab-width
@@ -70,6 +71,7 @@
 
 (use-package org-capture
     :ensure nil ;; emacs built-in
+    :after org
     :init
     ;; when refiling from org-capture, Emacs prompts to kill the
     ;; underlying, modified buffer. This fixes that.
@@ -90,6 +92,7 @@
 
 (use-package org-agenda
     :ensure nil ;; emacs built-in
+    :after org
     :config
     ;; org-agenda will visit all org files listed
     ;; in `org-agenda-files' to generate the org-agenda view.

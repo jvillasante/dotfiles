@@ -9,9 +9,10 @@
     :init (add-hook 'ielm-mode-hook 'eldoc-mode))
 
 ;; eshell : the emacs shell
-(use-package eshell-prompt-extras)
+(use-package eshell-prompt-extras :after eshell)
 (use-package eshell
     :ensure nil ;; emacs built-in
+    :defer t
     :preface
     (defun my/eshell-other-window ()
         "Open a `eshell' in a new window."
@@ -67,6 +68,7 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
+    :defer t
     :preface
     (defun my/vterm-copy-mode-cancel ()
         (interactive)
@@ -95,13 +97,12 @@
     :hook ((vterm-copy-mode . (lambda ()
                                   (set-buffer-modified-p (not (buffer-modified-p)))
                                   (force-mode-line-update))))
-    :init
-    (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
-    (setq vterm-always-compile-module t)
+    :config
     (add-to-list 'project-switch-commands '(my/vterm-project "vTerm") t)
     (add-to-list 'project-switch-commands '(my/vterm-project-other-window "vTerm other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
-    :config
+    (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
+    (setq vterm-always-compile-module t)
     (setq vterm-timer-delay 0.01)
     (setq vterm-copy-exclude-prompt t)
     (setq vterm-copy-mode-remove-fake-newlines t)
