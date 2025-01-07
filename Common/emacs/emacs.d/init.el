@@ -17,17 +17,26 @@
 (use-package use-package
     :ensure nil ;; emacs built-in
     :custom ((use-package-verbose t)
+             (use-package-compute-statistics nil)
              (use-package-always-ensure t)
              (use-package-expand-minimally t)))
 
 ;; exec-path-from-shell : Sane environment variables
 (use-package exec-path-from-shell
-    :init
+    :config
     (when (daemonp)
-        (exec-path-from-shell-initialize)
-        (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"
-                       "CARGO_HOME" "GOPATH" "GOBIN" "NIX_SSL_CERT_FILE" "NIX_PATH" "VCPKG_ROOT"))
-            (exec-path-from-shell-copy-env var))))
+        (add-to-list 'exec-path-from-shell-variables "SSH_AUTH_SOCK")
+        (add-to-list 'exec-path-from-shell-variables "SSH_AGENT_PID")
+        (add-to-list 'exec-path-from-shell-variables "GPG_AGENT_INFO")
+        (add-to-list 'exec-path-from-shell-variables "LANG")
+        (add-to-list 'exec-path-from-shell-variables "LC_CTYPE")
+        ;; (add-to-list 'exec-path-from-shell-variables "CARGO_HOME")
+        ;; (add-to-list 'exec-path-from-shell-variables "GOPATH")
+        ;; (add-to-list 'exec-path-from-shell-variables "GOBIN")
+        ;; (add-to-list 'exec-path-from-shell-variables "NIX_SSL_CERT_FILE")
+        ;; (add-to-list 'exec-path-from-shell-variables "NIX_PATH")
+        ;; (add-to-list 'exec-path-from-shell-variables "VCPKG_ROOT")
+        (exec-path-from-shell-initialize)))
 
 ;; Paths
 (defconst my/home-path (expand-file-name "~/"))

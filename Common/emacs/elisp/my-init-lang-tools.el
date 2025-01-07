@@ -144,6 +144,7 @@
 
 ;; geiser support for guile
 (use-package geiser-guile
+    :defer t
     :config
     (setq geiser-guile-binary "guile3.0"))
 

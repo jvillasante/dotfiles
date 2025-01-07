@@ -312,6 +312,7 @@
 
 ;; devdocs-browser : Browse devdocs.io documents inside Emacs!
 (use-package devdocs-browser
+    :defer t
     :custom (devdocs-browser-cache-directory
              (expand-file-name "devdocs-browser" my/var-dir)))
 

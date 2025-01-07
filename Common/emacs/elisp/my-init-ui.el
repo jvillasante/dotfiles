@@ -296,6 +296,8 @@ Run this function at the post theme load phase, such as with the
         (if (eq modus-themes-org-blocks 'gray-background)
                 (setq org-fontify-whole-block-delimiter-line t)
             (setq org-fontify-whole-block-delimiter-line nil)))
+    :hook ((after-init . (lambda () (modus-themes-load-theme 'modus-operandi)))
+           (modus-themes-after-load-theme . my/modus-themes-org-fontify-block-delimiter-lines))
     :config
     ;; In all of the following, WEIGHT is a symbol such as `semibold',
     ;; `light', `bold', or anything mentioned in `modus-themes-weights'.
@@ -344,14 +346,7 @@ Run this function at the post theme load phase, such as with the
                               (bg-mode-line-inactive bg-inactive)
                               (fg-mode-line-active fg-dim)
                               (border-mode-line-active unspecified)
-                              (border-mode-line-inactive unspecified)))
-
-    (add-hook 'modus-themes-after-load-theme-hook
-              #'my/modus-themes-org-fontify-block-delimiter-lines)
-
-    ;; Load theme
-    ;; (my/switch-theme 'modus-operandi)
-    (modus-themes-load-theme 'modus-operandi))
+                              (border-mode-line-inactive unspecified))))
 
 ;; minions : menu that lists enabled minor-modes
 (use-package minions

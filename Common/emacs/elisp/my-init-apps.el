@@ -74,6 +74,7 @@
 
 (use-package eww
     :ensure nil ; emacs built-in
+    :defer t
     :config
     (setq
      browse-url-browser-function 'eww-browse-url       ; Use eww as the default browser

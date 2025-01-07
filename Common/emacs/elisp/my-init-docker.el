@@ -11,6 +11,7 @@
     :group 'my)
 
 (use-package docker
+    :defer t
     :config
     (when (eq my/docker-executable 'docker)
         (setq docker-command "docker")
