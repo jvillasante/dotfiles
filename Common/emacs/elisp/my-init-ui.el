@@ -66,6 +66,9 @@
 (when (>= emacs-major-version 29)
     (add-hook 'after-init-hook #'context-menu-mode))
 
+;; Maximum height for resizing mini-windows (the minibuffer and the echo area).
+(setq max-mini-window-height 1)
+
 ;; setup visual-line and auto-fill
 (setq visual-line-fringe-indicators
       '(left-curly-arrow right-curly-arrow))              ;; display line indication on fringe

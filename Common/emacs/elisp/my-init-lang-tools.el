@@ -41,7 +41,8 @@
     (eldoc-add-command #'xref-find-definitions)
     (eldoc-add-command #'xref-go-back)
     (eldoc-add-command #'avy-goto-char-timer)
-    (setq eldoc-echo-area-use-multiline-p nil)
+    (setq max-mini-window-height 1)
+    (setq eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
     (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
     (global-eldoc-mode))
 
