@@ -109,11 +109,9 @@
 
 (use-package pdf-view-restore
     :after pdf-tools
-    :defer t
     :hook (pdf-view-mode . pdf-view-restore-mode)
-    :config
-    (setq pdf-view-restore-filename
-          (expand-file-name "pdf-view-restore" my/var-dir)))
+    :config (setq pdf-view-restore-filename
+                  (expand-file-name "pdf-view-restore" my/var-dir)))
 
 (use-package atomic-chrome
     :disabled t

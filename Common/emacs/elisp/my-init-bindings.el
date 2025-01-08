@@ -250,32 +250,31 @@
 (with-eval-after-load 'markdown-mode
     (define-key markdown-mode-map (kbd "TAB") 'markdown-cycle))
 
-(with-eval-after-load 'eshell
-    (global-set-key (kbd "C-c o e") 'eshell)
-    (global-set-key (kbd "C-c o E") 'my/eshell-other-window))
-
-(with-eval-after-load 'shell
-    (global-set-key (kbd "C-c o s") 'shell)
-    (global-set-key (kbd "C-c o S") 'my/shell-other-window))
-
-(with-eval-after-load 'vterm
+;; shells
+(global-set-key (kbd "C-c o e") 'eshell)
+(global-set-key (kbd "C-c o E") 'my/eshell-other-window)
+(global-set-key (kbd "C-c o s") 'shell)
+(global-set-key (kbd "C-c o S") 'my/shell-other-window)
+(when (package-installed-p 'vterm)
     ;; global keys
     (global-set-key (kbd "C-c o t") 'vterm)
     (global-set-key (kbd "C-c o T") 'vterm-other-window)
 
-    ;; project-prefix-map
-    (define-key project-prefix-map (kbd "t") 'my/vterm-project)
-    (define-key project-prefix-map (kbd "T") 'my/vterm-project-other-window)
+    (with-eval-after-load 'project
+        ;; project-prefix-map
+        (define-key project-prefix-map (kbd "t") 'my/vterm-project)
+        (define-key project-prefix-map (kbd "T") 'my/vterm-project-other-window))
 
-    ;; vterm-copy-mode-map
-    (define-key vterm-copy-mode-map (kbd "<return>") 'my/vterm-copy-mode-cancel)
-    (define-key vterm-copy-mode-map (kbd "RET")      'my/vterm-copy-mode-cancel)
+    (with-eval-after-load 'vterm
+        ;; vterm-copy-mode-map
+        (define-key vterm-copy-mode-map (kbd "<return>") 'my/vterm-copy-mode-cancel)
+        (define-key vterm-copy-mode-map (kbd "RET")      'my/vterm-copy-mode-cancel)
 
-    ;; vterm-mode-map
-    (define-key vterm-mode-map (kbd "<insert>") 'ignore)
-    (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape)
-    (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
-    (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key))
+        ;; vterm-mode-map
+        (define-key vterm-mode-map (kbd "<insert>") 'ignore)
+        (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape)
+        (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
+        (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)))
 
 (with-eval-after-load 'dwim-shell-command
     (define-key global-map [remap shell-command] 'dwim-shell-command)
