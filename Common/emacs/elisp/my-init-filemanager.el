@@ -16,7 +16,7 @@
     (setq dired-free-space nil
           dired-deletion-confirmer 'y-or-n-p
           dired-filter-verbose nil
-          dired-recursive-deletes 'top
+          dired-recursive-deletes 'always
           dired-recursive-copies  'always
           dired-create-destination-dirs 'ask)
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
@@ -64,6 +64,17 @@
                 (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))) ; was dired-up-directory
         (progn
             (setq dired-kill-when-opening-new-dired-buffer t))))
+
+(use-package dired-subtree
+    :after dired
+    :bind
+    (:map dired-mode-map
+          ("<tab>" . dired-subtree-toggle)
+          ("TAB" . dired-subtree-toggle)
+          ("<backtab>" . dired-subtree-remove)
+          ("S-TAB" . dired-subtree-remove))
+    :config
+    (setq dired-subtree-use-backgrounds nil))
 
 ;; dired-x : dired eXtenxions
 (use-package dired-x

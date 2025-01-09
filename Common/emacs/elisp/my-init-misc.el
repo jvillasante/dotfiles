@@ -114,10 +114,11 @@
     :ensure nil ;; emacs built-in
     :hook (after-init . savehist-mode)
     :config
-    (setq history-length 300
+    (setq history-length 500
           history-delete-duplicates t
           savehist-save-minibuffer-history t
-          savehist-additional-variables '(register-alist kill-ring search-ring regexp-search-ring)))
+          savehist-additional-variables
+          '(register-alist kill-ring search-ring regexp-search-ring)))
 
 ;; recentf : recent files
 (use-package recentf
