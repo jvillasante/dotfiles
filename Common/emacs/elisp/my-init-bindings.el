@@ -350,7 +350,7 @@
     (global-set-key (kbd "C-=") 'expreg-expand)
     (global-set-key (kbd "C--") 'expreg-contract))
 
-(with-eval-after-load 'multiple-cursors
+(when (package-installed-p 'multiple-cursors)
     (global-set-key (kbd "H-SPC") 'set-rectangular-region-anchor)
     (global-set-key (kbd "C-M-SPC") 'set-rectangular-region-anchor)
     (global-set-key (kbd "C->") 'mc/mark-next-like-this)
