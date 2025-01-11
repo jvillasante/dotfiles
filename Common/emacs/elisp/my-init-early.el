@@ -197,9 +197,12 @@
                            (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
                            "show diff between the buffer and its file")))
 
+    ;; Browse the web
+    ;; (setq browse-url-browser-function 'browse-url-generic) ; Use default Browser
+    (setq browse-url-browser-function 'eww-browse-url)     ; Use eww as the default browser
+
     (when my/os-mac
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-        (setq browse-url-browser-function 'browse-url-generic)
         (setq browse-url-generic-program "open")
         (setq ns-use-proxy-icon nil)
         (setq ns-use-thin-smoothing t)
@@ -221,7 +224,6 @@
 
     (when my/os-linux
         (setq x-super-keysym 'meta)
-        (setq browse-url-browser-function 'browse-url-generic)
         (setq browse-url-generic-program "xdg-open")
         (defconst my/clang-path "/usr/bin/clang")
         (defconst my/mu-path "/usr/bin/mu")

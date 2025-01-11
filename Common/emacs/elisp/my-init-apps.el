@@ -77,7 +77,6 @@
     :defer t
     :config
     (setq
-     browse-url-browser-function 'eww-browse-url       ; Use eww as the default browser
      shr-use-fonts  nil                                ; No special fonts
      shr-use-colors nil                                ; No colors
      shr-indentation 2                                 ; Left-side margin
