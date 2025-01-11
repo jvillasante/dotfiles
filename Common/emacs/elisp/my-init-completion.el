@@ -355,8 +355,11 @@
 ;; yasnippet : template system for Emacs
 (use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
-    :config (yas-reload-all)
-    :hook (after-init . yas-global-mode))
+    :config (add-to-list 'yas-snippet-dirs
+                         (expand-file-name "yasnippet/snippets" my/etc-dir))
+    :hook (after-init . (lambda ()
+                            (yas-reload-all)
+                            (yas-global-mode))))
 
 ;; yasnippet-capf
 (use-package yasnippet-capf
