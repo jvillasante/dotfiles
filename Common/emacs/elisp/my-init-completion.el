@@ -203,8 +203,8 @@
      (corfu-auto-prefix 3)
      (corfu-quit-no-match t)
      (corfu-preview-current nil)
-     (corfu-min-width 20)
-     (corfu-popupinfo-delay '(1.25 . 0.5))
+     ;; (corfu-min-width 20)
+     ;; (corfu-popupinfo-delay '(1.25 . 0.5))
      (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
     :bind (:map corfu-map ("<tab>" . corfu-complete))
     :hook ((after-init . (lambda ()
