@@ -42,8 +42,7 @@ install_berkeley_mono_font() {
     mkdir -p ~/.local/share/fonts
 
     # remove all fonts from ~/.local/share/fonts that start with "BerkeleyMono"
-    rm -rf ~/.local/share/fonts/BerkeleyMono*
-    rm -rf ~/.local/share/fonts/TX-02*
+    rm -rf ~/.local/share/fonts/Berkeley*
 
     # copy all V1 TTF fonts to ~/.local/share/fonts
     # find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-01/ \

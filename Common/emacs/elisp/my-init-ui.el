@@ -83,7 +83,7 @@
     "Set up fonts at startup."
     (setq x-underline-at-descent-line nil)
     (let ((mono-spaced-font "Berkeley Mono")
-          (proportionately-spaced-font "TX-02"))
+          (proportionately-spaced-font "Berkeley Mono Variable"))
         (set-face-attribute 'default nil
                             :family mono-spaced-font
                             :height 140
