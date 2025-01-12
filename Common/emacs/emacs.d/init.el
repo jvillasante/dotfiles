@@ -38,13 +38,6 @@
         ;; (add-to-list 'exec-path-from-shell-variables "VCPKG_ROOT")
         (exec-path-from-shell-initialize)))
 
-;;; compile-angel : Natively compile all the things
-(use-package compile-angel
-    :disabled t
-    :custom (compile-angel-verbose nil)
-    :config (compile-angel-on-load-mode)
-    :hook (emacs-lisp-mode . compile-angel-on-save-local-mode))
-
 ;; Paths
 (defconst my/home-path (expand-file-name "~/"))
 (defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
