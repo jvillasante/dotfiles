@@ -40,8 +40,7 @@ if type fzf > /dev/null 2> /dev/null; then
         selected=$(find "$HOME"/Workspace/Private/Projects/*/ \
                         "$HOME"/Workspace/Public \
                         "$HOME"/Workspace/Work/Nielsen/Projects \
-                        "$HOME"/Workspace/Work/Omicron/Projects/ \
-                        "$HOME"/Workspace/Work/Omicron/Projects/nntpcode \
+                        "$HOME"/Workspace/Work/Omicron/Projects/*/ \
                         -mindepth 1 -maxdepth 1 -type d | fzf)
         [[ -z $selected ]] && return
 
@@ -61,9 +60,9 @@ if type fzf > /dev/null 2> /dev/null; then
             return
         fi
 
-        if [[ nntpcode = $(basename "$selected_parent" | tr . _) ]]; then
-            if [[ $selected_name != @(master|review|scratch|fuzz|dev) ]]; then
-                echo ">> Error: Expecting one of master|review|scratch|fuzz|dev - Got $selected_name"
+        if [[ nntp = $(basename "$selected_parent" | tr . _) ]]; then
+            if [[ $selected_name != @(main|review|scratch|fuzz|dev) ]]; then
+                echo ">> Error: Expecting one of main|review|scratch|fuzz|dev - Got $selected_name"
                 return
             fi
 
