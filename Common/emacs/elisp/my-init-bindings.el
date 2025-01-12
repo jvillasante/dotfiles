@@ -117,26 +117,10 @@
     (define-key corfu-map (kbd "SPC") 'corfu-insert-separator))
 
 (with-eval-after-load 'cape
-    (global-set-key (kbd "C-c p p") 'completion-at-point) ;; capf
-    (global-set-key (kbd "C-c p t") 'complete-tag)        ;; etags
-    (global-set-key (kbd "C-c p d") 'cape-dabbrev)        ;; or dabbrev-completion
-    (global-set-key (kbd "C-c p h") 'cape-history)
-    (global-set-key (kbd "C-c p f") 'cape-file)
-    (global-set-key (kbd "C-c p k") 'cape-keyword)
-    (global-set-key (kbd "C-c p s") 'cape-elisp-symbol)
-    (global-set-key (kbd "C-c p e") 'cape-elisp-block)
-    (global-set-key (kbd "C-c p a") 'cape-abbrev)
-    (global-set-key (kbd "C-c p l") 'cape-line)
-    (global-set-key (kbd "C-c p w") 'cape-dict)
-    (global-set-key (kbd "C-c p :") 'cape-emoji)
-    (global-set-key (kbd "C-c p \\") 'cape-tex)
-    (global-set-key (kbd "C-c p _") 'cape-tex)
-    (global-set-key (kbd "C-c p ^") 'cape-tex)
-    (global-set-key (kbd "C-c p &") 'ape-sgml)
-    (global-set-key (kbd "C-c p r") 'cape-rfc1345))
+    (global-set-key (kbd "C-c p") 'cape-prefix-map))
 
 ;; consult
-(with-eval-after-load 'consult
+(when (package-installed-p 'consult)
     ;; C-c bindings (mode-specific-map)
     (global-set-key (kbd "C-c M-x") 'consult-mode-command)
     (global-set-key (kbd "C-c h")   'consult-history)
@@ -150,6 +134,7 @@
     (global-set-key (kbd "C-x b")   'consult-buffer)              ;; orig. switch-to-buffer
     (global-set-key (kbd "C-x 4 b") 'consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
     (global-set-key (kbd "C-x 5 b") 'consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+    (global-set-key (kbd "C-x t b") 'consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
     (global-set-key (kbd "C-x r b") 'consult-bookmark)            ;; orig. bookmark-jump
     (global-set-key (kbd "C-x p b") 'consult-project-buffer)      ;; orig. project-switch-to-buffer
     (global-set-key (kbd "C-x C-r") 'consult-recent-file)         ;; orig. find-file-readonly
@@ -174,7 +159,7 @@
     (global-set-key (kbd "M-g I")   'consult-imenu-multi)
 
     ;; M-s bindings (search-map)
-    (global-set-key (kbd "M-s d") 'consult-find)
+    (global-set-key (kbd "M-s d") 'consult-fd)         ;; Alternative: consult-find
     (global-set-key (kbd "M-s D") 'consult-locate)
     (global-set-key (kbd "M-s g") 'consult-grep)
     (global-set-key (kbd "M-s G") 'consult-git-grep)
