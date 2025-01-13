@@ -188,6 +188,7 @@
 ;; electric pair : work with pairs in emacs
 (use-package elec-pair
     :ensure nil ;; emacs built-in
+    :hook (after-init . electric-pair-mode)
     :config
     ;; make electric-pair-mode work on more brackets
     (setq-default electric-pair-pairs
@@ -195,8 +196,8 @@
                     (?\( . ?\))
                     (?\{ . ?\})
                     (?\[ . ?\])))
-    (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-    (add-hook 'after-init-hook 'electric-pair-mode))
+    (setq-default electric-pair-inhibit-predicate
+                  'electric-pair-conservative-inhibit))
 
 ;; ibuffer : replacement for the built-in `list-buffer'
 (use-package ibuffer
