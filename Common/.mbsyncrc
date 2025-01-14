@@ -116,7 +116,8 @@ Channel Apple-all
 IMAPAccount Omicron
 Host outlook.office365.com
 User julio.villasante@omicronmedia.com
-PassCmd "mutt_oauth2.py -t ~/.password-store/Work/Omicron/mu4e-microsoft.gpg"
+# PassCmd "mutt_oauth2.py -t ~/.password-store/Work/Omicron/mu4e-microsoft.gpg"
+PassCmd "oama access julio.villasante@omicronmedia.com"
 AuthMechs XOAUTH2
 TLSType IMAPS
 TLSVersions +1.2
