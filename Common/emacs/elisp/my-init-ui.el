@@ -28,14 +28,6 @@
 (setq resize-mini-windows 'grow-only)
 
 (blink-cursor-mode -1) ; annoying!
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; Disable scrollbar
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; Disable toolbar
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))     ; Disable menubar
-
-;; Disable GUIs because they are inconsistent across systems, desktop
-;; environments, and themes, and they don't match the look of Emacs.
-(setq use-file-dialog nil)
-(setq use-dialog-box nil)
 
 ;; Make URLs in comments/strings clickable, (Emacs > v22).
 ;; (add-hook 'find-file-hooks 'goto-address-prog-mode)
@@ -96,12 +88,6 @@
         (set-face-attribute 'variable-pitch nil
                             :family proportionately-spaced-font
                             :height 1.0)))
-(if (daemonp)
-        (add-hook 'after-make-frame-functions
-                  (lambda (frame)
-                      (with-selected-frame frame
-                          (my/setup-fonts))))
-    (add-hook 'after-init-hook #'my/setup-fonts))
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook 'variable-pitch-mode)
@@ -299,8 +285,8 @@ Run this function at the post theme load phase, such as with the
         (if (eq modus-themes-org-blocks 'gray-background)
                 (setq org-fontify-whole-block-delimiter-line t)
             (setq org-fontify-whole-block-delimiter-line nil)))
-    :hook ((after-init . (lambda () (modus-themes-load-theme 'modus-operandi)))
-           (modus-themes-after-load-theme . my/modus-themes-org-fontify-block-delimiter-lines))
+    :hook
+    (modus-themes-after-load-theme . my/modus-themes-org-fontify-block-delimiter-lines)
     :config
     ;; In all of the following, WEIGHT is a symbol such as `semibold',
     ;; `light', `bold', or anything mentioned in `modus-themes-weights'.
@@ -412,6 +398,17 @@ Run this function at the post theme load phase, such as with the
     (setq aw-scope 'frame)
     (setq aw-minibuffer-flag t)
     (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)))
+
+;; Load fonts/theme/etc
+(if (daemonp)
+        (add-hook 'after-make-frame-functions
+                  (lambda (frame)
+                      (with-selected-frame frame
+                          (my/setup-fonts)
+                          (modus-themes-load-theme 'modus-operandi))))
+    (add-hook 'after-init-hook  (lambda ()
+                                    (my/setup-fonts)
+                                    (modus-themes-load-theme 'modus-operandi))))
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/
 ;;          https://www.masteringemacs.org/article/demystifying-emacs-window-manager

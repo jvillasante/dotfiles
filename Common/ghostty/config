@@ -42,3 +42,6 @@ window-theme = ghostty
 
 # No keybindings (I use tmux)
 keybind = clear
+
+# Hide titlebar when maximized
+# gtk-titlebar-hide-when-maximized = true
