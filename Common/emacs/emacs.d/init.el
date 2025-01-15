@@ -38,13 +38,18 @@
         ;; (add-to-list 'exec-path-from-shell-variables "VCPKG_ROOT")
         (exec-path-from-shell-initialize)))
 
-;; Paths
+;; Paths used throughout
 (defconst my/home-path (expand-file-name "~/"))
 (defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
 (defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
 (defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
 
-;; load config
+;; Telling Emacs where the C source code is let's us jump all the way down into
+;; primitive functions when exploring elisp functions.
+(setq source-directory (expand-file-name "emacs/" my/software-path))
+(setq find-function-C-source-directory (expand-file-name "emacs/src/" my/software-path))
+
+;; load custom config
 (load (expand-file-name "Common/emacs/elisp/my-utils"              my/dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-early"         my/dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-completion"    my/dotfiles-path))

@@ -31,7 +31,6 @@
                   ;; visual commands
                   (add-to-list 'eshell-visual-commands "top")
                   (add-to-list 'eshell-visual-commands "htop")
-                  (add-to-list 'eshell-visual-commands "neofetch")
                   (add-to-list 'eshell-visual-commands "ssh")
                   (add-to-list 'eshell-visual-commands "tail")
                   (add-to-list 'eshell-visual-commands "lynx")
