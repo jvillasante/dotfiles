@@ -50,9 +50,12 @@
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
 
 ;; upcase, downcase and capitalize
-(global-set-key (kbd "M-u") 'upcase-dwim)
-(global-set-key (kbd "M-l") 'downcase-dwim)
-(global-set-key (kbd "M-c") 'capitalize-dwim)
+(define-key (current-global-map) [remap capitalize-word] 'capitalize-dwim)
+(define-key (current-global-map) [remap downcase-word] 'downcase-dwim)
+(define-key (current-global-map) [remap upcase-word] 'upcase-dwim)
+
+;; count-words
+(define-key (current-global-map) [remap count-words-region] 'count-words)
 
 ;; Open line(s) below/above current one (using crux implementation)
 ;; (global-set-key (kbd "C-o") 'my/open-next-line)

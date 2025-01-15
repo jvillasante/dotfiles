@@ -197,7 +197,8 @@
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
     :ensure nil ;; emacs built-in
-    :hook (prog-mode . display-line-numbers-mode)
+    :hook ((prog-mode . display-line-numbers-mode)
+           (conf-mode . display-line-numbers-mode))
     :config
     (setq display-line-numbers-type t)
     (setq display-line-numbers-width 3)
