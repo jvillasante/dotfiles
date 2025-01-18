@@ -1,4 +1,9 @@
 # clangd configuration : https://clangd.llvm.org/config.html
+CompileFlags:
+    # https://github.com/clangd/clangd/issues/662
+    Add: -Wno-unknown-warning-option
+    # Remove: [-m*, -f*]
+
 Diagnostics:
     ClangTidy:
         # https://github.com/llvm/llvm-project/issues/109367

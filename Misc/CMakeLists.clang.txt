@@ -36,7 +36,6 @@ project(
   LANGUAGES C CXX)
 
 # Common Flags
-set(CMAKE_CXX_SCAN_FOR_MODULES OFF) # https://gitlab.kitware.com/cmake/cmake/-/issues/26283
 set(CMAKE_C_FLAGS_COMMON "-Wall -Wextra -Werror -Wpedantic -fcolor-diagnostics")
 set(CMAKE_CXX_FLAGS_COMMON "${CMAKE_C_FLAGS_COMMON}")
 
