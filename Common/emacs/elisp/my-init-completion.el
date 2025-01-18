@@ -182,10 +182,8 @@
 (use-package orderless
     :custom
     (completion-styles '(orderless basic))
-    (completion-category-defaults nil)
     (completion-category-overrides
-     '((file (styles partial-completion))
-       (eglot (styles orderless))))
+     '((file (styles basic partial-completion))))
     :init
     (setq orderless-component-separator " +")
     (setq orderless-matching-styles
