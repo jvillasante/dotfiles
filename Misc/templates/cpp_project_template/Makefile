@@ -1,7 +1,6 @@
 .PHONY: clean
 clean:
-	rm -rf bin
-	rm -rf build
+	cmake --build "build" --target clean
 
 .PHONY: debug
 debug:
