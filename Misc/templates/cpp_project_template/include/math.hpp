@@ -1,11 +1,11 @@
 #pragma once
-#include <cassert>
 #include <array>
-#include <cstdint>
+#include <cassert>
 #include <cmath>
+#include <cstdint>
 #include <limits>
-#include <type_traits>
 #include <random>
+#include <type_traits>
 
 namespace utils::math
 {
@@ -51,9 +51,10 @@ T set_bit_range(T num, std::size_t start, std::size_t end, std::size_t value)
     assert(start < std::numeric_limits<T>::digits);
     assert(end < std::numeric_limits<T>::digits);
     assert(start != end);
-    std::size_t range_size = end - start + 1;   // Determine the size of the range
-    T mask = ((1U << range_size) - 1) << start; // Create a mask with 1s in the specified range
-    num &= ~mask;                               // Clear the bits in the range
+    std::size_t range_size = end - start + 1; // Determine the size of the range
+    T mask = ((1U << range_size) - 1)
+             << start; // Create a mask with 1s in the specified range
+    num &= ~mask;      // Clear the bits in the range
     num |= (value & ((1U << range_size) - 1)) << start;
     return num;
 }
@@ -87,7 +88,8 @@ template <typename T>
 bool nearly_equal(T lhs, T rhs, T epsilon = std::numeric_limits<T>::epsilon())
     requires(std::is_floating_point_v<T>)
 {
-    // Check if the numbers are really close -- needed when comparing numbers near zero
+    // Check if the numbers are really close -- needed when comparing numbers
+    // near zero
     T diff = std::fabs(lhs - rhs);
     if (diff <= epsilon) { return true; }
 
@@ -98,11 +100,13 @@ bool nearly_equal(T lhs, T rhs, T epsilon = std::numeric_limits<T>::epsilon())
 inline int random_int(int min, int max)
 {
     // One engine instance per thread
-    auto thread_local static engine = std::default_random_engine{std::random_device{}()};
+    auto thread_local static engine =
+        std::default_random_engine{std::random_device{}()};
     return std::uniform_int_distribution<>{min, max}(engine);
 }
 
-template <std::uint8_t N, typename input_t = std::uint32_t, typename sum_t = std::uint64_t>
+template <std::uint8_t N, typename input_t = std::uint32_t,
+          typename sum_t = std::uint64_t>
 class simple_moving_average
 {
 public:

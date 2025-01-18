@@ -1,11 +1,11 @@
 #pragma once
-#include <iostream>
-#include <sstream>
-#include <memory>
-#include <mutex>
-#include <thread>
 #include <algorithm>
 #include <functional>
+#include <iostream>
+#include <memory>
+#include <mutex>
+#include <sstream>
+#include <thread>
 
 namespace utils::threading
 {

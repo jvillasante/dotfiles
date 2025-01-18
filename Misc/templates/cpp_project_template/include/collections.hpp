@@ -1,13 +1,14 @@
 #pragma once
-#include <vector>
-#include <utility>
 #include <algorithm>
 #include <cassert>
+#include <utility>
+#include <vector>
 
 namespace utils::collections
 {
 template <typename T>
-void quick_remove_at(std::vector<T>& v, typename std::vector<T>::size_type const idx)
+void quick_remove_at(std::vector<T>& v,
+                     typename std::vector<T>::size_type const idx)
 {
     if (idx < v.size())
     {
@@ -17,7 +18,8 @@ void quick_remove_at(std::vector<T>& v, typename std::vector<T>::size_type const
 }
 
 template <typename T>
-void quick_remove_at(std::vector<T>& v, typename std::vector<T>::iterator const it)
+void quick_remove_at(std::vector<T>& v,
+                     typename std::vector<T>::iterator const it)
 {
     if (it != std::end(v))
     {

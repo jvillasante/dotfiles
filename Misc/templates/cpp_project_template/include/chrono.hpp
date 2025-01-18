@@ -8,7 +8,8 @@ namespace utils::chrono::bench
 // Perf timer implementation to measure functions
 //
 // Usage:
-// auto t = perf_timer<std::chrono::microseconds>::duration(function_to_measure, arg1, arg2, arg3);
+// auto t = perf_timer<std::chrono::microseconds>::duration(function_to_measure,
+//                                                          arg1, arg2, arg3);
 //
 // auto t = perf_timer<>::duration([]() {
 //   for (int i{0}; i < 10000; ++i) {
@@ -23,7 +24,8 @@ namespace utils::chrono::bench
 // auto minutes = std::chrono::duration<double, std::ratio<60>>(t).count();
 // auto hours = std::chrono::duration<double, std::ratio<3600>>(t).count();
 //
-template <typename Time = std::chrono::microseconds, typename Clock = std::chrono::steady_clock>
+template <typename Time = std::chrono::microseconds,
+          typename Clock = std::chrono::steady_clock>
 struct perf_timer
 {
     template <typename F, typename... Args>

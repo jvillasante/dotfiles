@@ -1,9 +1,9 @@
 #pragma once
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <string_view>
 #include <utility>
-#include <algorithm>
 #include <vector>
 
 #include <iterators.hpp>
@@ -12,7 +12,8 @@
 namespace std
 {
 template <typename First, typename Second>
-std::ostream& operator<<(std::ostream& os, std::pair<First, Second> const& p) // NOLINT
+std::ostream& operator<<(std::ostream& os,
+                         std::pair<First, Second> const& p) // NOLINT
 {
     os << "(" << p.first << ':' << p.second << ")";
     return os;
@@ -21,13 +22,15 @@ std::ostream& operator<<(std::ostream& os, std::pair<First, Second> const& p) //
 
 namespace utils::print
 {
-inline std::ostream& line(char const c = '=', std::size_t const s = 80, std::ostream& os = std::cout)
+inline std::ostream& line(char const c = '=', std::size_t const s = 80,
+                          std::ostream& os = std::cout)
 {
     os << std::string(s, c) << '\n';
     return os;
 }
 
-inline std::ostream& line(std::string_view const header, char const c = '=', std::size_t const s = 80,
+inline std::ostream& line(std::string_view const header, char const c = '=',
+                          std::size_t const s = 80,
                           std::ostream& os = std::cout)
 {
     if (header.size() < s)
@@ -40,14 +43,16 @@ inline std::ostream& line(std::string_view const header, char const c = '=', std
     return os;
 }
 
-inline std::ostream& new_line(std::string_view new_line_char = "\n", std::ostream& os = std::cout)
+inline std::ostream& new_line(std::string_view new_line_char = "\n",
+                              std::ostream& os = std::cout)
 {
     os << new_line_char;
     return os;
 }
 
 template <typename Iterator>
-std::ostream& collection(Iterator begin, Iterator end, char const start_char = '[', char const end_char = ']',
+std::ostream& collection(Iterator begin, Iterator end,
+                         char const start_char = '[', char const end_char = ']',
                          std::ostream& os = std::cout)
 {
     os << start_char;
@@ -57,7 +62,8 @@ std::ostream& collection(Iterator begin, Iterator end, char const start_char = '
 }
 
 template <typename Collection>
-std::ostream& collection(Collection const& c, char const start_char = '[', char const end_char = ']',
+std::ostream& collection(Collection const& c, char const start_char = '[',
+                         char const end_char = ']',
                          std::ostream& os = std::cout)
 {
     return collection(std::cbegin(c), std::cend(c), start_char, end_char, os);

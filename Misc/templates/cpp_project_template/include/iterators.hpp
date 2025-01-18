@@ -3,7 +3,8 @@
 
 namespace utils::iterators
 {
-template <typename Delim, typename CharT = char, typename Traits = std::char_traits<CharT>>
+template <typename Delim, typename CharT = char,
+          typename Traits = std::char_traits<CharT>>
 class ostream_joiner
 {
 public:
@@ -16,9 +17,13 @@ public:
     using pointer = void;
     using reference = void;
 
-    ostream_joiner(ostream_type& os, Delim&& d) : output_iter(std::addressof(os)), delim(std::move(d)), first(true) {}
+    ostream_joiner(ostream_type& os, Delim&& d)
+        : output_iter(std::addressof(os)), delim(std::move(d)), first(true)
+    {}
 
-    ostream_joiner(ostream_type& os, const Delim& d) : output_iter(std::addressof(os)), delim(d), first(true) {}
+    ostream_joiner(ostream_type& os, const Delim& d)
+        : output_iter(std::addressof(os)), delim(d), first(true)
+    {}
 
     template <typename Tp>
     ostream_joiner& operator=(const Tp& v)
@@ -41,9 +46,10 @@ private:
 };
 
 template <class CharT, class Traits, class Delim>
-inline ostream_joiner<typename std::decay<Delim>::type, CharT, Traits>
+inline ostream_joiner<std::decay_t<Delim>, CharT, Traits>
 make_ostream_joiner(std::basic_ostream<CharT, Traits>& os, Delim&& d)
 {
-    return ostream_joiner<typename std::decay<Delim>::type, CharT, Traits>(os, std::forward<Delim>(d));
+    return ostream_joiner<std::decay_t<Delim>, CharT, Traits>(
+        os, std::forward<Delim>(d));
 }
 } // namespace utils::iterators

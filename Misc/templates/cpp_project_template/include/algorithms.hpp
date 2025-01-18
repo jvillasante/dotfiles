@@ -1,12 +1,13 @@
 #pragma once
 #include <algorithm>
-#include <iterator>
 #include <functional>
+#include <iterator>
 
 namespace utils::algorithms
 {
 template <typename InputIt, typename OutputIt, typename T, typename F>
-InputIt split(InputIt it, InputIt end_it, OutputIt out_it, T split_val, F bin_func)
+InputIt split(InputIt it, InputIt end_it, OutputIt out_it, T split_val,
+              F bin_func)
 {
     while (it != end_it)
     {
@@ -23,8 +24,9 @@ InputIt split(InputIt it, InputIt end_it, OutputIt out_it, T split_val, F bin_fu
 template <typename It, typename F>
 std::pair<It, It> gather(It first, It last, It gather_pos, F predicate)
 {
-    return std::make_pair(std::stable_partition(first, gather_pos, std::not_fn(predicate)),
-                          std::stable_partition(gather_pos, last, predicate));
+    return std::make_pair(
+        std::stable_partition(first, gather_pos, std::not_fn(predicate)),
+        std::stable_partition(gather_pos, last, predicate));
 }
 
 template <typename It>
