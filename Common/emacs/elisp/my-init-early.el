@@ -9,7 +9,7 @@
 
 ;; make IO better
 (setq process-adaptive-read-buffering nil)
-(setq read-process-output-max (* 4 1024 1024))
+(setq read-process-output-max (* 10 1024 1024)) ;; 10mb
 
 ;; everything is UTF8
 (set-language-environment 'utf-8)

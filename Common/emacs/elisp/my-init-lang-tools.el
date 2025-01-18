@@ -80,14 +80,18 @@
     (fset #'jsonrpc--log-event #'ignore)
     (setq jsonrpc-event-hook nil)
     (setq eglot-autoshutdown t)
-    (setq eglot-extend-to-xref t)
+    (setq eglot-extend-to-xref nil)
     (setq eglot-sync-connect nil)
     (setq eglot-confirm-server-initiated-edits nil)
     (setq eglot-ignored-server-capabilities
-          '(;; :documentHighlightProvider
+          '(;; :hoverProvider
+            :documentHighlightProvider
             ;; :documentFormattingProvider
             ;; :documentRangeFormattingProvider
             :documentOnTypeFormattingProvider
+            :documentLinkProvider
+            :colorProvider
+            :foldingRangeProvider
             :inlayHintProvider))
 
     ;; Setting the workspace configuration for every buffer, this can also be

@@ -81,6 +81,18 @@
             (unless (treesit-language-available-p (car grammar))
                 (treesit-install-language-grammar (car grammar)
                                                   (expand-file-name "tree-sitter" my/var-dir)))))
+    :mode (("\\.tsx\\'" . tsx-ts-mode)
+           ("\\.js\\'"  . typescript-ts-mode)
+           ("\\.mjs\\'" . typescript-ts-mode)
+           ("\\.mts\\'" . typescript-ts-mode)
+           ("\\.cjs\\'" . typescript-ts-mode)
+           ("\\.ts\\'"  . typescript-ts-mode)
+           ("\\.jsx\\'" . tsx-ts-mode)
+           ("\\.json\\'" .  json-ts-mode)
+           ("\\.Dockerfile\\'" . dockerfile-ts-mode)
+           ("\\.prisma\\'" . prisma-ts-mode)
+           ;; More modes defined here...
+           )
     :config
     ;; Optional, but recommended. Tree-sitter enabled major modes are
     ;; distinct from their ordinary counterparts.
