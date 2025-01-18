@@ -197,13 +197,11 @@
 
 (use-package corfu
     :custom
-    ((corfu-auto t)
-     (corfu-auto-prefix 3)
-     (corfu-quit-no-match t)
-     (corfu-preview-current nil)
-     ;; (corfu-min-width 20)
-     ;; (corfu-popupinfo-delay '(1.25 . 0.5))
-     (corfu-quit-at-boundary 'separator))  ;; Enable cycling for `corfu-next/previous'
+    (corfu-auto t)
+    (corfu-auto-prefix 2)
+    (corfu-quit-no-match t)
+    (corfu-preview-current nil)
+    (corfu-quit-at-boundary 'separator)  ;; Enable cycling for `corfu-next/previous'
     :bind (:map corfu-map ("<tab>" . corfu-complete))
     :hook ((after-init . (lambda ()
                              (global-corfu-mode)
@@ -294,10 +292,6 @@
 
 (use-package consult-dir
     :after consult)
-
-(use-package consult-eglot
-    :disabled t
-    :after (consult eglot))
 
 ;; consult-xref-stack : Navigate the Xref stack with Consult.
 (use-package consult-xref-stack
