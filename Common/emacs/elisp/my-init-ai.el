@@ -16,6 +16,7 @@
               (password-store-get-field "Logins/openai.com" "API Key"))))
 
 (use-package gptel-quick
+    :disabled t
     :defer t
     :after gptel
     :vc (:url "git@github.com:karthink/gptel-quick.git"
