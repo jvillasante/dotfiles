@@ -105,6 +105,21 @@ inline int random_int(int min, int max)
     return std::uniform_int_distribution<>{min, max}(engine);
 }
 
+// Useful little function to delay a computation based on a simple counter.
+// When `count` reaches `max` then `count` will be reset and the function will
+// return `true` otherwise `count` will be incremented and the function will
+// return `false`
+bool inline throttle(int& count, int const max)
+{
+    if (++count == max)
+    {
+        count = 0;
+        return true;
+    }
+
+    return false;
+}
+
 template <std::uint8_t N, typename input_t = std::uint32_t,
           typename sum_t = std::uint64_t>
 class simple_moving_average

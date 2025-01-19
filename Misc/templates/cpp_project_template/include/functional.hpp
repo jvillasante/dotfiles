@@ -20,8 +20,7 @@ inline std::map<T, U> mapf(F&& f, const std::map<T, U>& m)
     std::map<T, U> r;
     for (auto&& kvp : m)
     {
-        // r.insert(f(kvp));
-        r.insert(f(std::forward<decltype(kvp)>(kvp)));
+        r.insert(std::forward<F>(f)(std::forward<decltype(kvp)>(kvp)));
     }
 
     return r;
@@ -34,8 +33,7 @@ inline std::queue<T> mapf(F&& f, std::queue<T> q)
 
     while (!q.empty())
     {
-        // r.push(f(q.front()));
-        r.push(f(std::forward<T>(q.front())));
+        r.push(std::forward<F>(f)(std::forward<T>(q.front())));
         q.pop();
     }
 
@@ -43,31 +41,29 @@ inline std::queue<T> mapf(F&& f, std::queue<T> q)
 }
 
 template <typename F, typename R, typename T>
-inline constexpr T foldl(F&& f, R&& r, T i)
+constexpr T foldl(F&& f, R const& r, T i)
 {
     return std::accumulate(std::begin(r), std::end(r), std::move(i),
                            std::forward<F>(f));
 }
 
 template <typename F, typename R, typename T>
-inline constexpr T foldr(F&& f, R&& r, T i)
+constexpr T foldr(F&& f, R const& r, T i)
 {
-    // return std::accumulate(std::rbegin(r), std::rend(r), std::move(i),
-    // std::forward<F>(f));
     return std::accumulate(std::rbegin(r), std::rend(r), std::move(i),
-                           [f](auto&& arg1, auto&& arg2) {
-                               return f(std::forward<decltype(arg2)>(arg2),
-                                        std::forward<decltype(arg1)>(arg1));
+                           [f = std::forward<F>(f)](auto&& arg1, auto&& arg2) {
+                               return std::forward<F>(f)(
+                                   std::forward<decltype(arg2)>(arg2),
+                                   std::forward<decltype(arg1)>(arg1));
                            });
 }
 
 template <typename F, typename T>
-inline constexpr T foldl(F&& f, std::queue<T> q, T i)
+constexpr T foldl(F&& f, std::queue<T>& q, T i)
 {
     while (!q.empty())
     {
-        // i = f(i, q.front());
-        i = f(std::forward<T>(i), std::forward<T>(q.front()));
+        i = std::forward<F>(f)(std::forward<T>(i), std::forward<T>(q.front()));
         q.pop();
     }
 
