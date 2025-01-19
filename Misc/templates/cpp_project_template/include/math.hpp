@@ -97,19 +97,21 @@ bool nearly_equal(T lhs, T rhs, T epsilon = std::numeric_limits<T>::epsilon())
     return (diff <= (std::max(std::fabs(lhs), std::fabs(rhs)) * epsilon));
 }
 
-inline int random_int(int min, int max)
+template <typename T>
+inline T random_int(T min, T max)
 {
     // One engine instance per thread
     auto thread_local static engine =
         std::default_random_engine{std::random_device{}()};
-    return std::uniform_int_distribution<>{min, max}(engine);
+    return std::uniform_int_distribution<T>{min, max}(engine);
 }
 
 // Useful little function to delay a computation based on a simple counter.
 // When `count` reaches `max` then `count` will be reset and the function will
 // return `true` otherwise `count` will be incremented and the function will
 // return `false`
-bool inline throttle(int& count, int const max)
+template <typename T>
+bool inline throttle(T& count, T const max)
 {
     if (++count == max)
     {

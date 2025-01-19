@@ -1,4 +1,6 @@
 #pragma once
+#include "iterators.hpp"
+
 #include <algorithm>
 #include <cstddef>
 #include <iomanip>
@@ -9,10 +11,27 @@
 #include <type_traits>
 #include <vector>
 
-#include <iterators.hpp>
+namespace detail
+{
+// general case
+template <typename Integer, typename Enable = void>
+struct convert_to_integer
+{
+    Integer operator()(std::string const& str) const { return std::stoi(str); }
+};
+
+// special cases
+template <typename Integer>
+struct convert_to_integer<Integer,
+                          std::enable_if_t<std::is_same_v<long, Integer>>>
+{
+    long operator()(std::string const& str) const { return std::stol(str); }
+};
+} // namespace detail
 
 namespace utils::strings
 {
+
 template <typename CharT>
 using tstring =
     std::basic_string<CharT, std::char_traits<CharT>, std::allocator<CharT>>;
@@ -352,4 +371,11 @@ std::vector<std::byte> to_bytes(tstringview<CharT> const str)
 
     return result;
 }
+
+template <typename T, typename StringLike>
+T to_integral(StringLike&& str)
+{
+    using type = std::decay_t<T>;
+    return detail::convert_to_integer<type>()(std::forward<StringLike>(str));
+};
 } // namespace utils::strings
