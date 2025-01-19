@@ -190,8 +190,9 @@ Make it readonly, and set up a keybinding (q) to close the window."
 (defun my/dos2unix ()
     "Replace DOS eolns CR LF with Unix eolns CR."
     (interactive)
-    (goto-char (point-min))
-    (while (search-forward (string ?\C-m) nil t) (replace-match "")))
+    (save-excursion
+        (goto-char (point-min))
+        (while (search-forward (string ?\C-m) nil t) (replace-match ""))))
 
 (defun my/hide-dos-eol ()
     "Hide ^M in files containing mixed UNIX and DOS line endings."
