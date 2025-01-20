@@ -37,11 +37,11 @@ if type fzf > /dev/null 2> /dev/null; then
     # switch to a project
     fproj() {
         local selected tmux_running selected_name
-        selected=$(find "$HOME"/Workspace/Private/Projects/*/ \
-                        "$HOME"/Workspace/Public \
-                        "$HOME"/Workspace/Work/Nielsen/Projects \
-                        "$HOME"/Workspace/Work/Omicron/Projects/*/ \
-                        -mindepth 1 -maxdepth 1 -type d | fzf)
+        selected=$(find "$HOME"/Workspace/Private/Projects/ \
+                        "$HOME"/Workspace/Public/ \
+                        "$HOME"/Workspace/Work/Nielsen/Projects/ \
+                        "$HOME"/Workspace/Work/Omicron/Projects/ \
+                        -name .git -printf '%h\n' -prune | fzf)
         [[ -z $selected ]] && return
 
         selected_name=$(basename "$selected" | tr . _)
