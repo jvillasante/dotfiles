@@ -22,8 +22,8 @@
            password-store pdf-view-restore peg persistent-scratch php-mode
            python rainbow-delimiters request rmsbolt rust-mode scratch
            shrink-path so-long soap-client surround svg track-changes tramp
-           trashed use-package verb verilog-mode vertico vterm web-mode wgrep
-           which-key window-tool-bar yaml-mode yasnippet-snippets zig-mode)))
+           trashed use-package verb verilog-mode vertico vterm vundo web-mode
+           wgrep which-key window-tool-bar yaml-mode yasnippet-snippets zig-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -52,6 +52,11 @@ if [ -d "$HOME/Workspace/Software/vcpkg/" ]; then
     export PATH="$PATH:$VCPKG_ROOT"
 fi
 
+# common-lisp qlot
+if [ -d "$HOME/.local/share/qlot/bin/" ]; then
+    export PATH="$PATH:$HOME/.local/share/qlot/bin"
+fi
+
 # llvm
 [ -d "/usr/local/opt/llvm/bin" ] && export PATH="/usr/local/opt/llvm/bin:$PATH"
 
