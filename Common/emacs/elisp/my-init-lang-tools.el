@@ -131,6 +131,7 @@
 
 ;; eglot-inactive-regions : Eglot extension to visually style inactive pre-processor branches
 (use-package eglot-inactive-regions
+    :disabled t
     :after eglot
     :custom
     (eglot-inactive-regions-style 'darken-foreground)
