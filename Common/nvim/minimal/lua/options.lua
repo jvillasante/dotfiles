@@ -11,7 +11,7 @@ vim.g.have_nerd_font = false
 
 -- Make line numbers default
 vim.opt.number = true
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = "menuone,noselect"
@@ -67,6 +67,7 @@ vim.opt.inccommand = "split"
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
@@ -75,10 +76,10 @@ vim.opt.scrolloff = 10
 vim.o.hlsearch = true
 
 -- tabs
--- vim.cmd("set expandtab")
--- vim.cmd("set tabstop=4")
--- vim.cmd("set softtabstop=4")
--- vim.cmd("set shiftwidth=4")
+vim.cmd("set expandtab")
+vim.cmd("set tabstop=4")
+vim.cmd("set softtabstop=4")
+vim.cmd("set shiftwidth=4")
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -86,7 +87,7 @@ vim.o.hlsearch = true
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
--- vim.keymap.set("n", "<leader>h", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<leader>h", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
@@ -111,7 +112,7 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 --  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking (copying) text",
-    group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+    group = vim.api.nvim_create_augroup("my-highlight-yank", { clear = true }),
     callback = function()
         vim.highlight.on_yank()
     end,
