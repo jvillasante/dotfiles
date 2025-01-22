@@ -175,7 +175,7 @@
            (rfn-eshadow-update-overlay-hook . vertico-directory-tidy))
     :custom
     (vertico-count 15)
-    (vertico-resize 'fixed))
+    (vertico-resize nil))
 
 (use-package orderless
     :custom
