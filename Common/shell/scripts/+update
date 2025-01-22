@@ -161,6 +161,7 @@ emacs_update() {
         DOTFILES_DIR="$(find_dotfiles)"
         test $? -eq 0 || usage 1
 
+        # Clean up some trash
         [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d ]] &&
             echo "Emacs personal configuration not found, exiting..." && usage 1
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache ]] &&
@@ -169,14 +170,6 @@ emacs_update() {
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter ]] &&
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
-
-        # Backup activities
-        if [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist ]]; then
-            [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist.bak ]] &&
-                rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist.bak
-            cp -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist \
-               "$DOTFILES_DIR"/Common/emacs/emacs.d/var/persist.bak
-        fi
 
         # Launch emacs
         /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/emacs.d
