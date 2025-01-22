@@ -167,17 +167,15 @@
     :init (global-set-key [remap dabbrev-expand] 'hippie-expand))
 
 (use-package vertico
-    :init
-    (vertico-mode 1)
-    ;; (vertico-multiform-mode 1)
-    :config
-    (setq vertico-count 15)
-    (setq vertico-resize nil)
-    ;; This works with `file-name-shadow-mode' enabled.  When you are in
-    ;; a sub-directory and use, say, `find-file' to go to your home '~/'
-    ;; or root '/' directory, Vertico will clear the old path to keep
-    ;; only your current input.
-    (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
+    :hook ((after-init . vertico-mode)
+           ;; This works with `file-name-shadow-mode' enabled.  When you are in
+           ;; a sub-directory and use, say, `find-file' to go to your home '~/'
+           ;; or root '/' directory, Vertico will clear the old path to keep
+           ;; only your current input.
+           (rfn-eshadow-update-overlay-hook . vertico-directory-tidy))
+    :custom
+    (vertico-count 15)
+    (vertico-resize 'fixed))
 
 (use-package orderless
     :custom
