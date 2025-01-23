@@ -230,7 +230,7 @@
     (setq vundo-compact-display nil))
 
 ;; helpful : better help buffers
-(use-package helpful :defer t)
+(use-package helpful)
 
 ;; rainbow-delimiters : highlights delimiters such as parentheses
 (use-package rainbow-delimiters
