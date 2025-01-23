@@ -241,6 +241,7 @@
 
 ;; scratch : create scratch buffers
 (use-package scratch
+    :disabled t
     :hook ((org-mode . (lambda ()
                            (when scratch-buffer
                                (save-excursion

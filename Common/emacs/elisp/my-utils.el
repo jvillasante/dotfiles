@@ -322,17 +322,19 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
     "Make a temporary buffer in markdown mode and switch to it."
     (interactive)
     (when (fboundp 'markdown-mode)
-        (switch-to-buffer (make-temp-name "scratch-markdown-"))
+        (switch-to-buffer-other-window
+         (make-temp-name "scratch-markdown-"))
         (markdown-mode)
-        (insert "# Scratch\n")))
+        (insert "# Scratch\n\n")))
 
 (defun my/new-scratch-buffer-in-org ()
     "Make a temporary buffer in org mode and switch to it."
     (interactive)
     (when (fboundp 'org-mode)
-        (switch-to-buffer (make-temp-name "scratch-org-"))
+        (switch-to-buffer-other-window
+         (make-temp-name "scratch-org-"))
         (org-mode)
-        (insert "* Scratch\n")))
+        (insert "#+TITLE: Scratch\n\n")))
 
 (defun my/comment-or-uncomment ()
     "Comments or uncomments the current line or region."
