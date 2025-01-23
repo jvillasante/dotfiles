@@ -38,6 +38,11 @@
         ;; (add-to-list 'exec-path-from-shell-variables "VCPKG_ROOT")
         (exec-path-from-shell-initialize)))
 
+;; gcmh : to optimize gc
+(use-package gcmh
+    :custom (gcmh-high-cons-threshold (* 128 1024 1024))
+    :hook (after-init . gcmh-mode))
+
 ;; Paths used throughout
 (defconst my/home-path (expand-file-name "~/"))
 (defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
