@@ -141,9 +141,10 @@
 
 ;; eglot-booster : Boost eglot using lsp-booster
 (use-package eglot-booster
+    :disabled t
+    :after eglot
     :vc (:url "git@github.com:jdtsmith/eglot-booster.git"
               :rev :newest)
-    :after eglot
     :custom (eglot-booster-no-remote-boost t)
     :config (eglot-booster-mode))
 
