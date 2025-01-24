@@ -293,9 +293,10 @@
 
 ;; consult-xref-stack : Navigate the Xref stack with Consult.
 (use-package consult-xref-stack
+    :disabled t
+    :after consult
     :vc (:url "git@github.com:brett-lempereur/consult-xref-stack.git"
               :rev :newest)
-    :after consult
     :bind (("C-," . consult-xref-stack-backward)))
 
 ;; consult-notes : select notes via consult
