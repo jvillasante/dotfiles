@@ -118,7 +118,11 @@
           history-delete-duplicates t
           savehist-save-minibuffer-history t
           savehist-additional-variables
-          '(register-alist kill-ring search-ring regexp-search-ring)))
+          '(register-alist
+            kill-ring
+            mark-ring
+            search-ring
+            regexp-search-ring)))
 
 ;; recentf : recent files
 (use-package recentf
