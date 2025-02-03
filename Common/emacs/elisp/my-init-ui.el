@@ -27,8 +27,6 @@
 (setq window-resize-pixelwise nil)
 (setq resize-mini-windows 'grow-only)
 
-(blink-cursor-mode -1) ; annoying!
-
 ;; Make URLs in comments/strings clickable, (Emacs > v22).
 ;; (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
@@ -85,6 +83,10 @@
         (set-face-attribute 'variable-pitch nil
                             :family proportionately-spaced-font
                             :height 1.0)))
+
+;; cursor
+(setq-default cursor-type t)
+(blink-cursor-mode -1) ; annoying!
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook 'variable-pitch-mode)
