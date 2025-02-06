@@ -159,6 +159,9 @@ if [ "$(uname -s)" = "Darwin" ]; then
     # Enable font smoothing
     defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
 
+    # Emacs cripiers fonts
+    defaults write org.gnu.Emacs AppleFontSmoothing -int 0
+
     # Symlink workspace volume
     if [ ! -d "$HOME/Workspace" ]; then
         ln -nfs /Volumes/Workspace/ ~/Workspace
