@@ -769,6 +769,7 @@ fedora_install() {
                     --without-compress-install \
                     --with-native-compilation=aot \
                     --with-tree-sitter \
+                    --with-xwidgets \
                     --without-mailutils \
                     --with-selinux \
                     --with-xinput2 \
