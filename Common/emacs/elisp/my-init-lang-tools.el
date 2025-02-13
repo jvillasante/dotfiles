@@ -85,7 +85,7 @@
     (setq eglot-confirm-server-initiated-edits nil)
     (setq eglot-ignored-server-capabilities
           '(;; :hoverProvider
-            :documentHighlightProvider
+            ;; :documentHighlightProvider
             ;; :documentFormattingProvider
             ;; :documentRangeFormattingProvider
             :documentOnTypeFormattingProvider

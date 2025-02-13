@@ -15,6 +15,7 @@
 ;; for various built-in Emacs modes: Agenda, Bookmarks, Calc, Calendar, Dired,
 ;; EditKit, IBuffer, Info, I-Search, Re-Builder
 (use-package casual
+    :disabled t
     :config
     ;; dired
     (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)

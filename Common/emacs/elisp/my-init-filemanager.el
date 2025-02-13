@@ -10,7 +10,6 @@
     :ensure nil ;; emacs built-in
     :hook((dired-mode . (lambda ()
                             (auto-revert-mode)
-                            (dired-hide-details-mode)
                             (hl-line-mode))))
     :config
     (setq dired-free-space nil

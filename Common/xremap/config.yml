@@ -28,7 +28,7 @@ keymap:
           k: C-w
   - name: Brave
     application:
-      only: Brave-browser
+      only: brave-browser
     remap:
       C-Shift-p: C-Shift-n
       C-x:
