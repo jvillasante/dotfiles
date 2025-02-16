@@ -167,8 +167,6 @@
     (global-set-key (kbd "M-s g") 'consult-grep)
     (global-set-key (kbd "M-s G") 'consult-git-grep)
     (global-set-key (kbd "M-s r") 'consult-ripgrep)
-    (when (package-installed-p 'deadgrep)
-        (global-set-key (kbd "M-s R") 'deadgrep))
     (global-set-key (kbd "M-s l") 'consult-line)
     (global-set-key (kbd "M-s L") 'consult-line-multi)
     (global-set-key (kbd "M-s k") 'consult-keep-lines)
@@ -354,6 +352,7 @@
     (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
 (with-eval-after-load 'deadgrep
+    (global-set-key (kbd "M-s R") 'deadgrep) ; extend M-s r (consult-ripgrep)
     (define-key deadgrep-mode-map (kbd "e") 'wgrep-change-to-wgrep-mode)
     (define-key deadgrep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
     (define-key deadgrep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
@@ -408,23 +407,6 @@
     (global-set-key (kbd "C-c o d") 'docker))
 
 ;;; Prefix
-;; C-c f : find
-(global-set-key (kbd "C-c f f") 'project-find-file)
-(global-set-key (kbd "C-c f F") 'find-file)
-(global-set-key (kbd "C-c f D") 'project-dired)
-(global-set-key (kbd "C-c f o") 'consult-recent-file)
-(global-set-key (kbd "C-c f r") 'consult-yank-from-kill-ring)
-(global-set-key (kbd "C-c f b") 'consult-buffer)
-(global-set-key (kbd "C-c f p") 'project-switch-project)
-(global-set-key (kbd "C-c f g") 'consult-ripgrep)
-(global-set-key (kbd "C-c f a") 'embark-act)
-;; (global-set-key (kbd "C-c f j") 'evil-collection-consult-jump-list)
-;; (global-set-key (kbd "C-c f m") 'evil-collection-consult-mark)
-(global-set-key (kbd "C-c f i") 'consult-imenu)
-(global-set-key (kbd "C-c f I") 'consult-imenu-multi)
-(global-set-key (kbd "C-c f l") 'consult-line)
-(global-set-key (kbd "C-c f L") 'consult-line-multi)
-
 ;; C-c w : windows
 (global-set-key (kbd "C-c w m") 'minimize-window)
 (global-set-key (kbd "C-c w M") 'maximize-window)
