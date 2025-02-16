@@ -259,6 +259,7 @@
             ;; Linux
             "http://dominique.leuenberger.net/blog/feed/rss/"
             ;; Misc
+            "https://lambdaland.org/index.xml"
             "https://cpp-rendering.io/feed/"
             "https://michaelneuper.com/index.xml"
             "https://world.hey.com/dhh/feed.atom"

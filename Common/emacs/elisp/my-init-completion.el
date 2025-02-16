@@ -97,7 +97,7 @@
                       (icomplete-vertical-mode 1)
                       (completion-preview-mode 1)))
     :config
-    (setf completion-styles '(basic flex)
+    (setq completion-styles '(basic flex)
           completion-auto-select t ;; Show completion on first call
           completion-auto-help 'visible ;; Display *Completions* upon first request
           completions-format 'one-column ;; Use only one column

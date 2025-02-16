@@ -463,7 +463,9 @@
 (global-set-key (kbd "C-c n a") 'org-agenda)
 
 ;; C-c l : lookup
-(global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)
+(when (fboundp 'dictionary-lookup-definition)
+    (global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)
+    (global-set-key (kbd "C-c l D") 'dictionary-search))
 
 (provide 'my-init-bindings)
 ;;; my-init-bindings.el ends here

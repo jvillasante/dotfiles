@@ -71,7 +71,6 @@
 
 ;; Emacs28 dictionary lookup
 (when (fboundp 'dictionary-lookup-definition)
-    (defvar dictionary-server)
     (setq dictionary-server "dict.org"))
 
 ;; Some Defaults
