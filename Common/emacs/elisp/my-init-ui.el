@@ -69,19 +69,19 @@
 (defun my/setup-fonts ()
     "Set up fonts at startup."
     (setq x-underline-at-descent-line nil)
-    (let ((mono-spaced-font "Berkeley Mono")
-          (proportionately-spaced-font "Berkeley Mono Variable"))
+    (let ((fixed-font "Berkeley Mono")
+          (variable-font "Berkeley Mono Variable"))
         (set-face-attribute 'default nil
-                            :family mono-spaced-font
+                            :family fixed-font
                             :height 140
                             :weight 'regular
                             :width  'normal
                             :slant  'normal)
         (set-face-attribute 'fixed-pitch nil
-                            :family mono-spaced-font
+                            :family fixed-font
                             :height 1.0)
         (set-face-attribute 'variable-pitch nil
-                            :family proportionately-spaced-font
+                            :family variable-font
                             :height 1.0)))
 
 ;; cursor

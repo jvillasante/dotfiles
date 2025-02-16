@@ -99,7 +99,7 @@ do_decrypt() {
     gpg --decrypt -o "$p.tar.gz" "$1" > /dev/null 2> /dev/null
     test $? -eq 0 || usage 1
 
-    tar xzf "$p.tar.gz" -C "$DIR"
+    tar xzf "$p.tar.gz" --warning=no-timestamp -C "$DIR"
     test $? -eq 0 || usage 1
 
     rm -f "$p.tar.gz"
