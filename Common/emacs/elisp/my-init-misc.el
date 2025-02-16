@@ -96,8 +96,8 @@
     (setq search-whitespace-regexp ".*?") ; isearch convenience, space matches anything (non-greedy)
     (setq isearch-lax-whitespace t)
     (setq isearch-allow-motion t)     ; enable Emacs28 isearch motions
+    (setq isearch-lazy-highlight t)   ; highlight occurrences
     (setq isearch-lazy-count nil)     ; using anzu
-    (setq isearch-lazy-highlight nil) ; using anzu
     (setq lazy-count-prefix-format "(%s/%s) ")
     (setq lazy-count-suffix-format nil))
 
@@ -295,10 +295,12 @@
     :config (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
 ;; deadgrep : the fast, beautiful text search that your Emacs deserves.
-;; (use-package deadgrep)
+(use-package deadgrep)
 
 ;; wgrep : edit grep results
 (use-package wgrep)
+(use-package wgrep-deadgrep
+    :if (package-installed-p 'deadgrep))
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround)

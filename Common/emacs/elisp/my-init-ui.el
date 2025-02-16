@@ -459,7 +459,8 @@ Run this function at the post theme load phase, such as with the
                        (major-mode . help-mode)
                        (major-mode . helpful-mode)
                        (major-mode . Man-mode)
-                       (major-mode . woman-mode))
+                       (major-mode . woman-mode)
+                       (major-mode . occur-mode))
                    (display-buffer-reuse-mode-window
                     display-buffer-pop-up-window))))
 

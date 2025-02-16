@@ -167,6 +167,8 @@
     (global-set-key (kbd "M-s g") 'consult-grep)
     (global-set-key (kbd "M-s G") 'consult-git-grep)
     (global-set-key (kbd "M-s r") 'consult-ripgrep)
+    (when (package-installed-p 'deadgrep)
+        (global-set-key (kbd "M-s R") 'deadgrep))
     (global-set-key (kbd "M-s l") 'consult-line)
     (global-set-key (kbd "M-s L") 'consult-line-multi)
     (global-set-key (kbd "M-s k") 'consult-keep-lines)
@@ -350,6 +352,11 @@
     (define-key grep-mode-map (kbd "e") 'wgrep-change-to-wgrep-mode)
     (define-key grep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
     (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
+
+(with-eval-after-load 'deadgrep
+    (define-key deadgrep-mode-map (kbd "e") 'wgrep-change-to-wgrep-mode)
+    (define-key deadgrep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
+    (define-key deadgrep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
 (with-eval-after-load 'surround
     (define-key global-map (kbd "M-'") surround-keymap))

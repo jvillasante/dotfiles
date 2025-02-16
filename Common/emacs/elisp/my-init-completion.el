@@ -19,7 +19,7 @@
     :init
     (when (>= emacs-major-version 30)
         ;; Disable Ispell completion function. Try `cape-dict' as an alternative.
-        ;; (text-mode-ispell-word-completion nil)
+        (setq text-mode-ispell-word-completion nil)
 
         ;; subdivide grep output into sections, one per file.
         (setq grep-use-headings t))
