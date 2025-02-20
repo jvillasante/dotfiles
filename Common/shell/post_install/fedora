@@ -435,6 +435,9 @@ fedora_install() {
                 # Ulauncher
                 sudo dnf install -y ulauncher wmctrl
 
+                # Bleachbit: Clean Your System and Free Disk Space
+                sudo dnf install -y bleachbit
+
                 # Go
                 sudo dnf install -y go
 
