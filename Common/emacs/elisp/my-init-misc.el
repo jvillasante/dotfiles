@@ -277,6 +277,7 @@
 
 ;; Expreg : like expand-region but nicer
 (use-package expreg
+    :custom (shift-select-mode 'permanent)
     :init (add-hook 'text-mode-hook
                     (lambda ()
                         (add-to-list 'expreg-functions 'expreg--sentence))))

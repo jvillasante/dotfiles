@@ -60,6 +60,7 @@
 -I./lib/artbuf
 -I./lib/article
 -I./lib/articlecompress
+-I./lib/articledetection
 -I./lib/articlejournal
 -I./lib/articlequeue
 -I./lib/assert

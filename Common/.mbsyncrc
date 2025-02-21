@@ -123,6 +123,15 @@ TLSType IMAPS
 TLSVersions +1.2
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
+# IMAPAccount Omicron
+# Host 127.0.0.1
+# Port 1993
+# User julio.villasante@omicronmedia.com
+# TLSType None
+# AuthMechs LOGIN
+# Timeout 120
+# PipelineDepth 1
+
 MaildirStore Omicron-local
 Path ~/.Mail/julio.villasante@omicronmedia.com/
 Inbox ~/.Mail/julio.villasante@omicronmedia.com/Inbox
