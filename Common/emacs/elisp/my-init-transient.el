@@ -11,21 +11,22 @@
                 ("p" . disproject-dispatch)))
 
 ;; casual : https://github.com/kickingvegas/casual
-;; A collection of opinionated Transient-based keyboard-driven user interfaces
-;; for various built-in Emacs modes: Agenda, Bookmarks, Calc, Calendar, Dired,
-;; EditKit, IBuffer, Info, I-Search, Re-Builder
-(use-package casual
-    :disabled t
+;;          https://github.com/kickingvegas/casual-suite
+(use-package casual-suite
     :config
-    ;; dired
-    (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
-    (keymap-set dired-mode-map "s" #'casual-dired-sort-by-tmenu) ; optional
-    (keymap-set dired-mode-map "/" #'casual-dired-search-replace-tmenu) ; optional
-
-    ;; ibuffer
-    (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
-    (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
-    (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu))
+    (keymap-set calc-mode-map           "C-o" #'casual-calc-tmenu)
+    (keymap-set dired-mode-map          "C-o" #'casual-dired-tmenu)
+    (keymap-set isearch-mode-map        "C-o" #'casual-isearch-tmenu)
+    (keymap-set ibuffer-mode-map        "C-o" #'casual-ibuffer-tmenu)
+    (keymap-set Info-mode-map           "C-o" #'casual-info-tmenu)
+    (keymap-set reb-mode-map            "C-o" #'casual-re-builder-tmenu)
+    (keymap-set reb-lisp-mode-map       "C-o" #'casual-re-builder-tmenu)
+    (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
+    (keymap-set org-agenda-mode-map     "C-o" #'casual-agenda-tmenu)
+    (keymap-set symbol-overlay-map      "C-o" #'casual-symbol-overlay-tmenu)
+    ;; (keymap-global-set "M-g" #'casual-avy-tmenu)
+    ;; (keymap-global-set "C-o" #'casual-editkit-main-tmenu)
+    )
 
 (provide 'my-init-transient)
 ;;; my-init-transient.el ends here
