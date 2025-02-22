@@ -13,20 +13,19 @@
 ;; casual : https://github.com/kickingvegas/casual
 ;;          https://github.com/kickingvegas/casual-suite
 (use-package casual-suite
-    :config
-    (keymap-set calc-mode-map           "C-o" #'casual-calc-tmenu)
-    (keymap-set dired-mode-map          "C-o" #'casual-dired-tmenu)
-    (keymap-set isearch-mode-map        "C-o" #'casual-isearch-tmenu)
-    (keymap-set ibuffer-mode-map        "C-o" #'casual-ibuffer-tmenu)
-    (keymap-set Info-mode-map           "C-o" #'casual-info-tmenu)
-    (keymap-set reb-mode-map            "C-o" #'casual-re-builder-tmenu)
-    (keymap-set reb-lisp-mode-map       "C-o" #'casual-re-builder-tmenu)
-    (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
-    (keymap-set org-agenda-mode-map     "C-o" #'casual-agenda-tmenu)
-    (keymap-set symbol-overlay-map      "C-o" #'casual-symbol-overlay-tmenu)
-    ;; (keymap-global-set "M-g" #'casual-avy-tmenu)
-    ;; (keymap-global-set "C-o" #'casual-editkit-main-tmenu)
-    )
+    :defer t
+    :bind (;; (:map global-map ("M-g" . casual-avy-tmenu))
+           ;; (:map global-map ("C-o" . casual-editkit-main-tmenu))
+           (:map calc-mode-map ("C-o" . casual-calc-tmenu))
+           (:map dired-mode-map ("C-o" . casual-dired-tmenu))
+           (:map isearch-mode-map ("C-o" . casual-isearch-tmenu))
+           (:map ibuffer-mode-map ("C-o" . casual-ibuffer-tmenu))
+           (:map Info-mode-map ("C-o" . casual-info-tmenu))
+           (:map reb-mode-map ("C-o" . casual-re-builder-tmenu))
+           (:map reb-lisp-mode-map ("C-o" . casual-re-builder-tmenu))
+           (:map bookmark-bmenu-mode-map ("C-o" . casual-bookmarks-tmenu))
+           (:map org-agenda-mode-map ("C-o" . casual-agenda-tmenu))
+           (:map symbol-overlay-map ("C-o" . casual-symbol-overlay-tmenu))))
 
 (provide 'my-init-transient)
 ;;; my-init-transient.el ends here
