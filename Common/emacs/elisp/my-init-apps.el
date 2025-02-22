@@ -163,10 +163,14 @@
     :disabled t
     :defer t)
 
+;; ledger-mode : Emacs interface for `ledger-cli'
 (use-package ledger-mode
-    :disabled t
     :vc (:url "git@github.com:ledger/ledger-mode.git"
-              :rev :newest))
+              :rev :newest)
+    :hook (ledger-mode . (lambda ()
+                             (setq-local tab-always-indent 'complete)
+                             (setq-local completion-cycle-threshold t)
+                             (setq-local ledger-complete-in-steps t))))
 
 ;; elfeed
 (use-package elfeed

@@ -16,14 +16,16 @@
            elisp-demos embark-consult engine-mode erc eshell-prompt-extras
            exec-path-from-shell expreg faceup fancy-compilation gcmh
            geiser-guile go-mode gptel helpful hl-todo ibuffer-project idlwave
-           jinx js2-mode json-mode lua-mode magit map marginalia markdown-mode
-           minions modus-themes monkeytype multiple-cursors nov ntlm orderless
-           org-superstar otpp password-store pdf-view-restore peg
-           persistent-scratch php-mode python rainbow-delimiters request rmsbolt
-           rust-mode shrink-path so-long soap-client surround svg tramp trashed
-           use-package verb verilog-mode vertico vterm vundo web-mode
-           wgrep-deadgrep which-key window-tool-bar yaml-mode yasnippet-snippets
-           zig-mode)))
+           jinx js2-mode json-mode ledger ledger-mode lua-mode magit map
+           marginalia markdown-mode minions modus-themes monkeytype
+           multiple-cursors nov ntlm orderless org-superstar otpp password-store
+           pdf-view-restore peg persistent-scratch php-mode python
+           rainbow-delimiters request rmsbolt rust-mode shrink-path so-long
+           soap-client surround svg tramp trashed use-package verb verilog-mode
+           vertico vterm vundo web-mode wgrep-deadgrep which-key window-tool-bar
+           yaml-mode yasnippet-snippets zig-mode))
+ '(package-vc-selected-packages
+      '((ledger-mode :url "git@github.com:ledger/ledger-mode.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
