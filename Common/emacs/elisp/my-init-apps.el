@@ -165,6 +165,7 @@
 
 ;; ledger-mode : Emacs interface for `ledger-cli'
 (use-package ledger-mode
+    :defer t
     :vc (:url "git@github.com:ledger/ledger-mode.git"
               :rev :newest)
     :hook (ledger-mode . (lambda ()
