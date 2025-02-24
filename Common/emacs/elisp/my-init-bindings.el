@@ -116,12 +116,6 @@
     (define-key vertico-map (kbd "M-R") 'vertico-multiform-reverse)
     (define-key vertico-map (kbd "M-U") 'vertico-multiform-unobtrusive))
 
-(with-eval-after-load 'corfu
-    (define-key corfu-map (kbd "SPC") 'corfu-insert-separator))
-
-(with-eval-after-load 'cape
-    (global-set-key (kbd "C-c p") 'cape-prefix-map))
-
 ;; consult
 (when (package-installed-p 'consult)
     ;; C-c bindings (mode-specific-map)

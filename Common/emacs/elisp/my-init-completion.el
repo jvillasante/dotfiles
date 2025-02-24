@@ -197,10 +197,13 @@
     :custom
     (corfu-auto t)
     (corfu-auto-prefix 2)
-    (corfu-quit-no-match t)
+    (corfu-quit-no-match 'separator)
     (corfu-preview-current nil)
     (corfu-quit-at-boundary 'separator)  ;; Enable cycling for `corfu-next/previous'
-    :bind (:map corfu-map ("<tab>" . corfu-complete))
+    :bind (:map corfu-map
+                ("RET" . nil)
+                ("SPC" . corfu-insert-separator)
+                ("<tab>" . corfu-complete))
     :hook ((after-init . (lambda ()
                              (global-corfu-mode)
                              (corfu-popupinfo-mode)
@@ -212,6 +215,7 @@
                               (corfu-mode)))))
 
 (use-package cape
+    :bind ("C-c p" . cape-prefix-map)
     :init
     ;; eglot integration with cape
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
