@@ -201,7 +201,6 @@
     (corfu-preview-current nil)
     (corfu-quit-at-boundary 'separator)  ;; Enable cycling for `corfu-next/previous'
     :bind (:map corfu-map
-                ("RET" . nil)
                 ("SPC" . corfu-insert-separator)
                 ("<tab>" . corfu-complete))
     :hook ((after-init . (lambda ()
