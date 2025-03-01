@@ -197,9 +197,9 @@
     :custom
     (corfu-auto t)
     (corfu-auto-prefix 2)
-    (corfu-quit-no-match 'separator)
+    (corfu-quit-no-match t)
+    (corfu-quit-at-boundary t)
     (corfu-preview-current nil)
-    (corfu-quit-at-boundary 'separator)  ;; Enable cycling for `corfu-next/previous'
     :bind (:map corfu-map
                 ("SPC" . corfu-insert-separator)
                 ("<tab>" . corfu-complete))

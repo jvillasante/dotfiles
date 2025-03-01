@@ -122,6 +122,9 @@ user_pref("layers.acceleration.force-enabled", true);
 // 1=always block, 2=you want to be prompted for every site that tries to autoplay
 user_pref("media.autoplay.default", 1);
 
+// Do not use disk for caches
+user_pref("browser.cache.disk.enable", false)
+
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 ENDOFFILE
