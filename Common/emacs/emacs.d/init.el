@@ -35,7 +35,6 @@
         ;; (add-to-list 'exec-path-from-shell-variables "GOBIN")
         ;; (add-to-list 'exec-path-from-shell-variables "NIX_SSL_CERT_FILE")
         ;; (add-to-list 'exec-path-from-shell-variables "NIX_PATH")
-        ;; (add-to-list 'exec-path-from-shell-variables "VCPKG_ROOT")
         (exec-path-from-shell-initialize)))
 
 ;; gcmh : to optimize gc

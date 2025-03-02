@@ -46,12 +46,6 @@ fi
 # snap
 [ -d "/snap/bin" ] && export PATH="$PATH:/snap/bin"
 
-# vcpkg
-if [ -d "$HOME/Workspace/Software/vcpkg/" ]; then
-    export VCPKG_ROOT="$HOME/Workspace/Software/vcpkg"
-    export PATH="$PATH:$VCPKG_ROOT"
-fi
-
 # common-lisp qlot
 if [ -d "$HOME/.local/share/qlot/bin/" ]; then
     export PATH="$PATH:$HOME/.local/share/qlot/bin"

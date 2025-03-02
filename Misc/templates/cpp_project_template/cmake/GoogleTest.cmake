@@ -11,8 +11,3 @@ FetchContent_Declare(
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
-
-#
-# Using vcpkg
-#
-# find_package(GTest CONFIG REQUIRED)

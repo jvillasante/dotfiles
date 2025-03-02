@@ -14,8 +14,3 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(googlebenchmark)
-
-#
-# Using vcpkg
-#
-# find_package(benchmark CONFIG REQUIRED)
