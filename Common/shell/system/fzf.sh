@@ -12,8 +12,7 @@ if type fzf > /dev/null 2> /dev/null; then
 
     # Options to fzf command
     # export FZF_TMUX_OPTS="-u40%"
-    export FZF_DEFAULT_OPTS='--height 40% --ansi --extended --layout=reverse --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
-    # export FZF_DEFAULT_OPTS='--height 40% --ansi --extended --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
+    export FZF_DEFAULT_OPTS='--height 80% --ansi --extended --layout=reverse --no-border --info=inline --color=light,gutter:-1,bg+:#ccdfff'
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -33,6 +32,42 @@ if type fzf > /dev/null 2> /dev/null; then
     #
     # General
     #
+
+    # fe [FUZZY PATTERN] - Open the selected file with the default editor
+    #   - Bypass fuzzy finder if there's only one match (--select-1)
+    #   - Exit if there's no match (--exit-0)
+    fe() {
+        local file
+        file=$(fzf --query="$1" --select-1 --exit-0)
+        [ -n "$file" ] && ${EDITOR:-vim} "$file"
+    }
+
+    # frm - remove selected file
+    frm() {
+        local file
+        file=$(fzf --query="$1" --select-1 --exit-0)
+        [ -n "$file" ] && rm "$file"
+    }
+
+    # fd - cd to selected directory
+    fd() {
+        local dir
+        dir=$(find ${1:-*} -path '*/\.*' -prune \
+                   -o -type d -print 2> /dev/null | fzf +m) && cd "$dir"
+    }
+
+    # fda - including hidden directories
+    fda() {
+        local dir
+        dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+    }
+
+    # cdf - cd into the directory of the selected file
+    cdf() {
+        local file
+        local dir
+        file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+    }
 
     # switch to a project
     fproj() {
@@ -81,11 +116,6 @@ if type fzf > /dev/null 2> /dev/null; then
         fi
     }
 
-    # change to an arbitrary subdirectory
-    fcd() {
-        cd "$(find . -type d | fzf)" || return
-    }
-
     # fuzzy match current directory contents
     ffuzz() {
         find . -wholename \*"$1"\* -not -path './.*/*' | fzf
@@ -101,7 +131,7 @@ if type fzf > /dev/null 2> /dev/null; then
     #
 
     # show process id - interactive grep
-    fpgrep() {
+    fpid() {
         ps aux | eval fzf | awk '{ print $2 }'
     }
 
@@ -117,6 +147,18 @@ if type fzf > /dev/null 2> /dev/null; then
         if [ "x$pid" != "x" ]; then
             echo "$pid" | xargs kill -"${1:-9}"
         fi
+    }
+
+    #
+    # System
+    #
+    # source "${HOME}/.config/shell/system/fzf-system.sh"
+    # fzf-sys() {
+    #     ${HOME}/.config/shell/system/fzf-system.sh"
+    # }
+
+    fsys() {
+        [[ -f "$HOME"/.local/bin/+fzf-system ]] && "$HOME"/.local/bin/+fzf-system "$@"
     }
 
     #
