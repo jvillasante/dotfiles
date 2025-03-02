@@ -198,14 +198,12 @@
     (corfu-auto t)
     (corfu-auto-prefix 2)
     (corfu-quit-no-match t)
-    (corfu-quit-at-boundary t)
-    (corfu-preview-current nil)
     :bind (:map corfu-map
                 ("SPC" . corfu-insert-separator)
                 ("<tab>" . corfu-complete))
     :hook ((after-init . (lambda ()
                              (global-corfu-mode)
-                             (corfu-popupinfo-mode)
+                             (corfu-popupinfo-mode t)
                              (with-eval-after-load 'savehist
                                  (corfu-history-mode 1)
                                  (add-to-list 'savehist-additional-variables 'corfu-history))))
@@ -309,7 +307,8 @@
     ;; (expand-file-name "Apps/org/notes" my/dropbox-path)
     (setq consult-notes-file-dir-sources
           `(("Org"       ?o ,(expand-file-name "Apps/org" my/dropbox-path))
-            ("Org Notes" ?n ,(expand-file-name "Apps/org/notes" my/dropbox-path)))))
+            ("Org Notes" ?n ,(expand-file-name "Apps/org/notes" my/dropbox-path))
+            ("Ledger"    ?l ,(expand-file-name "Apps/org/ledger" my/dropbox-path)))))
 
 (use-package embark
     :init
