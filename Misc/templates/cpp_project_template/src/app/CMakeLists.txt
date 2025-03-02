@@ -1,7 +1,7 @@
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 include_directories(${INCLUDE_PATH})
-find_package(GTest CONFIG REQUIRED)
-find_package(benchmark CONFIG REQUIRED)
+include(${PROJECT_SOURCE_DIR}/cmake/GoogleTest.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/GoogleBenchmark.cmake)
 
 set(PROGRAM_NAME tests)
 add_executable(${PROGRAM_NAME} ${PROGRAM_NAME}.cpp)

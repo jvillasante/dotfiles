@@ -114,9 +114,6 @@ create_cpp_project_clang() {
 
         echo ">>> Initializing $PROJECT_PATH..."
         cd "$PROJECT_PATH" && check $?
-        vcpkg new --application && check $?
-        vcpkg add port gtest && check $?
-        vcpkg add port benchmark && check $?
         git init && check $?
     else
         echo ">>> $PROJECT_PATH already exists."
@@ -181,9 +178,6 @@ create_cpp_project_gcc() {
 
         echo ">>> Initializing $PROJECT_PATH..."
         cd "$PROJECT_PATH" && check $?
-        vcpkg new --application && check $?
-        vcpkg add port gtest && check $?
-        vcpkg add port benchmark && check $?
         git init && check $?
     else
         echo ">>> $PROJECT_PATH already exists."
