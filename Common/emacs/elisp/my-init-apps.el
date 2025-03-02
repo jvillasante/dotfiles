@@ -171,7 +171,17 @@
     :hook (ledger-mode . (lambda ()
                              (setq-local tab-always-indent 'complete)
                              (setq-local completion-cycle-threshold t)
-                             (setq-local ledger-complete-in-steps t))))
+                             (setq-local ledger-complete-in-steps t)))
+    :config
+    (setq ledger-reports
+          '(("balance" "%(binary) -f %(ledger-file) bal")
+            ("register" "%(binary) -f %(ledger-file) reg")
+            ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+            ("account" "%(binary) -f %(ledger-file) reg %(account)")
+            ("net worth"
+             "%(binary) -f %(ledger-file) bal --depth 1 --market ^Assets: ^Liabilities:")
+            ("expenses this month"
+             "%(binary) -f %(ledger-file) bal --period \"this month\" ^Expenses:"))))
 
 ;; elfeed
 (use-package elfeed

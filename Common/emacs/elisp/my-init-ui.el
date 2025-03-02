@@ -353,7 +353,7 @@ Run this function at the post theme load phase, such as with the
 (use-package which-key
     :ensure nil ;; emacs built-in
     :hook (after-init . which-key-mode)
-    :custom ((which-key-idle-delay 1)
+    :custom ((which-key-idle-delay 1.0)
              (which-key-popup-type 'minibuffer)))
 
 (use-package window
