@@ -228,8 +228,9 @@
                   '(face empty tabs newline trailing tab-mark newline-mark))
 
     ;; Set whitespace actions (`C-h f whitespace-cleanup' for more cleanup actions)
-    (setq-default whitespace-action
-                  '(auto-cleanup))
+    ;; Not needed, using editor-config instead
+    ;; (setq-default whitespace-action
+    ;;               '(auto-cleanup))
 
     ;; Make these characters represent whitespace
     (setq-default whitespace-display-mappings

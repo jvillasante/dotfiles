@@ -262,7 +262,7 @@
     :ensure nil ;; emacs built-in
     :config
     (setq editorconfig-exclude-regexps
-          '("\\.jar$" "\\.rar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$"))
+          '("\\.jar$" "\\.rar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$" "\\.t$"))
     (editorconfig-mode 1))
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
