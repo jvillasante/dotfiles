@@ -267,11 +267,12 @@
 
     ;; Optionally configure the narrowing key.
     ;; Both < and C-+ work reasonably well.
-    ;; (setq consult-narrow-key "<") ;; "C-+"
+    (setq consult-narrow-key "<") ;; "C-+"
 
     ;; Optionally make narrowing help available in the minibuffer.
     ;; You may want to use `embark-prefix-help-command' or which-key instead.
-    ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
+    (keymap-set consult-narrow-map
+                (concat consult-narrow-key " ?") #'consult-narrow-help)
 
     ;; Optionally configure preview. The default value
     ;; is 'any, such that any key triggers the preview.
@@ -304,11 +305,10 @@
 (use-package consult-notes
     :after consult
     :config
-    ;; (expand-file-name "Apps/org/notes" my/dropbox-path)
     (setq consult-notes-file-dir-sources
-          `(("Org"       ?o ,(expand-file-name "Apps/org" my/dropbox-path))
-            ("Org Notes" ?n ,(expand-file-name "Apps/org/notes" my/dropbox-path))
-            ("Ledger"    ?l ,(expand-file-name "Apps/org/ledger" my/dropbox-path)))))
+          `(("Org"    ?o ,(expand-file-name "Apps/org"       my/dropbox-path))
+            ("Notes"  ?n ,(expand-file-name "Apps/org/notes" my/dropbox-path))
+            ("Ledger" ?l ,(expand-file-name "Apps/ledger"    my/dropbox-path)))))
 
 (use-package embark
     :init
