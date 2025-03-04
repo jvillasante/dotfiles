@@ -207,9 +207,9 @@
                              (with-eval-after-load 'savehist
                                  (corfu-history-mode 1)
                                  (add-to-list 'savehist-additional-variables 'corfu-history))))
-           (eshell-mode . (lambda ()
-                              (setq-local corfu-auto nil)
-                              (corfu-mode)))))
+           ((shell-mode eshell-mode) . (lambda ()
+                                           (setq-local corfu-auto nil)
+                                           (corfu-mode)))))
 
 (use-package cape
     :bind ("C-c p" . cape-prefix-map)
