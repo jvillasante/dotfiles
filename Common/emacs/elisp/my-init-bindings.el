@@ -292,7 +292,7 @@
     ;; (global-set-key (kbd "C-c c") 'crux-copy-file-preserve-attributes)
     (global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
     (global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
-    (global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
+    (global-set-key (kbd "C-x x R") 'crux-rename-buffer-and-file)
     ;; (global-set-key (kbd "C-c t") 'crux-visit-term-buffer)
     ;; (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
     ;; (global-set-key (kbd "C-M-z") 'crux-indent-defun)
