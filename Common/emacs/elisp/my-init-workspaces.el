@@ -8,8 +8,10 @@
     :hook (after-init . (lambda ()
                             (activities-mode)
                             (activities-tabs-mode)))
-    :init (setq edebug-inhibit-emacs-lisp-mode-bindings t)
-    :custom ((activities-bookmark-store nil)
+    :init
+    ;; Prevent `edebug' default bindings from interfering.
+    (setq edebug-inhibit-emacs-lisp-mode-bindings t)
+    :custom ((activities-bookmark-store t)
              (activities-always-persist nil))
     :bind (("C-x C-a C-n" . activities-new)
            ("C-x C-a C-d" . activities-define)
