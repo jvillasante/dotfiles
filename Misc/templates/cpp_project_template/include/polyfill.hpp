@@ -88,8 +88,8 @@ T exchange(T& obj, U&& new_value) noexcept(
  */
 
 #if __cplusplus >= 201103L && __cplusplus < 202002L
+#include <cstring>
 #include <type_traits>
-#include <utility>
 
 // It's bad to add things to the std namespace, but the point is to "polyfill"
 // this function for C++{11,14,17} compilers.
