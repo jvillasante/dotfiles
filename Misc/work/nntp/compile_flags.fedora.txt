@@ -89,6 +89,7 @@
 -I./lib/compress
 -I./lib/config
 -I./lib/configparser
+-I./lib/oldconnectcache
 -I./lib/connectcache
 -I./lib/connectcount
 -I./lib/connection

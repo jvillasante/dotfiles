@@ -11,4 +11,4 @@ if ! type atool >/dev/null 2>&1; then
 fi
 
 # atool to extract archives
-atool --extract --explain "$@"
+atool --extract --subdir --explain "$@"

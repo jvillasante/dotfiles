@@ -116,27 +116,19 @@
 (use-package dwim-shell-command
     :init
     (require 'dwim-shell-commands)
+    (defun my/dwim-shell-command-extract ()
+        "Extract all marked archives (of any kind) using `atool'."
+        (interactive)
+        (dwim-shell-command-on-marked-files
+         "Extract" "atool --extract --subdir --explain '<<f>>'"
+         :utils "atool"))
     (defun my/dwim-shell-command-convert-to-gif ()
         "Convert all marked videos to optimized gif(s)."
         (interactive)
         (dwim-shell-command-on-marked-files
          "Convert to gif"
          "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
-         :utils "ffmpeg"))
-    (defun my/dwim-shell-command-copy-to-www-sm2 ()
-        "Copfy files to SM2's www directory"
-        (interactive)
-        (dwim-shell-command-on-marked-files
-         "Copy marked files to SM2's www directory"
-         "scp -Or <<f>> dmxs.sm2.lan:/opt/dmxs/www"
-         :utils "scp"))
-    (defun my/dwim-shell-command-copy-to-bin-sm2 ()
-        "Copy files to SM2's www directory"
-        (interactive)
-        (dwim-shell-command-on-marked-files
-         "Copy marked files to SM2's www directory"
-         "scp -Or <<f>> dmxs.sm2.lan:/opt/dmxs/app/bin"
-         :utils "scp")))
+         :utils "ffmpeg")))
 
 ;; emamux : Interact with tmux from Emacs.
 (use-package emamux

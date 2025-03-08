@@ -246,7 +246,7 @@
     :defer t
     :mode (("\\.[Rr]md\\'" . markdown-mode)
            ("\\.qmd\\'" . markdown-mode))
-    ;; :init (add-hook 'markdown-mode-hook 'markdown-toggle-markup-hiding)
+    :init (setq markdown-command "multimarkdown")
     :config (setq markdown-fontify-code-blocks-natively t
                   markdown-fontify-whole-heading-line t
                   markdown-enable-math t))
