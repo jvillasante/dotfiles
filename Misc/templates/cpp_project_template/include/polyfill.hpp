@@ -96,10 +96,10 @@ T exchange(T& obj, U&& new_value) noexcept(
 namespace std
 {
 template <typename To, typename From>
-static std::enable_if_t<sizeof(To) == sizeof(From) &&
-                            std::is_trivially_copyable_v<From> &&
-                            std::is_trivially_copyable_v<To>,
-                        To>
+std::enable_if_t<sizeof(To) == sizeof(From) &&
+                     std::is_trivially_copyable_v<From> &&
+                     std::is_trivially_copyable_v<To>,
+                 To>
 bit_cast(From const& src) noexcept
 {
     static_assert(std::is_trivially_constructible_v<To>,
