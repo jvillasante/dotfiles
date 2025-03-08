@@ -113,6 +113,7 @@
 ;;   <<td>>  (generate a temporary directory)
 ;;   <<*>>   (all files joined)
 ;;   <<cb>>  (clipboard)
+;;   <<n>>, <<1n>>, or <<An>> (for current iteration)
 (use-package dwim-shell-command
     :init
     (require 'dwim-shell-commands)
