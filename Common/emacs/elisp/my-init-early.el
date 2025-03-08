@@ -112,8 +112,10 @@
 (setq delete-by-moving-to-trash t) ;; use the system trash
 (setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
 (put 'narrow-to-region 'disabled nil) ; enable narrow to region (disabled by default)
-(setq undo-limit 100000000) ; raise Emacs undo memory to 10 MB
 (setq select-enable-clipboard t) ; Non-nil means cutting and pasting uses the clipboard.
+(setq undo-limit 67108864) ; 64mb.
+(setq undo-strong-limit 100663296) ; 96mb.
+(setq undo-outer-limit 1006632960) ; 960mb.
 
 ;; s.el : The long lost Emacs string manipulation library.
 (use-package s)
