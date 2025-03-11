@@ -346,10 +346,13 @@
     (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
 (with-eval-after-load 'deadgrep
+    ;; (define-key deadgrep-mode-map (kbd "e") 'wgrep-change-to-wgrep-mode)
+    ;; (define-key deadgrep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
+    ;; (define-key deadgrep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit)
     (global-set-key (kbd "M-s R") 'deadgrep) ; extend M-s r (consult-ripgrep)
-    (define-key deadgrep-mode-map (kbd "e") 'wgrep-change-to-wgrep-mode)
-    (define-key deadgrep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
-    (define-key deadgrep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
+    (define-key deadgrep-mode-map (kbd "e") 'deadgrep-edit-mode)
+    (define-key deadgrep-mode-map (kbd "C-x C-q") 'deadgrep-edit-mode)
+    (define-key deadgrep-edit-mode-map (kbd "C-c C-c") 'deadgrep-mode))
 
 (with-eval-after-load 'surround
     (define-key global-map (kbd "M-'") surround-keymap))

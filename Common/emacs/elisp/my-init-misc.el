@@ -308,6 +308,7 @@
 ;; wgrep : edit grep results
 (use-package wgrep)
 (use-package wgrep-deadgrep
+    :disabled t
     :if (package-installed-p 'deadgrep))
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
