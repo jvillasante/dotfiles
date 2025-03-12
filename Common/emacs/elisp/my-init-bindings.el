@@ -364,7 +364,8 @@
 
 (with-eval-after-load 'dired
     (define-key dired-mode-map (kbd "C-<return>") 'dired-do-open)
-    (define-key dired-mode-map (kbd "q") 'my/close-buffer-and-window)
+    ;; (define-key dired-mode-map (kbd "q") 'my/close-buffer-and-window)
+    (define-key dired-mode-map (kbd "q") nil) ; disable q on dired buffer
     (define-key dired-mode-map (kbd "e") 'dired-toggle-read-only))
 
 (with-eval-after-load 'dired-x
