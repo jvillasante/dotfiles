@@ -213,6 +213,7 @@
     (setq-default whitespace-global-modes
                   '(not shell-mode
                         vterm-mode
+                        eat-mode
                         help-mode
                         magit-mode
                         magit-diff-mode

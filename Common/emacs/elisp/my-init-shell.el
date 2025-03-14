@@ -44,7 +44,13 @@
                       (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
                   (eshell/alias "ff" "find-file $1")
                   (eshell/alias "e" "find-file-other-window $1")
-                  (eshell/alias "d" "dired $1")))
+                  (eshell/alias "d" "dired $1")
+
+                  ;; eat
+                  (when (featurep 'eat)
+                      (setq eshell-visual-commands nil)
+                      (eat-eshell-mode +1)
+                      (eat-eshell-visual-command-mode +1))))
     :config
     (setq eshell-scroll-to-bottom-on-input 'this)
     (setq eshell-scroll-to-bottom-on-output nil)
@@ -64,6 +70,29 @@
         (let ((buf (shell)))
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf))))
+
+;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
+(use-package eat
+    :disabled t
+    :preface
+    (defun my/eat-open (file)
+        "Helper function to open files from eat terminal."
+        (interactive)
+        (if (file-exists-p file)
+                (find-file-other-window file t)
+            (warn "File doesn't exist")))
+    :init
+    (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
+    (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
+    (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
+    :config
+    (add-to-list 'eat-message-handler-alist (cons "open" 'my/eat-open))
+    (setq process-adaptive-read-buffering nil) ; makes EAT a lot quicker!
+    (setq eat-term-name "xterm-256color") ; https://codeberg.org/akib/emacs-eat/issues/119"
+    (setq eat-kill-buffer-on-exit t)
+    (setq eat-shell-prompt-annotation-failure-margin-indicator "")
+    (setq eat-shell-prompt-annotation-running-margin-indicator "")
+    (setq eat-shell-prompt-annotation-success-margin-indicator ""))
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm

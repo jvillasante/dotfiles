@@ -43,6 +43,17 @@ if [ "$INSIDE_EMACS" = 'vterm' ] && [ -n "$EMACS_VTERM_PATH" ]; then
     }
 fi
 
+# emacs eat: https://codeberg.org/akib/emacs-eat
+if [ -n "$EAT_SHELL_INTEGRATION_DIR" ]; then
+    if [ -r "$EAT_SHELL_INTEGRATION_DIR/bash" ]; then
+        # shellcheck source=/dev/null
+        source "$EAT_SHELL_INTEGRATION_DIR/bash"
+    fi
+
+    # eat alias to open a file inside emacs
+    alias eopen='_eat_msg open'
+fi
+
 # snap
 [ -d "/snap/bin" ] && export PATH="$PATH:/snap/bin"
 
