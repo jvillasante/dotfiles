@@ -256,12 +256,15 @@
         (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape)
         (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
         (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)))
-
-(with-eval-after-load 'eat
+(when (package-installed-p 'eat)
+    ;; global keys
     (global-set-key (kbd "C-c o t") 'eat)
     (global-set-key (kbd "C-c o T") 'eat-other-window)
-    (define-key project-prefix-map (kbd "t") 'eat-project)
-    (define-key project-prefix-map (kbd "T") 'eat-project-other-window))
+
+    (with-eval-after-load 'project
+        ;; project-prefix-map
+        (define-key project-prefix-map (kbd "t") 'my/eat-project)
+        (define-key project-prefix-map (kbd "T") 'my/eat-project-other-window)))
 
 (with-eval-after-load 'dwim-shell-command
     (define-key global-map [remap shell-command] 'dwim-shell-command)
