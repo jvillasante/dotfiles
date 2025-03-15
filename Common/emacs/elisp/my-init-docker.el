@@ -32,10 +32,10 @@
         (setq docker-command "podman")
         (setq docker-compose-command "podman-compose"))
 
-    ;; (when (package-installed-p 'eat)
-    ;;     (setq docker-run-async-with-buffer-function #'my/docker-run-async-with-buffer-eat))
-    (when (package-installed-p 'vterm)
-        (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
+    (when (package-installed-p 'eat)
+        (setq docker-run-async-with-buffer-function #'my/docker-run-async-with-buffer-eat))
+    ;; (when (package-installed-p 'vterm)
+    ;;     (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
 
     ;; When docker run is called on an image whose repository name matches the
     ;; regular expression "^postgres", the option "-e
