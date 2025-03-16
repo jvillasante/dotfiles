@@ -39,7 +39,6 @@
         ;; Activate `native-compile'
         (setq native-comp-jit-compilation t
               package-native-compile t)
-
     ;; Deactivate the `native-compile' feature if it is not available
     (setq features (delq 'native-compile features)))
 
