@@ -3,16 +3,12 @@
 ;;
 ;;; Code:
 
-;; https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
-;; Waiting until this gets more traction, *-mode-ts feels very weird to me!
-;;
+;; Docs:
+;;   https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 ;; Install Language Grammars:
-;;  - Call the command `M-x treesit-install-language-grammar' for each language.
-;;  - Alternativelly, evaluate the following to install them all:
-;;    (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+;;   Call the command `M-x my/treesit-install-language-grammars'
 ;; Check if grammar is working:
-;;    (treesit-language-available-p 'python)
-;;    (treesit-language-available-p 'cpp)
+;;   (treesit-language-available-p 'cpp)
 ;; List all known tree-sitter major modes:
 ;;    C-h a -ts-mode$
 ;; Give `treesit-explore-mode' or `treesit-inspect-mode' a try!
