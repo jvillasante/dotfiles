@@ -98,7 +98,7 @@ bool nearly_equal(T lhs, T rhs, T epsilon = std::numeric_limits<T>::epsilon())
 }
 
 template <typename T>
-inline T random_int(T min, T max)
+T random(T min, T max)
 {
     // One engine instance per thread
     auto thread_local static engine =
