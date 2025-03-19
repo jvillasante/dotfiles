@@ -13,6 +13,7 @@
 ;; casual : https://github.com/kickingvegas/casual
 ;;          https://github.com/kickingvegas/casual-suite
 (use-package casual-suite
+    :disabled t
     :defer t
     :bind (;; (:map global-map ("M-g" . casual-avy-tmenu))
            ;; (:map global-map ("C-o" . casual-editkit-main-tmenu))
