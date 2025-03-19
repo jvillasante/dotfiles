@@ -168,17 +168,17 @@
     :if (fboundp 'pixel-scroll-precision-mode)
     :preface
     (defvar my/default-scroll-lines 25) ;; scroll less than default
-    (defun my/pixel-scroll-up-command ()
+    (defun my/pixel-scroll-up-command (&optional arg)
         "Similar to `scroll-up-command' but with pixel scrolling."
-        (interactive)
+        (interactive "^P")
         (pixel-scroll-precision-interpolate (- (* my/default-scroll-lines (line-pixel-height)))))
-    (defun my/pixel-scroll-down-command ()
+    (defun my/pixel-scroll-down-command (&optional arg)
         "Similar to `scroll-down-command' but with pixel scrolling."
-        (interactive)
+        (interactive "^P")
         (pixel-scroll-precision-interpolate (* my/default-scroll-lines (line-pixel-height))))
-    (defun my/pixel-recenter-top-bottom ()
+    (defun my/pixel-recenter-top-bottom (&optional arg)
         "Similar to `recenter-top-bottom' but with pixel scrolling."
-        (interactive)
+        (interactive "^P")
         (let* ((current-row (cdr (nth 6 (posn-at-point))))
                (target-row (save-window-excursion
                                (recenter-top-bottom)
