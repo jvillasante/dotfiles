@@ -23,10 +23,11 @@
             (magit-restore-window-configuration)
             (mapc #'kill-buffer buffers)))
     :hook ((git-commit-setup . git-commit-turn-on-auto-fill))
-    :custom ((magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
-             (git-commit-summary-max-length 50)
+    :custom ((git-commit-summary-max-length 50)
              (git-commit-fill-column 72)
-             (magit-diff-refine-hunk 'all) ; show granular diffs in selected hunk.
+             (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
+             (magit-define-global-key-bindings nil)
+             (magit-diff-refine-hunk t) ; show granular diffs in selected hunk.
              (magit-save-repository-buffers nil)
              (magit-define-global-key-bindings nil)))
 
