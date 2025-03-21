@@ -162,6 +162,7 @@
     :ensure nil ;; emacs built-in
     :config
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+    (setq tramp-syntax 'simplified)
     (setq tramp-use-connection-share nil) ; use Control* options from ssh config
     (setq remote-file-name-inhibit-locks t)
     (setq remote-file-name-inhibit-cache nil)
