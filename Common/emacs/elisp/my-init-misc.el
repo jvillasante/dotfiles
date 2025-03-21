@@ -168,7 +168,7 @@
     (setq remote-file-name-inhibit-cache nil)
     (setq tramp-verbose 1)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
-    (setq tramp-completion-use-auth-sources nil) ; do use `.authinfo.gpg' for tramp
+    (setq tramp-completion-use-auth-sources nil) ; do not use `.authinfo.gpg' for tramp
     (setq tramp-shell-prompt-pattern
           "\\(?:^\\|\\)[^]\n#-%>]*#?[]#-%>].*[[:blank:]]*") ; Tramp hangs: Not recognizing the remote shell prompt
     (setq tramp-password-prompt-regexp ; Add verification code support.
