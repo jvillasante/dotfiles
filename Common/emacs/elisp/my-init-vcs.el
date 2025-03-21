@@ -3,15 +3,16 @@
 ;;
 ;;; Code:
 
-;; always follow symlinks
-(setq vc-follow-symlinks t)
-;; make sure vc stuff is not making tramp slower
-(setq vc-ignore-dir-regexp
-      (format "\\(%s\\)\\|\\(%s\\)"
-              vc-ignore-dir-regexp
-              tramp-file-name-regexp))
-;; use a different diff option
-(setq vc-git-diff-switches '("--histogram"))
+(use-package vc
+    :bind ("C-x v R" . my/vc-git-reflog)
+    :custom
+    (vc-handled-backends '(Git))
+    (vc-follow-symlinks t)                   ; always follow symlinks
+    (vc-git-diff-switches '("--histogram"))  ; use a different diff option
+    (vc-ignore-dir-regexp                    ; make sure vc stuff is not making tramp slower
+     (format "\\(%s\\)\\|\\(%s\\)"
+             vc-ignore-dir-regexp
+             tramp-file-name-regexp)))
 
 (use-package magit
     :preface
