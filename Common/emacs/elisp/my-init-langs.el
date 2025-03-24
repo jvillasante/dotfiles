@@ -28,7 +28,8 @@
                    (clojure    "https://github.com/sogaiu/tree-sitter-clojure" "master" "src")
                    (cmake      "https://github.com/uyha/tree-sitter-cmake")
                    (commonlisp "https://github.com/tree-sitter-grammars/tree-sitter-commonlisp")
-                   (cpp        "https://github.com/tree-sitter/tree-sitter-cpp/" "v0.23.4" "src")
+                   ;; (cpp        "https://github.com/tree-sitter/tree-sitter-cpp/" "v0.23.4" "src")
+                   (cpp        "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")
                    (css        "https://github.com/tree-sitter/tree-sitter-css")
                    (dart       "https://github.com/ast-grep/tree-sitter-dart")
                    (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "main" "src")
@@ -164,7 +165,7 @@
     (advice-add #'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 ;; c++ treesiter
-(use-package c-ts-mode
+(use-package c++-ts-mode
     :ensure nil ;; emacs built-in
     :defer t
     :preface
@@ -181,6 +182,14 @@
           ((n-p-gp nil "declaration_list" "namespace_definition") parent-bol 0)
           ;; append to bsd style
           ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
+    :mode ("\\.h\\'"
+           "\\.H\\'"
+           "\\.hpp\\'"
+           "\\.HPP\\'"
+           "\\.c\\'"
+           "\\.C\\'"
+           "\\.cpp\\'"
+           "\\.CPP\\'")
     :config
     (setq c-ts-mode-indent-offset 4)
     (setq c-ts-mode-indent-style #'my/c-ts-indent-style))
