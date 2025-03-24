@@ -35,4 +35,22 @@ void insert_sorted(C& c, T const& value)
     auto const it = std::lower_bound(std::begin(c), std::end(c), value);
     c.insert(it, value);
 }
+
+// tells us the number of bytes that a collection owns
+template <typename Collection>
+std::size_t areaof(Collection const& x)
+{
+    using value_type = typename Collection::value_type;
+    return (std::size(x) * sizeof(value_type)) + sizeof(Collection);
+}
+
+// how well do we use memory
+template <typename Collection>
+double memory_utilization(Collection const& x)
+{
+    using value_type = typename Collection::value_type;
+    double useful(std::size(x) * sizeof(value_type));
+    double total(areaof(x));
+    return useful / total;
+}
 } // namespace utils::collections
