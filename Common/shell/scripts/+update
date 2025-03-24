@@ -167,10 +167,10 @@ emacs_update() {
             echo "Emacs personal configuration not found, exiting..." && usage 1
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache ]] &&
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache
-        [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa ]] &&
-            rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa
-        [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter ]] &&
-            rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
+        # [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa ]] &&
+        #     rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa
+        # [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter ]] &&
+        #     rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
 
         # Launch emacs
         /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/emacs.d
