@@ -13,7 +13,9 @@
 (global-set-key (kbd "C-c C-M") 'execute-extended-command-for-buffer) ; ALT may or may not be available
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
 (global-set-key (kbd "C-x k") 'kill-current-buffer) ; kill buffer without prompt
+(global-set-key (kbd "C-x C-k") 'kill-current-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
+(global-set-key (kbd "C-x C-K") 'kill-buffer) ; prompt for buffer to kill
 (global-set-key (kbd "C-x S") 'my/save-all) ; save some buffers without prompt
 
 ;; Both `C-z' and `C-x C-z' are bound to `suspend-frame' which will effectively
@@ -411,6 +413,21 @@
 
 (when (package-installed-p 'docker)
     (global-set-key (kbd "C-c o d") 'docker))
+
+;; activities
+(when (package-installed-p 'activities)
+    ;; Prevent `edebug' default bindings from interfering with activities
+    (setq edebug-inhibit-emacs-lisp-mode-bindings t)
+    (global-set-key (kbd "C-x C-a C-n") 'activities-new)
+    (global-set-key (kbd "C-x C-a C-d") 'activities-define)
+    (global-set-key (kbd "C-x C-a C-a") 'activities-resume)
+    (global-set-key (kbd "C-x C-a C-s") 'activities-suspend)
+    (global-set-key (kbd "C-x C-a C-k") 'activities-kill)
+    (global-set-key (kbd "C-x C-a RET") 'activities-switch)
+    (global-set-key (kbd "C-x C-a b")   'activities-switch-buffer)
+    (global-set-key (kbd "C-x C-a g")   'activities-revert)
+    (global-set-key (kbd "C-x C-a l")   'activities-list)
+    (global-set-key (kbd "C-x b")       'my/switch-to-buffer))
 
 ;;; Prefix
 ;; C-c w : windows
