@@ -162,36 +162,38 @@
 
     ;; Speedup cursor movement.
     ;; https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
-    (setq auto-window-vscroll nil))
-(use-package pixel-scroll
-    :ensure nil ;; emacs built-in
-    :if (fboundp 'pixel-scroll-precision-mode)
-    :preface
-    (defvar my/default-scroll-lines 25) ;; scroll less than default
-    (defun my/pixel-scroll-up-command (&optional arg)
-        "Similar to `scroll-up-command' but with pixel scrolling."
-        (interactive "^P")
-        (pixel-scroll-precision-interpolate (- (* my/default-scroll-lines (line-pixel-height)))))
-    (defun my/pixel-scroll-down-command (&optional arg)
-        "Similar to `scroll-down-command' but with pixel scrolling."
-        (interactive "^P")
-        (pixel-scroll-precision-interpolate (* my/default-scroll-lines (line-pixel-height))))
-    (defun my/pixel-recenter-top-bottom (&optional arg)
-        "Similar to `recenter-top-bottom' but with pixel scrolling."
-        (interactive "^P")
-        (let* ((current-row (cdr (nth 6 (posn-at-point))))
-               (target-row (save-window-excursion
-                               (recenter-top-bottom)
-                               (cdr (nth 6 (posn-at-point)))))
-               (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
-            (pixel-scroll-precision-interpolate distance-in-pixels)))
-    :custom ((pixel-scroll-precision-interpolation-factor 0.75)
-             (pixel-scroll-precision-use-momentum nil)
-             (pixel-scroll-precision-interpolate-mice t)
-             (pixel-scroll-precision-large-scroll-height 10.0)
-             (pixel-scroll-precision-interpolation-total-time 0.2)
-             (pixel-scroll-precision-interpolate-page t))
-    :hook (after-init . pixel-scroll-precision-mode))
+    (setq auto-window-vscroll nil)
+
+    ;; smooth scrolling
+    (use-package pixel-scroll
+        :ensure nil ;; emacs built-in
+        :if (fboundp 'pixel-scroll-precision-mode)
+        :preface
+        (defvar my/default-scroll-lines 25) ;; scroll less than default
+        (defun my/pixel-scroll-up-command (&optional arg)
+            "Similar to `scroll-up-command' but with pixel scrolling."
+            (interactive "^P")
+            (pixel-scroll-precision-interpolate (- (* my/default-scroll-lines (line-pixel-height)))))
+        (defun my/pixel-scroll-down-command (&optional arg)
+            "Similar to `scroll-down-command' but with pixel scrolling."
+            (interactive "^P")
+            (pixel-scroll-precision-interpolate (* my/default-scroll-lines (line-pixel-height))))
+        (defun my/pixel-recenter-top-bottom (&optional arg)
+            "Similar to `recenter-top-bottom' but with pixel scrolling."
+            (interactive "^P")
+            (let* ((current-row (cdr (nth 6 (posn-at-point))))
+                   (target-row (save-window-excursion
+                                   (recenter-top-bottom)
+                                   (cdr (nth 6 (posn-at-point)))))
+                   (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
+                (pixel-scroll-precision-interpolate distance-in-pixels)))
+        :custom ((pixel-scroll-precision-interpolation-factor 0.75)
+                 (pixel-scroll-precision-use-momentum nil)
+                 (pixel-scroll-precision-interpolate-mice t)
+                 (pixel-scroll-precision-large-scroll-height 10.0)
+                 (pixel-scroll-precision-interpolation-total-time 0.2)
+                 (pixel-scroll-precision-interpolate-page t))
+        :hook (after-init . pixel-scroll-precision-mode)))
 
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
