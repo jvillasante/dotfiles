@@ -24,6 +24,7 @@ otherwise use `bufler-switch-buffer'."
 
 ;; otpp : One tab per project, with unique names
 (use-package otpp
+    :disabled t
     :after tab-bar project
     :init
     ;; If you like to define some aliases for better user experience
@@ -38,7 +39,6 @@ otherwise use `bufler-switch-buffer'."
 
 ;; tabspaces : create buffer-isolated workspaces
 (use-package tabspaces
-    :disabled t
     :preface
     (defun my/tabspace-setup ()
         "Set up tabspace at startup."
@@ -94,7 +94,7 @@ otherwise use `bufler-switch-buffer'."
             "Set workspace buffer list for consult-buffer.")
         (add-to-list 'consult-buffer-sources 'consult--source-workspace))
     :custom
-    (tabspaces-keymap-prefix "C-x TAB")
+    (tabspaces-keymap-prefix "C-c TAB")
     (tabspaces-use-filtered-buffers-as-default t)
     (tabspaces-default-tab "Default")
     (tabspaces-remove-to-default t)
@@ -103,7 +103,8 @@ otherwise use `bufler-switch-buffer'."
     (tabspaces-todo-file-name "project-todo.org")
     ;; sessions
     (tabspaces-session nil)
-    (tabspaces-session-auto-restore nil))
+    (tabspaces-session-auto-restore nil)
+    (tab-bar-new-tab-choice "*scratch*"))
 
 (provide 'my-init-workspaces)
 ;;; my-init-workspaces.el ends here
