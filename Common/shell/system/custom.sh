@@ -31,7 +31,7 @@ HISTSIZE=10000
 HISTFILESIZE=20000
 
 # Some commands to ignore
-HISTIGNORE="(ls|cd|pwd|exit|fproj)*"
+HISTIGNORE="(ls|ll|cd|pwd|exit|fproj)*"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
