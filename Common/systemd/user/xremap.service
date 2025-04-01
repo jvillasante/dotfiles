@@ -5,7 +5,7 @@ Documentation=https://github.com/k0kubun/xremap
 [Service]
 Type=simple
 ExecStart=/usr/local/bin/xremap \
-    --device 'Compx Flow84@Lofree' \
+    --device 'Flow84@Lofree' \
     --device 'AT Translated Set 2 keyboard' \
     /home/jvillasante/.config/xremap/config.yml
 Restart=on-failure
