@@ -265,8 +265,8 @@
 
     (with-eval-after-load 'project
         ;; project-prefix-map
-        (define-key project-prefix-map (kbd "t") 'my/eat-project)
-        (define-key project-prefix-map (kbd "T") 'my/eat-project-other-window)))
+        (define-key project-prefix-map (kbd "t") 'eat-project)
+        (define-key project-prefix-map (kbd "T") 'eat-project-other-window)))
 
 (with-eval-after-load 'dwim-shell-command
     (define-key global-map [remap shell-command] 'dwim-shell-command)
