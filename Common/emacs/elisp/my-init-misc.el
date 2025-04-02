@@ -77,12 +77,13 @@
 
 (use-package electric
     :ensure nil ;; emacs built-in
-    :preface (defun my/electric-indent-local-mode-maybe ()
-                 "Enable `electric-indent-local-mode' if appropriate."
-                 (unless (or (eq major-mode 'fundamental-mode)
-                             (eq major-mode 'text-mode)
-                             (eq major-mode 'conf-mode))
-                     (electric-indent-local-mode 1)))
+    :preface
+    (defun my/electric-indent-local-mode-maybe ()
+        "Enable `electric-indent-local-mode' if appropriate."
+        (unless (or (eq major-mode 'fundamental-mode)
+                    (eq major-mode 'text-mode)
+                    (eq major-mode 'conf-mode))
+            (electric-indent-local-mode 1)))
     :init
     (setq-default electric-indent-chars '(?\n ?\^?))
     (setq-default electric-indent-inhibit t) ;; Making electric-indent behave sanely
@@ -91,7 +92,16 @@
 
 (use-package isearch
     :ensure nil ;; emacs built-in
-    :config
+    :preface
+    (defun my/isearch-goto-match-beginning ()
+        "Go to the start of current isearch match.
+    Use in `isearch-mode-end-hook'."
+        (when (and isearch-forward
+                   (number-or-marker-p isearch-other-end)
+                   (not mark-active)
+                   (not isearch-mode-end-hook-quit))
+            (goto-char isearch-other-end)))
+    :hook (isearch-mode-end . my/isearch-goto-match-beginning)
     (setq isearch-resume-in-command-history t) ; use history for isearch as well
     (setq search-whitespace-regexp ".*?") ; isearch convenience, space matches anything (non-greedy)
     (setq isearch-lax-whitespace t)
