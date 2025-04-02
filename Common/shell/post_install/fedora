@@ -109,7 +109,8 @@ fedora_install() {
         10 "Install Keyd - Install Keyd from source"
         11 "Install Xkeysnail - Install Xkeysnail from source"
         12 "Install Xremap - Install Xremap from source"
-        13 "Quit")
+        13 "Install Harper - The English grammar checker designed to be just right"
+        14 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -994,6 +995,41 @@ fedora_install() {
                               Press enter to continue..."
                 ;;
             13)
+                echo "13) Installing Harper"
+
+                # Is it already installed?
+                hash harper-cli 2> /dev/null && notify-send "Harper is already installed" --expire-time=20 && continue
+                hash harper-ls 2> /dev/null && notify-send "Harper is already installed" --expire-time=20 && continue
+
+                # Install
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                [ ! -d "$HOME"/Workspace/Software/harper ] && mkdir -p "$HOME"/Workspace/Software/harper
+
+                pushd "$HOME"/Workspace/Software/harper || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/harper" --expire-time=20
+                        continue
+                }
+
+                HARPER_VERSION=v0.27.0
+                HARPER_CLI_RELEASE=harper-cli-x86_64-unknown-linux-gnu.tar.gz
+                HARPER_LS_RELEASE=harper-ls-x86_64-unknown-linux-gnu.tar.gz
+
+                curl -LJO https://github.com/Automattic/harper/releases/download/"$HARPER_VERSION"/"$HARPER_CLI_RELEASE"
+                atool --extract --explain "$HARPER_CLI_RELEASE"
+                sudo cp -f harper-cli /usr/local/bin/
+
+                curl -LJO https://github.com/Automattic/harper/releases/download/"$HARPER_VERSION"/"$HARPER_LS_RELEASE"
+                atool --extract --explain "$HARPER_LS_RELEASE"
+                sudo cp -f harper-ls /usr/local/bin/
+
+                popd || {
+                        notify-send "Can't cd to previous directory" --expire-time=20
+                        continue
+                }
+
+                read -rp "13) Harper installed. Press enter to continue..."
+                ;;
+            14)
                 exit 0
                 ;;
         esac

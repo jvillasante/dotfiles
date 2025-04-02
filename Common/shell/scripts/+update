@@ -18,6 +18,8 @@ usage() {
     echo "        Update keyd from source"
     echo "    $0 xremap:"
     echo "        Update xreamp from binary source"
+    echo "    $0 harper:"
+    echo "        Update harper from binary source"
     echo
     echo " e.g: $0 system"
     exit "$1"
@@ -300,6 +302,38 @@ xremap_update() {
     systemctl --user restart xremap.service
 }
 
+harper_update() {
+    # Is it already installed?
+    # ! hash harper-cli 2> /dev/null && echo "Harper not installing, exiting" && usage 1
+    # ! hash harper-ls 2> /dev/null && echo "Harper not installing, exiting" && usage 1
+    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+    [ ! -d "$HOME"/Workspace/Software/harper ] && mkdir -p "$HOME"/Workspace/Software/harper
+    [ -d "$HOME"/Workspace/Software/harper ] && rm -rf "$HOME"/Workspace/Software/harper/*
+
+    pushd "$HOME"/Workspace/Software/harper || {
+        echo "Can't cd into $HOME/Workspace/Software/harper"
+        usage 1
+    }
+
+    # get the latest
+    HARPER_VERSION=v0.27.0
+    HARPER_CLI_RELEASE=harper-cli-x86_64-unknown-linux-gnu.tar.gz
+    HARPER_LS_RELEASE=harper-ls-x86_64-unknown-linux-gnu.tar.gz
+
+    curl -LJO https://github.com/Automattic/harper/releases/download/"$HARPER_VERSION"/"$HARPER_CLI_RELEASE"
+    atool --extract --explain "$HARPER_CLI_RELEASE"
+    sudo cp -f harper-cli /usr/local/bin/
+
+    curl -LJO https://github.com/Automattic/harper/releases/download/"$HARPER_VERSION"/"$HARPER_LS_RELEASE"
+    atool --extract --explain "$HARPER_LS_RELEASE"
+    sudo cp -f harper-ls /usr/local/bin/
+
+    popd || {
+        echo "Can't cd to previous directory"
+        usage 1
+    }
+}
+
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -340,6 +374,10 @@ case $cmd in
     xremap)
         [[ "$nargs" -eq 1 ]] || usage 1
         xremap_update
+        ;;
+    harper)
+        [[ "$nargs" -eq 1 ]] || usage 1
+        harper_update
         ;;
     help | --help | -h)
         usage 0
