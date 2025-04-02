@@ -242,7 +242,6 @@
 
 ;; undo-fu : Simple, stable linear undo with redo for Emacs.
 (use-package undo-fu
-    :disabled t
     :custom (undo-fu-allow-undo-in-region t)
     :bind (([remap undo]      . undo-fu-only-undo)
            ([remap undo-redo] . undo-fu-only-redo)))

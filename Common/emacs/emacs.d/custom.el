@@ -23,8 +23,8 @@
            pdf-view-restore peg persistent-scratch php-mode project python
            rainbow-delimiters request rmsbolt rust-mode seq shrink-path so-long
            soap-client surround svg tabspaces track-changes tramp trashed
-           use-package verb verilog-mode vertico vundo web-mode wgrep which-key
-           window-tool-bar xref yaml-mode yasnippet-snippets zig-mode))
+           undo-fu use-package verb verilog-mode vertico vundo web-mode wgrep
+           which-key window-tool-bar xref yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((ledger-mode :url "git@github.com:ledger/ledger-mode.git"))))
 (custom-set-faces
