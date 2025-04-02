@@ -102,6 +102,7 @@
                    (not isearch-mode-end-hook-quit))
             (goto-char isearch-other-end)))
     :hook (isearch-mode-end . my/isearch-goto-match-beginning)
+    :config
     (setq isearch-resume-in-command-history t) ; use history for isearch as well
     (setq search-whitespace-regexp ".*?") ; isearch convenience, space matches anything (non-greedy)
     (setq isearch-lax-whitespace t)
