@@ -140,6 +140,7 @@ do_borg_backup() {
         --exclude 're:/*target*/' \
         --exclude 're:/*node_modules*/' \
         ::"$USER"_'{now}' \
+        /home/"$USER"/.config/BraveSoftware \
         /home/"$USER"/Desktop \
         /home/"$USER"/Documents \
         /home/"$USER"/Downloads \
