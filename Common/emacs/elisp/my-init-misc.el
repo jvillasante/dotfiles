@@ -224,6 +224,7 @@
 
 ;; ibuffer-project : group buffers by custom functions or regexps.
 (use-package ibuffer-project
+    :disabled t
     :hook (ibuffer . (lambda ()
                          (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
                          (unless (eq ibuffer-sorting-mode 'project-file-relative)
