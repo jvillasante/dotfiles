@@ -54,6 +54,12 @@ if [ -n "$EAT_SHELL_INTEGRATION_DIR" ]; then
     alias eopen='_eat_msg open'
 fi
 
+# vcpkg
+if [ -d "$HOME/Workspace/Software/vcpkg/" ]; then
+    export VCPKG_ROOT="$HOME/Workspace/Software/vcpkg"
+    export PATH="$PATH:$VCPKG_ROOT"
+fi
+
 # snap
 [ -d "/snap/bin" ] && export PATH="$PATH:/snap/bin"
 
