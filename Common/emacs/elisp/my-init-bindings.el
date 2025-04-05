@@ -276,7 +276,7 @@
     (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command))
 
 (with-eval-after-load 'helpful
-    ;; (define-key helpful-mode-map (kbd "q") 'kill-current-buffer)
+    (define-key helpful-mode-map (kbd "q") 'my/close-buffer-and-window)
     (define-key global-map [remap describe-function] 'helpful-callable)
     (define-key global-map [remap describe-variable] 'helpful-variable)
     (define-key global-map [remap describe-command]  'helpful-command)
@@ -374,8 +374,7 @@
 
 (with-eval-after-load 'dired
     (define-key dired-mode-map (kbd "C-<return>") 'dired-do-open)
-    ;; (define-key dired-mode-map (kbd "q") 'my/close-buffer-and-window)
-    (define-key dired-mode-map (kbd "q") nil) ; disable q on dired buffer
+    (define-key dired-mode-map (kbd "q") 'my/close-buffer-and-window)
     (define-key dired-mode-map (kbd "e") 'dired-toggle-read-only))
 
 (with-eval-after-load 'dired-x
