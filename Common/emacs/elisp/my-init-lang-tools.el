@@ -141,11 +141,12 @@
 
 ;; eglot-booster : Boost eglot using lsp-booster
 (use-package eglot-booster
-    :disabled t
     :after eglot
     :vc (:url "git@github.com:jdtsmith/eglot-booster.git"
               :rev :newest)
-    :custom (eglot-booster-no-remote-boost t)
+    :custom
+    ((eglot-booster-no-remote-boost t)
+     (eglot-booster-io-only t))
     :config (eglot-booster-mode))
 
 ;; geiser support for guile
