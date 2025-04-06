@@ -1,5 +1,6 @@
-# key: fdoc
+# -*- mode: snippet; require-final-newline: nil -*-
 # name: file documentation comment
+# key: fdoc
 # --
 /**
  * File: $0

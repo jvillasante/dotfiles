@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: const-nonconst methods
+# key: const_nonconst_methods
+# --
+${1:value_type} const& ${2:method_name}() const {
+    $4
+}
+
+$1& $2() {
+    // NOLINTNEXTLINE
+    return const_cast<$1&>(static_cast<${3:class_name} const&>(*this).$2());
+}
