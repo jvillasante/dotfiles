@@ -92,16 +92,6 @@
 
 (use-package isearch
     :ensure nil ;; emacs built-in
-    :preface
-    (defun my/isearch-goto-match-beginning ()
-        "Go to the start of current isearch match.
-    Use in `isearch-mode-end-hook'."
-        (when (and isearch-forward
-                   (number-or-marker-p isearch-other-end)
-                   (not mark-active)
-                   (not isearch-mode-end-hook-quit))
-            (goto-char isearch-other-end)))
-    :hook (isearch-mode-end . my/isearch-goto-match-beginning)
     :config
     (setq isearch-resume-in-command-history t) ; use history for isearch as well
     (setq search-whitespace-regexp ".*?") ; isearch convenience, space matches anything (non-greedy)
