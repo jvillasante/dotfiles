@@ -223,6 +223,7 @@
 -I./lib/simplelist
 -I./lib/simplequeue
 -I./lib/simplestring
+-I./lib/sma
 -I./lib/sort
 -I./lib/sparsefs
 -I./lib/spawn
