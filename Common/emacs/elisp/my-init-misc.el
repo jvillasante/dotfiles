@@ -93,12 +93,13 @@
 (use-package isearch
     :ensure nil ;; emacs built-in
     :config
-    (setq isearch-resume-in-command-history t) ; use history for isearch as well
-    (setq search-whitespace-regexp ".*?") ; isearch convenience, space matches anything (non-greedy)
+    (setq isearch-resume-in-command-history t)  ; use history for isearch as well
+    (setq search-whitespace-regexp ".*?")       ; isearch convenience, space matches anything (non-greedy)
     (setq isearch-lax-whitespace t)
-    (setq isearch-allow-motion t)     ; enable Emacs28 isearch motions
-    (setq isearch-lazy-highlight t)   ; highlight occurrences
-    (setq isearch-lazy-count nil)     ; using anzu
+    (setq isearch-allow-motion t)               ; enable Emacs28 isearch motions
+    (setq isearch-motion-changes-direction t)
+    (setq isearch-lazy-highlight t)             ; highlight occurrences
+    (setq isearch-lazy-count nil)               ; using anzu
     (setq lazy-count-prefix-format "(%s/%s) ")
     (setq lazy-count-suffix-format nil))
 
