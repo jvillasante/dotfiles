@@ -106,7 +106,7 @@ install_shell "bash"
 # install_emacs
 
 echo ">>> Linking common files in $HOME..."
-files=".inputrc .editorconfig .sbclrc .mbsyncrc .msmtprc .tidyrc"
+files=".inputrc .editorconfig .sbclrc .mbsyncrc .msmtprc .tidyrc .guile"
 [ -n "$BASH_VERSION" ] && files+=" .bash_profile .bashrc"
 [ -n "$ZSH_VERSION" ] && files+=" .zshenv .zshrc"
 for file in $files; do
