@@ -1,5 +1,6 @@
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 include_directories(${INCLUDE_PATH})
+include(${PROJECT_SOURCE_DIR}/cmake/CppUtils.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/GoogleTest.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/GoogleBenchmark.cmake)
 

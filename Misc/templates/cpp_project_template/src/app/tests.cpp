@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <testing.hpp>
 
 // Demonstrate some basic assertions.
 TEST(HelloTest, BasicAssertions)
@@ -8,4 +9,7 @@ TEST(HelloTest, BasicAssertions)
 
     // Expect equality.
     EXPECT_EQ(7 * 6, 42);
+
+    // Print through Cpp Utils
+    GCOUT << "Hello World" << '\n';
 }
