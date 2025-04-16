@@ -9,6 +9,9 @@
     (gptel-default-mode 'markdown-mode)
     (gptel-expert-commands t)
     :config
+    (gptel-make-gemini "Gemini"
+        :key (lambda () (password-store-get-field "Work/Omicron/Gemini" "API Key"))
+        :stream t)
     ;; (setq gptel-model 'gpt-4o)
     (setq gptel-model 'gpt-4o-mini)
     (setq gptel-api-key
