@@ -215,8 +215,9 @@
     :bind ("C-c p" . cape-prefix-map)
     :init
     ;; eglot integration with cape
-    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-    (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible)
+    (with-eval-after-load 'eglot
+        (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+        (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
 
     ;; Add to the global default value of `completion-at-point-functions' which is
     ;; used by `completion-at-point'.  The order of the functions matters, the
