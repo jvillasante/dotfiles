@@ -75,5 +75,4 @@
 (load (expand-file-name "Common/emacs/elisp/modus-themes-exporter" my/dotfiles-path))
 
 (provide 'init)
-
 ;;; init.el ends here

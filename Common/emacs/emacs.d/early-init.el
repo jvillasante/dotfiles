@@ -90,5 +90,4 @@
                                    ("melpa-stable" . 70)
                                    ("melpa"        . 0)))
 (provide 'early-init)
-
 ;;; early-init.el ends here
