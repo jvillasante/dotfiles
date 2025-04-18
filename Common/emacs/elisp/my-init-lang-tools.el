@@ -19,13 +19,13 @@
 ;; flymake
 (use-package flymake
     :ensure nil ;; emacs built-in
-    :config
-    (setq flymake-suppress-zero-counters t)
-    (setq flymake-no-changes-timeout 3) ;; Don't be so hasty in syntax checking.
-    (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
     :hook ((prog-mode . (lambda ()
-                            (flymake-mode)
-                            (which-function-mode)))))
+                            (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+                            (which-function-mode)
+                            (flymake-mode))))
+    :custom
+    (flymake-suppress-zero-counters t)
+    (flymake-no-changes-timeout 3)) ;; Don't be so hasty in syntax checking.
 
 ;; flymake-proselint : use proselint with Emacs built-in Flymake
 (use-package flymake-proselint
@@ -37,13 +37,14 @@
 
 (use-package eldoc
     :ensure nil ;; emacs built-in
-    :config
-    (eldoc-add-command #'xref-find-definitions)
-    (eldoc-add-command #'xref-go-back)
-    (eldoc-add-command #'avy-goto-char-timer)
-    (setq eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
-    (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
-    (global-eldoc-mode))
+    :hook (after-init . (lambda ()
+                            (eldoc-add-command #'xref-find-definitions)
+                            (eldoc-add-command #'xref-go-back)
+                            (eldoc-add-command #'avy-goto-char-timer)
+                            (global-eldoc-mode)))
+    :custom
+    (eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
+    (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
 (use-package eglot
     :ensure nil ;; emacs built-in
@@ -101,6 +102,7 @@
 
     ;; don't try to manage these
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
+    ;; (add-to-list 'eglot-stay-out-of 'flymake)
     ;; (add-to-list 'eglot-stay-out-of 'yasnippet)
 
     ;; Rust
