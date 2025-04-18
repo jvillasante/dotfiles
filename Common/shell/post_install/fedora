@@ -959,7 +959,7 @@ fedora_install() {
                         continue
                 }
 
-                XREMAP_VERSION=v0.10.9
+                XREMAP_VERSION=v0.10.10
                 XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
