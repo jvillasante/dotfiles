@@ -446,6 +446,8 @@
 (with-eval-after-load 'consult-eglot
     (define-key eglot-mode-map (kbd "C-c c s") 'consult-eglot-symbols))
 (with-eval-after-load 'eglot
+    (global-set-key            (kbd "C-c c Q") 'eglot-shutdown-all)
+    (define-key eglot-mode-map (kbd "C-c c q") 'eglot-shutdown)
     (define-key eglot-mode-map (kbd "C-c c R") 'eglot-reconnect)
     (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c c d") 'eglot-find-declaration)
