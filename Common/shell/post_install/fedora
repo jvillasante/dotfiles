@@ -543,6 +543,12 @@ fedora_install() {
                 sudo systemctl restart docker
 
                 #
+                # Podman
+                #
+
+                sudo dnf install -y podman
+
+                #
                 # Latex
                 #
 
