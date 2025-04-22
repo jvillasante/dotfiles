@@ -256,6 +256,15 @@
                   markdown-fontify-whole-heading-line t
                   markdown-enable-math t))
 
+(use-package dockerfile-mode
+    :defer t
+    :config
+    (pcase my/docker-executable
+        ('docker
+         (setq dockerfile-mode-command "docker"))
+        ('podman
+         (setq dockerfile-mode-command "podman"))))
+
 (use-package go-mode
     :defer t
     :preface

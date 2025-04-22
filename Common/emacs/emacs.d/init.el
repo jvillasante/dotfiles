@@ -43,10 +43,16 @@
     :hook (after-init . gcmh-mode))
 
 ;; Paths used throughout
-(defconst my/home-path (expand-file-name "~/"))
-(defconst my/dotfiles-path (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
-(defconst my/software-path (expand-file-name "Workspace/Software/" my/home-path))
-(defconst my/dropbox-path (expand-file-name "Dropbox/" my/home-path))
+(defconst  my/home-path         (expand-file-name "~/"))
+(defconst  my/dotfiles-path     (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
+(defconst  my/software-path     (expand-file-name "Workspace/Software/"        my/home-path))
+(defconst  my/dropbox-path      (expand-file-name "Dropbox/"                   my/home-path))
+(defcustom my/docker-executable 'podman
+    "The executable to be used with docker-mode."
+    :type '(choice
+            (const :tag "docker" docker)
+            (const :tag "podman" podman))
+    :group 'my)
 
 ;; Telling Emacs where the C source code is let's us jump all the way down into
 ;; primitive functions when exploring elisp functions.
