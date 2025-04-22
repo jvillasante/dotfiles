@@ -40,6 +40,10 @@ class = ghostty
 # Windows
 window-theme = ghostty
 
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
 # No keybindings (I use tmux)
 keybind = clear
 
