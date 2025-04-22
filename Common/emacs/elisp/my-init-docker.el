@@ -48,6 +48,10 @@
     ;; docker run --user nntpuser --rm --interactive --tty --volume
     ;;   $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp-$selected_name
     ;;   nntp:latest /bin/bash
+    ;;
+    ;; podman run --user nntpuser --rm --interactive --tty --volume
+    ;;    $selected:/tmp/nntpcode:rw,z --userns=keep-id
+    ;;    -w /tmp/nntpcode --name nntp-$selected_name nntp:latest /bin/bash
     (add-to-list 'docker-image-run-custom-args
                  `("localhost/nntp" ("-u nntpuser"
                                      "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntp/dev:/tmp/nntpcode:rw,z --userns=keep-id"
