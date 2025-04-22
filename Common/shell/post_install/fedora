@@ -529,24 +529,24 @@ fedora_install() {
                 sudo dnf install openvpn
 
                 #
-                # Docker
+                # Docker (using podman)
                 #
-
+                #
                 # Install and Enable Docker (not working on fedora-38)
-                sudo dnf install -y dnf-plugins-core
-                sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
-                sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-                sudo systemctl enable docker && sudo systemctl start docker
-
+                # sudo dnf install -y dnf-plugins-core
+                # sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
+                # sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+                # sudo systemctl enable docker && sudo systemctl start docker
+                #
                 # add user
-                sudo usermod -G docker -a "$USER"
-                sudo systemctl restart docker
+                # sudo usermod -G docker -a "$USER"
+                # sudo systemctl restart docker
 
                 #
                 # Podman
                 #
 
-                sudo dnf install -y podman
+                sudo dnf install -y podman podman-compose
 
                 #
                 # Latex
@@ -603,7 +603,7 @@ fedora_install() {
                 flatpak install --user -y flathub org.gimp.GIMP
                 flatpak install --user -y flathub com.transmissionbt.Transmission
                 flatpak install --user -y flathub org.telegram.desktop
-                flatpak install --user -y flathub com.skype.Client
+                flatpak install --user -y flathub io.podman_desktop.PodmanDesktop
                 flatpak install --user -y flathub com.valvesoftware.Steam
                 flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
                 # flatpak install --user -y flathub org.keepassxc.KeePassXC
