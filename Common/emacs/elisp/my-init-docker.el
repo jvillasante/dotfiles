@@ -48,10 +48,10 @@
     ;;    $selected:/tmp/nntpcode:rw,z --userns=keep-id
     ;;    -w /tmp/nntpcode --name nntp-$selected_name nntp:latest /bin/bash
     (add-to-list 'docker-image-run-custom-args
-                 `("localhost/nntp" ("-u nntpuser"
-                                     "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntp/dev:/tmp/nntpcode:rw,z --userns=keep-id"
-                                     "-w /tmp/nntpcode"
-                                     "--name nntp-emacs-dev" . ,docker-image-run-default-args))))
+                 `("^localhost/nntp" ("-u nntpuser"
+                                      "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntp/dev:/tmp/nntpcode:rw,z --userns=keep-id"
+                                      "-w /tmp/nntpcode"
+                                      "--name nntp-emacs-dev" . ,docker-image-run-default-args))))
 
 (use-package dockerfile-mode
     :mode "\\Dockerfile\\'"

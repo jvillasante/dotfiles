@@ -461,6 +461,7 @@ fedora_install() {
                 sudo npm install --global typescript-language-server typescript
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
+                # sudo npm install --global @devcontainers/cli
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
