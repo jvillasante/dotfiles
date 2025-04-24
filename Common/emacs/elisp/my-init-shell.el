@@ -73,6 +73,7 @@
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
+    :disabled t
     :preface
     (defun my/eat-open (file)
         "Helper function to open files from eat terminal."
@@ -95,7 +96,6 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
     :defer t
     :preface
     (defun my/vterm-copy-mode-cancel ()
