@@ -37,31 +37,22 @@
 
 (use-package eldoc
     :ensure nil ;; emacs built-in
-    :preface
-    (defun my/eldoc-functions ()
-        "Show flymake diagnostics first."
-        (setq eldoc-documentation-functions
-              (cons #'flymake-eldoc-function
-                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
-    :hook ((after-init . (lambda ()
-                             (eldoc-add-command #'xref-find-definitions)
-                             (eldoc-add-command #'xref-go-back)
-                             (eldoc-add-command #'avy-goto-char-timer)
-                             (global-eldoc-mode)))
-           (prog-mode . my/eldoc-functions))
+    :hook (after-init . (lambda ()
+                            (eldoc-add-command #'xref-find-definitions)
+                            (eldoc-add-command #'xref-go-back)
+                            (eldoc-add-command #'avy-goto-char-timer)
+                            (global-eldoc-mode)))
     :custom
     (eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
     (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
 (use-package eglot
     :ensure nil ;; emacs built-in
-    :if (eq my/lsp-backend 'eglot)
-    (defun my/maybe-start-eglot ()
-        "Exlude some mode from eglot."
-        (let ((disabled-modes '(emacs-lisp-mode
-                                cmake-mode)))
-            (unless (apply 'derived-mode-p disabled-modes)
-                (eglot-ensure))))
+    (defun my/eglot-eldoc ()
+        "Show flymake diagnostics first."
+        (setq eldoc-documentation-functions
+              (cons #'flymake-eldoc-function
+                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
     (defun my/eglot-clangd-find-other-file ()
         "Switch between the corresponding C/C++ source and header file."
         (interactive)
@@ -75,8 +66,8 @@
                 (if (equal current-prefix-arg nil)
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
-    :hook
-    (prog-mode . my/maybe-start-eglot)
+    :hook((eglot-managed-mode . my/eglot-eldoc)
+          (c++-ts-mode . eglot-ensure))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)
