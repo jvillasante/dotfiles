@@ -37,23 +37,25 @@
 
 (use-package eldoc
     :ensure nil ;; emacs built-in
-    :hook (after-init . (lambda ()
-                            (eldoc-add-command #'xref-find-definitions)
-                            (eldoc-add-command #'xref-go-back)
-                            (eldoc-add-command #'avy-goto-char-timer)
-                            (global-eldoc-mode)))
+    :preface
+    (defun my/eldoc-functions ()
+        "Show flymake diagnostics first."
+        (setq eldoc-documentation-functions
+              (cons #'flymake-eldoc-function
+                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
+    :hook ((after-init . (lambda ()
+                             (eldoc-add-command #'xref-find-definitions)
+                             (eldoc-add-command #'xref-go-back)
+                             (eldoc-add-command #'avy-goto-char-timer)
+                             (global-eldoc-mode)))
+           (prog-mode . my/eldoc-functions))
     :custom
     (eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
     (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
 (use-package eglot
     :ensure nil ;; emacs built-in
-    :preface
-    (defun my/eglot-eldoc ()
-        "Show flymake diagnostics first."
-        (setq eldoc-documentation-functions
-              (cons #'flymake-eldoc-function
-                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
+    :if (eq my/lsp-backend 'eglot)
     (defun my/maybe-start-eglot ()
         "Exlude some mode from eglot."
         (let ((disabled-modes '(emacs-lisp-mode
@@ -74,8 +76,7 @@
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
     :hook
-    ((eglot-managed-mode . my/eglot-eldoc)
-     (prog-mode . my/maybe-start-eglot))
+    (prog-mode . my/maybe-start-eglot)
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)
@@ -197,7 +198,7 @@
     (fancy-compilation-override-colors nil))
 
 ;; rmsbolt : compiler-explorer for Emacs
-(use-package rmsbolt)
+(use-package rmsbolt :disabled t)
 ;; (use-package compiler-explorer)
 
 (provide 'my-init-lang-tools)
