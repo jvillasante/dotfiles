@@ -210,15 +210,15 @@ fedora_install() {
                 #
 
                 # Grub should load in graphical mode and the resolution should be right
-                sudo cp /etc/default/grub /etc/default/grub.bak
-                sudo sed -i 's/GRUB_TERMINAL_OUTPUT="console"/GRUB_TERMINAL_OUTPUT="gfxterm"/' /etc/default/grub
+                # sudo cp /etc/default/grub /etc/default/grub.bak
+                # sudo sed -i 's/GRUB_TERMINAL_OUTPUT="console"/GRUB_TERMINAL_OUTPUT="gfxterm"/' /etc/default/grub
 
                 # TODO: add nvidia.NVreg_EnableGpuFirmware=0 to the end of GRUB_CMDLINE_LINUX in /etc/default/grub
                 # TODO: add nvidia_drm.modeset=1 to the end of GRUB_CMDLINE_LINUX in /etc/default/grub
 
                 # Apply Grub configuration
-                sudo cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.bak
-                sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+                # sudo cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.bak
+                # sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
                 # Setup dnf configs and update
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
@@ -236,17 +236,26 @@ fedora_install() {
                 sudo dnf install -y \
                      https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
                      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
+
+                # Terra (https://terra.fyralabs.com/)
+                sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+
+                # Upgrade everything
                 sudo dnf upgrade -y --refresh
-                sudo dnf -y group upgrade core
+                sudo dnf group upgrade core
+                sudo dnf4 group update core
+                sudo dnf -y update
+
+                # Install some packages and firmware
                 sudo dnf install -y rpmfusion-free-release-tainted
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf install -y \*-firmware
 
                 # Update system firmware
-                sudo fwupdmgr get-devices
                 sudo fwupdmgr refresh --force
-                sudo fwupdmgr get-updates
+                sudo fwupdmgr get-devices # Lists devices with available updates.
+                sudo fwupdmgr get-updates # Fetches list of available updates.
                 sudo fwupdmgr update
 
                 read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
@@ -379,8 +388,8 @@ fedora_install() {
                 [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && sudo dnf install -y foot
 
                 # Ghostty
-                sudo dnf copr enable pgdev/ghostty -y
-                sudo dnf install -y ghostty
+                # sudo dnf copr enable pgdev/ghostty -y
+                # sudo dnf install -y ghostty
 
                 # Starship Prompt
                 curl -sS https://starship.rs/install.sh | sh
@@ -409,10 +418,6 @@ fedora_install() {
                 # dnf install -y skim
                 sudo dnf install -y fzf
 
-                # sysz: A fzf terminal UI for systemctl
-                # sudo wget -O /usr/local/bin/sysz https://github.com/joehillen/sysz/releases/latest/download/sysz
-                # sudo chmod +x /usr/local/bin/sysz
-
                 # Emacs (on fedora is up to date but I prefer to compile it myself)
                 # sudo dnf install -y emacs
                 # sudo dnf install -y libvterm libvterm-devel # necessary for vterm
@@ -437,7 +442,7 @@ fedora_install() {
                 # sudo dnf install -y ulauncher wmctrl
 
                 # Bleachbit: Clean Your System and Free Disk Space
-                sudo dnf install -y bleachbit
+                # sudo dnf install -y bleachbit
 
                 # Go
                 sudo dnf install -y go
@@ -461,7 +466,7 @@ fedora_install() {
                 sudo npm install --global typescript-language-server typescript
                 sudo npm install --global dockerfile-language-server-nodejs
                 sudo npm install --global bash-language-server
-                # sudo npm install --global @devcontainers/cli
+                sudo npm install --global @devcontainers/cli
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
@@ -483,22 +488,35 @@ fedora_install() {
                 # sudo dnf group upgrade -y --with-optional Multimedia
 
                 # Install additional codecs
+                sudo dnf4 group upgrade multimedia
+                sudo dnf swap 'ffmpeg-free' 'ffmpeg' --allowerasing # Switch to full FFMPEG.
+                sudo dnf upgrade @multimedia --setopt="install_weak_deps=False" \
+                     --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components.
+                                                           # Required if you use Gnome Videos and other dependent applications.
                 sudo dnf -y group install multimedia && \
                     sudo dnf -y group upgrade multimedia
                 sudo dnf -y group install sound-and-video && \
                     sudo dnf -y group upgrade sound-and-video
 
                 # Install Hardware Accelerated Codec
+                sudo dnf install ffmpeg-libs libva libva-utils
                 if test "$(cat /proc/cpuinfo | grep vendor | uniq | grep -iFc "intel")"; then
                     echo "$CHOICE) Installing Hardware Accelerated Codecs for Intel Architecture"
-                    sudo dnf install -y intel-media-driver
+                    sudo dnf swap libva-intel-media-driver intel-media-driver --allowerasing
+                    sudo dnf install libva-intel-driver
                 elif test "$(cat /proc/cpuinfo | grep vendor | uniq | grep -iFc "amd")"; then
                     echo "$CHOICE) Installing Hardware Accelerated Codecs for AMD Architecture"
-                    sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
-                    sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+                    sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
+                    sudo dnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+                    sudo dnf swap mesa-va-drivers.i686 mesa-va-drivers-freeworld.i686
+                    sudo dnf swap mesa-vdpau-drivers.i686 mesa-vdpau-drivers-freeworld.i686
                 else
                     echo "$CHOICE) Unknown Architecture. Not Installing Hardware Accelerated Codecs"
                 fi
+
+                # OpenH264 for Firefox (Needs to be enabled on Firefox)
+                sudo dnf install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
+                sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 
                 # Hardware codecs with NVIDIA
                 sudo dnf install -y nvidia-vaapi-driver --allowerasing
@@ -514,10 +532,16 @@ fedora_install() {
                 # Brave Browser
                 #
 
-                sudo dnf install dnf-plugins-core
-                sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
-                sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-                sudo dnf install brave-browser
+                # sudo dnf install dnf-plugins-core
+                # sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+                # sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+                # sudo dnf install brave-browser
+
+                #
+                # Firefox
+                #
+                # make the start page the default firefox start page
+                sudo rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-prefs.js
 
                 #
                 # Wireguard

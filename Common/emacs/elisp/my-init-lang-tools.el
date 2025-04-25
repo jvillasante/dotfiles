@@ -48,6 +48,7 @@
 
 (use-package eglot
     :ensure nil ;; emacs built-in
+    :preface
     (defun my/eglot-eldoc ()
         "Show flymake diagnostics first."
         (setq eldoc-documentation-functions
