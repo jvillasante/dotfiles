@@ -238,19 +238,19 @@ fedora_install() {
                      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
 
                 # Terra (https://terra.fyralabs.com/)
-                sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
-
-                # Upgrade everything
-                sudo dnf upgrade -y --refresh
-                sudo dnf group upgrade core
-                sudo dnf4 group update core
-                sudo dnf -y update
+                sudo dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 
                 # Install some packages and firmware
                 sudo dnf install -y rpmfusion-free-release-tainted
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf install -y \*-firmware
+
+                # Upgrade everything
+                sudo dnf upgrade -y --refresh
+                sudo dnf group upgrade core
+                sudo dnf4 group update core
+                sudo dnf -y update
 
                 # Update system firmware
                 sudo fwupdmgr refresh --force
@@ -488,16 +488,14 @@ fedora_install() {
                 # sudo dnf group upgrade -y --with-optional Multimedia
 
                 # Install additional codecs
-                sudo dnf4 group upgrade multimedia
-                sudo dnf swap 'ffmpeg-free' 'ffmpeg' --allowerasing # Switch to full FFMPEG.
-                sudo dnf upgrade @multimedia --setopt="install_weak_deps=False" \
-                     --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components.
-                                                           # Required if you use Gnome Videos and other dependent applications.
                 sudo dnf -y group install multimedia && \
                     sudo dnf -y group upgrade multimedia
                 sudo dnf -y group install sound-and-video && \
                     sudo dnf -y group upgrade sound-and-video
-
+                sudo dnf swap 'ffmpeg-free' 'ffmpeg' --allowerasing # Switch to full FFMPEG.
+                sudo dnf upgrade @multimedia --setopt="install_weak_deps=False" \
+                     --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components.
+                                                           # Required if you use Gnome Videos and other dependent applications.
                 # Install Hardware Accelerated Codec
                 sudo dnf install ffmpeg-libs libva libva-utils
                 if test "$(cat /proc/cpuinfo | grep vendor | uniq | grep -iFc "intel")"; then
@@ -674,6 +672,15 @@ fedora_install() {
                 chmod 600 ~/.ssh/id_*
                 chmod 644 ~/.ssh/id_*.pub
                 rm -rf "$KEYS_DIR"/.ssh
+
+                # update client
+                echo ">> Updating ssh client, may require ssh passkey"
+                eval "$(ssh-agent -s)"
+                ssh-add ~/.ssh/id_rsa
+                ssh-add ~/.ssh/id_borg_rsa
+                ssh-add ~/.ssh/id_nielsen_rsa
+                ssh-add ~/.ssh/id_omicron_rsa
+                ssh-add -l
 
                 echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
                 "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
