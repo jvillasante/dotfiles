@@ -283,7 +283,7 @@ xremap_update() {
     }
 
     # Get the latest
-    XREMAP_VERSION=v0.10.10
+    XREMAP_VERSION=v0.10.11
     XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
     if is_desktop_environment "Gnome"; then
         XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
