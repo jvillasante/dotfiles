@@ -97,6 +97,9 @@
     (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward)
     (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward))
 
+(with-eval-after-load 'calc
+    (define-key calc-mode-map (kbd "q") 'my/close-buffer-and-window))
+
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
     (define-key ibuffer-mode-map (kbd "q") 'my/close-buffer-and-window)
