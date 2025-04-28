@@ -190,8 +190,9 @@
     (fancy-compilation-override-colors nil))
 
 ;; rmsbolt : compiler-explorer for Emacs
-(use-package rmsbolt :disabled t)
-;; (use-package compiler-explorer)
+(use-package rmsbolt
+    :custom
+    (rmsbolt-automatic-recompile nil))
 
 (provide 'my-init-lang-tools)
 ;;; my-init-lang-tools.el ends here
