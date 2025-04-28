@@ -107,7 +107,7 @@ fedora_install() {
         8 "Install Emacs - Install Emacs"
         9 "Install StyLua - Install StyLua from source"
         10 "Install Keyd - Install Keyd from source"
-        11 "Install Xkeysnail - Install Xkeysnail from source"
+        11 "Install Gnome Extensions - Install Gnome Extensions"
         12 "Install Xremap - Install Xremap from source"
         13 "Install Harper - The English grammar checker designed to be just right"
         14 "Quit")
@@ -673,15 +673,6 @@ fedora_install() {
                 chmod 644 ~/.ssh/id_*.pub
                 rm -rf "$KEYS_DIR"/.ssh
 
-                # update client
-                echo ">> Updating ssh client, may require ssh passkey"
-                eval "$(ssh-agent -s)"
-                ssh-add ~/.ssh/id_rsa
-                ssh-add ~/.ssh/id_borg_rsa
-                ssh-add ~/.ssh/id_nielsen_rsa
-                ssh-add ~/.ssh/id_omicron_rsa
-                ssh-add -l
-
                 echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
                 "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
                 [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" \
@@ -927,58 +918,25 @@ fedora_install() {
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             11)
-                echo "11) Installing Xkeysnail"
+                echo "11) Installing Gnome Extensions"
 
-                # Only works on X11
-                [[ "$WINDOW_SYSTEM" != "$WS_X11" ]] &&
-                    notify-send "Xkeysnail only supports X11" --expire-time=20 && continue
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                    [ ! -d "$HOME"/Workspace/Software/unite ] && mkdir -p "$HOME"/Workspace/Software/unite
 
-                # Is it already installed?
-                hash xkeysnail 2> /dev/null &&
-                    notify-send "Xkeysnail is already installed" --expire-time=20 && continue
-
-                # Prepare git repo
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                if [ ! -d "$HOME"/Workspace/Software/xkeysnail ]; then
-                    git clone --depth 1 git@github.com:mooz/xkeysnail.git "$HOME"/Workspace/Software/xkeysnail
-                    pushd "$HOME"/Workspace/Software/xkeysnail || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/xkeysnail" --expire-time=20
-                        continue
-                    }
-                else
-                    pushd "$HOME"/Workspace/Software/xkeysnail || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/xkeysnail" --expire-time=20
+                    pushd "$HOME"/Workspace/Software/unite || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/unite" --expire-time=20
                         continue
                     }
 
-                    sudo pip3 uninstall . --break-system-packages
-                    git reset --hard HEAD
-                    sudo git clean -dfx
-                    git pull
+                    UNITE_VERSION=v82
+                    curl -LJO https://github.com/hardpixel/unite-shell/releases/download/"$UNITE_VERSION"/unite-"$UNITE_VERSION".zip
+                    gnome-extensions install --force unite-"$UNITE_VERSION".zip
+
+                    popd || notify-send "Can't cd to previous directory" --expire-time=20
                 fi
 
-                # Install
-                sudo pip3 install --upgrade . --break-system-packages
-
-                ## Run without sudo
-                # First create a new group to which we allow access to the input stuff, and add this group to your user:
-                sudo groupadd -f uinput
-                sudo gpasswd -a "$USER" uinput
-
-                # Second Create new udev rule granting access:
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/70-xkeysnail.rules \
-                     /etc/udev/rules.d/70-xkeysnail.rules
-
-                # Enable the daemon
-                [ -L "$HOME/.config/systemd/user/xkeysnail.service" ] &&
-                    unlink "$HOME/.config/systemd/user/xkeysnail.service"
-                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xkeysnail.service" \
-                    "$HOME/.config/systemd/user"
-                systemctl --user daemon-reload
-                sudo systemctl enable xkeysnail.service && sudo systemctl start xkeysnail.service
-
-                popd || notify-send "Can't cd to previous directory" --expire-time=20
-                read -rp "11) Xkeysnail installed. Reboot for udev rules to take effect. Press enter to continue..."
+                read -rp "11) Gnome extensions installed."
                 ;;
             12)
                 echo "12) Installing Xremap"

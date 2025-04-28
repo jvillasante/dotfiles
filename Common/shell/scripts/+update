@@ -12,6 +12,8 @@ usage() {
     echo "        Update emacs from source (will update to latest emacs from git repository)"
     echo "    $0 emacs-lsp-booster:"
     echo "        Update emacs-lsp-booster from binary source"
+    echo "    $0 gnome:"
+    echo "        Update gnome extensions"
     echo "    $0 stylua:"
     echo "        Update StyLua from binary source"
     echo "    $0 keyd:"
@@ -217,6 +219,26 @@ emacs_lsp_booster_update() {
     }
 }
 
+gnome_update() {
+    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+    [ ! -d "$HOME"/Workspace/Software/gnome ] && mkdir -p "$HOME"/Workspace/Software/gnome
+    [ -d "$HOME"/Workspace/Software/gnome ] && rm -rf "$HOME"/Workspace/Software/gnome/*
+
+    pushd "$HOME"/Workspace/Software/gnome || {
+        echo "Can't cd into $HOME/Workspace/Software/gnome"
+        usage 1
+    }
+
+    UNITE_VERSION=v82
+    curl -LJO https://github.com/hardpixel/unite-shell/releases/download/"$UNITE_VERSION"/unite-"$UNITE_VERSION".zip
+    gnome-extensions install --force unite-"$UNITE_VERSION".zip
+
+    popd || {
+        echo "Can't pop directory"
+        usage 1
+    }
+}
+
 stylua_update() {
     ! hash stylua 2> /dev/null && echo "stylua not installed, exiting..." && usage 1
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -362,6 +384,10 @@ case $cmd in
     emacs-lsp-booster)
         [[ "$nargs" -eq 1 ]] || usage 1
         emacs_lsp_booster_update
+        ;;
+    gnome)
+        [[ "$nargs" -eq 1 ]] || usage 1
+        gnome_update
         ;;
     stylua)
         [[ "$nargs" -eq 1 ]] || usage 1
