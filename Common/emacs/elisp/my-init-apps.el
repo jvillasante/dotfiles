@@ -106,6 +106,12 @@
     :config
     (setq pdf-view-continuous t))
 
+(use-package doc-view
+    :ensure nil ;; emacs built-in
+    :disabled t
+    :defer t
+    :mode ("\\.pdf\\'" . doc-view-mode))
+
 (use-package pdf-view-restore
     :after pdf-tools
     :hook (pdf-view-mode . pdf-view-restore-mode)

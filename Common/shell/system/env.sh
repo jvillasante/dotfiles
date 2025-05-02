@@ -14,7 +14,7 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 [ "$XDG_SESSION_TYPE" = 'wayland' ] && export MOZ_ENABLE_WAYLAND=1
 
 # Reset the prompt for remote TRAMP shells.
-if [ "${INSIDE_EMACS/*tramp*/tramp}" == "tramp" ]; then
+if [ "${INSIDE_EMACS/*tramp*/tramp}" = "tramp" ]; then
     PS1="[\u@\h \w]$ "
 fi
 
