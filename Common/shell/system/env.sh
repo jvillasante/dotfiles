@@ -38,6 +38,10 @@ if [ "$INSIDE_EMACS" = 'vterm' ] && [ -n "$EMACS_VTERM_PATH" ]; then
         vterm_cmd find-file "$(realpath "${@:-.}")"
     }
 
+    dired() {
+        vterm_cmd dired "."
+    }
+
     say() {
         vterm_cmd message "%s" "$*"
     }

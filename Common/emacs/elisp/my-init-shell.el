@@ -119,6 +119,7 @@
                                   (set-buffer-modified-p (not (buffer-modified-p)))
                                   (force-mode-line-update))))
     :config
+    (add-to-list 'vterm-eval-cmds '("dired" dired))
     (add-to-list 'project-switch-commands '(my/vterm-project "vTerm") t)
     (add-to-list 'project-switch-commands '(my/vterm-project-other-window "vTerm other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
