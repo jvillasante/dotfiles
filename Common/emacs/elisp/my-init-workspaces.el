@@ -4,7 +4,6 @@
 ;;; Code:
 
 (use-package activities
-    :disabled t
     :preface
     (defun my/switch-to-buffer ()
         "Switch to buffer offered from various sources.
@@ -19,8 +18,8 @@ otherwise use `bufler-switch-buffer'."
                             (activities-mode)
                             (activities-tabs-mode)))
     :init
-    :custom ((activities-bookmark-store t)
-             (activities-always-persist nil)))
+    :custom ((activities-bookmark-store nil)
+             (activities-always-persist t)))
 
 ;; otpp : One tab per project, with unique names
 (use-package otpp
@@ -39,6 +38,7 @@ otherwise use `bufler-switch-buffer'."
 
 ;; tabspaces : create buffer-isolated workspaces
 (use-package tabspaces
+    :disabled t
     :preface
     (defun my/tabspace-setup ()
         "Set up tabspace at startup."
