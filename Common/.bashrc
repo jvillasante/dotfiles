@@ -7,10 +7,10 @@
 # shellcheck source=/dev/null
 [ -f /etc/bashrc ] && source /etc/bashrc
 
-# Env
-# shellcheck source=/dev/null
-source "${HOME}/.config/shell/system/env"
-
 # Custom
 # shellcheck source=/dev/null
 source "${HOME}/.config/shell/system/custom"
+
+# Env
+# shellcheck source=/dev/null
+source "${HOME}/.config/shell/system/env"

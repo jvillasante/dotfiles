@@ -9,7 +9,6 @@
     :init (add-hook 'ielm-mode-hook 'eldoc-mode))
 
 ;; eshell : the emacs shell
-(use-package eshell-prompt-extras :after eshell)
 (use-package eshell
     :ensure nil ;; emacs built-in
     :defer t
@@ -20,45 +19,33 @@
         (let ((buf (eshell)))
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
-    :init
-    (with-eval-after-load 'esh-opt
-        (autoload 'epe-theme-lambda "eshell-prompt-extras")
-        (setq eshell-highlight-prompt nil)
-        (setq eshell-prompt-function 'epe-theme-lambda))
+    :hook
+    (eshell-mode . (lambda ()
+                       ;; visual commands
+                       (add-to-list 'eshell-visual-commands "top")
+                       (add-to-list 'eshell-visual-commands "htop")
+                       (add-to-list 'eshell-visual-commands "ssh")
+                       (add-to-list 'eshell-visual-commands "tail")
+                       (add-to-list 'eshell-visual-commands "lynx")
+                       (setq eshell-visual-subcommands '(("git" "log" "diff" "show")))
 
-    (add-hook 'eshell-mode-hook
-              (lambda ()
-                  ;; visual commands
-                  (add-to-list 'eshell-visual-commands "top")
-                  (add-to-list 'eshell-visual-commands "htop")
-                  (add-to-list 'eshell-visual-commands "ssh")
-                  (add-to-list 'eshell-visual-commands "tail")
-                  (add-to-list 'eshell-visual-commands "lynx")
-                  (setq eshell-visual-subcommands '(("git" "log" "diff" "show")))
-
-                  ;; aliases
-                  (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                                    "/usr/local/bin/gls"
-                                "/bin/ls")))
-                      (eshell/alias "ls" (concat ls " --group-directories-first --color"))
-                      (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
-                  (eshell/alias "ff" "find-file $1")
-                  (eshell/alias "e" "find-file-other-window $1")
-                  (eshell/alias "d" "dired $1")
-
-                  ;; eat
-                  (when (featurep 'eat)
-                      (setq eshell-visual-commands nil)
-                      (eat-eshell-mode +1)
-                      (eat-eshell-visual-command-mode +1))))
-    :config
-    (setq eshell-scroll-to-bottom-on-input 'this)
-    (setq eshell-scroll-to-bottom-on-output nil)
-    (setq eshell-prefer-lisp-functions nil)
-    (setq eshell-error-if-no-glob t)
-    (setq eshell-hist-ignoredups t)
-    (setq eshell-save-history-on-exit t)
-    (setq eshell-destroy-buffer-when-process-dies t))
+                       ;; aliases
+                       (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                                         "/usr/local/bin/gls"
+                                     "/bin/ls")))
+                           (eshell/alias "ls" (concat ls " --group-directories-first --color"))
+                           (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
+                       (eshell/alias "ff" "find-file $1")
+                       (eshell/alias "e" "find-file-other-window $1")
+                       (eshell/alias "d" "dired $1")))
+    :custom
+    (eshell-scroll-to-bottom-on-input 'this)
+    (eshell-scroll-to-bottom-on-output nil)
+    (eshell-prefer-lisp-functions nil)
+    (eshell-error-if-no-glob t)
+    (eshell-hist-ignoredups t)
+    (eshell-save-history-on-exit t)
+    (eshell-destroy-buffer-when-process-dies t))
 
 ;; shell : shell in emacs
 (use-package shell
