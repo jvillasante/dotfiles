@@ -10,9 +10,7 @@
     (vc-follow-symlinks t)                   ; always follow symlinks
     (vc-git-diff-switches '("--histogram"))  ; use a different diff option
     (vc-ignore-dir-regexp                    ; make sure vc stuff is not making tramp slower
-     (format "\\(%s\\)\\|\\(%s\\)"
-             vc-ignore-dir-regexp
-             tramp-file-name-regexp)))
+     (format "%s\\|%s" vc-ignore-dir-regexp tramp-file-name-regexp)))
 
 (use-package magit
     :preface

@@ -35,9 +35,11 @@
                                      "/bin/ls")))
                            (eshell/alias "ls" (concat ls " --group-directories-first --color"))
                            (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
-                       (eshell/alias "ff" "find-file $1")
+                       (eshell/alias "f" "find-file $1")
+                       (eshell/alias "fd" "find-dired $PWD ''")
                        (eshell/alias "e" "find-file-other-window $1")
-                       (eshell/alias "d" "dired $1")))
+                       (eshell/alias "d" "dired $1")
+                       (eshell/alias "clear" "clear-scrollback")))
     :custom
     (eshell-scroll-to-bottom-on-input 'this)
     (eshell-scroll-to-bottom-on-output nil)
