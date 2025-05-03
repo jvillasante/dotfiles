@@ -1,4 +1,4 @@
-# -*- mode: sh-mode -*-
+# -*- mode: sh; sh-shell: bash -*-
 
 #
 # Skim

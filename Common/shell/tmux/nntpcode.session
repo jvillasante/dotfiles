@@ -8,7 +8,7 @@ cd "$(dirname "$0")" || exit 1
 
 selected="$1"
 selected_name="$2"
-unique_name="nntp · $selected_name"
+unique_name="$selected_name"
 tmux_running=$(pgrep tmux)
 
 configure() {
