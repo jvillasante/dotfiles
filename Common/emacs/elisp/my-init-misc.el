@@ -305,10 +305,18 @@
     :config (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
 ;; rg.el : Use ripgrep in Emacs.
-(use-package rg)
+(use-package rg :disabled t)
+
+;; deadgrep : use ripgrep from Emac
+(use-package deadgrep
+    :vc (:url "git@github.com:Wilfred/deadgrep.git"
+              :rev :newest))
 
 ;; wgrep : edit grep results
 (use-package wgrep)
+(use-package wgrep-deadgrep
+    :after wgrep
+    :when (package-installed-p 'deadgrep))
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround)
