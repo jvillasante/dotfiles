@@ -30,6 +30,7 @@
         (add-to-list 'exec-path-from-shell-variables "GPG_AGENT_INFO")
         (add-to-list 'exec-path-from-shell-variables "LANG")
         (add-to-list 'exec-path-from-shell-variables "LC_CTYPE")
+        (add-to-list 'exec-path-from-shell-variables "RIPGREP_CONFIG_PATH")
         ;; (add-to-list 'exec-path-from-shell-variables "CARGO_HOME")
         ;; (add-to-list 'exec-path-from-shell-variables "GOPATH")
         ;; (add-to-list 'exec-path-from-shell-variables "GOBIN")

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # shellcheck source=/dev/null
-source "$HOME/.config/shell/common.sh"
+source "$HOME/.config/shell/common"
 
 usage() {
     echo "Usage:"

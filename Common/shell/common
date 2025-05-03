@@ -1,3 +1,5 @@
+# -*- mode: sh-mode -*-
+
 #
 # Find current shell
 # Call it like: CURRENT_SHELL=$(find_current_shell)

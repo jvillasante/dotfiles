@@ -1,3 +1,5 @@
+# -*- mode: sh-mode -*-
+
 #
 # fzf
 #
@@ -152,9 +154,9 @@ if type fzf > /dev/null 2> /dev/null; then
     #
     # System
     #
-    # source "${HOME}/.config/shell/system/fzf-system.sh"
+    # source "${HOME}/.config/shell/system/fzf-system"
     # fzf-sys() {
-    #     ${HOME}/.config/shell/system/fzf-system.sh"
+    #     ${HOME}/.config/shell/system/fzf-system"
     # }
 
     fsys() {

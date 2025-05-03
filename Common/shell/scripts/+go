@@ -6,7 +6,7 @@ set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 cd "$(dirname "$0")" || exit 1
 
-. "$HOME/.config/shell/common.sh"
+. "$HOME/.config/shell/common"
 
 usage() {
     echo "Usage:"

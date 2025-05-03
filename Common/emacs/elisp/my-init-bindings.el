@@ -369,6 +369,10 @@
     (define-key deadgrep-mode-map (kbd "C-x C-q") 'deadgrep-edit-mode)
     (define-key deadgrep-edit-mode-map (kbd "C-c C-c") 'deadgrep-mode))
 
+(with-eval-after-load 'rg
+    (global-set-key (kbd "M-s R") 'rg-menu) ; extend M-s r (consult-ripgrep)
+    (define-key rg-mode-map (kbd "q") 'my/close-buffer-and-window))
+
 (with-eval-after-load 'surround
     (define-key global-map (kbd "M-'") surround-keymap))
 

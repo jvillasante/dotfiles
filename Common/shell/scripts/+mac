@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. "$HOME/.config/shell/common.sh"
+. "$HOME/.config/shell/common"
 CURRENT_OS=$(find_os)
 if [ ! "$CURRENT_OS" = "OSX" ]; then
     echo "$CURRENT_OS :: Not on MacOS"

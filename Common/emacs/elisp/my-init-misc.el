@@ -304,14 +304,11 @@
     :defer t
     :config (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
-;; deadgrep : the fast, beautiful text search that your Emacs deserves.
-(use-package deadgrep)
+;; rg.el : Use ripgrep in Emacs.
+(use-package rg)
 
 ;; wgrep : edit grep results
 (use-package wgrep)
-(use-package wgrep-deadgrep
-    :disabled t
-    :if (package-installed-p 'deadgrep))
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround)

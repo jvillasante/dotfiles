@@ -13,4 +13,4 @@ umask 022
 
 # Source our custom files
 # shellcheck source=/dev/null
-source "${HOME}/.config/shell/system/custom.sh"
+source "${HOME}/.config/shell/system/custom"

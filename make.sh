@@ -5,7 +5,7 @@
 # This script creates symlinks from the home directory to any desired dotfiles in $HOME/dotfiles
 ############################
 
-. "$(dirname "$0")/Common/shell/common.sh"
+. "$(dirname "$0")/Common/shell/common"
 CURRENT_SHELL=$(find_current_shell)
 CURRENT_HOST=$(hostname)
 CURRENT_OS=$(find_os)
@@ -115,7 +115,7 @@ for file in $files; do
 done
 
 echo ">>> Linking common files in $HOME/.config..."
-files="git btop nyxt alacritty foot ghostty shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml clangd containers"
+files="git btop nyxt alacritty foot ghostty shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml clangd containers .ripgreprc"
 for file in $files; do
     [ -L "$HOME/.config/$file" ] && unlink "$HOME/.config/$file"
     ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"

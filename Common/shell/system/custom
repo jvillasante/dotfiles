@@ -1,3 +1,5 @@
+# -*- mode: sh-mode -*-
+
 # tty
 stty -ixon    # Disable flow control, i.e. ^s "freeze screen" and ^q resume
 stty erase ^? # kill ^u intr ^c eof ^d stop ^s
@@ -124,6 +126,7 @@ alias poweroff='systemctl poweroff'
 
 # ripgrep
 if type rg > /dev/null 2> /dev/null; then
+    RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/.ripgreprc" && export RIPGREP_CONFIG_PATH
     alias grep='rg -S --color=auto'
 fi
 
@@ -231,4 +234,4 @@ fi
 # Fuzzy Finder
 #
 # shellcheck source=/dev/null
-source "${HOME}/.config/shell/system/fzf.sh"
+source "${HOME}/.config/shell/system/fzf"
