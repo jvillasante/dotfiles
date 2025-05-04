@@ -56,20 +56,14 @@
     (minibuffer-depth-indicate-mode 1)
     (minibuffer-electric-default-mode 1)
 
-    ;; Add prompt indicator to `completing-read-multiple'.  We display
-    ;; [CRM<separator>], e.g., [CRM,] if the separator is a comma.  This
-    ;; is copied from the README of the `vertico' package.  I made some
-    ;; small tweaks to propertize the segments of the prompt.
-    (defun crm-indicator (args)
-        (cons (format "[`crm-separator': %s]  %s"
-                      (propertize
-                       (replace-regexp-in-string
-                        "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                        crm-separator)
-                       'face 'error)
-                      (car args))
-              (cdr args)))
-    (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
+    ;; Prompt indicator for `completing-read-multiple'.
+    (when (< emacs-major-version 31)
+        (advice-add #'completing-read-multiple :filter-args
+                    (lambda (args)
+                        (cons (format "[CRM%s] %s"
+                                      (string-replace "[ \t]*" "" crm-separator)
+                                      (car args))
+                              (cdr args))))))
 
 ;; uniquify : Making Buffer Names Unique
 (use-package uniquify
