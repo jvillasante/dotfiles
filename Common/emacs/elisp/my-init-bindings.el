@@ -460,6 +460,10 @@
     (define-key eglot-mode-map (kbd "C-c c i") 'eglot-find-implementation)
     (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
     (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
+(with-eval-after-load 'lsp-mode
+    (define-key lsp-mode-map (kbd "C-h .") 'lsp-describe-thing-at-point)
+    (define-key lsp-mode-map (kbd "C-c c q") 'lsp-workspace-shutdown)
+    (define-key lsp-mode-map (kbd "C-c c R") 'lsp-workspace-restart))
 (with-eval-after-load 'flymake
     (define-key flymake-mode-map (kbd "C-c c e") 'flymake-show-buffer-diagnostics)
     (define-key flymake-mode-map (kbd "C-c c E") 'flymake-show-project-diagnostics))

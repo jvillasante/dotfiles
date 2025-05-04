@@ -37,6 +37,12 @@
 
 (use-package eldoc
     :ensure nil ;; emacs built-in
+    :preface
+    (defun my/lsp-eldoc ()
+        "Show flymake diagnostics first."
+        (setq eldoc-documentation-functions
+              (cons #'flymake-eldoc-function
+                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
     :hook (after-init . (lambda ()
                             (eldoc-add-command #'xref-find-definitions)
                             (eldoc-add-command #'xref-go-back)
@@ -48,12 +54,8 @@
 
 (use-package eglot
     :ensure nil ;; emacs built-in
+    :when (eq my/lsp-backend 'eglot)
     :preface
-    (defun my/eglot-eldoc ()
-        "Show flymake diagnostics first."
-        (setq eldoc-documentation-functions
-              (cons #'flymake-eldoc-function
-                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
     (defun my/maybe-start-eglot ()
         "Exlude some mode from eglot."
         (let ((disabled-modes '(emacs-lisp-mode
@@ -73,7 +75,7 @@
                 (if (equal current-prefix-arg nil)
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
-    :hook((eglot-managed-mode . my/eglot-eldoc)
+    :hook((eglot-managed-mode . my/lsp-eldoc)
           (prog-mode . my/maybe-start-eglot))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
@@ -150,6 +152,47 @@
     ((eglot-booster-no-remote-boost t)
      (eglot-booster-io-only t))
     :config (eglot-booster-mode))
+
+(use-package lsp-mode
+    :when (eq my/lsp-backend 'lsp-mode)
+    :commands lsp
+    :hook
+    (c++-ts-mode . lsp)
+    (lsp-mode . (lambda ()
+                    (my/lsp-eldoc)
+                    (lsp-enable-which-key-integration)))
+    :custom
+    (lsp-log-io nil)
+    (lsp-idle-delay 0.1)                      ; clangd is fast
+    (lsp-lens-enable nil)
+    (lsp-auto-guess-root t)                   ; Detect project root
+    (lsp-keymap-prefix "C-c c")
+    (lsp-enable-indentation nil)              ; no formatting (use `apheleia')
+    (lsp-enable-symbol-highlighting nil)
+    (lsp-headerline-breadcrumb-enable nil)
+    (lsp-modeline-code-actions-enable nil)
+    (lsp-modeline-diagnostics-enable nil)
+    (lsp-clients-clangd-args
+     '("-j=8"
+       "--enable-config"
+       "--query-driver=/**/*"
+       "--log=error"
+       "--malloc-trim"
+       "--background-index"
+       "--clang-tidy"
+       "--all-scopes-completion"
+       "--completion-style=detailed"
+       "--pch-storage=memory"
+       "--header-insertion=never"
+       "--header-insertion-decorators=0")))
+
+;; optionally
+(use-package lsp-ui
+    :after lsp-mode
+    :commands lsp-ui-mode
+    :custom
+    (lsp-ui-doc-enable nil)
+    (lsp-ui-sideline-enable nil))
 
 ;; geiser support for guile
 (use-package geiser-guile

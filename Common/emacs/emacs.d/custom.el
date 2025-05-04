@@ -16,8 +16,8 @@
            elisp-demos embark-consult engine-mode erc eshell-prompt-extras
            eshell-syntax-highlighting exec-path-from-shell expreg faceup
            fancy-compilation gcmh geiser-guile go-mode gptel helpful hl-todo
-           idlwave jinx js2-mode json-mode ledger-mode lua-mode magit map
-           marginalia markdown-mode minions modus-themes monkeytype
+           idlwave jinx js2-mode json-mode ledger-mode lsp-mode lsp-ui lua-mode
+           magit map marginalia markdown-mode minions modus-themes monkeytype
            multiple-cursors nov ntlm orderless org-superstar password-store
            pdf-view-restore peg persistent-scratch php-mode python
            rainbow-delimiters request rg rmsbolt rust-mode shrink-path so-long

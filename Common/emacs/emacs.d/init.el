@@ -50,6 +50,8 @@
 (defconst my/dropbox-path      (expand-file-name "Dropbox/"                   my/home-path))
 (defconst my/docker-executable 'podman
     "The executable to be used with docker-mode ['docker or 'podman].")
+(defconst my/lsp-backend 'lsp-mode
+    "The lsp backend in use ['eglot or 'lsp-mode].")
 
 ;; Telling Emacs where the C source code is let's us jump all the way down into
 ;; primitive functions when exploring elisp functions.
