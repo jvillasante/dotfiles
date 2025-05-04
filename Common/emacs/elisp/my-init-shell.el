@@ -39,7 +39,10 @@
                        (eshell/alias "fd" "find-dired $PWD ''")
                        (eshell/alias "e" "find-file-other-window $1")
                        (eshell/alias "d" "dired $1")
-                       (eshell/alias "clear" "clear-scrollback")))
+                       (eshell/alias "clear" "clear-scrollback")
+
+                       ;; bindings
+                       (local-set-key (kbd "C-l") 'eshell/clear-scrollback)))
     :custom
     (eshell-scroll-to-bottom-on-input 'this)
     (eshell-scroll-to-bottom-on-output nil)
