@@ -203,6 +203,7 @@
                                  (add-to-list 'savehist-additional-variables 'corfu-history))))
            ((shell-mode eshell-mode) . (lambda ()
                                            (setq-local corfu-auto nil)
+                                           (keymap-set corfu-map "RET" #'corfu-send)
                                            (corfu-mode)))))
 
 (use-package cape
