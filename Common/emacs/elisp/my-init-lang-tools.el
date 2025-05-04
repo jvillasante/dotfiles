@@ -54,6 +54,12 @@
         (setq eldoc-documentation-functions
               (cons #'flymake-eldoc-function
                     (remove #'flymake-eldoc-function eldoc-documentation-functions))))
+    (defun my/maybe-start-eglot ()
+        "Exlude some mode from eglot."
+        (let ((disabled-modes '(emacs-lisp-mode
+                                cmake-mode)))
+            (unless (apply 'derived-mode-p disabled-modes)
+                (eglot-ensure))))
     (defun my/eglot-clangd-find-other-file ()
         "Switch between the corresponding C/C++ source and header file."
         (interactive)
@@ -68,7 +74,7 @@
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
     :hook((eglot-managed-mode . my/eglot-eldoc)
-          (c++-ts-mode . eglot-ensure))
+          (prog-mode . my/maybe-start-eglot))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)
@@ -111,7 +117,7 @@
     (add-to-list 'eglot-server-programs
                  '((c-ts-mode c++-ts-mode c-mode c++-mode)
                    . ("clangd"
-                      "-j=8"
+                      "-j=4"
                       "--enable-config"
                       "--query-driver=/**/*"
                       "--log=error"
