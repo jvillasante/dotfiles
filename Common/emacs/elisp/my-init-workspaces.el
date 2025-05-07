@@ -14,12 +14,15 @@ otherwise use `bufler-switch-buffer'."
                    (not (activities-current)))
                (call-interactively #'consult-buffer))
               (t (call-interactively #'activities-switch-buffer))))
-    :hook (after-init . (lambda ()
-                            (activities-mode)
-                            (activities-tabs-mode)))
+    :hook
+    (after-init . (lambda ()
+                      (activities-mode)
+                      (activities-tabs-mode)))
     :init
-    :custom ((activities-bookmark-store nil)
-             (activities-always-persist t)))
+    :custom
+    (activities-bookmark-store nil)
+    (activities-kill-buffers t)
+    (activities-always-persist t))
 
 ;; otpp : One tab per project, with unique names
 (use-package otpp
