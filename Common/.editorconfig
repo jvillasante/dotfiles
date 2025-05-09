@@ -41,3 +41,7 @@ indent_size = 4
 # org-mode insist on 8 tab width
 [*.org]
 indent_size = 8
+
+# Work test files can't be modified
+[t_*.t]
+trim_trailing_whitespace = false
