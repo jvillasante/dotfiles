@@ -209,10 +209,10 @@
 (use-package cape
     :bind ("C-c p" . cape-prefix-map)
     :init
-    ;; eglot integration with cape
-    (with-eval-after-load 'eglot
-        (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-        (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
+    ;; Sanitize the `pcomplete-completions-at-point' Capf.
+    (when (< emacs-major-version 29)
+        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
 
     ;; Add to the global default value of `completion-at-point-functions' which is
     ;; used by `completion-at-point'.  The order of the functions matters, the
