@@ -8,6 +8,7 @@ ExecStart=/usr/local/bin/xremap \
     --device 'Flow84@Lofree' \
     --device 'USB-HID Keyboard' \
     --device 'AT Translated Set 2 keyboard' \
+    --device 'Keychron' \
     /home/jvillasante/.config/xremap/config.yml
 Restart=on-failure
 
