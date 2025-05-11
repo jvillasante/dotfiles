@@ -8,7 +8,7 @@
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; remove the title bar only when frame is maximized
-;; (add-hook 'window-size-change-functions 'frame-hide-title-bar-when-maximized)
+(add-hook 'window-size-change-functions 'frame-hide-title-bar-when-maximized)
 
 ;; Select and raise the frame, always
 (add-hook 'server-after-make-frame-hook
