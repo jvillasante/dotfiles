@@ -238,7 +238,7 @@ fedora_install() {
                      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
 
                 # Terra (https://terra.fyralabs.com/)
-                sudo dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+                # sudo dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 
                 # Install some packages and firmware
                 sudo dnf install -y rpmfusion-free-release-tainted
