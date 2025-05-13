@@ -527,6 +527,12 @@ fedora_install() {
                 sudo dnf --repo=rpmfusion-nonfree-tainted install -y "*-firmware"
 
                 #
+                # Chromium Browser (For use with eww)
+                #
+
+                sudo dnf install -y chromium
+
+                #
                 # Brave Browser
                 #
 
