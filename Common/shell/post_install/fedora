@@ -439,7 +439,9 @@ fedora_install() {
                 systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # Ulauncher
-                sudo dnf install -y ulauncher wmctrl
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    sudo dnf install -y ulauncher wmctrl
+                fi
 
                 # Bleachbit: Clean Your System and Free Disk Space
                 # sudo dnf install -y bleachbit
