@@ -15,7 +15,7 @@ readonly WS_WAYLAND="Wayland"
 readonly WS_X11="X11"
 readonly WM_KDE="KDE"
 readonly WM_GNOME="Gnome"
-WINDOW_SYSTEM="$WS_WAYLAND"
+WINDOW_SYSTEM="$WS_KDE"
 WINDOW_MANAGER="$WM_GNOME"
 
 install_berkeley_mono_font() {
@@ -249,7 +249,6 @@ fedora_install() {
                 # Upgrade everything
                 sudo dnf upgrade -y --refresh
                 sudo dnf group upgrade core
-                sudo dnf4 group update core
                 sudo dnf -y update
 
                 # Update system firmware
@@ -305,7 +304,7 @@ fedora_install() {
                 sudo dnf install -y libunwind libunwind-devel
                 sudo dnf install -y gperftools gperftools-libs gperftools-devel
                 sudo dnf install -y ffmpegthumbnailer mediainfo
-                sudo dnf install -y feh mpv eza
+                sudo dnf install -y feh mpv
                 sudo dnf install -y ncurses-term
                 sudo dnf install -y ccache meson
                 sudo dnf install -y zlib-devel bzip2 bzip2-devel readline-devel xz xz-devel \
