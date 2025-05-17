@@ -15,7 +15,7 @@ readonly WS_WAYLAND="Wayland"
 readonly WS_X11="X11"
 readonly WM_KDE="KDE"
 readonly WM_GNOME="Gnome"
-WINDOW_SYSTEM="$WS_KDE"
+WINDOW_SYSTEM="$WM_KDE"
 WINDOW_MANAGER="$WM_GNOME"
 
 install_berkeley_mono_font() {
@@ -366,7 +366,7 @@ fedora_install() {
                 # }
 
                 # Pass (password-store)
-                sudo dnf install -y pass
+                sudo dnf install -y pass gopass
 
                 # Git stuff
                 sudo dnf install -y git           # git itself
