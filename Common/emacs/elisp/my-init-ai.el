@@ -5,6 +5,8 @@
 
 (use-package gptel
     :defer t
+    :vc (:url "git@github.com:karthink/gptel.git"
+              :rev :newest)
     :custom
     (gptel-default-mode 'markdown-mode)
     (gptel-expert-commands t)
@@ -12,8 +14,6 @@
     (gptel-make-gemini "Gemini"
         :key (lambda () (password-store-get-field "Work/Omicron/Gemini" "API Key"))
         :stream t)
-    ;; (setq gptel-model 'gpt-4o)
-    (setq gptel-model 'gpt-4o-mini)
     (setq gptel-api-key
           (lambda ()
               (password-store-get-field "Logins/openai.com" "API Key"))))
@@ -31,7 +31,11 @@
     :disabled t
     :defer t
     :custom
-    ((chatgpt-shell-openai-key
+    ((chatgpt-shell-model-version "gemini-2.5-flash-preview-04-17")
+     (chatgpt-shell-google-key
+      (lambda ()
+          (password-store-get-field "Work/Omicron/Gemini" "API Key")))
+     (chatgpt-shell-openai-key
       (lambda ()
           (password-store-get-field "Logins/openai.com" "API Key")))))
 

@@ -26,7 +26,8 @@
            web-mode wgrep-deadgrep which-key window-tool-bar xref yaml-mode
            yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
-      '((deadgrep :url "git@github.com:Wilfred/deadgrep.git")
+      '((gptel :url "git@github.com:karthink/gptel.git")
+           (deadgrep :url "git@github.com:Wilfred/deadgrep.git")
            (ledger-mode :url "git@github.com:ledger/ledger-mode.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
