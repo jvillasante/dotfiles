@@ -1,0 +1,12 @@
+[core]
+    autopush = true
+    autosync = true
+    cliptimeout = 45
+    exportkeys = true
+    notifications = true
+
+[mounts]
+    path = /home/jvillasante/.password-store
+
+[pwgen]
+    xkcd-lang = en
