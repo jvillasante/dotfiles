@@ -104,9 +104,8 @@
 ;; pdf
 (use-package pdf-tools
     :defer t
-    :mode ("\\.pdf\\'" . pdf-view-mode)
-    :config
-    (setq pdf-view-continuous t))
+    :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
+    :custom (pdf-view-continuous t))
 
 (use-package doc-view
     :ensure nil ;; emacs built-in
