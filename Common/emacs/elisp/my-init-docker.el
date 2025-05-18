@@ -33,17 +33,11 @@
         (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
 
     ;; When docker run is called on an image whose repository name matches the
-    ;; regular expression "^postgres", the option "-e
-    ;; POSTGRES_PASSWORD=postgres" will appear as set along with the defaults
-    ;; specified by `docker-image-run-default-args'.
-    ;; (add-to-list 'docker-image-run-custom-args
-    ;;              `("^postgres" ("-e POSTGRES_PASSWORD=postgres" . ,docker-image-run-default-args)))
+    ;; regular expression "^postgres", the option "-e POSTGRES_PASSWORD=postgres"
+    ;; will appear as set along with the defaults specified by `docker-image-run-default-args'.
+    (add-to-list 'docker-image-run-custom-args
+                 `("^postgres" ("-e POSTGRES_PASSWORD=postgres" . ,docker-image-run-default-args)))
 
-    ;; TODO: This will always open in `nntp - dev' (make it project based!!!!)
-    ;; docker run --user nntpuser --rm --interactive --tty --volume
-    ;;   $selected:/tmp/nntpcode -w /tmp/nntpcode --name nntp-$selected_name
-    ;;   nntp:latest /bin/bash
-    ;;
     ;; podman run --user nntpuser --rm --interactive --tty --volume
     ;;    $selected:/tmp/nntpcode:rw,z --userns=keep-id
     ;;    -w /tmp/nntpcode --name nntp-$selected_name nntp:latest /bin/bash
@@ -58,7 +52,6 @@
     :config
     (when (eq my/docker-executable 'docker)
         (setq dockerfile-mode-command "docker"))
-
     (when (eq my/docker-executable 'podman)
         (setq dockerfile-mode-command "podman")))
 
