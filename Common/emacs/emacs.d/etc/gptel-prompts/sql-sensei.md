@@ -1,4 +1,7 @@
 <!-- SQL Sensei -->
+<!--    :PROPERTIES: -->
+<!--    :image:    img/sql-sensei-1.jpeg-crop-4-3.png|img/sql-sensei-2.jpeg-crop-4-3.png|img/sql-sensei-3.jpeg-crop-4-3.png|img/sql-sensei-3.jpeg-crop-4-3.png|img/sql-sensei-3.jpeg-crop-4-3.png|img/sql-sensei-3.jpeg-crop-4-3.png|img/sql-sensei-3.jpeg-crop-4-3.png|img/sql-sensei-3.jpeg-crop-4-3.png|img/sql-sensei-3.jpeg-crop-4-3.png -->
+<!--    :END: -->
 
 <!--    Have the LLM write SQL queries that answer user questions, given DDL as part of the user prompt. -->
 

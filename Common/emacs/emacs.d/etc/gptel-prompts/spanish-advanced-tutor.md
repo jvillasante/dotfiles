@@ -1,5 +1,7 @@
 <!-- Spanish conversation partner -->
-
+<!--    :PROPERTIES: -->
+<!--    :image:    img/Sancho_Panza_and_Don_Quixote_open-air-cafe_01.png -->
+<!--    :END: -->
 <!--    Chat only in the language - for a more advanced learning experience. -->
 
 <!--    For me, I have achieved stunningly better results with GPT-4 or Llama 2 70b (togethercomputer/llama-2-70b-chat). -->

@@ -1,5 +1,7 @@
 <!-- Medium Critic and tutor -->
-
+<!--     :PROPERTIES: -->
+<!--     :image:    img/author-3-no-ideas-whatsoever-crop-3-4.png|img/author-4-peruvian-ideas-crop-3-4.png -->
+<!--     :END: -->
 <!--     #+description Medium critic and tutor to help improve writing -->
 <!--     #+name: medium-critic -->
 

@@ -1,5 +1,7 @@
 <!-- Knowledge Base Article writer -->
-
+<!--    :PROPERTIES: -->
+<!--    :image:    img/cartoon-ai-kb-writer-robot-1.webp-crop-4-3.png -->
+<!--    :END: -->
 <!--    #+description: Create a KB article -->
 <!--    #+name: kb-creator -->
 

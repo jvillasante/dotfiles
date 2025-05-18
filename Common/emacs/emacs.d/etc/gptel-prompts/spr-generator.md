@@ -1,5 +1,7 @@
 <!-- Sparse Priming Representation writer -->
-
+<!--    :PROPERTIES: -->
+<!--    :image:    img/squashinator-3000-1-crop-4-3.png|img/squashinator-3000-2-crop-4-3.png|img/squashinator-3000-3-crop-4-3.png -->
+<!--    :END: -->
 <!--    #+description: Sparse Priming Representation generator - compress block of text -->
 <!--    #+name: spr-generator -->
 

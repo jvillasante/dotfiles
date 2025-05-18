@@ -8,11 +8,15 @@
     :vc (:url "git@github.com:karthink/gptel.git"
               :rev :newest)
     :custom
-    (gptel-default-mode 'markdown-mode)
+    (gptel-default-mode 'org-mode)
     (gptel-expert-commands t)
+    (gptel-track-media t)
+    (gptel-include-reasoning 'ignore)
+    (gptel-model 'gpt-4o)
     :config
     (gptel-make-gemini "Gemini"
-        :key (lambda () (password-store-get-field "Work/Omicron/Gemini" "API Key"))
+        :key (lambda ()
+                 (password-store-get-field "Work/Omicron/Gemini" "API Key"))
         :stream t)
     (setq gptel-api-key
           (lambda ()

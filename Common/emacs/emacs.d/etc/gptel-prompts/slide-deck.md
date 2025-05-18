@@ -1,5 +1,7 @@
 <!-- Slide deck maker -->
-
+<!--    :PROPERTIES: -->
+<!--    :image:    img/presentation-creator-1-crop-3-4.png -->
+<!--    :END: -->
 <!--    As with many of our prompts, this prompt illustrates one-shot learning.  This simply means: give the LLM one or more sample user questions, along with a good representative answer for that question. -->
 
 <!--    #+description: slide from simple description or topic -->
