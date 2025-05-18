@@ -12,15 +12,18 @@
     (gptel-expert-commands t)
     (gptel-track-media t)
     (gptel-include-reasoning 'ignore)
-    (gptel-model 'gpt-4o)
     :config
-    (gptel-make-gemini "Gemini"
-        :key (lambda ()
-                 (password-store-get-field "Work/Omicron/Gemini" "API Key"))
-        :stream t)
-    (setq gptel-api-key
-          (lambda ()
-              (password-store-get-field "Logins/openai.com" "API Key"))))
+    (setq
+     gptel-model 'gemini-2.5-pro-preview-05-06
+     gptel-backend (gptel-make-gemini "Gemini"
+                       :key (lambda ()
+                                (password-store-get-field "Work/Omicron/Gemini" "API Key"))
+                       :stream t))
+    (setq
+     ;; gptel-model 'gpt-40
+     gptel-api-key
+     (lambda ()
+         (password-store-get-field "Logins/openai.com" "API Key"))))
 
 (use-package gptel-quick
     :disabled t
