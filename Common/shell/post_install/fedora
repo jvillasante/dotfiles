@@ -15,7 +15,7 @@ readonly WS_WAYLAND="Wayland"
 readonly WS_X11="X11"
 readonly WM_KDE="KDE"
 readonly WM_GNOME="Gnome"
-WINDOW_SYSTEM="$WM_KDE"
+WINDOW_SYSTEM="$WS_WAYLAND"
 WINDOW_MANAGER="$WM_GNOME"
 
 install_berkeley_mono_font() {
