@@ -400,11 +400,14 @@ Run this function at the post theme load phase, such as with the
 
 ;; ace-window : GNU Emacs package for selecting a window to switch to
 (use-package ace-window
-    :disabled t
+    :custom
+    (aw-scope 'frame)
+    (aw-minibuffer-flag t)
+    (aw-keys '(?a ?s ?d ?f ?j ?k ?l))
     :config
-    (setq aw-scope 'frame)
-    (setq aw-minibuffer-flag t)
-    (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)))
+    (custom-set-faces
+     '(aw-leading-char-face
+       ((t (:inherit ace-jump-face-foreground :height 3.0))))))
 
 ;; Load fonts/theme/etc
 (if (daemonp)
