@@ -1,9 +1,11 @@
 # -*- mode: sh; sh-shell: bash -*-
 
 # tty
+
+stty sane     # make BACKSPACE key do what it should do
 stty -ixon    # Disable flow control, i.e. ^s "freeze screen" and ^q resume
 stty erase ^? # kill ^u intr ^c eof ^d stop ^s
-set -o emacs
+set -o emacs  # set command-line editing to emacs mode
 
 # term
 export TERM=xterm-256color
