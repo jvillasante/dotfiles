@@ -22,8 +22,8 @@
            org-superstar password-store pdf-view-restore peg persistent-scratch
            php-mode project python rainbow-delimiters request rmsbolt rust-mode
            seq shrink-path so-long soap-client surround svg track-changes tramp
-           trashed undo-fu use-package verb verilog-mode vertico vterm vundo
-           web-mode wgrep-deadgrep which-key window-tool-bar xref yaml-mode
+           trashed use-package verb verilog-mode vertico vterm vundo web-mode
+           wgrep-deadgrep which-key window-tool-bar xref yaml-mode
            yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel :url "git@github.com:karthink/gptel.git")
@@ -34,7 +34,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0)))))
 
 (provide 'custom)
 ;;; custom.el ends here
