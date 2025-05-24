@@ -12,6 +12,8 @@
     (gptel-expert-commands t)
     (gptel-track-media t)
     (gptel-include-reasoning 'ignore)
+    :hook
+    (gptel-post-stream . gptel-auto-scroll)
     :config
     (setq
      gptel-model 'gemini-2.5-pro-preview-05-06
