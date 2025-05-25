@@ -450,14 +450,17 @@ fedora_install() {
                 sudo dnf install -y go
 
                 # Mullvad VPN (Using Network Manager)
-                sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
-                sudo dnf install -y mullvad-vpn
+                # sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
+                # sudo dnf install -y mullvad-vpn
 
                 # grammar linter (python)
                 # sudo dnf install -y proselint
 
                 # ebook reader/converver
-                sudo dnf install -y calibre
+                # sudo dnf install -y calibre
+
+                # Needed for keychrone firmware flash
+                sudo dnf install -y dfu-util
 
                 # non dnf software
                 pip install cmake-language-server

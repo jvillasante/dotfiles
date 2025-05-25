@@ -21,9 +21,9 @@
            monkeytype multiple-cursors nadvice nov ntlm orderless org
            org-superstar password-store pdf-view-restore peg persistent-scratch
            php-mode project python rainbow-delimiters request rmsbolt rust-mode
-           seq shrink-path so-long soap-client surround svg track-changes tramp
-           trashed use-package verb verilog-mode vertico vterm vundo web-mode
-           wgrep-deadgrep which-key window-tool-bar xref yaml-mode
+           seq shrink-path sicp so-long soap-client surround svg track-changes
+           tramp trashed use-package verb verilog-mode vertico vterm vundo
+           web-mode wgrep-deadgrep which-key window-tool-bar xref yaml-mode
            yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel :url "git@github.com:karthink/gptel.git")
