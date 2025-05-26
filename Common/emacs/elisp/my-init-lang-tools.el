@@ -194,11 +194,15 @@
     (lsp-ui-doc-enable nil)
     (lsp-ui-sideline-enable nil))
 
+;; geiser : hacking scheme in emacs
+(use-package geiser
+    :defer t)
+
 ;; geiser support for guile
 (use-package geiser-guile
     :defer t
-    :config
-    (setq geiser-guile-binary "guile3.0"))
+    :after geiser
+    :custom (geiser-guile-binary "guile3.0"))
 
 ;; dape : Debug Adapter Protocol for Emacs
 (use-package dape :defer t)
