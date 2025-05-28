@@ -356,9 +356,9 @@ Run this function at the post theme load phase, such as with the
 ;; which-key : displays the key bindings following your currently entered incomplete command (a prefix) in a popup.
 (use-package which-key
     :ensure nil ;; emacs built-in
-    :hook (after-init . which-key-mode)
-    :custom ((which-key-idle-delay 1.0)
-             (which-key-popup-type 'minibuffer)))
+    :hook (after-init . (lambda ()
+                            (which-key-mode)
+                            (which-key-setup-side-window-bottom))))
 
 (use-package window
     :ensure nil
