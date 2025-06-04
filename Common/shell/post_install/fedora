@@ -198,7 +198,7 @@ fedora_install() {
 
                     # Set fractional scaling (only for wayland)
                     # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
-                    gsettings set org.gnome.desktop.interface text-scaling-factor 1.1
+                    # gsettings set org.gnome.desktop.interface text-scaling-factor 1.1
 
                     # Stop Gnome Software downloading updates
                     # gsettings set org.gnome.software allow-updates false
