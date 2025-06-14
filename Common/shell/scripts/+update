@@ -137,23 +137,13 @@ emacs_update() {
     # Build and install
     ./autogen.sh
     ./configure \
-        --prefix=/usr/local \
-        --with-modules \
-        --with-pgtk \
-        --with-x-toolkit=no \
-        --without-compress-install \
-        --with-native-compilation=aot \
-        --with-tree-sitter \
-        --without-mailutils \
-        --with-selinux \
-        --with-xinput2 \
-        --with-dbus \
-        --disable-gc-mark-trace \
-        CFLAGS="-O3 -fno-math-errno -funsafe-math-optimizations -fno-finite-math-only -fno-trapping-math \
-                -freciprocal-math -fno-rounding-math -fno-signaling-nans -fassociative-math \
-                -fno-signed-zeros -frename-registers -funroll-loops -mtune=native -march=native \
-                -fomit-frame-pointer -fallow-store-data-races -fno-semantic-interposition \
-                -floop-parallelize-all -ftree-parallelize-loops=4"
+          --prefix=/usr/local \
+          --disable-gc-mark-trace \
+          --with-pgtk \
+          --with-native-compilation=aot \
+          --with-tree-sitter \
+          --without-x \
+          CFLAGS="-O3 -mtune=native -march=native"
     make -j"$(nproc --ignore=2)"
     sudo make install
 
