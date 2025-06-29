@@ -162,12 +162,21 @@
 ;; tramp : Transparent Remote Access, Multiple Protocols
 (use-package tramp
     :ensure nil ;; emacs built-in
+    :init
+    ;; Fix remote compile
+    (with-eval-after-load 'tramp
+        (with-eval-after-load 'compile
+            (remove-hook 'compilation-mode-hook #'tramp-compile-disable-ssh-controlmaster-options)))
     :config
+    ;; Some default settings
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
     (setq tramp-use-connection-share nil) ; use Control* options from ssh config
+    (setq tramp-verbose 2)
+    (setq tramp-copy-size-limit (* 1024 1024)) ;; 1MB
     (setq remote-file-name-inhibit-locks t)
+    (setq remote-file-name-inhibit-auto-save-visited t)
     (setq remote-file-name-inhibit-cache nil)
-    (setq tramp-verbose 1)
+    (setq tramp-use-scp-direct-remote-copying t)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq tramp-completion-use-auth-sources nil) ; do not use `.authinfo.gpg' for tramp
     (setq tramp-shell-prompt-pattern
@@ -180,7 +189,19 @@
               "password" "Password"
               "Verification code")
             t)
-           ".*:\0? *")))
+           ".*:\0? *"))
+
+    ;; Use Direct Async (check it works with `M-: (tramp-direct-async-process-p) on a remote file')
+    (connection-local-set-profile-variables
+     'remote-direct-async-process
+     '((tramp-direct-async-process . t)))
+    (connection-local-set-profiles
+     '(:application tramp :protocol "ssh")
+     'remote-direct-async-process)
+    (connection-local-set-profiles
+     '(:application tramp :protocol "scp")
+     'remote-direct-async-process)
+    (setq magit-tramp-pipe-stty-settings 'pty))
 
 (use-package autorevert
     :ensure nil ;; emacs built-in
