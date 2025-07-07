@@ -449,6 +449,9 @@ fedora_install() {
                 # Go
                 sudo dnf install -y go
 
+                # Torrents
+                sudo dnf install -y qbittorrent
+
                 # Mullvad VPN (Using Network Manager)
                 # sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
                 # sudo dnf install -y mullvad-vpn
@@ -635,8 +638,8 @@ fedora_install() {
                 flatpak install --user -y flathub com.github.tchx84.Flatseal
                 flatpak install --user -y flathub com.github.johnfactotum.Foliate
                 flatpak install --user -y flathub org.gimp.GIMP
-                flatpak install --user -y flathub com.transmissionbt.Transmission
-                flatpak install --user -y flathub org.telegram.desktop
+                # flatpak install --user -y flathub com.transmissionbt.Transmission
+                # flatpak install --user -y flathub org.telegram.desktop
                 flatpak install --user -y flathub io.podman_desktop.PodmanDesktop
                 flatpak install --user -y flathub com.valvesoftware.Steam
                 flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
