@@ -45,6 +45,12 @@
 
 ;; enable repeat-mode if available, see: `describe-repeat-maps'
 (when (fboundp 'repeat-mode)
+    ;; disable repeat-mode startup log
+    (defun shut-up--advice (fn &rest args)
+        (let ((inhibit-message t)
+              (message-log-max))
+            (apply fn args)))
+    (advice-add #'repeat-mode :around #'shut-up--advice)
     (repeat-mode +1))
 
 ;; Don't compact font caches during GC.
