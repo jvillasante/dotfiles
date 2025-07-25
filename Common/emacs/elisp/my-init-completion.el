@@ -161,15 +161,18 @@
     :init (global-set-key [remap dabbrev-expand] 'hippie-expand))
 
 (use-package vertico
-    :hook ((after-init . vertico-mode)
+    :hook ((after-init . (lambda ()
+                             (vertico-mode)
+                             (vertico-multiform-mode)))
            ;; This works with `file-name-shadow-mode' enabled.  When you are in
            ;; a sub-directory and use, say, `find-file' to go to your home '~/'
            ;; or root '/' directory, Vertico will clear the old path to keep
            ;; only your current input.
            (rfn-eshadow-update-overlay-hook . vertico-directory-tidy))
-    ;; :config
-    ;; TODO: Below could replace `which-key'
-    ;; TODO: (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
+    :config
+    (setq vertico-multiform-categories
+          '((embark-keybinding grid)
+            (consult-grep buffer)))
     :custom
     (vertico-count 15)
     (vertico-resize nil))
