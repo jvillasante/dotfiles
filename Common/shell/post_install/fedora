@@ -390,6 +390,9 @@ fedora_install() {
                 # Ghostty
                 # sudo dnf copr enable pgdev/ghostty -y
                 # sudo dnf install -y ghostty
+                #
+                # dnf copr enable scottames/ghostty
+                # dnf install ghostty
 
                 # Starship Prompt
                 curl -sS https://starship.rs/install.sh | sh
