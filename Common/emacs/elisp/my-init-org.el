@@ -55,6 +55,9 @@
     (setq org-M-RET-may-split-line '((item . nil)))
     (setq org-confirm-babel-evaluate nil)
 
+    ;; Sane code blocks
+    (setq org-src-preserve-indentation t)
+
     ;; Return or left-click with mouse follows link
     (setq org-return-follows-link t)
     (setq org-mouse-1-follows-link t)
