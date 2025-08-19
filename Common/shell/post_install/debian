@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-readonly WS_WAYLAND="Wayland"
-readonly WS_X11="X11"
-readonly WM_KDE="KDE"
-readonly WM_GNOME="Gnome"
-readonly WM_I3="I3"
-readonly WM_SWAY="Sway"
-WINDOW_SYSTEM="$WS_WAYLAND"
-WINDOW_MANAGER="$WM_KDE"
-
 usage() {
     echo "Usage:"
     echo "    $0 help:"
@@ -19,6 +10,15 @@ usage() {
     echo " e.g: $0 install"
     exit "$1"
 }
+
+readonly WS_WAYLAND="Wayland"
+readonly WS_X11="X11"
+readonly WM_KDE="KDE"
+readonly WM_GNOME="Gnome"
+readonly WM_I3="I3"
+readonly WM_SWAY="Sway"
+WINDOW_SYSTEM="$WS_WAYLAND"
+WINDOW_MANAGER="$WM_KDE"
 
 install_berkeley_mono_font() {
     [ ! -d "$(pwd)"/fonts ] && notify-send "$(pwd)/fonts is not a directory" --expire-time=20 && return
@@ -44,18 +44,22 @@ install_berkeley_mono_font() {
     mkdir -p ~/.local/share/fonts
 
     # remove all fonts from ~/.local/share/fonts that start with "BerkeleyMono"
-    rm -rf ~/.local/share/fonts/BerkeleyMono*
+    rm -rf ~/.local/share/fonts/Berkeley*
 
-    # copy all ttf fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface -type f -name "*.ttf" \
-         -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+    # copy all V1 TTF fonts to ~/.local/share/fonts
+    # find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-01/ \
+    #      -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
+
+    # copy all V2 OTF fonts to ~/.local/share/fonts
+    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-02/ \
+         -type f -name "*.otf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
 
     # Build font information caches
     fc-cache -f
 
-    if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-        gsettings set org.gnome.desktop.interface monospace-font-name 'Berkeley Mono'
-    fi
+    # cleanup
+    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
+        rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
 }
 
 debian_install() {

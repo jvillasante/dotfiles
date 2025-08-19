@@ -1,4 +1,4 @@
-# -*- mode: sh; sh-shell: bash -*-
+#!/usr/bin/env bash
 
 #
 # Find current shell
