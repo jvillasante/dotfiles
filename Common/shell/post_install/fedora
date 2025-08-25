@@ -730,37 +730,6 @@ fedora_install() {
             8)
                 echo "$CHOICE) Installing emacs-lsp-booster & Emacs"
 
-                #
-                # First install emacs-lsp-booster to speed up lsp in emacs
-                #
-
-                # Is it already installed?
-                hash emacs-lsp-booster 2> /dev/null && notify-send "emacs-lsp-booster is already installed" --expire-time=20 && continue
-
-                # Install
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                [ ! -d "$HOME"/Workspace/Software/emacs-lsp-booster ] && mkdir -p "$HOME"/Workspace/Software/emacs-lsp-booster
-
-                pushd "$HOME"/Workspace/Software/emacs-lsp-booster || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/emacs-lsp-booster" --expire-time=20
-                        continue
-                }
-
-                EMACS_LSP_BOOSTER_VERSION=v0.2.1
-                EMACS_LSP_BOOSTER_RELEASE=emacs-lsp-booster_"$EMACS_LSP_BOOSTER_VERSION"_x86_64-unknown-linux-musl.zip
-                curl -LJO https://github.com/blahgeek/emacs-lsp-booster/releases/download/"$EMACS_LSP_BOOSTER_VERSION"/"$EMACS_LSP_BOOSTER_RELEASE"
-                atool --extract --explain "$EMACS_LSP_BOOSTER_RELEASE"
-                sudo cp -f emacs-lsp-booster /usr/local/bin/
-
-                popd || {
-                        notify-send "Can't cd to previous directory" --expire-time=20
-                        continue
-                }
-
-                #
-                # We are now ready to install emacs
-                #
-
                 # Is it already installed?
                 hash emacs 2> /dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
 
@@ -783,10 +752,14 @@ fedora_install() {
                 # enchant package (jinx)
                 sudo dnf install -y enchant2-devel pkgconf # necessary for jinx
 
+                # Set branch to use
+                local EMACS_BRANCH
+                EMACS_BRANCH=emacs-30
+
                 # Prepare git repo
                 [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
                 if [ ! -d "$HOME"/Workspace/Software/emacs ]; then
-                    git clone --depth 1 git://git.savannah.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
+                    git clone --depth 1 --branch "$EMACS_BRANCH" git://git.savannah.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
                     pushd "$HOME"/Workspace/Software/emacs || {
                         notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
                         continue
@@ -801,13 +774,13 @@ fedora_install() {
                     make clean && make distclean
                     git reset --hard HEAD
                     sudo git clean -dfx
+                    git fetch && git pull
                 fi
 
                 # Setup git branch
                 local BRANCH
                 BRANCH=$(git branch --show-current)
-                [[ "$BRANCH" != emacs-30 ]] && git checkout emacs-30
-                git fetch && git pull
+                [[ "$BRANCH" != "$EMACS_BRANCH" ]] && notify-send "Emacs unexpected branch, expecting $EMACS_BRANCH, got $BRANCH" --expire-time=20 && continue
 
                 # Install
                 ./autogen.sh
@@ -818,8 +791,8 @@ fedora_install() {
                     --with-native-compilation=aot \
                     --with-tree-sitter \
                     --without-x \
-                    CFLAGS="-O3 -mtune=native -march=native"
-                make -j"$(nproc --ignore=2)"
+                    CFLAGS="-O2 -mtune=native -march=native -pipe -fomit-frame-pointer"
+                make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
                 sudo make install
 
                 popd || notify-send "Can't cd to previous directory" --expire-time=20

@@ -128,11 +128,14 @@ emacs_update() {
     sudo git clean -dfx
     git fetch && git pull
 
+    # Set branch to use
+    local EMACS_BRANCH
+    EMACS_BRANCH=emacs-30
+
     # Setup git branch
     local BRANCH
     BRANCH=$(git branch --show-current)
-    [[ "$BRANCH" != emacs-30 ]] && git checkout emacs-30
-    git fetch && git pull
+    [[ "$BRANCH" != "$EMACS_BRANCH" ]] && echo "Found $BRANCH while expecting $EMACS_BRANCH, exiting..." && usage 1
 
     # Build and install
     ./autogen.sh
@@ -143,8 +146,8 @@ emacs_update() {
           --with-native-compilation=aot \
           --with-tree-sitter \
           --without-x \
-          CFLAGS="-O3 -mtune=native -march=native"
-    make -j"$(nproc --ignore=2)"
+          CFLAGS="-O2 -mtune=native -march=native -pipe -fomit-frame-pointer"
+    make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
     sudo make install
 
     # Cleanup
