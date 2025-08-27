@@ -421,6 +421,9 @@ fedora_install() {
                 # dnf install -y skim
                 sudo dnf install -y fzf
 
+                # See memory usage
+                sudo dnf install -y smem
+
                 # Emacs (on fedora is up to date but I prefer to compile it myself)
                 # sudo dnf install -y emacs
                 # sudo dnf install -y libvterm libvterm-devel # necessary for vterm
@@ -541,7 +544,7 @@ fedora_install() {
                 # Chromium Browser (For use with eww)
                 #
 
-                sudo dnf install -y chromium
+                # sudo dnf install -y chromium
 
                 #
                 # Brave Browser

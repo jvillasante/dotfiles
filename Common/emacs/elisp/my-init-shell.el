@@ -63,6 +63,7 @@
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
     :disabled t
+    :defer t
     :preface
     (defun my/eat-open (file)
         "Helper function to open files from eat terminal."
