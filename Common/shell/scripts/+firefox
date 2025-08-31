@@ -11,6 +11,8 @@ usage() {
     echo "        Update Firefox Default profile with my overrides"
     echo "    $0 cleanup:"
     echo "        Cleanup Firefox Default profile overrides"
+    echo "    $0 show:"
+    echo "        Show path to profile, does not do any changes"
     echo
     echo "    e.g: $0 update"
     echo "    e.g: $0 cleanup"
@@ -36,6 +38,18 @@ firefox_default_profile() {
     [ -d "$PROFILE" ] || usage 1
 
     echo "$PROFILE"
+}
+
+show() {
+    local PROFILE
+    if pgrep firefox > /dev/null; then
+        echo ">>> Firefox is running. Close Firefox and try again."
+        usage 1
+    fi
+
+    PROFILE=$(firefox_default_profile)
+    test $? -eq 0 || usage 1
+    echo ">>> Firefox profile: $PROFILE"
 }
 
 cleanup() {
@@ -75,8 +89,12 @@ update() {
     curl -o "${PROFILE}"/user.js https://raw.githubusercontent.com/yokoffing/Betterfox/main/user.js
     test $? -eq 0 || usage 1
 
-    # Add overrides
-    cat > "${PROFILE}/user-overrides.js" << ENDOFFILE
+    [ ! -f "${PROFILE}"/user.js ] && usage 1
+
+    # Use sed to find the marker line and read the new content from a here document
+    # The -i.bak flag edits the file in-place and creates a backup named file.js.bak
+    sed -i.bak "/\/\/ Enter your personal overrides below this line:/r /dev/stdin" "${PROFILE}"/user.js <<'EOF'
+
 // Re-enables 'about:home' page for startup landing page and new tabs
 user_pref("browser.startup.page", 1);
 user_pref("browser.startup.homepage", "about:home");
@@ -97,6 +115,9 @@ user_pref("privacy.userContext.enabled", true);
 
 // Disable login manager
 user_pref("signon.rememberSignons", false);
+
+// Disable pop-up to save logins for a new site
+user_pref("signon.formlessCapture.enabled", false);
 
 // Disable address and credit card manager
 user_pref("extensions.formautofill.addresses.enabled", false);
@@ -125,9 +146,19 @@ user_pref("media.autoplay.default", 1);
 // Do not use disk for caches
 user_pref("browser.cache.disk.enable", false)
 
+// Disable weather on New Tab page
+user_pref("browser.newtabpage.activity-stream.showWeather", false);
+user_pref("browser.newtabpage.activity-stream.system.showWeather", false);
+
+// PREF: revert back to Standard ETP - Most problems stem from Firefox running in Strict mode
+user_pref("browser.contentblocking.category", "standard");
+
+// PREF: allow websites to ask you to receive site notifications - I need this for slack!
+user_pref("permissions.default.desktop-notification", 0);
+
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
-ENDOFFILE
+EOF
     test $? -eq 0 || usage 1
 
     echo "All done!"
@@ -152,6 +183,10 @@ case $cmd in
     cleanup)
         [ "$nargs" -eq 1 ] || usage 1
         cleanup "$@"
+        ;;
+    show)
+        [ "$nargs" -eq 1 ] || usage 1
+        show "$@"
         ;;
     help | --help | -h)
         usage 0
