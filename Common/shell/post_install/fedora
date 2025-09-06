@@ -731,7 +731,7 @@ fedora_install() {
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             8)
-                echo "$CHOICE) Installing emacs-lsp-booster & Emacs"
+                echo "$CHOICE) Installing Emacs"
 
                 # Is it already installed?
                 hash emacs 2> /dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
