@@ -134,23 +134,23 @@ debian_install() {
                 hostnamectl set-hostname --static "$HOSTNAME_STATIC"
 
                 # Sources
-                sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
-                cat << EOF | sudo tee /etc/apt/sources.list > /dev/null
-deb https://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
-deb-src https://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
+#                 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+#                 cat << EOF | sudo tee /etc/apt/sources.list > /dev/null
+# deb https://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
+# deb-src https://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
 
-deb https://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
-deb-src https://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
+# deb https://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
+# deb-src https://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
 
-deb https://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
-deb-src https://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
+# deb https://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
+# deb-src https://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
 
-deb https://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
-deb-src https://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
+# deb https://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
+# deb-src https://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
 
-deb https://security.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
-deb-src https://security.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
-EOF
+# deb https://security.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
+# deb-src https://security.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
+# EOF
 
                 # xdg
                 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -216,9 +216,9 @@ EOF
                     # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
                     # font
-                    gsettings set org.gnome.desktop.interface font-hinting 'full'
-                    gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
-                    gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
+                    # gsettings set org.gnome.desktop.interface font-hinting 'full'
+                    # gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
+                    # gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
 
                     # Stop Gnome Software downloading updates
                     # gsettings set org.gnome.software allow-updates false
@@ -242,10 +242,10 @@ EOF
                 sudo apt install -y linux-headers-amd64 firmware-linux
 
                 # Install Firmware
-                # sudo fwupdmgr get-devices
-                # sudo fwupdmgr refresh --force
-                # sudo fwupdmgr get-updates
-                # sudo fwupdmgr update
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
 
                 read -rp "2) Firmware updates has been installed. Reboot may be required. Press enter to continue..."
                 ;;
@@ -300,10 +300,10 @@ EOF
                     sudo tee /etc/apt/sources.list.d/nodesource.list
                 sudo apt update && sudo apt install nodejs -y
 
-                # Install default llvm (14)
+                # Install default llvm
                 sudo apt install -y llvm clang clangd clang-tools clang-format
 
-                # Install latest stable llvm (17)
+                # Install latest stable llvm
                 sudo apt update && sudo apt install lsb-release wget software-properties-common gnupg2
                 sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
