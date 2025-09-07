@@ -211,15 +211,16 @@ fedora_install() {
                 #
 
                 # Grub should load in graphical mode and the resolution should be right
-                # sudo cp /etc/default/grub /etc/default/grub.bak
-                # sudo sed -i 's/GRUB_TERMINAL_OUTPUT="console"/GRUB_TERMINAL_OUTPUT="gfxterm"/' /etc/default/grub
+                sudo cp /etc/default/grub /etc/default/grub.bak
+                sudo sed -i 's/GRUB_TERMINAL_OUTPUT="console"/GRUB_TERMINAL_OUTPUT="gfxterm"/' /etc/default/grub
 
-                # TODO: add nvidia.NVreg_EnableGpuFirmware=0 to the end of GRUB_CMDLINE_LINUX in /etc/default/grub
-                # TODO: add nvidia_drm.modeset=1 to the end of GRUB_CMDLINE_LINUX in /etc/default/grub
+                # Nvidia configuration
+                sudo sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ nvidia.NVreg_EnableGpuFirmware=0"/' /etc/default/grub
+                sudo sed -i '/^GRUB_CMDLINE_LINUX=/s/"$/ nvidia_drm.modeset=1"/' /etc/default/grub
 
                 # Apply Grub configuration
-                # sudo cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.bak
-                # sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+                sudo cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.bak
+                sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
                 # Setup dnf configs and update
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
