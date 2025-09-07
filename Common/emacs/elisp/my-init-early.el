@@ -229,7 +229,7 @@
               ;; Visit files opened outside of Emacs in existing frame, not a new one
               ns-pop-up-frames nil))
 
-    (when my/os-linux
+    (when my/os-unix
         (setq x-super-keysym 'meta)
         (setq browse-url-generic-program "xdg-open")
         (defconst my/clang-path "/usr/bin/clang")
