@@ -41,7 +41,7 @@ keymap:
           k: C-w
   - name: Emacs
     application:
-      not: ['emacs', 'Emacs', 'nyxt', 'Alacritty', 'foot', 'ghostty', 'konsole', 'Lem SDL2', 'java-lang-Thread']
+      not: ['emacs', 'Emacs', 'nyxt', 'Alacritty', 'foot', 'ghostty', 'konsole', 'Lem SDL2']
     remap:
       # Cursor
       C-b: { with_mark: left }
