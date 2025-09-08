@@ -156,10 +156,10 @@ user_pref("media.autoplay.default", 1);
 // Do not use disk for caches
 user_pref("browser.cache.disk.enable", false)
 
-// PREF: revert back to Standard ETP - Most problems stem from Firefox running in Strict mode
+// Revert back to Standard ETP - Most problems stem from Firefox running in Strict mode
 user_pref("browser.contentblocking.category", "standard");
 
-// PREF: allow websites to ask you to receive site notifications - I need this for slack!
+// Allow websites to ask you to receive site notifications - I need this for slack!
 user_pref("permissions.default.desktop-notification", 0);
 
 /* END: internal custom pref to test for syntax errors ***/
