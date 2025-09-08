@@ -113,6 +113,13 @@ user_pref("ui.key.menuAccessKeyFocuses", false);
 // Enable container tabs
 user_pref("privacy.userContext.enabled", true);
 
+// Disable weather on New Tab page
+user_pref("browser.newtabpage.activity-stream.showWeather", false);
+user_pref("browser.newtabpage.activity-stream.system.showWeather", false);
+
+// Don't like this behaviour (just cycle in order)
+user_pref("browser.ctrlTab.sortByRecentlyUsed", false)
+
 // Disable login manager
 user_pref("signon.rememberSignons", false);
 
@@ -148,10 +155,6 @@ user_pref("media.autoplay.default", 1);
 
 // Do not use disk for caches
 user_pref("browser.cache.disk.enable", false)
-
-// Disable weather on New Tab page
-user_pref("browser.newtabpage.activity-stream.showWeather", false);
-user_pref("browser.newtabpage.activity-stream.system.showWeather", false);
 
 // PREF: revert back to Standard ETP - Most problems stem from Firefox running in Strict mode
 user_pref("browser.contentblocking.category", "standard");
