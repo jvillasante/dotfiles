@@ -255,12 +255,20 @@
 
 ;; ibuffer-project : group buffers by custom functions or regexps.
 (use-package ibuffer-project
-    :disabled t
     :hook (ibuffer . (lambda ()
                          (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
                          (unless (eq ibuffer-sorting-mode 'project-file-relative)
                              (ibuffer-do-sort-by-project-file-relative))))
     :config
+    (custom-set-variables
+     '(ibuffer-formats
+       '((mark modified read-only locked " "
+               (name 30 30 :left :elide)
+               " "
+               (size 9 -1 :right)
+               " "
+               (mode 16 16 :left :elide)
+               " " project-file-relative))))
     (setq ibuffer-project-root-functions '((ibuffer-project-project-root . "Project")))
     (add-to-list 'ibuffer-project-root-functions '(file-remote-p . "Remote")))
 

@@ -16,15 +16,15 @@
            eldoc-diffstat elfeed elisp-demos embark-consult engine-mode erc
            exec-path-from-shell expreg external-completion faceup
            fancy-compilation flymake gcmh geiser-guile go-mode gptel helpful
-           hl-todo idlwave jinx js2-mode json-mode jsonrpc ledger-mode let-alist
-           lsp-ui lua-mode magit map marginalia minions modus-themes monkeytype
-           multiple-cursors nadvice nov ntlm orderless org org-superstar
-           password-store pdf-view-restore peg persistent-scratch php-mode
-           project python rainbow-delimiters request rmsbolt rust-mode seq
-           shrink-path so-long soap-client surround svg track-changes tramp
-           trashed use-package verb verilog-mode vertico vterm vundo web-mode
-           wgrep-deadgrep which-key window-tool-bar xref yaml-mode
-           yasnippet-snippets zig-mode))
+           hl-todo ibuffer-project idlwave jinx js2-mode json-mode jsonrpc
+           ledger-mode let-alist lsp-ui lua-mode magit map marginalia minions
+           modus-themes monkeytype multiple-cursors nadvice nov ntlm orderless
+           org org-superstar password-store pdf-view-restore peg
+           persistent-scratch php-mode project python rainbow-delimiters request
+           rmsbolt rust-mode seq shrink-path so-long soap-client surround svg
+           track-changes tramp trashed use-package verb verilog-mode vertico
+           vterm vundo web-mode wgrep-deadgrep which-key window-tool-bar xref
+           yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel :url "git@github.com:karthink/gptel.git")
            (deadgrep :url "git@github.com:Wilfred/deadgrep.git")
