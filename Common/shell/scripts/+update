@@ -16,8 +16,8 @@ usage() {
     echo "        Update gnome extensions"
     echo "    $0 stylua:"
     echo "        Update StyLua from binary source"
-    echo "    $0 keyd:"
-    echo "        Update keyd from source"
+    echo "    $0 vicinae:"
+    echo "        Update Vicinae from source"
     echo "    $0 xremap:"
     echo "        Update xreamp from binary source"
     echo "    $0 harper:"
@@ -256,36 +256,6 @@ stylua_update() {
     }
 }
 
-keyd_update() {
-    ! hash keyd 2> /dev/null && echo "keyd not installed, exiting..." && usage 1
-    [[ ! -d "$HOME"/Workspace/Software ]] &&
-        echo "$HOME/Workspace/Software does not exists, exiting..." && usage 1
-    [[ ! -d "$HOME"/Workspace/Software/keyd ]] &&
-        echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
-
-    # Stop the service
-    sudo systemctl stop keyd
-
-    # Prepare git repo
-    pushd "$HOME"/Workspace/Software/keyd || usage 1
-    sudo make uninstall
-    make clean && make distclean
-    git reset --hard HEAD
-    sudo git clean -dfx
-    git pull
-
-    # Install
-    make -j"$(nproc --ignore=2)"
-    sudo make install
-
-    # Restart daemon
-    sudo systemctl start keyd
-    sudo keyd reload
-
-    # Cleanup
-    popd || usage 1
-}
-
 xremap_update() {
     ! hash xremap 2> /dev/null && echo "xremap not installed, exiting..." && usage 1
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -315,6 +285,35 @@ xremap_update() {
 
     # Restart the daemon
     systemctl --user restart xremap.service
+}
+
+vicinae_update() {
+    ! hash vicinae 2> /dev/null && echo "vicinae not installed, exiting..." && usage 1
+    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+    [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
+    [ -d "$HOME"/Workspace/Software/vicinae ] && rm -rf "$HOME"/Workspace/Software/vicinae/*
+
+    pushd "$HOME"/Workspace/Software/vicinae || {
+        echo "Can't cd into $HOME/Workspace/Software/vicinae"
+        usage 1
+    }
+
+    # Get the latest
+    VICINAE_VERSION=v0.9.3
+    VICINAE_FOLDER=vicinae-linux-x86_64-"$VICINAE_VERSION"
+    VICINAE_RELEASE=vicinae-linux-x86_64-"$VICINAE_VERSION".tar.gz
+    curl -LJO https://github.com/vicinaehq/vicinae/releases/download/"$VICINAE_VERSION"/"$VICINAE_RELEASE"
+    atool --extract --explain "$VICINAE_RELEASE"
+    sudo cp "$VICINAE_FOLDER"/bin/* /usr/local/bin/
+    sudo cp -r "$VICINAE_FOLDER"/share/* /usr/local/share/
+
+    popd || {
+        echo "Can't pop directory"
+        usage 1
+    }
+
+    # Restart the daemon
+    systemctl --user restart vicinae.service
 }
 
 harper_update() {
@@ -386,9 +385,9 @@ case $cmd in
         [[ "$nargs" -eq 1 ]] || usage 1
         stylua_update
         ;;
-    keyd)
+    vicinae)
         [[ "$nargs" -eq 1 ]] || usage 1
-        keyd_update
+        vicinae_update
         ;;
     xremap)
         [[ "$nargs" -eq 1 ]] || usage 1

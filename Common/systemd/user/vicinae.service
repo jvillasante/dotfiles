@@ -1,0 +1,17 @@
+[Unit]
+Description=Vicinae Launcher Daemon
+Documentation=https://docs.vicinae.com
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=simple
+Environment=VICINAE_DISABLE_HUD=1
+ExecStart=vicinae server
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=5
+KillMode=process
+
+[Install]
+WantedBy=graphical-session.target

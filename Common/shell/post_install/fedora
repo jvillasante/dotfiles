@@ -106,7 +106,7 @@ fedora_install() {
         7 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         8 "Install Emacs - Install Emacs"
         9 "Install StyLua - Install StyLua from source"
-        10 "Install Keyd - Install Keyd from source"
+        10 "Install Vicinae - Install Vicinae Launcher"
         11 "Install Gnome Extensions - Install Gnome Extensions"
         12 "Install Xremap - Install Xremap from source"
         13 "Install Harper - The English grammar checker designed to be just right"
@@ -445,10 +445,10 @@ fedora_install() {
                 # fi
                 # systemctl --user enable psd.service && systemctl --user start psd.service
 
-                # Ulauncher
-                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                    sudo dnf install -y ulauncher wmctrl
-                fi
+                # Ulauncher Launcher
+                # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                #     sudo dnf install -y ulauncher wmctrl
+                # fi
 
                 # Bleachbit: Clean Your System and Free Disk Space
                 # sudo dnf install -y bleachbit
@@ -857,48 +857,80 @@ fedora_install() {
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             10)
-                echo "$CHOICE) Installing Keyd"
+                echo "$CHOICE) Installing Vicinae Launcher"
 
                 # Is it already installed?
-                hash keyd 2> /dev/null && notify-send "Keyd is already installed" --expire-time=20 && continue
+                hash vicinae 2> /dev/null && notify-send "Vicinae is already installed" --expire-time=20 && continue
 
-                # Prepare git repo
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                if [ ! -d "$HOME"/Workspace/Software/keyd ]; then
-                    git clone git@github.com:rvaiya/keyd.git "$HOME"/Workspace/Software/keyd
-                    pushd "$HOME"/Workspace/Software/keyd || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
-                        continue
-                    }
-                else
-                    pushd "$HOME"/Workspace/Software/keyd || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=20
-                        continue
-                    }
-
-                    sudo make uninstall
-                    make clean && make distclean
-                    git reset --hard HEAD
-                    sudo git clean -dfx
-                    git pull
-                fi
+                # Dependencies
+                sudo dnf copr enable -y quadratech188/cmark-gfm
+                sudo dnf install -y \
+                     qt6-qtbase-devel \
+                     qt6-qtsvg-devel \
+                     qt6-qtbase-private-devel \
+                     qt6-qtwayland-devel \
+                     layer-shell-qt-devel \
+                     libqalculate-devel \
+                     minizip-devel \
+                     rapidfuzz-cpp-devel \
+                     qtkeychain-qt6-devel \
+                     openssl-devel \
+                     wayland-devel \
+                     glibc-static \
+                     libstdc++-static \
+                     zlib-devel \
+                     zlib-static \
+                     protobuf \
+                     cmark-gfm
 
                 # Install
-                make -j"$(nproc --ignore=2)"
-                sudo make install
+                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
 
-                # Copy Configuration
-                sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
+                pushd "$HOME"/Workspace/Software/vicinae || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/vicinae" --expire-time=20
+                        continue
+                }
 
-                # Add yourself to the keyd group
-                sudo usermod -aG keyd -a "$USER"
+                VICINAE_VERSION=v0.9.3
+                VICINAE_FOLDER=vicinae-linux-x86_64-"$VICINAE_VERSION"
+                VICINAE_RELEASE=vicinae-linux-x86_64-"$VICINAE_VERSION".tar.gz
+                curl -LJO https://github.com/vicinaehq/vicinae/releases/download/"$VICINAE_VERSION"/"$VICINAE_RELEASE"
+                atool --extract --explain "$VICINAE_RELEASE"
+                sudo cp "$VICINAE_FOLDER"/bin/* /usr/local/bin/
+                sudo cp -r "$VICINAE_FOLDER"/share/* /usr/local/share/
+
+                popd || {
+                        notify-send "Can't cd to previous directory" --expire-time=20
+                        continue
+                }
+
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                    [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
+
+                    pushd "$HOME"/Workspace/Software/vicinae || {
+                        notify-send "Can't cd into $HOME/Workspace/Software/vicinae" --expire-time=20
+                        continue
+                    }
+
+                    VICINAE_GNOME_EXTENSION_VERSION=v1.3.0
+                    VICINAE_GNOME_EXTENSION=vicinae@dagimg-dot.shell-extension-"$VICINAE_GNOME_EXTENSION_VERSION".zip
+                    curl -LJO https://github.com/dagimg-dot/vicinae-gnome-extension/releases/download/"$VICINAE_GNOME_EXTENSION_VERSION"/"$VICINAE_GNOME_EXTENSION"
+                    gnome-extensions install --force "$VICINAE_GNOME_EXTENSION"
+
+                    popd || notify-send "Can't cd to previous directory" --expire-time=20
+                fi
 
                 # Enable the daemon
-                sudo systemctl daemon-reload
-                sudo systemctl enable keyd && sudo systemctl start keyd
-                sudo keyd reload
+                [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
+                [ -L "$HOME/.config/systemd/user/vicinae.service" ] &&
+                    unlink "$HOME/.config/systemd/user/vicinae.service"
+                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/vicinae.service" \
+                    "$HOME/.config/systemd/user"
+                systemctl --user daemon-reload
+                systemctl --user enable vicinae.service && systemctl --user start vicinae.service
 
-                popd || notify-send "Can't cd to previous directory" --expire-time=20
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             11)
