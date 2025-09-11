@@ -545,7 +545,7 @@ fedora_install() {
                 # Chromium Browser (For use with eww)
                 #
 
-                # sudo dnf install -y chromium
+                sudo dnf install -y chromium
 
                 #
                 # Brave Browser
