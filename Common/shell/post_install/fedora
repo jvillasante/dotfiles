@@ -206,6 +206,12 @@ fedora_install() {
                     # gsettings set org.gnome.software download-updates-notify false
                 fi
 
+                # Faster Boot
+                sudo systemctl disable NetworkManager-wait-online.service
+
+                # Stop GNOME Software autostart
+                sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
+
                 #
                 # Grub
                 #
@@ -254,29 +260,38 @@ fedora_install() {
                 sudo dnf -y update
 
                 # Update system firmware
-                sudo fwupdmgr refresh --force
-                sudo fwupdmgr get-devices # Lists devices with available updates.
-                sudo fwupdmgr get-updates # Fetches list of available updates.
-                sudo fwupdmgr update
+                sudo fwupdmgr get-devices     # Lists devices with available updates.
+                sudo fwupdmgr refresh --force # Refresh the firmware database.
+                sudo fwupdmgr get-updates     # Fetches list of available updates.
+                sudo fwupdmgr update          # Apply updates
 
                 read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
                 ;;
             3)
                 echo "$CHOICE) Installing NVIDIA Drivers. Disable secure boot in the bios."
 
-                # Using RPM Fusion
-                sudo dnf install -y akmod-nvidia
-                sudo dnf install -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs
-                sudo dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs
-                sudo dnf install -y vdpauinfo libva-vdpau-driver libva-utils
-                sudo dnf install -y vulkan vulkan-tools
-                sudo dnf install -y xorg-x11-drv-nvidia-power
-                systemctl enable nvidia-{suspend,resume,hibernate}
+                # Install kernel headers and dev tools
+                sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
 
+                # Set open kernel module macro (one-time step)
+                sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
+
+                # NVIDIA - Install
+                sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+
+                # Using RPM Fusion
+                # sudo dnf install -y akmod-nvidia
+                # sudo dnf install -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs
+                # sudo dnf install -y xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs
+                # sudo dnf install -y vdpauinfo libva-vdpau-driver libva-utils
+                # sudo dnf install -y vulkan vulkan-tools
+                # sudo dnf install -y xorg-x11-drv-nvidia-power
+                # systemctl enable nvidia-{suspend,resume,hibernate}
+                #
                 # Add to Dracut/Plymouth Fix
-                echo -e '# Custom Settings\nforce_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |
-                    sudo tee -a /etc/dracut.conf.d/nvidia.conf
-                sudo dracut -f
+                # echo -e '# Custom Settings\nforce_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |
+                #     sudo tee -a /etc/dracut.conf.d/nvidia.conf
+                # sudo dracut -f
 
                 read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
                 ;;
@@ -511,8 +526,13 @@ fedora_install() {
                 sudo dnf upgrade @multimedia --setopt="install_weak_deps=False" \
                      --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components.
                                                            # Required if you use Gnome Videos and other dependent applications.
+                # Basic drivers and Vulkan support
+                sudo dnf install -y mesa-dri-drivers mesa-vulkan-drivers vulkan-loader mesa-libGLU
+
                 # Install Hardware Accelerated Codec
                 sudo dnf install ffmpeg-libs libva libva-utils
+
+                # AMD / Intel
                 if test "$(cat /proc/cpuinfo | grep vendor | uniq | grep -iFc "intel")"; then
                     echo "$CHOICE) Installing Hardware Accelerated Codecs for Intel Architecture"
                     sudo dnf swap libva-intel-media-driver intel-media-driver --allowerasing
@@ -590,7 +610,7 @@ fedora_install() {
                 # Podman
                 #
 
-                sudo dnf install -y podman podman-compose
+                sudo dnf install -y podman podman-compose podman-docker
 
                 #
                 # Latex
@@ -629,9 +649,17 @@ fedora_install() {
             6)
                 echo "$CHOICE) Enabling Flatpak"
 
+                # Just in case it is not installed
                 sudo dnf install -y flatpak
+
+                # Remove the limited Fedora repo
+                flatpak remote-delete fedora
+
+                # Add the real Flathub and update everything
                 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-                flatpak update
+                flatpak update --appstream
+
+                # Install flatpaks
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     flatpak install --user -y flathub org.gnome.TextEditor
                     flatpak install --user -y flathub org.gnome.Firmware
