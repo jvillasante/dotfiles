@@ -206,7 +206,6 @@
                      do (eww-browse-url it))
             (mapc #'elfeed-search-update-entry entries)
             (unless (use-region-p) (forward-line))))
-
     (defun my/elfeed-firefox-open (&optional use-generic-p)
         "open with firefox"
         (interactive "P")
