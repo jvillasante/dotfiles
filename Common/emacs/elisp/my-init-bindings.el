@@ -100,6 +100,9 @@
 (with-eval-after-load 'calc
     (define-key calc-mode-map (kbd "q") 'my/close-buffer-and-window))
 
+(with-eval-after-load 'eww
+    (define-key eww-mode-map (kbd "q") 'my/close-buffer-and-window))
+
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
     (define-key ibuffer-mode-map (kbd "q") 'my/close-buffer-and-window)
