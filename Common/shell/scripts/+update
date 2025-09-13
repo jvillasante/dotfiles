@@ -299,13 +299,13 @@ vicinae_update() {
     }
 
     # Get the latest
-    VICINAE_VERSION=v0.9.3
+    VICINAE_VERSION=v0.9.6
     VICINAE_FOLDER=vicinae-linux-x86_64-"$VICINAE_VERSION"
     VICINAE_RELEASE=vicinae-linux-x86_64-"$VICINAE_VERSION".tar.gz
     curl -LJO https://github.com/vicinaehq/vicinae/releases/download/"$VICINAE_VERSION"/"$VICINAE_RELEASE"
     atool --extract --explain "$VICINAE_RELEASE"
-    sudo cp "$VICINAE_FOLDER"/bin/* /usr/local/bin/
-    sudo cp -r "$VICINAE_FOLDER"/share/* /usr/local/share/
+    sudo cp -f "$VICINAE_FOLDER"/bin/* /usr/local/bin/
+    sudo cp -fr "$VICINAE_FOLDER"/share/* /usr/local/share/
 
     popd || {
         echo "Can't pop directory"

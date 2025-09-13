@@ -920,7 +920,7 @@ fedora_install() {
                         continue
                 }
 
-                VICINAE_VERSION=v0.9.3
+                VICINAE_VERSION=v0.9.6
                 VICINAE_FOLDER=vicinae-linux-x86_64-"$VICINAE_VERSION"
                 VICINAE_RELEASE=vicinae-linux-x86_64-"$VICINAE_VERSION".tar.gz
                 curl -LJO https://github.com/vicinaehq/vicinae/releases/download/"$VICINAE_VERSION"/"$VICINAE_RELEASE"
