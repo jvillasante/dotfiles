@@ -71,10 +71,21 @@
 (when (fboundp 'horizontal-scroll-bar-mode)
     (horizontal-scroll-bar-mode -1))
 
+;; tooltip
+(if (fboundp 'tooltip-mode) (tooltip-mode -1))
+
+;; fringe
+(if (fboundp 'fringe-mode) (fringe-mode -1))
+
 ;; Disable GUIs because they are inconsistent across systems, desktop
 ;; environments, and themes, and they don't match the look of Emacs.
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
+
+;; Avoid raising the *Messages* buffer if anything is still without
+;; lexical bindings
+(setq warning-minimum-level :error)
+(setq warning-suppress-types '((lexical-binding)))
 
 ;;; package.el
 (setq load-prefer-newer t)
