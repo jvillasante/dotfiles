@@ -204,13 +204,13 @@ fedora_install() {
                     # gsettings set org.gnome.software allow-updates false
                     # gsettings set org.gnome.software download-updates false
                     # gsettings set org.gnome.software download-updates-notify false
+
+                    # Stop GNOME Software autostart
+                    # sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
                 fi
 
                 # Faster Boot
                 sudo systemctl disable NetworkManager-wait-online.service
-
-                # Stop GNOME Software autostart
-                sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
 
                 #
                 # Grub
