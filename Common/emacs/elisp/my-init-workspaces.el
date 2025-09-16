@@ -3,6 +3,7 @@
 ;;
 ;;; Code:
 
+;; activities : manage frames/tabs, windows, and buffers according to their purpose
 (use-package activities
     :preface
     (defun my/switch-to-buffer ()
