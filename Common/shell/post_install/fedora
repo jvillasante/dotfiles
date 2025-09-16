@@ -896,89 +896,90 @@ fedora_install() {
             10)
                 echo "$CHOICE) Installing App Launcher"
 
-                #
-                # Ulauncher Launcher
-                #
-
+                # KDE has it's own launcher
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    #
+                    # Ulauncher Launcher
+                    #
+
                     sudo dnf install -y ulauncher wmctrl
+
+                    #
+                    # Vicinae
+                    #
+
+                    # # Is it already installed?
+                    # hash vicinae 2> /dev/null && notify-send "Vicinae is already installed" --expire-time=20 && continue
+
+                    # # Dependencies
+                    # sudo dnf copr enable -y quadratech188/cmark-gfm
+                    # sudo dnf install -y \
+                        #      qt6-qtbase-devel \
+                        #      qt6-qtsvg-devel \
+                        #      qt6-qtbase-private-devel \
+                        #      qt6-qtwayland-devel \
+                        #      layer-shell-qt-devel \
+                        #      libqalculate-devel \
+                        #      minizip-devel \
+                        #      rapidfuzz-cpp-devel \
+                        #      qtkeychain-qt6-devel \
+                        #      openssl-devel \
+                        #      wayland-devel \
+                        #      glibc-static \
+                        #      libstdc++-static \
+                        #      zlib-devel \
+                        #      zlib-static \
+                        #      protobuf \
+                        #      cmark-gfm
+
+                    # # Install
+                    # [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                    # [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
+
+                    # pushd "$HOME"/Workspace/Software/vicinae || {
+                    #         notify-send "Can't cd into $HOME/Workspace/Software/vicinae" --expire-time=20
+                    #         continue
+                    # }
+
+                    # VICINAE_VERSION=v0.10.0
+                    # VICINAE_FOLDER=vicinae-linux-x86_64-"$VICINAE_VERSION"
+                    # VICINAE_RELEASE=vicinae-linux-x86_64-"$VICINAE_VERSION".tar.gz
+                    # curl -LJO https://github.com/vicinaehq/vicinae/releases/download/"$VICINAE_VERSION"/"$VICINAE_RELEASE"
+                    # atool --extract --explain "$VICINAE_RELEASE"
+                    # sudo cp "$VICINAE_FOLDER"/bin/* /usr/local/bin/
+                    # sudo cp -r "$VICINAE_FOLDER"/share/* /usr/local/share/
+
+                    # popd || {
+                    #         notify-send "Can't cd to previous directory" --expire-time=20
+                    #         continue
+                    # }
+
+                    # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    #     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                    #     [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
+
+                    #     pushd "$HOME"/Workspace/Software/vicinae || {
+                    #         notify-send "Can't cd into $HOME/Workspace/Software/vicinae" --expire-time=20
+                    #         continue
+                    #     }
+
+                    #     VICINAE_GNOME_EXTENSION_VERSION=v1.3.0
+                    #     VICINAE_GNOME_EXTENSION=vicinae@dagimg-dot.shell-extension-"$VICINAE_GNOME_EXTENSION_VERSION".zip
+                    #     curl -LJO https://github.com/dagimg-dot/vicinae-gnome-extension/releases/download/"$VICINAE_GNOME_EXTENSION_VERSION"/"$VICINAE_GNOME_EXTENSION"
+                    #     gnome-extensions install --force "$VICINAE_GNOME_EXTENSION"
+
+                    #     popd || notify-send "Can't cd to previous directory" --expire-time=20
+                    # fi
+
+                    # # Enable the daemon
+                    # [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
+                    # [ -L "$HOME/.config/systemd/user/vicinae.service" ] &&
+                    #     unlink "$HOME/.config/systemd/user/vicinae.service"
+                    # ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/vicinae.service" \
+                        #     "$HOME/.config/systemd/user"
+                    # systemctl --user daemon-reload
+                    # systemctl --user enable vicinae.service && systemctl --user start vicinae.service
                 fi
-
-                #
-                # Vicinae
-                #
-
-                # # Is it already installed?
-                # hash vicinae 2> /dev/null && notify-send "Vicinae is already installed" --expire-time=20 && continue
-
-                # # Dependencies
-                # sudo dnf copr enable -y quadratech188/cmark-gfm
-                # sudo dnf install -y \
-                #      qt6-qtbase-devel \
-                #      qt6-qtsvg-devel \
-                #      qt6-qtbase-private-devel \
-                #      qt6-qtwayland-devel \
-                #      layer-shell-qt-devel \
-                #      libqalculate-devel \
-                #      minizip-devel \
-                #      rapidfuzz-cpp-devel \
-                #      qtkeychain-qt6-devel \
-                #      openssl-devel \
-                #      wayland-devel \
-                #      glibc-static \
-                #      libstdc++-static \
-                #      zlib-devel \
-                #      zlib-static \
-                #      protobuf \
-                #      cmark-gfm
-
-                # # Install
-                # [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                # [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
-
-                # pushd "$HOME"/Workspace/Software/vicinae || {
-                #         notify-send "Can't cd into $HOME/Workspace/Software/vicinae" --expire-time=20
-                #         continue
-                # }
-
-                # VICINAE_VERSION=v0.10.0
-                # VICINAE_FOLDER=vicinae-linux-x86_64-"$VICINAE_VERSION"
-                # VICINAE_RELEASE=vicinae-linux-x86_64-"$VICINAE_VERSION".tar.gz
-                # curl -LJO https://github.com/vicinaehq/vicinae/releases/download/"$VICINAE_VERSION"/"$VICINAE_RELEASE"
-                # atool --extract --explain "$VICINAE_RELEASE"
-                # sudo cp "$VICINAE_FOLDER"/bin/* /usr/local/bin/
-                # sudo cp -r "$VICINAE_FOLDER"/share/* /usr/local/share/
-
-                # popd || {
-                #         notify-send "Can't cd to previous directory" --expire-time=20
-                #         continue
-                # }
-
-                # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                #     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                #     [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
-
-                #     pushd "$HOME"/Workspace/Software/vicinae || {
-                #         notify-send "Can't cd into $HOME/Workspace/Software/vicinae" --expire-time=20
-                #         continue
-                #     }
-
-                #     VICINAE_GNOME_EXTENSION_VERSION=v1.3.0
-                #     VICINAE_GNOME_EXTENSION=vicinae@dagimg-dot.shell-extension-"$VICINAE_GNOME_EXTENSION_VERSION".zip
-                #     curl -LJO https://github.com/dagimg-dot/vicinae-gnome-extension/releases/download/"$VICINAE_GNOME_EXTENSION_VERSION"/"$VICINAE_GNOME_EXTENSION"
-                #     gnome-extensions install --force "$VICINAE_GNOME_EXTENSION"
-
-                #     popd || notify-send "Can't cd to previous directory" --expire-time=20
-                # fi
-
-                # # Enable the daemon
-                # [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
-                # [ -L "$HOME/.config/systemd/user/vicinae.service" ] &&
-                #     unlink "$HOME/.config/systemd/user/vicinae.service"
-                # ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/vicinae.service" \
-                #     "$HOME/.config/systemd/user"
-                # systemctl --user daemon-reload
-                # systemctl --user enable vicinae.service && systemctl --user start vicinae.service
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
