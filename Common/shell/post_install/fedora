@@ -329,6 +329,12 @@ fedora_install() {
                 sudo dnf install -y fortune-mod gnuplot telnet
                 sudo dnf install -y libgcrypt libgcrypt-devel
 
+                # GTK
+                sudo dnf install -y gtk3 gtk3-devel \
+                                    gtk4 gtk4-devel \
+                                    gtk-layer-shell gtk-layer-shell-devel \
+                                    gtk4-layer-shell gtk4-layer-shell-devel
+
                 # Gnome Software
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     sudo dnf -y install -y gnome-tweaks dconf-editor
