@@ -106,7 +106,7 @@ fedora_install() {
         7 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         8 "Install Emacs - Install Emacs"
         9 "Install StyLua - Install StyLua from source"
-        10 "Install Vicinae - Install Vicinae Launcher"
+        10 "Install App Launcher - Install App Launcher"
         11 "Install Gnome Extensions - Install Gnome Extensions"
         12 "Install Xremap - Install Xremap from source"
         13 "Install Harper - The English grammar checker designed to be just right"
@@ -469,7 +469,10 @@ fedora_install() {
                 # sudo dnf install -y bleachbit
 
                 # Go
-                sudo dnf install -y go
+                # sudo dnf install -y go
+
+                # Rust
+                # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path
 
                 # Torrents
                 sudo dnf install -y qbittorrent
@@ -885,7 +888,19 @@ fedora_install() {
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             10)
-                echo "$CHOICE) Installing Vicinae Launcher"
+                echo "$CHOICE) Installing App Launcher"
+
+                #
+                # Ulauncher Launcher
+                #
+
+                # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                #     sudo dnf install -y ulauncher wmctrl
+                # fi
+
+                #
+                # Vicinae
+                #
 
                 # Is it already installed?
                 hash vicinae 2> /dev/null && notify-send "Vicinae is already installed" --expire-time=20 && continue
@@ -920,7 +935,7 @@ fedora_install() {
                         continue
                 }
 
-                VICINAE_VERSION=v0.9.6
+                VICINAE_VERSION=v0.10.0
                 VICINAE_FOLDER=vicinae-linux-x86_64-"$VICINAE_VERSION"
                 VICINAE_RELEASE=vicinae-linux-x86_64-"$VICINAE_VERSION".tar.gz
                 curl -LJO https://github.com/vicinaehq/vicinae/releases/download/"$VICINAE_VERSION"/"$VICINAE_RELEASE"
