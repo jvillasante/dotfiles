@@ -419,7 +419,7 @@ fedora_install() {
                 # gpg
                 sudo dnf install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc pcsc-lite-ccid
                 sudo dnf install -y pinentry-emacs pinentry-tty
-                sudo systemctl enable pcscd && sudo systemctl start pcscd
+                sudo systemctl enable --now pcscd && sudo systemctl start pcscd
 
                 # yubikey
                 sudo dnf install -y yubikey-manager
@@ -461,7 +461,7 @@ fedora_install() {
                 # elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
                 #     sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
                 # fi
-                # systemctl --user enable psd.service && systemctl --user start psd.service
+                # systemctl --user enable --now psd.service && systemctl --user start psd.service
 
                 # Ulauncher Launcher
                 # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
@@ -606,7 +606,7 @@ fedora_install() {
                 # sudo dnf install -y dnf-plugins-core
                 # sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
                 # sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-                # sudo systemctl enable docker && sudo systemctl start docker
+                # sudo systemctl enable --now docker && sudo systemctl start docker
                 #
                 # add user
                 # sudo usermod -G docker -a "$USER"
@@ -712,7 +712,7 @@ fedora_install() {
                                                                    --expire-time=20 && continue
                 [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" \
                                                                    --expire-time=20 && continue
-                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" \
+                [ ! -f "$KEYS_DIR/gnupg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gnupg.tar.gz.gpg does not exists" \
                                                                    --expire-time=20 && continue
 
                 echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
@@ -728,14 +728,14 @@ fedora_install() {
                 chmod 644 ~/.ssh/id_*.pub
                 rm -rf "$KEYS_DIR"/.ssh
 
-                echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
-                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" \
+                echo ">> Setting up gpg keys from $KEYS_DIR/gnupg.tar.gz.gpg"
+                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gnupg.tar.gz.gpg"
+                [ ! -d "$KEYS_DIR"/gnupg ] && notify-send "Decryption failed, $KEYS_DIR/gnupg does not exists" \
                                                         --expire-time=20 && continue
                 mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
-                cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
-                gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
-                rm -rf "$KEYS_DIR"/gpg
+                cp "$KEYS_DIR"/gnupg/config/*.conf ~/.gnupg
+                gpg --import "$KEYS_DIR"/gnupg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
+                rm -rf "$KEYS_DIR"/gnupg
 
                 echo "Editing gpg key 0xB3F..., you should 'trust' ultimately (Option 5) and 'quit'"
                 gpg --edit-key 0xB3F739419D91C7F3
@@ -759,8 +759,8 @@ fedora_install() {
                     "$HOME"/Workspace/Public/dotfiles/make.sh
 
                     # Udev rules for ZSA Voyager
-                    sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/50-zsa.rules \
-                         /etc/udev/rules.d/50-zsa.rules
+                    # sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/50-zsa.rules \
+                    #      /etc/udev/rules.d/50-zsa.rules
                 fi
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
@@ -855,7 +855,7 @@ fedora_install() {
                 read -rp "Emacs packages updated, do you want to start the systemd service now? (Y/N): " confirm
                 if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
                     systemctl --user daemon-reload
-                    sleep 1 && systemctl --user enable emacs.service
+                    sleep 1 && systemctl --user enable --now emacs.service
                     sleep 1 && systemctl --user start emacs.service
                     sleep 1 && systemctl --user status emacs.service
                 fi
@@ -975,7 +975,7 @@ fedora_install() {
                     # ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/vicinae.service" \
                         #     "$HOME/.config/systemd/user"
                     # systemctl --user daemon-reload
-                    # systemctl --user enable vicinae.service && systemctl --user start vicinae.service
+                    # systemctl --user enable --now vicinae.service && systemctl --user start vicinae.service
                 fi
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
@@ -1047,7 +1047,7 @@ fedora_install() {
                 ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" \
                     "$HOME/.config/systemd/user"
                 systemctl --user daemon-reload
-                systemctl --user enable xremap.service && systemctl --user start xremap.service
+                systemctl --user enable --now xremap.service && systemctl --user start xremap.service
 
                 read -rp "12) Xremap installed. Reboot for udev rules to take effect.
                               On Gnome, install the extension at https://extensions.gnome.org/extension/5060/xremap/.

@@ -545,8 +545,8 @@ debian_install() {
                     notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=30000 && continue
                 [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] &&
                     notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" --expire-time=30000 && continue
-                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] &&
-                    notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" --expire-time=30000 && continue
+                [ ! -f "$KEYS_DIR/gnupg.tar.gz.gpg" ] &&
+                    notify-send "$KEYS_DIR/gnupg.tar.gz.gpg does not exists" --expire-time=30000 && continue
 
                 echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
                 "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
@@ -561,14 +561,14 @@ debian_install() {
                 chmod 644 ~/.ssh/id_*.pub
                 rm -rf "$KEYS_DIR"/ssh
 
-                echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
-                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/gpg ] &&
-                    notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" --expire-time=30000 && continue
+                echo ">> Setting up gpg keys from $KEYS_DIR/gnupg.tar.gz.gpg"
+                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gnupg.tar.gz.gpg"
+                [ ! -d "$KEYS_DIR"/gnupg ] &&
+                    notify-send "Decryption failed, $KEYS_DIR/gnupg does not exists" --expire-time=30000 && continue
                 mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
-                cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
-                gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
-                rm -rf "$KEYS_DIR"/gpg
+                cp "$KEYS_DIR"/gnupg/config/*.conf ~/.gnupg
+                gpg --import "$KEYS_DIR"/gnupg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
+                rm -rf "$KEYS_DIR"/gnupg
 
                 echo "Editing gpg key 0xB3F..., you should 'trust' ultimately (Option 5) and 'quit'"
                 gpg --edit-key 0xB3F739419D91C7F3

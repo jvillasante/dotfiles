@@ -85,6 +85,36 @@ do_ssh_backup() {
     echo 0
 }
 
+do_gpg_backup() {
+    read -rp "gnupg backup to dropbox, symetric gpg with password prompt. Proceed? (Y/N): " confirm
+    if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+        [ ! -d "$HOME/.gnupg" ] &&
+            info "$HOME/.gnupg does not exists" && exit 1
+
+        [ ! -f "$HOME/.gnupg.tar.gz.gpg" ] && rm -f "$HOME/.gnupg.tar.gz.gpg"
+        +crypt -e -s "$HOME/.gnupg" > /dev/null 2>&1;
+        [ ! -f "$HOME/.gnupg.tar.gz.gpg" ] &&
+            info "Could not create $HOME/.gnupg.tar.gz.gpg" && exit 1
+
+        if [ -f "$HOME/Dropbox/Personal/secrets/keys/gnupg.tar.gz.gpg" ]; then
+            [ -f "$HOME/Dropbox/Personal/secrets/keys/gnupg.old.tar.gz.gpg" ] &&
+                rm -f "$HOME/Dropbox/Personal/secrets/keys/gnupg.old.tar.gz.gpg"
+            mv "$HOME/Dropbox/Personal/secrets/keys/gnupg.tar.gz.gpg" \
+               "$HOME/Dropbox/Personal/secrets/keys/gnupg.old.tar.gz.gpg"
+            [ ! -f "$HOME/Dropbox/Personal/secrets/keys/gnupg.old.tar.gz.gpg" ] &&
+                info "Could not create $HOME/Dropbox/Personal/secrets/keys/gnupg.old.tar.gz.gpg" && exit 1
+        fi
+
+        mv "$HOME/.gnupg.tar.gz.gpg" "$HOME/Dropbox/Personal/secrets/keys/gnupg.tar.gz.gpg"
+        [ ! -f "$HOME/Dropbox/Personal/secrets/keys/gnupg.tar.gz.gpg" ] &&
+            info "Could not create $HOME/Dropbox/Personal/secrets/keys/gnupg.tar.gz.gpg" && exit 1
+    else
+        info "Skipping gnupg backup..."
+    fi
+
+    echo 0
+}
+
 do_borg_backup() {
     # some helpers and error handling:
     trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
@@ -204,8 +234,10 @@ case $cmd in
     create)
         [ "$nargs" -gt 1 ] && usage 64
         ssh_backup=$(do_ssh_backup)
+        gpg_backup=$(do_gpg_backup)
+        rc=$((ssh_backup > gpg_backup ? ssh_backup : gpg_backup))
         borg_backup=$(do_borg_backup)
-        rc=$((ssh_backup > borg_backup ? ssh_backup : borg_backup))
+        rc=$((rc > borg_backup ? rc : borg_backup))
         ;;
     delete)
         [ "$nargs" -gt 2 ] && usage 64
