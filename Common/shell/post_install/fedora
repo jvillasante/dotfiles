@@ -419,7 +419,7 @@ fedora_install() {
                 # gpg
                 sudo dnf install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc pcsc-lite-ccid
                 sudo dnf install -y pinentry-emacs pinentry-tty
-                systemctl enable pcscd && systemctl start pcscd
+                sudo systemctl enable pcscd && sudo systemctl start pcscd
 
                 # yubikey
                 sudo dnf install -y yubikey-manager
