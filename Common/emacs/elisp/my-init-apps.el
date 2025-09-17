@@ -194,8 +194,6 @@
 (use-package elfeed
     :defer t
     :preface
-    (defun my/elfeed-delete-window-after-kill-buffer (&rest args)
-        (delete-window (selected-window)))
     (defun my/elfeed-eww-open (&optional use-generic-p)
         "open with eww"
         (interactive "P")
@@ -226,12 +224,6 @@
                      do (ffap-w3m-other-window it))
             (mapc #'elfeed-search-update-entry entries)
             (unless (use-region-p) (forward-line))))
-    :init
-    ;; `elfeed-kill-buffer' only kills the buffer, but won't delete
-    ;; the window. This is not an ideal behavior since you typically
-    ;; what to hit `q' to delete the window displaying the news after
-    ;; you have finished reading.
-    (advice-add #'elfeed-kill-buffer :after #'my/elfeed-delete-window-after-kill-buffer)
     :config
     (setq elfeed-use-curl t)
     (setq elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
