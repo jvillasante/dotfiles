@@ -410,11 +410,8 @@ fedora_install() {
                 [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && sudo dnf install -y foot
 
                 # Ghostty
-                # sudo dnf copr enable pgdev/ghostty -y
+                # sudo dnf copr enable scottames/ghostty
                 # sudo dnf install -y ghostty
-                #
-                # dnf copr enable scottames/ghostty
-                # dnf install ghostty
 
                 # Starship Prompt
                 curl -sS https://starship.rs/install.sh | sh
