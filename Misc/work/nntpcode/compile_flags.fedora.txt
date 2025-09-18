@@ -204,6 +204,7 @@
 -I./lib/safer
 -I./lib/safety
 -I./lib/scfe
+-I./lib/scopeguard
 -I./lib/scopedbuf
 -I./lib/scopedfd
 -I./lib/scopedtmpfile

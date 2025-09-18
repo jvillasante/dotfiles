@@ -148,8 +148,10 @@
 
         ;; backup all files
         (setq backup-directory-alist
-              `(("." . ,(expand-file-name "backup" my/var-dir))))
-        (setq tramp-backup-directory-alist backup-directory-alist)
+              `(("\\.env$" . nil)
+                ("." . ,(expand-file-name "backup" my/var-dir))))
+        (with-eval-after-load 'tramp
+            (setq tramp-backup-directory-alist nil))
 
         ;; ... do not backup some
         (setq backup-enable-predicate
@@ -173,8 +175,8 @@
         (setq kill-buffer-delete-auto-save-files t)
 
         ;; auto-save files
-        ;; (setq auto-save-file-name-transforms
-        ;;       `((".*" ,(expand-file-name "auto-save" my/var-dir) t)))
+        (setq auto-save-file-name-transforms
+              `((".*" ,(expand-file-name "auto-save" my/var-dir) t)))
         (setq auto-save-list-file-prefix
               (expand-file-name "auto-save/" my/var-dir))
         (setq tramp-auto-save-directory
