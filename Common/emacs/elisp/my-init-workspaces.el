@@ -5,6 +5,7 @@
 
 ;; activities : manage frames/tabs, windows, and buffers according to their purpose
 (use-package activities
+    :disabled t
     :preface
     (defun my/switch-to-buffer ()
         "Switch to buffer offered from various sources.
@@ -27,8 +28,7 @@ otherwise use `bufler-switch-buffer'."
 
 ;; otpp : One tab per project, with unique names
 (use-package otpp
-    :disabled t
-    :after tab-bar project
+    :after project
     :init
     ;; If you like to define some aliases for better user experience
     (defalias 'one-tab-per-project-mode 'otpp-mode)
