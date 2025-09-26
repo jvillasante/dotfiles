@@ -334,6 +334,7 @@
             "https://unixism.net/feed/"
             "https://thelinuxcode.com/feed/"
             "https://selfboot.cn/en/atom.xml"
+            "https://morwenn.github.io/feed.xml"
             ;; More
             ("https://mazzo.li/rss.xml" c low-level unix)
             ("https://simblob.blogspot.com/feeds/posts/default" gamedev math algorithms)
