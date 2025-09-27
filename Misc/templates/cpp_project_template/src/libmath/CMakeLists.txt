@@ -10,7 +10,7 @@ set_target_properties(libmath PROPERTIES LINKER_LANGUAGE CXX)
 # `libmath` will inherit these properties!
 target_compile_features(libmath PUBLIC cxx_std_17)
 target_compile_options(libmath PUBLIC
-    $<$<CONFIG:Debug>:-Wall -Wextra -Werror -Wpedantic -fdiagnostics-color=always>
+    $<$<CONFIG:Debug>:-Wall -Wextra -Werror -Wpedantic>
 )
 
 # For `./src/libmath/include` we use `PRIVATE` visibility as dependent targets
