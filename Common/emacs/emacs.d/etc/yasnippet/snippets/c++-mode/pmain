@@ -2,12 +2,12 @@
 # name: protected_main
 # key: pmain
 # --
-int protected_main(int argc, char** argv) {
+int protected_main(int argc, char const** argv) {
     $0
     return EXIT_SUCCESS;
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char const** argv) {
     try {
         return protected_main(argc, argv);
     } catch (const std::exception& e) {
