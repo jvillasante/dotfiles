@@ -13,8 +13,12 @@ Checks: "*,
         -readability-avoid-const-params-in-decls,
         -cppcoreguidelines-non-private-member-variables-in-classes,
         -misc-non-private-member-variables-in-classes,
-        -*-magic-numbers,
+        -misc-no-recursion,
+        -misc-use-anonymous-namespace,
+        -misc-use-internal-linkage
         -*-identifier-length,
+        -*-magic-numbers,
+        -*-const-or-ref-data-members,
 "
 WarningsAsErrors: ''
 HeaderFilterRegex: ''

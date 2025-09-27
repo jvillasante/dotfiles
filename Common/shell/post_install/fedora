@@ -749,6 +749,8 @@ fedora_install() {
                     git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
                 [ ! -d "$HOME"/Workspace/Public/resume ] &&
                     git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
+                [ ! -d "$HOME"/Workspace/Public/cpp_utils ] &&
+                    git clone git@github.com:jvillasante/cpp_utils.git "$HOME"/Workspace/Public/cpp_utils
 
                 # Set dotfiles
                 if [ -f "$HOME"/Workspace/Public/dotfiles/make.sh ]; then

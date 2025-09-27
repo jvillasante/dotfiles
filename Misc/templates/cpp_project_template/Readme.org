@@ -1,3 +1,41 @@
-#+title: CPP-20 Project Template
-#+description: Template for C++20 project
+#+title: CPP-17 Project Template
+#+description: Template for C++17 project
 #+author: Julio C. Villasante
+
+* Directory Structure
+#+begin_src
+.
+├── include
+│   └── libmath
+│       └── libmath.hpp
+├── src
+│   ├── libmath
+│   │   ├── include
+│   │   ├── CMakeLists.txt
+│   │   └── libmath.cpp
+│   └── CMakeLists.txt
+├── test
+│   ├── CMakeLists.txt
+│   └── tests.cpp
+├── tools
+│   ├── CMakeLists.txt
+│   └── example.cpp
+├── .clangd
+├── .clang-format
+├── .clang-tidy
+├── CMakeLists.txt
+├── .dir-locals.el
+├── .gitignore
+├── Makefile
+├── Readme.org
+└── vcpkg.json
+#+end_src
+
+- Libraries (example ~libmath~) are split between ~./include/libmath~ and
+  ~/.src/libmath~ directories. The ~./include/libmath~ directory will contain all
+  the public headers that a consumer of the library needs to interact with it.
+  The implementation will live in ~./src/libmath~, which contains a nested
+  ~./src/libmath/include~ directory for any private headers (ones that aren't
+  intended for end users).
+- Automated tests will live in ~/.test~ directory (using ~Catch2~ library).
+- Command line utilities will go in ~/.tools~ directory.

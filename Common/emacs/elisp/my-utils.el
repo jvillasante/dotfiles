@@ -161,6 +161,13 @@ If region (BEG to END) is active, use the selected region as the symbol."
             (tab-bar-close-tab)
         (kill-emacs)))
 
+;;; Tamp
+(defun my/tramp-cleanup-all ()
+    "Cleanup all Tramp connections and buffers."
+    (interactive)
+    (tramp-cleanup-all-connections)
+    (tramp-cleanup-all-buffers))
+
 ;;; Browser
 
 ;; Open link in eww or browser
