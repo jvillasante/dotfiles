@@ -104,20 +104,21 @@
 ;; pdf
 (use-package pdf-tools
     :defer t
+    :commands (pdf-loader-install)
     :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
-    :custom (pdf-view-continuous t))
-
-(use-package doc-view
-    :ensure nil ;; emacs built-in
-    :disabled t
-    :defer t
-    :mode ("\\.pdf\\'" . doc-view-mode))
+    :init (pdf-loader-install))
 
 (use-package pdf-view-restore
     :after pdf-tools
     :hook (pdf-view-mode . pdf-view-restore-mode)
     :config (setq pdf-view-restore-filename
                   (expand-file-name "pdf-view-restore" my/var-dir)))
+
+(use-package doc-view
+    :ensure nil ;; emacs built-in
+    :disabled t
+    :defer t
+    :mode ("\\.[pP][dD][fF]\\'" . doc-view-mode))
 
 (use-package atomic-chrome
     :disabled t
