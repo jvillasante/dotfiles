@@ -442,10 +442,10 @@ Run this function at the post theme load phase, such as with the
     (setq switch-to-buffer-obey-display-actions t)
 
     ;; do not show native-compilation warning/log
-    (add-to-list 'display-buffer-alist
-                 '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
-                   (display-buffer-no-window)
-                   (allow-no-window . t)))
+    ;; (add-to-list 'display-buffer-alist
+    ;;              '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
+    ;;                (display-buffer-no-window)
+    ;;                (allow-no-window . t)))
 
     ;; do not show async shell command window
     (add-to-list 'display-buffer-alist
