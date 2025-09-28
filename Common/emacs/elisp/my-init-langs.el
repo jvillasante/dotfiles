@@ -189,7 +189,8 @@
            "\\.c\\'"
            "\\.C\\'"
            "\\.cpp\\'"
-           "\\.CPP\\'")
+           "\\.CPP\\'"
+           "\\.inc\\'")
     :config
     (setq c-ts-mode-indent-offset 4)
     (setq c-ts-mode-indent-style #'my/c-ts-indent-style))
