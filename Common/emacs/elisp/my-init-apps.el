@@ -101,22 +101,24 @@
     :defer t
     :mode ("\\.epub\\'" . nov-mode))
 
-;; pdf
+;; pdf-tools: replacement of DocView for PDF files
 (use-package pdf-tools
     :defer t
     :commands (pdf-loader-install)
     :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
     :init (pdf-loader-install))
 
+;; pdf-view-restore: open last known pdf position in pdf-view-mode provided by pdf-tools.
 (use-package pdf-view-restore
     :after pdf-tools
     :hook (pdf-view-mode . pdf-view-restore-mode)
     :config (setq pdf-view-restore-filename
                   (expand-file-name "pdf-view-restore" my/var-dir)))
 
+;; doc-view: built-in pdf viewer
 (use-package doc-view
-    :ensure nil ;; emacs built-in
     :disabled t
+    :ensure nil ;; emacs built-in
     :defer t
     :mode ("\\.[pP][dD][fF]\\'" . doc-view-mode))
 
