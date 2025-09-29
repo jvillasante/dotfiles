@@ -12,9 +12,6 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 # set PATH so it includes .local bin if it exists
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
-# Firefox needs this on Wayland
-[ "$XDG_SESSION_TYPE" = 'wayland' ] && export MOZ_ENABLE_WAYLAND=1
-
 # Reset the prompt for remote TRAMP shells.
 if [ "${INSIDE_EMACS/*tramp*/tramp}" = "tramp" ]; then
     PS1="[\u@\h \w]$ "
