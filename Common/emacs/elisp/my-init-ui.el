@@ -409,6 +409,7 @@ Run this function at the post theme load phase, such as with the
 
 ;; ace-window : GNU Emacs package for selecting a window to switch to
 (use-package ace-window
+    :disabled t
     :custom
     (aw-scope 'frame)
     (aw-minibuffer-flag t)
