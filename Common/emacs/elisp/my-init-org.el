@@ -56,7 +56,8 @@
     (setq org-confirm-babel-evaluate nil)
 
     ;; Sane code blocks
-    (setq org-src-preserve-indentation t)
+    (setq org-src-preserve-indentation nil)
+    (setq org-edit-src-content-indentation 0)
 
     ;; Return or left-click with mouse follows link
     (setq org-return-follows-link t)
