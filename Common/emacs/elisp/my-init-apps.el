@@ -72,6 +72,20 @@
     (dolist (mode '(gnus-group-mode-hook gnus-summary-mode-hook gnus-browse-mode-hook))
         (add-hook mode #'hl-line-mode)))
 
+(use-package newsticker
+    :ensure nil  ;; emacs built-in
+    :disabled t
+    :preface
+    (defun my/close-newsticker ()
+        "Kill all tree-view related buffers."
+        (kill-buffer "*Newsticker List*")
+        (kill-buffer "*Newsticker Item*")
+        (kill-buffer "*Newsticker Tree*"))
+    :config
+    (setq newsticker-url-list '(("Planet Emacslife" "https://planet.emacslife.com/atom.xml")
+                                ("Hacker News" "https://news.ycombinator.com/rss")))
+    (advice-add 'newsticker-treeview-quit :after 'my/close-newsticker))
+
 (use-package eww
     :ensure nil ; emacs built-in
     :defer t
