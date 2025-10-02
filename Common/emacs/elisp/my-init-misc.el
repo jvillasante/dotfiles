@@ -355,7 +355,9 @@
     :config (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
 ;; rg.el : Use ripgrep in Emacs.
-(use-package rg :disabled t)
+(use-package rg
+    :disabled t
+    :hook (after-init . rg-enable-default-bindings))
 
 ;; deadgrep : use ripgrep from Emac
 (use-package deadgrep
