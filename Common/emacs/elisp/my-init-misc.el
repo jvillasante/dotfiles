@@ -364,7 +364,7 @@
     :custom (deadgrep-extra-arguments
              '("--no-config"   ;; don't use global config
                "--hidden"      ;; consider hidden folders/files
-               "--follow")))    ;; follow symlinks
+               "--follow")))   ;; follow symlinks
 
 ;; wgrep : edit grep results
 (use-package wgrep)

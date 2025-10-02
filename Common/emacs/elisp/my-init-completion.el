@@ -267,11 +267,8 @@
                   "-path */.git* -prune "
                   "-or -path */.cache* -prune )"))
     (setq consult-ripgrep-args
-          (concat "rg --null --line-buffered --color=never"
-                  " --max-columns=1000 --path-separator /"
-                  " --smart-case --no-heading --with-filename"
-                  " --line-number --search-zip"
-                  " --hidden"))
+          (concat consult-ripgrep-args
+                  " --hidden")) ;; consider hidden folders/files
 
     ;; Optionally configure the narrowing key.
     ;; Both < and C-+ work reasonably well.
