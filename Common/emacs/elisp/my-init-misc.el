@@ -389,7 +389,7 @@
     (rg-show-header t)
     (rg-custom-type-aliases nil)
     (rg-default-alias-fallback "all")
-    (rg-command-line-flags '("--hidden --follow -g !.git")))
+    (rg-command-line-flags '("--hidden" "--follow" "-g !.git")))
 
 ;; deadgrep : use ripgrep from Emac
 (use-package deadgrep

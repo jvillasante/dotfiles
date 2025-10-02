@@ -477,7 +477,8 @@ Run this function at the post theme load phase, such as with the
                        (major-mode . helpful-mode)
                        (major-mode . Man-mode)
                        (major-mode . woman-mode)
-                       (major-mode . occur-mode))
+                       (major-mode . occur-mode)
+                       (major-mode . rg-mode))
                    (display-buffer-reuse-mode-window
                     display-buffer-pop-up-window))))
 
