@@ -354,23 +354,54 @@
     :defer t
     :config (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
+;; wgrep : edit grep results
+(use-package wgrep)
+
 ;; rg.el : Use ripgrep in Emacs.
 (use-package rg
-    :disabled t
-    :hook (after-init . rg-enable-default-bindings))
+    :after wgrep
+    :preface
+    (defun my/rg-save-search-as-name ()
+        "Save `rg' buffer with contents of current search.
+
+        This function is meant to be mmapped in `rg-mode-map'."
+        (interactive)
+        (let ((pattern (car rg-pattern-history)))
+            (rg-save-search-as-name (concat "" "*" pattern "*"))))
+    :hook (after-init . (lambda ()
+                            (rg-enable-default-bindings)
+                            (rg-define-search my/grep-vc-or-dir
+                                :query ask
+                                :format regexp
+                                :files "everything"
+                                :dir (let ((vc (vc-root-dir)))
+                                         (if vc
+                                                 vc
+                                             default-directory))
+                                :confirm prefix
+                                :flags ("--hidden --follow -g !.git"))))
+    :custom
+    (rg-ignore-ripgreprc t)
+    (rg-ignore-case 'smart)
+    (rg-group-result t)
+    (rg-hide-command t)
+    (rg-show-columns t)
+    (rg-show-header t)
+    (rg-custom-type-aliases nil)
+    (rg-default-alias-fallback "all")
+    (rg-command-line-flags '("--hidden --follow -g !.git")))
 
 ;; deadgrep : use ripgrep from Emac
 (use-package deadgrep
+    :disabled t
     :vc (:url "git@github.com:Wilfred/deadgrep.git"
               :rev :newest)
     :custom (deadgrep-extra-arguments
              '("--no-config"   ;; don't use global config
                "--hidden"      ;; consider hidden folders/files
                "--follow")))   ;; follow symlinks
-
-;; wgrep : edit grep results
-(use-package wgrep)
 (use-package wgrep-deadgrep
+    :disabled t
     :after wgrep
     :when (package-installed-p 'deadgrep))
 

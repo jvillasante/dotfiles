@@ -359,14 +359,15 @@
     (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
 (with-eval-after-load 'deadgrep
-    (define-key deadgrep-mode-map (kbd "e") 'wgrep-change-to-wgrep-mode)
-    (define-key deadgrep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
-    (define-key deadgrep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit)
     (global-set-key (kbd "M-s R") 'deadgrep) ; extend M-s r (consult-ripgrep)
     (define-key deadgrep-mode-map (kbd "q") 'my/close-buffer-and-window))
 
 (with-eval-after-load 'rg
-    (global-set-key (kbd "M-s R") 'rg-menu) ; extend M-s r (consult-ripgrep)
+    (global-set-key (kbd "M-s R") 'my/grep-vc-or-dir) ; extend M-s r (consult-ripgrep)
+    (global-set-key (kbd "M-s g") 'rg-menu)
+    (global-set-key (kbd "M-s G") 'my/grep-vc-or-dir)
+    (define-key isearch-mode-map (kbd "M-s r") 'rg-isearch-menu)
+    (define-key rg-mode-map (kbd "s") 'my/rg-save-search-as-name)
     (define-key rg-mode-map (kbd "q") 'my/close-buffer-and-window))
 
 (with-eval-after-load 'surround
