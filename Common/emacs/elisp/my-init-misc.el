@@ -360,7 +360,11 @@
 ;; deadgrep : use ripgrep from Emac
 (use-package deadgrep
     :vc (:url "git@github.com:Wilfred/deadgrep.git"
-              :rev :newest))
+              :rev :newest)
+    :custom (deadgrep-extra-arguments
+             '("--no-config"   ;; don't use global config
+               "--hidden"      ;; consider hidden folders/files
+               "--follow")))    ;; follow symlinks
 
 ;; wgrep : edit grep results
 (use-package wgrep)
