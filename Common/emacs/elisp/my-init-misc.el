@@ -354,8 +354,14 @@
     :defer t
     :config (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
-;; wgrep : edit grep results
-(use-package wgrep)
+;;; wgrep (writable grep)
+;; See the `grep-edit-mode' for the new built-in feature.
+(unless (>= emacs-major-version 31)
+    (use-package wgrep
+        :after grep
+        :custom
+        (wgrep-auto-save-buffer t)
+        (wgrep-change-readonly-file t)))
 
 ;; rg.el : Use ripgrep in Emacs.
 (use-package rg
