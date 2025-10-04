@@ -37,6 +37,9 @@ set keyseq-timeout 1200
 # Do not save edits in history
 set revert-all-at-newline on
 
+# enabled bracketed-paste
+set enable-bracketed-paste on
+
 # M-m is back-to-indentation which is what I usually use to go to the
 # beginning of a line; everywhere else, I bind it like C-a.
 "\em": beginning-of-line
