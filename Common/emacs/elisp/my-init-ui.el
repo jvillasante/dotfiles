@@ -364,7 +364,7 @@ Run this function at the post theme load phase, such as with the
 ;; which-key : displays the key bindings following your currently entered incomplete command (a prefix) in a popup.
 (use-package which-key
     :ensure nil ;; emacs built-in
-    :disabled t
+    :disabled t ;; using vertico
     :hook (after-init . (lambda ()
                             (which-key-mode)
                             (which-key-setup-side-window-bottom))))
