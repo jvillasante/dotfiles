@@ -6,6 +6,9 @@ set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 cd "$(dirname "$0")" || exit 1
 
+echo "Not using this anymore, exiting..."
+exit 1
+
 selected="$1"
 selected_name="$2"
 tmux_running=$(pgrep tmux)
