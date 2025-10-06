@@ -268,7 +268,7 @@ xremap_update() {
     }
 
     # Get the latest
-    XREMAP_VERSION=v0.10.17
+    XREMAP_VERSION=v0.14.1
     XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
     if is_desktop_environment "Gnome"; then
         XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
@@ -284,6 +284,7 @@ xremap_update() {
     }
 
     # Restart the daemon
+    systemctl --user daemon-reload
     systemctl --user restart xremap.service
 }
 
