@@ -55,5 +55,10 @@
     (when (eq my/docker-executable 'podman)
         (setq dockerfile-mode-command "podman")))
 
+;; (use-package devcontainer
+;;     :vc (:url "git@github.com:johannes-mueller/devcontainer.el.git"
+;;               :rev :newest)
+;;     :config (setq devcontainer-engine 'podman))
+
 (provide 'my-init-docker)
 ;;; my-init-docker.el ends here
