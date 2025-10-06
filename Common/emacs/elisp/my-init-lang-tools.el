@@ -75,8 +75,8 @@
                 (if (equal current-prefix-arg nil)
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
-    :hook((eglot-managed-mode . my/lsp-eldoc)
-          (prog-mode . my/maybe-start-eglot))
+    :hook(;; (prog-mode . my/maybe-start-eglot)
+          (eglot-managed-mode . my/lsp-eldoc))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)
