@@ -1,12 +1,10 @@
-#
-# Using FetchContent
-#
-
 # Disable the Google Benchmark requirement on Google Test
 set(BENCHMARK_ENABLE_TESTING NO)
 set(BENCHMARK_ENABLE_GTEST_TESTS NO)
 
 include(FetchContent)
+
+Set(FETCHCONTENT_QUIET FALSE) # Needed to print downloading progress
 FetchContent_Declare(
     googlebenchmark
     GIT_REPOSITORY https://github.com/google/benchmark.git

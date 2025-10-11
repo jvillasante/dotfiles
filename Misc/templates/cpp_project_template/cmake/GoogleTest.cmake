@@ -1,8 +1,6 @@
-#
-# Using FetchContent
-#
-
 include(FetchContent)
+
+Set(FETCHCONTENT_QUIET FALSE) # Needed to print downloading progress
 FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
