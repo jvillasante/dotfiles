@@ -30,10 +30,6 @@ otherwise use `bufler-switch-buffer'."
 ;; otpp : One tab per project, with unique names
 (use-package otpp
     :after project
-    :init
-    ;; If you like to define some aliases for better user experience
-    (defalias 'one-tab-per-project-mode 'otpp-mode)
-    (defalias 'one-tab-per-project-override-mode 'otpp-override-mode)
     :hook (after-init . (lambda ()
                             ;; Enable `otpp-mode` globally
                             (otpp-mode 1)
