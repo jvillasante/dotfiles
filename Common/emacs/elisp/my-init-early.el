@@ -84,7 +84,6 @@
       user-mail-address "jvillasantegomez@gmail.com"
       user-login-name "jvillasante")
 (setq visible-cursor nil) ;; make it work in terminal too
-(setq inhibit-startup-screen t) ; Hide the startup screen
 (if (boundp 'use-short-answers) ;; Use "y" and "n" to confirm/negate prompt
         (setq use-short-answers t)
     (advice-add 'yes-or-no-p :override #'y-or-n-p))
@@ -122,6 +121,10 @@
 (setq undo-limit 67108864) ; 64mb.
 (setq undo-strong-limit 100663296) ; 96mb.
 (setq undo-outer-limit 1006632960) ; 960mb.
+
+;; Tree-sitter performance enhancement
+(setenv "LSP_USE_PLISTS" "true")
+(setq lsp-use-plists t)
 
 ;; s.el : The long lost Emacs string manipulation library.
 (use-package s)

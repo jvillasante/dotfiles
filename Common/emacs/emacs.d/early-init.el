@@ -45,7 +45,10 @@
 ;;; UI elements
 
 ;; Disable startup screens and messages
-(setq inhibit-splash-screen t)
+(setq inhibit-splash-screen t
+      inhibit-startup-screen t
+      inhibit-startup-message t
+      inhibit-startup-buffer-menu t)
 
 ;; some default-frame-alist
 (push '(width . 160) default-frame-alist)

@@ -825,11 +825,11 @@ fedora_install() {
                 ./autogen.sh
                 ./configure \
                     --prefix=/usr/local \
+                    --without-compress-install \
                     --disable-gc-mark-trace \
                     --with-pgtk \
                     --with-native-compilation=aot \
                     --with-tree-sitter \
-                    --without-x \
                     CFLAGS="-O2 -mtune=native -march=native -pipe -fomit-frame-pointer"
                 make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
                 sudo make install

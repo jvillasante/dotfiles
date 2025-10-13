@@ -71,18 +71,21 @@
     (setq x-underline-at-descent-line nil)
     (let ((fixed-font "Berkeley Mono")
           (variable-font "Berkeley Mono Variable"))
-        (set-face-attribute 'default nil
-                            :family fixed-font
-                            :height 140
-                            :weight 'regular
-                            :width  'normal
-                            :slant  'normal)
-        (set-face-attribute 'fixed-pitch nil
-                            :family fixed-font
-                            :height 1.0)
-        (set-face-attribute 'variable-pitch nil
-                            :family variable-font
-                            :height 1.0)))
+        (custom-set-faces
+         ;; Default fonts for all text
+         '(default ((t (:family fixed-font :height 140))))
+         '(fixed-pitch ((t (:family fixed-font :height 140))))
+         '(variable-pitch ((t (:family variable-font :height 1.0))))
+
+         ;; Current line number
+         ;; '(line-number-current-line ((t (:foreground "yellow" :inherit line-number))))
+
+         ;; Modeline
+         ;; '(mode-line ((t (:family fixed-font :weight Bold))))
+
+         ;; Comments italic
+         '(font-lock-function-name-face ((t (:family fixed-font :slant italic))))
+         '(font-lock-variable-name-face ((t (:family variable-font :weight bold)))))))
 
 ;; cursor
 (setq-default cursor-type t)
