@@ -83,9 +83,10 @@
          ;; Modeline
          ;; '(mode-line ((t (:family fixed-font :weight Bold))))
 
-         ;; Comments italic
-         '(font-lock-function-name-face ((t (:family fixed-font :slant italic))))
-         '(font-lock-variable-name-face ((t (:family variable-font :weight bold)))))))
+         ;; Programming
+         ;; '(font-lock-function-name-face ((t (:family fixed-font :slant italic))))
+         ;; '(font-lock-variable-name-face ((t (:family variable-font :weight bold))))
+         '(font-lock-comment-face ((t (:family fixed-font :slant italic)))))))
 
 ;; cursor
 (setq-default cursor-type t)
