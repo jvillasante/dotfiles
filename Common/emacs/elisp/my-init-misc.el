@@ -429,8 +429,13 @@
 ;; devdocs-browser : Browse devdocs.io documents inside Emacs!
 (use-package devdocs-browser
     :defer t
-    :custom (devdocs-browser-cache-directory
-             (expand-file-name "devdocs-browser" my/var-dir)))
+    :custom
+    (devdocs-data-dir (expand-file-name  "devdocs-browser" my/var-dir))
+    (devdocs-browser-cache-directory (expand-file-name  "devdocs-browser/cache" my/var-dir))
+    (devdocs-browser-data-directory (expand-file-name  "devdocs-browser/data" my/var-dir))
+    :hook
+    (c-ts-mode . (lambda() (setq-local devdocs-browser-active-docs '("c"))))
+    (c++-ts-mode . (lambda() (setq-local devdocs-browser-active-docs '("cpp")))))
 
 ;; engine-mode : search the web
 (use-package engine-mode
