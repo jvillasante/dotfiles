@@ -56,14 +56,24 @@
 ;; Maximum height for resizing mini-windows (the minibuffer and the echo area).
 (setq max-mini-window-height 1)
 
-;; setup visual-line and auto-fill
+;;;; Plain text (text-mode)
 (setq visual-line-fringe-indicators
       '(left-curly-arrow right-curly-arrow))              ;; display line indication on fringe
 (setq-default fill-column 80)                             ;; Wrap lines at 80 characters
-(remove-hook 'text-mode-hook 'turn-on-auto-fill)          ;; auto-fill insert hard line breaks
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode)      ;; ... visual-line-mode is much better
-;; (add-hook 'prog-mode-hook
-;;           'display-fill-column-indicator-mode) ;; ... fill column indication on prog-mode is nice
+(use-package text-mode
+    :ensure nil ;; emacs built-in
+    :mode "\\`\\(README\\|CHANGELOG\\|COPYING\\|LICENSE\\)\\'"
+    :hook
+    ((text-mode . turn-on-auto-fill)
+     (prog-mode . (lambda ()
+                      ;; (display-fill-column-indicator-mode)
+                      (setq-local sentence-end-double-space t))))
+    :config
+    (setq sentence-end-double-space nil)
+    (setq sentence-end-without-period nil)
+    (setq colon-double-space nil)
+    (setq use-hard-newlines nil)
+    (setq adaptive-fill-mode t))
 
 ;; Set the font (M-x `describe-font' to see available fonts)
 (defun my/setup-fonts ()
