@@ -125,6 +125,7 @@ alias ag="ag --hidden --ignore node_modules --ignore .git"
 alias reboot='systemctl reboot'
 alias poweroff='systemctl poweroff'
 alias rot13="tr 'A-Za-z' 'N-ZA-Mn-za-m'"
+alias rot5="tr '0-9' '5-90-4'"
 
 # eza (ls replacement)
 # if type eza > /dev/null 2> /dev/null; then
