@@ -32,6 +32,7 @@
 
 ;; Switching the focus to the help window when it's opened.
 (setq help-window-select t)
+(setq help-window-keep-selected t)
 
 ;; default amount of padding to use when calling `aligh-regexp'
 (setq align-default-spacing 0)
