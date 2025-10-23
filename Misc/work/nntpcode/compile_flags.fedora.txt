@@ -183,6 +183,7 @@
 -I./lib/ovresults
 -I./lib/ovsplit
 -I./lib/parsedarticle
+-I./lib/parseutils
 -I./lib/pidfile
 -I./lib/pocketserver
 -I./lib/policies
