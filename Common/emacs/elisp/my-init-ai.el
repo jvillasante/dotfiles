@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package gptel
+    :disabled t
     :defer t
     :vc (:url "git@github.com:karthink/gptel.git"
               :rev :newest)
@@ -18,29 +19,18 @@
     (setq
      gptel-model 'gemini-2.5-pro
      gptel-backend (gptel-make-gemini "Gemini"
-                       :key (lambda ()
-                                (password-store-get-field "Work/Omicron/Gemini" "API Key"))
-                       :stream t))
+                                      :key (lambda ()
+                                               (password-store-get-field "Work/Omicron/Gemini" "API Key"))
+                                      :stream t))
     (setq
      ;; gptel-model 'gpt-40
      gptel-api-key
      (lambda ()
          (password-store-get-field "Logins/openai.com" "API Key"))))
 
-(use-package gptel-quick
-    :disabled t
-    :defer t
-    :after gptel
-    :vc (:url "git@github.com:karthink/gptel-quick.git"
-              :rev :newest)
-    :config
-    (keymap-set embark-general-map "?" #'gptel-quick))
-
 (use-package chatgpt-shell
-    :disabled t
-    :defer t
     :custom
-    ((chatgpt-shell-model-version "gemini-2.5-flash-preview-04-17")
+    ((chatgpt-shell-model-version "gemini-2.5-pro")
      (chatgpt-shell-google-key
       (lambda ()
           (password-store-get-field "Work/Omicron/Gemini" "API Key")))
