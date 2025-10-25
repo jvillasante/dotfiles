@@ -78,7 +78,7 @@
 (if (fboundp 'tooltip-mode) (tooltip-mode -1))
 
 ;; fringe
-(if (fboundp 'fringe-mode) (fringe-mode -1))
+;; (if (fboundp 'fringe-mode) (fringe-mode -1))
 
 ;; Disable GUIs because they are inconsistent across systems, desktop
 ;; environments, and themes, and they don't match the look of Emacs.

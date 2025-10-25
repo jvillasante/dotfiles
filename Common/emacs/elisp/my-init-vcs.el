@@ -35,19 +35,7 @@
 
 ;; diff-hl : highlights uncommitted changes on the left side
 (use-package diff-hl
-    :preface
-    (defun my/diff-hl-set-reference ()
-        "Set the reference revision for showing `diff-hl' changes.
-Do so buffer-locally."
-        (interactive)
-        (setq-local
-         diff-hl-reference-revision
-         (read-string
-          (format "Set reference revision (buffer %s): "
-                  (buffer-name))))
-        (diff-hl-update))
-    :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)
-           (magit-post-refresh . diff-hl-magit-post-refresh)
+    :hook ((magit-post-refresh . diff-hl-magit-post-refresh)
            ;; (dired-mode . diff-hl-dired-mode-unless-remote)
            (after-init . global-diff-hl-mode))
     :custom (diff-hl-disable-on-remote t))
