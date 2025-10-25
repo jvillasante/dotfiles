@@ -97,15 +97,15 @@
     (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward)
     (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward))
 
-(with-eval-after-load 'calc
-    (define-key calc-mode-map (kbd "q") 'my/close-buffer-and-window))
+;; (with-eval-after-load 'calc
+;;     (define-key calc-mode-map (kbd "q") 'my/close-buffer-and-window))
 
-(with-eval-after-load 'eww
-    (define-key eww-mode-map (kbd "q") 'my/close-buffer-and-window))
+;; (with-eval-after-load 'eww
+;;     (define-key eww-mode-map (kbd "q") 'my/close-buffer-and-window))
 
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
-    (define-key ibuffer-mode-map (kbd "q") 'my/close-buffer-and-window)
+    ;; (define-key ibuffer-mode-map (kbd "q") 'my/close-buffer-and-window)
     (keymap-set ibuffer-mode-map "{" #'ibuffer-backwards-next-marked)
     (keymap-set ibuffer-mode-map "}" #'ibuffer-forward-next-marked)
     (keymap-set ibuffer-mode-map "[" #'ibuffer-backward-filter-group)
@@ -279,7 +279,7 @@
     (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command))
 
 (with-eval-after-load 'helpful
-    (define-key helpful-mode-map (kbd "q") 'my/close-buffer-and-window)
+    ;; (define-key helpful-mode-map (kbd "q") 'my/close-buffer-and-window)
     (define-key global-map [remap describe-function] 'helpful-callable)
     (define-key global-map [remap describe-variable] 'helpful-variable)
     (define-key global-map [remap describe-command]  'helpful-command)
@@ -359,16 +359,16 @@
     (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
 (with-eval-after-load 'deadgrep
-    (global-set-key (kbd "M-s R") 'deadgrep) ; extend M-s r (consult-ripgrep)
-    (define-key deadgrep-mode-map (kbd "q") 'my/close-buffer-and-window))
+    ;; (define-key deadgrep-mode-map (kbd "q") 'my/close-buffer-and-window)
+    (global-set-key (kbd "M-s R") 'deadgrep)) ; extend M-s r (consult-ripgrep)
 
 (with-eval-after-load 'rg
     (global-set-key (kbd "M-s R") 'my/grep-vc-or-dir) ; extend M-s r (consult-ripgrep)
     (global-set-key (kbd "M-s g") 'rg-menu)
     (global-set-key (kbd "M-s G") 'my/grep-vc-or-dir)
+    ;; (define-key rg-mode-map (kbd "q") 'my/close-buffer-and-window)
     (define-key isearch-mode-map (kbd "M-s r") 'rg-isearch-menu)
-    (define-key rg-mode-map (kbd "s") 'my/rg-save-search-as-name)
-    (define-key rg-mode-map (kbd "q") 'my/close-buffer-and-window))
+    (define-key rg-mode-map (kbd "s") 'my/rg-save-search-as-name))
 
 (with-eval-after-load 'surround
     (define-key global-map (kbd "M-'") surround-keymap))
@@ -380,7 +380,7 @@
 
 (with-eval-after-load 'dired
     (define-key dired-mode-map (kbd "C-<return>") 'dired-do-open)
-    (define-key dired-mode-map (kbd "q") 'my/close-buffer-and-window)
+    ;; (define-key dired-mode-map (kbd "q") 'my/close-buffer-and-window)
     (define-key dired-mode-map (kbd "e") 'dired-toggle-read-only))
 
 (with-eval-after-load 'dired-x
@@ -409,9 +409,12 @@
     (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
     (define-key copilot-completion-map (kbd "TAB")   'copilot-accept-completion))
 
+;; (pdf-view-next-line-or-next-page &optional ARG)
 (with-eval-after-load 'pdf-tools
     (define-key pdf-view-mode-map (kbd "q") nil)
-    (define-key pdf-view-mode-map (kbd "o") 'pdf-outline))
+    (define-key pdf-view-mode-map (kbd "o") 'pdf-outline)
+    (define-key pdf-view-mode-map (kbd "n") 'pdf-view-next-line-or-next-page)
+    (define-key pdf-view-mode-map (kbd "p") 'pdf-view-previous-line-or-previous-page))
 
 (with-eval-after-load 'nov
     (define-key nov-mode-map (kbd "q") nil))
@@ -472,8 +475,8 @@
 (when (package-installed-p 'elfeed)
     (global-set-key (kbd "C-c o f") 'elfeed)
     (with-eval-after-load 'elfeed
-        (define-key elfeed-show-mode-map (kbd "q") 'my/close-buffer-and-window)
-        (define-key elfeed-search-mode-map (kbd "q") 'my/close-buffer-and-window)
+        ;; (define-key elfeed-show-mode-map (kbd "q") 'my/close-buffer-and-window)
+        ;; (define-key elfeed-search-mode-map (kbd "q") 'my/close-buffer-and-window)
         (define-key elfeed-search-mode-map (kbd "t") 'my/elfeed-w3m-open)
         (define-key elfeed-search-mode-map (kbd "w") 'my/elfeed-eww-open)
         (define-key elfeed-search-mode-map (kbd "f") 'my/elfeed-firefox-open)))
