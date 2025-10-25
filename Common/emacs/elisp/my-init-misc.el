@@ -289,6 +289,7 @@
 
 ;; vundo : visual undo
 (use-package vundo
+    :disabled t
     :config
     (setq vundo-compact-display nil))
 

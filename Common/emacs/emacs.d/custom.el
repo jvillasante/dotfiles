@@ -13,21 +13,20 @@
             (size 9 -1 :right) " " (mode 16 16 :left :elide) " "
             project-file-relative)))
  '(package-selected-packages
-      '(ace-window adoc-mode anzu apheleia cape cl-generic cmake-mode consult-dir
-           consult-notes corfu crux csv-mode dape devdocs-browser diff-hl
-           dired-sidebar diredfl docker dockerfile-mode dwim-shell-command
-           easy-kill editorconfig eglot eldoc-diffstat elfeed elisp-demos
-           embark-consult engine-mode erc exec-path-from-shell expreg faceup
-           fancy-compilation gcmh geiser-guile go-mode helpful hl-todo
-           ibuffer-project idlwave jinx js2-mode json-mode ledger-mode lsp-ui
-           lua-mode magit map marginalia minions modus-themes monkeytype
-           multiple-cursors nov ntlm orderless org-superstar otpp
-           package-lint-flymake password-store pdf-view-restore peg persist
-           persistent-scratch php-mode python rainbow-delimiters request rg
-           rmsbolt rust-mode shrink-path so-long soap-client surround svg tramp
-           trashed use-package verb verilog-mode vertico vim-tab-bar vterm vundo
-           web-mode wgrep-deadgrep which-key window-tool-bar yaml-mode
-           yasnippet-snippets zig-mode)))
+      '(adoc-mode anzu apheleia cape cl-generic cmake-mode consult-dir consult-notes
+           corfu crux csv-mode dape devdocs-browser diff-hl dired-sidebar
+           diredfl docker dockerfile-mode dwim-shell-command easy-kill
+           editorconfig eglot eldoc-diffstat elfeed elisp-demos embark-consult
+           engine-mode erc exec-path-from-shell expreg faceup fancy-compilation
+           gcmh geiser-guile go-mode helpful hl-todo ibuffer-project idlwave
+           jinx js2-mode json-mode ledger-mode lsp-ui lua-mode magit map
+           marginalia minions modus-themes monkeytype multiple-cursors nov ntlm
+           orderless org-superstar otpp package-lint-flymake password-store
+           pdf-view-restore peg persist persistent-scratch php-mode python
+           rainbow-delimiters request rg rmsbolt rust-mode shrink-path so-long
+           soap-client surround svg tramp trashed use-package verb verilog-mode
+           vertico vim-tab-bar vterm web-mode wgrep-deadgrep which-key
+           window-tool-bar yaml-mode yasnippet-snippets zig-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
