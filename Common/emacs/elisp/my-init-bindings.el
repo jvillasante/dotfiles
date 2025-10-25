@@ -373,9 +373,9 @@
 (with-eval-after-load 'surround
     (define-key global-map (kbd "M-'") surround-keymap))
 
-(with-eval-after-load 'devdocs
+(when (package-installed-p 'devdocs)
     (global-set-key (kbd "C-h D") 'devdocs-lookup))
-(with-eval-after-load 'devdocs-browser
+(when (package-installed-p 'devdocs-browser)
     (global-set-key (kbd "C-h D") 'devdocs-browser-open))
 
 (with-eval-after-load 'dired

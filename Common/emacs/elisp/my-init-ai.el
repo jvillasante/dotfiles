@@ -29,6 +29,8 @@
          (password-store-get-field "Logins/openai.com" "API Key"))))
 
 (use-package chatgpt-shell
+    :disabled t
+    :defer t
     :custom
     ((chatgpt-shell-model-version "gemini-2.5-pro")
      (chatgpt-shell-google-key
