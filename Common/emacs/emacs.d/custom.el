@@ -21,12 +21,13 @@
            expreg faceup fancy-compilation gcmh geiser-guile go-mode helpful
            hl-todo ibuffer-project idlwave jinx js2-mode json-mode ledger-mode
            lsp-ui lua-mode magit map marginalia minions modus-themes monkeytype
-           multiple-cursors nov ntlm orderless org-superstar otpp password-store
-           pdf-view-restore peg persist persistent-scratch php-mode python
-           rainbow-delimiters request rg rmsbolt rust-mode shrink-path so-long
-           soap-client surround svg tramp trashed use-package verb verilog-mode
-           vertico vim-tab-bar vterm vundo web-mode wgrep-deadgrep which-key
-           window-tool-bar yaml-mode yasnippet-snippets zig-mode)))
+           multiple-cursors nov ntlm orderless org-superstar otpp
+           package-lint-flymake password-store pdf-view-restore peg persist
+           persistent-scratch php-mode python rainbow-delimiters request rg
+           rmsbolt rust-mode shrink-path so-long soap-client surround svg tramp
+           trashed use-package verb verilog-mode vertico vim-tab-bar vterm vundo
+           web-mode wgrep-deadgrep which-key window-tool-bar yaml-mode
+           yasnippet-snippets zig-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

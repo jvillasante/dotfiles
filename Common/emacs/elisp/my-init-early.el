@@ -101,7 +101,6 @@
       show-paren-highlight-openparen t
       show-paren-when-point-inside-paren t
       show-paren-when-point-in-periphery t)
-(global-so-long-mode +1) ; long files
 (setq kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
 (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
 (setq use-short-answers t) ; Abreviate Yes/No to y or n
@@ -133,6 +132,11 @@
 (use-package delsel
     :ensure nil ; emacs built-in
     :hook (after-init . delete-selection-mode))
+
+;;;; Handle performance for very long lines (so-long.el)
+(use-package so-long
+    :ensure nil
+    :hook (after-init . global-so-long-mode))
 
 ;; backups and auto-save
 (require 'my-utils)

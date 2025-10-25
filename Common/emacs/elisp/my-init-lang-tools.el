@@ -16,6 +16,24 @@
     :ensure nil ;; emacs built-in
     :hook ((prog-mode . subword-mode)))
 
+;; eldoc
+(use-package eldoc
+    :ensure nil ;; emacs built-in
+    :preface
+    (defun my/lsp-eldoc ()
+        "Show flymake diagnostics first."
+        (setq eldoc-documentation-functions
+              (cons #'flymake-eldoc-function
+                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
+    :hook (after-init . (lambda ()
+                            (eldoc-add-command #'xref-find-definitions)
+                            (eldoc-add-command #'xref-go-back)
+                            (eldoc-add-command #'avy-goto-char-timer)
+                            (global-eldoc-mode)))
+    :custom
+    (eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
+    (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
+
 ;; flymake
 (use-package flymake
     :ensure nil ;; emacs built-in
@@ -35,22 +53,10 @@
                            (flymake-mode)
                            (flymake-proselint-setup))))
 
-(use-package eldoc
-    :ensure nil ;; emacs built-in
-    :preface
-    (defun my/lsp-eldoc ()
-        "Show flymake diagnostics first."
-        (setq eldoc-documentation-functions
-              (cons #'flymake-eldoc-function
-                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
-    :hook (after-init . (lambda ()
-                            (eldoc-add-command #'xref-find-definitions)
-                            (eldoc-add-command #'xref-go-back)
-                            (eldoc-add-command #'avy-goto-char-timer)
-                            (global-eldoc-mode)))
-    :custom
-    (eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
-    (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
+;; Elisp packaging requirements
+(use-package package-lint-flymake
+    :after flymake
+    :hook (flymake-diagnostic-functions . package-lint-flymake))
 
 (use-package eglot
     :ensure nil ;; emacs built-in
@@ -75,7 +81,7 @@
                 (if (equal current-prefix-arg nil)
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
-    :hook(;; (prog-mode . my/maybe-start-eglot)
+    :hook((prog-mode . my/maybe-start-eglot)
           (eglot-managed-mode . my/lsp-eldoc))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
