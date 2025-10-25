@@ -413,6 +413,8 @@
 (with-eval-after-load 'pdf-tools
     (define-key pdf-view-mode-map (kbd "q") nil)
     (define-key pdf-view-mode-map (kbd "o") 'pdf-outline)
+    (define-key pdf-view-mode-map (kbd "C-v") 'pdf-view-next-page)
+    (define-key pdf-view-mode-map (kbd "M-v") 'pdf-view-previous-page)
     (define-key pdf-view-mode-map (kbd "n") 'pdf-view-next-line-or-next-page)
     (define-key pdf-view-mode-map (kbd "p") 'pdf-view-previous-line-or-previous-page))
 
@@ -475,8 +477,8 @@
 (when (package-installed-p 'elfeed)
     (global-set-key (kbd "C-c o f") 'elfeed)
     (with-eval-after-load 'elfeed
-        ;; (define-key elfeed-show-mode-map (kbd "q") 'my/close-buffer-and-window)
-        ;; (define-key elfeed-search-mode-map (kbd "q") 'my/close-buffer-and-window)
+        (define-key elfeed-show-mode-map (kbd "q") 'my/close-buffer-and-window)
+        (define-key elfeed-search-mode-map (kbd "q") 'my/close-buffer-and-window)
         (define-key elfeed-search-mode-map (kbd "t") 'my/elfeed-w3m-open)
         (define-key elfeed-search-mode-map (kbd "w") 'my/elfeed-eww-open)
         (define-key elfeed-search-mode-map (kbd "f") 'my/elfeed-firefox-open)))
