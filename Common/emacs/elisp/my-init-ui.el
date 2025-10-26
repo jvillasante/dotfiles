@@ -323,7 +323,7 @@ Run this function at the post theme load phase, such as with the
     (setq modus-themes-italic-constructs t
           modus-themes-bold-constructs nil
           modus-themes-mixed-fonts t
-          modus-themes-variable-pitch-ui t
+          modus-themes-variable-pitch-ui nil
           modus-themes-custom-auto-reload t
           modus-themes-disable-other-themes t
 
@@ -358,14 +358,13 @@ Run this function at the post theme load phase, such as with the
             (t . (1.1))))
 
     ;; Theme overrides
-    (customize-set-variable 'modus-themes-common-palette-overrides
-                            `(;; Make the mode-line borderless
-                              (bg-mode-line-active bg-inactive)
-                              (fg-mode-line-active fg-main)
-                              (bg-mode-line-inactive bg-inactive)
-                              (fg-mode-line-active fg-dim)
-                              (border-mode-line-active unspecified)
-                              (border-mode-line-inactive unspecified))))
+    (setq modus-themes-common-palette-overrides
+          `(;; Make the mode line border-less
+            (border-mode-line-active unspecified)
+            (border-mode-line-inactive unspecified)
+
+            ;; Make the theme look less colorful/intense
+            ,@modus-themes-preset-overrides-faint)))
 
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
