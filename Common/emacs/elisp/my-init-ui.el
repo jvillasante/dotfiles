@@ -321,9 +321,9 @@ Run this function at the post theme load phase, such as with the
     ;; In all of the following, WEIGHT is a symbol such as `semibold',
     ;; `light', `bold', or anything mentioned in `modus-themes-weights'.
     (setq modus-themes-italic-constructs t
-          modus-themes-bold-constructs nil
+          modus-themes-bold-constructs t
           modus-themes-mixed-fonts t
-          modus-themes-variable-pitch-ui nil
+          modus-themes-variable-pitch-ui t
           modus-themes-custom-auto-reload t
           modus-themes-disable-other-themes t
 
