@@ -368,7 +368,7 @@ Run this function at the post theme load phase, such as with the
             ;; (bg-line-number-active bg-inactive) (bg-line-number-inactive bg-dim)
 
             ;; Make the theme look less colorful/intense
-            ,@modus-themes-preset-overrides-warmer)))
+            ,@modus-themes-preset-overrides-faint)))
 
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
