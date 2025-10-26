@@ -340,8 +340,11 @@
 
 ;; jinx : Enchanted Spell Checker
 (use-package jinx
-    :hook (emacs-startup . global-jinx-mode))
-
+    :hook (after-init . (lambda ()
+                            (global-jinx-mode)
+                            (with-eval-after-load 'vertico
+                                (add-to-list 'vertico-multiform-categories
+                                             '(jinx grid (vertico-grid-annotate . 20)))))))
 ;; tempel - Simple templates for Emacs
 (use-package tempel-collection :disabled t :after tempel)
 (use-package tempel

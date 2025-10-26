@@ -71,6 +71,8 @@
         (if (file-exists-p file)
                 (find-file-other-window file t)
             (warn "File doesn't exist")))
+    :hook ((eshell-mode . eat-eshell-mode)
+           (eat-exit . (lambda (&rest _) (kill-buffer-and-window))))
     :init
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)

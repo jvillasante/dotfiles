@@ -26,8 +26,8 @@
 (global-unset-key (kbd "C-x C-z"))
 
 ;; useful for C/C++ finding header/impl files (override with eglot)
-(global-set-key (kbd "C-x C-o") 'ff-find-other-file)
 (with-eval-after-load 'c-ts-mode
+    (define-key c-ts-base-mode-map (kbd "C-x C-o") 'ff-find-other-file)
     (with-eval-after-load 'eglot
         (define-key c-ts-base-mode-map (kbd "C-x C-o") 'my/eglot-clangd-find-other-file)))
 
@@ -266,8 +266,13 @@
     (global-set-key (kbd "C-c o t") 'eat)
     (global-set-key (kbd "C-c o T") 'eat-other-window)
 
+    ;; eat prefix
+    ;; (with-eval-after-load 'eat
+    ;;     (define-key eat-semi-char-mode-map (kbd "M-v") 'eat-emacs-mode)
+    ;;     (define-key eat-mode-map (kbd "RET") 'eat-semi-char-mode))
+
+    ;; project-prefix-map
     (with-eval-after-load 'project
-        ;; project-prefix-map
         (define-key project-prefix-map (kbd "t") 'eat-project)
         (define-key project-prefix-map (kbd "T") 'eat-project-other-window)))
 
