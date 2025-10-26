@@ -363,12 +363,12 @@ Run this function at the post theme load phase, such as with the
             (border-mode-line-active unspecified)
             (border-mode-line-inactive unspecified)
 
-            ;; Make line numbers pop
-            (fg-line-number-active fg-main) (fg-line-number-inactive "grey50")
-            (bg-line-number-active bg-inactive) (bg-line-number-inactive bg-dim)
+            ;; Make line numbers pop - Only needed for `modus-themes-preset-overrides-faint'
+            ;; (fg-line-number-active fg-main) (fg-line-number-inactive "grey50")
+            ;; (bg-line-number-active bg-inactive) (bg-line-number-inactive bg-dim)
 
             ;; Make the theme look less colorful/intense
-            ,@modus-themes-preset-overrides-faint)))
+            ,@modus-themes-preset-overrides-warmer)))
 
 ;; minions : menu that lists enabled minor-modes
 (use-package minions
