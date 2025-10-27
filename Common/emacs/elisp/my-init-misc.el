@@ -418,6 +418,20 @@
     (setq monkeytype-directory
           (expand-file-name "monkeytype" my/etc-dir)))
 
+;; tinee : This Is Not Emacs Everywhere
+(use-package tinee
+    :disabled t
+    :vc (:url "https://codeberg.org/tusharhero/tinee.git")
+
+    ;; uncomment to make tinee automatically copy and insert text area contents.
+    ;; :hook (tinee-before-make-frame-hook . tinee-copy)
+    ;; :hook (tinee-after-make-frame-hook . (lambda () (insert (or (gui-selection-value) ""))))
+
+    ;; default values, change them if you would like to.
+    :custom
+    ((tinee-send-text-function 'tinee-write) ; or 'tinee-paste or 'tinee-paste-c-v
+     (tinee-frame-name "tinee")))
+
 ;; devdocs.el : Emacs viewer for DevDocs
 (use-package devdocs
     :disabled t

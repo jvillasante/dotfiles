@@ -118,6 +118,7 @@
 ;; pdf-tools: replacement of DocView for PDF files
 (use-package pdf-tools
     :defer t
+    :hook (pdf-view-mode . pdf-tools-enable-minor-modes)
     :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode))
 
 ;; pdf-view-restore: open last known pdf position in pdf-view-mode provided by pdf-tools.

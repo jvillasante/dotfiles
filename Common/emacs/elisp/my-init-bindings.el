@@ -417,7 +417,6 @@
 ;; (pdf-view-next-line-or-next-page &optional ARG)
 (with-eval-after-load 'pdf-tools
     (define-key pdf-view-mode-map (kbd "q") nil)
-    (define-key pdf-view-mode-map (kbd "o") 'pdf-outline)
     (define-key pdf-view-mode-map (kbd "C-v") 'pdf-view-next-page)
     (define-key pdf-view-mode-map (kbd "M-v") 'pdf-view-previous-page)
     (define-key pdf-view-mode-map (kbd "n") 'pdf-view-next-line-or-next-page)
