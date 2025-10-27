@@ -203,14 +203,15 @@
      'remote-direct-async-process)
     (setq magit-tramp-pipe-stty-settings 'pty))
 
+;; autorevert : Refresh files automatically when modified from outside emacs
 (use-package autorevert
     :ensure nil ;; emacs built-in
-    :config
-    (setq auto-revert-remote-files nil) ; this slows down tramp
-    (setq auto-revert-verbose t) ; show message when file changes
-    (setq auto-revert-avoid-polling t) ; use save signal
-    (setq global-auto-revert-non-file-buffers t) ; Global Auto-Revert Mode operates only on file-visiting buffers.
-    (global-auto-revert-mode t)) ; Refresh files automatically when modified from outside emacs
+    :hook (emacs-startup . global-auto-revert-mode)
+    :custom
+    (auto-revert-remote-files nil) ; this slows down tramp
+    (auto-revert-verbose t) ; show message when file changes
+    (auto-revert-avoid-polling t) ; use save signal
+    (global-auto-revert-non-file-buffers t)) ; Global Auto-Revert Mode operates only on file-visiting buffers.
 
 ;; electric pair : work with pairs in emacs
 (use-package elec-pair
@@ -289,16 +290,14 @@
 
 ;; vundo : visual undo
 (use-package vundo
-    :disabled t
-    :config
-    (setq vundo-compact-display nil))
+    :custom (vundo-compact-display t))
 
 ;; helpful : better help buffers
 (use-package helpful)
 
 ;; rainbow-delimiters : highlights delimiters such as parentheses
 (use-package rainbow-delimiters
-    :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+    :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (use-package crux)
@@ -320,17 +319,16 @@
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
     :ensure nil ;; emacs built-in
-    :config
-    (setq editorconfig-exclude-regexps
-          '("\\.jar$" "\\.rar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$" "\\.t$"))
-    (editorconfig-mode 1))
+    :hook (after-init . editorconfig-mode)
+    :custom (editorconfig-exclude-regexps
+             '("\\.jar$" "\\.rar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$" "\\.t$")))
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
-    :config
-    (setq avy-orders-alist
-          '((avy-goto-char-timer . avy-order-closest)
-            (avy-goto-line . avy-order-closest))))
+    :custom
+    (avy-orders-alist
+     '((avy-goto-char-timer . avy-order-closest)
+       (avy-goto-line . avy-order-closest))))
 
 ;; Expand Region : expand or contract selection
 (use-package expand-region :disabled t)
@@ -338,9 +336,8 @@
 ;; Expreg : like expand-region but nicer
 (use-package expreg
     :custom (shift-select-mode 'permanent)
-    :init (add-hook 'text-mode-hook
-                    (lambda ()
-                        (add-to-list 'expreg-functions 'expreg--sentence))))
+    :hook (text-mode . (lambda ()
+                           (add-to-list 'expreg-functions 'expreg--sentence))))
 
 ;; better C-w and M-w
 (use-package whole-line-or-region

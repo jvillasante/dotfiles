@@ -25,7 +25,7 @@
            pdf-view-restore peg persist persistent-scratch php-mode python
            rainbow-delimiters request rg rmsbolt rust-mode shrink-path so-long
            soap-client surround svg tramp trashed use-package verb verilog-mode
-           vertico vim-tab-bar vterm web-mode wgrep-deadgrep which-key
+           vertico vim-tab-bar vterm vundo web-mode wgrep-deadgrep which-key
            window-tool-bar yaml-mode yasnippet-snippets zig-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
