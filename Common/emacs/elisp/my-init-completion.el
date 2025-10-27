@@ -203,7 +203,7 @@
                 ("<tab>" . corfu-complete))
     :hook ((after-init . (lambda ()
                              (global-corfu-mode)
-                             (corfu-popupinfo-mode t)
+                             ;; (corfu-popupinfo-mode t)
                              (with-eval-after-load 'savehist
                                  (corfu-history-mode 1)
                                  (add-to-list 'savehist-additional-variables 'corfu-history))))
