@@ -45,7 +45,7 @@
                  `("^localhost/nntp" ("-u nntpuser"
                                       "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntpcode:/tmp/nntpcode:rw,z --userns=keep-id"
                                       "-w /tmp/nntpcode"
-                                      "--name nntpcode-emacs" . ,docker-image-run-default-args))))
+                                      "--name nntp-emacs" . ,docker-image-run-default-args))))
 
 (use-package dockerfile-mode
     :mode "\\Dockerfile\\'"
