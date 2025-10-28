@@ -142,6 +142,14 @@ for file in $files; do
     ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"
 done
 
+echo ">>> Linking systemd.quadlet user files in $HOME/.config/containers/systemd..."
+[ ! -d "$HOME"/.config/containers/systemd ] && mkdir -p "$HOME"/.config/containers/systemd
+files=""
+for file in $files; do
+    [ -L "$HOME/.config/containers/systemd/$file" ] && unlink "$HOME/.config/containers/systemd/$file"
+    ln -s "$DOTFILES_DIR/Common/systemd.quadlet/user/$file" "$HOME/.config/containers/systemd"
+done
+
 echo ">>> Linking desktop application files in $HOME/.local/share/applications..."
 files="emacs.desktop emacsclient.desktop thinkorswim.desktop"
 for file in $files; do
