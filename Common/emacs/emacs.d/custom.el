@@ -24,9 +24,9 @@
            multiple-cursors nov ntlm orderless org-superstar otpp
            package-lint-flymake password-store pdf-view-restore peg persist
            persistent-scratch php-mode python rainbow-delimiters request rg
-           rmsbolt rust-mode shrink-path so-long soap-client surround svg tinee
-           tramp trashed use-package verb verilog-mode vertico vim-tab-bar vterm
-           vundo web-mode wgrep-deadgrep which-key window-tool-bar yaml-mode
+           rmsbolt rust-mode shrink-path so-long soap-client surround svg tramp
+           trashed use-package verb verilog-mode vertico vim-tab-bar vterm vundo
+           web-mode wgrep-deadgrep which-key window-tool-bar yaml-mode
            yasnippet-snippets zig-mode))
  '(package-vc-selected-packages '((tinee :url "https://codeberg.org/tusharhero/tinee.git"))))
 (custom-set-faces
