@@ -192,6 +192,16 @@ if [ "$(uname -s)" = 'Linux' ]; then
 fi
 
 #
+# Docker
+#
+
+function nntp-docker() {
+    podman run --user nntpuser --rm --interactive --tty \
+           --volume "$HOME"/Workspace/Work/Omicron/Projects/nntpcode:/tmp/nntpcode:rw,z \
+           --userns=keep-id -w /tmp/nntpcode --name nntp nntp:latest /bin/bash
+}
+
+#
 # Tmux
 #
 
