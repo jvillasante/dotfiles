@@ -64,6 +64,14 @@
         (progn
             (setq dired-kill-when-opening-new-dired-buffer t))))
 
+;; dired-rsync – asynchronous rsync from dired
+(use-package dired-rsync
+    :after dired
+    :bind (:map dired-mode-map
+                ("C-c C-r" . dired-rsync))
+    :config (add-to-list 'mode-line-misc-info
+                         '(:eval dired-rsync-modeline-status 'append)))
+
 (use-package dired-subtree
     :after dired
     :bind

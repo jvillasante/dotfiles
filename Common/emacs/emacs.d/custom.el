@@ -14,19 +14,20 @@
             project-file-relative)))
  '(package-selected-packages
       '(adoc-mode anzu apheleia cape cl-generic cmake-mode consult-dir consult-notes
-           corfu crux csv-mode dape devdocs-browser diff-hl dired-sidebar
-           diredfl docker dockerfile-mode dwim-shell-command easy-kill
-           editorconfig eglot eldoc-diffstat elfeed elisp-demos embark-consult
-           engine-mode erc exec-path-from-shell expreg faceup fancy-compilation
-           gcmh geiser-guile go-mode helpful hl-todo ibuffer-project idlwave
-           jinx js2-mode json-mode ledger-mode lsp-ui lua-mode magit map
-           marginalia minions modus-themes monkeytype multiple-cursors nov ntlm
-           orderless org-superstar otpp package-lint-flymake password-store
-           pdf-view-restore peg persist persistent-scratch php-mode python
-           rainbow-delimiters request rg rmsbolt rust-mode shrink-path so-long
-           soap-client surround svg tinee tramp trashed use-package verb
-           verilog-mode vertico vim-tab-bar vterm vundo web-mode wgrep-deadgrep
-           which-key window-tool-bar yaml-mode yasnippet-snippets zig-mode))
+           corfu crux csv-mode dape devdocs-browser diff-hl dired-rsync
+           dired-sidebar diredfl docker dockerfile-mode dwim-shell-command
+           easy-kill editorconfig eglot eldoc-diffstat elfeed elisp-demos
+           embark-consult engine-mode erc exec-path-from-shell expreg faceup
+           fancy-compilation gcmh geiser-guile go-mode helpful hl-todo
+           ibuffer-project idlwave jinx js2-mode json-mode ledger-mode lsp-ui
+           lua-mode magit map marginalia minions modus-themes monkeytype
+           multiple-cursors nov ntlm orderless org-superstar otpp
+           package-lint-flymake password-store pdf-view-restore peg persist
+           persistent-scratch php-mode python rainbow-delimiters request rg
+           rmsbolt rust-mode shrink-path so-long soap-client surround svg tinee
+           tramp trashed use-package verb verilog-mode vertico vim-tab-bar vterm
+           vundo web-mode wgrep-deadgrep which-key window-tool-bar yaml-mode
+           yasnippet-snippets zig-mode))
  '(package-vc-selected-packages '((tinee :url "https://codeberg.org/tusharhero/tinee.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
