@@ -241,6 +241,20 @@
 (global-set-key (kbd "C-c o E") 'my/eshell-other-window)
 (global-set-key (kbd "C-c o s") 'shell)
 (global-set-key (kbd "C-c o S") 'my/shell-other-window)
+(when (package-installed-p 'eat)
+    ;; global keys
+    (global-set-key (kbd "C-c o t") 'eat)
+    (global-set-key (kbd "C-c o T") 'eat-other-window)
+
+    ;; eat prefix
+    ;; (with-eval-after-load 'eat
+    ;;     (define-key eat-semi-char-mode-map (kbd "M-v") 'eat-emacs-mode)
+    ;;     (define-key eat-mode-map (kbd "RET") 'eat-semi-char-mode))
+
+    ;; project-prefix-map
+    (with-eval-after-load 'project
+        (define-key project-prefix-map (kbd "t") 'eat-project)
+        (define-key project-prefix-map (kbd "T") 'eat-project-other-window)))
 (when (package-installed-p 'vterm)
     ;; global keys
     (global-set-key (kbd "C-c o t") 'vterm)
@@ -261,20 +275,6 @@
         (define-key vterm-mode-map (kbd "C-g")      'vterm-send-escape)
         (define-key vterm-mode-map (kbd "M-[")      'vterm-copy-mode)
         (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)))
-(when (package-installed-p 'eat)
-    ;; global keys
-    (global-set-key (kbd "C-c o t") 'eat)
-    (global-set-key (kbd "C-c o T") 'eat-other-window)
-
-    ;; eat prefix
-    ;; (with-eval-after-load 'eat
-    ;;     (define-key eat-semi-char-mode-map (kbd "M-v") 'eat-emacs-mode)
-    ;;     (define-key eat-mode-map (kbd "RET") 'eat-semi-char-mode))
-
-    ;; project-prefix-map
-    (with-eval-after-load 'project
-        (define-key project-prefix-map (kbd "t") 'eat-project)
-        (define-key project-prefix-map (kbd "T") 'eat-project-other-window)))
 
 (with-eval-after-load 'dwim-shell-command
     (define-key global-map [remap shell-command] 'dwim-shell-command)
