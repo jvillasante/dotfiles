@@ -62,6 +62,9 @@
 ;; emacs does not need a pager
 (setenv "PAGER" "cat")
 
+;; emacs28 truecolors on terminal
+(setenv "COLORTERM" "truecolor")
+
 ;; Prevent killing Messages buffer
 (with-current-buffer "*Messages*"
     (emacs-lock-mode 'kill))
@@ -120,6 +123,7 @@
 (setq undo-limit 67108864) ; 64mb.
 (setq undo-strong-limit 100663296) ; 96mb.
 (setq undo-outer-limit 1006632960) ; 960mb.
+(setq apropos-sort-by-scores t) ; sort apropos by score
 
 ;; Tree-sitter performance enhancement
 (setenv "LSP_USE_PLISTS" "true")
