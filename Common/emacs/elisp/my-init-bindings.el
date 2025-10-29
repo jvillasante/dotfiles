@@ -281,7 +281,8 @@
     (define-key global-map [remap async-shell-command] 'dwim-shell-command)
     (define-key dired-mode-map [remap dired-do-shell-command] 'dwim-shell-command)
     (define-key dired-mode-map [remap dired-do-async-shell-command] 'dwim-shell-command)
-    (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command))
+    (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command)
+    (define-key dired-mode-map (kbd "C-c C-r") 'my/dwim-shell-command-dired-rsync))
 
 (with-eval-after-load 'helpful
     ;; (define-key helpful-mode-map (kbd "q") 'my/close-buffer-and-window)
