@@ -112,7 +112,7 @@
 
 ;; nov : Major mode for reading EPUBs in Emacs
 (use-package nov
-    :defer t
+    :custom (nov-text-width 80)
     :mode ("\\.epub\\'" . nov-mode))
 
 ;; pdf-tools: replacement of DocView for PDF files

@@ -424,7 +424,9 @@
     (define-key pdf-view-mode-map (kbd "p") 'pdf-view-previous-line-or-previous-page))
 
 (with-eval-after-load 'nov
-    (define-key nov-mode-map (kbd "q") nil))
+    (define-key nov-mode-map (kbd "q") nil)
+    (define-key nov-mode-map (kbd "n") 'next-line)
+    (define-key nov-mode-map (kbd "p") 'previous-line))
 
 (when (package-installed-p 'docker)
     (global-set-key (kbd "C-c o d") 'docker))
