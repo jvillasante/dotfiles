@@ -176,6 +176,7 @@
     (setq remote-file-name-inhibit-locks t)
     (setq remote-file-name-inhibit-auto-save-visited t)
     (setq remote-file-name-inhibit-cache nil)
+    (setq remote-file-name-inhibit-delete-by-moving-to-trash t)
     (setq tramp-use-scp-direct-remote-copying t)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq tramp-completion-use-auth-sources nil) ; do not use `.authinfo.gpg' for tramp
