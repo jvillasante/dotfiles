@@ -112,8 +112,10 @@
 
 ;; nov : Major mode for reading EPUBs in Emacs
 (use-package nov
-    :custom (nov-text-width 80)
-    :mode ("\\.epub\\'" . nov-mode))
+    :mode ("\\.epub\\'" . nov-mode)
+    :custom ((nov-text-width 80)
+             (nov-variable-pitch t)
+             (nov-save-place-file (expand-file-name "nov-places" my/var-dir))))
 
 ;; pdf-tools: replacement of DocView for PDF files
 (use-package pdf-tools
