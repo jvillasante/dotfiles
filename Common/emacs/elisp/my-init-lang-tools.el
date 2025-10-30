@@ -11,10 +11,10 @@
     :ensure nil ;; emacs built-in
     :hook (prog-mode . hs-minor-mode))
 
-;; subword-mode
+;; subword-mode: treats CamelCase as distinct words
 (use-package subword
     :ensure nil ;; emacs built-in
-    :hook ((prog-mode . subword-mode)))
+    :hook (after-init . global-subword-mode))
 
 ;; eldoc
 (use-package eldoc
