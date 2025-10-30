@@ -25,6 +25,9 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
+;; The undo mechanism is weird but powerful, better to learn it well
+(global-unset-key (kbd "C-?"))
+
 ;; useful for C/C++ finding header/impl files (override with eglot)
 (with-eval-after-load 'c-ts-mode
     (define-key c-ts-base-mode-map (kbd "C-x C-o") 'ff-find-other-file)
