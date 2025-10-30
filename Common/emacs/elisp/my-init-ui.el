@@ -133,9 +133,9 @@
 
 ;; winner-mode : "undo" and "redo" changes in window configurations
 (use-package winner
+    :disabled t ;; does not understand tabs!
     :ensure nil ;; emacs built-in
-    :config
-    (winner-mode 1))
+    :hook (after-init . winner-mode))
 
 ;; scrolling
 (progn

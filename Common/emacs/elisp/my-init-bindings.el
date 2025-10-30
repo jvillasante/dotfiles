@@ -459,6 +459,9 @@
 (with-eval-after-load 'winner
     (global-set-key (kbd "C-c w u") 'winner-undo)
     (global-set-key (kbd "C-c w r") 'winner-redo))
+(with-eval-after-load 'tab-bar
+    (global-set-key (kbd "M-[") 'tab-bar-history-back)
+    (global-set-key (kbd "M-]") 'tab-bar-history-forward))
 
 ;; C-c c : Code
 (with-eval-after-load 'hs-minor-mode
