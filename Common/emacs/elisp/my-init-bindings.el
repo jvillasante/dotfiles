@@ -165,7 +165,9 @@
     (global-set-key (kbd "M-g m")   'consult-mark)
     (global-set-key (kbd "M-g k")   'consult-global-mark)
     (global-set-key (kbd "M-g i")   'consult-imenu)
+    (global-set-key (kbd "M-i")     'consult-imenu)
     (global-set-key (kbd "M-g I")   'consult-imenu-multi)
+    (global-set-key (kbd "M-I")     'consult-imenu-multi)
 
     ;; M-s bindings (search-map)
     (global-set-key (kbd "M-s d") 'consult-fd)         ;; Alternative: consult-find
