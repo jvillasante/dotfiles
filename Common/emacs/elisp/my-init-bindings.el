@@ -7,15 +7,9 @@
 ;; https://www.masteringemacs.org/article/mastering-key-bindings-emacs
 
 ;; General
-(global-set-key (kbd "C-x C-m") 'execute-extended-command) ; ALT may or may not be available
-(global-set-key (kbd "C-c C-m") 'execute-extended-command) ; ALT may or may not be available
-(global-set-key (kbd "C-x C-M") 'execute-extended-command-for-buffer) ; ALT may or may not be available
-(global-set-key (kbd "C-c C-M") 'execute-extended-command-for-buffer) ; ALT may or may not be available
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
 (global-set-key (kbd "C-x k") 'kill-current-buffer) ; kill buffer without prompt
-(global-set-key (kbd "C-x C-k") 'kill-current-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
-(global-set-key (kbd "C-x C-K") 'kill-buffer) ; prompt for buffer to kill
 (global-set-key (kbd "C-x S") 'my/save-all) ; save some buffers without prompt
 
 ;; Both `C-z' and `C-x C-z' are bound to `suspend-frame' which will effectively
@@ -27,6 +21,15 @@
 
 ;; The undo mechanism is weird but powerful, better to learn it well
 (global-unset-key (kbd "C-?"))
+
+;; Emacs29 changes `cycle-spacing' default
+(global-set-key [remap cycle-spacing] 'just-one-space)
+
+;; `hippie-expand' is much better than `dabbrev'
+(global-set-key [remap dabbrev-expand] 'hippie-expand)
+
+;; `zap-up-to-char' is just better
+(global-set-key [remap zap-to-char] 'zap-up-to-char)
 
 ;; useful for C/C++ finding header/impl files (override with eglot)
 (with-eval-after-load 'c-ts-mode
@@ -62,6 +65,7 @@
 
 ;; count-words
 (define-key (current-global-map) [remap count-words-region] 'count-words)
+(global-set-key (kbd "C-M-=") 'count-matches)
 
 ;; Open line(s) below/above current one (using crux implementation)
 ;; (global-set-key (kbd "C-o") 'my/open-next-line)
@@ -314,8 +318,8 @@
     (global-set-key (kbd "C-x 4 t") 'crux-transpose-windows)
     (global-set-key (kbd "C-c D") 'crux-delete-file-and-buffer)
     ;; (global-set-key (kbd "C-c c") 'crux-copy-file-preserve-attributes)
-    (global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
-    (global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
+    ;; (global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
+    ;; (global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
     (global-set-key (kbd "C-x x R") 'crux-rename-buffer-and-file)
     ;; (global-set-key (kbd "C-c t") 'crux-visit-term-buffer)
     ;; (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
@@ -324,7 +328,7 @@
     ;; (global-set-key (kbd "C-c i") 'crux-find-user-init-file)
     ;; (global-set-key (kbd "C-c I") 'crux-find-user-custom-file)
     ;; (global-set-key (kbd "C-c S") 'crux-find-shell-init-file)
-    (global-set-key (kbd "C-^") 'crux-top-join-line)
+    ;; (global-set-key (kbd "C-^") 'crux-top-join-line)
     ;; (global-set-key (kbd "C-<backspace>" . crux-kill-line-backwards)
     ;; (global-set-key (kbd "C-S-Backspace") 'crux-kill-and-join-forward)
     ;; (global-set-key (kbd "C-c P") 'crux-kill-buffer-truename)

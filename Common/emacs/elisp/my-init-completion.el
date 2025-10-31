@@ -157,8 +157,7 @@
             try-expand-list
             try-expand-line
             try-complete-lisp-symbol-partially
-            try-complete-lisp-symbol))
-    :init (global-set-key [remap dabbrev-expand] 'hippie-expand))
+            try-complete-lisp-symbol)))
 
 (use-package vertico
     :hook ((after-init . (lambda ()
