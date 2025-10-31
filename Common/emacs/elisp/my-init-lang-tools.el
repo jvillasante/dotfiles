@@ -59,7 +59,7 @@
 
 (use-package eglot
     :ensure nil ;; emacs built-in
-    :when (eq my/lsp-backend 'eglot)
+    :disabled (not (eq my/lsp-backend 'eglot))
     :preface
     (defun my/maybe-start-eglot ()
         "Exlude some mode from eglot."
@@ -159,7 +159,7 @@
     :config (eglot-booster-mode))
 
 (use-package lsp-mode
-    :when (eq my/lsp-backend 'lsp-mode)
+    :disabled (not (eq my/lsp-backend 'lsp-mode))
     :commands lsp
     :hook
     (c++-ts-mode . lsp)
@@ -193,11 +193,18 @@
 
 ;; optionally
 (use-package lsp-ui
+    :disabled (not (eq my/lsp-backend 'lsp-mode))
     :after lsp-mode
     :commands lsp-ui-mode
     :custom
     (lsp-ui-doc-enable nil)
     (lsp-ui-sideline-enable nil))
+
+(use-package lsp-bridge
+    :disabled (not (eq my/lsp-backend 'lsp-bridge))
+    :vc (:url "git@github.com:manateelazycat/lsp-bridge.git"
+              :rev :newest)
+    :hook (after-init . global-lsp-bridge-mode))
 
 ;; geiser : hacking scheme in emacs
 (use-package geiser

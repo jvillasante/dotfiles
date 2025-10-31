@@ -20,7 +20,7 @@
            elisp-demos embark-consult engine-mode erc exec-path-from-shell
            expreg faceup fancy-compilation gcmh geiser-guile go-mode helpful
            hl-todo ibuffer-project idlwave jinx js2-mode json-mode ledger-mode
-           lsp-ui lua-mode magit map marginalia minions modus-themes monkeytype
+           lua-mode magit map marginalia minions modus-themes monkeytype
            multiple-cursors nov ntlm orderless org-superstar otpp
            package-lint-flymake password-store pdf-view-restore peg persist
            persistent-scratch php-mode python rainbow-delimiters request rg
