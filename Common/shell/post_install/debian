@@ -153,17 +153,17 @@ debian_install() {
 # EOF
 
                 # xdg
-                export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
                 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+                export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
                 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-                export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
                 export XDG_LIB_HOME="${XDG_DATA_HOME:-$HOME/.local/lib}"
+                export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
                 mkdir -p \
-                      "${XDG_CONFIG_HOME}" \
                       "${XDG_CACHE_HOME}" \
+                      "${XDG_CONFIG_HOME}" \
                       "${XDG_DATA_HOME}" \
-                      "${XDG_STATE_HOME}" \
-                      "${XDG_LIB_HOME}"
+                      "${XDG_LIB_HOME}" \
+                      "${XDG_STATE_HOME}"
 
                 # Folder structure
                 mkdir -p "$HOME/.local/bin"
@@ -224,6 +224,9 @@ debian_install() {
                     # gsettings set org.gnome.software allow-updates false
                     # gsettings set org.gnome.software download-updates false
                     # gsettings set org.gnome.software download-updates-notify false
+
+                    # Stop GNOME Software autostart
+                    # sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
                 fi
 
                 # Update system with the new sources
