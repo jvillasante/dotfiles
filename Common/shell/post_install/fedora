@@ -988,21 +988,21 @@ fedora_install() {
             11)
                 echo "11) Installing Gnome Extensions"
 
-                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                    [ ! -d "$HOME"/Workspace/Software/unite ] && mkdir -p "$HOME"/Workspace/Software/unite
+                # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                #     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+                #     [ ! -d "$HOME"/Workspace/Software/unite ] && mkdir -p "$HOME"/Workspace/Software/unite
 
-                    pushd "$HOME"/Workspace/Software/unite || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/unite" --expire-time=20
-                        continue
-                    }
+                #     pushd "$HOME"/Workspace/Software/unite || {
+                #         notify-send "Can't cd into $HOME/Workspace/Software/unite" --expire-time=20
+                #         continue
+                #     }
 
-                    UNITE_VERSION=v82
-                    curl -LJO https://github.com/hardpixel/unite-shell/releases/download/"$UNITE_VERSION"/unite-"$UNITE_VERSION".zip
-                    gnome-extensions install --force unite-"$UNITE_VERSION".zip
+                #     UNITE_VERSION=v82
+                #     curl -LJO https://github.com/hardpixel/unite-shell/releases/download/"$UNITE_VERSION"/unite-"$UNITE_VERSION".zip
+                #     gnome-extensions install --force unite-"$UNITE_VERSION".zip
 
-                    popd || notify-send "Can't cd to previous directory" --expire-time=20
-                fi
+                #     popd || notify-send "Can't cd to previous directory" --expire-time=20
+                # fi
 
                 read -rp "11) Gnome extensions installed."
                 ;;
