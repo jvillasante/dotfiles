@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package docker
+    :disabled t
     :defer t
     :preface
     (defun my/docker-run-async-with-buffer-eat (program &rest args)
@@ -46,14 +47,6 @@
                                       "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntpcode:/tmp/nntpcode:rw,z --userns=keep-id"
                                       "-w /tmp/nntpcode"
                                       "--name nntp-emacs" . ,docker-image-run-default-args))))
-
-(use-package dockerfile-mode
-    :mode "\\Dockerfile\\'"
-    :config
-    (when (eq my/docker-executable 'docker)
-        (setq dockerfile-mode-command "docker"))
-    (when (eq my/docker-executable 'podman)
-        (setq dockerfile-mode-command "podman")))
 
 ;; (use-package devcontainer
 ;;     :vc (:url "git@github.com:johannes-mueller/devcontainer.el.git"
