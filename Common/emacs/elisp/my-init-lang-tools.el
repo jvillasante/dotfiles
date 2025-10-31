@@ -38,7 +38,6 @@
 (use-package flymake
     :ensure nil ;; emacs built-in
     :hook ((prog-mode . (lambda ()
-                            (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
                             (which-function-mode)
                             (flymake-mode))))
     :custom
