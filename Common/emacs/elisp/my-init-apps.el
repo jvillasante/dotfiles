@@ -96,13 +96,12 @@
      shr-indentation 2                                 ; Left-side margin
      shr-width 80                                      ; Fold text to 80 columns
      eww-auto-rename-buffer 'url                       ; open url in new buffer
-     eww-retrieve-command nil                          ; the default, use `url-retrieve' to download the data
      eww-download-directory
-     (expand-file-name "~/Documents/eww-downloads")    ; keeps eww downloads separate
+     (expand-file-name "~/Downloads/eww-downloads")    ; keeps eww downloads separate
      eww-use-external-browser-for-content-type
      "\\`\\(video/\\|audio\\)"                         ; On GNU/Linux check your mimeapps.list
-     ;; eww-retrieve-command
-     ;; '("chromium-browser" "--headless" "--dump-dom")   ; Use chromiun for faster loads
+     eww-retrieve-command
+     '("chromium-browser" "--headless" "--dump-dom")   ; Use chromiun for faster loads
      eww-search-prefix "https://duckduckgo.com/?q="))  ; Use another engine for searching
 
 ;; calc

@@ -286,11 +286,11 @@
         (define-key vterm-mode-map (kbd "C-q")      'vterm-send-next-key)))
 
 (with-eval-after-load 'dwim-shell-command
-    (define-key global-map [remap shell-command] 'dwim-shell-command)
-    (define-key global-map [remap async-shell-command] 'dwim-shell-command)
-    (define-key dired-mode-map [remap dired-do-shell-command] 'dwim-shell-command)
-    (define-key dired-mode-map [remap dired-do-async-shell-command] 'dwim-shell-command)
-    (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command)
+    ;; (define-key global-map [remap shell-command] 'dwim-shell-command)
+    ;; (define-key global-map [remap async-shell-command] 'dwim-shell-command)
+    ;; (define-key dired-mode-map [remap dired-do-shell-command] 'dwim-shell-command)
+    ;; (define-key dired-mode-map [remap dired-do-async-shell-command] 'dwim-shell-command)
+    ;; (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command)
     (define-key dired-mode-map (kbd "C-c C-r") 'my/dwim-shell-command-dired-rsync))
 
 (with-eval-after-load 'helpful
