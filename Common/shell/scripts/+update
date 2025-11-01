@@ -244,7 +244,7 @@ stylua_update() {
     }
 
     # Get the latest
-    STYLUA_VERSION=v2.2.0
+    STYLUA_VERSION=v2.3.1
     STYLUA_RELEASE=stylua-linux-x86_64.zip
     curl -LJO https://github.com/JohnnyMorganz/StyLua/releases/download/"$STYLUA_VERSION"/"$STYLUA_RELEASE"
     atool --extract --explain "$STYLUA_RELEASE"
