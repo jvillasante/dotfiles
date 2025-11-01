@@ -193,9 +193,6 @@
         (define-key map (kbd "?") nil)))
 
 (use-package corfu
-    :disabled (or (not (eq my/lsp-backend 'eglot))
-                  (not (eq my/lsp-backend 'lsp-mode))
-                  (not (eq my/lsp-backend 'lspce)))
     :custom
     (corfu-auto t)
     (corfu-auto-prefix 2)

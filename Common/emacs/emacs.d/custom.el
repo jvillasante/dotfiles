@@ -16,7 +16,7 @@
       '(adoc-mode anzu apheleia avy cape cl-generic cmake-mode consult-dir
            consult-notes corfu crux csv-mode dape devdocs-browser diff-hl
            dired-rsync dired-sidebar diredfl docker dockerfile-mode
-           dwim-shell-command editorconfig eglot eldoc-diffstat elfeed
+           dwim-shell-command editorconfig eglot-booster eldoc-diffstat elfeed
            elisp-demos embark-consult engine-mode erc exec-path-from-shell
            expreg faceup fancy-compilation gcmh geiser-guile go-mode helpful
            hl-todo ibuffer-project idlwave jinx js2-mode json-mode ledger-mode

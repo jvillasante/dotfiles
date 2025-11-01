@@ -59,7 +59,6 @@
 
 (use-package eglot
     :ensure nil ;; emacs built-in
-    :disabled (not (eq my/lsp-backend 'eglot))
     :preface
     (defun my/maybe-start-eglot ()
         "Exlude some mode from eglot."
@@ -149,7 +148,6 @@
 
 ;; eglot-booster : Boost eglot using lsp-booster
 (use-package eglot-booster
-    :disabled t
     :after eglot
     :vc (:url "git@github.com:jdtsmith/eglot-booster.git"
               :rev :newest)
@@ -159,7 +157,7 @@
     :config (eglot-booster-mode))
 
 (use-package lsp-mode
-    :disabled (not (eq my/lsp-backend 'lsp-mode))
+    :disabled t
     :commands lsp
     :hook
     (c++-ts-mode . lsp)
@@ -193,7 +191,7 @@
 
 ;; optionally
 (use-package lsp-ui
-    :disabled (not (eq my/lsp-backend 'lsp-mode))
+    :disabled t
     :after lsp-mode
     :commands lsp-ui-mode
     :custom
@@ -201,7 +199,7 @@
     (lsp-ui-sideline-enable nil))
 
 (use-package lsp-bridge
-    :disabled (not (eq my/lsp-backend 'lsp-bridge))
+    :disabled t
     :vc (:url "git@github.com:manateelazycat/lsp-bridge.git"
               :rev :newest)
     :hook (after-init . global-lsp-bridge-mode))
