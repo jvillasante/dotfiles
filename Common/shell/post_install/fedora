@@ -509,7 +509,7 @@ fedora_install() {
                 sudo npm install --global @devcontainers/cli
 
                 # Needed for `lsp-bridge`
-                pip3 install epc orjson sexpdata six setuptools paramiko rapidfuzz watchdog packaging
+                # pip3 install epc orjson sexpdata six setuptools paramiko rapidfuzz watchdog packaging
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
