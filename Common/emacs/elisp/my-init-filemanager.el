@@ -8,9 +8,10 @@
 ;; dired : built-in navigation of folders
 (use-package dired
     :ensure nil ;; emacs built-in
-    :hook((dired-mode . (lambda ()
-                            (auto-revert-mode)
-                            (hl-line-mode))))
+    :hook (dired-mode . (lambda ()
+                            (hl-line-mode)
+                            (unless (file-remote-p default-directory)
+                                (auto-revert-mode))))
     :config
     (setq dired-free-space nil
           dired-deletion-confirmer 'y-or-n-p
@@ -119,15 +120,10 @@
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
-    :init
-    (add-hook 'dired-sidebar-mode-hook
-              (lambda ()
-                  (unless (file-remote-p default-directory)
-                      (auto-revert-mode))))
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
     (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-    (setq dired-sidebar-theme 'ascii)
+    (setq dired-sidebar-theme 'none)
     (setq dired-sidebar-width 48)
     (setq dired-sidebar-window-fixed nil)
     (setq dired-sidebar-use-term-integration t))
