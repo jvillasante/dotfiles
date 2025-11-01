@@ -39,18 +39,11 @@
         ;; (add-to-list 'exec-path-from-shell-variables "NIX_PATH")
         (exec-path-from-shell-initialize)))
 
-;; gcmh : to optimize gc
-(use-package gcmh
-    :custom (gcmh-high-cons-threshold (* 128 1024 1024))
-    :hook (after-init . gcmh-mode))
-
 ;; Paths used throughout
 (defconst my/home-path         (expand-file-name "~/"))
 (defconst my/dotfiles-path     (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
 (defconst my/software-path     (expand-file-name "Workspace/Software/"        my/home-path))
 (defconst my/dropbox-path      (expand-file-name "Dropbox/"                   my/home-path))
-(defconst my/docker-executable 'podman
-    "The executable to be used with docker-mode ['docker or 'podman].")
 
 ;; Telling Emacs where the C source code is let's us jump all the way down into
 ;; primitive functions when exploring elisp functions.

@@ -4,7 +4,6 @@
 ;;; Code:
 
 (use-package docker
-    :disabled t
     :defer t
     :preface
     (defun my/docker-run-async-with-buffer-eat (program &rest args)
@@ -18,15 +17,9 @@
                     (eat-other-window eat-buffer-name args))
             (error "The eat package is not installed")))
     :config
-    (pcase my/docker-executable
-        ('docker
-         (setf docker-command "docker"
-               docker-compose-command "docker-compose"
-               docker-container-tramp-method "docker"))
-        ('podman
-         (setf docker-command "podman"
-               docker-compose-command "podman-compose"
-               docker-container-tramp-method "podman")))
+    (setq docker-command "podman"
+          docker-compose-command "podman-compose"
+          docker-container-tramp-method "podman")
 
     ;; (when (package-installed-p 'eat)
     ;;     (setq docker-run-async-with-buffer-function #'my/docker-run-async-with-buffer-eat))
