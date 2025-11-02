@@ -22,28 +22,32 @@
              (use-package-always-ensure t)
              (use-package-expand-minimally t)))
 
-;; exec-path-from-shell : Sane environment variables
-(use-package exec-path-from-shell
-    :config
-    (when (daemonp)
-        (add-to-list 'exec-path-from-shell-variables "SSH_AUTH_SOCK")
-        (add-to-list 'exec-path-from-shell-variables "SSH_AGENT_PID")
-        (add-to-list 'exec-path-from-shell-variables "GPG_AGENT_INFO")
-        (add-to-list 'exec-path-from-shell-variables "LANG")
-        (add-to-list 'exec-path-from-shell-variables "LC_CTYPE")
-        (add-to-list 'exec-path-from-shell-variables "RIPGREP_CONFIG_PATH")
-        ;; (add-to-list 'exec-path-from-shell-variables "CARGO_HOME")
-        ;; (add-to-list 'exec-path-from-shell-variables "GOPATH")
-        ;; (add-to-list 'exec-path-from-shell-variables "GOBIN")
-        ;; (add-to-list 'exec-path-from-shell-variables "NIX_SSL_CERT_FILE")
-        ;; (add-to-list 'exec-path-from-shell-variables "NIX_PATH")
-        (exec-path-from-shell-initialize)))
-
 ;; Paths used throughout
 (defconst my/home-path         (expand-file-name "~/"))
 (defconst my/dotfiles-path     (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
 (defconst my/software-path     (expand-file-name "Workspace/Software/"        my/home-path))
 (defconst my/dropbox-path      (expand-file-name "Dropbox/"                   my/home-path))
+
+;; Set environment variables - also look at `exec-path-from-shell' package
+(progn
+    ;; 1. Define all your paths as a list.
+    ;;    (No need to 'expand-file-name' on absolute system paths)
+    (setq my/exec-path-list
+          (list (expand-file-name ".go/bin" my/home-path)
+                (expand-file-name ".cargo/bin" my/home-path)
+                (expand-file-name ".local/bin" my/home-path)
+                "/usr/local/bin"
+                "/usr/local/sbin"
+                "/usr/bin"
+                "/usr/sbin"
+                "/bin"
+                "/sbin"))
+
+    ;; 3. Set the $PATH environment variable from the same list.
+    (setenv "PATH" (mapconcat 'identity my/exec-path-list path-separator))
+
+    ;; 2. Set the Emacs-internal 'exec-path' PATH
+    (setq exec-path (append (parse-colon-path (getenv "PATH")) (list exec-directory))))
 
 ;; Telling Emacs where the C source code is let's us jump all the way down into
 ;; primitive functions when exploring elisp functions.
