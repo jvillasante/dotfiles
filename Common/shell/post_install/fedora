@@ -322,6 +322,7 @@ fedora_install() {
                 # Plasma Software
                 if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
                     sudo dnf install -y kdeconnect-kde
+                    sudo dnf install -y kdotool
                     # sudo dnf install -y yakuake
                     # sudo dnf install -y latte-dock
                     # sudo zypper install -y kazam
