@@ -380,7 +380,7 @@
                          (expand-file-name "yasnippet/snippets" my/etc-dir))
     :hook (after-init . (lambda ()
                             (yas-reload-all)
-                            (yas-global-mode))))
+                            (yas-global-mode +1))))
 
 ;; yasnippet-capf
 (use-package yasnippet-capf
