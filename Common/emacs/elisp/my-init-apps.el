@@ -35,11 +35,6 @@
                  '(nntp "news.eternal-september.org"
                         (nntp-open-connection-function nntp-open-ssl-stream)
                         (nntp-port-number 563)))
-    ;; (add-to-list 'gnus-secondary-select-methods
-    ;;              '(nntp "news.newshosting.com"
-    ;;                     (nntp-open-connection-function nntp-open-ssl-stream)
-    ;;                     (nntp-port-number 563)))
-
     ;; init file
     (setq gnus-startup-file (expand-file-name "Apps/gnus/newsrc" my/dropbox-path)
           gnus-save-newsrc-file nil
