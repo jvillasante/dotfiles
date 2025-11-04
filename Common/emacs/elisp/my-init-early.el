@@ -125,6 +125,41 @@
 (setq undo-outer-limit 1006632960) ; 960mb.
 (setq apropos-sort-by-scores t) ; sort apropos by score
 
+;; encryption
+;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
+;; https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
+(progn
+    ;; never save
+    (setq auth-source-save-behavior nil)
+
+    ;; setup epg
+    (require 'epg)
+    (setq epg-gpg-home-directory (expand-file-name ".gnupg" my/home-path))
+    (setq epg-gpg-program (executable-find "gpg2"))
+    ;; (setq epg-pinentry-mode 'loopback)
+
+    ;; setup epa
+    (require 'epa-file)
+    (setq epa-file-encrypt-to user-mail-address
+          epa-file-cache-passphrase-for-symmetric-encryption nil)
+
+    ;; setup auth-sources
+    (require 'auth-source)
+    (setq auth-sources
+          (list (expand-file-name "secrets/.authinfo.gpg" my/etc-dir)))
+
+    ;; setup org-crypt
+    (require 'org-crypt)
+    (org-crypt-use-before-save-magic)
+    (setq org-crypt-disable-auto-save nil
+          org-tags-exclude-from-inheritance (quote ("crypt"))
+          org-crypt-key nil
+          org-crypt-key user-mail-address))
+
+;; Integrate auth-source with password-store
+;; (use-package auth-source-pass
+;;     :hook (after-init . auth-source-pass-enable))
+
 ;; Tree-sitter performance enhancement
 (setenv "LSP_USE_PLISTS" "true")
 (setq lsp-use-plists t)

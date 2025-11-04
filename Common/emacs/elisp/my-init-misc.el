@@ -3,39 +3,6 @@
 ;;
 ;;; Code:
 
-;; encryption
-;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
-;; https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
-(progn
-    ;; never save
-    (setq auth-source-save-behavior nil)
-
-    ;; setup epg
-    (require 'epg)
-    (setq epg-gpg-home-directory (expand-file-name ".gnupg" my/home-path))
-    (setq epg-gpg-program (executable-find "gpg2"))
-    ;; (setq epg-pinentry-mode 'loopback)
-
-    ;; setup epa
-    (require 'epa-file)
-    (setq epa-file-encrypt-to user-mail-address
-          epa-file-cache-passphrase-for-symmetric-encryption nil)
-    ;; (epa-file-enable) ;; already enabled?
-
-    ;; setup auth-sources
-    (require 'auth-source)
-    (setq auth-sources
-          (list (expand-file-name "secrets/.authinfo.gpg" my/etc-dir)))
-    (auth-source-pass-enable) ;; Enable auth-source-password-store.
-
-    ;; setup org-crypt
-    (require 'org-crypt)
-    (org-crypt-use-before-save-magic)
-    (setq org-crypt-disable-auto-save nil
-          org-tags-exclude-from-inheritance (quote ("crypt"))
-          org-crypt-key nil
-          org-crypt-key user-mail-address))
-
 ;; fortune : a fortune front-end for Emacs.
 (use-package fortune
     :preface
