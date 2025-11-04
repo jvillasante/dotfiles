@@ -403,15 +403,6 @@ fedora_install() {
                 # Firewall GUI to manage firewalld
                 sudo dnf install -y firewall-config
 
-                # Profile sync daemon
-                sudo dnf install -y profile-sync-daemon
-                if [ -f /usr/share/psd/contrib/brave ]; then
-                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
-                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
-                fi
-                systemctl --user enable --now psd.service && systemctl --user start psd.service
-
                 # Bleachbit: Clean Your System and Free Disk Space
                 # sudo dnf install -y bleachbit
 
@@ -503,6 +494,24 @@ fedora_install() {
                 # Various firmware
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf --repo=rpmfusion-nonfree-tainted install -y "*-firmware"
+
+                #
+                # Profile sync daemon
+                #
+
+                # PSD: Install
+                sudo dnf install -y profile-sync-daemon
+                if [ -f /usr/share/psd/contrib/brave ]; then
+                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
+                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
+                fi
+
+                # PSD: Needs sudo permissions for overlay-fs - needs a logout :(
+                echo 'jvillasante ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper' | sudo EDITOR='tee -a' visudo
+
+                # PSD: Enable and Start the Daemon
+                systemctl --user enable --now psd.service && systemctl --user start psd.service
 
                 #
                 # Chromium Browser (For use with eww)
