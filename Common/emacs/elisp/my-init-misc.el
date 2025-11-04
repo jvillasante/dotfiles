@@ -26,6 +26,7 @@
     (require 'auth-source)
     (setq auth-sources
           (list (expand-file-name "secrets/.authinfo.gpg" my/etc-dir)))
+    (auth-source-pass-enable) ;; Enable auth-source-password-store.
 
     ;; setup org-crypt
     (require 'org-crypt)

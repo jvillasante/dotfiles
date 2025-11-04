@@ -286,7 +286,7 @@ fedora_install() {
                 sudo dnf install -y subversion tldr tree w3m wget libtool texinfo
                 sudo dnf install -y wordnet shfmt editorconfig glslang ShellCheck parallel
                 sudo dnf install -y llvm clang clang-tools-extra libpcap libpcap-devel
-                sudo dnf install -y pkg-config openssl openssl-devel flex bison
+                sudo dnf install -y pkg-config flex bison
                 sudo dnf install -y tar unar unrar unzip p7zip p7zip-plugins
                 sudo dnf install -y ImageMagick ImageMagick-devel ffmpegthumbnailer mediainfo
                 sudo dnf install -y sqlite sqlite-devel
@@ -374,8 +374,11 @@ fedora_install() {
                 # yubikey
                 sudo dnf install -y yubikey-manager
 
+                # open{ssl,ssh}
+                sudo dnf install -y openssh openssl openssl-devel
+
                 # mail
-                sudo dnf install -y isync mu maildir-utils gnutls
+                sudo dnf install -y isync mu maildir-utils gnutls gnutls-devel
 
                 # ledger (https://ledger-cli.org/)
                 sudo dnf install -y ledger
