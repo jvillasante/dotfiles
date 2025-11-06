@@ -60,6 +60,10 @@
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf))))
 
+;; bash-completion : bash-completion for Emacs
+;; (use-package bash-completion
+;;     :hook (after-init . bash-completion-setup))
+
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
     :disabled t
