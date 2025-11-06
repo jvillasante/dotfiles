@@ -259,6 +259,7 @@
             ;; VPN
             ("https://mullvad.net/blog/feed/atom" vpn mullvad)
             ;; EMACS
+            ("https://www.lib.uchicago.edu/keith/emacs/feed.xml" emacs book)
             ("https://planet.emacslife.com/atom.xml" emacs)
             ("https://protesilaos.com/master.xml" emacs)
             ("https://www.masteringemacs.org/feed" emacs)
