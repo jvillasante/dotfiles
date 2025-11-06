@@ -19,6 +19,16 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
+(defun my/ask-before-closing-client ()
+    "Ask for confirmation before closing an emacsclient frame."
+    (interactive)
+    (if (y-or-n-p "Really close this Emacs client? ")
+            (save-buffers-kill-terminal) ; Proceed with closing the client
+        (message "Client close cancelled.")))
+(when (daemonp)
+    ;; Only apply this remapping when running in daemon mode
+    (global-set-key (kbd "C-x C-c") 'my/ask-before-closing-client))
+
 ;; The undo mechanism is weird but powerful, better to learn it well
 (global-unset-key (kbd "C-?"))
 

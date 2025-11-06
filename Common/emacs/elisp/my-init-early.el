@@ -82,14 +82,16 @@
 (when (fboundp 'dictionary-lookup-definition)
     (setq dictionary-server "dict.org"))
 
+;; Use "y" and "n" to confirm/negate prompt
+(if (boundp 'use-short-answers)
+        (setq use-short-answers t)
+    (advice-add 'yes-or-no-p :override #'y-or-n-p))
+
 ;; Some Defaults
 (setq user-full-name "Julio C. Villasante"
       user-mail-address "jvillasantegomez@gmail.com"
       user-login-name "jvillasante")
 (setq visible-cursor nil) ;; make it work in terminal too
-(if (boundp 'use-short-answers) ;; Use "y" and "n" to confirm/negate prompt
-        (setq use-short-answers t)
-    (advice-add 'yes-or-no-p :override #'y-or-n-p))
 (setq large-file-warning-threshold 100000000) ;; warn when opening files bigger than 100MB
 (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
 (setq enable-local-eval t) ; Enable eval blocks in .dir-locals.el
