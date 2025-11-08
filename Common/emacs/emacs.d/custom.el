@@ -18,16 +18,17 @@
            dired-rsync dired-sidebar diredfl docker dockerfile-mode
            dwim-shell-command editorconfig eglot-booster eldoc-diffstat elfeed
            elisp-demos embark-consult engine-mode erc exec-path-from-shell
-           expreg faceup fancy-compilation geiser-guile go-mode helpful hl-todo
-           ibuffer-project idlwave jinx js2-mode json-mode ledger-mode lua-mode
-           magit map marginalia markdown-mode minions modus-themes monkeytype
-           multiple-cursors nov ntlm orderless org-superstar otpp
+           expreg faceup fancy-compilation geiser-guile go-mode gptel helpful
+           hl-todo ibuffer-project idlwave jinx js2-mode json-mode ledger-mode
+           lua-mode magit map marginalia markdown-mode minions modus-themes
+           monkeytype multiple-cursors nov ntlm orderless org-superstar otpp
            package-lint-flymake password-store pdf-view-restore peg persist
            persistent-scratch php-mode python rainbow-delimiters request rg
            rmsbolt rust-mode shell-maker shrink-path so-long soap-client
            surround svg track-changes tramp trashed use-package verb
            verilog-mode vertico vim-tab-bar vterm vundo web-mode wgrep-deadgrep
-           which-key window-tool-bar yaml-mode yasnippet-snippets zig-mode)))
+           which-key window-tool-bar yaml-mode yasnippet-snippets zig-mode))
+ '(package-vc-selected-packages '((gptel :url "git@github.com:karthink/gptel.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

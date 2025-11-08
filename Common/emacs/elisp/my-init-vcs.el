@@ -20,7 +20,6 @@
         (let ((buffers (magit-mode-get-buffers)))
             (magit-restore-window-configuration)
             (mapc #'kill-buffer buffers)))
-    :hook ((git-commit-setup . git-commit-turn-on-auto-fill))
     :custom ((git-commit-summary-max-length 50)
              (git-commit-fill-column 72)
              (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)

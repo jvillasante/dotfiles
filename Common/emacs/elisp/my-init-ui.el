@@ -57,24 +57,20 @@
 ;; Maximum height for resizing mini-windows (the minibuffer and the echo area).
 (setq max-mini-window-height 1)
 
-;;;; Plain text (text-mode)
+;; Filling - I like it!
+(setq-default fill-column 80)  ;; Wrap lines at 80 characters
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+;; display line indication on fringe
 (setq visual-line-fringe-indicators
-      '(left-curly-arrow right-curly-arrow))              ;; display line indication on fringe
-(setq-default fill-column 80)                             ;; Wrap lines at 80 characters
-(use-package text-mode
-    :ensure nil ;; emacs built-in
-    :mode "\\`\\(README\\|CHANGELOG\\|COPYING\\|LICENSE\\)\\'"
-    :hook
-    ((text-mode . turn-on-auto-fill)
-     (prog-mode . (lambda ()
-                      ;; (display-fill-column-indicator-mode)
-                      (setq-local sentence-end-double-space t))))
-    :config
-    (setq sentence-end-double-space nil)
-    (setq sentence-end-without-period nil)
-    (setq colon-double-space nil)
-    (setq use-hard-newlines nil)
-    (setq adaptive-fill-mode t))
+      '(left-curly-arrow right-curly-arrow))
+
+;; these ones just make sense
+(setq sentence-end-double-space nil)
+(setq sentence-end-without-period nil)
+(setq colon-double-space nil)
+(setq use-hard-newlines nil)
+(setq adaptive-fill-mode t)
 
 ;; Set the font (M-x `describe-font' to see available fonts)
 (defun my/setup-fonts ()
@@ -84,8 +80,8 @@
           (variable-font "Berkeley Mono Variable"))
         (custom-set-faces
          ;; Default fonts for all text
-         '(default ((t (:family fixed-font :height 150))))
-         '(fixed-pitch ((t (:family fixed-font :height 150))))
+         '(default ((t (:family fixed-font :height 145))))
+         '(fixed-pitch ((t (:family fixed-font :height 145))))
          '(variable-pitch ((t (:family variable-font :height 1.0))))
 
          ;; Current line number

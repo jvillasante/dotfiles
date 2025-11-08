@@ -19,15 +19,22 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
-(defun my/ask-before-closing-client ()
-    "Ask for confirmation before closing an emacsclient frame."
+(defun my/smart-kill-emacs ()
+    "Kill Emacs client or daemon with confirmation.
+When run interactively:
+- Without a prefix arg (`C-x C-c`), ask to close the client frame.
+- With a prefix arg (`C-u C-x C-c`), ask to kill the entire daemon."
     (interactive)
-    (if (y-or-n-p "Really close this Emacs client? ")
-            (save-buffers-kill-terminal) ; Proceed with closing the client
-        (message "Client close cancelled.")))
+    (if current-prefix-arg
+            ;; C-u was pressed: target the whole daemon
+            (when (y-or-n-p "Really kill the Emacs daemon? ")
+                (save-buffers-kill-emacs))
+        ;; No prefix: target just this client/terminal
+        (when (y-or-n-p "Really close this Emacs client? ")
+            (save-buffers-kill-terminal))))
 (when (daemonp)
-    ;; Only apply this remapping when running in daemon mode
-    (global-set-key (kbd "C-x C-c") 'my/ask-before-closing-client))
+    ;; Only override C-x C-c when running as a daemon
+    (global-set-key (kbd "C-x C-c") #'my/smart-kill-emacs))
 
 ;; The undo mechanism is weird but powerful, better to learn it well
 (global-unset-key (kbd "C-?"))
@@ -55,9 +62,6 @@
 
 ;; Repeat in emacs is not as good as vim :(
 (global-set-key (kbd "C-.") 'repeat)
-
-;; really kill emacs even on `emacsclient'
-(global-set-key (kbd "C-x C-S-c") 'save-buffers-kill-emacs)
 
 ;; Clone the current buffer in a new window with `q' to exit
 (global-set-key (kbd "C-x 9") 'my/clone-buffer-in-new-window-readonly) ; same

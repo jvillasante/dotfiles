@@ -4,7 +4,6 @@
 ;;; Code:
 
 (use-package gptel
-    :disabled t
     :defer t
     :vc (:url "git@github.com:karthink/gptel.git"
               :rev :newest)
