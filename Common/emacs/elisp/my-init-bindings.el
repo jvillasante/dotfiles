@@ -508,7 +508,7 @@
     (with-eval-after-load 'elfeed
         (define-key elfeed-show-mode-map (kbd "q") 'my/close-buffer-and-window)
         (define-key elfeed-search-mode-map (kbd "q") 'my/close-buffer-and-window)
-        (define-key elfeed-search-mode-map (kbd "t") 'my/elfeed-w3m-open)
+        ;; (define-key elfeed-search-mode-map (kbd "t") 'my/elfeed-w3m-open)
         (define-key elfeed-search-mode-map (kbd "w") 'my/elfeed-eww-open)
         (define-key elfeed-search-mode-map (kbd "f") 'my/elfeed-firefox-open)))
 (when (package-installed-p 'consult-notes)

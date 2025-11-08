@@ -216,6 +216,16 @@
                      do (eww-browse-url it))
             (mapc #'elfeed-search-update-entry entries)
             (unless (use-region-p) (forward-line))))
+    (defun my/elfeed-w3m-open (&optional use-generic-p)
+        "open with w3m"
+        (interactive "P")
+        (let ((entries (elfeed-search-selected)))
+            (cl-loop for entry in entries
+                     do (elfeed-untag entry 'unread)
+                     when (elfeed-entry-link entry)
+                     do (eww-browse-url it))
+            (mapc #'elfeed-search-update-entry entries)
+            (unless (use-region-p) (forward-line))))
     (defun my/elfeed-firefox-open (&optional use-generic-p)
         "open with firefox"
         (interactive "P")
@@ -224,16 +234,6 @@
                      do (elfeed-untag entry 'unread)
                      when (elfeed-entry-link entry)
                      do (browse-url-firefox it))
-            (mapc #'elfeed-search-update-entry entries)
-            (unless (use-region-p) (forward-line))))
-    (defun my/elfeed-w3m-open (&optional use-generic-p)
-        "open with w3m"
-        (interactive "P")
-        (let ((entries (elfeed-search-selected)))
-            (cl-loop for entry in entries
-                     do (elfeed-untag entry 'unread)
-                     when (elfeed-entry-link entry)
-                     do (ffap-w3m-other-window it))
             (mapc #'elfeed-search-update-entry entries)
             (unless (use-region-p) (forward-line))))
     :config
