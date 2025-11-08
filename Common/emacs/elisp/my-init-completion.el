@@ -378,9 +378,7 @@
 (use-package yasnippet
     :config (add-to-list 'yas-snippet-dirs
                          (expand-file-name "yasnippet/snippets" my/etc-dir))
-    :hook (after-init . (lambda ()
-                            (yas-reload-all)
-                            (yas-global-mode +1))))
+    :hook (after-init . yas-global-mode))
 
 ;; yasnippet-capf
 (use-package yasnippet-capf
