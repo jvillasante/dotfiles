@@ -467,7 +467,7 @@ When run interactively:
 ;; activities
 (when (package-installed-p 'activities)
     ;; Prevent `edebug' default bindings from interfering with activities
-    (setq-default edebug-inhibit-emacs-lisp-mode-bindings t)
+    (setq edebug-inhibit-emacs-lisp-mode-bindings t)
     (global-set-key (kbd "C-x C-a C-n") 'activities-new)
     (global-set-key (kbd "C-x C-a C-d") 'activities-define)
     (global-set-key (kbd "C-x C-a C-a") 'activities-resume)

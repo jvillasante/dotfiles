@@ -19,9 +19,7 @@ otherwise use `bufler-switch-buffer'."
     :hook
     (after-init . (lambda ()
                       (activities-mode)
-                      (activities-tabs-mode)
-                      ;; Prevent `edebug' default bindings from interfering.
-                      (setq edebug-inhibit-emacs-lisp-mode-bindings t)))
+                      (activities-tabs-mode)))
     :custom
     (activities-bookmark-store nil)
     (activities-kill-buffers t)
