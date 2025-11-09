@@ -8,8 +8,6 @@
 
 ;; General
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
-(global-set-key (kbd "C-x k") 'kill-current-buffer) ; kill buffer without prompt
-(global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
 
 ;; Both `C-z' and `C-x C-z' are bound to `suspend-frame' which will effectively
 ;; suspend the current frame. To bring back the suspended frame in GUI mode we
@@ -18,6 +16,22 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
+;; The undo mechanism is weird but powerful, better to learn it well
+(global-unset-key (kbd "C-?"))
+
+;; smart kill buffers
+(defun my/smart-kill-buffer ()
+    "Kill buffers.
+When run interactively:
+- Without a prefix arg (`C-x C-k`), `kill-current-buffer'.
+- With a prefix arg (`C-u C-x C-k`), `kill-buffer'."
+    (interactive)
+    (if current-prefix-arg
+            (call-interactively #'kill-buffer)
+        (kill-current-buffer)))
+(global-set-key (kbd "C-x k") 'my/smart-kill-buffer)
+
+;; smart kill emacs
 (defun my/smart-kill-emacs ()
     "Kill Emacs client or daemon with confirmation.
 When run interactively:
@@ -34,9 +48,6 @@ When run interactively:
 (when (daemonp)
     ;; Only override C-x C-c when running as a daemon
     (global-set-key (kbd "C-x C-c") #'my/smart-kill-emacs))
-
-;; The undo mechanism is weird but powerful, better to learn it well
-(global-unset-key (kbd "C-?"))
 
 ;; Emacs29 changes `cycle-spacing' default
 (global-set-key [remap cycle-spacing] 'just-one-space)
