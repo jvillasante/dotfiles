@@ -85,19 +85,24 @@
     :ensure nil ; emacs built-in
     :defer t
     :config
-    (setq
-     shr-use-fonts  nil                                ; No special fonts
-     shr-use-colors nil                                ; No colors
-     shr-indentation 2                                 ; Left-side margin
-     shr-width 80                                      ; Fold text to 80 columns
-     eww-auto-rename-buffer 'url                       ; open url in new buffer
-     eww-download-directory
-     (expand-file-name "~/Downloads/eww-downloads")    ; keeps eww downloads separate
-     eww-use-external-browser-for-content-type
-     "\\`\\(video/\\|audio\\)"                         ; On GNU/Linux check your mimeapps.list
-     ;; eww-retrieve-command
-     ;; '("chromium-browser" "--headless" "--dump-dom")   ; Use chromiun for faster loads
-     eww-search-prefix "https://duckduckgo.com/?q="))  ; Use another engine for searching
+    (setq shr-use-fonts  nil)                              ; No special fonts
+    (setq shr-use-colors nil)                              ; No colors
+    (setq shr-indentation 2)                               ; Left-side margin
+    (setq shr-width 80)                                    ; Fold text to 80 columns
+    (setq eww-auto-rename-buffer 'url)                     ; open url in new buffer
+    (setq eww-download-directory
+          (expand-file-name "~/Downloads/eww-downloads"))  ; keeps eww downloads separate
+    (setq eww-use-external-browser-for-content-type
+          "\\`\\(video/\\|audio\\)")                       ; On GNU/Linux check your mimeapps.list
+    (setq eww-retrieve-command nil)                        ; default: use `url-retrieve'
+    ;; (setq eww-retrieve-command
+    ;;       '("wget" "--quiet" "--output-document=-"))       ; seems buggy at times?
+    ;; (setq eww-retrieve-command
+    ;;       '("chromium-browser" "--headless" "--dump-dom")) ; slow!
+    ;; (setq eww-retrieve-command
+    ;;       '("curl" "--silent" "-A Mozilla/5.0"))           ; seems buggy at times?
+    (setq eww-search-prefix
+          "https://duckduckgo.com/?q=")) ; Use another engine for searching
 
 ;; calc
 (use-package calc-mode

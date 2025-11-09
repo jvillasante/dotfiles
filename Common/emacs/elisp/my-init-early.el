@@ -256,7 +256,8 @@
 
     ;; Browse the web
     ;; (setq browse-url-browser-function 'browse-url-generic) ; Use default Browser
-    (setq browse-url-browser-function 'eww-browse-url)     ; Use eww as the default browser
+    (setq browse-url-browser-function 'eww-browse-url)
+    (setq browse-url-secondary-browser-function 'browse-url-default-browser)
 
     (when my/os-mac
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
