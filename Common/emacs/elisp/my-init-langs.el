@@ -159,9 +159,9 @@
     :config (setq lisp-body-indent 4))
 
 (use-package elisp-demos
+    :after elisp-mode
     :init
-    :after elisp-modee
-    (advice-add #'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
+    ;; (advice-add #'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
     (advice-add #'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 ;; c++ treesiter
