@@ -10,7 +10,6 @@
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
 (global-set-key (kbd "C-x k") 'kill-current-buffer) ; kill buffer without prompt
 (global-set-key (kbd "C-x K") 'kill-buffer) ; prompt for buffer to kill
-(global-set-key (kbd "C-x S") 'my/save-all) ; save some buffers without prompt
 
 ;; Both `C-z' and `C-x C-z' are bound to `suspend-frame' which will effectively
 ;; suspend the current frame. To bring back the suspended frame in GUI mode we
