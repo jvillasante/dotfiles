@@ -120,12 +120,14 @@
 (setq read-buffer-completion-ignore-case t)    ;; ... and, ignore case whem completing buffers
 (setq delete-by-moving-to-trash t) ;; use the system trash
 (setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
-(put 'narrow-to-region 'disabled nil) ; enable narrow to region (disabled by default)
 (setq select-enable-clipboard t) ; Non-nil means cutting and pasting uses the clipboard.
 (setq undo-limit 67108864) ; 64mb.
 (setq undo-strong-limit 100663296) ; 96mb.
 (setq undo-outer-limit 1006632960) ; 960mb.
 (setq apropos-sort-by-scores t) ; sort apropos by score
+
+;; Enable some disabled commands
+(put 'narrow-to-region 'disabled nil) ; enable narrow to region (disabled by default)
 
 ;; encryption
 ;; https://orgmode.org/worg/org-tutorials/encrypting-files.html
