@@ -26,7 +26,7 @@
 (setq world-clock-list
       '(("UTC" "UTC")
         ("America/New_York" "Tampa")
-        ("Europe/Ljubljana" "Slovenia")
+        ("Europe/Amsterdam" "Amsterdam")
         ("Europe/Paris" "France")))
 (setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
