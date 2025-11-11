@@ -295,6 +295,7 @@
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
     :custom
+    (avy-timeout-seconds 0.8) ; the default is 0.5
     (avy-orders-alist
      '((avy-goto-char-timer . avy-order-closest)
        (avy-goto-line . avy-order-closest))))
