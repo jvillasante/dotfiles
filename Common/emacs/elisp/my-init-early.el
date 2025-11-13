@@ -126,6 +126,9 @@
 (setq undo-outer-limit 1006632960) ; 960mb.
 (setq apropos-sort-by-scores t) ; sort apropos by score
 
+;;Increase the depth in `eval', `apply' and `funcall' before error.
+(setq max-lisp-eval-depth (* 30 max-lisp-eval-depth))
+
 ;; Enable some disabled commands
 (put 'narrow-to-region 'disabled nil) ; enable narrow to region (disabled by default)
 
