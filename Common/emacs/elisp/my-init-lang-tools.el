@@ -19,12 +19,6 @@
 ;; eldoc
 (use-package eldoc
     :ensure nil ;; emacs built-in
-    :preface
-    (defun my/lsp-eldoc ()
-        "Show flymake diagnostics first."
-        (setq eldoc-documentation-functions
-              (cons #'flymake-eldoc-function
-                    (remove #'flymake-eldoc-function eldoc-documentation-functions))))
     :hook (after-init . (lambda ()
                             (eldoc-add-command #'xref-find-definitions)
                             (eldoc-add-command #'xref-go-back)
@@ -80,15 +74,23 @@
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
     :hook((prog-mode . my/maybe-start-eglot)
-          (eglot-managed-mode . my/lsp-eldoc))
+          (eglot-managed . (lambda ()
+                               ;; Show flymake diagnostics first.
+                               (setq eldoc-documentation-functions
+                                     (cons #'flymake-eldoc-function
+                                           (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+                               ;; Show all eldoc feedback.
+                               (setq eldoc-documentation-strategy #'eldoc-documentation-compose))))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)
     (setq jsonrpc-event-hook nil)
     (setq eglot-autoshutdown t)
+    (setq eglot-autoreconnect nil)
     (setq eglot-extend-to-xref nil)
     (setq eglot-sync-connect nil)
-    (setq eglot-confirm-server-initiated-edits nil)
+    (setq eglot-report-progress t)
+    (setq eglot-confirm-server-edits nil)
     (setq eglot-ignored-server-capabilities
           '(;; :hoverProvider
             ;; :documentHighlightProvider
@@ -102,9 +104,14 @@
 
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
-    (setq eglot-workspace-configuration
-          '(:gopls (:staticcheck t :usePlaceholders t)))
-
+    (setq-default eglot-workspace-configuration '(
+                                                  :gopls (:staticcheck t :usePlaceholders t)
+                                                  :rust-analyzer (:check (:command "clippy")
+                                                                         :cargo (:sysroot "discover"
+                                                                                          :features "all"
+                                                                                          :buildScripts (:enable t))
+                                                                         :diagnostics (:disabled ["macro-error"])
+                                                                         :procMacro (:enable t))))
     ;; don't try to manage these
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
     ;; (add-to-list 'eglot-stay-out-of 'flymake)

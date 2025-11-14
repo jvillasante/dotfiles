@@ -502,6 +502,7 @@ When run interactively:
     (global-set-key            (kbd "C-c c Q") 'eglot-shutdown-all)
     (define-key eglot-mode-map (kbd "C-c c q") 'eglot-shutdown)
     (define-key eglot-mode-map (kbd "C-c c R") 'eglot-reconnect)
+    (define-key eglot-mode-map (kbd "C-c c m") 'eglot-menu)
     (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c c d") 'eglot-find-declaration)
     (define-key eglot-mode-map (kbd "C-c c .") 'eglot-find-typeDefinition)
