@@ -262,19 +262,30 @@ fedora_install() {
             3)
                 echo "$CHOICE) Installing NVIDIA Drivers. Disable secure boot in the bios."
 
-                # Install kernel headers and dev tools
-                sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
+                # Check if you have Secure Boot enabled with - easier if yes!
+                #     mokutil --sb-state
 
-                # Set open kernel module macro (one-time step)
-                sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
+                # Install kernel headers and dev tools
+                sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid \
+                     libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
 
                 # NVIDIA - Install
                 sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
 
+                # Monitor progress
+                #  sudo journalctl -f -u akmods
+
+                # Needed for Encrypted Drives
+                echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |\
+                    sudo tee -a /etc/dracut.conf.d/nvidia.conf
+                sudo dracut --force
+
                 # Enable nvidia-modeset
                 sudo grubby --update-kernel=ALL --args="nvidia-drm.modeset=1"
 
-                # modinfo -F version nvidia #Check if the kernel module is built.
+                # Check if the kernel module is built.
+                #     modinfo -F version nvidia
+
                 read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
                 ;;
             4)
@@ -313,6 +324,7 @@ fedora_install() {
 
                 # System Monitor
                 sudo dnf install -y htop
+                sudo dnf install -y smem
                 # sudo dnf install -y atop below btop nvtop
 
                 # IO Stuff
@@ -403,9 +415,6 @@ fedora_install() {
                 # Command Line Fuzzy Finder
                 sudo dnf install -y fzf
 
-                # See memory usage
-                sudo dnf install -y smem
-
                 # Emacs (on fedora is up to date but I prefer to compile it myself)
                 # sudo dnf install -y emacs
                 # sudo dnf install -y libvterm libvterm-devel # necessary for vterm
@@ -470,14 +479,18 @@ fedora_install() {
                     sudo dnf -y group upgrade multimedia
                 sudo dnf -y group install sound-and-video && \
                     sudo dnf -y group upgrade sound-and-video
-                sudo dnf swap 'ffmpeg-free' 'ffmpeg' --allowerasing # Switch to full FFMPEG.
+
+                # Switch to full FFMPEG.
+                sudo dnf swap 'ffmpeg-free' 'ffmpeg' --allowerasing
+
+                # Installs gstreamer components. Required if you use Gnome Videos and other dependent applications.
                 sudo dnf upgrade @multimedia --setopt="install_weak_deps=False" \
-                     --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components.
-                                                           # Required if you use Gnome Videos and other dependent applications.
+                     --exclude=PackageKit-gstreamer-plugin
+
                 # Basic drivers and Vulkan support
                 sudo dnf install -y mesa-dri-drivers mesa-vulkan-drivers vulkan-loader mesa-libGLU
 
-                # Install Hardware Accelerated Codec
+                # Install Hardware Accelerated Codecs
                 sudo dnf install ffmpeg-libs libva libva-utils
 
                 # AMD / Intel
