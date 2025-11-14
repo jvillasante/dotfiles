@@ -276,11 +276,11 @@ fedora_install() {
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
                 sudo dnf group install -y "development-tools" "c-development"
-                sudo dnf install -y ripgrep fd-find util-linux-user xprop xwininfo htop btop nvtop
+                sudo dnf install -y ripgrep fd-find util-linux-user xprop xwininfo
                 sudo dnf install -y aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
                 sudo dnf install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
                 sudo dnf install -y dnsutils dos2unix doxygen msmtp fastfetch
-                sudo dnf install -y graphviz htop mercurial ninja-build
+                sudo dnf install -y graphviz mercurial ninja-build
                 sudo dnf install -y nodejs npm python3 python3-pip
                 sudo dnf install -y multimarkdown pandoc poppler poppler-utils poppler-data
                 sudo dnf install -y subversion tldr tree w3m lynx wget libtool texinfo
@@ -303,6 +303,10 @@ fedora_install() {
                      libffi-devel findutils tk-devel libyaml-devel
                 sudo dnf install -y cowsay fortune-mod gnuplot telnet rlwrap
                 sudo dnf install -y libgcrypt libgcrypt-devel
+
+                # System Monitor
+                sudo dnf install -y htop
+                # sudo dnf install -y atop below btop nvtop
 
                 # IO Stuff
                 sudo dnf install -y libaio libaio-devel
