@@ -104,27 +104,19 @@
 
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
-    (setq-default eglot-workspace-configuration '(
-                                                  :gopls (:staticcheck t :usePlaceholders t)
-                                                  :rust-analyzer (:check (:command "clippy")
-                                                                         :cargo (:sysroot "discover"
-                                                                                          :features "all"
-                                                                                          :buildScripts (:enable t))
-                                                                         :diagnostics (:disabled ["macro-error"])
-                                                                         :procMacro (:enable t))))
+    (setq-default eglot-workspace-configuration
+                  '(
+                    :gopls (:staticcheck t :usePlaceholders t)
+                    :rust-analyzer (:check (:command "clippy")
+                                           :cargo (:sysroot "discover"
+                                                            :features "all"
+                                                            :buildScripts (:enable t))
+                                           :diagnostics (:disabled ["macro-error"])
+                                           :procMacro (:enable t))))
     ;; don't try to manage these
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
     ;; (add-to-list 'eglot-stay-out-of 'flymake)
     ;; (add-to-list 'eglot-stay-out-of 'yasnippet)
-
-    ;; Rust
-    (add-to-list 'eglot-server-programs
-                 '((rust-ts-mode rust-mode) .
-                   ("rust-analyzer" :initializationOptions (:checkOnSave (:command "clippy")))))
-
-    ;; Zig
-    (add-to-list 'eglot-server-programs
-                 '(zig-mode . ("zls")))
 
     ;; C++
     (add-to-list 'eglot-server-programs
