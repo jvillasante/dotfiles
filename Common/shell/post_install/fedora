@@ -16,7 +16,7 @@ readonly WS_X11="X11"
 readonly WM_KDE="KDE"
 readonly WM_GNOME="Gnome"
 WINDOW_SYSTEM="$WS_WAYLAND"
-WINDOW_MANAGER="$WM_KDE"
+WINDOW_MANAGER="$WM_GNOME"
 
 install_berkeley_mono_font() {
     [ ! -d "$(pwd)"/fonts ] && notify-send "$(pwd)/fonts is not a directory" --expire-time=20 && return
