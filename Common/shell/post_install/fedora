@@ -213,13 +213,6 @@ fedora_install() {
                 # Faster Boot
                 sudo systemctl disable NetworkManager-wait-online.service
 
-                # Custom DNS
-                [ -f /etc/systemd/resolved.conf.d ] && sudo mv /etc/systemd/resolved.conf.d /etc/systemd/resolved.conf.d.bak
-                sudo cp -r "$HOME"/Workspace/Public/dotfiles/Common/systemd/resolved.conf.d /etc/systemd/
-                sudo systemctl restart systemd-resolved
-                # verify DoT is working
-                #   resolvectl status
-
                 # Setup dnf configs and update
                 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
                 sudo dnf upgrade -y --refresh
@@ -275,21 +268,21 @@ fedora_install() {
                 # Monitor progress
                 #  sudo journalctl -f -u akmods
 
-                # Needed for Encrypted Drives
+                # Check if the kernel module is built.
+                #     modinfo -F version nvidia
+
+                read -rp "$CHOICE) Done. Reboot after akmod build!!!. Press enter to continue..."
+                ;;
+            4)
+                echo "$CHOICE) Installing Software"
+
+                # Nvidia - Needed for Encrypted Drives
                 echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |\
                     sudo tee -a /etc/dracut.conf.d/nvidia.conf
                 sudo dracut --force
 
-                # Enable nvidia-modeset
+                # Nvidia - Enable nvidia-modeset
                 sudo grubby --update-kernel=ALL --args="nvidia-drm.modeset=1"
-
-                # Check if the kernel module is built.
-                #     modinfo -F version nvidia
-
-                read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
-                ;;
-            4)
-                echo "$CHOICE) Installing Software"
 
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
@@ -390,7 +383,7 @@ fedora_install() {
                 curl -sS https://starship.rs/install.sh | sh
 
                 # gpg
-                sudo dnf install -y gpg gnupg2 gnupg-pkcs11-scd pcsc-tools opensc pcsc-lite-ccid
+                sudo dnf install -y gpg gnupg2 gnupg2-scdaemon gnupg-pkcs11-scd pcsc-tools opensc pcsc-lite-ccid
                 sudo dnf install -y pinentry-emacs pinentry-tty
                 sudo systemctl enable --now pcscd && sudo systemctl start pcscd
 
@@ -454,13 +447,13 @@ fedora_install() {
                 # non dnf software
                 pip3 install cmake-language-server
                 pip3 install pyright
-                sudo npm install --global npm@latest
-                sudo npm install --global prettier
-                sudo npm install --global js-beautify
-                sudo npm install --global typescript-language-server typescript
-                sudo npm install --global dockerfile-language-server-nodejs
-                sudo npm install --global bash-language-server
-                sudo npm install --global @devcontainers/cli
+                sudo npm install --location=global npm@latest
+                sudo npm install --location=global prettier
+                sudo npm install --location=global js-beautify
+                sudo npm install --location=global typescript-language-server typescript
+                sudo npm install --location=global dockerfile-language-server-nodejs
+                sudo npm install --location=global bash-language-server
+                sudo npm install --location=global @devcontainers/cli
 
                 # Needed for `lsp-bridge`
                 # pip3 install epc orjson sexpdata six setuptools paramiko rapidfuzz watchdog packaging
@@ -484,20 +477,20 @@ fedora_install() {
                 sudo dnf swap 'ffmpeg-free' 'ffmpeg' --allowerasing
 
                 # Installs gstreamer components. Required if you use Gnome Videos and other dependent applications.
-                sudo dnf upgrade @multimedia --setopt="install_weak_deps=False" \
+                sudo dnf -y upgrade @multimedia --setopt="install_weak_deps=False" \
                      --exclude=PackageKit-gstreamer-plugin
 
                 # Basic drivers and Vulkan support
                 sudo dnf install -y mesa-dri-drivers mesa-vulkan-drivers vulkan-loader mesa-libGLU
 
                 # Install Hardware Accelerated Codecs
-                sudo dnf install ffmpeg-libs libva libva-utils
+                sudo dnf install -y ffmpeg-libs libva libva-utils
 
                 # AMD / Intel
                 if test "$(cat /proc/cpuinfo | grep vendor | uniq | grep -iFc "intel")"; then
                     echo "$CHOICE) Installing Hardware Accelerated Codecs for Intel Architecture"
                     sudo dnf swap libva-intel-media-driver intel-media-driver --allowerasing
-                    sudo dnf install libva-intel-driver
+                    sudo dnf install -y libva-intel-driver
                 elif test "$(cat /proc/cpuinfo | grep vendor | uniq | grep -iFc "amd")"; then
                     echo "$CHOICE) Installing Hardware Accelerated Codecs for AMD Architecture"
                     sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
@@ -513,7 +506,7 @@ fedora_install() {
                 sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 
                 # Hardware codecs with NVIDIA
-                sudo dnf install -y nvidia-vaapi-driver --allowerasing
+                sudo dnf install -y nvidia-vaapi-driver --allowerasing --skip-unavailable
 
                 # Play a DVD
                 sudo dnf install -y rpmfusion-free-release-tainted && sudo dnf install -y libdvdcss
@@ -527,18 +520,18 @@ fedora_install() {
                 #
 
                 # PSD: Install
-                sudo dnf install -y profile-sync-daemon
-                if [ -f /usr/share/psd/contrib/brave ]; then
-                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
-                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
-                fi
+                # sudo dnf install -y profile-sync-daemon
+                # if [ -f /usr/share/psd/contrib/brave ]; then
+                #     sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                # elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
+                #     sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
+                # fi
 
                 # PSD: Needs sudo permissions for overlay-fs - needs a logout :(
-                echo 'jvillasante ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper' | sudo EDITOR='tee -a' visudo
+                # echo 'jvillasante ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper' | sudo EDITOR='tee -a' visudo
 
                 # PSD: Enable and Start the Daemon
-                systemctl --user enable --now psd.service && systemctl --user start psd.service
+                # systemctl --user enable --now psd.service && systemctl --user start psd.service
 
                 #
                 # Chromium Browser (For use with eww)
@@ -550,10 +543,10 @@ fedora_install() {
                 # Brave Browser
                 #
 
-                sudo dnf install dnf-plugins-core
+                sudo dnf install -y dnf-plugins-core
                 sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
                 sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-                sudo dnf install brave-browser
+                sudo dnf install -y brave-browser
 
                 #
                 # Firefox
@@ -573,7 +566,7 @@ fedora_install() {
                 # OpenVPN
                 #
 
-                sudo dnf install openvpn
+                sudo dnf install -y openvpn
 
                 #
                 # Docker (using podman)
@@ -689,7 +682,7 @@ fedora_install() {
                                                                    --expire-time=20 && continue
                 [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" \
                                                                    --expire-time=20 && continue
-                [ ! -f "$KEYS_DIR/gnupg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gnupg.tar.gz.gpg does not exists" \
+                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" \
                                                                    --expire-time=20 && continue
 
                 echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
@@ -705,14 +698,14 @@ fedora_install() {
                 chmod 644 ~/.ssh/id_*.pub
                 rm -rf "$KEYS_DIR"/.ssh
 
-                echo ">> Setting up gpg keys from $KEYS_DIR/gnupg.tar.gz.gpg"
-                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gnupg.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/gnupg ] && notify-send "Decryption failed, $KEYS_DIR/gnupg does not exists" \
+                echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
+                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
+                [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" \
                                                         --expire-time=20 && continue
                 mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
-                cp "$KEYS_DIR"/gnupg/config/*.conf ~/.gnupg
-                gpg --import "$KEYS_DIR"/gnupg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
-                rm -rf "$KEYS_DIR"/gnupg
+                cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
+                gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
+                rm -rf "$KEYS_DIR"/gpg
 
                 echo "Editing gpg key 0xB3F..., you should 'trust' ultimately (Option 5) and 'quit'"
                 gpg --edit-key 0xB3F739419D91C7F3
@@ -740,6 +733,13 @@ fedora_install() {
                     # Udev rules for ZSA Voyager
                     # sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/50-zsa.rules \
                     #      /etc/udev/rules.d/50-zsa.rules
+
+                    # Custom DNS
+                    [ -d /etc/systemd/resolved.conf.d ] && sudo mv /etc/systemd/resolved.conf.d /etc/systemd/resolved.conf.d.bak
+                    sudo cp -r "$HOME"/Workspace/Public/dotfiles/Common/systemd/resolved.conf.d /etc/systemd/
+                    sudo systemctl restart systemd-resolved
+                    # verify DoT is working
+                    #   resolvectl status
                 fi
 
                 read -rp "$CHOICE) Done. Press enter to continue..."

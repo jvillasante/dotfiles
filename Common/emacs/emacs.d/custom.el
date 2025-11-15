@@ -15,27 +15,28 @@
  '(package-selected-packages
       '(adoc-mode anzu apheleia avy cape cl-generic cmake-mode consult-dir
            consult-notes corfu crux csv-mode dape devdocs-browser diff-hl
-           dired-rsync dired-sidebar diredfl docker dockerfile-mode
-           dwim-shell-command editorconfig eglot-booster eldoc-diffstat elfeed
-           elisp-demos embark-consult engine-mode erc exec-path-from-shell
-           expreg faceup fancy-compilation geiser-guile go-mode gptel helpful
-           hl-todo ibuffer-project idlwave jinx js2-mode json-mode ledger-mode
-           lua-mode magit map marginalia markdown-mode minions modus-themes
-           monkeytype multiple-cursors nov ntlm orderless org-superstar otpp
-           package-lint-flymake password-store pdf-view-restore peg persist
-           persistent-scratch php-mode python rainbow-delimiters request rg
-           rmsbolt rust-mode shell-maker shrink-path so-long soap-client
-           surround svg track-changes tramp trashed use-package verb
-           verilog-mode vertico vim-tab-bar vterm vundo web-mode wgrep-deadgrep
-           which-key window-tool-bar yaml-mode yasnippet-snippets zig-mode))
- '(package-vc-selected-packages '((gptel :url "git@github.com:karthink/gptel.git"))))
+           dired-sidebar diredfl docker dockerfile-mode dwim-shell-command
+           editorconfig eldoc-diffstat elfeed elisp-demos embark-consult
+           engine-mode erc expreg faceup fancy-compilation geiser-guile go-mode
+           gptel helpful hl-todo ibuffer-project idlwave jinx js2-mode json-mode
+           ledger-mode lua-mode magit map marginalia markdown-mode minions
+           modus-themes monkeytype multiple-cursors nov ntlm orderless
+           org-superstar otpp package-lint-flymake password-store
+           pdf-view-restore peg persistent-scratch php-mode python
+           rainbow-delimiters request rg rmsbolt rust-mode shrink-path so-long
+           soap-client surround svg track-changes tramp trashed use-package verb
+           verilog-mode vertico vim-tab-bar vterm vundo web-mode which-key
+           window-tool-bar yaml-mode yasnippet-snippets zig-mode))
+ '(package-vc-selected-packages
+      '((gptel :url "git@github.com:karthink/gptel.git")
+           (ledger-mode :url "git@github.com:ledger/ledger-mode.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family fixed-font :height 140))))
- '(fixed-pitch ((t (:family fixed-font :height 140))))
+ '(default ((t (:family fixed-font :height 145))))
+ '(fixed-pitch ((t (:family fixed-font :height 145))))
  '(font-lock-comment-face ((t (:family fixed-font :slant italic))))
  '(variable-pitch ((t (:family variable-font :height 1.0)))))
 
