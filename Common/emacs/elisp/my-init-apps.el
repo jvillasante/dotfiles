@@ -6,10 +6,10 @@
 ;; password-store for emacs
 (use-package password-store
     :preface
-    (defun my/password-store-git-push ()
+    (defun my-password-store-git-push ()
         (interactive)
         (with-editor-async-shell-command "pass git push"))
-    (defun my/password-store-reset-gpg-pcscd ()
+    (defun my-password-store-reset-gpg-pcscd ()
         (interactive)
         (with-editor-async-shell-command "sudo systemctl restart pcscd"))
     :bind (("C-c P c" . password-store-copy)
@@ -20,8 +20,8 @@
            ("C-c P r" . password-store-rename)
            ("C-c P R" . password-store-remove)
            ("C-c P i" . password-store-insert)
-           ("C-c P P" . my/password-store-git-push)
-           ("C-c P X" . my/password-store-reset-gpg-pcscd))
+           ("C-c P P" . my-password-store-git-push)
+           ("C-c P X" . my-password-store-reset-gpg-pcscd))
     :custom ((password-store-password-length 25)))
 
 ;; gnus
@@ -36,7 +36,7 @@
                         (nntp-open-connection-function nntp-open-ssl-stream)
                         (nntp-port-number 563)))
     ;; init file
-    (setq gnus-startup-file (expand-file-name "Apps/gnus/newsrc" my/dropbox-path)
+    (setq gnus-startup-file (expand-file-name "Apps/gnus/newsrc" my-dropbox-path)
           gnus-save-newsrc-file nil
           gnus-read-newsrc-file nil)
 
@@ -71,7 +71,7 @@
     :ensure nil  ;; emacs built-in
     :disabled t
     :preface
-    (defun my/close-newsticker ()
+    (defun my-close-newsticker ()
         "Kill all tree-view related buffers."
         (kill-buffer "*Newsticker List*")
         (kill-buffer "*Newsticker Item*")
@@ -79,7 +79,7 @@
     :config
     (setq newsticker-url-list '(("Planet Emacslife" "https://planet.emacslife.com/atom.xml")
                                 ("Hacker News" "https://news.ycombinator.com/rss")))
-    (advice-add 'newsticker-treeview-quit :after 'my/close-newsticker))
+    (advice-add 'newsticker-treeview-quit :after 'my-close-newsticker))
 
 (use-package eww
     :ensure nil ; emacs built-in
@@ -114,7 +114,7 @@
     :mode ("\\.epub\\'" . nov-mode)
     :custom ((nov-text-width 80)
              (nov-variable-pitch t)
-             (nov-save-place-file (expand-file-name "nov-places" my/var-dir))))
+             (nov-save-place-file (expand-file-name "nov-places" my-var-dir))))
 
 ;; pdf-tools: replacement of DocView for PDF files
 (use-package pdf-tools
@@ -127,7 +127,7 @@
     :after pdf-tools
     :hook (pdf-view-mode . pdf-view-restore-mode)
     :config (setq pdf-view-restore-filename
-                  (expand-file-name "pdf-view-restore" my/var-dir)))
+                  (expand-file-name "pdf-view-restore" my-var-dir)))
 
 ;; doc-view: built-in pdf viewer
 (use-package doc-view
@@ -158,17 +158,17 @@
     :disabled t
     :defer t
     :preface
-    (defun my/circe-prompt ()
+    (defun my-circe-prompt ()
         (lui-set-prompt
          (concat (propertize (concat (buffer-name) ">")
                              'face 'circe-prompt-face)
                  " ")))
-    (defun my/irc.libera.chat-password(&rest ignored)
+    (defun my-irc.libera.chat-password(&rest ignored)
         (string-trim (nth 0 (process-lines "pass" "show" "Logins/irc.libera.chat"))))
     :init
     (require 'lui-autopaste)
     (add-hook 'circe-channel-mode-hook 'enable-lui-autopaste)
-    (add-hook 'circe-chat-mode-hook 'my/circe-prompt)
+    (add-hook 'circe-chat-mode-hook 'my-circe-prompt)
     :config
     (setq circe-use-cycle-completion t)
     (setq circe-reduce-lurker-spam t)
@@ -179,7 +179,7 @@
              :tls t
              :nick "jvillasante"
              :sasl-username "jvillasante"
-             :sasl-password my/irc.libera.chat-password
+             :sasl-password my-irc.libera.chat-password
              :channels ("#emacs" "#emacs-circe" "#pass" "#opensuse")))))
 
 ;; speed-type : Practice speed typing
@@ -211,7 +211,7 @@
 (use-package elfeed
     :defer t
     :preface
-    (defun my/elfeed-eww-open (&optional use-generic-p)
+    (defun my-elfeed-eww-open (&optional use-generic-p)
         "open with eww"
         (interactive "P")
         (let ((entries (elfeed-search-selected)))
@@ -221,7 +221,7 @@
                      do (eww-browse-url it))
             (mapc #'elfeed-search-update-entry entries)
             (unless (use-region-p) (forward-line))))
-    (defun my/elfeed-w3m-open (&optional use-generic-p)
+    (defun my-elfeed-w3m-open (&optional use-generic-p)
         "open with w3m"
         (interactive "P")
         (let ((entries (elfeed-search-selected)))
@@ -231,7 +231,7 @@
                      do (eww-browse-url it))
             (mapc #'elfeed-search-update-entry entries)
             (unless (use-region-p) (forward-line))))
-    (defun my/elfeed-firefox-open (&optional use-generic-p)
+    (defun my-elfeed-firefox-open (&optional use-generic-p)
         "open with firefox"
         (interactive "P")
         (let ((entries (elfeed-search-selected)))
@@ -248,7 +248,7 @@
     (setq elfeed-search-title-max-width 100)
     (setq elfeed-search-trailing-width 0)
     (setq elfeed-search-filter "@6-months-ago +unread")
-    (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
+    (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" my-dropbox-path))
     (setq elfeed-show-entry-switch #'pop-to-buffer)
     (setq shr-max-image-proportion 0.7)
     (add-to-list 'display-buffer-alist

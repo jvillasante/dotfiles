@@ -131,7 +131,7 @@
 (use-package neotree
     :disabled t
     :preface
-    (defun my/neotree-project-dir ()
+    (defun my-neotree-project-dir ()
         "Open NeoTree using project root."
         (interactive)
         (let ((project-dir (or (when-let ((project (project-current))) (project-root project))

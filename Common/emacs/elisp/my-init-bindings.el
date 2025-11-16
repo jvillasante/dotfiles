@@ -20,7 +20,7 @@
 (global-unset-key (kbd "C-?"))
 
 ;; smart kill buffers
-(defun my/smart-kill-buffer ()
+(defun my-smart-kill-buffer ()
     "Kill buffers.
 When run interactively:
 - Without a prefix arg (`C-x C-k`), `kill-current-buffer'.
@@ -29,10 +29,10 @@ When run interactively:
     (if current-prefix-arg
             (call-interactively #'kill-buffer)
         (kill-current-buffer)))
-(global-set-key (kbd "C-x k") 'my/smart-kill-buffer)
+(global-set-key (kbd "C-x k") 'my-smart-kill-buffer)
 
 ;; smart kill emacs
-(defun my/smart-kill-emacs ()
+(defun my-smart-kill-emacs ()
     "Kill Emacs client or daemon with confirmation.
 When run interactively:
 - Without a prefix arg (`C-x C-c`), ask to close the client frame.
@@ -47,7 +47,7 @@ When run interactively:
             (save-buffers-kill-terminal))))
 (when (daemonp)
     ;; Only override C-x C-c when running as a daemon
-    (global-set-key (kbd "C-x C-c") #'my/smart-kill-emacs))
+    (global-set-key (kbd "C-x C-c") #'my-smart-kill-emacs))
 
 ;; Emacs29 changes `cycle-spacing' default
 (global-set-key [remap cycle-spacing] 'just-one-space)
@@ -62,22 +62,22 @@ When run interactively:
 (with-eval-after-load 'c-ts-mode
     (define-key c-ts-base-mode-map (kbd "C-x C-o") 'ff-find-other-file)
     (with-eval-after-load 'eglot
-        (define-key c-ts-base-mode-map (kbd "C-x C-o") 'my/eglot-clangd-find-other-file)))
+        (define-key c-ts-base-mode-map (kbd "C-x C-o") 'my-eglot-clangd-find-other-file)))
 
 ;; Use Ctrl+arrow keys to move between windows.
 (windmove-default-keybindings 'control)
 
 ;; better `keyword-quit'
-(define-key global-map [remap keyboard-quit] 'my/keyboard-quit-dwim)
+(define-key global-map [remap keyboard-quit] 'my-keyboard-quit-dwim)
 
 ;; Repeat in emacs is not as good as vim :(
 (global-set-key (kbd "C-.") 'repeat)
 
 ;; Clone the current buffer in a new window with `q' to exit
-(global-set-key (kbd "C-x 9") 'my/clone-buffer-in-new-window-readonly) ; same
+(global-set-key (kbd "C-x 9") 'my-clone-buffer-in-new-window-readonly) ; same
 
 ;; ctl-x-4-map
-(define-key ctl-x-4-map (kbd "T") 'my/toggle-window-split)
+(define-key ctl-x-4-map (kbd "T") 'my-toggle-window-split)
 
 ;; duplicate current line or region
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
@@ -92,17 +92,17 @@ When run interactively:
 (global-set-key (kbd "C-M-=") 'count-matches)
 
 ;; Open line(s) below/above current one (using crux implementation)
-;; (global-set-key (kbd "C-o") 'my/open-next-line)
-;; (global-set-key (kbd "M-o") 'my/open-previous-line)
+;; (global-set-key (kbd "C-o") 'my-open-next-line)
+;; (global-set-key (kbd "M-o") 'my-open-previous-line)
 
 ;; better comment/un-comment
-(global-set-key (kbd "M-;") 'my/comment-or-uncomment)
-(global-set-key (kbd "C-x C-;") 'my/comment-or-uncomment)
+(global-set-key (kbd "M-;") 'my-comment-or-uncomment)
+(global-set-key (kbd "C-x C-;") 'my-comment-or-uncomment)
 
 ;; fill-unfill
-(define-key global-map [remap fill-paragraph] 'my/fill-or-unfill)
-(global-set-key (kbd "M-Q") 'my/unfill-paragraph)
-(global-set-key (kbd "C-M-Q") 'my/unfill-region)
+(define-key global-map [remap fill-paragraph] 'my-fill-or-unfill)
+(global-set-key (kbd "M-Q") 'my-unfill-paragraph)
+(global-set-key (kbd "C-M-Q") 'my-unfill-region)
 
 ;; eldoc
 (with-eval-after-load 'eldoc
@@ -129,14 +129,14 @@ When run interactively:
     (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward))
 
 ;; (with-eval-after-load 'calc
-;;     (define-key calc-mode-map (kbd "q") 'my/close-buffer-and-window))
+;;     (define-key calc-mode-map (kbd "q") 'my-close-buffer-and-window))
 
 ;; (with-eval-after-load 'eww
-;;     (define-key eww-mode-map (kbd "q") 'my/close-buffer-and-window))
+;;     (define-key eww-mode-map (kbd "q") 'my-close-buffer-and-window))
 
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
-    ;; (define-key ibuffer-mode-map (kbd "q") 'my/close-buffer-and-window)
+    ;; (define-key ibuffer-mode-map (kbd "q") 'my-close-buffer-and-window)
     (keymap-set ibuffer-mode-map "{" #'ibuffer-backwards-next-marked)
     (keymap-set ibuffer-mode-map "}" #'ibuffer-forward-next-marked)
     (keymap-set ibuffer-mode-map "[" #'ibuffer-backward-filter-group)
@@ -257,11 +257,11 @@ When run interactively:
 (when (package-installed-p 'magit)
     (global-set-key (kbd "C-x g") 'magit-status)
     (with-eval-after-load 'magit
-        (define-key magit-status-mode-map (kbd "q") 'my/magit-kill-buffers)
-        (define-key magit-status-mode-map (kbd "C-x k") 'my/magit-kill-buffers)))
+        (define-key magit-status-mode-map (kbd "q") 'my-magit-kill-buffers)
+        (define-key magit-status-mode-map (kbd "C-x k") 'my-magit-kill-buffers)))
 
 (with-eval-after-load 'org
-    (define-key org-mode-map [remap fill-paragraph] 'my/org-fill-or-unfill)
+    (define-key org-mode-map [remap fill-paragraph] 'my-org-fill-or-unfill)
     (define-key org-mode-map (kbd "M-n") 'org-next-visible-heading)
     (define-key org-mode-map (kbd "M-p") 'org-previous-visible-heading)
     (when (package-installed-p 'verb)
@@ -271,9 +271,9 @@ When run interactively:
     (define-key markdown-mode-map (kbd "TAB") 'markdown-cycle))
 
 (global-set-key (kbd "C-c o e") 'eshell)
-(global-set-key (kbd "C-c o E") 'my/eshell-other-window)
+(global-set-key (kbd "C-c o E") 'my-eshell-other-window)
 (global-set-key (kbd "C-c o s") 'shell)
-(global-set-key (kbd "C-c o S") 'my/shell-other-window)
+(global-set-key (kbd "C-c o S") 'my-shell-other-window)
 (when (package-installed-p 'eat)
     ;; global keys
     (global-set-key (kbd "C-c o t") 'eat)
@@ -295,13 +295,13 @@ When run interactively:
 
     (with-eval-after-load 'project
         ;; project-prefix-map
-        (define-key project-prefix-map (kbd "t") 'my/vterm-project)
-        (define-key project-prefix-map (kbd "T") 'my/vterm-project-other-window))
+        (define-key project-prefix-map (kbd "t") 'my-vterm-project)
+        (define-key project-prefix-map (kbd "T") 'my-vterm-project-other-window))
 
     (with-eval-after-load 'vterm
         ;; vterm-copy-mode-map
-        (define-key vterm-copy-mode-map (kbd "<return>") 'my/vterm-copy-mode-cancel)
-        (define-key vterm-copy-mode-map (kbd "RET")      'my/vterm-copy-mode-cancel)
+        (define-key vterm-copy-mode-map (kbd "<return>") 'my-vterm-copy-mode-cancel)
+        (define-key vterm-copy-mode-map (kbd "RET")      'my-vterm-copy-mode-cancel)
 
         ;; vterm-mode-map
         (define-key vterm-mode-map (kbd "<insert>") 'ignore)
@@ -315,10 +315,10 @@ When run interactively:
     ;; (define-key dired-mode-map [remap dired-do-shell-command] 'dwim-shell-command)
     ;; (define-key dired-mode-map [remap dired-do-async-shell-command] 'dwim-shell-command)
     ;; (define-key dired-mode-map [remap dired-smart-shell-command] 'dwim-shell-command)
-    (define-key dired-mode-map (kbd "C-c C-r") 'my/dwim-shell-command-dired-rsync))
+    (define-key dired-mode-map (kbd "C-c C-r") 'my-dwim-shell-command-dired-rsync))
 
 (with-eval-after-load 'helpful
-    ;; (define-key helpful-mode-map (kbd "q") 'my/close-buffer-and-window)
+    ;; (define-key helpful-mode-map (kbd "q") 'my-close-buffer-and-window)
     (define-key global-map [remap describe-function] 'helpful-callable)
     (define-key global-map [remap describe-variable] 'helpful-variable)
     (define-key global-map [remap describe-command]  'helpful-command)
@@ -398,16 +398,16 @@ When run interactively:
     (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
 (with-eval-after-load 'deadgrep
-    ;; (define-key deadgrep-mode-map (kbd "q") 'my/close-buffer-and-window)
+    ;; (define-key deadgrep-mode-map (kbd "q") 'my-close-buffer-and-window)
     (global-set-key (kbd "M-s R") 'deadgrep)) ; extend M-s r (consult-ripgrep)
 
 (with-eval-after-load 'rg
-    (global-set-key (kbd "M-s R") 'my/grep-vc-or-dir) ; extend M-s r (consult-ripgrep)
+    (global-set-key (kbd "M-s R") 'my-grep-vc-or-dir) ; extend M-s r (consult-ripgrep)
     (global-set-key (kbd "M-s g") 'rg-menu)
-    (global-set-key (kbd "M-s G") 'my/grep-vc-or-dir)
-    ;; (define-key rg-mode-map (kbd "q") 'my/close-buffer-and-window)
+    (global-set-key (kbd "M-s G") 'my-grep-vc-or-dir)
+    ;; (define-key rg-mode-map (kbd "q") 'my-close-buffer-and-window)
     (define-key isearch-mode-map (kbd "M-s r") 'rg-isearch-menu)
-    (define-key rg-mode-map (kbd "s") 'my/rg-save-search-as-name))
+    (define-key rg-mode-map (kbd "s") 'my-rg-save-search-as-name))
 
 (with-eval-after-load 'surround
     (define-key global-map (kbd "M-'") surround-keymap))
@@ -419,7 +419,7 @@ When run interactively:
 
 (with-eval-after-load 'dired
     (define-key dired-mode-map (kbd "C-<return>") 'dired-do-open)
-    ;; (define-key dired-mode-map (kbd "q") 'my/close-buffer-and-window)
+    ;; (define-key dired-mode-map (kbd "q") 'my-close-buffer-and-window)
     (define-key dired-mode-map (kbd "e") 'dired-toggle-read-only))
 
 (with-eval-after-load 'dired-x
@@ -429,7 +429,7 @@ When run interactively:
     (global-set-key (kbd "C-x C-n") 'dired-sidebar-toggle-sidebar))
 
 (when (package-installed-p 'neotree)
-    (global-set-key (kbd "C-x C-n") 'my/neotree-project-dir)
+    (global-set-key (kbd "C-x C-n") 'my-neotree-project-dir)
     (with-eval-after-load 'neotree
         (define-key neotree-mode-map (kbd ".") 'neotree-hidden-file-toggle)))
 
@@ -437,9 +437,9 @@ When run interactively:
     (global-set-key (kbd "C-x o") 'ace-window))
 
 (with-eval-after-load 'pixel-scroll
-    (define-key global-map [remap scroll-up-command]   'my/pixel-scroll-up-command)
-    (define-key global-map [remap scroll-down-command] 'my/pixel-scroll-down-command)
-    (define-key global-map [remap recenter-top-bottom] 'my/pixel-recenter-top-bottom))
+    (define-key global-map [remap scroll-up-command]   'my-pixel-scroll-up-command)
+    (define-key global-map [remap scroll-down-command] 'my-pixel-scroll-down-command)
+    (define-key global-map [remap recenter-top-bottom] 'my-pixel-recenter-top-bottom))
 
 (with-eval-after-load 'gptel
     (define-key gptel-mode-map (kbd "C-c C-c") 'gptel-send))
@@ -477,7 +477,7 @@ When run interactively:
     (global-set-key (kbd "C-x C-a b")   'activities-switch-buffer)
     (global-set-key (kbd "C-x C-a g")   'activities-revert)
     (global-set-key (kbd "C-x C-a l")   'activities-list)
-    (global-set-key (kbd "C-x b")       'my/switch-to-buffer))
+    (global-set-key (kbd "C-x b")       'my-switch-to-buffer))
 
 ;;; Prefix
 ;; C-c w : windows
@@ -495,7 +495,7 @@ When run interactively:
 
 ;; C-c c : Code
 (with-eval-after-load 'hs-minor-mode
-    (define-key hs-minor-mode-map (kbd "C-c c f") 'my/hs-toggle-hidding))
+    (define-key hs-minor-mode-map (kbd "C-c c f") 'my-hs-toggle-hidding))
 (with-eval-after-load 'consult-eglot
     (define-key eglot-mode-map (kbd "C-c c s") 'consult-eglot-symbols))
 (with-eval-after-load 'eglot
@@ -521,19 +521,19 @@ When run interactively:
 (when (package-installed-p 'elfeed)
     (global-set-key (kbd "C-c o f") 'elfeed)
     (with-eval-after-load 'elfeed
-        (define-key elfeed-show-mode-map (kbd "q") 'my/close-buffer-and-window)
-        (define-key elfeed-search-mode-map (kbd "q") 'my/close-buffer-and-window)
-        ;; (define-key elfeed-search-mode-map (kbd "t") 'my/elfeed-w3m-open)
-        (define-key elfeed-search-mode-map (kbd "w") 'my/elfeed-eww-open)
-        (define-key elfeed-search-mode-map (kbd "f") 'my/elfeed-firefox-open)))
+        (define-key elfeed-show-mode-map (kbd "q") 'my-close-buffer-and-window)
+        (define-key elfeed-search-mode-map (kbd "q") 'my-close-buffer-and-window)
+        ;; (define-key elfeed-search-mode-map (kbd "t") 'my-elfeed-w3m-open)
+        (define-key elfeed-search-mode-map (kbd "w") 'my-elfeed-eww-open)
+        (define-key elfeed-search-mode-map (kbd "f") 'my-elfeed-firefox-open)))
 (when (package-installed-p 'consult-notes)
     (global-set-key (kbd "C-c o n") 'consult-notes))
 (global-set-key (kbd "C-c o a") 'org-agenda)
 (global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o i") 'ielm)
-(global-set-key (kbd "C-c o b") 'my/open-link-at-point-or-minibuffer-with-choice)
-(global-set-key (kbd "C-c o m") 'my/new-scratch-buffer-in-markdown)
-(global-set-key (kbd "C-c o o") 'my/new-scratch-buffer-in-org)
+(global-set-key (kbd "C-c o b") 'my-open-link-at-point-or-minibuffer-with-choice)
+(global-set-key (kbd "C-c o m") 'my-new-scratch-buffer-in-markdown)
+(global-set-key (kbd "C-c o o") 'my-new-scratch-buffer-in-org)
 
 ;; C c n : Notes
 (when (package-installed-p 'consult-notes)

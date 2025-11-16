@@ -7,7 +7,7 @@
     :ensure nil ;; emacs built-in
     :defer t
     :preface
-    (defun my/org-setup ()
+    (defun my-org-setup ()
         ;; org wants 8 as tab-width
         (setq-local tab-width 8)
         (setq-local indent-tabs-mode nil)
@@ -41,9 +41,9 @@
            ;; (sh . t)
            (sql . t)
            (sqlite . t))))
-    :hook ((org-mode . my/org-setup))
+    :hook ((org-mode . my-org-setup))
     :config
-    (setq org-directory (expand-file-name "Apps/org" my/dropbox-path))
+    (setq org-directory (expand-file-name "Apps/org" my-dropbox-path))
     (setq org-id-locations-file (file-name-concat org-directory ".orgids"))
     (setq org-pretty-entities nil)
     (setq org-fontify-whole-heading-line t)

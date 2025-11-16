@@ -141,7 +141,7 @@
 
     ;; setup epg
     (require 'epg)
-    (setq epg-gpg-home-directory (expand-file-name ".gnupg" my/home-path))
+    (setq epg-gpg-home-directory (expand-file-name ".gnupg" my-home-path))
     (setq epg-gpg-program (executable-find "gpg2"))
     ;; (setq epg-pinentry-mode 'loopback)
 
@@ -153,7 +153,7 @@
     ;; setup auth-sources
     (require 'auth-source)
     (setq auth-sources
-          (list (expand-file-name "secrets/.authinfo.gpg" my/etc-dir)))
+          (list (expand-file-name "secrets/.authinfo.gpg" my-etc-dir)))
 
     ;; setup org-crypt
     (require 'org-crypt)
@@ -202,7 +202,7 @@
         ;; backup all files
         (setq backup-directory-alist
               `(("\\.env$" . nil)
-                ("." . ,(expand-file-name "backup" my/var-dir))))
+                ("." . ,(expand-file-name "backup" my-var-dir))))
         (with-eval-after-load 'tramp
             (setq tramp-backup-directory-alist nil))
 
@@ -212,7 +212,7 @@
                   (and (normal-backup-enable-predicate name)
                        (not (s-starts-with? "/dev/shm" name))
                        (not (s-contains? "password-store" name))
-                       (my/file-is-not-root-p name)))))
+                       (my-file-is-not-root-p name)))))
 
     (progn ;; autosave
         (setq auto-save-default t      ; auto-save every buffer that visits a file
@@ -229,11 +229,11 @@
 
         ;; auto-save files
         (setq auto-save-file-name-transforms
-              `((".*" ,(expand-file-name "auto-save" my/var-dir) t)))
+              `((".*" ,(expand-file-name "auto-save" my-var-dir) t)))
         (setq auto-save-list-file-prefix
-              (expand-file-name "auto-save/" my/var-dir))
+              (expand-file-name "auto-save/" my-var-dir))
         (setq tramp-auto-save-directory
-              (expand-file-name "tramp-autosave/" my/var-dir))
+              (expand-file-name "tramp-autosave/" my-var-dir))
 
         ;; disable auto-save on certain tramp profiles
         (connection-local-set-profile-variables
@@ -249,7 +249,7 @@
 
     (progn ;; bookmarks
         (setq bookmark-default-file
-              (expand-file-name "bookmarks.el" my/var-dir))
+              (expand-file-name "bookmarks.el" my-var-dir))
         (setq bookmark-save-flag 1)
         (setq bookmark-set-fringe-mark nil))
 
@@ -264,7 +264,7 @@
     (setq browse-url-browser-function 'eww-browse-url)
     (setq browse-url-secondary-browser-function 'browse-url-default-browser)
 
-    (when my/os-mac
+    (when my-os-mac
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
         (setq browse-url-generic-program "open")
         (setq ns-use-proxy-icon nil)
@@ -275,9 +275,9 @@
               mac-option-key-is-meta t
               mac-option-modifier 'meta)
         (setq default-input-method "MacOSX")
-        (defconst my/clang-path "/usr/local/opt/llvm/bin/clang")
-        (defconst my/mu-path "/usr/local/bin/mu")
-        (defconst my/msmtp-path "/usr/local/bin/msmtp")
+        (defconst my-clang-path "/usr/local/opt/llvm/bin/clang")
+        (defconst my-mu-path "/usr/local/bin/mu")
+        (defconst my-msmtp-path "/usr/local/bin/msmtp")
 
         ;; Use spotlight search backend as a default for M-x locate (and helm/ivy
         ;; variants thereof), since it requires no additional setup.
@@ -285,12 +285,12 @@
               ;; Visit files opened outside of Emacs in existing frame, not a new one
               ns-pop-up-frames nil))
 
-    (when my/os-unix
+    (when my-os-unix
         (setq x-super-keysym 'meta)
         (setq browse-url-generic-program "xdg-open")
-        (defconst my/clang-path "/usr/bin/clang")
-        (defconst my/mu-path "/usr/bin/mu")
-        (defconst my/msmtp-path "/usr/bin/msmtp")))
+        (defconst my-clang-path "/usr/bin/clang")
+        (defconst my-mu-path "/usr/bin/mu")
+        (defconst my-msmtp-path "/usr/bin/msmtp")))
 
 (provide 'my-init-early)
 ;;; my-init-early.el ends here

@@ -23,19 +23,19 @@
              (use-package-expand-minimally t)))
 
 ;; Paths used throughout
-(defconst my/home-path         (expand-file-name "~/"))
-(defconst my/dotfiles-path     (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
-(defconst my/software-path     (expand-file-name "Workspace/Software/"        my/home-path))
-(defconst my/dropbox-path      (expand-file-name "Dropbox/"                   my/home-path))
+(defconst my-home-path         (expand-file-name "~/"))
+(defconst my-dotfiles-path     (expand-file-name "Workspace/Public/dotfiles/" my-home-path))
+(defconst my-software-path     (expand-file-name "Workspace/Software/"        my-home-path))
+(defconst my-dropbox-path      (expand-file-name "Dropbox/"                   my-home-path))
 
 ;; Set environment variables - also look at `exec-path-from-shell' package
 (progn
     ;; 1. Define all your paths as a list.
     ;;    (No need to 'expand-file-name' on absolute system paths)
-    (setq my/exec-path-list
-          (list (expand-file-name ".go/bin" my/home-path)
-                (expand-file-name ".cargo/bin" my/home-path)
-                (expand-file-name ".local/bin" my/home-path)
+    (setq my-exec-path-list
+          (list (expand-file-name ".go/bin" my-home-path)
+                (expand-file-name ".cargo/bin" my-home-path)
+                (expand-file-name ".local/bin" my-home-path)
                 "/usr/local/bin"
                 "/usr/local/sbin"
                 "/usr/bin"
@@ -44,36 +44,36 @@
                 "/sbin"))
 
     ;; 3. Set the $PATH environment variable from the same list.
-    (setenv "PATH" (mapconcat 'identity my/exec-path-list path-separator))
+    (setenv "PATH" (mapconcat 'identity my-exec-path-list path-separator))
 
     ;; 2. Set the Emacs-internal 'exec-path' PATH
     (setq exec-path (append (parse-colon-path (getenv "PATH")) (list exec-directory))))
 
 ;; Telling Emacs where the C source code is let's us jump all the way down into
 ;; primitive functions when exploring elisp functions.
-(setq source-directory (expand-file-name "emacs/" my/software-path))
-(setq find-function-C-source-directory (expand-file-name "emacs/src/" my/software-path))
+(setq source-directory (expand-file-name "emacs/" my-software-path))
+(setq find-function-C-source-directory (expand-file-name "emacs/src/" my-software-path))
 
 ;; load custom config
-(load (expand-file-name "Common/emacs/elisp/my-utils"              my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-early"         my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-completion"    my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-vcs"           my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-org"           my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-langs"         my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-lang-tools"    my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-docker"        my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-apps"          my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-shell"         my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-misc"          my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-filemanager"   my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-workspaces"    my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-modal"         my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-ui"            my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-ai"            my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-transient"     my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-bindings"      my/dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/modus-themes-exporter" my/dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-utils"              my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-early"         my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-completion"    my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-vcs"           my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-org"           my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-langs"         my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-lang-tools"    my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-docker"        my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-apps"          my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-shell"         my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-misc"          my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-filemanager"   my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-workspaces"    my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-modal"         my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-ui"            my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-ai"            my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-transient"     my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/my-init-bindings"      my-dotfiles-path))
+(load (expand-file-name "Common/emacs/elisp/modus-themes-exporter" my-dotfiles-path))
 
 (provide 'init)
 ;;; init.el ends here

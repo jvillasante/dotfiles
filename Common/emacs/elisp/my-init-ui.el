@@ -73,7 +73,7 @@
 (setq adaptive-fill-mode t)
 
 ;; Set the font (M-x `describe-font' to see available fonts)
-(defun my/setup-fonts ()
+(defun my-setup-fonts ()
     "Set up fonts at startup."
     (setq x-underline-at-descent-line nil)
     (let ((fixed-font "Berkeley Mono")
@@ -180,16 +180,16 @@
         :ensure nil ;; emacs built-in
         :if (fboundp 'pixel-scroll-precision-mode)
         :preface
-        (defvar my/default-scroll-lines 25) ;; scroll less than default
-        (defun my/pixel-scroll-up-command (&optional arg)
+        (defvar my-default-scroll-lines 25) ;; scroll less than default
+        (defun my-pixel-scroll-up-command (&optional arg)
             "Similar to `scroll-up-command' but with pixel scrolling."
             (interactive "^P")
-            (pixel-scroll-precision-interpolate (- (* my/default-scroll-lines (line-pixel-height)))))
-        (defun my/pixel-scroll-down-command (&optional arg)
+            (pixel-scroll-precision-interpolate (- (* my-default-scroll-lines (line-pixel-height)))))
+        (defun my-pixel-scroll-down-command (&optional arg)
             "Similar to `scroll-down-command' but with pixel scrolling."
             (interactive "^P")
-            (pixel-scroll-precision-interpolate (* my/default-scroll-lines (line-pixel-height))))
-        (defun my/pixel-recenter-top-bottom (&optional arg)
+            (pixel-scroll-precision-interpolate (* my-default-scroll-lines (line-pixel-height))))
+        (defun my-pixel-recenter-top-bottom (&optional arg)
             "Similar to `recenter-top-bottom' but with pixel scrolling."
             (interactive "^P")
             (let* ((current-row (cdr (nth 6 (posn-at-point))))
@@ -288,7 +288,7 @@
     (setq find-file-visit-truename t) ; only display real names in the modeline
     (use-package shrink-path
         :preface
-        (defun my/pretty-buffername ()
+        (defun my-pretty-buffername ()
             (if buffer-file-truename
                     (let* ((cur-dir (file-name-directory buffer-file-truename))
                            (two-up-dir (-as-> cur-dir it (or (f-parent it) "") (or (f-parent it) "")))
@@ -299,12 +299,12 @@
                 (buffer-name)))
         :init
         (setq-default mode-line-buffer-identification
-                      '(:eval (my/pretty-buffername)))))
+                      '(:eval (my-pretty-buffername)))))
 
 ;; theme
 (use-package modus-themes
     :preface
-    (defun my/modus-themes-org-fontify-block-delimiter-lines ()
+    (defun my-modus-themes-org-fontify-block-delimiter-lines ()
         "Match `org-fontify-whole-block-delimiter-line' to theme style.
 Run this function at the post theme load phase, such as with the
 `modus-themes-after-load-theme-hook'."
@@ -312,7 +312,7 @@ Run this function at the post theme load phase, such as with the
                 (setq org-fontify-whole-block-delimiter-line t)
             (setq org-fontify-whole-block-delimiter-line nil)))
     :hook
-    (modus-themes-after-load-theme . my/modus-themes-org-fontify-block-delimiter-lines)
+    (modus-themes-after-load-theme . my-modus-themes-org-fontify-block-delimiter-lines)
     :config
     ;; In all of the following, WEIGHT is a symbol such as `semibold',
     ;; `light', `bold', or anything mentioned in `modus-themes-weights'.
@@ -386,19 +386,19 @@ Run this function at the post theme load phase, such as with the
 (use-package window
     :ensure nil
     :preface
-    (defun my/split-window-below ()
+    (defun my-split-window-below ()
         "Focus to the last created horizontal window."
         (interactive)
         (split-window-below)
         (other-window 1))
-    (defun my/split-window-right ()
+    (defun my-split-window-right ()
         "Focus to the last created vertical window."
         (interactive)
         (split-window-right)
         (other-window 1))
     :config
-    (global-set-key (kbd "C-x 2") #'my/split-window-below)
-    (global-set-key (kbd "C-x 3") #'my/split-window-right))
+    (global-set-key (kbd "C-x 2") #'my-split-window-below)
+    (global-set-key (kbd "C-x 3") #'my-split-window-right))
 
 ;; hl-todo : Highlight TODO and similar keywords in comments and strings
 (use-package hl-todo
@@ -438,10 +438,10 @@ Run this function at the post theme load phase, such as with the
         (add-hook 'after-make-frame-functions
                   (lambda (frame)
                       (with-selected-frame frame
-                          (my/setup-fonts)
+                          (my-setup-fonts)
                           (modus-themes-load-theme 'modus-operandi))))
     (add-hook 'after-init-hook  (lambda ()
-                                    (my/setup-fonts)
+                                    (my-setup-fonts)
                                     (modus-themes-load-theme 'modus-operandi))))
 
 ;; Windows: https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/

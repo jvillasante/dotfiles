@@ -7,7 +7,7 @@
 (use-package activities
     :disabled t
     :preface
-    (defun my/switch-to-buffer ()
+    (defun my-switch-to-buffer ()
         "Switch to buffer offered from various sources.
 If an activity is current, use `activities-switch-buffer';
 otherwise use `bufler-switch-buffer'."
@@ -39,7 +39,7 @@ otherwise use `bufler-switch-buffer'."
 (use-package tabspaces
     :disabled t
     :preface
-    (defun my/tabspace-setup ()
+    (defun my-tabspace-setup ()
         "Set up tabspace at startup."
         ;; Add *Messages* and *splash* to Tab \`Default\'
         (tabspaces-mode 1)
@@ -56,7 +56,7 @@ otherwise use `bufler-switch-buffer'."
                                      (cons (get-buffer "*splash*")
                                            (frame-parameter nil 'buffer-list))))))
 
-    (defun my/consult-tabspaces ()
+    (defun my-consult-tabspaces ()
         "Deactivate isolated buffers when not using tabspaces."
         (require 'consult)
         (cond (tabspaces-mode
@@ -71,8 +71,8 @@ otherwise use `bufler-switch-buffer'."
     (tabspaces-switch-or-create-workspace
      tabspaces-open-or-create-project-and-workspace)
     :hook
-    ((after-init . my/tabspace-setup)
-     (tabspaces-mode . my/consult-tabspaces))
+    ((after-init . my-tabspace-setup)
+     (tabspaces-mode . my-consult-tabspaces))
     :init
     (with-eval-after-load 'consult
         ;; hide full buffer list (still available with "b" prefix)

@@ -6,7 +6,7 @@
 (use-package docker
     :defer t
     :preface
-    (defun my/docker-run-async-with-buffer-eat (program &rest args)
+    (defun my-docker-run-async-with-buffer-eat (program &rest args)
         "Execute \"PROGRAM ARGS\" and display output in a new `eat' buffer."
         (defvar eat-buffer-name)
         (defvar eat-kill-buffer-on-exit)
@@ -22,7 +22,7 @@
           docker-container-tramp-method "podman")
 
     ;; (when (package-installed-p 'eat)
-    ;;     (setq docker-run-async-with-buffer-function #'my/docker-run-async-with-buffer-eat))
+    ;;     (setq docker-run-async-with-buffer-function #'my-docker-run-async-with-buffer-eat))
     (when (package-installed-p 'vterm)
         (setq docker-run-async-with-buffer-function #'docker-run-async-with-buffer-vterm))
 

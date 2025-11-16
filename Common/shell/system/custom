@@ -74,7 +74,7 @@ if type emacs > /dev/null 2> /dev/null; then
     function edired    { emacsclient -c -a '' --eval "(progn (dired \"$1\"))"; }
     function emagit    { emacsclient -c -a '' --eval "(progn (magit-status \"$1\"))"; }
     function emarkdown { emacsclient -c -a '' -F "((name . \"emacs-markdown\") (height . 30) (width . 80))" \
-                                     --eval "(progn (my/new-scratch-buffer-in-markdown))"; }
+                                     --eval "(progn (my-new-scratch-buffer-in-markdown))"; }
     function eww       { emacsclient -c -a '' --eval "(eww-browse-url \"$*\")"; }
     function ekill     { emacsclient --eval '(progn (setq confirm-kill-emacs nil) (save-buffers-kill-emacs))'; }
     function estatus   { systemctl --user status emacs.service; }

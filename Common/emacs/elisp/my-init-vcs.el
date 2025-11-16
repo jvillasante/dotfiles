@@ -4,7 +4,7 @@
 ;;; Code:
 
 (use-package vc
-    :bind ("C-x v R" . my/vc-git-reflog)
+    :bind ("C-x v R" . my-vc-git-reflog)
     :custom
     (vc-handled-backends '(Git))
     (vc-follow-symlinks t)                   ; always follow symlinks
@@ -14,7 +14,7 @@
 
 (use-package magit
     :preface
-    (defun my/magit-kill-buffers ()
+    (defun my-magit-kill-buffers ()
         "Restore window configuration and kill all Magit buffers."
         (interactive)
         (let ((buffers (magit-mode-get-buffers)))

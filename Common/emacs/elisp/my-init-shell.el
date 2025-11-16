@@ -13,7 +13,7 @@
     :ensure nil ;; emacs built-in
     :defer t
     :preface
-    (defun my/eshell-other-window ()
+    (defun my-eshell-other-window ()
         "Open a `eshell' in a new window."
         (interactive)
         (let ((buf (eshell)))
@@ -53,7 +53,7 @@
 (use-package shell
     :ensure nil ;; emacs built-in
     :preface
-    (defun my/shell-other-window ()
+    (defun my-shell-other-window ()
         "Open a `shell' in a new window."
         (interactive)
         (let ((buf (shell)))
@@ -69,7 +69,7 @@
     :disabled t
     :defer t
     :preface
-    (defun my/eat-open (file)
+    (defun my-eat-open (file)
         "Helper function to open files from eat terminal."
         (interactive)
         (if (file-exists-p file)
@@ -82,7 +82,7 @@
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
     :config
-    (add-to-list 'eat-message-handler-alist (cons "open" 'my/eat-open))
+    (add-to-list 'eat-message-handler-alist (cons "open" 'my-eat-open))
     (setq process-adaptive-read-buffering nil) ; makes EAT a lot quicker!
     (setq eat-term-name "xterm-256color") ; https://codeberg.org/akib/emacs-eat/issues/119"
     (setq eat-kill-buffer-on-exit t)
@@ -94,17 +94,17 @@
 (use-package vterm
     :defer t
     :preface
-    (defun my/vterm-copy-mode-cancel ()
+    (defun my-vterm-copy-mode-cancel ()
         (interactive)
         (vterm-copy-mode -1))
-    (defun my/vterm-project ()
+    (defun my-vterm-project ()
         (interactive)
         (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
                (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
                (vterm-buffer (get-buffer vterm-buffer-name)))
             (vterm)))
-    (defun my/vterm-project-other-window ()
+    (defun my-vterm-project-other-window ()
         (interactive)
         (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
@@ -116,8 +116,8 @@
                                   (force-mode-line-update))))
     :config
     (add-to-list 'vterm-eval-cmds '("dired" dired))
-    (add-to-list 'project-switch-commands '(my/vterm-project "vTerm") t)
-    (add-to-list 'project-switch-commands '(my/vterm-project-other-window "vTerm other window") t)
+    (add-to-list 'project-switch-commands '(my-vterm-project "vTerm") t)
+    (add-to-list 'project-switch-commands '(my-vterm-project-other-window "vTerm other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
     (setq vterm-always-compile-module t)
@@ -142,20 +142,20 @@
 ;;   <<n>>, <<1n>>, or <<An>> (for current iteration)
 (use-package dwim-shell-command
     :preface
-    (defun my/dwim-shell-command-extract ()
+    (defun my-dwim-shell-command-extract ()
         "Extract all marked archives (of any kind) using `atool'."
         (interactive)
         (dwim-shell-command-on-marked-files
          "Extract" "atool --extract --subdir --explain '<<f>>'"
          :utils "atool"))
-    (defun my/dwim-shell-command-convert-to-gif ()
+    (defun my-dwim-shell-command-convert-to-gif ()
         "Convert all marked videos to optimized gif(s)."
         (interactive)
         (dwim-shell-command-on-marked-files
          "Convert to gif"
          "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
          :utils "ffmpeg"))
-    (defun my/dwim-shell-command-dired-rsync (destination)
+    (defun my-dwim-shell-command-dired-rsync (destination)
         "Copy marked Dired files to DESTINATION using rsync.
 DESTINATION can be a local path or a TRAMP-style remote path
 (e.g., /ssh:user@host:/path/to/dir)."

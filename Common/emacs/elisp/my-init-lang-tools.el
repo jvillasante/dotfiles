@@ -54,13 +54,13 @@
 (use-package eglot
     :ensure nil ;; emacs built-in
     :preface
-    (defun my/maybe-start-eglot ()
+    (defun my-maybe-start-eglot ()
         "Exlude some mode from eglot."
         (let ((disabled-modes '(emacs-lisp-mode
                                 cmake-mode)))
             (unless (apply 'derived-mode-p disabled-modes)
                 (eglot-ensure))))
-    (defun my/eglot-clangd-find-other-file ()
+    (defun my-eglot-clangd-find-other-file ()
         "Switch between the corresponding C/C++ source and header file."
         (interactive)
         (let* ((server (eglot--current-server-or-lose))
@@ -73,7 +73,7 @@
                 (if (equal current-prefix-arg nil)
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
-    :hook((prog-mode . my/maybe-start-eglot)
+    :hook((prog-mode . my-maybe-start-eglot)
           (eglot-managed . (lambda ()
                                ;; Show flymake diagnostics first.
                                (setq eldoc-documentation-functions
@@ -162,7 +162,7 @@
     :hook
     (c++-ts-mode . lsp)
     (lsp-mode . (lambda ()
-                    (my/lsp-eldoc)
+                    (my-lsp-eldoc)
                     (lsp-enable-which-key-integration)))
     :custom
     (lsp-log-io nil)
@@ -220,11 +220,11 @@
 ;; apheleia : Good code is automatically formatted
 (use-package apheleia
     :preface
-    (defun my/disable-apheleia ()
+    (defun my-disable-apheleia ()
         (apheleia-mode -1))
     :hook
     ((prog-mode . apheleia-mode)
-     (web-mode . my/disable-apheleia))
+     (web-mode . my-disable-apheleia))
     :config
     ;; Set custom formatting commands
     (dolist (formatter-cmd '((shfmt    . ("shfmt" "-i" "4" "-ci" "-kp" "-sr"))

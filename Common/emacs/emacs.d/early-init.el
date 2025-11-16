@@ -6,7 +6,7 @@
 
 ;;; Variables
 
-(defvar my/user-directory user-emacs-directory
+(defvar my-user-directory user-emacs-directory
     "The default value of the `user-emacs-directory' variable.")
 
 ;;; Custom
@@ -28,9 +28,9 @@
                        gcs-done)))
 
 ;; Reducing clutter in ~/.emacs.d by redirecting files to ~/emacs.d/var/
-(setq my/var-dir (expand-file-name "var/" my/user-directory))
-(setq my/etc-dir (expand-file-name "etc/" my/user-directory))
-(setq user-emacs-directory my/var-dir)
+(setq my-var-dir (expand-file-name "var/" my-user-directory))
+(setq my-etc-dir (expand-file-name "etc/" my-user-directory))
+(setq user-emacs-directory my-var-dir)
 
 ;;; Native compilation and Byte compilation
 (if (and (featurep 'native-compile)
@@ -94,7 +94,7 @@
 (setq load-prefer-newer t)
 (setq package-enable-at-startup nil
       package-install-upgrade-built-in t
-      package-user-dir (expand-file-name "elpa" my/var-dir)
+      package-user-dir (expand-file-name "elpa" my-var-dir)
       package-archives '(("melpa"        . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu"          . "https://elpa.gnu.org/packages/")
