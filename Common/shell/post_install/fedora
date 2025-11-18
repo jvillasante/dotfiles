@@ -394,6 +394,9 @@ fedora_install() {
                 # open{ssl,ssh}
                 sudo dnf install -y openssh openssl openssl-devel
 
+                # libssh
+                sudo dnf install -y libssh libssh-devel
+
                 # mail
                 sudo dnf install -y isync mu maildir-utils gnutls gnutls-devel
 
@@ -736,9 +739,9 @@ fedora_install() {
                     #      /etc/udev/rules.d/50-zsa.rules
 
                     # Custom DNS
-                    [ -d /etc/systemd/resolved.conf.d ] && sudo mv /etc/systemd/resolved.conf.d /etc/systemd/resolved.conf.d.bak
-                    sudo cp -r "$HOME"/Workspace/Public/dotfiles/Common/systemd/resolved.conf.d /etc/systemd/
-                    sudo systemctl restart systemd-resolved
+                    # [ -d /etc/systemd/resolved.conf.d ] && sudo mv /etc/systemd/resolved.conf.d /etc/systemd/resolved.conf.d.bak
+                    # sudo cp -r "$HOME"/Workspace/Public/dotfiles/Common/systemd/resolved.conf.d /etc/systemd/
+                    # sudo systemctl restart systemd-resolved
                     # verify DoT is working
                     #   resolvectl status
                 fi
