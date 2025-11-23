@@ -16,12 +16,12 @@
       '(adoc-mode anzu apheleia avy cape cl-generic cmake-mode consult-dir
            consult-notes corfu crux csv-mode dape devdocs-browser diff-hl
            dired-sidebar diredfl docker dockerfile-mode dwim-shell-command
-           editorconfig eldoc-diffstat elfeed elisp-demos embark-consult
-           engine-mode erc expreg faceup fancy-compilation geiser-guile go-mode
-           gptel helpful hl-todo ibuffer-project idlwave jinx js2-mode json-mode
-           ledger-mode lua-mode magit map marginalia markdown-mode minions
-           modus-themes monkeytype multiple-cursors nov ntlm orderless
-           org-superstar otpp package-lint-flymake password-store
+           editorconfig eglot eldoc-diffstat elfeed elisp-demos embark-consult
+           engine-mode erc expreg external-completion faceup fancy-compilation
+           geiser-guile go-mode gptel helpful hl-todo ibuffer-project idlwave
+           jinx js2-mode json-mode ledger-mode lua-mode magit map marginalia
+           markdown-mode minions modus-themes monkeytype multiple-cursors nov
+           ntlm orderless org-superstar otpp package-lint-flymake password-store
            pdf-view-restore peg persistent-scratch php-mode python
            rainbow-delimiters request rg rmsbolt rust-mode shrink-path so-long
            soap-client surround svg track-changes tramp trashed use-package verb
