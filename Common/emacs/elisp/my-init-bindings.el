@@ -1,4 +1,4 @@
-;;; my-init-bindings.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;; my-init-bindings.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -127,12 +127,6 @@ When run interactively:
     (define-key isearch-mode-map (kbd "C-o") 'isearch-occur) ; occur
     (define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward)
     (define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward))
-
-;; (with-eval-after-load 'calc
-;;     (define-key calc-mode-map (kbd "q") 'my-close-buffer-and-window))
-
-;; (with-eval-after-load 'eww
-;;     (define-key eww-mode-map (kbd "q") 'my-close-buffer-and-window))
 
 (with-eval-after-load 'ibuffer
     (define-key global-map [remap list-buffers] 'ibuffer)
@@ -450,14 +444,14 @@ When run interactively:
 
 ;; (pdf-view-next-line-or-next-page &optional ARG)
 (with-eval-after-load 'pdf-tools
-    (define-key pdf-view-mode-map (kbd "q") nil)
+    ;; (define-key pdf-view-mode-map (kbd "q") nil)
     (define-key pdf-view-mode-map (kbd "C-v") 'pdf-view-next-page)
     (define-key pdf-view-mode-map (kbd "M-v") 'pdf-view-previous-page)
     (define-key pdf-view-mode-map (kbd "n") 'pdf-view-next-line-or-next-page)
     (define-key pdf-view-mode-map (kbd "p") 'pdf-view-previous-line-or-previous-page))
 
 (with-eval-after-load 'nov
-    (define-key nov-mode-map (kbd "q") nil)
+    ;; (define-key nov-mode-map (kbd "q") nil)
     (define-key nov-mode-map (kbd "n") 'next-line)
     (define-key nov-mode-map (kbd "p") 'previous-line))
 
@@ -529,7 +523,6 @@ When run interactively:
 (when (package-installed-p 'consult-notes)
     (global-set-key (kbd "C-c o n") 'consult-notes))
 (global-set-key (kbd "C-c o a") 'org-agenda)
-(global-set-key (kbd "C-c o c") 'calc)
 (global-set-key (kbd "C-c o i") 'ielm)
 (global-set-key (kbd "C-c o b") 'my-open-link-at-point-or-minibuffer-with-choice)
 (global-set-key (kbd "C-c o m") 'my-new-scratch-buffer-in-markdown)
