@@ -109,11 +109,11 @@
     :ensure nil ;; emacs built-in
     :config (setq calc-window-height 20))
 
-;; nov : Major mode for reading EPUBs in Emacs
+;; nov.el : Major mode for reading EPUBs in Emacs
 (use-package nov
     :mode ("\\.epub\\'" . nov-mode)
     :custom ((nov-text-width 80)
-             (nov-variable-pitch t)
+             (nov-variable-pitch nil) ; breaks rendering!
              (nov-save-place-file (expand-file-name "nov-places" my-var-dir))))
 
 ;; pdf-tools: replacement of DocView for PDF files
