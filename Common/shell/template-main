@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+# --- 1. SETTINGS AND SAFETY ---
+set -o errexit     # Exit immediately if a command exits with a non-zero status.
+set -o nounset     # Treat unset variables as an error.
+set -o pipefail    # If any command in a pipeline fails, that return code is used.
+if [[ "${TRACE-0}" == "1" ]]; then
+    set -o xtrace  # Print commands and their arguments as they are executed (for debugging).
+fi
+
+# Ensure that the correct environment (BASH, not sh or another shell) is running
+# This prevents errors if the script is invoked incorrectly (e.g., 'sh script.sh')
+if [[ -z "${BASH_VERSION}" ]]; then
+    echo "Error: This script requires Bash to run." >&2
+    exit 1
+fi
+
+# Set Internal Field Separator to use only newlines and tabs
+# This helps prevent issues when iterating over lists or files with spaces in names.
+IFS=$'\n\t'
+
+# --- 2. HELP AND ARGUMENT PARSING ---
+
+readonly SCRIPT_NAME
+SCRIPT_NAME="$(basename "$0")"
+
+# Show help if -h or --help is passed
+if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
+    echo "Usage: ./${SCRIPT_NAME} <arg-one> <arg-two>
+
+This is an awesome bash script to make your life better.
+
+"
+    exit 0 # Use '0' for clean help exit
+fi
+
+# --- 3. INITIALIZATION ---
+
+# Move into the directory containing the script.
+# This ensures all relative paths referenced within the script are correct.
+# Note: It uses the directory of the SCRIPT being EXECUTED, not the sourced file.
+cd "$(dirname "$0")"
+
+# --- 4. MAIN EXECUTION ---
+
+main() {
+    # Define local variables here if needed
+    # local arg_one="$1"
+    # local arg_two="$2"
+
+    echo 'do awesome stuff'
+}
+
+main "$@"

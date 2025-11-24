@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+# my_functions.sh - A library of reusable bash functions.
+#
+# This file should be sourced by other scripts, not executed directly.
+# Example:
+# source /path/to/my_functions.sh
+#
+# # Now you can use the functions defined in the library
+# result=$(calculate_something 10 20)
+# echo "The result is: $result"
+
+# --- Configuration for Sourcing (Optional but Recommended) ---
+
+# Only apply options if this file hasn't been sourced before,
+# and if it's being sourced (not executed directly).
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+    # Exit immediately if a command exits with a non-zero status.
+    set -o errexit
+
+    # Treat unset variables as an error.
+    set -o nounset
+
+    # If the file is sourced, we usually don't want the pipefail behavior
+    # to affect the sourcing process, but it's good practice for the functions.
+    # set -o pipefail # Uncomment if you want this strictness upon sourcing
+fi
+
+# --- Helper Functions ---
+
+# Example: Logs a message to standard error
+# Usage: log_error "Something went wrong"
+log_error() {
+    # Send output to stderr
+    echo "[ERROR] $*" >&2
+}
+
+# --- Core Functions ---
+
+# Example: A simple function to perform a task
+# Usage: calculate_something 5 10
+calculate_something() {
+    local a="$1"
+    local b="$2"
+    local result=$(( a + b ))
+    echo "$result" # Standard function output
+}
+
+# Example: A function to check if a required command exists
+# Usage: require_command "curl" || log_error "curl is required"
+require_command() {
+    # 'command -v' is the most robust way to check for a command
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Add more functions here...
+
+# --- End of Script ---
+# Ensure no unexpected output is produced when sourcing.
+return 0
