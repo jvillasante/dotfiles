@@ -20,7 +20,7 @@ install_xremap() {
     [ ! -d "$HOME"/Workspace/Software/xremap ] && mkdir -p "$HOME"/Workspace/Software/xremap
 
     pushd "$HOME"/Workspace/Software/xremap || {
-        notify-send "Can't cd into $HOME/Workspace/Software/xremap" --expire-time=20
+        echo "Can't cd into $HOME/Workspace/Software/xremap"
         exit 1
     }
 
@@ -35,7 +35,7 @@ install_xremap() {
     sudo cp -f xremap /usr/local/bin/
 
     popd || {
-        notify-send "Can't cd to previous directory" --expire-time=20
+        echo "Can't cd to previous directory"
         exit 1
     }
 

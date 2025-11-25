@@ -17,18 +17,14 @@ fi
 setup-secrets-and-repos() {
     read -r -p "Enter keys backup directory: " KEYS_DIR
     KEYS_DIR=${KEYS_DIR%/}
-    [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && exit 1
-    [ ! -f "$(pwd)/../scripts/+crypt" ] && notify-send "$(pwd)/../scripts/+crypt script does not exists" \
-                                                       --expire-time=20 && exit 1
-    [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" \
-                                                       --expire-time=20 && exit 1
-    [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" \
-                                                       --expire-time=20 && exit 1
+    [ ! -d "$KEYS_DIR" ] && echo "$KEYS_DIR is not a directory" && exit 1
+    [ ! -f "$(pwd)/../scripts/+crypt" ] && echo "$(pwd)/../scripts/+crypt script does not exists" && exit 1
+    [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && echo "$KEYS_DIR/ssh.tar.gz.gpg does not exists" && exit 1
+    [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && echo "$KEYS_DIR/gpg.tar.gz.gpg does not exists" && exit 1
 
     echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
     "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
-    [ ! -d "$KEYS_DIR"/.ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" \
-                                             --expire-time=20 && exit 1
+    [ ! -d "$KEYS_DIR"/.ssh ] && echo "Decryption failed, $KEYS_DIR/ssh does not exists" && exit 1
     mkdir -p ~/.ssh && rm -rf ~/.ssh/*
     cp "$KEYS_DIR"/.ssh/id_* ~/.ssh
     cp "$KEYS_DIR"/.ssh/config ~/.ssh
@@ -40,8 +36,7 @@ setup-secrets-and-repos() {
 
     echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
     "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
-    [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" \
-                                            --expire-time=20 && exit 1
+    [ ! -d "$KEYS_DIR"/gpg ] && echo "Decryption failed, $KEYS_DIR/gpg does not exists" && exit 1
     mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
     cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
     gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc

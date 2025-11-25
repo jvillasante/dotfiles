@@ -91,7 +91,7 @@ fedora_install() {
         8 "Install Emacs - Install Emacs"
         9 "Install StyLua - Install StyLua from source"
         10 "Install App Launcher - Install App Launcher"
-        11 "Install Gnome Extensions - Install Gnome Extensions"
+        11 "Install PSD - Install PSD (profile-sync-daemon)"
         12 "Install Xremap - Install Xremap from source"
         13 "Install Harper - The English grammar checker designed to be just right"
         14 "Quit")
@@ -226,16 +226,16 @@ fedora_install() {
 
                 # Upgrade everything
                 sudo dnf upgrade -y --refresh
-                sudo dnf group upgrade core
+                sudo dnf group upgrade -y core
                 sudo dnf -y update
 
                 # Update system firmware
-                sudo fwupdmgr refresh --force
-                sudo fwupdmgr get-devices # Lists devices with available updates.
-                sudo fwupdmgr get-updates # Fetches list of available updates.
-                sudo fwupdmgr update      # Apply updates
+                # sudo fwupdmgr refresh --force
+                # sudo fwupdmgr get-devices # Lists devices with available updates.
+                # sudo fwupdmgr get-updates # Fetches list of available updates.
+                # sudo fwupdmgr update      # Apply updates
 
-                read -rp "$CHOICE) Done. Reboot may be needed. Press enter to continue..."
+                read -rp "$CHOICE) Done. fwupdmgr should be run manually. Press enter to continue..."
                 ;;
             3)
                 echo "$CHOICE) Installing NVIDIA Drivers. Disable secure boot in the bios."
@@ -504,14 +504,6 @@ fedora_install() {
                 # Various firmware
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf --repo=rpmfusion-nonfree-tainted install -y "*-firmware"
-
-                #
-                # Profile sync daemon
-                #
-
-                # Dependencies & install
-                sudo dnf install -y coreutils findutils glib2 kmod rsync systemd
-                install_psd
 
                 #
                 # Chromium Browser (For use with eww)
@@ -791,23 +783,13 @@ fedora_install() {
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             11)
-                echo "$CHOICE) Installing Gnome Extensions"
+                echo "$CHOICE) Installing PSD (profile-sync-daemon)"
 
-                # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                #     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                #     [ ! -d "$HOME"/Workspace/Software/unite ] && mkdir -p "$HOME"/Workspace/Software/unite
+                # Dependencies
+                sudo dnf install -y coreutils findutils glib2 kmod rsync systemd
 
-                #     pushd "$HOME"/Workspace/Software/unite || {
-                #         echo "Can't cd into $HOME/Workspace/Software/unite"
-                #         exit 1
-                #     }
-
-                #     UNITE_VERSION=v82
-                #     curl -LJO https://github.com/hardpixel/unite-shell/releases/download/"$UNITE_VERSION"/unite-"$UNITE_VERSION".zip
-                #     gnome-extensions install --force unite-"$UNITE_VERSION".zip
-
-                #     popd || echo "Can't cd to previous directory" && exit 1
-                # fi
+                # Install
+                install_psd
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;

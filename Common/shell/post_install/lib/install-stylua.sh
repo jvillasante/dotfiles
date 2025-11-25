@@ -20,7 +20,7 @@ install_stylua() {
     [ ! -d "$HOME"/Workspace/Software/stylua ] && mkdir -p "$HOME"/Workspace/Software/stylua
 
     pushd "$HOME"/Workspace/Software/stylua || {
-        notify-send "Can't cd into $HOME/Workspace/Software/stylua" --expire-time=20
+        echo "Can't cd into $HOME/Workspace/Software/stylua"
         exit 1
     }
 
@@ -31,7 +31,7 @@ install_stylua() {
     sudo cp -f stylua /usr/local/bin/
 
     popd || {
-        notify-send "Can't cd to previous directory" --expire-time=20
+        echo "Can't cd to previous directory"
         exit 1
     }
 }

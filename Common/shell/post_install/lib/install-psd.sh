@@ -25,25 +25,24 @@ install_psd() {
         git clone --depth 1 --branch "$PSD_BRANCH" git@github.com:graysky2/profile-sync-daemon.git \
             "$HOME"/Workspace/Software/profile-sync-daemon
         pushd "$HOME"/Workspace/Software/profile-sync-daemon || {
-            notify-send "Can't cd into $HOME/Workspace/Software/profile-sync-daemon" --expire-time=20
+            echo "Can't cd into $HOME/Workspace/Software/profile-sync-daemon"
             exit 1
         }
     else
-        notify-send "PSD already installing" --expire-time=20
+        echo "PSD already installing"
         exit 1
     fi
 
     # Setup git branch
     local BRANCH
     BRANCH=$(git branch --show-current)
-    [[ "$BRANCH" != "$PSD_BRANCH" ]] && notify-send "Emacs unexpected branch, expecting $PSD_BRANCH, got $BRANCH" \
-                                                    --expire-time=20 && exit 1
+    [[ "$BRANCH" != "$PSD_BRANCH" ]] && echo "Unexpected branch, expecting $PSD_BRANCH, got $BRANCH" && exit 1
 
     # Install
     make -j"$(nproc --ignore=2)"
     sudo make install
 
-    popd || notify-send "Can't cd to previous directory" --expire-time=20 && exit 1
+    popd || echo "Can't cd to previous directory" && exit 1
 
     # Copy brave profile
     if [ -f /usr/share/psd/contrib/brave ]; then

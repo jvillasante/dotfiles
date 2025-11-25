@@ -24,12 +24,12 @@ install-emacs() {
     if [ ! -d "$HOME"/Workspace/Software/emacs ]; then
         git clone --depth 1 --branch "$EMACS_BRANCH" git://git.savannah.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
         pushd "$HOME"/Workspace/Software/emacs || {
-            notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
+            echo "Can't cd into $HOME/Workspace/Software/emacs"
             exit 1
         }
     else
         pushd "$HOME"/Workspace/Software/emacs || {
-            notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
+            echo "Can't cd into $HOME/Workspace/Software/emacs"
             exit 1
         }
 
@@ -43,8 +43,7 @@ install-emacs() {
     # Setup git branch
     local BRANCH
     BRANCH=$(git branch --show-current)
-    [[ "$BRANCH" != "$EMACS_BRANCH" ]] && notify-send "Emacs unexpected branch, expecting $EMACS_BRANCH, got $BRANCH" \
-                                                      --expire-time=20 && exit 1
+    [[ "$BRANCH" != "$EMACS_BRANCH" ]] && echo "Unexpected branch, expecting $EMACS_BRANCH, got $BRANCH" && exit 1
 
     # Install
     ./autogen.sh
@@ -59,7 +58,7 @@ install-emacs() {
     make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
     sudo make install
 
-    popd || notify-send "Can't cd to previous directory" --expire-time=20 && exit 1
+    popd
 
     # Update packages
     read -rp "Emacs has been installed, do you want to update packages now? (Y/N): " confirm

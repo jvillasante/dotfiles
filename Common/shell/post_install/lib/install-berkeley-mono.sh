@@ -15,11 +15,11 @@ if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
 fi
 
 install_berkeley_mono_font() {
-    [ ! -d "$(pwd)"/fonts ] && notify-send "$(pwd)/fonts is not a directory" --expire-time=20 && return
+    [ ! -d "$(pwd)"/fonts ] && echo "$(pwd)/fonts is not a directory" && exit 1
     [ ! -f "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
-        notify-send "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
+        echo "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" && exit 1
     [ ! -f "$(pwd)"/../scripts/+crypt ] &&
-        notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && return
+        echo "$(pwd)/../scripts/+crypt script does not exists" && exit 1
     [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
     [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
         rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
@@ -27,12 +27,12 @@ install_berkeley_mono_font() {
     # copy and decrypt Berkeley Mono typeface
     cp "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg "$HOME"/Workspace/Software/fonts
     [ ! -f "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
-        notify-send "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" \
-                    --expire-time=20 && return
+        echo "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" \
+                    && exit 1
     "$(pwd)"/../scripts/+crypt -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg
     [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
-        notify-send "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface does not exists" \
-                    --expire-time=20 && return
+        echo "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface does not exists" \
+                    && exit 1
 
     # just in case
     mkdir -p ~/.local/share/fonts

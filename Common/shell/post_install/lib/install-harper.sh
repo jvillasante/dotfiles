@@ -20,7 +20,7 @@ install_harper() {
     [ ! -d "$HOME"/Workspace/Software/harper ] && mkdir -p "$HOME"/Workspace/Software/harper
 
     pushd "$HOME"/Workspace/Software/harper || {
-        notify-send "Can't cd into $HOME/Workspace/Software/harper" --expire-time=20
+        echo "Can't cd into $HOME/Workspace/Software/harper"
         exit 1
     }
 
@@ -37,7 +37,7 @@ install_harper() {
     sudo cp -f harper-ls /usr/local/bin/
 
     popd || {
-        notify-send "Can't cd to previous directory" --expire-time=20
+        echo "Can't cd to previous directory"
         exit 1
     }
 }

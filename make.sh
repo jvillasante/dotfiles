@@ -150,6 +150,7 @@ main() {
     done
 
     echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."
+    [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
     files="emacs.service xkeysnail.service xremap.service mullvad.service"
     for file in $files; do
         [ -L "$HOME/.config/systemd/user/$file" ] && unlink "$HOME/.config/systemd/user/$file"
