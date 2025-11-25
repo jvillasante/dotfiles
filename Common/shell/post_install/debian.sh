@@ -81,9 +81,8 @@ debian_install() {
         usage 1
     fi
 
-    # Check to see if dialog and libnotify are installed, if not install them
+    # Check to see if dialog is installed, if not install it
     type dialog 2> /dev/null || sudo apt install -y dialog
-    type notify-send 2> /dev/null || sudo apt install -y libnotify-bin libnotify-dev
 
     # kick off the installer
     OPTIONS=(
@@ -547,7 +546,7 @@ debian_install() {
 
                 # Is it already installed?
                 hash emacs 2> /dev/null &&
-                    notify-send "12) Emacs is already installed" --expire-time=30000 && continue
+                    echo "8) Emacs is already installed"  && exit 1
 
                 # libgccjit-12 should match the current gcc in the system (gcc --version)
                 echo "Current gcc version $(gcc --version)"
@@ -580,7 +579,7 @@ debian_install() {
                 [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo apt install -y libx11-dev
 
                 # Is it already installed?
-                hash xremap 2> /dev/null && notify-send "Xremap is already installed" --expire-time=30000 && continue
+                hash xremap 2> /dev/null && echo "Xremap is already installed" && exit 1
 
                 # do install
                 install_xremap

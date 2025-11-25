@@ -80,11 +80,6 @@ fedora_install() {
         sudo dnf install -y dialog
     fi
 
-    # Check to see if libnotify is installed, if not install it
-    if [ "$(rpm -q libnotify 2> /dev/null | grep -c "is not installed")" -eq 1 ]; then
-        sudo dnf install -y libnotify
-    fi
-
     OPTIONS=(
         1 "Setup Defaults - Set some defaults (hostname, folders structure, global settings, etc)"
         2 "Setup RPM Fussion - Update Kernel, RPM Fussion & Firmware (reboot needed)"
@@ -668,7 +663,7 @@ fedora_install() {
                 echo "$CHOICE) Installing Emacs"
 
                 # Is it already installed?
-                hash emacs 2> /dev/null && notify-send "Emacs is already installed" --expire-time=20 && continue
+                hash emacs 2> /dev/null && echo "Emacs is already installed" && exit 1
 
                 # Install dependencies
                 sudo dnf group install "development-tools"
@@ -698,7 +693,7 @@ fedora_install() {
                 echo "$CHOICE Installing StyLua"
 
                  # Is it already installed?
-                hash stylua 2> /dev/null && notify-send "StyLua is already installed" --expire-time=20 && continue
+                hash stylua 2> /dev/null && echo "StyLua is already installed" && exit 1
 
                 # do install
                 install_stylua
@@ -721,7 +716,7 @@ fedora_install() {
                     #
 
                     # # Is it already installed?
-                    # hash vicinae 2> /dev/null && notify-send "Vicinae is already installed" --expire-time=20 && continue
+                    # hash vicinae 2> /dev/null && echo "Vicinae is already installed" && exit 1
 
                     # # Dependencies
                     # sudo dnf copr enable -y quadratech188/cmark-gfm
@@ -749,8 +744,8 @@ fedora_install() {
                     # [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
 
                     # pushd "$HOME"/Workspace/Software/vicinae || {
-                    #         notify-send "Can't cd into $HOME/Workspace/Software/vicinae" --expire-time=20
-                    #         continue
+                    #         echo "Can't cd into $HOME/Workspace/Software/vicinae"
+                    #         exit 1
                     # }
 
                     # VICINAE_VERSION=v0.10.0
@@ -762,8 +757,8 @@ fedora_install() {
                     # sudo cp -r "$VICINAE_FOLDER"/share/* /usr/local/share/
 
                     # popd || {
-                    #         notify-send "Can't cd to previous directory" --expire-time=20
-                    #         continue
+                    #         echo "Can't cd to previous directory"
+                    #         exit 1
                     # }
 
                     # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
@@ -771,8 +766,8 @@ fedora_install() {
                     #     [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
 
                     #     pushd "$HOME"/Workspace/Software/vicinae || {
-                    #         notify-send "Can't cd into $HOME/Workspace/Software/vicinae" --expire-time=20
-                    #         continue
+                    #         echo "Can't cd into $HOME/Workspace/Software/vicinae"
+                    #         exit 1
                     #     }
 
                     #     VICINAE_GNOME_EXTENSION_VERSION=v1.3.0
@@ -780,7 +775,7 @@ fedora_install() {
                     #     curl -LJO https://github.com/dagimg-dot/vicinae-gnome-extension/releases/download/"$VICINAE_GNOME_EXTENSION_VERSION"/"$VICINAE_GNOME_EXTENSION"
                     #     gnome-extensions install --force "$VICINAE_GNOME_EXTENSION"
 
-                    #     popd || notify-send "Can't cd to previous directory" --expire-time=20
+                    #     popd || echo "Can't cd to previous directory" && exit 1
                     # fi
 
                     # # Enable the daemon
@@ -803,15 +798,15 @@ fedora_install() {
                 #     [ ! -d "$HOME"/Workspace/Software/unite ] && mkdir -p "$HOME"/Workspace/Software/unite
 
                 #     pushd "$HOME"/Workspace/Software/unite || {
-                #         notify-send "Can't cd into $HOME/Workspace/Software/unite" --expire-time=20
-                #         continue
+                #         echo "Can't cd into $HOME/Workspace/Software/unite"
+                #         exit 1
                 #     }
 
                 #     UNITE_VERSION=v82
                 #     curl -LJO https://github.com/hardpixel/unite-shell/releases/download/"$UNITE_VERSION"/unite-"$UNITE_VERSION".zip
                 #     gnome-extensions install --force unite-"$UNITE_VERSION".zip
 
-                #     popd || notify-send "Can't cd to previous directory" --expire-time=20
+                #     popd || echo "Can't cd to previous directory" && exit 1
                 # fi
 
                 read -rp "11) Gnome extensions installed."
@@ -822,7 +817,7 @@ fedora_install() {
                 [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo dnf install -y libx11-devel
 
                 # Is it already installed?
-                hash xremap 2> /dev/null && notify-send "Xremap is already installed" --expire-time=20 && continue
+                hash xremap 2> /dev/null && echo "Xremap is already installed" && exit 1
 
                 # do install
                 install_xremap
@@ -835,8 +830,8 @@ fedora_install() {
                 echo "13) Installing Harper"
 
                 # Is it already installed?
-                hash harper-cli 2> /dev/null && notify-send "Harper is already installed" --expire-time=20 && continue
-                hash harper-ls 2> /dev/null && notify-send "Harper is already installed" --expire-time=20 && continue
+                hash harper-cli 2> /dev/null && echo "Harper is already installed" && exit 1
+                hash harper-ls 2> /dev/null && echo "Harper is already installed" && exit 1
 
                 # do install
                 install_harper
