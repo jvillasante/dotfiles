@@ -9,10 +9,19 @@ set -o nounset
 set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 
+if [[ -z "${BASH_VERSION}" ]]; then
+    echo "Error: This script requires Bash to run." >&2
+    exit 1
+fi
+
 if ! type borg > /dev/null 2>&1; then
     echo "You need to install borg first, exiting..."
     exit 1
 fi
+
+SCRIPT_NAME="$(basename "$0")"
+readonly SCRIPT_NAME
+# cd "$(dirname "$0")" || exit 1
 
 # Derived information
 export BORG_CACHE_DIR=/home/"$USER"/.cache/borgbackup/
@@ -27,29 +36,29 @@ export BORG_PASSPHRASE
 
 usage() {
     echo "Usage:"
-    echo "    $0 help:"
+    echo "    $SCRIPT_NAME help:"
     echo "        Show this help message"
-    echo "    $0 init:"
+    echo "    $SCRIPT_NAME init:"
     echo "        Initialize a new borg repo"
-    echo "    $0 list:"
+    echo "    $SCRIPT_NAME list:"
     echo "        List all borg archives in repo"
-    echo "    $0 info [ARCHIVE]:"
+    echo "    $SCRIPT_NAME info [ARCHIVE]:"
     echo "        Information about entire borg repo or ARCHIVE (if present)"
-    echo "    $0 check:"
+    echo "    $SCRIPT_NAME check:"
     echo "        Check both borg repo and archives"
-    echo "    $0 create"
+    echo "    $SCRIPT_NAME create"
     echo "        Create borg archive with format hostname_time in repo"
-    echo "    $0 delete [ARCHIVE]:"
+    echo "    $SCRIPT_NAME delete [ARCHIVE]:"
     echo "        Delete entire borg repo or ARCHIVE (if present)"
-    echo "    $0 extract ARCHIVE:"
+    echo "    $SCRIPT_NAME extract ARCHIVE:"
     echo "        Extract borg ARCHIVE on the current directory"
-    echo "    $0 borg [arbitrary borg command-line]"
+    echo "    $SCRIPT_NAME borg [arbitrary borg command-line]"
     echo "        Run arbitrary borg command"
     echo
-    echo " e.g: $0 extract archive_2022-04-28T17:01:12"
-    echo " e.g: $0 borg extract --dry-run --list -v ::archive_2022-04-28T17:01:12"
-    echo " e.g: $0 borg extract --list -v ::archive_2022-04-28T17:01:12 path/to/dir/"
-    echo " e.g: mkdir /tmp/borg/ && $0 borg mount ::archive_2022-04-28T17:01:12 /tmp/borg"
+    echo " e.g: $SCRIPT_NAME extract archive_2022-04-28T17:01:12"
+    echo " e.g: $SCRIPT_NAME borg extract --dry-run --list -v ::archive_2022-04-28T17:01:12"
+    echo " e.g: $SCRIPT_NAME borg extract --list -v ::archive_2022-04-28T17:01:12 path/to/dir/"
+    echo " e.g: mkdir /tmp/borg/ && $SCRIPT_NAME borg mount ::archive_2022-04-28T17:01:12 /tmp/borg"
     exit "$1"
 }
 
@@ -61,7 +70,7 @@ do_ssh_backup() {
         [ ! -d "$HOME/.ssh" ] &&
             info "$HOME/.ssh does not exists" && exit 1
 
-        [ ! -f "$HOME/.ssh.tar.gz.gpg" ] && rm -f "$HOME/.ssh.tar.gz.gpg"
+        [ -f "$HOME/.ssh.tar.gz.gpg" ] && rm -f "$HOME/.ssh.tar.gz.gpg"
         +crypt -e -s "$HOME/.ssh" > /dev/null 2>&1;
         [ ! -f "$HOME/.ssh.tar.gz.gpg" ] &&
             info "Could not create $HOME/.ssh.tar.gz.gpg" && exit 1
