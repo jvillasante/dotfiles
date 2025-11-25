@@ -21,13 +21,15 @@ if ! hash dnf 2> /dev/null; then
     exit 1
 fi
 
-IFS=$'\n\t'
 SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_NAME
 cd "$(dirname "$0")" || exit 1
 
-# shellcheck source=/dev/null
-source "$(dirname "$0")/lib/install-berkeley-mono.sh" || exit 1
+# source everything in lib
+for f in "$(dirname "$0")"/lib/*; do
+    # shellcheck source=/dev/null
+    source "$f" || exit 1
+done
 
 readonly WS_WAYLAND="Wayland"
 readonly WS_X11="X11"
@@ -347,7 +349,8 @@ fedora_install() {
                 fi
 
                 # Pass (password-store)
-                sudo dnf install -y pass gopass
+                sudo dnf install -y pass
+                # sudo dnf install -y gopass
 
                 # Git stuff
                 sudo dnf install -y git           # git itself
@@ -420,7 +423,7 @@ fedora_install() {
                 # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path
 
                 # Torrents
-                sudo dnf install -y qbittorrent
+                # sudo dnf install -y qbittorrent
 
                 # Mullvad VPN (Using Network Manager)
                 # sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
@@ -511,51 +514,9 @@ fedora_install() {
                 # Profile sync daemon
                 #
 
-                # Dependencies
+                # Dependencies & install
                 sudo dnf install -y coreutils findutils glib2 kmod rsync systemd
-
-                # Set branch to use
-                local PSD_BRANCH
-                PSD_BRANCH=master
-
-                # Prepare git repo
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                if [ ! -d "$HOME"/Workspace/Software/profile-sync-daemon ]; then
-                    git clone --depth 1 --branch "$PSD_BRANCH" git@github.com:graysky2/profile-sync-daemon.git \
-                        "$HOME"/Workspace/Software/profile-sync-daemon
-                    pushd "$HOME"/Workspace/Software/profile-sync-daemon || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/profile-sync-daemon" --expire-time=20
-                        continue
-                    }
-                else
-                    notify-send "PSD already installing" --expire-time=20
-                    continue
-                fi
-
-                # Setup git branch
-                local BRANCH
-                BRANCH=$(git branch --show-current)
-                [[ "$BRANCH" != "$PSD_BRANCH" ]] && notify-send "Emacs unexpected branch, expecting $PSD_BRANCH, got $BRANCH" \
-                                                                --expire-time=20 && continue
-
-                # Install
-                make -j"$(nproc --ignore=2)"
-                sudo make install
-
-                popd || notify-send "Can't cd to previous directory" --expire-time=20
-
-                # Copy brave profile
-                if [ -f /usr/share/psd/contrib/brave ]; then
-                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
-                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
-                fi
-
-                # PSD: Needs sudo permissions for overlay-fs - needs a logout :(
-                echo 'jvillasante ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper' | sudo EDITOR='tee -a' visudo
-
-                # PSD: Enable and Start the Daemon
-                systemctl --user enable --now psd.service && systemctl --user start psd.service
+                install_psd
 
                 #
                 # Chromium Browser (For use with eww)
@@ -669,12 +630,12 @@ fedora_install() {
                 flatpak install --user -y flathub com.dropbox.Client
                 flatpak install --user -y flathub com.slack.Slack
                 flatpak install --user -y flathub org.videolan.VLC
-                # flatpak install --user -y flathub org.wireshark.Wireshark
+                flatpak install --user -y flathub org.wireshark.Wireshark
                 flatpak install --user -y flathub com.github.tchx84.Flatseal
-                # flatpak install --user -y flathub com.github.johnfactotum.Foliate
+                flatpak install --user -y flathub com.github.johnfactotum.Foliate
                 flatpak install --user -y flathub org.gimp.GIMP
-                # flatpak install --user -y flathub com.transmissionbt.Transmission
-                # flatpak install --user -y flathub org.telegram.desktop
+                flatpak install --user -y flathub com.transmissionbt.Transmission
+                flatpak install --user -y flathub org.telegram.desktop
                 flatpak install --user -y flathub io.podman_desktop.PodmanDesktop
                 flatpak install --user -y flathub com.valvesoftware.Steam
                 flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
@@ -699,72 +660,7 @@ fedora_install() {
                 ;;
             7)
                 echo "$CHOICE) Setting up secrets and repos"
-                read -r -p "Enter keys backup directory: " KEYS_DIR
-                KEYS_DIR=${KEYS_DIR%/}
-                [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=20 && continue
-                [ ! -f "$(pwd)/../scripts/+crypt" ] && notify-send "$(pwd)/../scripts/+crypt script does not exists" \
-                                                                   --expire-time=20 && continue
-                [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" \
-                                                                   --expire-time=20 && continue
-                [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && notify-send "$KEYS_DIR/gpg.tar.gz.gpg does not exists" \
-                                                                   --expire-time=20 && continue
-
-                echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
-                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/.ssh ] && notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" \
-                                                        --expire-time=20 && continue
-                mkdir -p ~/.ssh && rm -rf ~/.ssh/*
-                cp "$KEYS_DIR"/.ssh/id_* ~/.ssh
-                cp "$KEYS_DIR"/.ssh/config ~/.ssh
-                chmod 700 ~/.ssh
-                chmod 644 ~/.ssh/config
-                chmod 600 ~/.ssh/id_*
-                chmod 644 ~/.ssh/id_*.pub
-                rm -rf "$KEYS_DIR"/.ssh
-
-                echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
-                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/gpg ] && notify-send "Decryption failed, $KEYS_DIR/gpg does not exists" \
-                                                        --expire-time=20 && continue
-                mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
-                cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
-                gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
-                rm -rf "$KEYS_DIR"/gpg
-
-                echo "Editing gpg key 0xB3F..., you should 'trust' ultimately (Option 5) and 'quit'"
-                gpg --edit-key 0xB3F739419D91C7F3
-
-                # Remove keys
-                rm -rf "$KEYS_DIR"
-
-                # With the new keys we can go ahead and download some repos
-                [ ! -d "$HOME/.password-store" ] &&
-                    git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
-                [ ! -d "$HOME"/Workspace/Public/dotfiles ] &&
-                    git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
-                [ ! -d "$HOME"/Workspace/Public/resume ] &&
-                    git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
-                [ ! -d "$HOME"/Workspace/Public/cpp_utils ] &&
-                    git clone git@github.com:jvillasante/cpp_utils.git "$HOME"/Workspace/Public/cpp_utils
-
-                # Set dotfiles
-                if [ -f "$HOME"/Workspace/Public/dotfiles/make.sh ]; then
-                    [ -f "$HOME"/.bashrc ] && mv "$HOME"/.bashrc "$HOME"/.bashrc.bak
-                    [ -f "$HOME"/.bash_profile ] && mv "$HOME"/.bash_profile "$HOME"/.bash_profile.bak
-                    [ -d "$HOME"/.config/psd ] && rm -rf "$HOME"/.config/psd
-                    "$HOME"/Workspace/Public/dotfiles/make.sh
-
-                    # Udev rules for ZSA Voyager
-                    # sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/50-zsa.rules \
-                    #      /etc/udev/rules.d/50-zsa.rules
-
-                    # Custom DNS
-                    # [ -d /etc/systemd/resolved.conf.d ] && sudo mv /etc/systemd/resolved.conf.d /etc/systemd/resolved.conf.d.bak
-                    # sudo cp -r "$HOME"/Workspace/Public/dotfiles/Common/systemd/resolved.conf.d /etc/systemd/
-                    # sudo systemctl restart systemd-resolved
-                    # verify DoT is working
-                    #   resolvectl status
-                fi
+                setup-secrets-and-repos
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
@@ -793,76 +689,8 @@ fedora_install() {
                 # enchant package (jinx)
                 sudo dnf install -y enchant2-devel pkgconf # necessary for jinx
 
-                # Set branch to use
-                local EMACS_BRANCH
-                EMACS_BRANCH=emacs-30
-
-                # Prepare git repo
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                if [ ! -d "$HOME"/Workspace/Software/emacs ]; then
-                    git clone --depth 1 --branch "$EMACS_BRANCH" git://git.savannah.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
-                    pushd "$HOME"/Workspace/Software/emacs || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
-                        continue
-                    }
-                else
-                    pushd "$HOME"/Workspace/Software/emacs || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=20
-                        continue
-                    }
-
-                    sudo make uninstall
-                    make clean && make distclean
-                    git reset --hard HEAD
-                    sudo git clean -dfx
-                    git fetch && git pull
-                fi
-
-                # Setup git branch
-                local BRANCH
-                BRANCH=$(git branch --show-current)
-                [[ "$BRANCH" != "$EMACS_BRANCH" ]] && notify-send "Emacs unexpected branch, expecting $EMACS_BRANCH, got $BRANCH" \
-                                                                  --expire-time=20 && continue
-
-                # Install
-                ./autogen.sh
-                ./configure \
-                    --prefix=/usr/local \
-                    --without-compress-install \
-                    --disable-gc-mark-trace \
-                    --with-pgtk \
-                    --with-native-compilation=aot \
-                    --with-tree-sitter \
-                    CFLAGS="-O2 -mtune=native -march=native -pipe -fomit-frame-pointer"
-                make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
-                sudo make install
-
-                popd || notify-send "Can't cd to previous directory" --expire-time=20
-
-                # Update packages
-                read -rp "Emacs has been installed, do you want to update packages now? (Y/N): " confirm
-                if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
-                    local DOTFILES_DIR
-                    DOTFILES_DIR="$HOME"/Workspace/Public/dotfiles/
-
-                    [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d ]] &&
-                        echo "Emacs personal configuration not found, exiting..." && usage 1
-                    [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache ]] &&
-                        rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache
-                    [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa ]] &&
-                        rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa
-                    [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter ]] &&
-                        rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
-                    /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/emacs.d
-                fi
-
-                read -rp "Emacs packages updated, do you want to start the systemd service now? (Y/N): " confirm
-                if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
-                    systemctl --user daemon-reload
-                    sleep 1 && systemctl --user enable --now emacs.service
-                    sleep 1 && systemctl --user start emacs.service
-                    sleep 1 && systemctl --user status emacs.service
-                fi
+                # do install emacs from source
+                install-emacs
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
@@ -872,25 +700,8 @@ fedora_install() {
                  # Is it already installed?
                 hash stylua 2> /dev/null && notify-send "StyLua is already installed" --expire-time=20 && continue
 
-                # Install
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                [ ! -d "$HOME"/Workspace/Software/stylua ] && mkdir -p "$HOME"/Workspace/Software/stylua
-
-                pushd "$HOME"/Workspace/Software/stylua || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/stylua" --expire-time=20
-                        continue
-                }
-
-                STYLUA_VERSION=v2.3.1
-                STYLUA_RELEASE=stylua-linux-x86_64.zip
-                curl -LJO https://github.com/JohnnyMorganz/StyLua/releases/download/"$STYLUA_VERSION"/"$STYLUA_RELEASE"
-                atool --extract --explain "$STYLUA_RELEASE"
-                sudo cp -f stylua /usr/local/bin/
-
-                popd || {
-                        notify-send "Can't cd to previous directory" --expire-time=20
-                        continue
-                }
+                # do install
+                install_stylua
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
@@ -1013,45 +824,8 @@ fedora_install() {
                 # Is it already installed?
                 hash xremap 2> /dev/null && notify-send "Xremap is already installed" --expire-time=20 && continue
 
-                # Install
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                [ ! -d "$HOME"/Workspace/Software/xremap ] && mkdir -p "$HOME"/Workspace/Software/xremap
-
-                pushd "$HOME"/Workspace/Software/xremap || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/xremap" --expire-time=20
-                        continue
-                }
-
-                XREMAP_VERSION=v0.14.3
-                XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
-                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                    XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
-                fi
-
-                curl -LJO https://github.com/k0kubun/xremap/releases/download/"$XREMAP_VERSION"/"$XREMAP_RELEASE"
-                atool --extract --explain "$XREMAP_RELEASE"
-                sudo cp -f xremap /usr/local/bin/
-
-                popd || {
-                        notify-send "Can't cd to previous directory" --expire-time=20
-                        continue
-                }
-
-                # First create a new group to which we allow access to the input stuff; add this group to your user:
-                sudo gpasswd -a "$USER" input
-
-                # Second Create new udev rule granting access:
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/70-xremap.rules \
-                     /etc/udev/rules.d/70-xremap.rules
-
-                # Enable the daemon
-                [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
-                [ -L "$HOME/.config/systemd/user/xremap.service" ] &&
-                    unlink "$HOME/.config/systemd/user/xremap.service"
-                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" \
-                    "$HOME/.config/systemd/user"
-                systemctl --user daemon-reload
-                systemctl --user enable --now xremap.service && systemctl --user start xremap.service
+                # do install
+                install_xremap
 
                 read -rp "12) Xremap installed. Reboot for udev rules to take effect.
                               On Gnome, install the extension at https://extensions.gnome.org/extension/5060/xremap/.
@@ -1064,31 +838,8 @@ fedora_install() {
                 hash harper-cli 2> /dev/null && notify-send "Harper is already installed" --expire-time=20 && continue
                 hash harper-ls 2> /dev/null && notify-send "Harper is already installed" --expire-time=20 && continue
 
-                # Install
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                [ ! -d "$HOME"/Workspace/Software/harper ] && mkdir -p "$HOME"/Workspace/Software/harper
-
-                pushd "$HOME"/Workspace/Software/harper || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/harper" --expire-time=20
-                        continue
-                }
-
-                HARPER_VERSION=v0.70.0
-                HARPER_CLI_RELEASE=harper-cli-x86_64-unknown-linux-gnu.tar.gz
-                HARPER_LS_RELEASE=harper-ls-x86_64-unknown-linux-gnu.tar.gz
-
-                curl -LJO https://github.com/Automattic/harper/releases/download/"$HARPER_VERSION"/"$HARPER_CLI_RELEASE"
-                atool --extract --explain "$HARPER_CLI_RELEASE"
-                sudo cp -f harper-cli /usr/local/bin/
-
-                curl -LJO https://github.com/Automattic/harper/releases/download/"$HARPER_VERSION"/"$HARPER_LS_RELEASE"
-                atool --extract --explain "$HARPER_LS_RELEASE"
-                sudo cp -f harper-ls /usr/local/bin/
-
-                popd || {
-                        notify-send "Can't cd to previous directory" --expire-time=20
-                        continue
-                }
+                # do install
+                install_harper
 
                 read -rp "13) Harper installed. Press enter to continue..."
                 ;;

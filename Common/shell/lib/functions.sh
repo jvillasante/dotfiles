@@ -32,19 +32,6 @@ require_command() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Find current shell
-# Usage: CURRENT_SHELL=$(find_current_shell)
-find_current_shell() {
-    local CURRENT_SHELL
-    CURRENT_SHELL="UNKNOWN"
-    if [[ -n ${ZSH_VERSION} ]]; then
-        CURRENT_SHELL="zsh $ZSH_VERSION"
-    elif [[ -n $BASH_VERSION ]]; then
-        CURRENT_SHELL="bash $BASH_VERSION"
-    fi
-    echo "$CURRENT_SHELL"
-}
-
 # Find current OS based on `uname`
 # Usage: CURRENT_OS=$(find_os)
 find_os() {

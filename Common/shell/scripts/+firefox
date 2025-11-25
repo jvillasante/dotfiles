@@ -14,10 +14,6 @@ if [[ -z "${BASH_VERSION}" ]]; then
     exit 1
 fi
 
-# Set Internal Field Separator to use only newlines and tabs
-# This helps prevent issues when iterating over lists or files with spaces in names.
-IFS=$'\n\t'
-
 SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_NAME
 

@@ -4,6 +4,14 @@ set -o errexit
 set -o nounset
 set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
+
+if [[ -z "${BASH_VERSION}" ]]; then
+    echo "Error: This script requires Bash to run." >&2
+    exit 1
+fi
+
+SCRIPT_NAME="$(basename "$0")"
+readonly SCRIPT_NAME
 cd "$(dirname "$0")" || exit 1
 
 # shellcheck source=/dev/null
@@ -11,30 +19,30 @@ source "$HOME/.config/shell/lib/functions.sh"
 
 usage() {
     echo "Usage:"
-    echo "    $0 help:"
+    echo "    $SCRIPT_NAME help:"
     echo "        Show this help message"
-    echo "    $0 system:"
+    echo "    $SCRIPT_NAME system:"
     echo "        Update OS (debian, opensuse or fedora) & Flatpak"
-    echo "    $0 dotfiles:"
+    echo "    $SCRIPT_NAME dotfiles:"
     echo "        Update personal dotfiles (ask to pull from remote and then syncs on local)"
-    echo "    $0 psd:"
+    echo "    $SCRIPT_NAME psd:"
     echo "        Update psd (profile-sync-daemon) from source (will update to latest psd from git repository)"
-    echo "    $0 emacs:"
+    echo "    $SCRIPT_NAME emacs:"
     echo "        Update emacs from source (will update to latest emacs from git repository)"
-    echo "    $0 emacs-lsp-booster:"
+    echo "    $SCRIPT_NAME emacs-lsp-booster:"
     echo "        Update emacs-lsp-booster from binary source"
-    echo "    $0 gnome:"
+    echo "    $SCRIPT_NAME gnome:"
     echo "        Update gnome extensions"
-    echo "    $0 stylua:"
+    echo "    $SCRIPT_NAME stylua:"
     echo "        Update StyLua from binary source"
-    echo "    $0 vicinae:"
+    echo "    $SCRIPT_NAME vicinae:"
     echo "        Update Vicinae from source"
-    echo "    $0 xremap:"
+    echo "    $SCRIPT_NAME xremap:"
     echo "        Update xreamp from binary source"
-    echo "    $0 harper:"
+    echo "    $SCRIPT_NAME harper:"
     echo "        Update harper from binary source"
     echo
-    echo " e.g: $0 system"
+    echo " e.g: $SCRIPT_NAME system"
     exit "$1"
 }
 
@@ -416,56 +424,60 @@ harper_update() {
     }
 }
 
-nargs=$#
-cmd=${1-}
-rc=0
-if [ "$#" -gt 0 ]; then shift; fi
-case $cmd in
-    system)
-        [[ "$nargs" -eq 1 ]] || usage 1
-        system_update
-        ;;
-    dotfiles)
-        [ "$nargs" -eq 1 ] || usage 1
-        dotfiles_update
-        ;;
-    psd)
-        [[ "$nargs" -eq 1 ]] || usage 1
-        psd_update
-        ;;
-    emacs)
-        [[ "$nargs" -eq 1 ]] || usage 1
-        emacs_update
-        ;;
-    emacs-lsp-booster)
-        [[ "$nargs" -eq 1 ]] || usage 1
-        emacs_lsp_booster_update
-        ;;
-    gnome)
-        [[ "$nargs" -eq 1 ]] || usage 1
-        gnome_update
-        ;;
-    stylua)
-        [[ "$nargs" -eq 1 ]] || usage 1
-        stylua_update
-        ;;
-    vicinae)
-        [[ "$nargs" -eq 1 ]] || usage 1
-        vicinae_update
-        ;;
-    xremap)
-        [[ "$nargs" -eq 1 ]] || usage 1
-        xremap_update
-        ;;
-    harper)
-        [[ "$nargs" -eq 1 ]] || usage 1
-        harper_update
-        ;;
-    help | --help | -h)
-        usage 0
-        ;;
-    *)
-        usage 1
-        ;;
-esac
-exit $rc
+main() {
+    nargs=$#
+    cmd=${1-}
+    rc=0
+    if [ "$#" -gt 0 ]; then shift; fi
+    case $cmd in
+        system)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            system_update
+            ;;
+        dotfiles)
+            [ "$nargs" -eq 1 ] || usage 1
+            dotfiles_update
+            ;;
+        psd)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            psd_update
+            ;;
+        emacs)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            emacs_update
+            ;;
+        emacs-lsp-booster)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            emacs_lsp_booster_update
+            ;;
+        gnome)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            gnome_update
+            ;;
+        stylua)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            stylua_update
+            ;;
+        vicinae)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            vicinae_update
+            ;;
+        xremap)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            xremap_update
+            ;;
+        harper)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            harper_update
+            ;;
+        help | --help | -h)
+            usage 0
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+    return $rc
+}
+
+main "$@"

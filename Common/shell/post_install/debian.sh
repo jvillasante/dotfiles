@@ -21,13 +21,15 @@ if ! hash apt 2> /dev/null; then
     exit 1
 fi
 
-IFS=$'\n\t'
 SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_NAME
 cd "$(dirname "$0")" || exit 1
 
-# shellcheck source=/dev/null
-source "$(dirname "$0")/lib/install-berkeley-mono.sh"
+# source everything in lib
+for f in "$(dirname "$0")"/lib/*; do
+    # shellcheck source=/dev/null
+    source "$f" || exit 1
+done
 
 readonly WS_WAYLAND="Wayland"
 readonly WS_X11="X11"
@@ -43,7 +45,7 @@ usage() {
     echo "    $SCRIPT_NAME help:"
     echo "        Show this help message"
     echo "    $SCRIPT_NAME install:"
-    echo "        Install Debian System ($WS_WAYLAND|WS_X11) ($WM_KDE|$WM_GNOME|$WM_I3|$WM_SWAY)"
+    echo "        Install Debian System"
     echo
     echo " e.g: $SCRIPT_NAME install"
     exit "$1"
@@ -93,10 +95,8 @@ debian_install() {
         6 "Enable Flatpak - Enables the Flatpak repo and installs packages"
         7 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         8 "Install Emacs - Install Emacs29 from source"
-        9 "Install Keyd - Install Keyd from source (using xremap at the moment, here for documentation only)"
-        10 "Install Xkeysnail - Install Xkeysnail from source (using xremap at the moment, here for documentation only)"
-        11 "Install Xremap - Install Xremap"
-        12 "Quit")
+        9 "Install Xremap - Install Xremap"
+        10 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -199,22 +199,18 @@ debian_install() {
                     # Allow max volume
                     gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
 
-                    # Set fractional scaling (only for wayland)
-                    # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+                    # Wayland - Set fractional scaling to 1.1 (110%), default is 1.0 (100%)
+                    # if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
+                    #     gsettings set org.gnome.desktop.interface text-scaling-factor 1.1
+                    # fi
 
-                    # font
-                    # gsettings set org.gnome.desktop.interface font-hinting 'full'
-                    # gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
-                    # gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
-
-                    # Stop Gnome Software downloading updates
-                    # gsettings set org.gnome.software allow-updates false
-                    # gsettings set org.gnome.software download-updates false
-                    # gsettings set org.gnome.software download-updates-notify false
-
-                    # Stop GNOME Software autostart
-                    # sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
+                    # Disable Gnome Software from Startup Apps
+                    [ -f /etc/xdg/autostart/org.gnome.Software.desktop ] && \
+                        sudo mv /etc/xdg/autostart/org.gnome.Software.desktop /etc/xdg/autostart/org.gnome.Software.desktop.backup
                 fi
+
+                # Faster Boot
+                sudo systemctl disable NetworkManager-wait-online.service
 
                 # Update system with the new sources
                 sudo apt update -y
@@ -341,7 +337,7 @@ debian_install() {
                 sudo apt install -y tmux
 
                 # Alacritty - A fast, cross-platform, OpenGL terminal emulator
-                sudo apt install -y alacritty
+                # sudo apt install -y alacritty
 
                 # foot - the fast, lightweight and minimalistic Wayland terminal emulator.
                 [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && sudo apt install -y foot
@@ -367,13 +363,13 @@ debian_install() {
                 sudo apt install -y borgbackup
 
                 # profile sync daemon (not using this on debian)
-                sudo apt install -y profile-sync-daemon
-                if [ -f /usr/share/psd/contrib/brave ]; then
-                    sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-                elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
-                    sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
-                fi
-                systemctl --user enable psd.service && systemctl --user start psd.service
+                # sudo apt install -y profile-sync-daemon
+                # if [ -f /usr/share/psd/contrib/brave ]; then
+                #     sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
+                # elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
+                #     sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
+                # fi
+                # systemctl --user enable psd.service && systemctl --user start psd.service
 
                 # Neovim
                 sudo apt install -y neovim
@@ -384,12 +380,13 @@ debian_install() {
                 # non apt software
                 sudo pip3 install cmake-language-server --break-system-packages
                 sudo pip3 install pyright --break-system-packages
-                sudo npm install --global npm@latest
-                sudo npm install --global prettier
-                sudo npm install --global js-beautify
-                sudo npm install --global typescript-language-server typescript
-                sudo npm install --global dockerfile-language-server-nodejs
-                sudo npm install --global bash-language-server
+                sudo npm install --location=global npm@latest
+                sudo npm install --location=global prettier
+                sudo npm install --location=global js-beautify
+                sudo npm install --location=global typescript-language-server typescript
+                sudo npm install --location=global dockerfile-language-server-nodejs
+                sudo npm install --location=global bash-language-server
+                sudo npm install --location=global @devcontainers/cli
 
                 read -rp "4) Software has been installed. Press enter to continue..."
                 ;;
@@ -421,32 +418,36 @@ debian_install() {
                 #
 
                 # Install dependencies
-                sudo apt update -y
-                sudo apt install -y ca-certificates curl gnupg
+                # sudo apt update -y
+                # sudo apt install -y ca-certificates curl gnupg
 
                 # Add Docker's official GPG key
-                sudo install -m 0755 -d /etc/apt/keyrings
-                curl -fsSL \
-                     https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-                sudo chmod a+r /etc/apt/keyrings/docker.gpg
+                # sudo install -m 0755 -d /etc/apt/keyrings
+                # curl -fsSL \
+                #      https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+                # sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
                 # set up the repository
-                DOCKER_URL=https://download.docker.com/linux/debian
-                echo \
-                    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] $DOCKER_URL \
-                    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |
-                    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+                # DOCKER_URL=https://download.docker.com/linux/debian
+                # echo \
+                #     "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] $DOCKER_URL \
+                #     "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |
+                #     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
                 # Install docker engine
-                sudo apt update -y
-                sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+                # sudo apt update -y
+                # sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
                 # add user
-                sudo usermod -G docker -a "$USER"
-                sudo systemctl restart docker
+                # sudo usermod -G docker -a "$USER"
+                # sudo systemctl restart docker
 
                 # Verify that the Docker Engine installation is successful by running the hello-world image:
                 # docker run hello-world
+
+                #
+                # TODO: Install podman
+                #
 
                 #
                 # Latex Full
@@ -467,15 +468,22 @@ debian_install() {
                 sudo apt install -y fonts-jetbrains-mono
                 install_berkeley_mono_font
 
-                #
                 # Remove pre-installed Gnome games
-                #
-
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     sudo apt purge iagno lightsoff four-in-a-row gnome-robots pegsolitaire gnome-2048 \
                          hitori gnome-klotski gnome-mines gnome-mahjongg gnome-sudoku quadrapassel swell-foop \
                          gnome-tetravex gnome-taquin aisleriot gnome-chess five-or-more gnome-nibbles tali
                     sudo apt autoremove
+                fi
+
+                # Set Gnome fonts
+                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                    gsettings set org.gnome.desktop.interface font-hinting 'full'
+                    gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
+                    gsettings set org.gnome.desktop.interface font-name 'Inter Variable 11'
+                    gsettings set org.gnome.desktop.interface document-font-name 'Inter 11'
+                    gsettings set org.gnome.desktop.interface monospace-font-name 'Berkeley Mono 11'
+                    # gsettings set org.gnome.desktop.interface text-scaling-factor 1.25 # using fractional scaling instead!!
                 fi
 
                 read -rp "5) Extras installed. Press enter to continue..."
@@ -502,17 +510,20 @@ debian_install() {
                 flatpak install --user -y flathub org.videolan.VLC
                 flatpak install --user -y flathub org.wireshark.Wireshark
                 flatpak install --user -y flathub com.github.tchx84.Flatseal
-                # flatpak install --user -y flathub com.transmissionbt.Transmission
+                flatpak install --user -y flathub com.github.johnfactotum.Foliate
+                flatpak install --user -y flathub org.gimp.GIMP
+                flatpak install --user -y flathub com.transmissionbt.Transmission
+                flatpak install --user -y flathub org.telegram.desktop
+                flatpak install --user -y flathub com.valvesoftware.Steam
+                flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
+                # TODO: flatpak install --user -y flathub io.podman_desktop.PodmanDesktop
+                # flatpak install --user -y flathub org.keepassxc.KeePassXC
+                # flatpak install --user -y flathub com.borgbase.Vorta
                 # flatpak install --user -y flathub io.github.Hexchat
                 # flatpak install --user -y flathub engineer.atlas.Nyxt
                 # flatpak install --user -y flathub org.mozilla.firefox
-                # flatpak install --user -y flathub org.telegram.desktop
                 # flatpak install --user -y flathub org.gnucash.GnuCash
-                # flatpak install --user -y flathub org.gimp.GIMP
-                # flatpak install --user -y flathub com.skype.Client
-                # flatpak install --user -y flathub com.valvesoftware.Steam
                 # flatpak install --user -y flathub im.riot.Riot
-                # flatpak install --user -y flathub org.keepassxc.KeePassXC
                 # flatpak install --user -y flathub com.obsproject.Studio
                 # flatpak install --user -y flathub com.brave.Browser
                 # flatpak install --user -y flathub org.shotcut.Shotcut
@@ -527,52 +538,7 @@ debian_install() {
                 ;;
             7)
                 echo "7) Setting up secrets and repos"
-
-                read -rp "Enter keys backup directory: " KEYS_DIR
-                KEYS_DIR=${KEYS_DIR%/}
-                [ ! -d "$KEYS_DIR" ] && notify-send "$KEYS_DIR is not a directory" --expire-time=30000 && continue
-                [ ! -f "$(pwd)/../scripts/+crypt" ] &&
-                    notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=30000 && continue
-                [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] &&
-                    notify-send "$KEYS_DIR/ssh.tar.gz.gpg does not exists" --expire-time=30000 && continue
-                [ ! -f "$KEYS_DIR/gnupg.tar.gz.gpg" ] &&
-                    notify-send "$KEYS_DIR/gnupg.tar.gz.gpg does not exists" --expire-time=30000 && continue
-
-                echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
-                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/ssh ] &&
-                    notify-send "Decryption failed, $KEYS_DIR/ssh does not exists" --expire-time=30000 && continue
-                mkdir -p ~/.ssh && rm -rf ~/.ssh/*
-                cp "$KEYS_DIR"/ssh/id_* ~/.ssh
-                cp "$KEYS_DIR"/ssh/config ~/.ssh
-                chmod 700 ~/.ssh
-                chmod 644 ~/.ssh/config
-                chmod 600 ~/.ssh/id_*
-                chmod 644 ~/.ssh/id_*.pub
-                rm -rf "$KEYS_DIR"/ssh
-
-                echo ">> Setting up gpg keys from $KEYS_DIR/gnupg.tar.gz.gpg"
-                "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gnupg.tar.gz.gpg"
-                [ ! -d "$KEYS_DIR"/gnupg ] &&
-                    notify-send "Decryption failed, $KEYS_DIR/gnupg does not exists" --expire-time=30000 && continue
-                mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
-                cp "$KEYS_DIR"/gnupg/config/*.conf ~/.gnupg
-                gpg --import "$KEYS_DIR"/gnupg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
-                rm -rf "$KEYS_DIR"/gnupg
-
-                echo "Editing gpg key 0xB3F..., you should 'trust' ultimately (Option 5) and 'quit'"
-                gpg --edit-key 0xB3F739419D91C7F3
-
-                # Remove keys
-                rm -rf "$KEYS_DIR"
-
-                # With the new keys we can go ahead and download some repos
-                [ ! -d "$HOME/.password-store" ] &&
-                    git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
-                [ ! -d "$HOME"/Workspace/Public/dotfiles ] &&
-                    git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
-                [ ! -d "$HOME"/Workspace/Public/resume ] &&
-                    git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
+                setup-secrets-and-repos
 
                 read -rp "7) Secrets and repos are set. Press enter to continue..."
                 ;;
@@ -584,6 +550,7 @@ debian_install() {
                     notify-send "12) Emacs is already installed" --expire-time=30000 && continue
 
                 # libgccjit-12 should match the current gcc in the system (gcc --version)
+                echo "Current gcc version $(gcc --version)"
                 read -rp "Is gcc version 12.*? (Y/N): " confirm &&
                     [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 
@@ -602,153 +569,12 @@ debian_install() {
                 sudo apt install -y libenchant-2-dev pkgconf # necessary for jinx
                 sudo apt install -y libtool-bin # vterm
 
-                # Prepare git repo
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                if [ ! -d "$HOME"/Workspace/Software/emacs ]; then
-                    git clone git://git.sv.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
-                    pushd "$HOME"/Workspace/Software/emacs || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=30000
-                        continue
-                    }
-                else
-                    pushd "$HOME"/Workspace/Software/emacs || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/emacs" --expire-time=30000
-                        continue
-                    }
+                # do install emacs from source
+                install-emacs
 
-                    sudo make uninstall
-                    make clean && make distclean
-                    git reset --hard HEAD
-                    sudo git clean -dfx
-                    git pull
-                fi
-
-                # Build (emacs-29)
-                git checkout emacs-29
-                ./autogen.sh
-
-                # Install
-                EMACS_WINDOW_SYSTEM_OPTION=--with-x
-                [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]] && EMACS_WINDOW_SYSTEM_OPTION=--with-pgtk
-                ./configure \
-                    $EMACS_WINDOW_SYSTEM_OPTION \
-                    --without-compress-install \
-                    --with-native-compilation=aot \
-                    --with-tree-sitter \
-                    --with-json \
-                    --with-mailutils \
-                    CFLAGS="-O3 -mtune=native -march=native -fomit-frame-pointer" prefix=/usr/local
-                make -j"$(nproc --ignore=2)"
-                sudo make install
-
-                popd || notify-send "Can't cd to previous directory" --expire-time=30000 && continue
                 read -rp "8) Emacs has been installed. Press enter to continue..."
                 ;;
             9)
-                echo "9) Installing Keyd"
-                notify-send "Using xremap at the moment" --expire-time=30000
-                continue
-
-                # Is it already installed?
-                hash keyd 2> /dev/null && notify-send "Keyd is already installed" --expire-time=30000 && continue
-
-                # Prepare git repo
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                if [ ! -d "$HOME"/Workspace/Software/keyd ]; then
-                    git clone git@github.com:rvaiya/keyd.git "$HOME"/Workspace/Software/keyd
-                    pushd "$HOME"/Workspace/Software/keyd || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=30000
-                        continue
-                    }
-                else
-                    pushd "$HOME"/Workspace/Software/keyd || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/keyd" --expire-time=30000
-                        continue
-                    }
-
-                    sudo make uninstall
-                    make clean && make distclean
-                    git reset --hard HEAD
-                    sudo git clean -dfx
-                    git pull
-                fi
-
-                # Install
-                make -j"$(nproc --ignore=2)"
-                sudo make install
-
-                # Copy Configuration
-                sudo cp "$HOME"/Workspace/Public/dotfiles/Common/keyd/default.conf /etc/keyd/default.conf
-
-                # Add yourself to the keyd group
-                sudo usermod -aG keyd -a "$USER"
-
-                # Enable the daemon
-                sudo systemctl daemon-reload
-                sudo systemctl enable keyd && sudo systemctl start keyd
-                sudo keyd reload
-
-                popd || notify-send "Can't cd to previous directory" --expire-time=30000
-                read -rp "9) Keyd daemon has been installed. Press enter to continue..."
-                ;;
-            10)
-                echo "10) Installing Xkeysnail"
-                notify-send "Using xremap at the moment" --expire-time=30000
-                continue
-
-                # Only works on X11
-                [[ "$WINDOW_SYSTEM" != "$WS_X11" ]] &&
-                    notify-send "Xkeysnail only supports X11" --expire-time=30000 && continue
-
-                # Is it already installed?
-                hash xkeysnail 2> /dev/null &&
-                    notify-send "Xkeysnail is already installed" --expire-time=30000 && continue
-
-                # Prepare git repo
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                if [ ! -d "$HOME"/Workspace/Software/xkeysnail ]; then
-                    git clone --depth 1 git@github.com:mooz/xkeysnail.git "$HOME"/Workspace/Software/xkeysnail
-                    pushd "$HOME"/Workspace/Software/xkeysnail || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/xkeysnail" --expire-time=30000
-                        continue
-                    }
-                else
-                    pushd "$HOME"/Workspace/Software/xkeysnail || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/xkeysnail" --expire-time=30000
-                        continue
-                    }
-
-                    sudo pip3 uninstall . --break-system-packages
-                    git reset --hard HEAD
-                    sudo git clean -dfx
-                    git pull
-                fi
-
-                # Install
-                sudo pip3 install --upgrade . --break-system-packages
-
-                ## Run without sudo
-                # First create a new group to which we allow access to the input stuff, and add this group to your user:
-                sudo groupadd -f uinput
-                sudo gpasswd -a "$USER" uinput
-
-                # Second Create new udev rule granting access:
-                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/xkeysnail/udev/70-xkeysnail.rules \
-                     /etc/udev/rules.d/70-xkeysnail.rules
-
-                # Enable the daemon
-                mkdir -p ~/.config/systemd/user/
-                [ -L "$HOME/.config/systemd/user/xkeysnail.service" ] &&
-                    unlink "$HOME/.config/systemd/user/xkeysnail.service"
-                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xkeysnail.service" \
-                    "$HOME/.config/systemd/user"
-                systemctl --user daemon-reload
-                systemctl --user enable xkeysnail.service && systemctl --user start xkeysnail.service
-
-                popd || notify-send "Can't cd to previous directory" --expire-time=30000
-                read -rp "10) Xkeysnail installed. Reboot for udev rules to take effect. Press enter to continue..."
-                ;;
-            11)
                 echo "11) Installing Xremap"
 
                 [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo apt install -y libx11-dev
@@ -756,43 +582,14 @@ debian_install() {
                 # Is it already installed?
                 hash xremap 2> /dev/null && notify-send "Xremap is already installed" --expire-time=30000 && continue
 
-                # Install
-                [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-                [ ! -d "$HOME"/Workspace/Software/xremap ] && mkdir -p "$HOME"/Workspace/Software/xremap
+                # do install
+                install_xremap
 
-                pushd "$HOME"/Workspace/Software/xremap || {
-                        notify-send "Can't cd into $HOME/Workspace/Software/xremap" --expire-time=30000
-                        continue
-                }
-
-                XREMAP_VERSION=v0.8.14
-                XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
-                [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]] && XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
-                [[ "$WINDOW_MANAGER" == "$WM_SWAY" ]] && XREMAP_RELEASE=xremap-linux-x86_64-sway.zip
-
-                curl -LJO https://github.com/k0kubun/xremap/releases/download/"$XREMAP_VERSION"/"$XREMAP_RELEASE"
-                atool --extract --explain "$XREMAP_RELEASE"
-                sudo cp -f xremap /usr/local/bin/
-
-                popd || {
-                        notify-send "Can't cd to previous directory" --expire-time=30000
-                        continue
-                }
-
-                # Give current user access to input rules
-                sudo gpasswd -a "$USER" input
-                echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
-
-                # Enable the daemon
-                [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
-                [ -L "$HOME/.config/systemd/user/xremap.service" ] && unlink "$HOME/.config/systemd/user/xremap.service"
-                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" "$HOME/.config/systemd/user"
-                systemctl --user daemon-reload
-                systemctl --user enable xremap.service && systemctl --user start xremap.service
-
-                read -rp "11) Xremap installed. Reboot for udev rules to take effect. Press enter to continue..."
+                read -rp "11) Xremap installed. Reboot for udev rules to take effect.
+                              On Gnome, install the extension at https://extensions.gnome.org/extension/5060/xremap/.
+                              Press enter to continue..."
                 ;;
-            12)
+            10)
                 exit 0
                 ;;
         esac

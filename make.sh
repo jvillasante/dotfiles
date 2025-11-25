@@ -1,17 +1,29 @@
 #!/usr/bin/env bash
 
-############################
 # .make.sh
-# This script creates symlinks from the home directory to any desired dotfiles in $HOME/dotfiles
-############################
+# This script creates symlinks from the home directory to any desired dotfiles
+# in $HOME/dotfiles
+
+set -o errexit     # Exit immediately if a command exits with a non-zero status.
+set -o nounset     # Treat unset variables as an error.
+set -o pipefail    # If any command in a pipeline fails, that return code is used.
+if [[ "${TRACE-0}" == "1" ]]; then
+    set -o xtrace  # Print commands and their arguments as they are executed (for debugging).
+fi
+
+if [[ -z "${BASH_VERSION}" ]]; then
+    echo "Error: This script requires Bash to run." >&2
+    exit 1
+fi
 
 # shellcheck source=/dev/null
 source "$(dirname "$0")/Common/shell/lib/functions.sh"
-CURRENT_SHELL=$(find_current_shell)
+
 CURRENT_HOST=$(hostname)
 CURRENT_OS=$(find_os)
 DOTFILES_DIR=$(find_dotfiles)
-echo ">>> Running ($CURRENT_SHELL) for '$CURRENT_HOST' on '$CURRENT_OS' at '$DOTFILES_DIR'."
+cd "$(dirname "$0")" || exit 1
+echo ">>> Running bash-${BASH_VERSION} for '$CURRENT_HOST' on '$CURRENT_OS' at '$DOTFILES_DIR'."
 
 install_shell() {
     case $1 in
@@ -103,162 +115,167 @@ install_emacs() {
     # fi
 }
 
-install_shell "bash"
-# install_emacs
+main() {
+    install_shell "bash"
+    # install_emacs
 
-echo ">>> Linking common files in $HOME..."
-files=".inputrc .editorconfig .sbclrc .mbsyncrc .msmtprc .tidyrc .guile"
-[ -n "$BASH_VERSION" ] && files+=" .bash_profile .bashrc"
-[ -n "$ZSH_VERSION" ] && files+=" .zshenv .zshrc"
-for file in $files; do
-    [ -L "$HOME/$file" ] && unlink "$HOME/$file"
-    ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
-done
+    echo ">>> Linking common files in $HOME..."
+    files=".inputrc .editorconfig .sbclrc .mbsyncrc .msmtprc .tidyrc .guile"
+    [ -n "$BASH_VERSION" ] && files+=" .bash_profile .bashrc"
+    # [ -n "$ZSH_VERSION" ] && files+=" .zshenv .zshrc"
+    for file in $files; do
+        [ -L "$HOME/$file" ] && unlink "$HOME/$file"
+        ln -s "$DOTFILES_DIR/Common/$file" "$HOME/"
+    done
 
-echo ">>> Linking common files in $HOME/.config..."
-files="git btop nyxt alacritty foot ghostty shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml clangd containers .ripgreprc gopass"
-for file in $files; do
-    [ -L "$HOME/.config/$file" ] && unlink "$HOME/.config/$file"
-    ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
-done
+    echo ">>> Linking common files in $HOME/.config..."
+    files="git btop nyxt alacritty foot ghostty shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml clangd containers .ripgreprc gopass"
+    for file in $files; do
+        [ -L "$HOME/.config/$file" ] && unlink "$HOME/.config/$file"
+        ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"
+    done
 
-echo ">>> Linking nvim files in $HOME/.config..."
-for dir in "$DOTFILES_DIR"/Common/nvim/*/; do
-    dir=${dir%*/}
-    dir_name=${dir##*/}
-    [ -L "$HOME/.config/nvim-${dir_name}" ] && unlink "$HOME/.config/nvim-${dir_name}"
-    ln -s "$dir" "$HOME/.config/nvim-${dir_name}"
-done
+    echo ">>> Linking nvim files in $HOME/.config..."
+    for dir in "$DOTFILES_DIR"/Common/nvim/*/; do
+        dir=${dir%*/}
+        dir_name=${dir##*/}
+        [ -L "$HOME/.config/nvim-${dir_name}" ] && unlink "$HOME/.config/nvim-${dir_name}"
+        ln -s "$dir" "$HOME/.config/nvim-${dir_name}"
+    done
 
-echo ">>> Linking scripts files in $HOME/.local/bin..."
-for file in "$DOTFILES_DIR"/Common/shell/scripts/*; do
-    [ -L "$HOME"/.local/bin/"$(basename "$file")" ] && unlink "$HOME"/.local/bin/"$(basename "$file")"
-    ln -s "$file" "$HOME"/.local/bin
-done
+    echo ">>> Linking scripts files in $HOME/.local/bin..."
+    for file in "$DOTFILES_DIR"/Common/shell/scripts/*; do
+        [ -L "$HOME"/.local/bin/"$(basename "$file")" ] && unlink "$HOME"/.local/bin/"$(basename "$file")"
+        ln -s "$file" "$HOME"/.local/bin
+    done
 
-echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."
-files="emacs.service xkeysnail.service xremap.service mullvad.service"
-for file in $files; do
-    [ -L "$HOME/.config/systemd/user/$file" ] && unlink "$HOME/.config/systemd/user/$file"
-    ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"
-done
+    echo ">>> Linking systemd user files in $HOME/.config/systemd/user..."
+    files="emacs.service xkeysnail.service xremap.service mullvad.service"
+    for file in $files; do
+        [ -L "$HOME/.config/systemd/user/$file" ] && unlink "$HOME/.config/systemd/user/$file"
+        ln -s "$DOTFILES_DIR/Common/systemd/user/$file" "$HOME/.config/systemd/user"
+    done
 
-echo ">>> Linking systemd.quadlet user files in $HOME/.config/containers/systemd..."
-[ ! -d "$HOME"/.config/containers/systemd ] && mkdir -p "$HOME"/.config/containers/systemd
-files=""
-for file in $files; do
-    [ -L "$HOME/.config/containers/systemd/$file" ] && unlink "$HOME/.config/containers/systemd/$file"
-    ln -s "$DOTFILES_DIR/Common/systemd.quadlet/user/$file" "$HOME/.config/containers/systemd"
-done
+    echo ">>> Linking systemd.quadlet user files in $HOME/.config/containers/systemd..."
+    [ ! -d "$HOME"/.config/containers/systemd ] && mkdir -p "$HOME"/.config/containers/systemd
+    files=""
+    for file in $files; do
+        [ -L "$HOME/.config/containers/systemd/$file" ] && unlink "$HOME/.config/containers/systemd/$file"
+        ln -s "$DOTFILES_DIR/Common/systemd.quadlet/user/$file" "$HOME/.config/containers/systemd"
+    done
 
-echo ">>> Linking desktop application files in $HOME/.local/share/applications..."
-files="emacs.desktop emacsclient.desktop thinkorswim.desktop"
-for file in $files; do
-    # Unfortunaly symlinks don't work on KDE, so copy instead
-    cp -f "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
-done
+    echo ">>> Linking desktop application files in $HOME/.local/share/applications..."
+    files="emacs.desktop emacsclient.desktop thinkorswim.desktop"
+    for file in $files; do
+        [ -L "$HOME/.local/share/applications/$file" ] && unlink "$HOME/.local/share/applications/$file"
+        ln -s "$DOTFILES_DIR/Common/applications/$file" "$HOME/.local/share/applications"
+    done
 
-echo ">>> Linking flatpak application files in $HOME/.var/app/..."
-if [ -d "$HOME/.var/app/engineer.atlas.Nyxt/config/" ]; then
-    [ -L "$HOME/.var/app/engineer.atlas.Nyxt/config/nyxt" ] && unlink "$HOME/.var/app/engineer.atlas.Nyxt/config/nyxt"
-    ln -s "$DOTFILES_DIR/Common/nyxt" "$HOME/.var/app/engineer.atlas.Nyxt/config/"
-fi
+    echo ">>> Linking flatpak application files in $HOME/.var/app/..."
+    if [ -d "$HOME/.var/app/engineer.atlas.Nyxt/config/" ]; then
+        [ -L "$HOME/.var/app/engineer.atlas.Nyxt/config/nyxt" ] && unlink "$HOME/.var/app/engineer.atlas.Nyxt/config/nyxt"
+        ln -s "$DOTFILES_DIR/Common/nyxt" "$HOME/.var/app/engineer.atlas.Nyxt/config/"
+    fi
 
-echo ">>> Linking work files in $HOME/Workspace/Work..."
-if [ -d "$HOME/Workspace/Work/Omicron/Projects" ]; then
-    [ -L "$HOME/Workspace/Work/Omicron/Projects/.gitconfig" ] &&
-        unlink "$HOME/Workspace/Work/Omicron/Projects/.gitconfig"
-    ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Omicron/Projects"
+    echo ">>> Linking work files in $HOME/Workspace/Work..."
+    if [ -d "$HOME/Workspace/Work/Omicron/Projects" ]; then
+        [ -L "$HOME/Workspace/Work/Omicron/Projects/.gitconfig" ] &&
+            unlink "$HOME/Workspace/Work/Omicron/Projects/.gitconfig"
+        ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Omicron/Projects"
 
-    if [ -d "$HOME/Workspace/Work/Omicron/Projects/nntpcode" ]; then
-        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt" ] &&
-            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
-        if [ -f /etc/fedora-release ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/nntpcode/compile_flags.fedora.txt" \
-                "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
-        elif [ -f /etc/debian_version ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/nntpcode/compile_flags.debian.txt" \
-                "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
-        elif [ -f /etc/products.d/openSUSE.prod ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/nntpcode/compile_flags.suse.txt" \
-                "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
-        else
-            echo ">>> Unknown OS (only fedora and debian are supported)..."
+        if [ -d "$HOME/Workspace/Work/Omicron/Projects/nntpcode" ]; then
+            [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt" ] &&
+                unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
+            if [ -f /etc/fedora-release ]; then
+                ln -s "$DOTFILES_DIR/Misc/work/nntpcode/compile_flags.fedora.txt" \
+                   "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
+            elif [ -f /etc/debian_version ]; then
+                ln -s "$DOTFILES_DIR/Misc/work/nntpcode/compile_flags.debian.txt" \
+                   "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
+            elif [ -f /etc/products.d/openSUSE.prod ]; then
+                ln -s "$DOTFILES_DIR/Misc/work/nntpcode/compile_flags.suse.txt" \
+                   "$HOME/Workspace/Work/Omicron/Projects/nntpcode/compile_flags.txt"
+            else
+                echo ">>> Unknown OS (only fedora and debian are supported)..."
+            fi
+
+            # [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd" ] &&
+            #     unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd"
+            # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
+
+            [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy" ] &&
+                unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy"
+            ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.clang-tidy" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
+
+            [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el" ] &&
+                unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el"
+            ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.dir-locals.el" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
+        fi
+    fi
+
+    if [ -d "$HOME/Workspace/Work/Nielsen" ]; then
+        [ -L "$HOME/Workspace/Work/Nielsen/.gitconfig" ] && unlink "$HOME/Workspace/Work/Nielsen/.gitconfig"
+        ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Nielsen"
+
+        if [ -d "$HOME/Workspace/Work/Nielsen/Projects/dmxs" ]; then
+            [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt" ] &&
+                unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt"
+            if [ -f /etc/fedora-release ]; then
+                ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.fedora.txt" \
+                   "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt"
+            elif [ -f /etc/debian_version ]; then
+                ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.debian.txt" \
+                   "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt"
+            elif [ -f /etc/products.d/openSUSE.prod ]; then
+                ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.suse.txt" \
+                   "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt"
+            else
+                echo ">>> Unknown OS (only fedora and debian are supported)..."
+            fi
+
+            # [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd" ] &&
+            #     unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd"
+            # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/dmxs/"
+
+            [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.dir-locals.el" ] &&
+                unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.dir-locals.el"
+            ln -s "$DOTFILES_DIR/Misc/work/dmxs/.dir-locals.el" "$HOME/Workspace/Work/Nielsen/Projects/dmxs/"
         fi
 
-        # [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd" ] &&
-        #     unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clangd"
-        # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
+        if [ -d "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee" ]; then
+            [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt" ] &&
+                unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt"
+            if [ -f /etc/fedora-release ]; then
+                ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.fedora.txt" \
+                   "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt"
+            elif [ -f /etc/debian_version ]; then
+                ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.debian.txt" \
+                   "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt"
+            elif [ -f /etc/products.d/openSUSE.prod ]; then
+                ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.suse.txt" \
+                   "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt"
+            else
+                echo ">>> Unknown OS (only fedora and debian are supported)..."
+            fi
 
-        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy" ] &&
-            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.clang-tidy"
-        ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.clang-tidy" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
+            # [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd" ] &&
+            #     unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd"
+            # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/"
 
-        [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el" ] &&
-            unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el"
-        ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.dir-locals.el" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
-    fi
-fi
-
-if [ -d "$HOME/Workspace/Work/Nielsen" ]; then
-    [ -L "$HOME/Workspace/Work/Nielsen/.gitconfig" ] && unlink "$HOME/Workspace/Work/Nielsen/.gitconfig"
-    ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Nielsen"
-
-    if [ -d "$HOME/Workspace/Work/Nielsen/Projects/dmxs" ]; then
-        [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt" ] &&
-            unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt"
-        if [ -f /etc/fedora-release ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.fedora.txt" \
-                "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt"
-        elif [ -f /etc/debian_version ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.debian.txt" \
-                "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt"
-        elif [ -f /etc/products.d/openSUSE.prod ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/dmxs/compile_flags.suse.txt" \
-                "$HOME/Workspace/Work/Nielsen/Projects/dmxs/compile_flags.txt"
-        else
-            echo ">>> Unknown OS (only fedora and debian are supported)..."
+            [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/.dir-locals.el" ] &&
+                unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/.dir-locals.el"
+            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/.dir-locals.el" "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/"
         fi
 
-        # [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd" ] &&
-        #     unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.clangd"
-        # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/dmxs/"
-
-        [ -L "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.dir-locals.el" ] &&
-            unlink "$HOME/Workspace/Work/Nielsen/Projects/dmxs/.dir-locals.el"
-        ln -s "$DOTFILES_DIR/Misc/work/dmxs/.dir-locals.el" "$HOME/Workspace/Work/Nielsen/Projects/dmxs/"
-    fi
-
-    if [ -d "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee" ]; then
-        [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt" ] &&
-            unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt"
-        if [ -f /etc/fedora-release ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.fedora.txt" \
-                "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt"
-        elif [ -f /etc/debian_version ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.debian.txt" \
-                "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt"
-        elif [ -f /etc/products.d/openSUSE.prod ]; then
-            ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/compile_flags.suse.txt" \
-                "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/compile_flags.txt"
-        else
-            echo ">>> Unknown OS (only fedora and debian are supported)..."
+        if [ -d "$HOME/Workspace/Work/Nielsen/Projects/smi" ]; then
+            [ -L "$HOME/Workspace/Work/Nielsen/Projects/smi/.dir-locals.el" ] &&
+                unlink "$HOME/Workspace/Work/Nielsen/Projects/smi/.dir-locals.el"
+            ln -s "$DOTFILES_DIR/Misc/work/smi/.dir-locals.el" "$HOME/Workspace/Work/Nielsen/Projects/smi/"
         fi
-
-        # [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd" ] &&
-        #     unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/ /.clangd"
-        # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/"
-
-        [ -L "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/.dir-locals.el" ] &&
-            unlink "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/.dir-locals.el"
-        ln -s "$DOTFILES_DIR/Misc/work/sm2-dhcpee/.dir-locals.el" "$HOME/Workspace/Work/Nielsen/Projects/sm2-dhcpee/"
     fi
 
-    if [ -d "$HOME/Workspace/Work/Nielsen/Projects/smi" ]; then
-        [ -L "$HOME/Workspace/Work/Nielsen/Projects/smi/.dir-locals.el" ] &&
-            unlink "$HOME/Workspace/Work/Nielsen/Projects/smi/.dir-locals.el"
-        ln -s "$DOTFILES_DIR/Misc/work/smi/.dir-locals.el" "$HOME/Workspace/Work/Nielsen/Projects/smi/"
-    fi
-fi
+    echo ">>> All Done!"
+    return 0
+}
 
-echo ">>> All Done!"
+main "$@"

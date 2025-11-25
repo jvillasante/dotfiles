@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# install-berkeley-mono.sh - Install the best fonts system wide
+# install-berkeley-mono.sh - Install the best font system wide
 #
 # This file should be sourced by other scripts, not executed directly.
 
