@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
+# shellcheck source=/dev/null
+source "$HOME/.config/shell/lib/functions.sh"
+
 usage() {
     echo "Usage:"
     echo "    $0 help:"
@@ -406,14 +415,6 @@ harper_update() {
         usage 1
     }
 }
-
-set -o errexit
-set -o nounset
-set -o pipefail
-[[ "${TRACE-0}" == "1" ]] && set -o xtrace
-cd "$(dirname "$0")" || exit 1
-
-. "$HOME/.config/shell/common"
 
 nargs=$#
 cmd=${1-}

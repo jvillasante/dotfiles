@@ -1,15 +1,33 @@
 #!/usr/bin/env bash
 
-usage() {
-    echo "Usage:"
-    echo "    $0 help:"
-    echo "        Show this help message"
-    echo "    $0 install:"
-    echo "        Install Fedora System"
-    echo
-    echo " e.g: $0 dnf check-update"
-    exit "$1"
-}
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
+if [[ -z "${BASH_VERSION}" ]]; then
+    echo "Error: This script requires Bash to run." >&2
+    exit 1
+fi
+
+if [ ! -f /etc/fedora-release ]; then
+    echo "Error: Fedora is not running on this system." >&2
+    exit 1
+fi
+
+if ! hash dnf 2> /dev/null; then
+    echo "Error: dnf not installed on this system." >&2
+    exit 1
+fi
+
+IFS=$'\n\t'
+SCRIPT_NAME="$(basename "$0")"
+readonly SCRIPT_NAME
+cd "$(dirname "$0")" || exit 1
+
+# shellcheck source=/dev/null
+source "$(dirname "$0")/lib/install-berkeley-mono.sh" || exit 1
 
 readonly WS_WAYLAND="Wayland"
 readonly WS_X11="X11"
@@ -18,46 +36,15 @@ readonly WM_GNOME="Gnome"
 WINDOW_SYSTEM="$WS_WAYLAND"
 WINDOW_MANAGER="$WM_GNOME"
 
-install_berkeley_mono_font() {
-    [ ! -d "$(pwd)"/fonts ] && notify-send "$(pwd)/fonts is not a directory" --expire-time=20 && return
-    [ ! -f "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
-        notify-send "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
-    [ ! -f "$(pwd)"/../scripts/+crypt ] &&
-        notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && return
-    [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
-    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
-        rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
-
-    # copy and decrypt Berkeley Mono typeface
-    cp "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg "$HOME"/Workspace/Software/fonts
-    [ ! -f "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
-        notify-send "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" \
-                    --expire-time=20 && return
-    "$(pwd)"/../scripts/+crypt -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg
-    [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
-        notify-send "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface does not exists" \
-                    --expire-time=20 && return
-
-    # just in case
-    mkdir -p ~/.local/share/fonts
-
-    # remove all fonts from ~/.local/share/fonts that start with "BerkeleyMono"
-    rm -rf ~/.local/share/fonts/Berkeley*
-
-    # copy all V1 TTF fonts to ~/.local/share/fonts
-    # find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-01/ \
-    #      -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
-
-    # copy all V2 OTF fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-02/ \
-         -type f -name "*.otf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
-
-    # Build font information caches
-    fc-cache -f
-
-    # cleanup
-    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
-        rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
+usage() {
+    echo "Usage:"
+    echo "    $SCRIPT_NAME help:"
+    echo "        Show this help message"
+    echo "    $SCRIPT_NAME install:"
+    echo "        Install Fedora System"
+    echo
+    echo " e.g: $SCRIPT_NAME install"
+    exit "$1"
 }
 
 fedora_install() {
@@ -1112,36 +1099,24 @@ fedora_install() {
     done
 }
 
-set -o errexit
-set -o nounset
-set -o pipefail
-[[ "${TRACE-0}" == "1" ]] && set -o xtrace
-cd "$(dirname "$0")" || exit 1
+main() {
+    nargs=$#
+    cmd=${1-}
+    rc=0
+    if [ "$#" -gt 0 ]; then shift; fi
+    case $cmd in
+        install)
+            [ "$nargs" -eq 1 ] || usage 1
+            fedora_install "$@"
+            ;;
+        help | --help | -h)
+            usage 0
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+    return $rc
+}
 
-if [ ! -f /etc/fedora-release ]; then
-    echo "Error: Fedora is not running on this system, exiting..."
-    exit 1
-fi
-
-if ! hash dnf 2> /dev/null; then
-    echo "Error: dnf not installed on this system, exiting..."
-    exit 1
-fi
-
-nargs=$#
-cmd=${1-}
-rc=0
-if [ "$#" -gt 0 ]; then shift; fi
-case $cmd in
-    install)
-        [ "$nargs" -eq 1 ] || usage 1
-        fedora_install "$@"
-        ;;
-    help | --help | -h)
-        usage 0
-        ;;
-    *)
-        usage 1
-        ;;
-esac
-exit $rc
+main "$@"

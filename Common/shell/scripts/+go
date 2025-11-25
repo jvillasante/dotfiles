@@ -6,7 +6,8 @@ set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 cd "$(dirname "$0")" || exit 1
 
-. "$HOME/.config/shell/common"
+# shellcheck source=/dev/null
+source "$HOME/.config/shell/lib/functions.sh"
 
 usage() {
     echo "Usage:"

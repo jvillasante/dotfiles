@@ -1,21 +1,47 @@
 #!/usr/bin/env bash
 
+set -o errexit     # Exit immediately if a command exits with a non-zero status.
+set -o nounset     # Treat unset variables as an error.
+set -o pipefail    # If any command in a pipeline fails, that return code is used.
+if [[ "${TRACE-0}" == "1" ]]; then
+    set -o xtrace  # Print commands and their arguments as they are executed (for debugging).
+fi
+
+# Ensure that the correct environment (BASH, not sh or another shell) is running
+# This prevents errors if the script is invoked incorrectly (e.g., 'sh script.sh')
+if [[ -z "${BASH_VERSION}" ]]; then
+    echo "Error: This script requires Bash to run." >&2
+    exit 1
+fi
+
+# Set Internal Field Separator to use only newlines and tabs
+# This helps prevent issues when iterating over lists or files with spaces in names.
+IFS=$'\n\t'
+
+SCRIPT_NAME="$(basename "$0")"
+readonly SCRIPT_NAME
+
+# Move into the directory containing the script.
+# This ensures all relative paths referenced within the script are correct.
+# Note: It uses the directory of the SCRIPT being EXECUTED, not the sourced file.
+cd "$(dirname "$0")" || exit 1
+
 # shellcheck source=/dev/null
-source "$HOME/.config/shell/common"
+source "$HOME/.config/shell/lib/functions.sh" || exit 1
 
 usage() {
     echo "Usage:"
-    echo "    $0 help:"
+    echo "    $SCRIPT_NAME help:"
     echo "        Show this help message"
-    echo "    $0 update:"
+    echo "    $SCRIPT_NAME update:"
     echo "        Update Firefox Default profile with my overrides"
-    echo "    $0 cleanup:"
+    echo "    $SCRIPT_NAME cleanup:"
     echo "        Cleanup Firefox Default profile overrides"
-    echo "    $0 show:"
+    echo "    $SCRIPT_NAME show:"
     echo "        Show path to profile, does not do any changes"
     echo
-    echo "    e.g: $0 update"
-    echo "    e.g: $0 cleanup"
+    echo "    e.g: $SCRIPT_NAME update"
+    echo "    e.g: $SCRIPT_NAME cleanup"
     echo
     exit "$1"
 }
@@ -171,34 +197,32 @@ EOF
     echo
 }
 
-set -o errexit
-set -o nounset
-set -o pipefail
-[[ "${TRACE-0}" == "1" ]] && set -o xtrace
-cd "$(dirname "$0")" || exit 1
+main() {
+    nargs=$#
+    cmd=${1-}
+    rc=0
+    if [ "$#" -gt 0 ]; then shift; fi
+    case $cmd in
+        update)
+            [ "$nargs" -eq 1 ] || usage 1
+            update "$@"
+            ;;
+        cleanup)
+            [ "$nargs" -eq 1 ] || usage 1
+            cleanup "$@"
+            ;;
+        show)
+            [ "$nargs" -eq 1 ] || usage 1
+            show "$@"
+            ;;
+        help | --help | -h)
+            usage 0
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+    return $rc
+}
 
-nargs=$#
-cmd=${1-}
-rc=0
-if [ "$#" -gt 0 ]; then shift; fi
-case $cmd in
-    update)
-        [ "$nargs" -eq 1 ] || usage 1
-        update "$@"
-        ;;
-    cleanup)
-        [ "$nargs" -eq 1 ] || usage 1
-        cleanup "$@"
-        ;;
-    show)
-        [ "$nargs" -eq 1 ] || usage 1
-        show "$@"
-        ;;
-    help | --help | -h)
-        usage 0
-        ;;
-    *)
-        usage 1
-        ;;
-esac
-exit $rc
+main "$@"

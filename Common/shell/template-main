@@ -21,8 +21,8 @@ IFS=$'\n\t'
 
 # --- 2. HELP AND ARGUMENT PARSING ---
 
-readonly SCRIPT_NAME
 SCRIPT_NAME="$(basename "$0")"
+readonly SCRIPT_NAME
 
 # Show help if -h or --help is passed
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
@@ -39,7 +39,7 @@ fi
 # Move into the directory containing the script.
 # This ensures all relative paths referenced within the script are correct.
 # Note: It uses the directory of the SCRIPT being EXECUTED, not the sourced file.
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit 1
 
 # --- 4. MAIN EXECUTION ---
 

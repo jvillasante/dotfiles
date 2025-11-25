@@ -5,7 +5,8 @@
 # This script creates symlinks from the home directory to any desired dotfiles in $HOME/dotfiles
 ############################
 
-. "$(dirname "$0")/Common/shell/common"
+# shellcheck source=/dev/null
+source "$(dirname "$0")/Common/shell/lib/functions.sh"
 CURRENT_SHELL=$(find_current_shell)
 CURRENT_HOST=$(hostname)
 CURRENT_OS=$(find_os)

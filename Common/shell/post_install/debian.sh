@@ -1,5 +1,34 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+cd "$(dirname "$0")" || exit 1
+
+if [[ -z "${BASH_VERSION}" ]]; then
+    echo "Error: This script requires Bash to run." >&2
+    exit 1
+fi
+
+if [ ! -f /etc/debian_version ]; then
+    echo "Error: Debian is not running on this system, exiting..."
+    exit 1
+fi
+
+if ! hash apt 2> /dev/null; then
+    echo "Error: apt not installed on this system, exiting..."
+    exit 1
+fi
+
+IFS=$'\n\t'
+SCRIPT_NAME="$(basename "$0")"
+readonly SCRIPT_NAME
+cd "$(dirname "$0")" || exit 1
+
+# shellcheck source=/dev/null
+source "$(dirname "$0")/lib/install-berkeley-mono.sh"
+
 readonly WS_WAYLAND="Wayland"
 readonly WS_X11="X11"
 readonly WM_KDE="KDE"
@@ -11,91 +40,20 @@ WINDOW_MANAGER="$WM_GNOME"
 
 usage() {
     echo "Usage:"
-    echo "    $0 help:"
+    echo "    $SCRIPT_NAME help:"
     echo "        Show this help message"
-    echo "    $0 install:"
-    echo "        Install Ubuntu System ($WS_WAYLAND|WS_X11) ($WM_KDE|$WM_GNOME|$WM_I3|$WM_SWAY)"
+    echo "    $SCRIPT_NAME install:"
+    echo "        Install Debian System ($WS_WAYLAND|WS_X11) ($WM_KDE|$WM_GNOME|$WM_I3|$WM_SWAY)"
     echo
-    echo " e.g: $0 install"
+    echo " e.g: $SCRIPT_NAME install"
     exit "$1"
 }
 
-install_berkeley_mono_font() {
-    [ ! -d "$(pwd)"/fonts ] && notify-send "$(pwd)/fonts is not a directory" --expire-time=20 && return
-    [ ! -f "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
-        notify-send "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" --expire-time=20 && return
-    [ ! -f "$(pwd)"/../scripts/+crypt ] &&
-        notify-send "$(pwd)/../scripts/+crypt script does not exists" --expire-time=20 && return
-    [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
-    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
-        rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
-
-    # copy and decrypt Berkeley Mono typeface
-    cp "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg "$HOME"/Workspace/Software/fonts
-    [ ! -f "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
-        notify-send "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" \
-                    --expire-time=20 && return
-    "$(pwd)"/../scripts/+crypt -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg
-    [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
-        notify-send "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface does not exists" \
-                    --expire-time=20 && return
-
-    # just in case
-    mkdir -p ~/.local/share/fonts
-
-    # remove all fonts from ~/.local/share/fonts that start with "BerkeleyMono"
-    rm -rf ~/.local/share/fonts/Berkeley*
-
-    # copy all V1 TTF fonts to ~/.local/share/fonts
-    # find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-01/ \
-    #      -type f -name "*.ttf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
-
-    # copy all V2 OTF fonts to ~/.local/share/fonts
-    find "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface/TX-02/ \
-         -type f -name "*.otf" -exec cp {} "$HOME"/.local/share/fonts/ \; -print
-
-    # Build font information caches
-    fc-cache -f
-
-    # cleanup
-    [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
-        rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
-}
-
-# https://support.mozilla.org/en-US/kb/install-firefox-linux
-install_mozilla_firefox() {
-    # Create a directory to store APT repository keys if it doesn't exist
-    sudo install -d -m 0755 /etc/apt/keyrings
-
-    # Import the Mozilla APT repository signing key
-    sudo apt install -y wget
-    wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- |
-          sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
-
-    # The fingerprint should be 35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3
-    gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc |
-          awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") print "\nThe key fingerprint matches ("$0").\n"; else print "\nVerification failed: the fingerprint ("$0") does not match the expected one.\n"}'
-
-    # Next, add the Mozilla APT repository to your sources list:
-    echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" |
-          sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
-
-    # Configure APT to prioritize packages from the Mozilla repository:
-    echo '
-Package: *
-Pin: origin packages.mozilla.org
-Pin-Priority: 1000
-' | sudo tee /etc/apt/preferences.d/mozilla
-
-    # Update your package list and install the Firefox .deb package:
-    sudo apt update && sudo apt install firefox
-}
-
-ubuntu_install() {
+debian_install() {
     HEIGHT=25
     WIDTH=100
     CHOICE_HEIGHT=4
-    BACKTITLE="Ubuntu Setup Util"
+    BACKTITLE="Debian Setup Util"
     TITLE="Please Make a selection"
     MENU="Please Choose one of the following options:"
 
@@ -158,22 +116,41 @@ ubuntu_install() {
                 [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
                 hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
 
-                read -rp "Enter static hostname (defaults to 'ubuntu-xps-9710'): " HOSTNAME_STATIC
-                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="ubuntu-xps-9710"
+                read -rp "Enter static hostname (defaults to 'debian-xps-9710'): " HOSTNAME_STATIC
+                [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="debian-xps-9710"
                 hostnamectl set-hostname --static "$HOSTNAME_STATIC"
 
+                # Sources
+#                 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+#                 cat << EOF | sudo tee /etc/apt/sources.list > /dev/null
+# deb https://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
+# deb-src https://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
+
+# deb https://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
+# deb-src https://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
+
+# deb https://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
+# deb-src https://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
+
+# deb https://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
+# deb-src https://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
+
+# deb https://security.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
+# deb-src https://security.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
+# EOF
+
                 # xdg
-                export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
                 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+                export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
                 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-                export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
                 export XDG_LIB_HOME="${XDG_DATA_HOME:-$HOME/.local/lib}"
+                export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
                 mkdir -p \
-                      "${XDG_CONFIG_HOME}" \
                       "${XDG_CACHE_HOME}" \
+                      "${XDG_CONFIG_HOME}" \
                       "${XDG_DATA_HOME}" \
-                      "${XDG_STATE_HOME}" \
-                      "${XDG_LIB_HOME}"
+                      "${XDG_LIB_HOME}" \
+                      "${XDG_STATE_HOME}"
 
                 # Folder structure
                 mkdir -p "$HOME/.local/bin"
@@ -226,14 +203,17 @@ ubuntu_install() {
                     # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
                     # font
-                    gsettings set org.gnome.desktop.interface font-hinting 'full'
-                    gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
-                    gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
+                    # gsettings set org.gnome.desktop.interface font-hinting 'full'
+                    # gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
+                    # gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
 
                     # Stop Gnome Software downloading updates
                     # gsettings set org.gnome.software allow-updates false
                     # gsettings set org.gnome.software download-updates false
                     # gsettings set org.gnome.software download-updates-notify false
+
+                    # Stop GNOME Software autostart
+                    # sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
                 fi
 
                 # Update system with the new sources
@@ -247,38 +227,38 @@ ubuntu_install() {
             2)
                 echo "2) Installing Firmware Updates"
 
-                echo "TODO..."
-
                 # Install Software
-                # sudo apt install -y fwupd
-                # sudo apt install -y linux-headers-amd64 firmware-linux
+                sudo apt install -y fwupd
+                sudo apt install -y linux-headers-amd64 firmware-linux
 
                 # Install Firmware
-                # sudo fwupdmgr get-devices
-                # sudo fwupdmgr refresh --force
-                # sudo fwupdmgr get-updates
-                # sudo fwupdmgr update
+                sudo fwupdmgr refresh --force
+                sudo fwupdmgr get-devices
+                sudo fwupdmgr get-updates
+                sudo fwupdmgr update
 
                 read -rp "2) Firmware updates has been installed. Reboot may be required. Press enter to continue..."
                 ;;
             3)
                 echo "5) Installing Nvidia Drivers (https://wiki.debian.org/NvidiaGraphicsDrivers)"
 
-                echo "TODO..."
-
                 # Prerequisites
-                # sudo apt install -y linux-headers-amd64
+                sudo apt install -y linux-headers-amd64
 
                 # Install
-                # sudo apt install -y nvidia-driver firmware-misc-nonfree
+                sudo apt install -y nvidia-driver firmware-misc-nonfree
 
                 read -rp "3) Nividia Drivers has been installed. Reboot may be required. Press enter to continue..."
                 ;;
             4)
                 echo "4) Installing Software"
 
+                # Remove Firefox ESR
+                sudo apt remove --purge --yes firefox-esr*
+                sudo apt autoremove
+
                 # General
-                sudo apt install -y software-properties-common
+                sudo apt install -y apt-listbugs apt-listchanges software-properties-common
                 sudo apt install -y build-essential binutils coreutils openssl libssl-dev
                 sudo apt install -y tar p7zip-full zip unzip rsync rar unrar atool
                 sudo apt install -y silversearcher-ag aspell aspell-en aspell-es autojump autoconf automake
@@ -298,14 +278,26 @@ ubuntu_install() {
                 sudo apt install -y gnuplot
                 sudo apt install -y telnet
 
-                # Firefox
-                install_mozilla_firefox
-
                 # Node
-                sudo apt install -y nodejs npm
+                sudo apt install -y ca-certificates curl gnupg
+                sudo mkdir -p /etc/apt/keyrings
+                curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key |
+                    sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+
+                NODE_MAJOR=21
+                NODE_URL="https://deb.nodesource.com/node_$NODE_MAJOR.x"
+                echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] $NODE_URL nodistro main" |
+                    sudo tee /etc/apt/sources.list.d/nodesource.list
+                sudo apt update && sudo apt install nodejs -y
 
                 # Install default llvm
                 sudo apt install -y llvm clang clangd clang-tools clang-format
+
+                # Install latest stable llvm
+                sudo apt update && sudo apt install lsb-release wget software-properties-common gnupg2
+                sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+
+                # Update llvm to use latest (See llvm-latest script)
 
                 # Wayland Software
                 if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
@@ -374,7 +366,7 @@ ubuntu_install() {
                 # borg
                 sudo apt install -y borgbackup
 
-                # profile sync daemon
+                # profile sync daemon (not using this on debian)
                 sudo apt install -y profile-sync-daemon
                 if [ -f /usr/share/psd/contrib/brave ]; then
                     sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
@@ -405,21 +397,74 @@ ubuntu_install() {
                 echo "5) Installing Extras"
 
                 #
+                # Enable pipewire (Plasma only, pipewire is already the default audio server in Gnome desktop)
+                #
+
+                # Install required packages
+                sudo apt install -y libspa-0.2-bluetooth wireplumber pipewire-media-session-
+
+                # Enable WirePlumber in "systemd" (running as user, not as root)
+                systemctl --user enable wireplumber.service && systemctl --user start wireplumber.service
+
+                #
+                # Firewall (ufw)
+                #
+
+                sudo apt install -y ufw
+                sudo ufw allow ssh
+                sudo ufw allow http
+                sudo ufw allow https
+                sudo ufw enable && sudo ufw status
+
+                #
+                # Docker (https://docs.docker.com/engine/install/debian/)
+                #
+
+                # Install dependencies
+                sudo apt update -y
+                sudo apt install -y ca-certificates curl gnupg
+
+                # Add Docker's official GPG key
+                sudo install -m 0755 -d /etc/apt/keyrings
+                curl -fsSL \
+                     https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+                sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+                # set up the repository
+                DOCKER_URL=https://download.docker.com/linux/debian
+                echo \
+                    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] $DOCKER_URL \
+                    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |
+                    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+                # Install docker engine
+                sudo apt update -y
+                sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+                # add user
+                sudo usermod -G docker -a "$USER"
+                sudo systemctl restart docker
+
+                # Verify that the Docker Engine installation is successful by running the hello-world image:
+                # docker run hello-world
+
+                #
                 # Latex Full
                 #
 
-                # sudo apt install -y texlive-full
+                sudo apt install -y texlive-full
 
                 #
                 # Steam extras
                 #
 
-                # sudo apt install -y steam-devices
+                sudo apt install -y steam-devices
 
                 #
                 # Fonts
                 #
 
+                sudo apt install -y fonts-jetbrains-mono
                 install_berkeley_mono_font
 
                 #
@@ -457,7 +502,7 @@ ubuntu_install() {
                 flatpak install --user -y flathub org.videolan.VLC
                 flatpak install --user -y flathub org.wireshark.Wireshark
                 flatpak install --user -y flathub com.github.tchx84.Flatseal
-                flatpak install --user -y flathub com.transmissionbt.Transmission
+                # flatpak install --user -y flathub com.transmissionbt.Transmission
                 # flatpak install --user -y flathub io.github.Hexchat
                 # flatpak install --user -y flathub engineer.atlas.Nyxt
                 # flatpak install --user -y flathub org.mozilla.firefox
@@ -538,17 +583,17 @@ ubuntu_install() {
                 hash emacs 2> /dev/null &&
                     notify-send "12) Emacs is already installed" --expire-time=30000 && continue
 
-                # libgccjit-13 should match the current gcc in the system (gcc --version)
-                read -rp "Is gcc version 13.*? (Y/N): " confirm &&
+                # libgccjit-12 should match the current gcc in the system (gcc --version)
+                read -rp "Is gcc version 12.*? (Y/N): " confirm &&
                     [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 
                 # Install dependencies
                 sudo apt build-dep emacs
                 sudo apt install -y build-essential autoconf automake libtool texinfo libgtk-3-dev libxpm-dev \
-                     libjpeg-dev libgif-dev libtiff5-dev gnutls-bin libncurses-dev \
+                     libjpeg-dev libgif-dev libtiff5-dev gnutls-bin libgnutls30 libgnutlsxx30 libncurses-dev \
                      libxml2-dev libgpm-dev libdbus-1-dev libgtk2.0-dev libpng-dev libotf-dev libm17n-dev \
                      librsvg2-dev libmagickcore-dev libmagickwand-dev libglib2.0-dev libgirepository1.0-dev
-                sudo apt install -y libgccjit0 libgccjit-13-dev # make sure is the same version as `gcc --version`
+                sudo apt install -y libgccjit0 libgccjit-12-dev # make sure is the same version as `gcc --version`
                 sudo apt install -y libtree-sitter0 libtree-sitter-dev
                 sudo apt install -y libjansson4 libjansson-dev
                 sudo apt install -y libvterm0 libvterm-dev
@@ -754,36 +799,24 @@ ubuntu_install() {
     done
 }
 
-set -o errexit
-set -o nounset
-set -o pipefail
-[[ "${TRACE-0}" == "1" ]] && set -o xtrace
-cd "$(dirname "$0")" || exit 1
+main() {
+    nargs=$#
+    cmd=${1-}
+    rc=0
+    if [ "$#" -gt 0 ]; then shift; fi
+    case $cmd in
+        install)
+            [ "$nargs" -eq 1 ] || usage 1
+            debian_install "$@"
+            ;;
+        help | --help | -h)
+            usage 0
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+    return $rc
+}
 
-# if [ ! -f /etc/debian_version ]; then
-#     echo "Error: Debian is not running on this system, exiting..."
-#     exit 1
-# fi
-
-if ! hash apt 2> /dev/null; then
-    echo "Error: apt not installed on this system, exiting..."
-    exit 1
-fi
-
-nargs=$#
-cmd=${1-}
-rc=0
-if [ "$#" -gt 0 ]; then shift; fi
-case $cmd in
-    install)
-        [ "$nargs" -eq 1 ] || usage 1
-        ubuntu_install "$@"
-        ;;
-    help | --help | -h)
-        usage 0
-        ;;
-    *)
-        usage 1
-        ;;
-esac
-exit $rc
+main "$@"

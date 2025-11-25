@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-. "$HOME/.config/shell/common"
+# shellcheck source=/dev/null
+source "$HOME/.config/shell/lib/functions.sh"
+
 CURRENT_OS=$(find_os)
 if [ ! "$CURRENT_OS" = "OSX" ]; then
     echo "$CURRENT_OS :: Not on MacOS"
