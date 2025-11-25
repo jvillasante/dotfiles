@@ -791,7 +791,7 @@ fedora_install() {
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             11)
-                echo "11) Installing Gnome Extensions"
+                echo "$CHOICE) Installing Gnome Extensions"
 
                 # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                 #     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -809,10 +809,10 @@ fedora_install() {
                 #     popd || echo "Can't cd to previous directory" && exit 1
                 # fi
 
-                read -rp "11) Gnome extensions installed."
+                read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
             12)
-                echo "12) Installing Xremap"
+                echo "$CHOICE) Installing Xremap"
 
                 [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo dnf install -y libx11-devel
 
@@ -822,12 +822,12 @@ fedora_install() {
                 # do install
                 install_xremap
 
-                read -rp "12) Xremap installed. Reboot for udev rules to take effect.
+                read -rp "$CHOICE) Xremap installed. Reboot for udev rules to take effect.
                               On Gnome, install the extension at https://extensions.gnome.org/extension/5060/xremap/.
                               Press enter to continue..."
                 ;;
             13)
-                echo "13) Installing Harper"
+                echo "$CHOICE) Installing Harper"
 
                 # Is it already installed?
                 hash harper-cli 2> /dev/null && echo "Harper is already installed" && exit 1
@@ -836,7 +836,7 @@ fedora_install() {
                 # do install
                 install_harper
 
-                read -rp "13) Harper installed. Press enter to continue..."
+                read -rp "$CHOICE) Harper installed. Press enter to continue..."
                 ;;
             14)
                 exit 0
