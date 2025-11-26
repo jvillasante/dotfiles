@@ -33,6 +33,8 @@ usage() {
     echo "        Update StyLua from binary source"
     echo "    $SCRIPT_NAME xremap:"
     echo "        Update xreamp from binary source"
+    echo "    $SCRIPT_NAME vicinae:"
+    echo "        Update Vicinae from source"
     echo "    $SCRIPT_NAME harper:"
     echo "        Update harper from binary source"
     echo
@@ -316,6 +318,12 @@ xremap_update() {
     systemctl --user restart xremap.service
 }
 
+vicinae_update() {
+    ! hash vicinae 2> /dev/null && echo "vicinae not installed, exiting..." && usage 1
+    curl -fsSL https://vicinae.com/install.sh | bash
+    systemctl --user restart vicinae
+}
+
 harper_update() {
     # Is it already installed?
     # ! hash harper-cli 2> /dev/null && echo "Harper not installing, exiting" && usage 1
@@ -377,6 +385,10 @@ main() {
         xremap)
             [[ "$nargs" -eq 1 ]] || usage 1
             xremap_update
+            ;;
+        vicinae)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            vicinae_update
             ;;
         harper)
             [[ "$nargs" -eq 1 ]] || usage 1
