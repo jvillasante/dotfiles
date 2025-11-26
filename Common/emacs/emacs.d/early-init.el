@@ -9,12 +9,6 @@
 (defvar my-user-directory user-emacs-directory
     "The default value of the `user-emacs-directory' variable.")
 
-;;; Custom
-
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(add-hook 'after-init-hook
-          (lambda () (load custom-file :no-error-if-file-is-missing)))
-
 ;;; Startup and garbage collection
 
 (setq gc-cons-threshold most-positive-fixnum)
@@ -26,6 +20,12 @@
                                (float-time
                                 (time-subtract after-init-time before-init-time)))
                        gcs-done)))
+
+;;; Custom
+
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(add-hook 'after-init-hook
+          (lambda () (load custom-file :no-error-if-file-is-missing)))
 
 ;; Reducing clutter in ~/.emacs.d by redirecting files to ~/emacs.d/var/
 (setq my-var-dir (expand-file-name "var/" my-user-directory))

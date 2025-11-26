@@ -696,9 +696,9 @@ fedora_install() {
                 echo "$CHOICE) Installing App Launcher"
 
                 # KDE has it's own launcher
-                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                    sudo dnf install -y ulauncher wmctrl
-                fi
+                # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+                #     sudo dnf install -y ulauncher wmctrl
+                # fi
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
