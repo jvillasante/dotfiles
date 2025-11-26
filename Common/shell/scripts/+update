@@ -320,7 +320,12 @@ xremap_update() {
 
 vicinae_update() {
     ! hash vicinae 2> /dev/null && echo "vicinae not installed, exiting..." && usage 1
+
+    # Install
     curl -fsSL https://vicinae.com/install.sh | bash
+
+    # Restart the daemon
+    systemctl --user daemon-reload
     systemctl --user restart vicinae
 }
 
