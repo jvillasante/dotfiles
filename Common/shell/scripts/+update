@@ -29,14 +29,8 @@ usage() {
     echo "        Update psd (profile-sync-daemon) from source (will update to latest psd from git repository)"
     echo "    $SCRIPT_NAME emacs:"
     echo "        Update emacs from source (will update to latest emacs from git repository)"
-    echo "    $SCRIPT_NAME emacs-lsp-booster:"
-    echo "        Update emacs-lsp-booster from binary source"
-    echo "    $SCRIPT_NAME gnome:"
-    echo "        Update gnome extensions"
     echo "    $SCRIPT_NAME stylua:"
     echo "        Update StyLua from binary source"
-    echo "    $SCRIPT_NAME vicinae:"
-    echo "        Update Vicinae from source"
     echo "    $SCRIPT_NAME xremap:"
     echo "        Update xreamp from binary source"
     echo "    $SCRIPT_NAME harper:"
@@ -264,49 +258,6 @@ emacs_update() {
     fi
 }
 
-emacs_lsp_booster_update() {
-    ! hash emacs-lsp-booster 2> /dev/null && echo "emacs-lsp-booster not installed, exiting..." && usage 1
-    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-    [ ! -d "$HOME"/Workspace/Software/emacs-lsp-booster ] && mkdir -p "$HOME"/Workspace/Software/emacs-lsp-booster
-    [ -d "$HOME"/Workspace/Software/emacs-lsp-booster ] && rm -rf "$HOME"/Workspace/Software/emacs-lsp-booster/*
-
-    pushd "$HOME"/Workspace/Software/emacs-lsp-booster || {
-        echo "Can't cd into $HOME/Workspace/Software/emacs-lsp-booster"
-        usage 1
-    }
-
-    EMACS_LSP_BOOSTER_VERSION=v0.2.1
-    EMACS_LSP_BOOSTER_RELEASE=emacs-lsp-booster_"$EMACS_LSP_BOOSTER_VERSION"_x86_64-unknown-linux-musl.zip
-    curl -LJO https://github.com/blahgeek/emacs-lsp-booster/releases/download/"$EMACS_LSP_BOOSTER_VERSION"/"$EMACS_LSP_BOOSTER_RELEASE"
-    atool --extract --explain "$EMACS_LSP_BOOSTER_RELEASE"
-    sudo cp -f emacs-lsp-booster /usr/local/bin/
-
-    popd || {
-        echo "Can't pop directory"
-        usage 1
-    }
-}
-
-gnome_update() {
-    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-    [ ! -d "$HOME"/Workspace/Software/gnome ] && mkdir -p "$HOME"/Workspace/Software/gnome
-    [ -d "$HOME"/Workspace/Software/gnome ] && rm -rf "$HOME"/Workspace/Software/gnome/*
-
-    pushd "$HOME"/Workspace/Software/gnome || {
-        echo "Can't cd into $HOME/Workspace/Software/gnome"
-        usage 1
-    }
-
-    UNITE_VERSION=v82
-    curl -LJO https://github.com/hardpixel/unite-shell/releases/download/"$UNITE_VERSION"/unite-"$UNITE_VERSION".zip
-    gnome-extensions install --force unite-"$UNITE_VERSION".zip
-
-    popd || {
-        echo "Can't pop directory"
-        usage 1
-    }
-}
-
 stylua_update() {
     ! hash stylua 2> /dev/null && echo "stylua not installed, exiting..." && usage 1
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -363,35 +314,6 @@ xremap_update() {
     systemctl --user restart xremap.service
 }
 
-vicinae_update() {
-    ! hash vicinae 2> /dev/null && echo "vicinae not installed, exiting..." && usage 1
-    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-    [ ! -d "$HOME"/Workspace/Software/vicinae ] && mkdir -p "$HOME"/Workspace/Software/vicinae
-    [ -d "$HOME"/Workspace/Software/vicinae ] && rm -rf "$HOME"/Workspace/Software/vicinae/*
-
-    pushd "$HOME"/Workspace/Software/vicinae || {
-        echo "Can't cd into $HOME/Workspace/Software/vicinae"
-        usage 1
-    }
-
-    # Get the latest
-    VICINAE_VERSION=v0.10.0
-    VICINAE_FOLDER=vicinae-linux-x86_64-"$VICINAE_VERSION"
-    VICINAE_RELEASE=vicinae-linux-x86_64-"$VICINAE_VERSION".tar.gz
-    curl -LJO https://github.com/vicinaehq/vicinae/releases/download/"$VICINAE_VERSION"/"$VICINAE_RELEASE"
-    atool --extract --explain "$VICINAE_RELEASE"
-    sudo cp -f "$VICINAE_FOLDER"/bin/* /usr/local/bin/
-    sudo cp -fr "$VICINAE_FOLDER"/share/* /usr/local/share/
-
-    popd || {
-        echo "Can't pop directory"
-        usage 1
-    }
-
-    # Restart the daemon
-    systemctl --user restart vicinae.service
-}
-
 harper_update() {
     # Is it already installed?
     # ! hash harper-cli 2> /dev/null && echo "Harper not installing, exiting" && usage 1
@@ -446,21 +368,9 @@ main() {
             [[ "$nargs" -eq 1 ]] || usage 1
             emacs_update
             ;;
-        emacs-lsp-booster)
-            [[ "$nargs" -eq 1 ]] || usage 1
-            emacs_lsp_booster_update
-            ;;
-        gnome)
-            [[ "$nargs" -eq 1 ]] || usage 1
-            gnome_update
-            ;;
         stylua)
             [[ "$nargs" -eq 1 ]] || usage 1
             stylua_update
-            ;;
-        vicinae)
-            [[ "$nargs" -eq 1 ]] || usage 1
-            vicinae_update
             ;;
         xremap)
             [[ "$nargs" -eq 1 ]] || usage 1
