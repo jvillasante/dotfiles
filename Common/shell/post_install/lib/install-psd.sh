@@ -29,7 +29,7 @@ install_psd() {
             exit 1
         }
     else
-        echo "PSD already installing"
+        echo "PSD already installed"
         exit 1
     fi
 
