@@ -80,8 +80,8 @@
           (variable-font "Berkeley Mono Variable"))
         (custom-set-faces
          ;; Default fonts for all text
-         '(default ((t (:family fixed-font :height 146))))
-         '(fixed-pitch ((t (:family fixed-font :height 146))))
+         '(default ((t (:family fixed-font :height 147))))
+         '(fixed-pitch ((t (:family fixed-font :height 147))))
          '(variable-pitch ((t (:family variable-font :height 1.0))))
 
          ;; Current line number
