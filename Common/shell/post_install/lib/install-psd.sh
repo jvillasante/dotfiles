@@ -42,7 +42,7 @@ install_psd() {
     make -j"$(nproc --ignore=2)"
     sudo make install
 
-    popd || echo "Can't cd to previous directory" && exit 1
+    popd
 
     # Copy brave profile
     if [ -f /usr/share/psd/contrib/brave ]; then

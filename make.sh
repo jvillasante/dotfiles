@@ -166,6 +166,7 @@ main() {
     done
 
     echo ">>> Linking desktop application files in $HOME/.local/share/applications..."
+    [ ! -d "$HOME"/.local/share/applications ] && mkdir -p "$HOME"/.local/share/applications
     files="emacs.desktop emacsclient.desktop thinkorswim.desktop"
     for file in $files; do
         [ -L "$HOME/.local/share/applications/$file" ] && unlink "$HOME/.local/share/applications/$file"
