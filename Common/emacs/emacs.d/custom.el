@@ -25,10 +25,9 @@
            orderless org org-superstar otpp package-lint-flymake password-store
            pdf-view-restore peg persistent-scratch php-mode project python
            rainbow-delimiters request rg rmsbolt rust-mode seq shrink-path
-           so-long soap-client surround svg track-changes tramp trashed
-           use-package verb verilog-mode vertico vim-tab-bar vterm vundo
-           web-mode which-key window-tool-bar xref yaml-mode yasnippet-snippets
-           zig-mode))
+           so-long soap-client svg track-changes tramp trashed use-package verb
+           verilog-mode vertico vim-tab-bar vterm vundo web-mode which-key
+           window-tool-bar xref yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel :url "git@github.com:karthink/gptel.git")
            (ledger-mode :url "git@github.com:ledger/ledger-mode.git"))))

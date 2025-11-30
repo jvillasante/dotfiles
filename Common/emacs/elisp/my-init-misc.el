@@ -380,7 +380,10 @@
     :when (package-installed-p 'deadgrep))
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
-(use-package surround)
+(use-package surround :disabled t)
+
+;; emacs-everywhere : use emacs everywhere
+(use-package emacs-everywhere :disabled t)
 
 ;; monkeytype : A typing game/tutor inspired by the open source and community driven monkeytype.com
 (use-package monkeytype
