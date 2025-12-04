@@ -240,6 +240,9 @@ fedora_install() {
             3)
                 echo "$CHOICE) Installing NVIDIA Drivers. Disable secure boot in the bios."
 
+                # htop to watch kernel module build after installing nvidia
+                sudo dnf install -y htop
+
                 # Check if you have Secure Boot enabled with - easier if yes!
                 #     mokutil --sb-state
 
