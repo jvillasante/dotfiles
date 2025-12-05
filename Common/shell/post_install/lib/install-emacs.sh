@@ -53,7 +53,7 @@ install-emacs() {
         --prefix=/usr/local \
         --without-compress-install \
         --disable-gc-mark-trace \
-        --with-x-toolkit=no --with-pgtk \
+        --with-x-toolkit=lucid --with-cairo --with-xft \
         --with-native-compilation=aot \
         --with-tree-sitter \
         CFLAGS="-O2 -mtune=native -march=native -pipe -fomit-frame-pointer"
