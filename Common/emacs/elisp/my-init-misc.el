@@ -333,6 +333,7 @@
 
 ;; rg.el : Use ripgrep in Emacs.
 (use-package rg
+    :disabled t
     :after wgrep
     :preface
     (defun my-rg-save-search-as-name ()
@@ -345,15 +346,15 @@
     :hook (after-init . (lambda ()
                             (rg-enable-default-bindings)
                             (rg-define-search my-grep-vc-or-dir
-                                :query ask
-                                :format regexp
-                                :files "everything"
-                                :dir (let ((vc (vc-root-dir)))
-                                         (if vc
-                                                 vc
-                                             default-directory))
-                                :confirm prefix
-                                :flags ("--hidden --follow -g !.git"))))
+                                              :query ask
+                                              :format regexp
+                                              :files "everything"
+                                              :dir (let ((vc (vc-root-dir)))
+                                                       (if vc
+                                                               vc
+                                                           default-directory))
+                                              :confirm prefix
+                                              :flags ("--hidden --follow -g !.git"))))
     :custom
     (rg-ignore-ripgreprc t)
     (rg-ignore-case 'smart)
@@ -367,17 +368,12 @@
 
 ;; deadgrep : use ripgrep from Emac
 (use-package deadgrep
-    :disabled t
     :vc (:url "git@github.com:Wilfred/deadgrep.git"
               :rev :newest)
     :custom (deadgrep-extra-arguments
              '("--no-config"   ;; don't use global config
                "--hidden"      ;; consider hidden folders/files
                "--follow")))   ;; follow symlinks
-(use-package wgrep-deadgrep
-    :disabled t
-    :after wgrep
-    :when (package-installed-p 'deadgrep))
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround :disabled t)
