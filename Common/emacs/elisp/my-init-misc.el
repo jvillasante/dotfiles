@@ -131,7 +131,8 @@
     ;; Fix remote compile
     (with-eval-after-load 'tramp
         (with-eval-after-load 'compile
-            (remove-hook 'compilation-mode-hook #'tramp-compile-disable-ssh-controlmaster-options)))
+            (remove-hook 'compilation-mode-hook
+                         #'tramp-compile-disable-ssh-controlmaster-options)))
     ;; Don't use `tramp-archive'
     (with-eval-after-load 'tramp-archive
         (setq tramp-archive-enabled nil))

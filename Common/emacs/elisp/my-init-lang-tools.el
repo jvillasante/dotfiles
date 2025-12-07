@@ -55,11 +55,14 @@
     :ensure nil ;; emacs built-in
     :preface
     (defun my-maybe-start-eglot ()
-        "Exlude some mode from eglot."
-        (let ((disabled-modes '(emacs-lisp-mode
-                                cmake-mode)))
-            (unless (apply 'derived-mode-p disabled-modes)
-                (eglot-ensure))))
+        "Exclude some modes and remote files from eglot."
+        (if (file-remote-p buffer-file-name)
+                (progn (eldoc-mode -1)
+                       (setq-local completion-at-point-functions nil))
+            (let ((disabled-modes '(emacs-lisp-mode
+                                    cmake-mode)))
+                (unless (apply 'derived-mode-p disabled-modes)
+                    (eglot-ensure)))))
     (defun my-eglot-clangd-find-other-file ()
         "Switch between the corresponding C/C++ source and header file."
         (interactive)
