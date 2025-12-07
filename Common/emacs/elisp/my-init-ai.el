@@ -16,7 +16,7 @@
     (gptel-post-stream . gptel-auto-scroll)
     :config
     (setq
-     gptel-model 'gemini-3-pro
+     gptel-model 'gemini-3-pro-preview
      gptel-backend (gptel-make-gemini "Gemini"
                        :key (lambda ()
                                 (password-store-get-field "Work/Omicron/Gemini" "API Key"))
