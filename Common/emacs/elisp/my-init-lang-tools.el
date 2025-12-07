@@ -54,15 +54,6 @@
 (use-package eglot
     :ensure nil ;; emacs built-in
     :preface
-    (defun my-maybe-start-eglot ()
-        "Exclude some modes and remote files from eglot."
-        (if (file-remote-p buffer-file-name)
-                (progn (eldoc-mode -1)
-                       (setq-local completion-at-point-functions nil))
-            (let ((disabled-modes '(emacs-lisp-mode
-                                    cmake-mode)))
-                (unless (apply 'derived-mode-p disabled-modes)
-                    (eglot-ensure)))))
     (defun my-eglot-clangd-find-other-file ()
         "Switch between the corresponding C/C++ source and header file."
         (interactive)
@@ -76,8 +67,7 @@
                 (if (equal current-prefix-arg nil)
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
-    :hook((prog-mode . my-maybe-start-eglot)
-          (eglot-managed-mode . (lambda ()
+    :hook((eglot-managed-mode . (lambda ()
                                     ;; Show flymake diagnostics first.
                                     (setq eldoc-documentation-functions
                                           (cons #'flymake-eldoc-function

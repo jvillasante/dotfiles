@@ -12,7 +12,7 @@
     (vc-ignore-dir-regexp                    ; make sure vc stuff is not making tramp slower
      (format "\\(%s\\)\\|\\(%s\\)"
               vc-ignore-dir-regexp
-              tramp-file-name-regexp))
+              tramp-file-name-regexp)))
 
 (use-package magit
     :preface

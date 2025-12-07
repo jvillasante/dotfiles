@@ -24,7 +24,7 @@
     (setq fortune-dir "/usr/share/games/fortune")
     (setq fortune-file "/usr/share/games/fortune/fortunes"))
 
-;; persistent-scratch : preserves the state of scratch buffers accross Emacs sessions
+;; persistent-scratch : preserves the state of scratch buffers across Emacs sessions
 (use-package persistent-scratch
     :hook (after-init . persistent-scratch-setup-default))
 
@@ -172,6 +172,11 @@
      '(:application tramp :protocol "scp")
      'remote-direct-async-process)
     (setq magit-tramp-pipe-stty-settings 'pty))
+
+;; tramp-hlo : Higher level emacs functions as optimized tramp operations
+(use-package tramp-hlo
+    :after tramp
+    :hook (after-init . tramp-hlo-setup))
 
 ;; autorevert : Refresh files automatically when modified from outside emacs
 (use-package autorevert
