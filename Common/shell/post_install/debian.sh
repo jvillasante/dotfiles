@@ -234,7 +234,8 @@ EOF
                 sudo apt update -y
                 sudo apt upgrade -y
                 sudo apt full-upgrade
-                sudo apt autoremove && sudo apt autoclean
+                sudo apt autoremove
+                sudo apt autoclean
 
                 read -rp "$CHOICE) Defaults has been set. Reboot may be required. Press enter to continue..."
                 ;;
@@ -259,10 +260,13 @@ EOF
                 echo "$CHOICE) Installing Nvidia Drivers (https://wiki.debian.org/NvidiaGraphicsDrivers)"
 
                 # Prerequisites
+                sudo apt install -y build-essential
                 sudo apt install -y linux-headers-"$(dpkg --print-architecture)"
 
-                # Install
-                sudo apt install -y nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree
+                # Install - from Debian Own Repos
+                # sudo apt install -y nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree
+
+                # Install from extrepo - Post Install step
 
                 # before rebooting, make sure the driver installed successfully:
                 # dkms status
@@ -301,20 +305,20 @@ EOF
                 # Python
                 sudo apt install -y python-is-python3 python3-pip
 
-                # Install Firefox Browser from Extrepo
-                sudo extrepo search mozilla
-                sudo extrepo enable mozilla
-                sudo apt --update upgrade
-                sudo apt install firefox
+                # TODO: Install Firefox Browser from Extrepo
+                # sudo extrepo search mozilla
+                # sudo extrepo enable mozilla
+                # sudo apt --update upgrade
+                # sudo apt install firefox
 
-                # Install Brave Browser from Extrepo
-                sudo extrepo search brave
-                sudo extrepo enable brave_release
-                sudo apt --update upgrade
-                sudo apt install brave-browser
+                # TODO: Install Brave Browser from Extrepo
+                # sudo extrepo search brave
+                # sudo extrepo enable brave_release
+                # sudo apt --update upgrade
+                # sudo apt install brave-browser
 
-                # TODO: Install latest Node.js from Extrepo
-                # TODO: Install latest LLVM from Extrepo
+                # TODO: Install Node.js from Extrepo
+                # TODO: Install LLVM from Extrepo
 
                 # Wayland Software
                 if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
@@ -385,6 +389,7 @@ EOF
                 # non apt software
                 sudo pip3 install cmake-language-server --break-system-packages
                 sudo pip3 install pyright --break-system-packages
+                # TODO: Node packages
                 # sudo npm install --location=global npm@latest
                 # sudo npm install --location=global prettier
                 # sudo npm install --location=global js-beautify
@@ -450,8 +455,7 @@ EOF
                 #
                 # Steam extras
                 #
-
-                sudo apt install -y steam-devices
+                # sudo apt install -y steam-devices
 
                 #
                 # Fonts
@@ -508,8 +512,8 @@ EOF
                 flatpak install --user -y flathub org.gimp.GIMP
                 flatpak install --user -y flathub com.transmissionbt.Transmission
                 flatpak install --user -y flathub org.telegram.desktop
-                flatpak install --user -y flathub com.valvesoftware.Steam
-                flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
+                # flatpak install --user -y flathub com.valvesoftware.Steam
+                # flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
                 # flatpak install --user -y flathub io.github.kolunmi.Bazaar
                 # flatpak install --user -y flathub io.podman_desktop.PodmanDesktop
                 # flatpak install --user -y flathub org.keepassxc.KeePassXC
@@ -564,7 +568,7 @@ EOF
                 sudo apt install -y libenchant-2-dev pkgconf # necessary for jinx
                 sudo apt install -y libtool-bin # vterm
 
-                # do install emacs from source
+                 # do install emacs from source
                 install-emacs
 
                 read -rp "$CHOICE) Emacs has been installed. Press enter to continue..."
