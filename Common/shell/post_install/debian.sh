@@ -35,10 +35,8 @@ readonly WS_WAYLAND="Wayland"
 readonly WS_X11="X11"
 readonly WM_KDE="KDE"
 readonly WM_GNOME="Gnome"
-readonly WM_I3="I3"
-readonly WM_SWAY="Sway"
 WINDOW_SYSTEM="$WS_WAYLAND"
-WINDOW_MANAGER="$WM_GNOME"
+WINDOW_MANAGER="$WM_KDE"
 
 usage() {
     echo "Usage:"
@@ -70,16 +68,12 @@ debian_install() {
             ;;
     esac
     case $WINDOW_MANAGER in
-        "$WM_KDE" | "$WM_GNOME" | "$WM_I3") ;;
+        "$WM_KDE" | "$WM_GNOME") ;;
         *)
             echo "Error. Please select one of the supported Window Managers"
             usage 1
             ;;
     esac
-    if [ "$WINDOW_SYSTEM" = "$WS_WAYLAND" ] && [ "$WINDOW_MANAGER" = "$WM_I3" ]; then
-        echo "Can't use $WM_I3 WM with $WS_WAYLAND, try $WM_SWAY instead..."
-        usage 1
-    fi
 
     # Check to see if dialog is installed, if not install it
     type dialog 2> /dev/null || sudo apt install -y dialog
@@ -95,7 +89,8 @@ debian_install() {
         7 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         8 "Install Emacs - Install Emacs29 from source"
         9 "Install Xremap - Install Xremap"
-        10 "Quit")
+        10 "Install PSD - Install profile-sync-daemon from source"
+        11 "Quit")
 
     while true; do
         CHOICE=$(dialog --clear \
@@ -108,7 +103,7 @@ debian_install() {
         clear
         case $CHOICE in
             1)
-                echo "1) Setting Defaults"
+                echo "$CHOICE) Setting Defaults"
 
                 # hostname
                 read -rp "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
@@ -120,23 +115,36 @@ debian_install() {
                 hostnamectl set-hostname --static "$HOSTNAME_STATIC"
 
                 # Sources
-#                 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
-#                 cat << EOF | sudo tee /etc/apt/sources.list > /dev/null
-# deb https://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
-# deb-src https://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
+                [ -f /etc/apt/sources.list ] && \
+                    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+                [ ! -f /etc/apt/sources.list ] && \
+                    sudo touch /etc/apt/sources.list
+                cat << EOF | sudo tee /etc/apt/sources.list > /dev/null
+# Comment old /etc/apt/sources.list
+# deb http://deb.debian.org/debian trixie main contrib non-free
+# deb http://deb.debian.org/debian-security trixie-security main contrib non-free
+EOF
+                [ -f /etc/apt/sources.list.d/debian.sources ] && \
+                    sudo cp /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.bak
+                [ ! -f /etc/apt/sources.list.d/debian.sources ] && \
+                    sudo touch /etc/apt/sources.list.d/debian.sources
+                cat << EOF | sudo tee /etc/apt/sources.list.d/debian.sources > /dev/null
+# Debian 13 Trixie
+Types: deb deb-src
+URIs: https://deb.debian.org/debian
+Suites: trixie trixie-updates
+Components: main non-free-firmware contrib non-free
+Enabled: yes
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
-# deb https://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
-# deb-src https://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
-
-# deb https://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
-# deb-src https://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
-
-# deb https://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
-# deb-src https://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
-
-# deb https://security.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
-# deb-src https://security.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
-# EOF
+# Security Updates
+Types: deb deb-src
+URIs: https://security.debian.org/debian-security
+Suites: trixie-security
+Components: main non-free-firmware contrib non-free
+Enabled: yes
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+EOF
 
                 # xdg
                 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
@@ -203,6 +211,11 @@ debian_install() {
                     #     gsettings set org.gnome.desktop.interface text-scaling-factor 1.1
                     # fi
 
+                    # Stop Gnome Software downloading updates
+                    # gsettings set org.gnome.software allow-updates false
+                    # gsettings set org.gnome.software download-updates false
+                    # gsettings set org.gnome.software download-updates-notify false
+
                     # Disable Gnome Software from Startup Apps
                     [ -f /etc/xdg/autostart/org.gnome.Software.desktop ] && \
                         sudo mv /etc/xdg/autostart/org.gnome.Software.desktop /etc/xdg/autostart/org.gnome.Software.desktop.backup
@@ -211,20 +224,32 @@ debian_install() {
                 # Faster Boot
                 sudo systemctl disable NetworkManager-wait-online.service
 
+                # Install 3rd party apps using extrepo
+                #   https://salsa.debian.org/extrepo-team/extrepo-data/-/tree/master/repos/debian
+                # After install uncomment '- contrib' and '- non-free' lines in /etc/extrepo/config.yaml
+                # List available apps: extrepo search | grep Found | sed 's/Found//g' | sed 's/://g' | sort
+                sudo apt install -y extrepo
+                echo "Extrepo: Uncomment '- contrib' and '- non-free' lines in /etc/extrepo/config.yaml"
+                read -rp "Is /etc/extrepo/config.yaml good to go? (Y/N): " confirm &&
+                    [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+                sudo extrepo update -y
+
                 # Update system with the new sources
                 sudo apt update -y
                 sudo apt upgrade -y
                 sudo apt full-upgrade
                 sudo apt autoremove
 
-                read -rp "1) Defaults has been set. Reboot may be required. Press enter to continue..."
+                read -rp "$CHOICE) Defaults has been set. Reboot may be required. Press enter to continue..."
                 ;;
             2)
-                echo "2) Installing Firmware Updates"
+                echo "$CHOICE) Installing Firmware Updates"
 
                 # Install Software
                 sudo apt install -y fwupd
-                sudo apt install -y linux-headers-amd64 firmware-linux
+                sudo apt install -y linux-headers-"$(dpkg --print-architecture)"
+                sudo apt install -y firmware-linux
+                sudo apt install -y firmware-misc-nonfree
 
                 # Install Firmware
                 sudo fwupdmgr refresh --force
@@ -232,21 +257,24 @@ debian_install() {
                 sudo fwupdmgr get-updates
                 sudo fwupdmgr update
 
-                read -rp "2) Firmware updates has been installed. Reboot may be required. Press enter to continue..."
+                read -rp "$CHOICE) Firmware updates has been installed. Reboot may be required. Press enter to continue..."
                 ;;
             3)
-                echo "5) Installing Nvidia Drivers (https://wiki.debian.org/NvidiaGraphicsDrivers)"
+                echo "$CHOICE) Installing Nvidia Drivers (https://wiki.debian.org/NvidiaGraphicsDrivers)"
 
                 # Prerequisites
-                sudo apt install -y linux-headers-amd64
+                sudo apt install -y linux-headers-"$(dpkg --print-architecture)"
 
                 # Install
-                sudo apt install -y nvidia-driver firmware-misc-nonfree
+                sudo apt install -y nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree
 
-                read -rp "3) Nividia Drivers has been installed. Reboot may be required. Press enter to continue..."
+                # before rebooting, make sure the driver installed successfully:
+                # dkms status
+
+                read -rp "$CHOICE) Nividia Drivers installed. Reboot after checking 'dkms status'. Press enter to continue..."
                 ;;
             4)
-                echo "4) Installing Software"
+                echo "$CHOICE) Installing Software"
 
                 # Remove Firefox ESR
                 sudo apt remove --purge --yes firefox-esr*
@@ -262,7 +290,7 @@ debian_install() {
                 sudo apt install -y vim neovim pandoc pass poppler-utils poppler-data ripgrep
                 sudo apt install -y scdaemon subversion telnet tldr tree w3m wget
                 sudo apt install -y wordnet imagemagick
-                sudo apt install -y python3 python3-pip pandoc poppler-utils poppler-data libtool
+                sudo apt install -y pandoc poppler-utils poppler-data libtool
                 sudo apt install -y shfmt editorconfig glslang-tools glslang-dev shellcheck parallel
                 sudo apt install -y tidy sqlite3 pkg-config bison flex
                 sudo apt install -y cmake ninja-build ccache meson
@@ -272,27 +300,26 @@ debian_install() {
                 sudo apt install -y ncurses-term
                 sudo apt install -y gnuplot
                 sudo apt install -y telnet
+                sudo apt install -y libreoffice
 
-                # Node
-                sudo apt install -y ca-certificates curl gnupg
-                sudo mkdir -p /etc/apt/keyrings
-                curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key |
-                    sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+                # Python
+                sudo apt install -y python-is-python3 python3-pip
 
-                NODE_MAJOR=21
-                NODE_URL="https://deb.nodesource.com/node_$NODE_MAJOR.x"
-                echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] $NODE_URL nodistro main" |
-                    sudo tee /etc/apt/sources.list.d/nodesource.list
-                sudo apt update && sudo apt install nodejs -y
+                # Install Firefox Browser from Extrarepo
+                sudo extrepo search mozilla
+                sudo extrepo enable mozilla
+                sudo apt --update upgrade
+                sudo apt install firefox
 
-                # Install default llvm
-                sudo apt install -y llvm clang clangd clang-tools clang-format
+                # Install Brave Browser from Extrarepo
+                sudo extrepo search brave
+                sudo extrepo enable brave_release
+                sudo apt --update upgrade
+                sudo apt install brave-browser
 
-                # Install latest stable llvm
-                sudo apt update && sudo apt install lsb-release wget software-properties-common gnupg2
-                sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-
-                # Update llvm to use latest (See llvm-latest script)
+                # TODO: Install latest Node.js
+                # TODO: Install latest LLVM
+                # TODO: PSD (profile-sync-daemon) from source
 
                 # Wayland Software
                 if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
@@ -310,24 +337,17 @@ debian_install() {
                 fi
 
                 # Plasma Software
-                # if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
-                    # sudo apt install -y yakuake
-                    # sudo apt install -y latte-dock
-                    # sudo apt install -y kazam
-                # fi
-
-                # I3 Software
-                if [[ "$WINDOW_MANAGER" == "$WM_I3" ]]; then
-                    # Xorg/I3 software
-                    sudo apt install -y xorg i3 i3status i3lock dunst rofi suckless-tools lightdm
-
-                    # Install and enable network-manager
-                    sudo apt install -y network-manager
-                    sudo systemctl enable NetworkManager.service && sudo systemctl start NetworkManager.service
+                if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
+                    sudo apt install -y kdeconnect
+                    sudo apt install -y kdotool
+                    # sudo dnf install -y yakuake
+                    # sudo dnf install -y latte-dock
+                    # sudo zypper install -y kazam
                 fi
 
                 # Git stuff
                 sudo apt install -y git
+                # sudo apt install -y git-email   # support for email based workflow
                 # sudo apt install -y difftastic  # better diffs
                 # sudo apt install -y git-delta   # better diffs
                 # sudo apt install -y lazygit     # terminal git
@@ -361,15 +381,6 @@ debian_install() {
                 # borg
                 sudo apt install -y borgbackup
 
-                # profile sync daemon (not using this on debian)
-                # sudo apt install -y profile-sync-daemon
-                # if [ -f /usr/share/psd/contrib/brave ]; then
-                #     sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-                # elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
-                #     sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
-                # fi
-                # systemctl --user enable psd.service && systemctl --user start psd.service
-
                 # Neovim
                 sudo apt install -y neovim
 
@@ -379,28 +390,41 @@ debian_install() {
                 # non apt software
                 sudo pip3 install cmake-language-server --break-system-packages
                 sudo pip3 install pyright --break-system-packages
-                sudo npm install --location=global npm@latest
-                sudo npm install --location=global prettier
-                sudo npm install --location=global js-beautify
-                sudo npm install --location=global typescript-language-server typescript
-                sudo npm install --location=global dockerfile-language-server-nodejs
-                sudo npm install --location=global bash-language-server
-                sudo npm install --location=global @devcontainers/cli
+                # sudo npm install --location=global npm@latest
+                # sudo npm install --location=global prettier
+                # sudo npm install --location=global js-beautify
+                # sudo npm install --location=global typescript-language-server typescript
+                # sudo npm install --location=global dockerfile-language-server-nodejs
+                # sudo npm install --location=global bash-language-server
+                # sudo npm install --location=global @devcontainers/cli
+                # sudo npm install --location=global @google/gemini-cli
 
-                read -rp "4) Software has been installed. Press enter to continue..."
+                read -rp "$CHOICE) Software has been installed. Press enter to continue..."
                 ;;
             5)
-                echo "5) Installing Extras"
+                echo "$CHOICE) Installing Extras"
 
                 #
-                # Enable pipewire (Plasma only, pipewire is already the default audio server in Gnome desktop)
+                # non-free codecs and other media components
                 #
 
-                # Install required packages
-                sudo apt install -y libspa-0.2-bluetooth wireplumber pipewire-media-session-
-
-                # Enable WirePlumber in "systemd" (running as user, not as root)
-                systemctl --user enable wireplumber.service && systemctl --user start wireplumber.service
+                sudo apt --update upgrade -y
+                sudo apt install -y \
+                     ffmpeg \
+                     libavcodec-extra \
+                     ttf-mscorefonts-installer \
+                     libdvdcss2 \
+                     libdvd-pkg \
+                     ffmpegthumbnailer \
+                     ffmpegthumbs \
+                     gstreamer1.0-plugins-bad \
+                     gstreamer1.0-plugins-ugly \
+                     gstreamer1.0-libav \
+                     gstreamer1.0-tools \
+                     gstreamer1.0-vaapi \
+                     tumbler-plugins-extra \
+                     kdegraphics-thumbnailers && \
+                    sudo dpkg-reconfigure libdvd-pkg
 
                 #
                 # Firewall (ufw)
@@ -416,37 +440,11 @@ debian_install() {
                 # Docker (https://docs.docker.com/engine/install/debian/)
                 #
 
-                # Install dependencies
-                # sudo apt update -y
-                # sudo apt install -y ca-certificates curl gnupg
-
-                # Add Docker's official GPG key
-                # sudo install -m 0755 -d /etc/apt/keyrings
-                # curl -fsSL \
-                #      https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-                # sudo chmod a+r /etc/apt/keyrings/docker.gpg
-
-                # set up the repository
-                # DOCKER_URL=https://download.docker.com/linux/debian
-                # echo \
-                #     "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] $DOCKER_URL \
-                #     "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |
-                #     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-                # Install docker engine
-                # sudo apt update -y
-                # sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-                # add user
-                # sudo usermod -G docker -a "$USER"
-                # sudo systemctl restart docker
-
-                # Verify that the Docker Engine installation is successful by running the hello-world image:
-                # docker run hello-world
-
                 #
-                # TODO: Install podman
+                # Install podman
                 #
+
+                sudo apt install -y podman
 
                 #
                 # Latex Full
@@ -485,24 +483,27 @@ debian_install() {
                     # gsettings set org.gnome.desktop.interface text-scaling-factor 1.25 # using fractional scaling instead!!
                 fi
 
-                read -rp "5) Extras installed. Press enter to continue..."
+                read -rp "$CHOICE) Extras installed. Press enter to continue..."
                 ;;
 
             6)
-                echo "6) Enabling Flatpak"
+                echo "$CHOICE) Enabling Flatpak"
 
                 sudo apt install -y flatpak
                 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
                 sudo flatpak update
+
                 if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
                     sudo apt install -y plasma-discover-backend-flatpak
                 fi
+
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     sudo apt install -y gnome-software-plugin-flatpak
                     flatpak install --user -y flathub org.gnome.TextEditor
                     flatpak install --user -y flathub org.gnome.Firmware
                     flatpak install --user -y flathub com.mattjakeman.ExtensionManager
                 fi
+                # flatpak install --user -y flathub io.github.kolunmi.Bazaar
                 flatpak install --user -y flathub com.discordapp.Discord
                 flatpak install --user -y flathub com.dropbox.Client
                 flatpak install --user -y flathub com.slack.Slack
@@ -533,20 +534,20 @@ debian_install() {
                 # flatpak install --user -y flathub com.visualstudio.code
                 # flatpak install --user -y flathub com.github.GradienceTeam.Gradience
 
-                read -rp "6) Flatpak has now been enabled. Press enter to continue..."
+                read -rp "$CHOICE) Flatpak has now been enabled. Press enter to continue..."
                 ;;
             7)
-                echo "7) Setting up secrets and repos"
+                echo "$CHOICE) Setting up secrets and repos"
                 setup-secrets-and-repos
 
-                read -rp "7) Secrets and repos are set. Press enter to continue..."
+                read -rp "$CHOICE) Secrets and repos are set. Press enter to continue..."
                 ;;
             8)
-                echo "8) Installing Emacs"
+                echo "$CHOICE) Installing Emacs"
 
                 # Is it already installed?
                 hash emacs 2> /dev/null &&
-                    echo "8) Emacs is already installed"  && exit 1
+                    echo "$CHOICE) Emacs is already installed"  && exit 1
 
                 # libgccjit-12 should match the current gcc in the system (gcc --version)
                 echo "Current gcc version $(gcc --version)"
@@ -571,10 +572,10 @@ debian_install() {
                 # do install emacs from source
                 install-emacs
 
-                read -rp "8) Emacs has been installed. Press enter to continue..."
+                read -rp "$CHOICE) Emacs has been installed. Press enter to continue..."
                 ;;
             9)
-                echo "11) Installing Xremap"
+                echo "$CHOICE) Installing Xremap"
 
                 [[ "$WINDOW_SYSTEM" == "$WS_X11" ]] && sudo apt install -y libx11-dev
 
@@ -584,14 +585,26 @@ debian_install() {
                 # do install
                 install_xremap
 
-                read -rp "11) Xremap installed. Reboot for udev rules to take effect.
+                read -rp "$CHOICE) Xremap installed. Reboot for udev rules to take effect.
                               On Gnome, install the extension at https://extensions.gnome.org/extension/5060/xremap/.
                               Press enter to continue..."
                 ;;
             10)
+                echo "$CHOICE) Installing PSD (profile-sync-daemon)"
+
+                # Dependencies
+                sudo apt install -y coreutils findutils glib2 kmod rsync systemd
+
+                # Install
+                install_psd
+
+                read -rp "$CHOICE) Done. Press enter to continue..."
+                ;;
+            11)
                 exit 0
                 ;;
         esac
+
     done
 }
 

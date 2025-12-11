@@ -181,9 +181,9 @@ fedora_install() {
                     gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
 
                     # Wayland - Set fractional scaling to 1.1 (110%), default is 1.0 (100%)
-                    if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
-                        gsettings set org.gnome.desktop.interface text-scaling-factor 1.1
-                    fi
+                    # if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
+                    #     gsettings set org.gnome.desktop.interface text-scaling-factor 1.1
+                    # fi
 
                     # Stop Gnome Software downloading updates
                     # gsettings set org.gnome.software allow-updates false
@@ -401,6 +401,7 @@ fedora_install() {
                 sudo dnf install -y fzf
 
                 # Emacs (on fedora is up to date but I prefer to compile it myself)
+
                 # sudo dnf install -y emacs
                 # sudo dnf install -y libvterm libvterm-devel # necessary for vterm
                 # sudo dnf install -y enchant2-devel pkgconf  # necessary for jinx
