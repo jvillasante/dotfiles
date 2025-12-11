@@ -21,6 +21,11 @@ if ! hash apt 2> /dev/null; then
     exit 1
 fi
 
+if ! hash extrepo 2> /dev/null; then
+    echo "Error: extrepo not installed on this system, exiting..."
+    exit 1
+fi
+
 SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_NAME
 cd "$(dirname "$0")" || exit 1
@@ -224,21 +229,12 @@ EOF
                 # Faster Boot
                 sudo systemctl disable NetworkManager-wait-online.service
 
-                # Install 3rd party apps using extrepo
-                #   https://salsa.debian.org/extrepo-team/extrepo-data/-/tree/master/repos/debian
-                # After install uncomment '- contrib' and '- non-free' lines in /etc/extrepo/config.yaml
-                # List available apps: extrepo search | grep Found | sed 's/Found//g' | sed 's/://g' | sort
-                sudo apt install -y extrepo
-                echo "Extrepo: Uncomment '- contrib' and '- non-free' lines in /etc/extrepo/config.yaml"
-                read -rp "Is /etc/extrepo/config.yaml good to go? (Y/N): " confirm &&
-                    [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
-                sudo extrepo update -y
-
                 # Update system with the new sources
+                sudo extrepo update -y
                 sudo apt update -y
                 sudo apt upgrade -y
                 sudo apt full-upgrade
-                sudo apt autoremove
+                sudo apt autoremove && sudo apt autoclean
 
                 read -rp "$CHOICE) Defaults has been set. Reboot may be required. Press enter to continue..."
                 ;;
@@ -305,21 +301,20 @@ EOF
                 # Python
                 sudo apt install -y python-is-python3 python3-pip
 
-                # Install Firefox Browser from Extrarepo
+                # Install Firefox Browser from Extrepo
                 sudo extrepo search mozilla
                 sudo extrepo enable mozilla
                 sudo apt --update upgrade
                 sudo apt install firefox
 
-                # Install Brave Browser from Extrarepo
+                # Install Brave Browser from Extrepo
                 sudo extrepo search brave
                 sudo extrepo enable brave_release
                 sudo apt --update upgrade
                 sudo apt install brave-browser
 
-                # TODO: Install latest Node.js
-                # TODO: Install latest LLVM
-                # TODO: PSD (profile-sync-daemon) from source
+                # TODO: Install latest Node.js from Extrepo
+                # TODO: Install latest LLVM from Extrepo
 
                 # Wayland Software
                 if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
@@ -503,7 +498,6 @@ EOF
                     flatpak install --user -y flathub org.gnome.Firmware
                     flatpak install --user -y flathub com.mattjakeman.ExtensionManager
                 fi
-                # flatpak install --user -y flathub io.github.kolunmi.Bazaar
                 flatpak install --user -y flathub com.discordapp.Discord
                 flatpak install --user -y flathub com.dropbox.Client
                 flatpak install --user -y flathub com.slack.Slack
@@ -516,7 +510,8 @@ EOF
                 flatpak install --user -y flathub org.telegram.desktop
                 flatpak install --user -y flathub com.valvesoftware.Steam
                 flatpak install --user -y org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
-                # TODO: flatpak install --user -y flathub io.podman_desktop.PodmanDesktop
+                # flatpak install --user -y flathub io.github.kolunmi.Bazaar
+                # flatpak install --user -y flathub io.podman_desktop.PodmanDesktop
                 # flatpak install --user -y flathub org.keepassxc.KeePassXC
                 # flatpak install --user -y flathub com.borgbase.Vorta
                 # flatpak install --user -y flathub io.github.Hexchat
