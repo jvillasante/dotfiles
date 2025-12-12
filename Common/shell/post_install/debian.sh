@@ -230,7 +230,7 @@ EOF
                 sudo systemctl disable NetworkManager-wait-online.service
 
                 # Update system with the new sources
-                sudo extrepo update -y
+                sudo extrepo update
                 sudo apt update -y
                 sudo apt upgrade -y
                 sudo apt full-upgrade
@@ -281,14 +281,14 @@ EOF
                 sudo apt autoremove
 
                 # General
-                sudo apt install -y apt-listbugs apt-listchanges software-properties-common
+                sudo apt install -y apt-listbugs apt-listchanges
                 sudo apt install -y build-essential binutils coreutils openssl libssl-dev
                 sudo apt install -y tar p7zip-full zip unzip rsync rar unrar atool
                 sudo apt install -y silversearcher-ag aspell aspell-en aspell-es autojump autoconf automake
                 sudo apt install -y bat curl dnsutils dos2unix doxygen fd-find font-manager
                 sudo apt install -y btop htop nvtop isync libpcap-dev make mercurial msmtp fastfetch
                 sudo apt install -y vim neovim pandoc pass poppler-utils poppler-data ripgrep
-                sudo apt install -y scdaemon subversion telnet tldr tree w3m wget
+                sudo apt install -y scdaemon subversion telnet tree w3m wget
                 sudo apt install -y wordnet imagemagick
                 sudo apt install -y pandoc poppler-utils poppler-data libtool
                 sudo apt install -y shfmt editorconfig glslang-tools glslang-dev shellcheck parallel
@@ -338,10 +338,10 @@ EOF
                 # Plasma Software
                 if [[ "$WINDOW_MANAGER" == "$WM_KDE" ]]; then
                     sudo apt install -y kdeconnect
-                    sudo apt install -y kdotool
-                    # sudo dnf install -y yakuake
-                    # sudo dnf install -y latte-dock
-                    # sudo zypper install -y kazam
+                    # sudo apt install -y kdotool
+                    # sudo apt install -y yakuake
+                    # sudo apt install -y latte-dock
+                    # sudo apt install -y kazam
                 fi
 
                 # Git stuff
@@ -387,8 +387,9 @@ EOF
                 sudo apt install -y texlive-base texinfo
 
                 # non apt software
-                sudo pip3 install cmake-language-server --break-system-packages
-                sudo pip3 install pyright --break-system-packages
+                # TODO: Python packages
+                # sudo pip3 install cmake-language-server --break-system-packages
+                # sudo pip3 install pyright --break-system-packages
                 # TODO: Node packages
                 # sudo npm install --location=global npm@latest
                 # sudo npm install --location=global prettier
@@ -550,17 +551,17 @@ EOF
 
                 # libgccjit-12 should match the current gcc in the system (gcc --version)
                 echo "Current gcc version $(gcc --version)"
-                read -rp "Is gcc version 12.*? (Y/N): " confirm &&
+                read -rp "Is gcc version 14.*? (Y/N): " confirm &&
                     [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 
                 # Install dependencies
                 sudo apt build-dep emacs
                 sudo apt install -y build-essential autoconf automake libtool texinfo libgtk-3-dev libxpm-dev \
-                     libjpeg-dev libgif-dev libtiff5-dev gnutls-bin libgnutls30 libgnutlsxx30 libncurses-dev \
-                     libxml2-dev libgpm-dev libdbus-1-dev libgtk2.0-dev libpng-dev libotf-dev libm17n-dev \
-                     librsvg2-dev libmagickcore-dev libmagickwand-dev libglib2.0-dev libgirepository1.0-dev
-                sudo apt install -y libgccjit0 libgccjit-12-dev # make sure is the same version as `gcc --version`
-                sudo apt install -y libtree-sitter0 libtree-sitter-dev
+                     libjpeg-dev libgif-dev libtiff5-dev gnutls-bin libncurses-dev libxml2-dev libgpm-dev \
+                     libdbus-1-dev libgtk2.0-dev libpng-dev libotf-dev libm17n-dev librsvg2-dev libmagickcore-dev \
+                     libmagickwand-dev libglib2.0-dev libgirepository1.0-dev
+                sudo apt install -y libgccjit0 libgccjit-14-dev # make sure is the same version as `gcc --version`
+                sudo apt install -y libtree-sitter0.22 libtree-sitter-dev
                 sudo apt install -y libjansson4 libjansson-dev
                 sudo apt install -y libvterm0 libvterm-dev
                 sudo apt install -y libwebp-dev webp
@@ -591,11 +592,13 @@ EOF
             10)
                 echo "$CHOICE) Installing PSD (profile-sync-daemon)"
 
+                # TODO: glib2 not available on Debian
+
                 # Dependencies
-                sudo apt install -y coreutils findutils glib2 kmod rsync systemd
+                # sudo apt install -y coreutils findutils glib2 kmod rsync systemd
 
                 # Install
-                install_psd
+                # install_psd
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
