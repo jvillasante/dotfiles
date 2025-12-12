@@ -25,9 +25,9 @@
            orderless org org-superstar otpp package-lint-flymake password-store
            pdf-view-restore peg persistent-scratch php-mode project python
            rainbow-delimiters request rmsbolt rust-mode seq shrink-path so-long
-           soap-client svg track-changes tramp tramp-hlo trashed use-package
-           verb verilog-mode vertico vim-tab-bar vterm vundo web-mode wgrep
-           which-key window-tool-bar xref yaml-mode yasnippet-snippets zig-mode))
+           soap-client svg track-changes tramp-hlo trashed use-package verb
+           verilog-mode vertico vim-tab-bar vterm vundo web-mode wgrep which-key
+           window-tool-bar xref yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel :url "git@github.com:karthink/gptel.git")
            (deadgrep :url "git@github.com:Wilfred/deadgrep.git")

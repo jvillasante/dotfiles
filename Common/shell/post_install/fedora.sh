@@ -36,7 +36,7 @@ readonly WS_X11="X11"
 readonly WM_KDE="KDE"
 readonly WM_GNOME="Gnome"
 WINDOW_SYSTEM="$WS_WAYLAND"
-WINDOW_MANAGER="$WM_GNOME"
+WINDOW_MANAGER="$WM_KDE"
 
 usage() {
     echo "Usage:"
