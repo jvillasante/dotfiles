@@ -3,7 +3,9 @@
 ;;
 ;;; Code:
 
+;; vc : builtin emacs version control
 (use-package vc
+    :ensure nil ;; emacs built-in
     :bind ("C-x v R" . my-vc-git-reflog)
     :custom
     (vc-handled-backends '(Git))
@@ -11,9 +13,10 @@
     (vc-git-diff-switches '("--histogram"))  ; use a different diff option
     (vc-ignore-dir-regexp                    ; make sure vc stuff is not making tramp slower
      (format "\\(%s\\)\\|\\(%s\\)"
-              vc-ignore-dir-regexp
-              tramp-file-name-regexp)))
+             vc-ignore-dir-regexp
+             tramp-file-name-regexp)))
 
+;; magit : A Git Porcelain inside Emacs
 (use-package magit
     :preface
     (defun my-magit-kill-buffers ()
