@@ -550,24 +550,24 @@ EOF
                     echo "$CHOICE) Emacs is already installed"  && exit 1
 
                 # libgccjit-12 should match the current gcc in the system (gcc --version)
-                echo "Current gcc version $(gcc --version)"
-                read -rp "Is gcc version 14.*? (Y/N): " confirm &&
-                    [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+                # echo "Current gcc version $(gcc --version)"
+                # read -rp "Is gcc version 14.*? (Y/N): " confirm &&
+                #     [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 
                 # Install dependencies
                 sudo apt build-dep emacs
-                sudo apt install -y build-essential autoconf automake libtool texinfo libgtk-3-dev libxpm-dev \
-                     libjpeg-dev libgif-dev libtiff5-dev gnutls-bin libncurses-dev libxml2-dev libgpm-dev \
-                     libdbus-1-dev libgtk2.0-dev libpng-dev libotf-dev libm17n-dev librsvg2-dev libmagickcore-dev \
-                     libmagickwand-dev libglib2.0-dev libgirepository1.0-dev
-                sudo apt install -y libgccjit0 libgccjit-14-dev # make sure is the same version as `gcc --version`
-                sudo apt install -y libtree-sitter0.22 libtree-sitter-dev
-                sudo apt install -y libjansson4 libjansson-dev
-                sudo apt install -y libvterm0 libvterm-dev
-                sudo apt install -y libwebp-dev webp
-                sudo apt install -y libxft-dev libxft2
-                sudo apt install -y libenchant-2-dev pkgconf # necessary for jinx
-                sudo apt install -y libtool-bin # vterm
+                # sudo apt install -y build-essential autoconf automake libtool texinfo libgtk-3-dev libxpm-dev \
+                #      libjpeg-dev libgif-dev libtiff5-dev gnutls-bin libncurses-dev libxml2-dev libgpm-dev \
+                #      libdbus-1-dev libgtk2.0-dev libpng-dev libotf-dev libm17n-dev librsvg2-dev libmagickcore-dev \
+                #      libmagickwand-dev libglib2.0-dev libgirepository1.0-dev
+                # sudo apt install -y libgccjit0 libgccjit-14-dev # make sure is the same version as `gcc --version`
+                # sudo apt install -y libtree-sitter0.22 libtree-sitter-dev
+                # sudo apt install -y libjansson4 libjansson-dev
+                # sudo apt install -y libvterm0 libvterm-dev
+                # sudo apt install -y libwebp-dev webp
+                # sudo apt install -y libxft-dev libxft2
+                # sudo apt install -y libenchant-2-dev pkgconf # necessary for jinx
+                # sudo apt install -y libtool-bin # vterm
 
                  # do install emacs from source
                 install-emacs
