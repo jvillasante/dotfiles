@@ -67,13 +67,13 @@
                 (if (equal current-prefix-arg nil)
                         (funcall #'find-file (eglot--uri-to-path rep))
                     (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
-    :hook((eglot-managed-mode . (lambda ()
-                                    ;; Show flymake diagnostics first.
-                                    (setq eldoc-documentation-functions
-                                          (cons #'flymake-eldoc-function
-                                                (remove #'flymake-eldoc-function eldoc-documentation-functions)))
-                                    ;; Show all eldoc feedback.
-                                    (setq eldoc-documentation-strategy #'eldoc-documentation-compose))))
+    :hook ((eglot-managed-mode . (lambda ()
+                                     ;; Show flymake diagnostics first.
+                                     (setq eldoc-documentation-functions
+                                           (cons #'flymake-eldoc-function
+                                                 (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+                                     ;; Show all eldoc feedback.
+                                     (setq eldoc-documentation-strategy #'eldoc-documentation-compose))))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)

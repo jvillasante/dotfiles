@@ -252,6 +252,7 @@ fedora_install() {
 
                 # NVIDIA - Install
                 sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+                # sudo dnf install akmod-nvidia-open xorg-x11-drv-nvidia-cuda
 
                 # Monitor progress
                 #  sudo journalctl -f -u akmods
@@ -265,12 +266,12 @@ fedora_install() {
                 echo "$CHOICE) Installing Software"
 
                 # Nvidia - Needed for Encrypted Drives
-                echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |\
-                    sudo tee -a /etc/dracut.conf.d/nvidia.conf
-                sudo dracut --force
+                # echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |\
+                #     sudo tee -a /etc/dracut.conf.d/nvidia.conf
+                # sudo dracut --force
 
                 # Nvidia - Enable nvidia-modeset
-                sudo grubby --update-kernel=ALL --args="nvidia-drm.modeset=1"
+                # sudo grubby --update-kernel=ALL --args="nvidia-drm.modeset=1"
 
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
