@@ -11,8 +11,13 @@
 (setq process-adaptive-read-buffering nil)
 (setq read-process-output-max (* 10 1024 1024)) ;; 10mb
 
+;; Set your language environment and default input method
+;;   - Use `describe-input-method'
+;;   - Use `C-\ toggle-input-method' to switch
+(set-language-environment "latin-1")
+(setq default-input-method "spanish-prefix")
+
 ;; everything is UTF8
-(set-language-environment 'utf-8)
 (setq locale-coding-system 'utf-8)
 (setq buffer-file-coding-system 'utf-8-unix)
 (set-default-coding-systems 'utf-8)
@@ -29,9 +34,6 @@
         ("Europe/Amsterdam" "Amsterdam")
         ("Europe/Paris" "France")))
 (setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
-
-;; input method to switch to when `toggle-input-method'
-(setq default-input-method "spanish-postfix")
 
 ;; macros
 (require 'kmacro)

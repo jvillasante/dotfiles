@@ -24,6 +24,17 @@
         ;; subdivide grep output into sections, one per file.
         (setq grep-use-headings t))
 
+    ;; When using ‘grep’
+    ;;  ‘-i’  Ignore case distinctions
+    ;;  ‘-n’  Prefix each line of output with line number
+    ;;  ‘-H’  Print the filename for each match.
+    ;;  ‘-e’  Protect patterns beginning with a hyphen character, ‘-’
+    (setq grep-command "grep -i -nH -e ")
+
+    ;; Find an existing buffer, even if it has a different name
+    ;;   This avoids problems with symbolic links.
+    (setq find-file-existing-other-name t)
+
     ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
     ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
     (setq read-extended-command-predicate #'command-completion-default-include-p)

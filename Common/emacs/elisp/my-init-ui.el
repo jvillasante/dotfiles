@@ -97,7 +97,8 @@
 
 ;; cursor
 (setq-default cursor-type t)
-(blink-cursor-mode -1) ; annoying!
+(if (fboundp 'blink-cursor-mode)
+        (blink-cursor-mode -1)) ; annoying
 
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook 'variable-pitch-mode)
