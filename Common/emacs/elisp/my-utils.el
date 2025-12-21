@@ -44,6 +44,41 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
              (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)
          (cons '(continuation right-curly-arrow left-curly-arrow) fringe-indicator-alist))))
 
+(defun my-shrunk-path ()
+    "Return a shortened buffer path.
+Example:
+  /home/ghouse/code/python/app.py -> ~/c/p/python/app.py
+  /ssh:server:/var/log/nginx/access.log -> /ssh:server:/v/l/nginx/access.log
+  *scratch* (non-file) -> *scratch*"
+    (let ((file (or buffer-file-truename (buffer-name))))
+        ;; 1. Handle local home directory abbreviation (~/)
+        (when (and buffer-file-truename (not (file-remote-p file)))
+            (setq file (abbreviate-file-name file)))
+
+        (let* ((remote (or (file-remote-p file) ""))
+               (local-path (file-local-name file))
+               (dir (file-name-directory local-path))
+               (filename (file-name-nondirectory local-path)))
+            (if (and dir (not (string= dir "/")))
+                    (let* ((parts (split-string dir "/" t))
+                           (len (length parts))
+                           ;; 2. Process directory parts
+                           (shrunk-dir
+                            (mapconcat (lambda (idx)
+                                           (let ((part (nth idx parts)))
+                                               ;; Keep the last directory segment full-length;
+                                               ;; shrink all preceding segments to 1 character.
+                                               (if (and (> len 1) (= idx (- len 1)))
+                                                       part
+                                                   (substring part 0 (min 1 (length part))))))
+                                       (number-sequence 0 (1- len))
+                                       "/")))
+                        ;; 3. Reconstruct: [Remote][Leading Slash][Shrunk Path][Filename]
+                        (concat remote "/" shrunk-dir "/" filename))
+
+                ;; Fallback for files in root or non-file buffers
+                (concat remote local-path)))))
+
 ;;; VCS
 
 (defun my-project-todos ()

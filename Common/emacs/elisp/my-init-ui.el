@@ -281,25 +281,12 @@
     :hook (after-init . vim-tab-bar-mode))
 
 ;; modeline
-(progn
-    (setq column-number-mode t)
-    (setq mode-line-compact 'long)
-    (setq mode-line-right-align-edge 'right-fringe)
-    (setq find-file-visit-truename t) ; only display real names in the modeline
-    (use-package shrink-path
-        :preface
-        (defun my-pretty-buffername ()
-            (if buffer-file-truename
-                    (let* ((cur-dir (file-name-directory buffer-file-truename))
-                           (two-up-dir (-as-> cur-dir it (or (f-parent it) "") (or (f-parent it) "")))
-                           (shrunk (shrink-path-file-mixed two-up-dir cur-dir buffer-file-truename)))
-                        (concat (car shrunk)
-                                (mapconcat #'identity (butlast (cdr shrunk)) "/")
-                                (car (last shrunk))))
-                (buffer-name)))
-        :init
-        (setq-default mode-line-buffer-identification
-                      '(:eval (my-pretty-buffername)))))
+(setq column-number-mode t)
+(setq mode-line-compact 'long)
+(setq mode-line-right-align-edge 'right-fringe)
+(setq find-file-visit-truename t) ; only display real names in the modeline
+(setq-default mode-line-buffer-identification
+              '(:eval (my-shrunk-path)))
 
 ;; theme
 (use-package modus-themes
