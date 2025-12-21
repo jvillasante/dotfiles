@@ -29,7 +29,13 @@
     ;;  ‘-n’  Prefix each line of output with line number
     ;;  ‘-H’  Print the filename for each match.
     ;;  ‘-e’  Protect patterns beginning with a hyphen character, ‘-’
-    (setq grep-command "grep -i -nH -e ")
+    ;; (setq grep-command "grep -i -nH -e ")
+    ;;
+    ;; Use ripgrep for grep
+    (setq grep-command "rg -nS --no-heading ")
+    (setq grep-find-ignored-directories
+          '("SCCS" "RCS" "CVS" "MCVS" ".src" ".svn" ".jj" ".git" ".hg"
+            ".bzr" "_MTN" "_darcs" "{arch}" "node_modules" "build" "dist"))
 
     ;; Find an existing buffer, even if it has a different name
     ;;   This avoids problems with symbolic links.
