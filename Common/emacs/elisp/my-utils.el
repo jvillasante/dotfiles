@@ -424,9 +424,9 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
     (interactive)
     (if (region-active-p)
             (comment-or-uncomment-region
-             (region-beginning)(region-end))
+             (region-beginning) (region-end))
         (comment-or-uncomment-region
-         (line-beginning-position)(line-end-position))))
+         (line-beginning-position) (line-end-position))))
 
 ;; Behave like vi's o command
 (defun my-open-next-line (arg)
