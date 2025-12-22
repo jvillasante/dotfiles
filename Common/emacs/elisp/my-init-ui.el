@@ -369,7 +369,11 @@ Run this function at the post theme load phase, such as with the
     :disabled t ;; using vertico
     :hook (after-init . (lambda ()
                             (which-key-mode)
-                            (which-key-setup-side-window-bottom))))
+                            (which-key-setup-side-window-bottom)))
+    :config
+    (setq which-key-show-early-on-C-h t
+          which-key-idle-delay 1e6 ; 11 days - wait for C-h to appear
+          which-key-idle-secondary-delay 0.05))
 
 (use-package window
     :ensure nil
