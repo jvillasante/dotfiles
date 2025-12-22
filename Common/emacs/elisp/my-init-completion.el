@@ -289,8 +289,8 @@
 
     ;; Optionally make narrowing help available in the minibuffer.
     ;; You may want to use `embark-prefix-help-command' or which-key instead.
-    (keymap-set consult-narrow-map
-                (concat consult-narrow-key " ?") #'consult-narrow-help)
+    ;; (keymap-set consult-narrow-map
+    ;;             (concat consult-narrow-key " ?") #'consult-narrow-help)
 
     ;; Optionally configure preview. The default value
     ;; is 'any, such that any key triggers the preview.
