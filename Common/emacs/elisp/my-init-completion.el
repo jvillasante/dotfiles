@@ -154,12 +154,9 @@
     (setq only-global-abbrevs nil))
 
 ;; hippie expand is dabbrev expand on steroids
-;; A composable expansion tool that I find compliments `corfu' in that it
-;; looks in a different manner for completions.
 ;;
 ;; TODO: Perhaps I should spend a bit time investigating removing `hippie-exp'
-;; in favor of `corfu' and `cape' behavior.  Definitely spend a bit of time exploring
-;; this option.
+;; in favor of `corfu' and `cape' behavior.
 (use-package hippie-exp
     :ensure nil ;; emacs built-in
     :config
@@ -188,7 +185,8 @@
     :config
     (setq vertico-multiform-categories
           '((embark-keybinding grid)
-            (consult-grep buffer)))
+            (consult-grep buffer)
+            (imenu buffer)))
     :custom
     (vertico-count 15)
     (vertico-resize nil))

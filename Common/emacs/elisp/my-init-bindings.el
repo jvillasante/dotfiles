@@ -82,6 +82,9 @@ When run interactively:
 ;; duplicate current line or region
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
 
+;; `delete-forward-char' is preferable for interactive use
+(define-key (current-global-map) [remap delete-char] 'delete-forward-char)
+
 ;; upcase, downcase and capitalize
 (define-key (current-global-map) [remap capitalize-word] 'capitalize-dwim)
 (define-key (current-global-map) [remap downcase-word] 'downcase-dwim)
