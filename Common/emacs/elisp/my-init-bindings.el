@@ -253,6 +253,8 @@ When run interactively:
 
 (when (package-installed-p 'magit)
     (global-set-key (kbd "C-x g") 'magit-status)
+    (with-eval-after-load 'project
+        (define-key project-prefix-map (kbd "m") 'magit-project-status))
     (with-eval-after-load 'magit
         (define-key magit-status-mode-map (kbd "q") 'my-magit-kill-buffers)
         (define-key magit-status-mode-map (kbd "C-x k") 'my-magit-kill-buffers)))
