@@ -184,7 +184,7 @@
            (rfn-eshadow-update-overlay-hook . vertico-directory-tidy))
     :config
     (setq vertico-multiform-categories
-          '((embark-keybinding grid)
+          '((embark-keybinding buffer)
             (consult-grep buffer)
             (imenu buffer)))
     :custom
@@ -196,6 +196,8 @@
     (completion-styles '(orderless basic))
     (completion-category-overrides
      '((file (styles basic partial-completion))))
+    ;; (orderless-style-dispatchers '(orderless-kwd-dispatch
+    ;;                                orderless-affix-dispatch))
     :init
     (setq orderless-component-separator " +")
     (setq orderless-matching-styles
