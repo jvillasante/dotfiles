@@ -330,17 +330,11 @@
             ("Notes"  ?n ,(expand-file-name "Apps/org/notes" my-dropbox-path))
             ("Ledger" ?l ,(expand-file-name "Apps/ledger"    my-dropbox-path)))))
 
+;; embark : Emacs Mini-Buffer Actions Rooted in Keymaps
 (use-package embark
     :init
     ;; Optionally replace the key help with a completing-read interface
-    (setq prefix-help-command #'embark-prefix-help-command)
-
-    :config
-    ;; Hide the mode line of the Embark live/completions buffers
-    (add-to-list 'display-buffer-alist
-                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                   nil
-                   (window-parameters (mode-line-format . none)))))
+    (setq prefix-help-command #'embark-prefix-help-command))
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
