@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Usage:
+#   ./+emux top - runs top inside your active Emacs instance.
+#   ./+emus watch free -hg - calls watch and tells it to run free -hg.
+#   ./+emux - on its own will call your $SHELL instead.
+
+set -o nounset -o errexit -o pipefail
+
+argcmd="$@"
+cmd="${argcmd:=$SHELL}"
+exec emacsclient -e <<EOF
+(let ((vterm-shell "${cmd}")) (if (fboundp 'vterm) (vterm t) (term vterm-shell)))
+EOF
