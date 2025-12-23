@@ -34,7 +34,6 @@
                    (if (string-equal (car args) "podman-make")
                        (my/nntp-compile-logic)
                      (apply orig-fun args)))
-
                  (advice-add 'compile :around #'my/vterm-compile-advice)
 
                  ;; 3. Cleanup: Remove advice if this buffer is killed or we leave
@@ -43,4 +42,6 @@
                            nil t)))
 
        (compile-command . "podman-make")
+
+       ;; At work, we don't auto-format code :(
        (eval . (apheleia-mode -1)))))
