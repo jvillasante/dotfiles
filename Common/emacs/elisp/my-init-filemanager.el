@@ -10,6 +10,7 @@
     :ensure nil ;; emacs built-in
     :hook (dired-mode . (lambda ()
                             (hl-line-mode)
+                            (dired-hide-details-mode)
                             (unless (file-remote-p default-directory)
                                 (auto-revert-mode))))
     :config
@@ -50,7 +51,7 @@
     ;;  -h : Human-readable sizes like 1K, 234M, ..
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     (setq dired-listing-switches
-          "-a -l -h -v --group-directories-first --color=never")
+          "-a -l -h -v --group-directories-first --color=auto")
 
     ;; enable some really cool extensions like C-x C-j(dired-jump)
     (if (< emacs-major-version 28)
