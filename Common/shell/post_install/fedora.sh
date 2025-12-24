@@ -215,6 +215,11 @@ fedora_install() {
                      https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
                      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
 
+                # Upgrade everything
+                sudo dnf upgrade -y --refresh
+                sudo dnf group upgrade -y core
+                sudo dnf -y update
+
                 # Terra (https://terra.fyralabs.com/)
                 # sudo dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 
@@ -223,11 +228,6 @@ fedora_install() {
                 sudo dnf install -y rpmfusion-nonfree-release-tainted
                 sudo dnf install -y dnf-plugins-core
                 sudo dnf install -y \*-firmware
-
-                # Upgrade everything
-                sudo dnf upgrade -y --refresh
-                sudo dnf group upgrade -y core
-                sudo dnf -y update
 
                 # Update system firmware
                 # sudo fwupdmgr refresh --force
@@ -250,9 +250,11 @@ fedora_install() {
                 sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid \
                      libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
 
-                # NVIDIA - Install
-                sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
-                # sudo dnf install akmod-nvidia-open xorg-x11-drv-nvidia-cuda
+                # NVIDIA - Install Proprietary Drivers
+                # sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+
+                # NVIDIA - Install Open Drivers
+                sudo dnf install akmod-nvidia-open xorg-x11-drv-nvidia-cuda
 
                 # Monitor progress
                 #  sudo journalctl -f -u akmods
