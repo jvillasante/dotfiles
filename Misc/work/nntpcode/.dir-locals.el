@@ -41,6 +41,7 @@
                            (lambda () (advice-remove 'compile #'my/vterm-compile-advice))
                            nil t)))
 
+       ;; Change `compile' command
        (compile-command . "podman-make")
 
        ;; At work, we don't auto-format code :(
