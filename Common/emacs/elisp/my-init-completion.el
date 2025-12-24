@@ -332,7 +332,7 @@
 
 ;; embark : Emacs Mini-Buffer Actions Rooted in Keymaps
 (use-package embark
-    :init
+    :config
     ;; Optionally replace the key help with a completing-read interface
     (setq prefix-help-command #'embark-prefix-help-command))
 
