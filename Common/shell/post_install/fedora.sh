@@ -255,7 +255,7 @@ fedora_install() {
                 # sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
 
                 # NVIDIA - Install Open Drivers
-                sudo dnf install akmod-nvidia-open xorg-x11-drv-nvidia-cuda
+                sudo dnf install -y akmod-nvidia-open xorg-x11-drv-nvidia-cuda
 
                 # Monitor progress
                 #  sudo journalctl -f -u akmods
@@ -263,7 +263,7 @@ fedora_install() {
                 # Check if the kernel module is built.
                 #     modinfo -F version nvidia
 
-                read -rp "$CHOICE) Done. Reboot after akmod build!!!. Press enter to continue..."
+                read -rp "$CHOICE) Done. *Important* - Reboot after akmod build!!!. Press enter to continue..."
                 ;;
             4)
                 echo "$CHOICE) Installing Software"
@@ -581,7 +581,11 @@ fedora_install() {
                 sudo dnf install -y jetbrains-mono-fonts-all
                 sudo dnf install -y ibm-plex-mono-fonts ibm-plex-sans-fonts ibm-plex-serif-fonts
                 sudo dnf install -y rsms-inter-fonts rsms-inter-vf-fonts
-                install_berkeley_mono_font
+
+                read -rp "Install Berkeley Mono Fonts (gpg encrypted downloaded fonts)? (Y/N): " confirm
+                if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+                    install_berkeley_mono_font
+                fi
 
                 if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
                     gsettings set org.gnome.desktop.interface font-hinting 'full'
