@@ -355,6 +355,7 @@ Run this function at the post theme load phase, such as with the
             ,@modus-themes-preset-overrides-faint)))
 
 ;; minions : menu that lists enabled minor-modes
+;; In Emacs 31 see `mode-line-collapse-minor-modes'
 (use-package minions
     :hook (after-init . minions-mode)
     :config
