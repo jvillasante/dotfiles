@@ -218,6 +218,7 @@ fedora_install() {
                 # Upgrade everything
                 sudo dnf upgrade -y --refresh
                 sudo dnf group upgrade -y core
+                sudo dnf4 group install core
                 sudo dnf -y update
 
                 # Terra (https://terra.fyralabs.com/)
@@ -266,14 +267,6 @@ fedora_install() {
                 ;;
             4)
                 echo "$CHOICE) Installing Software"
-
-                # Nvidia - Needed for Encrypted Drives
-                # echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' |\
-                #     sudo tee -a /etc/dracut.conf.d/nvidia.conf
-                # sudo dracut --force
-
-                # Nvidia - Enable nvidia-modeset
-                # sudo grubby --update-kernel=ALL --args="nvidia-drm.modeset=1"
 
                 # general
                 sudo dnf install -y dnf-plugins-core copr-cli
