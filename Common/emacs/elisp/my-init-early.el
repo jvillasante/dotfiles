@@ -103,11 +103,6 @@
 (setq completions-detailed t) ; Detailed description for the built in describe symbol etc
 (column-number-mode t) ; Display column numbers in the status line
 (size-indication-mode t) ; Display size indication
-(setq show-paren-mode +1 ; Highlight the matching parenthesis
-      show-paren-delay 0.1
-      show-paren-highlight-openparen t
-      show-paren-when-point-inside-paren t
-      show-paren-when-point-in-periphery t)
 (setq kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
 (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
 (setq use-short-answers t) ; Abreviate Yes/No to y or n

@@ -188,7 +188,7 @@
     (auto-revert-avoid-polling t) ; use save signal
     (global-auto-revert-non-file-buffers t)) ; Global Auto-Revert Mode operates only on file-visiting buffers.
 
-;; electric pair : work with pairs in emacs
+;; electric pair : Automatically insert matching delimiters
 (use-package elec-pair
     :ensure nil ;; emacs built-in
     :hook (after-init . electric-pair-mode)
@@ -201,6 +201,16 @@
                     (?\[ . ?\])))
     (setq-default electric-pair-inhibit-predicate
                   'electric-pair-conservative-inhibit))
+
+;; parent.el : Highlight matching paren
+(use-package paren
+    :ensure nil ;; emacs built-in
+    :hook (after-init . show-paren-mode)
+    :config
+    (setq show-paren-delay 0.1
+          show-paren-highlight-openparen t
+          show-paren-when-point-inside-paren t
+          show-paren-when-point-in-periphery t))
 
 ;; ibuffer : replacement for the built-in `list-buffer'
 (use-package ibuffer
@@ -269,10 +279,6 @@
 
 ;; helpful : better help buffers
 (use-package helpful)
-
-;; rainbow-delimiters : highlights delimiters such as parentheses
-(use-package rainbow-delimiters
-    :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (use-package crux)
