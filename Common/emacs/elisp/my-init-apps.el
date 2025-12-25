@@ -12,17 +12,7 @@
     (defun my-password-store-reset-gpg-pcscd ()
         (interactive)
         (with-editor-async-shell-command "sudo systemctl restart pcscd"))
-    :bind (("C-c P c" . password-store-copy)
-           ("C-c P C" . password-store-copy-field)
-           ("C-c P g" . password-store-generate)
-           ("C-c P G" . password-store-generate-no-symbols)
-           ("C-c P e" . password-store-edit)
-           ("C-c P r" . password-store-rename)
-           ("C-c P R" . password-store-remove)
-           ("C-c P i" . password-store-insert)
-           ("C-c P P" . my-password-store-git-push)
-           ("C-c P X" . my-password-store-reset-gpg-pcscd))
-    :custom ((password-store-password-length 25)))
+    :custom (password-store-password-length 25))
 
 ;; gnus
 (use-package gnus

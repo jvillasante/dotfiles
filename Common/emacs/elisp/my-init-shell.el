@@ -160,18 +160,15 @@
 DESTINATION can be a local path or a TRAMP-style remote path
 (e.g., /ssh:user@host:/path/to/dir)."
 
-        ;; 1. The interactive spec:
         (interactive (list (read-file-name "Rsync marked files to: ")))
 
-        ;; 2. Use a single LET* block.
         ;; This binds variables sequentially, ensuring rsync-dest is
         ;; defined *before* title-str and command-str try to use it.
-        ;; This is cleaner and safer than the previous multi-let/setq logic.
         (let* (
-               ;; 3. Bind rsync-dest to the *result* of the 'if' expression.
+               ;; Bind rsync-dest to the *result* of the 'if' expression.
                (rsync-dest
                 (if (tramp-tramp-file-p destination)
-                        ;; 3a. REMOTE path: build the rsync string
+                        ;; REMOTE path: build the rsync string
                         (let ((parts (tramp-dissect-file-name destination)))
                             (format "%s%s:%s"
                                     (if (tramp-file-name-user parts)
@@ -180,17 +177,17 @@ DESTINATION can be a local path or a TRAMP-style remote path
                                     (tramp-file-name-host parts)
                                     (shell-quote-argument (tramp-file-name-localname parts))))
 
-                    ;; 3b. LOCAL path: just expand and quote
+                    ;; LOCAL path: just expand and quote
                     (shell-quote-argument (expand-file-name destination))))
 
-               ;; 4. Bind title and command strings.
-               ;;    (rsync-dest is now guaranteed to be a valid string)
+               ;; Bind title and command strings.
+               ;;   (rsync-dest is now guaranteed to be a valid string)
                (title-str (format "Rsyncing files to %s" rsync-dest))
                (command-str (format "rsync -avzP %s %s"
                                     "<<*>>"
                                     rsync-dest)))
 
-            ;; 5. Call the macro with the *fully resolved* strings.
+            ;; Call the macro with the *fully resolved* strings.
             ;; This prevents any void-variable or scoping errors.
             (dwim-shell-command-on-marked-files
              title-str

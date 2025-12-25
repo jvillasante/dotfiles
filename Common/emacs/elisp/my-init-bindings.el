@@ -468,16 +468,30 @@ When run interactively:
 (when (package-installed-p 'activities)
     ;; Prevent `edebug' default bindings from interfering with activities
     (setq edebug-inhibit-emacs-lisp-mode-bindings t)
-    (global-set-key (kbd "C-x C-a C-n") 'activities-new)
-    (global-set-key (kbd "C-x C-a C-d") 'activities-define)
-    (global-set-key (kbd "C-x C-a C-a") 'activities-resume)
-    (global-set-key (kbd "C-x C-a C-s") 'activities-suspend)
-    (global-set-key (kbd "C-x C-a C-k") 'activities-kill)
-    (global-set-key (kbd "C-x C-a RET") 'activities-switch)
-    (global-set-key (kbd "C-x C-a b")   'activities-switch-buffer)
-    (global-set-key (kbd "C-x C-a g")   'activities-revert)
-    (global-set-key (kbd "C-x C-a l")   'activities-list)
-    (global-set-key (kbd "C-x b")       'my-switch-to-buffer))
+    (with-eval-after-load 'activities
+        (global-set-key (kbd "C-x C-a C-n") 'activities-new)
+        (global-set-key (kbd "C-x C-a C-d") 'activities-define)
+        (global-set-key (kbd "C-x C-a C-a") 'activities-resume)
+        (global-set-key (kbd "C-x C-a C-s") 'activities-suspend)
+        (global-set-key (kbd "C-x C-a C-k") 'activities-kill)
+        (global-set-key (kbd "C-x C-a RET") 'activities-switch)
+        (global-set-key (kbd "C-x C-a b")   'activities-switch-buffer)
+        (global-set-key (kbd "C-x C-a g")   'activities-revert)
+        (global-set-key (kbd "C-x C-a l")   'activities-list)
+        (global-set-key (kbd "C-x b")       'my-switch-to-buffer)))
+
+;; password-store
+(with-eval-after-load 'password-store
+    (global-set-key (kbd "C-c P c") 'password-store-copy)
+    (global-set-key (kbd "C-c P C") 'password-store-copy-field)
+    (global-set-key (kbd "C-c P g") 'password-store-generate)
+    (global-set-key (kbd "C-c P G") 'password-store-generate-no-symbols)
+    (global-set-key (kbd "C-c P e") 'password-store-edit)
+    (global-set-key (kbd "C-c P r") 'password-store-rename)
+    (global-set-key (kbd "C-c P R") 'password-store-remove)
+    (global-set-key (kbd "C-c P i") 'password-store-insert)
+    (global-set-key (kbd "C-c P P") 'my-password-store-git-push)
+    (global-set-key (kbd "C-c P X") 'my-password-store-reset-gpg-pcscd))
 
 ;;; Prefix
 ;; C-c w : windows
