@@ -5,6 +5,7 @@
 
 ;; fortune : a fortune front-end for Emacs.
 (use-package fortune
+    :defer t
     :preface
     (defun my-fortune ()
         (interactive)
@@ -257,6 +258,7 @@
 
 ;; ibuffer-project : group buffers by custom functions or regexps.
 (use-package ibuffer-project
+    :defer t
     :hook (ibuffer . (lambda ()
                          (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
                          (unless (eq ibuffer-sorting-mode 'project-file-relative)
@@ -383,9 +385,10 @@
 (use-package expreg
     :bind (("C-=" . expreg-expand)
            ("C--" . expreg-contract))
-    :custom (shift-select-mode 'permanent)
-    :hook (text-mode . (lambda ()
-                           (add-to-list 'expreg-functions 'expreg--sentence))))
+    ;; :hook (text-mode . (lambda ()
+    ;;                        (with-eval-after-load 'expreg
+    ;;                            (add-to-list 'expreg-functions 'expreg--sentence))))
+    :custom (shift-select-mode 'permanent))
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
@@ -446,6 +449,7 @@
 
 ;; monkeytype : A typing game/tutor inspired by the open source and community driven monkeytype.com
 (use-package monkeytype
+    :defer t
     :config
     (setq monkeytype-directory
           (expand-file-name "monkeytype" my-etc-dir)))

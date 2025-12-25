@@ -55,12 +55,6 @@ When run interactively:
 ;; `zap-up-to-char' is just better
 (global-set-key [remap zap-to-char] 'zap-up-to-char)
 
-;; ;; useful for C/C++ finding header/impl files (override with eglot)
-;; (with-eval-after-load 'c-ts-mode
-;;     (define-key c-ts-base-mode-map (kbd "C-x C-o") 'ff-find-other-file)
-;;     (with-eval-after-load 'eglot
-;;         (define-key c-ts-base-mode-map (kbd "C-x C-o") 'my-eglot-clangd-find-other-file)))
-
 ;; Use Ctrl+arrow keys to move between windows.
 (windmove-default-keybindings 'control)
 

@@ -4,7 +4,7 @@
 ;;; Code:
 
 ;; needed somehow
-(use-package request)
+;; (use-package request)
 
 ;; hideshow : code folding
 (use-package hideshow

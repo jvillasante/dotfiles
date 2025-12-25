@@ -24,10 +24,10 @@
            minions modus-themes monkeytype multiple-cursors nadvice nov ntlm
            orderless org org-superstar otpp package-lint-flymake password-store
            pdf-view-restore peg persistent-scratch php-mode project python
-           rainbow-delimiters request rmsbolt rust-mode seq so-long soap-client
-           svg track-changes tramp-hlo trashed use-package verb verilog-mode
-           vertico vim-tab-bar vterm vundo web-mode wgrep which-key
-           window-tool-bar xref yaml-mode yasnippet-snippets zig-mode))
+           rainbow-delimiters rmsbolt rust-mode seq so-long soap-client svg
+           track-changes tramp-hlo trashed use-package verb verilog-mode vertico
+           vim-tab-bar vterm vundo web-mode wgrep which-key window-tool-bar xref
+           yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((gptel :url "git@github.com:karthink/gptel.git")
            (deadgrep :url "git@github.com:Wilfred/deadgrep.git")

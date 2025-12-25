@@ -164,13 +164,22 @@
 ;;   <<cb>>  (clipboard)
 ;;   <<n>>, <<1n>>, or <<An>> (for current iteration)
 (use-package dwim-shell-command
-    :preface
+    :defer t
+    ;; :bind (([remap shell-command] . dwim-shell-command)
+    ;;        :map dired-mode-map
+    ;;        ([remap dired-do-async-shell-command] . dwim-shell-command)
+    ;;        ([remap dired-do-shell-command] . dwim-shell-command)
+    ;;        ([remap dired-smart-shell-command] . dwim-shell-command))
+    :config
+    (require 'dwim-shell-commands)
+
     (defun my-dwim-shell-command-extract ()
         "Extract all marked archives (of any kind) using `atool'."
         (interactive)
         (dwim-shell-command-on-marked-files
          "Extract" "atool --extract --subdir --explain '<<f>>'"
          :utils "atool"))
+
     (defun my-dwim-shell-command-convert-to-gif ()
         "Convert all marked videos to optimized gif(s)."
         (interactive)
@@ -178,6 +187,7 @@
          "Convert to gif"
          "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
          :utils "ffmpeg"))
+
     (defun my-dwim-shell-command-dired-rsync (destination)
         "Copy marked Dired files to DESTINATION using rsync.
 DESTINATION can be a local path or a TRAMP-style remote path
@@ -215,15 +225,7 @@ DESTINATION can be a local path or a TRAMP-style remote path
             (dwim-shell-command-on-marked-files
              title-str
              command-str
-             :utils "rsync")))
-    :bind (;; ([remap shell-command]       . dwim-shell-command)
-           ;; ([remap async-shell-command] . dwim-shell-command)
-           :map dired-mode-map
-           ;; ([remap dired-do-shell-command]       . dwim-shell-command)
-           ;; ([remap dired-do-async-shell-command] . dwim-shell-command)
-           ;; ([remap dired-smart-shell-command]    . dwim-shell-command)
-           ("C-c C-r" . my-dwim-shell-command-dired-rsync))
-    :init (require 'dwim-shell-commands))
+             :utils "rsync"))))
 
 (provide 'my-init-shell)
 ;;; my-init-shell.el ends here
