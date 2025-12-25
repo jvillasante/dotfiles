@@ -199,6 +199,9 @@
                                    (cdr (nth 6 (posn-at-point)))))
                    (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
                 (pixel-scroll-precision-interpolate distance-in-pixels)))
+        :bind (([remap scroll-up-command]   . my-pixel-scroll-up-command)
+               ([remap scroll-down-command] . my-pixel-scroll-down-command)
+               ([remap recenter-top-bottom] . my-pixel-recenter-top-bottom))
         :custom ((pixel-scroll-precision-interpolation-factor 0.75)
                  (pixel-scroll-precision-use-momentum nil)
                  (pixel-scroll-precision-interpolate-mice t)
@@ -417,6 +420,7 @@ Run this function at the post theme load phase, such as with the
 ;; ace-window : GNU Emacs package for selecting a window to switch to
 (use-package ace-window
     :disabled t
+    :bind (("C-x o" . ace-window))
     :init (custom-set-faces
            '(aw-leading-char-face
              ((t (:inherit ace-jump-face-foreground :height 4.0)))))

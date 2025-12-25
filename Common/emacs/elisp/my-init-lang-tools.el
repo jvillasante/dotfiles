@@ -24,6 +24,7 @@
                             (eldoc-add-command #'xref-go-back)
                             (eldoc-add-command #'avy-goto-char-timer)
                             (global-eldoc-mode)))
+    :bind (("C-h ." . eldoc))
     :custom
     (eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
     (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
@@ -34,6 +35,9 @@
     :hook ((prog-mode . (lambda ()
                             (which-function-mode)
                             (flymake-mode))))
+    :bind (:map prog-mode-map
+                ("M-n" . flymake-goto-next-error)
+                ("M-p" . flymake-goto-prev-error))
     :custom
     (flymake-suppress-zero-counters t)
     (flymake-no-changes-timeout 3)) ;; Don't be so hasty in syntax checking.
@@ -53,6 +57,7 @@
 
 (use-package eglot
     :ensure nil ;; emacs built-in
+    :defer t
     :preface
     (defun my-eglot-clangd-find-other-file ()
         "Switch between the corresponding C/C++ source and header file."
@@ -74,6 +79,8 @@
                                                  (remove #'flymake-eldoc-function eldoc-documentation-functions)))
                                      ;; Show all eldoc feedback.
                                      (setq eldoc-documentation-strategy #'eldoc-documentation-compose))))
+    :bind (:map c-ts-base-mode-map
+                ("C-x C-o" . my-eglot-clangd-find-other-file))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)
@@ -224,10 +231,12 @@
 
 (use-package compile
     :ensure nil ; Emacs built in
+    :defer t
     :custom
     (compilation-always-kill t))
 
 (use-package fancy-compilation
+    :defer t
     :init
     (with-eval-after-load 'compile
         (fancy-compilation-mode))
@@ -236,6 +245,7 @@
 
 ;; rmsbolt : compiler-explorer for Emacs
 (use-package rmsbolt
+    :defer t
     :custom
     (rmsbolt-automatic-recompile nil))
 

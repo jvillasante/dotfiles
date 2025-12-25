@@ -16,10 +16,23 @@ otherwise use `bufler-switch-buffer'."
                    (not (activities-current)))
                (call-interactively #'consult-buffer))
               (t (call-interactively #'activities-switch-buffer))))
+    :bind (("C-x C-a C-n" . activities-new)
+           ("C-x C-a C-d" . activities-define)
+           ("C-x C-a C-a" . activities-resume)
+           ("C-x C-a C-s" . activities-suspend)
+           ("C-x C-a C-k" . activities-kill)
+           ("C-x C-a RET" . activities-switch)
+           ("C-x C-a b"   . activities-switch-buffer)
+           ("C-x C-a g"   . activities-revert)
+           ("C-x C-a l"   . activities-list)
+           ("C-x b"       . my-switch-to-buffer))
     :hook
     (after-init . (lambda ()
                       (activities-mode)
                       (activities-tabs-mode)))
+    :init
+    ;; Prevent `edebug' default bindings from interfering.
+    (setq edebug-inhibit-emacs-lisp-mode-bindings t)
     :custom
     (activities-bookmark-store nil)
     (activities-kill-buffers t)

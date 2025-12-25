@@ -18,6 +18,7 @@
 
 ;; magit : A Git Porcelain inside Emacs
 (use-package magit
+    :defer t
     :preface
     (defun my-magit-kill-buffers ()
         "Restore window configuration and kill all Magit buffers."
@@ -25,6 +26,12 @@
         (let ((buffers (magit-mode-get-buffers)))
             (magit-restore-window-configuration)
             (mapc #'kill-buffer buffers)))
+    :bind (("C-x g" . magit-status)
+           :map magit-status-mode-map
+           ("q"     . my-magit-kill-buffers)
+           ("C-x k" . my-magit-kill-buffers)
+           :map project-prefix-map
+           ("m" . magit-project-status))
     :custom ((git-commit-summary-max-length 50)
              (git-commit-fill-column 72)
              (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)

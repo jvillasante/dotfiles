@@ -12,6 +12,16 @@
     (defun my-password-store-reset-gpg-pcscd ()
         (interactive)
         (with-editor-async-shell-command "sudo systemctl restart pcscd"))
+    :bind (("C-c P c" . password-store-copy)
+           ("C-c P C" . password-store-copy-field)
+           ("C-c P g" . password-store-generate)
+           ("C-c P G" . password-store-generate-no-symbols)
+           ("C-c P e" . password-store-edit)
+           ("C-c P r" . password-store-rename)
+           ("C-c P R" . password-store-remove)
+           ("C-c P i" . password-store-insert)
+           ("C-c P P" . my-password-store-git-push)
+           ("C-c P X" . my-password-store-reset-gpg-pcscd))
     :custom (password-store-password-length 25))
 
 ;; gnus
@@ -97,11 +107,16 @@
 ;; calc
 (use-package calc-mode
     :ensure nil ;; emacs built-in
+    :defer t
     :config (setq calc-window-height 20))
 
 ;; nov.el : Major mode for reading EPUBs in Emacs
 (use-package nov
     :mode ("\\.epub\\'" . nov-mode)
+    :bind (:map nov-mode-map
+                ;; ("q" . nil)
+                ("n" . next-line)
+                ("p" . previous-line))
     :custom ((nov-text-width 80)
              (nov-variable-pitch nil) ; breaks rendering!
              (nov-save-place-file (expand-file-name "nov-places" my-var-dir))))
@@ -110,6 +125,11 @@
 (use-package pdf-tools
     :defer t
     :hook (pdf-view-mode . pdf-tools-enable-minor-modes)
+    :bind (:map pdf-view-mode-map
+                ("C-v" . pdf-view-next-page)
+                ("M-v" . pdf-view-previous-page)
+                ("n"   . pdf-view-next-line-or-next-page)
+                ("p"   . pdf-view-previous-line-or-previous-page))
     :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode))
 
 ;; pdf-view-restore: open last known pdf position in pdf-view-mode provided by pdf-tools.

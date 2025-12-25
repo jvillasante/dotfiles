@@ -159,19 +159,19 @@
 ;; in favor of `corfu' and `cape' behavior.
 (use-package hippie-exp
     :ensure nil ;; emacs built-in
-    :config
-    (setq hippie-expand-try-functions-list
-          '(yas-hippie-try-expand
-            try-expand-dabbrev
-            try-expand-dabbrev-all-buffers
-            try-expand-dabbrev-from-kill
-            try-complete-file-name-partially
-            try-complete-file-name
-            try-expand-all-abbrevs
-            try-expand-list
-            try-expand-line
-            try-complete-lisp-symbol-partially
-            try-complete-lisp-symbol)))
+    :bind ([remap dabbrev-expand] . hippie-expand)
+    :custom (hippie-expand-try-functions-list
+             '(yas-hippie-try-expand
+               try-expand-dabbrev
+               try-expand-dabbrev-all-buffers
+               try-expand-dabbrev-from-kill
+               try-complete-file-name-partially
+               try-complete-file-name
+               try-expand-all-abbrevs
+               try-expand-list
+               try-expand-line
+               try-complete-lisp-symbol-partially
+               try-complete-lisp-symbol)))
 
 (use-package vertico
     :hook ((after-init . (lambda ()
@@ -182,6 +182,16 @@
            ;; or root '/' directory, Vertico will clear the old path to keep
            ;; only your current input.
            (rfn-eshadow-update-overlay-hook . vertico-directory-tidy))
+    :bind (:map vertico-map
+                ;; ("RET" . vertico-directory-enter)
+                ;; ("DEL" . vertico-directory-delete-word)
+                ("M-d" . vertico-directory-delete-char)
+                ("M-," . vertico-quick-insert)
+                ("M-." . vertico-quick-exit)
+                ("M-G" . vertico-multiform-grid)
+                ("M-F" . vertico-multiform-flat)
+                ("M-R" . vertico-multiform-reverse)
+                ("M-U" . vertico-multiform-unobtrusive))
     :config
     (setq vertico-multiform-categories
           '((embark-keybinding buffer)
@@ -257,6 +267,68 @@
     ;; Enable automatic preview at point in the *Completions* buffer. This is
     ;; relevant when you use the default completion UI.
     :hook (completion-list-mode . consult-preview-at-point-mode)
+    :bind (;; C-c bindings (mode-specific-map)
+           ("C-c M-x" . consult-mode-command)
+           ("C-c h"   . consult-history)
+           ("C-c k"   . consult-kmacro)
+           ("C-c m"   . consult-man)
+           ("C-c i"   . consult-info)
+           ([remap Info-search] . consult-info)
+
+           ;; C-x bindings (ctl-x-map)
+           ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+           ("C-x b"   . consult-buffer)              ;; orig. switch-to-buffer
+           ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+           ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+           ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
+           ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+           ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+           ("C-x C-r" . consult-recent-file)         ;; orig. find-file-readonly
+
+           ;; Custom M-# bindings for fast register access
+           ("M-#"   . consult-register-load)
+           ("M-'"   . consult-register-store) ;; orig. abbrev-prefix-mark (unrelated)
+           ("C-M-#" . consult-register)
+
+           ;; Other custom bindings
+           ("M-y" . consult-yank-pop) ;; orig. yank-pop
+
+           ;; M-g bindings (goto-map)
+           ("M-g e"   . consult-compile-error)
+           ("M-g f"   . consult-flymake)        ;; Alternative: consult-flycheck
+           ("M-g g"   . consult-goto-line)      ;; orig. goto-line
+           ("M-g M-g" . consult-goto-line)      ;; orig. goto-line
+           ("M-g o"   . consult-outline)        ;; Alternative: consult-org-heading
+           ("M-g m"   . consult-mark)
+           ("M-g k"   . consult-global-mark)
+           ("M-g i"   . consult-imenu)
+           ("M-i"     . consult-imenu)
+           ("M-g I"   . consult-imenu-multi)
+           ("M-I"     . consult-imenu-multi)
+
+           ;; M-s bindings (search-map)
+           ("M-s d" . consult-fd)         ;; Alternative: consult-find
+           ("M-s D" . consult-locate)
+           ("M-s g" . consult-grep)
+           ("M-s G" . consult-git-grep)
+           ("M-s r" . consult-ripgrep)
+           ("M-s l" . consult-line)
+           ("M-s L" . consult-line-multi)
+           ("M-s k" . consult-keep-lines)
+           ("M-s u" . consult-focus-lines)
+
+           ;; Isearch integration
+           ("M-s e" . consult-isearch-history)
+           :map isearch-mode-map
+           ("M-e"   . consult-isearch-history) ;; orig. isearch-edit-string
+           ("M-s e" . consult-isearch-history) ;; orig. isearch-edit-string
+           ("M-s l" . consult-line)            ;; needed by consult-line to detect isearch
+           ("M-s L" . consult-line-multi)      ;; needed by consult-line to detect isearch
+
+           ;; Minibuffer history
+           :map minibuffer-local-map
+           ("M-s" . consult-history)   ;; orig. next-matching-history-element
+           ("M-r" . consult-history))  ;; orig. previous-matching-history-element
     :init
     ;; Tweak the register preview for `consult-register-load',
     ;; `consult-register-store' and the built-in commands.  This improves the
@@ -311,7 +383,11 @@
      :preview-key '(:debounce 0.4 any)))
 
 (use-package consult-dir
-    :after consult)
+    :after consult
+    :bind (([remap list-directory] . consult-dir)
+           :map vertico-map
+           ("C-c C-d" . consult-dir)
+           ("C-c C-j" . consult-dir-jump-file)))
 
 ;; consult-xref-stack : Navigate the Xref stack with Consult.
 (use-package consult-xref-stack
@@ -332,6 +408,9 @@
 
 ;; embark : Emacs Mini-Buffer Actions Rooted in Keymaps
 (use-package embark
+    :bind (("C-;"   . embark-act)
+           ("M-;"   . embark-dwim)
+           ("C-h B" . embark-bindings))
     :config
     ;; Optionally replace the key help with a completing-read interface
     (setq prefix-help-command #'embark-prefix-help-command))
@@ -342,13 +421,16 @@
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
-    ;; :config
-    ;; (setq marginalia-annotator-registry
-    ;;       (assq-delete-all 'file marginalia-annotator-registry))
+    ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+    ;; available in the *Completions* buffer, add it to the `completion-list-mode-map'.
+    :bind (:map minibuffer-local-map
+                ("M-A" . marginalia-cycle))
     :hook (emacs-startup . marginalia-mode))
 
 ;; jinx : Enchanted Spell Checker
 (use-package jinx
+    :bind (("M-$"   . jinx-correct)
+           ("C-M-$" . jinx-languages))
     :hook (after-init . (lambda ()
                             (global-jinx-mode)
                             (with-eval-after-load 'vertico
@@ -358,6 +440,8 @@
 (use-package tempel-collection :disabled t :after tempel)
 (use-package tempel
     :disabled t
+    :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
+           ("M-*" . tempel-insert))
     :init
     (setq tempel-path (expand-file-name "tempel-templates" my-etc-dir))
 
@@ -387,6 +471,8 @@
 ;; yasnippet : template system for Emacs
 (use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
+    :bind (("M-+" . yas-expand)
+           ("M-*" . yas-insert-snippet))
     :config (add-to-list 'yas-snippet-dirs
                          (expand-file-name "yasnippet/snippets" my-etc-dir))
     :hook (after-init . yas-global-mode))
@@ -399,6 +485,11 @@
 ;; languagetool : multilingual grammar, style, and spell checker
 (use-package langtool
     :disabled t
+    :bind (("C-x 4 w" . langtool-check)
+           ("C-x 4 W" . langtool-check-done)
+           ("C-x 4 c" . langtool-interactive-correction)
+           ("C-x 4 l" . langtool-switch-default-language)
+           ("C-x 4 4" . langtool-show-message-at-point))
     :config
     (setq langtool-default-language "en-US")
     (setq langtool-java-user-arguments '("-Dfile.encoding=UTF-8"))

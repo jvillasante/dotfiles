@@ -7,13 +7,14 @@
     :defer t
     :vc (:url "git@github.com:karthink/gptel.git"
               :rev :newest)
+    :hook (gptel-post-stream . gptel-auto-scroll)
+    :bind (:map gptel-mode-map
+                ("C-c C-c" . gptel-send))
     :custom
     (gptel-default-mode 'org-mode)
     (gptel-expert-commands t)
     (gptel-track-media t)
     (gptel-include-reasoning 'ignore)
-    :hook
-    (gptel-post-stream . gptel-auto-scroll)
     :config
     (setq
      gptel-model 'gemini-2.5-pro

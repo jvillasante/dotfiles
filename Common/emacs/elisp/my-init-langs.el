@@ -90,6 +90,8 @@
            ("\\.prisma\\'" . prisma-ts-mode)
            ;; More modes defined here...
            )
+    :bind (("M-<up>" . treesit-beginning-of-defun)
+           ("M-<down>" . treesit-end-of-defun))
     :config
     ;; Optional, but recommended. Tree-sitter enabled major modes are
     ;; distinct from their ordinary counterparts.
@@ -156,7 +158,8 @@
 (use-package elisp-mode
     :ensure nil ;; emacs built-in
     :defer t
-    :config (setq lisp-body-indent 4))
+    :bind (("C-h ." . helpful-at-point))
+    :custom (lisp-body-indent 4))
 
 (use-package elisp-demos
     :after elisp-mode
@@ -191,9 +194,11 @@
            "\\.cpp\\'"
            "\\.CPP\\'"
            "\\.inc\\'")
-    :config
-    (setq c-ts-mode-indent-offset 4)
-    (setq c-ts-mode-indent-style #'my-c-ts-indent-style))
+    :bind (:map c-ts-base-mode-map
+                ("C-x C-o" . ff-find-other-file))
+    :custom
+    (c-ts-mode-indent-offset 4)
+    (c-ts-mode-indent-style #'my-c-ts-indent-style))
 
 ;; cmake
 (use-package cmake-mode :defer t)
@@ -252,6 +257,8 @@
     :defer t
     :mode (("\\.[Rr]md\\'" . markdown-mode)
            ("\\.qmd\\'" . markdown-mode))
+    :bind (:map markdown-mode-map
+                ("TAB" . markdown-cycle))
     :init (setq markdown-command "multimarkdown")
     :config (setq markdown-fontify-code-blocks-natively t
                   markdown-fontify-whole-heading-line t

@@ -6,7 +6,8 @@
 ;; ielm : elisp shell
 (use-package ielm
     :ensure nil ;; emacs built-in
-    :init (add-hook 'ielm-mode-hook 'eldoc-mode))
+    :defer t
+    :hook (ielm-mode . eldoc-mode))
 
 ;; eshell : the emacs shell
 (use-package eshell
@@ -19,6 +20,8 @@
         (let ((buf (eshell)))
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
+    :bind (("C-c o e" . eshell)
+           ("C-c o E" . my-eshell-other-window))
     :hook
     (eshell-mode . (lambda ()
                        ;; visual commands
@@ -58,7 +61,9 @@
         (interactive)
         (let ((buf (shell)))
             (switch-to-buffer (other-buffer buf))
-            (switch-to-buffer-other-window buf))))
+            (switch-to-buffer-other-window buf)))
+    :bind (("C-c o s" . shell)
+           ("C-c o S" . my-shell-other-window)))
 
 ;; bash-completion : bash-completion for Emacs
 ;; (use-package bash-completion
@@ -77,6 +82,11 @@
             (warn "File doesn't exist")))
     :hook ((eshell-mode . eat-eshell-mode)
            (eat-exit . (lambda (&rest _) (kill-buffer-and-window))))
+    :bind (("C-c o t" . eat)
+           ("C-c o T" . eat-other-window)
+           :map project-prefix-map
+           ("t" . eat-project)
+           ("T" . eat-project-other-window))
     :init
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
@@ -114,6 +124,19 @@
     :hook ((vterm-copy-mode . (lambda ()
                                   (set-buffer-modified-p (not (buffer-modified-p)))
                                   (force-mode-line-update))))
+    :bind (("C-c o t" . vterm)
+           ("C-c o T" . vterm-other-window)
+           :map vterm-copy-mode-map
+           ("<return>" . my-vterm-copy-mode-cancel)
+           ("RET"      . my-vterm-copy-mode-cancel)
+           :map vterm-mode-map
+           ("<insert>" . ignore)
+           ("C-g"      . vterm-send-escape)
+           ("M-["      . vterm-copy-mode)
+           ("C-q"      . vterm-send-next-key)
+           :map project-prefix-map
+           ("t" . my-vterm-project)
+           ("T" . my-vterm-project-other-window))
     :config
     (add-to-list 'vterm-eval-cmds '("dired" dired))
     (add-to-list 'project-switch-commands '(my-vterm-project "vTerm") t)
@@ -193,11 +216,14 @@ DESTINATION can be a local path or a TRAMP-style remote path
              title-str
              command-str
              :utils "rsync")))
+    :bind (;; ([remap shell-command]       . dwim-shell-command)
+           ;; ([remap async-shell-command] . dwim-shell-command)
+           :map dired-mode-map
+           ;; ([remap dired-do-shell-command]       . dwim-shell-command)
+           ;; ([remap dired-do-async-shell-command] . dwim-shell-command)
+           ;; ([remap dired-smart-shell-command]    . dwim-shell-command)
+           ("C-c C-r" . my-dwim-shell-command-dired-rsync))
     :init (require 'dwim-shell-commands))
-
-;; emamux : Interact with tmux from Emacs.
-(use-package emamux
-    :disabled t)
 
 (provide 'my-init-shell)
 ;;; my-init-shell.el ends here

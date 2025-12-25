@@ -16,6 +16,7 @@
                        (eat-kill-buffer-on-exit nil))
                     (eat-other-window eat-buffer-name args))
             (error "The eat package is not installed")))
+    :bind (("C-c o d" . docker))
     :config
     (setq docker-command "podman"
           docker-compose-command "podman-compose"

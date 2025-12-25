@@ -35,6 +35,7 @@
 ;; http://www.yummymelon.com/devnull/using-ediff-in-2023.html
 (use-package ediff
     :ensure nil ;; emacs built-in
+    :defer t
     :config
     (setq ediff-keep-variants nil) ;; Kill variants upon quitting an Ediff session
     (setq ediff-split-window-function 'split-window-horizontally) ;; Show diffs side-by-side
@@ -57,6 +58,11 @@
 
 (use-package isearch
     :ensure nil ;; emacs built-in
+    :bind (:map isearch-mode-map
+                ([remap isearch-delete-char] . isearch-del-char)
+                ("C-o" . isearch-occur)
+                ("C-n" . isearch-repeat-forward)
+                ("C-p" . isearch-repeat-backward))
     :config
     (setq isearch-resume-in-command-history t)  ; use history for isearch as well
     (setq search-whitespace-regexp ".*?")       ; isearch convenience, space matches anything (non-greedy)
@@ -127,6 +133,7 @@
 ;; tramp : Transparent Remote Access, Multiple Protocols
 (use-package tramp
     :ensure nil ;; emacs built-in
+    :defer t
     :init
     ;; Fix remote compile
     (with-eval-after-load 'tramp
@@ -218,6 +225,15 @@
     :hook (ibuffer-mode . (lambda ()
                               (hl-line-mode)
                               (ibuffer-auto-mode)))
+    :bind (([remap list-buffers] . ibuffer)
+           :map ibuffer-mode-map
+           ("{" . ibuffer-backwards-next-marked)
+           ("}" . ibuffer-forward-next-marked)
+           ("[" . ibuffer-backward-filter-group)
+           ("]" . ibuffer-forward-filter-group)
+           ("$" . ibuffer-toggle-filter-group)
+           ("<double-mouse-1>" . ibuffer-visit-buffer)
+           ("M-<double-mouse-1>" . ibuffer-visit-buffer-other-window))
     :config
     (setq ibuffer-expert t)
     (setq ibuffer-display-summary nil)
@@ -278,10 +294,52 @@
     :custom (vundo-compact-display t))
 
 ;; helpful : better help buffers
-(use-package helpful)
+(use-package helpful
+    :bind (([remap describe-function] . helpful-callable)
+           ([remap describe-variable] . helpful-variable)
+           ([remap describe-command]  . helpful-command)
+           ([remap describe-key]      . helpful-key)
+           ([remap describe-symbol]   . helpful-symbol)
+           ("C-c C-d"                 . helpful-at-point)
+           ("C-h F"                   . helpful-function)
+           ("C-h K"                   . describe-keymap)))
 
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
-(use-package crux)
+(use-package crux
+    :bind (("C-k"              . crux-smart-kill-line)
+           ("M-o"              . crux-smart-open-line-above)
+           ("C-o"              . crux-smart-open-line)
+           ;; ("C-c n"         . crux-cleanup-buffer-or-region)
+           ;; ("C-c f"         . crux-recentf-find-file)
+           ;; ("C-c F"         . crux-recentf-find-directory)
+           ;; ("C-c u"         . crux-view-url)
+           ;; ("C-c e"         . crux-eval-and-replace)
+           ("C-x 4 t"          . crux-transpose-windows)
+           ("C-c D"            . crux-delete-file-and-buffer)
+           ;; ("C-c c"         . crux-copy-file-preserve-attributes)
+           ;; ("C-c d"         . crux-duplicate-current-line-or-region)
+           ;; ("C-c M-d"       . crux-duplicate-and-comment-current-line-or-region)
+           ("C-x x R"          . crux-rename-buffer-and-file)
+           ;; ("C-c t"         . crux-visit-term-buffer)
+           ;; ("C-c k"         . crux-kill-other-buffers)
+           ;; ("C-M-z"         . crux-indent-defun)
+           ;; ("C-c TAB"       . crux-indent-rigidly-and-copy-to-clipboard)
+           ;; ("C-c i"         . crux-find-user-init-file)
+           ;; ("C-c I"         . crux-find-user-custom-file)
+           ;; ("C-c S"         . crux-find-shell-init-file)
+           ;; ("C-^"           . crux-top-join-line)
+           ;; ("C-<backspace>" . crux-kill-line-backwards)
+           ;; ("C-S-Backspace" . crux-kill-and-join-forward)
+           ;; ("C-c P"         . crux-kill-buffer-truename)
+           ;; ("C-c s"         . crux-ispell-word-then-abbrev)
+           ;; ("C-x C-u"       . crux-upcase-region)
+           ;; ("C-x C-l"       . crux-downcase-region)
+           ;; ("C-x M-c"       . crux-capitalize-region)
+           ;; ("m-o"           . crux-other-window-or-switch-buffer)
+           ;; ("C-c w"         . crux-swap-windows)
+           ;; ("C-c o"         . crux-open-with)
+           ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+           ([remap kill-whole-line]        . crux-kill-whole-line)))
 
 ;; scratch : create scratch buffers
 (use-package scratch
@@ -306,16 +364,25 @@
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
+    :bind (("M-j"     . avy-goto-char-timer)
+           ("C-c C-j" . avy-resume)
+           :map isearch-mode-map
+           ("M-j" . avy-isearch))
     :custom
     (avy-orders-alist
      '((avy-goto-char-timer . avy-order-closest)
        (avy-goto-line . avy-order-closest))))
 
 ;; Expand Region : expand or contract selection
-(use-package expand-region :disabled t)
+(use-package expand-region
+    :disabled t
+    :bind (("C-=" . er/expand-region)
+           ("C--" . er/contract-region)))
 
 ;; Expreg : like expand-region but nicer
 (use-package expreg
+    :bind (("C-=" . expreg-expand)
+           ("C--" . expreg-contract))
     :custom (shift-select-mode 'permanent)
     :hook (text-mode . (lambda ()
                            (add-to-list 'expreg-functions 'expreg--sentence))))
@@ -327,68 +394,52 @@
 
 ;; easy-kill : Kill & Mark Things Easily in Emacs
 (use-package easy-kill
-    :disabled t)
+    :disabled t
+    :bind (([remap kill-ring-save] . easy-kill)
+           ([remap mark-sexp]      . easy-mark)))
 
 ;; multiple-cursors: Multiple cursors for Emacs
 (use-package multiple-cursors
     :defer t
+    :bind (("H-SPC"       . set-rectangular-region-anchor)
+           ("C-M-SPC"     . set-rectangular-region-anchor)
+           ("C->"         . mc/mark-next-like-this)
+           ("C-<"         . mc/mark-previous-like-this)
+           ("C-c C->"     . mc/mark-all-like-this)
+           ("C-S-c C-S-c" . mc/edit-lines))
     :config (setq mc/list-file (expand-file-name "mc-list.el" my-var-dir)))
 
 ;;; wgrep (writable grep)
 ;; See the `grep-edit-mode' for the new built-in feature.
 (unless (>= emacs-major-version 31)
     (use-package wgrep
-        :after grep
+        :bind (:map grep-mode-map
+                    ("e"       . wgrep-change-to-wgrep-mode)
+                    ("C-x C-q" . wgrep-change-to-wgrep-mode)
+                    ("C-c C-c" . wgrep-finish-edit))
         :custom
         (wgrep-auto-save-buffer t)
         (wgrep-change-readonly-file t)))
-
-;; rg.el : Use ripgrep in Emacs.
-(use-package rg
-    :disabled t
-    :after wgrep
-    :preface
-    (defun my-rg-save-search-as-name ()
-        "Save `rg' buffer with contents of current search.
-
-        This function is meant to be mmapped in `rg-mode-map'."
-        (interactive)
-        (let ((pattern (car rg-pattern-history)))
-            (rg-save-search-as-name (concat "" "*" pattern "*"))))
-    :hook (after-init . (lambda ()
-                            (rg-enable-default-bindings)
-                            (rg-define-search my-grep-vc-or-dir
-                                              :query ask
-                                              :format regexp
-                                              :files "everything"
-                                              :dir (let ((vc (vc-root-dir)))
-                                                       (if vc
-                                                               vc
-                                                           default-directory))
-                                              :confirm prefix
-                                              :flags ("--hidden --follow -g !.git"))))
-    :custom
-    (rg-ignore-ripgreprc t)
-    (rg-ignore-case 'smart)
-    (rg-group-result t)
-    (rg-hide-command t)
-    (rg-show-columns t)
-    (rg-show-header t)
-    (rg-custom-type-aliases nil)
-    (rg-default-alias-fallback "all")
-    (rg-command-line-flags '("--hidden" "--follow" "-g !.git")))
 
 ;; deadgrep : use ripgrep from Emac
 (use-package deadgrep
     :vc (:url "git@github.com:Wilfred/deadgrep.git"
               :rev :newest)
+    :bind (("M-s R" . deadgrep) ; extend M-s r (consult-ripgrep)
+           :map deadgrep-mode-map
+           ("e"       . deadgrep-edit-mode)
+           ("C-x C-q" . deadgrep-edit-mode)
+           :map deadgrep-edit-mode-map
+           ("C-c C-c" . deadgrep-mode))
     :custom (deadgrep-extra-arguments
              '("--no-config"   ;; don't use global config
                "--hidden"      ;; consider hidden folders/files
                "--follow")))   ;; follow symlinks
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
-(use-package surround :disabled t)
+(use-package surround
+    :disabled t
+    :bind (("M-'" . surround-keymap)))
 
 ;; emacs-everywhere : use emacs everywhere
 (use-package emacs-everywhere :disabled t)
@@ -402,12 +453,14 @@
 ;; devdocs.el : Emacs viewer for DevDocs
 (use-package devdocs
     :disabled t
+    :bind (("C-h D" . devdocs-lookup))
     :custom (devdocs-data-dir
              (expand-file-name "devdocs" my-var-dir)))
 
 ;; devdocs-browser : Browse devdocs.io documents inside Emacs!
 (use-package devdocs-browser
     :defer t
+    :bind (("C-h D" . devdocs-browser-open))
     :custom
     (devdocs-data-dir (expand-file-name  "devdocs-browser" my-var-dir))
     (devdocs-browser-cache-directory (expand-file-name  "devdocs-browser/cache" my-var-dir))

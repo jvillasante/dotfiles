@@ -42,6 +42,10 @@
            (sql . t)
            (sqlite . t))))
     :hook ((org-mode . my-org-setup))
+    :bind (:map org-mode-map
+                ([remap fill-paragraph] . my-org-fill-or-unfill)
+                ("M-n" . org-next-visible-heading)
+                ("M-p" . org-previous-visible-heading))
     :config
     (setq org-directory (expand-file-name "Apps/org" my-dropbox-path))
     (setq org-id-locations-file (file-name-concat org-directory ".orgids"))
@@ -140,7 +144,9 @@
 
 ;; verb :: allows you to organize and send HTTP requests.
 (use-package verb
-    :after org)
+    :after org
+    :bind (:map org-mode-map
+                ("C-c C-r" . verb-command-map)))
 
 (provide 'my-init-org)
 ;;; my-init-org.el ends here

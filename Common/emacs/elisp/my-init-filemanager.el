@@ -13,6 +13,10 @@
                             (dired-hide-details-mode)
                             (unless (file-remote-p default-directory)
                                 (auto-revert-mode))))
+    :bind (:map dired-mode-map
+                ("C-<return>" . dired-do-open)
+                ;; ("q"          . my-close-buffer-and-window)
+                ("e"          . dired-toggle-read-only))
     :config
     (setq dired-free-space nil
           dired-deletion-confirmer 'y-or-n-p
@@ -81,6 +85,8 @@
 ;; dired-x : dired eXtenxions
 (use-package dired-x
     :ensure nil ;; emacs built-in
+    :bind (:map dired-mode-map
+                ("." . dired-omit-mode))
     :config
     (setq dired-omit-extensions
           (append dired-latex-unclean-extensions
@@ -121,6 +127,7 @@
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
+    :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
     (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
@@ -146,6 +153,9 @@
                                 (neotree-find file-name)))
                 (message "Could not find project root."))))
     :hook ((neotree-mode . hl-line-mode))
+    :bind (("C-x C-n" . my-neotree-project-dir)
+           :map neotree-mode-map
+           ("." . neotree-hidden-file-toggle))
     :config
     (setq neo-theme 'ascii)
     (setq neo-window-width 48)
