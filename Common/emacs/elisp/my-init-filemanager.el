@@ -120,13 +120,12 @@
 
 ;; Addtional syntax highlighting for dired
 (use-package diredfl
-    :hook
-    ((dired-mode . diredfl-mode))
-    :config
-    (set-face-attribute 'diredfl-dir-name nil :bold t))
+    :after dired
+    :hook (dired-mode . diredfl-mode))
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
+    :after dired
     :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
@@ -135,64 +134,6 @@
     (setq dired-sidebar-width 48)
     (setq dired-sidebar-window-fixed nil)
     (setq dired-sidebar-use-term-integration t))
-
-(use-package neotree
-    :disabled t
-    :preface
-    (defun my-neotree-project-dir ()
-        "Open NeoTree using project root."
-        (interactive)
-        (let ((project-dir (or (when-let ((project (project-current))) (project-root project))
-                               default-directory))
-              (file-name (buffer-file-name)))
-            (neotree-toggle)
-            (if project-dir
-                    (if (neo-global--window-exists-p)
-                            (progn
-                                (neotree-dir project-dir)
-                                (neotree-find file-name)))
-                (message "Could not find project root."))))
-    :hook ((neotree-mode . hl-line-mode))
-    :bind (("C-x C-n" . my-neotree-project-dir)
-           :map neotree-mode-map
-           ("." . neotree-hidden-file-toggle))
-    :config
-    (setq neo-theme 'ascii)
-    (setq neo-window-width 48)
-    (setq neo-smart-open t)
-    (setq neo-create-file-auto-open nil)
-    (setq neo-show-updir-line t)
-    (setq neo-show-hidden-files t)
-    (setq neo-auto-indent-point nil)
-    (setq neo-vc-integration nil)
-    (setq neo-autorefresh nil)
-    (setq neo-mode-line-type 'neotree)
-    (setq neo-banner-message nil)
-    (setq neo-confirm-create-file #'off-p)
-    (setq neo-confirm-create-directory #'off-p)
-    (setq neo-keymap-style 'concise)
-    (setq neo-hidden-regexp-list
-          '(;; vcs folders
-            "^\\.\\(?:git\\|hg\\|svn\\)$"
-            ;; compiled files
-            "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
-            ;; generated files, caches or local pkgs
-            "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
-            ;; org-mode folders
-            "^\\.\\(?:sync\\|export\\|attach\\)$"
-            ;; temp files
-            "~$"
-            "^#.*#$"
-            ;; Others
-            "^\\.\\(cache\\|tox\\|coverage\\)$"
-            "^\\.\\(DS_Store\\|python\\-version\\)"
-            "^\\(htmlcov\\)$" "\\.elcs$"
-            "^\\.coverage\\..*" "\\.ipynb.*$" "\\.py[cod]$"
-            "^\\.#.*$" "^__pycache__$"
-            "\\.gcda$" "\\.gcov$" "\\.gcno$" "\\.lo$" "\\.o$" "\\.so$"
-            "^\\.cproject$" "^\\.project$" "^\\.projectile$"
-            "^\\.log$"
-            "\\.egg\-info$")))
 
 ;; trashed : Viewing/editing system trash can in Emacs
 (use-package trashed
