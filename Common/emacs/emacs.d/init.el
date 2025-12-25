@@ -18,7 +18,7 @@
     :ensure nil ;; emacs built-in
     :custom ((use-package-verbose t)
              (use-package-vc-prefer-newest t)
-             (use-package-compute-statistics t) ; use `use-package-report'
+             (use-package-compute-statistics nil) ; use `use-package-report'
              (use-package-always-ensure t)
              (use-package-expand-minimally t)))
 
