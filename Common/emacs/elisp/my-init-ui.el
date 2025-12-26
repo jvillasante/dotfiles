@@ -266,16 +266,16 @@
     :ensure nil ;; emacs built-in
     :hook ((after-init . tab-bar-mode)
            (pre-command . tab-bar-history-mode))
-    :config
-    (setq tab-bar-show 1                           ;; hide bar if <= 1 tabs open
-          tab-bar-new-button nil                   ;; hide button for creating new tabs
-          tab-bar-close-button nil                 ;; hide tab close / X button
-          tab-bar-history-limit 100                ;; the number of history elements
-          tab-bar-new-tab-choice "*scratch*"       ;; buffer to show in new tabs
-          tab-bar-tab-hints t                      ;; show tab numbers
-          tab-bar-auto-width nil                   ;; do not resize tabs
-          tab-bar-format '(tab-bar-format-tabs     ;; elements to include in bar
-                           tab-bar-separator)))
+    :custom
+    (tab-bar-show t)                           ;; always show tab-bar
+    (tab-bar-new-button nil)                   ;; hide button for creating new tabs
+    (tab-bar-close-button nil)                 ;; hide tab close / X button
+    (tab-bar-history-limit 100)                ;; the number of history elements
+    (tab-bar-new-tab-choice "*scratch*")       ;; buffer to show in new tabs
+    (tab-bar-tab-hints t)                      ;; show tab numbers
+    (tab-bar-auto-width nil)                   ;; do not resize tabs
+    (tab-bar-format '(tab-bar-format-tabs      ;; elements to include in bar
+                      tab-bar-separator)))
 
 ;; vim-tab-bar : A Vim-Inspired Emacs Tab-Bar That Automatically Adapts to Any Theme
 (use-package vim-tab-bar
