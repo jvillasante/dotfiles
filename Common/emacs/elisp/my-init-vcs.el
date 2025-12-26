@@ -35,7 +35,6 @@
     :custom ((git-commit-summary-max-length 50)
              (git-commit-fill-column 72)
              (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
-             (magit-define-global-key-bindings nil)
              (magit-diff-refine-hunk 'all) ; show word-granularity differences within diff hunks.
              (magit-save-repository-buffers nil)
              (magit-define-global-key-bindings nil)))
