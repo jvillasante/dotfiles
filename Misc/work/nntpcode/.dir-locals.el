@@ -8,12 +8,12 @@
                           (proj-name (file-name-nondirectory (directory-file-name proj-dir)))
                           (buf-name (format "*vterm-%s*" proj-name))
                           (v-buf (get-buffer buf-name))
-                          (is-running (format "podman inspect -f '{{.State.Running}}' nntp-%s 2>/dev/null" proj-name))
+                          (is-running (format "podman inspect -f '{{.State.Running}}' %s 2>/dev/null" proj-name))
                           (podman-run-cmd
                            (concat "podman run --user nntpuser --rm -it "
                                    (format "--volume %s:/tmp/nntpcode:rw,z " proj-dir)
                                    "--userns=keep-id -w /tmp/nntpcode "
-                                   (format "--name nntp-%s " proj-name)
+                                   (format "--name %s " proj-name)
                                    "localhost/nntp:latest /bin/bash"))
                           (build-setup-cmd
                            (concat "if [ \"$(basename \"$PWD\")\" != \"build\" ]; then "

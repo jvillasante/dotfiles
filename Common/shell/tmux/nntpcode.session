@@ -18,7 +18,7 @@ configure() {
     tmux send-keys -t "$unique_name" \
          "podman run --user nntpuser --rm --interactive --tty " \
          "--volume $selected:/tmp/nntpcode:rw,z --userns=keep-id -w /tmp/nntpcode " \
-         "--name 'nntp-$selected_name' localhost/nntp:latest /bin/bash" Enter
+         "--name '$selected_name' localhost/nntp:latest /bin/bash" Enter
     tmux send-keys -t "$unique_name" "mkdir build && cd build && ln -s ../Makefile" Enter
     tmux send-keys -t "$unique_name" "clear" Enter
 }
