@@ -90,8 +90,9 @@ When run interactively:
 ;; (global-set-key (kbd "M-o") 'my-open-previous-line)
 
 ;; better comment/un-comment
-(global-set-key (kbd "M-;") 'my-comment-or-uncomment)
-(global-set-key (kbd "C-x C-;") 'my-comment-or-uncomment)
+;; (global-set-key (kbd "M-;") 'my-comment-or-uncomment)
+;; (global-set-key (kbd "C-x C-;") 'my-comment-or-uncomment)
+(global-set-key (kbd "C-x C-;") 'comment-dwim)
 
 ;; fill-unfill
 (define-key global-map [remap fill-paragraph] 'my-fill-or-unfill)
