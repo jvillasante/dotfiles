@@ -365,6 +365,7 @@
             "https://selfboot.cn/en/atom.xml"
             "https://morwenn.github.io/feed.xml"
             ;; More
+            ("https://jointhefreeworld.org/rss.xml" lisp scheme dev)
             ("https://veitner.bearblog.dev/feed/" c c++ misc)
             ("https://mazzo.li/rss.xml" c low-level unix)
             ("https://simblob.blogspot.com/feeds/posts/default" gamedev math algorithms)
