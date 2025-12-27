@@ -77,6 +77,7 @@
                                      (setq eldoc-documentation-functions
                                            (cons #'flymake-eldoc-function
                                                  (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+
                                      ;; Show all eldoc feedback.
                                      (setq eldoc-documentation-strategy #'eldoc-documentation-compose))))
     :bind (:map c-ts-base-mode-map
