@@ -3,31 +3,10 @@
 ;;
 ;;; Code:
 
-;; fortune : a fortune front-end for Emacs.
-(use-package fortune
-    :defer t
-    :preface
-    (defun my-fortune ()
-        (interactive)
-        (when (executable-find "fortune")
-            (switch-to-buffer (make-temp-name "fortune"))
-            (shell-command "fortune" t)
-            (concat (buffer-string) "\n")))
-    ;; :init
-    ;; (when (executable-find "fortune")
-    ;;     (setq initial-scratch-message
-    ;;           (with-temp-buffer
-    ;;               (shell-command "fortune" t)
-    ;;               (let ((comment-start ";;"))
-    ;;                   (comment-region (point-min) (point-max)))
-    ;;               (concat (buffer-string) "\n"))))
-    :config
-    (setq fortune-dir "/usr/share/games/fortune")
-    (setq fortune-file "/usr/share/games/fortune/fortunes"))
-
-;; persistent-scratch : preserves the state of scratch buffers across Emacs sessions
-(use-package persistent-scratch
-    :hook (after-init . persistent-scratch-setup-default))
+(use-package kmacro
+    :ensure nil ;; emacs built-in
+    :bind (([remap kmacro-start-macro] . kmacro-start-macro-or-insert-counter)
+           ([remap kmacro-end-macro] . kmacro-end-or-call-macro)))
 
 (use-package re-builder
     :ensure nil ;; emacs built-in
@@ -283,6 +262,32 @@
                          (ibuffer-vc-set-filter-groups-by-vc-root)
                          (unless (eq ibuffer-sorting-mode 'alphabetic)
                              (ibuffer-do-sort-by-alphabetic)))))
+
+;; fortune : a fortune front-end for Emacs.
+(use-package fortune
+    :defer t
+    :preface
+    (defun my-fortune ()
+        (interactive)
+        (when (executable-find "fortune")
+            (switch-to-buffer (make-temp-name "fortune"))
+            (shell-command "fortune" t)
+            (concat (buffer-string) "\n")))
+    ;; :init
+    ;; (when (executable-find "fortune")
+    ;;     (setq initial-scratch-message
+    ;;           (with-temp-buffer
+    ;;               (shell-command "fortune" t)
+    ;;               (let ((comment-start ";;"))
+    ;;                   (comment-region (point-min) (point-max)))
+    ;;               (concat (buffer-string) "\n"))))
+    :config
+    (setq fortune-dir "/usr/share/games/fortune")
+    (setq fortune-file "/usr/share/games/fortune/fortunes"))
+
+;; persistent-scratch : preserves the state of scratch buffers across Emacs sessions
+(use-package persistent-scratch
+    :hook (after-init . persistent-scratch-setup-default))
 
 ;; undo-fu : Simple, stable linear undo with redo for Emacs.
 (use-package undo-fu
