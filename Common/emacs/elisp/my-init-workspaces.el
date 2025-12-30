@@ -40,7 +40,6 @@ otherwise use `bufler-switch-buffer'."
 
 ;; otpp : One tab per project, with unique names
 (use-package otpp
-    :after project
     :hook (after-init . (lambda ()
                             ;; Enable `otpp-mode` globally
                             (otpp-mode 1)

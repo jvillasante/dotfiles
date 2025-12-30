@@ -72,13 +72,11 @@
 
 ;; dired-subtree
 (use-package dired-subtree
-    :after dired
-    :bind
-    (:map dired-mode-map
-          ("<tab>" . dired-subtree-toggle)
-          ("TAB" . dired-subtree-toggle)
-          ("<backtab>" . dired-subtree-remove)
-          ("S-TAB" . dired-subtree-remove))
+    :bind (:map dired-mode-map
+                ("<tab>" . dired-subtree-toggle)
+                ("TAB" . dired-subtree-toggle)
+                ("<backtab>" . dired-subtree-remove)
+                ("S-TAB" . dired-subtree-remove))
     :config
     (setq dired-subtree-use-backgrounds nil))
 
@@ -120,12 +118,10 @@
 
 ;; Addtional syntax highlighting for dired
 (use-package diredfl
-    :after dired
     :hook (dired-mode . diredfl-mode))
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
-    :after dired
     :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)

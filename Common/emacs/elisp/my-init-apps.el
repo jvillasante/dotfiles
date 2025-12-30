@@ -134,7 +134,6 @@
 
 ;; pdf-view-restore: open last known pdf position in pdf-view-mode provided by pdf-tools.
 (use-package pdf-view-restore
-    :after pdf-tools
     :hook (pdf-view-mode . pdf-view-restore-mode)
     :config (setq pdf-view-restore-filename
                   (expand-file-name "pdf-view-restore" my-var-dir)))

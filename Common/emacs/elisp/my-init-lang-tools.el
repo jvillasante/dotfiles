@@ -45,14 +45,12 @@
 ;; flymake-proselint : use proselint with Emacs built-in Flymake
 (use-package flymake-proselint
     :disabled t
-    :after flymake
     :hook (text-mode . (lambda ()
                            (flymake-mode)
                            (flymake-proselint-setup))))
 
 ;; Elisp packaging requirements
 (use-package package-lint-flymake
-    :after flymake
     :hook (flymake-diagnostic-functions . package-lint-flymake))
 
 (use-package eglot
@@ -139,7 +137,6 @@
 ;; eglot-inactive-regions : Eglot extension to visually style inactive pre-processor branches
 (use-package eglot-inactive-regions
     :disabled t
-    :after eglot
     :custom
     (eglot-inactive-regions-style 'darken-foreground)
     (eglot-inactive-regions-opacity 0.4)
@@ -182,7 +179,6 @@
 ;; optionally
 (use-package lsp-ui
     :disabled t
-    :after lsp-mode
     :commands lsp-ui-mode
     :custom
     (lsp-ui-doc-enable nil)
@@ -201,7 +197,6 @@
 ;; geiser support for guile
 (use-package geiser-guile
     :defer t
-    :after geiser
     :custom (geiser-guile-binary "guile3.0"))
 
 ;; dape : Debug Adapter Protocol for Emacs

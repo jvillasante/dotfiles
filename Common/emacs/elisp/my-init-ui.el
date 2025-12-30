@@ -279,7 +279,6 @@
 
 ;; vim-tab-bar : A Vim-Inspired Emacs Tab-Bar That Automatically Adapts to Any Theme
 (use-package vim-tab-bar
-    :after tab-bar
     :commands vim-tab-bar-mode
     :config (setq vim-tab-bar-show-groups t)
     :hook (after-init . vim-tab-bar-mode))

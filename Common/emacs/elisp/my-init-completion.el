@@ -383,7 +383,6 @@
      :preview-key '(:debounce 0.4 any)))
 
 (use-package consult-dir
-    :after consult
     :bind (([remap list-directory] . consult-dir)
            :map vertico-map
            ("C-c C-d" . consult-dir)
@@ -392,14 +391,12 @@
 ;; consult-xref-stack : Navigate the Xref stack with Consult.
 (use-package consult-xref-stack
     :disabled t
-    :after consult
     :vc (:url "git@github.com:brett-lempereur/consult-xref-stack.git"
               :rev :newest)
     :bind (("C-," . consult-xref-stack-backward)))
 
 ;; consult-notes : select notes via consult
 (use-package consult-notes
-    :after consult
     :config
     (setq consult-notes-file-dir-sources
           `(("Org"    ?o ,(expand-file-name "Apps/org"       my-dropbox-path))
@@ -478,16 +475,14 @@
 ;; yasnippet : template system for Emacs
 (use-package yasnippet-snippets :after yasnippet)
 (use-package yasnippet
+    :hook (after-init . yas-global-mode)
     :bind (("M-+" . yas-expand)
            ("M-*" . yas-insert-snippet))
     :config (add-to-list 'yas-snippet-dirs
-                         (expand-file-name "yasnippet/snippets" my-etc-dir))
-    :hook (after-init . yas-global-mode))
+                         (expand-file-name "yasnippet/snippets" my-etc-dir)))
 
 ;; yasnippet-capf
-(use-package yasnippet-capf
-    :disabled t
-    :after cape)
+(use-package yasnippet-capf :disabled t)
 
 ;; languagetool : multilingual grammar, style, and spell checker
 (use-package langtool

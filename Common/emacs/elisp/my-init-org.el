@@ -78,7 +78,6 @@
 
 (use-package org-capture
     :ensure nil ;; emacs built-in
-    :after org
     :init
     ;; when refiling from org-capture, Emacs prompts to kill the
     ;; underlying, modified buffer. This fixes that.
@@ -99,7 +98,6 @@
 
 (use-package org-agenda
     :ensure nil ;; emacs built-in
-    :after org
     :config
     ;; org-agenda will visit all org files listed
     ;; in `org-agenda-files' to generate the org-agenda view.
@@ -130,8 +128,7 @@
             (search . " %i %-12:c"))))
 
 (use-package org-superstar
-    :after org
-    :init (add-hook 'org-mode-hook (lambda () (org-superstar-mode)))
+    :hook (org-mode . org-superstar-mode)
     :config
     ;; (setq org-superstar-remove-leading-stars t)
     ;; (setq org-superstar-leading-bullet ?\s)
@@ -144,7 +141,6 @@
 
 ;; verb :: allows you to organize and send HTTP requests.
 (use-package verb
-    :after org
     :bind (:map org-mode-map
                 ("C-c C-r" . verb-command-map)))
 
