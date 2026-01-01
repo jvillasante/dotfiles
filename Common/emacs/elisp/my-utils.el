@@ -79,6 +79,41 @@ Example:
                 ;; Fallback for files in root or non-file buffers
                 (concat remote local-path)))))
 
+;; Run Interactively or with: (celebrate-new-year 5)
+(defun my-celebrate-new-year (seconds)
+    "Count down from SECONDS and print a colorful message. Press 'q' to exit."
+    (interactive "nCountdown seconds: ")
+    (let ((buf (get-buffer-create "*New Year Celebration*")))
+        (switch-to-buffer buf)
+        (read-only-mode -1)
+        (erase-buffer)
+
+        ;; Define a local key to quit the buffer
+        (local-set-key (kbd "q") (lambda () (interactive) (kill-buffer (current-buffer))))
+
+        ;; Countdown by seconds
+        (while (> seconds 0)
+            (erase-buffer)
+            (insert (format "\n\n   Countdown: %d\n\n   (Press 'q' at any time to close)" seconds))
+            (sit-for 1)
+            (setq seconds (1- seconds))
+
+            ;; Check if buffer still exists (in case user pressed 'q' during countdown)
+            (unless (get-buffer buf) (setq seconds 0)))
+
+        ;; The Animated Celebration
+        (when (get-buffer buf)
+            (let ((message "✨ HAPPY NEW YEAR! ✨")
+                  (colors '("red" "orange" "yellow" "green" "cyan" "magenta" "violet")))
+                (dotimes (i 50) ; Animation loop
+                    (when (get-buffer buf)
+                        (erase-buffer)
+                        (insert "\n\n   ")
+                        (let ((current-color (nth (mod i (length colors)) colors)))
+                            (insert (propertize message 'face `(:foreground ,current-color :weight bold :height 2.5))))
+                        (insert "\n\n   Press 'q' to exit.")
+                        (sit-for 0.15)))))))
+
 ;;; VCS
 
 (defun my-project-todos ()
