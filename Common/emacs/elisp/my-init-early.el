@@ -7,6 +7,10 @@
 (when (boundp 'pgtk-wait-for-event-timeout)
     (setq pgtk-wait-for-event-timeout nil))
 
+;; TODO: Research how to use this more!
+;; (when (eq window-system 'pgtk)
+;;   (pgtk-set-monitor-scale-factor "DP-1" 2.0))
+
 ;; make IO better
 (setq process-adaptive-read-buffering nil)
 (setq read-process-output-max (* 10 1024 1024)) ;; 10mb

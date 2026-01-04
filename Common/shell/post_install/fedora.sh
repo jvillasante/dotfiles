@@ -331,6 +331,7 @@ fedora_install() {
                 # Wayland stuff
                 if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
                     sudo dnf install -y egl-wayland egl-wayland-devel wl-clipboard
+                    sudo dnf install -y wayland-utils
                     sudo dnf install -y ydotool wtype
 
                     # dependencies needed for https://sr.ht/~geb/dotool/
