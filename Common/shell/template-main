@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# --- 1. SETTINGS AND SAFETY ---
+# --- SETTINGS AND SAFETY ---
 set -o errexit     # Exit immediately if a command exits with a non-zero status.
 set -o nounset     # Treat unset variables as an error.
 set -o pipefail    # If any command in a pipeline fails, that return code is used.
@@ -15,7 +15,7 @@ if [[ -z "${BASH_VERSION}" ]]; then
     exit 1
 fi
 
-# --- 2. HELP AND ARGUMENT PARSING ---
+# --- HELP AND ARGUMENT PARSING ---
 
 SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_NAME
@@ -30,14 +30,14 @@ This is an awesome bash script to make your life better.
     exit 0 # Use '0' for clean help exit
 fi
 
-# --- 3. INITIALIZATION ---
+# --- INITIALIZATION ---
 
 # Move into the directory containing the script.
 # This ensures all relative paths referenced within the script are correct.
 # Note: It uses the directory of the SCRIPT being EXECUTED, not the sourced file.
 cd "$(dirname "$0")" || exit 1
 
-# --- 4. MAIN EXECUTION ---
+# --- MAIN EXECUTION ---
 
 main() {
     # Define local variables here if needed
