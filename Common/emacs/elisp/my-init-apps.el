@@ -112,6 +112,7 @@
 
 ;; nov.el : Major mode for reading EPUBs in Emacs
 (use-package nov
+    :defer t
     :mode ("\\.epub\\'" . nov-mode)
     :bind (:map nov-mode-map
                 ;; ("q" . nil)
@@ -124,13 +125,13 @@
 ;; pdf-tools: replacement of DocView for PDF files
 (use-package pdf-tools
     :defer t
+    :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
     :hook (pdf-view-mode . pdf-tools-enable-minor-modes)
     :bind (:map pdf-view-mode-map
                 ("C-v" . pdf-view-next-page)
                 ("M-v" . pdf-view-previous-page)
                 ("n"   . pdf-view-next-line-or-next-page)
-                ("p"   . pdf-view-previous-line-or-previous-page))
-    :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode))
+                ("p"   . pdf-view-previous-line-or-previous-page)))
 
 ;; pdf-view-restore: open last known pdf position in pdf-view-mode provided by pdf-tools.
 (use-package pdf-view-restore

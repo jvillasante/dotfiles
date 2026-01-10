@@ -223,8 +223,7 @@
 ;; whitespace : visualize blanks (tabs, spaces, newline, etc)
 (use-package whitespace
     :ensure nil ;; emacs built-in
-    :init
-    (global-whitespace-mode)
+    :hook (after-init . global-whitespace-mode)
     :config
     ;; Don't enable whitespace for
     (setq-default whitespace-global-modes

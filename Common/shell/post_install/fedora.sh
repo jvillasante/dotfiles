@@ -304,6 +304,9 @@ fedora_install() {
                 sudo dnf install -y smem
                 # sudo dnf install -y atop below btop nvtop
 
+                # PDF
+                sudo dnf install -y mupdf mupdf-devel mupdf-libs
+
                 # IO Stuff
                 sudo dnf install -y libaio libaio-devel
                 sudo dnf install -y liburing liburing-devel
