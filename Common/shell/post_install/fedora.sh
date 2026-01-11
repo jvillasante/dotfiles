@@ -359,6 +359,9 @@ fedora_install() {
                 # sudo dnf copr enable atim/lazygit -y
                 # sudo dnf install -y lazygit
 
+                # dtach: emulates the detach feature of screen
+                sudo dnf install -y dtach
+
                 # tmux: A terminal multiplexer
                 sudo dnf install -y tmux
 
