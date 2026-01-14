@@ -140,6 +140,7 @@ do_borg_backup() {
         --exclude '/home/*/Workspace/Work/Omicron/Projects/nntpcode/build' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/bin/' \
         --exclude '/home/*/Workspace/Private/Projects/cpp/**/build/' \
+        --exclude '/home/*/Workspace/Private/Projects/cpp/**/.cache/' \
         --exclude 're:/*var/cache/' \
         --exclude 're:/*vendor*/' \
         --exclude 're:/*target*/' \

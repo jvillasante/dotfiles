@@ -10,7 +10,7 @@
     :ensure nil ;; emacs built-in
     :hook (dired-mode . (lambda ()
                             (hl-line-mode)
-                            (dired-hide-details-mode)
+                            ;; (dired-hide-details-mode)
                             (unless (file-remote-p default-directory)
                                 (auto-revert-mode))))
     :bind (:map dired-mode-map
