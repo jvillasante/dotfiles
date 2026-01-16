@@ -199,6 +199,31 @@ Otherwise, open the repository's main page."
                     (message "Current line %d is not within any hunk range." current-line)
                     (goto-char (point-min)))))))
 
+;;; LSP
+
+(defun my-eglot-clangd-find-other-file ()
+    "Switch between source and header using clangd, with a fallback to ff-find-other-file."
+    (interactive)
+    (let* ((server (eglot-current-server))
+           ;; Check if the server process command contains "clangd"
+           (is-clangd (and server
+                           (cl-find "clangd" (process-command (jsonrpc--process server))
+                                    :test #'string-match-p))))
+        (if is-clangd
+                (let ((rep (jsonrpc-request
+                            server
+                            :textDocument/switchSourceHeader
+                            (eglot--TextDocumentIdentifier))))
+                    (if (and rep (not (eq rep :null)))
+                            (let ((target-path (eglot--uri-to-path rep)))
+                                (if current-prefix-arg
+                                        (find-file-other-window target-path)
+                                    (find-file target-path)))
+                        ;; Clangd is running but couldn't find the file (e.g. not indexed)
+                        (call-interactively #'ff-find-other-file)))
+            ;; No server or not clangd: use standard Emacs fallback
+            (call-interactively #'ff-find-other-file))))
+
 ;;; Elisp
 
 (defun my-helpful-lookup-symbl-at-point ()

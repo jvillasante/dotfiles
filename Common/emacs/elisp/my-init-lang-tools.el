@@ -56,20 +56,6 @@
 (use-package eglot
     :ensure nil ;; emacs built-in
     :defer t
-    :preface
-    (defun my-eglot-clangd-find-other-file ()
-        "Switch between the corresponding C/C++ source and header file."
-        (interactive)
-        (let* ((server (eglot--current-server-or-lose))
-               (rep
-                (jsonrpc-request
-                 server
-                 :textDocument/switchSourceHeader
-                 (eglot--TextDocumentIdentifier))))
-            (unless (equal rep nil)
-                (if (equal current-prefix-arg nil)
-                        (funcall #'find-file (eglot--uri-to-path rep))
-                    (funcall #'find-file-other-window (eglot--uri-to-path rep))))))
     :hook ((eglot-managed-mode . (lambda ()
                                      ;; Show flymake diagnostics first.
                                      (setq eldoc-documentation-functions
