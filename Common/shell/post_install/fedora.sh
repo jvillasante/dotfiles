@@ -706,27 +706,18 @@ fedora_install() {
             10)
                 echo "$CHOICE) Installing App Launcher"
 
-                # KDE has it's own launcher
-                if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-                    #
-                    # Ulauncher
-                    #
+                #
+                # Vicinae
+                #
 
-                    # sudo dnf install -y ulauncher wmctrl
+                # Is it already installed?
+                hash vicinae 2> /dev/null && echo "Vicinae is already installed" && exit 1
 
-                    #
-                    # Vicinae
-                    #
+                # Install
+                curl -fsSL https://vicinae.com/install.sh | bash
 
-                    # Is it already installed?
-                    hash vicinae 2> /dev/null && echo "Vicinae is already installed" && exit 1
-
-                    # Install
-                    curl -fsSL https://vicinae.com/install.sh | bash
-
-                    # Enable and start the service
-                    systemctl --user enable vicinae --now
-                fi
+                # Enable and start the service
+                systemctl --user enable vicinae --now
 
                 read -rp "$CHOICE) Done. Press enter to continue..."
                 ;;
