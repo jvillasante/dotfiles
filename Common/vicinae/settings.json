@@ -9,5 +9,17 @@
 // Learn more about configuration at https://docs.vicinae.com/config
 
 {
-    "$schema": "https://vicinae.com/schemas/config.json"
+   "$schema": "https://vicinae.com/schemas/config.json",
+   "providers": {
+      "applications": {
+         "preferences": {
+            "paths": [
+               "/home/jvillasante/.local/share/applications",
+               "/home/jvillasante/.local/share/flatpak/exports/share/applications",
+               "/usr/local/share/applications",
+               "/usr/share/applications"
+            ]
+         }
+      }
+   }
 }

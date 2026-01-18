@@ -71,6 +71,7 @@
 (load (expand-file-name "Common/emacs/elisp/my-init-modal"         my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-ui"            my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-ai"            my-dotfiles-path))
+;; (load (expand-file-name "Common/emacs/elisp/my-init-icons"         my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-transient"     my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-bindings"      my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/modus-themes-exporter" my-dotfiles-path))

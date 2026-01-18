@@ -21,7 +21,8 @@
            faceup fancy-compilation flymake geiser-guile go-mode gptel helpful
            hl-todo ibuffer-project idlwave jinx js2-mode json-mode jsonrpc
            ledger-mode let-alist lua-mode magit map marginalia markdown-mode
-           minions modus-themes monkeytype multiple-cursors nadvice nov ntlm
+           minions modus-themes monkeytype multiple-cursors nadvice nerd-icons
+           nerd-icons-completion nerd-icons-corfu nerd-icons-dired nov ntlm
            orderless org org-superstar otpp package-lint-flymake password-store
            pdf-view-restore peg persistent-scratch php-mode project python
            rainbow-delimiters rmsbolt rust-mode seq so-long soap-client svg

@@ -126,7 +126,7 @@
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
     (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-    (setq dired-sidebar-theme 'none)
+    (setq dired-sidebar-theme 'ascii)
     (setq dired-sidebar-width 48)
     (setq dired-sidebar-window-fixed nil)
     (setq dired-sidebar-use-term-integration t))
