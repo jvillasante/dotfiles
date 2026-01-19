@@ -75,7 +75,8 @@
     (setq eglot-extend-to-xref nil)
     (setq eglot-sync-connect nil)
     (setq eglot-report-progress t)
-    (setq eglot-confirm-server-edits nil)
+    (setq eglot-confirm-server-edits '((eglot-rename . nil)
+                                       (t . diff)))
     (setq eglot-ignored-server-capabilities
           '(;; :hoverProvider
             ;; :documentHighlightProvider
