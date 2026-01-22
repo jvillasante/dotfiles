@@ -7,7 +7,8 @@
     :defer t
     :vc (:url "git@github.com:karthink/gptel.git"
               :rev :newest)
-    :hook (gptel-post-stream . gptel-auto-scroll)
+    :hook ((gptel-post-stream . gptel-auto-scroll)
+           (gptel-mode . visual-line-mode))
     :bind (:map gptel-mode-map
                 ("C-c C-c" . gptel-send))
     :custom
@@ -17,28 +18,21 @@
     (gptel-include-reasoning 'ignore)
     :config
     (setq
-     gptel-model 'gemini-2.5-pro
+     gptel-model 'gemini-3-flash-preview
      gptel-backend (gptel-make-gemini "Gemini"
                        :key (lambda ()
                                 (password-store-get-field "Work/Omicron/Gemini" "API Key"))
-                       :stream t))
-    (setq
-     ;; gptel-model 'gpt-40
-     gptel-api-key
-     (lambda ()
-         (password-store-get-field "Logins/openai.com" "API Key"))))
+                       :stream t)))
 
 (use-package chatgpt-shell
-    :disabled t
     :defer t
+    :vc (:url "git@github.com:xenodium/chatgpt-shell.git"
+              :rev :newest)
     :custom
-    ((chatgpt-shell-model-version "gemini-2.5-pro")
+    ((chatgpt-shell-model-version "gemini-3-flash-preview")
      (chatgpt-shell-google-key
       (lambda ()
-          (password-store-get-field "Work/Omicron/Gemini" "API Key")))
-     (chatgpt-shell-openai-key
-      (lambda ()
-          (password-store-get-field "Logins/openai.com" "API Key")))))
+          (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here

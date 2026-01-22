@@ -13,24 +13,26 @@
             (size 9 -1 :right) " " (mode 16 16 :left :elide) " "
             project-file-relative)))
  '(package-selected-packages
-      '(adoc-mode anzu apheleia avy bind-key cape cl-generic cl-lib cmake-mode compat
-           consult-dir consult-notes corfu crux csv-mode dape deadgrep
-           devdocs-browser diff-hl dired-sidebar diredfl docker dockerfile-mode
-           dwim-shell-command editorconfig eglot eldoc eldoc-diffstat elfeed
-           elisp-demos embark-consult engine-mode erc expreg external-completion
-           faceup fancy-compilation flymake geiser-guile go-mode gptel helpful
-           hl-todo ibuffer-project idlwave jinx js2-mode json-mode jsonrpc
-           ledger-mode let-alist lua-mode magit map marginalia markdown-mode
-           minions modus-themes monkeytype multiple-cursors nadvice nerd-icons
-           nerd-icons-completion nerd-icons-corfu nerd-icons-dired nov ntlm
-           orderless org org-superstar otpp package-lint-flymake password-store
+      '(adoc-mode anzu apheleia avy bind-key cape chatgpt-shell cl-generic cl-lib
+           cmake-mode compat consult-dir consult-notes corfu crux csv-mode dape
+           deadgrep devdocs-browser diff-hl dired-sidebar diredfl docker
+           dockerfile-mode dwim-shell-command editorconfig eglot eldoc
+           eldoc-diffstat elfeed elisp-demos embark-consult engine-mode erc
+           expreg external-completion faceup fancy-compilation flymake
+           geiser-guile go-mode gptel helpful hl-todo ibuffer-project idlwave
+           jinx js2-mode json-mode jsonrpc ledger-mode let-alist lua-mode magit
+           map marginalia markdown-mode minions modus-themes monkeytype
+           multiple-cursors nadvice nerd-icons nerd-icons-completion
+           nerd-icons-corfu nerd-icons-dired nov ntlm orderless org
+           org-superstar otpp package-lint-flymake password-store
            pdf-view-restore peg persistent-scratch php-mode project python
            rainbow-delimiters rmsbolt rust-mode seq so-long soap-client svg
            track-changes tramp-hlo trashed use-package verb verilog-mode vertico
            vim-tab-bar vterm vundo web-mode wgrep which-key window-tool-bar xref
            yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
-      '((gptel :url "git@github.com:karthink/gptel.git")
+      '((chatgpt-shell :url "git@github.com:xenodium/chatgpt-shell.git")
+           (gptel :url "git@github.com:karthink/gptel.git")
            (deadgrep :url "git@github.com:Wilfred/deadgrep.git")
            (ledger-mode :url "git@github.com:ledger/ledger-mode.git"))))
 (custom-set-faces

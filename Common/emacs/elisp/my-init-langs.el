@@ -238,6 +238,7 @@
 ;; php-mode
 (use-package php-mode
     :defer t
+    :mode ("\\.php\\'")
     :custom ((php-mode-coding-style 'psr2)
              (php-mode-template-compatibility nil)
              (php-imenu-generic-expression 'php-imenu-generic-expression-simple)))
