@@ -28,10 +28,8 @@
 (defconst my-software-path     (expand-file-name "Workspace/Software/"        my-home-path))
 (defconst my-dropbox-path      (expand-file-name "Dropbox/"                   my-home-path))
 
-;; Set environment variables - also look at `exec-path-from-shell' package
+;; Set environment variables - `exec-path-from-shell' is too slow!
 (progn
-    ;; 1. Define all your paths as a list.
-    ;;    (No need to 'expand-file-name' on absolute system paths)
     (setq my-exec-path-list
           (list (expand-file-name ".go/bin" my-home-path)
                 (expand-file-name ".cargo/bin" my-home-path)
@@ -43,10 +41,10 @@
                 "/bin"
                 "/sbin"))
 
-    ;; 3. Set the $PATH environment variable from the same list.
+    ;; Set the `$PATH' environment variable
     (setenv "PATH" (mapconcat 'identity my-exec-path-list path-separator))
 
-    ;; 2. Set the Emacs-internal 'exec-path' PATH
+    ;; Set the Emacs-internal `exec-path'
     (setq exec-path (append (parse-colon-path (getenv "PATH")) (list exec-directory))))
 
 ;; Telling Emacs where the C source code is let's us jump all the way down into

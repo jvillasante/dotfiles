@@ -101,6 +101,7 @@
                                            :procMacro (:enable t))))
     ;; don't try to manage these
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
+    (add-to-list 'eglot-stay-out-of 'imenu)
     ;; (add-to-list 'eglot-stay-out-of 'flymake)
     ;; (add-to-list 'eglot-stay-out-of 'yasnippet)
 
