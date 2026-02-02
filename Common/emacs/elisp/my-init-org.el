@@ -3,6 +3,7 @@
 ;;
 ;;; Code:
 
+(use-package gnuplot)
 (use-package org
     :ensure nil ;; emacs built-in
     :defer t
@@ -33,7 +34,7 @@
            ;; (http . t)
            (perl . t)
            (python . t)
-           ;; (gnuplot . t)
+           (gnuplot . t)
            ;; org-babel does not currently support php.  That is really sad.
            ;; (php . t)
            (R . t)

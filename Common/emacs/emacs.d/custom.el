@@ -19,10 +19,10 @@
            dockerfile-mode dwim-shell-command editorconfig eglot eldoc
            eldoc-diffstat elfeed elisp-demos embark-consult engine-mode erc
            expreg external-completion faceup fancy-compilation flymake
-           geiser-guile go-mode gptel helpful hl-todo ibuffer-project idlwave
-           jinx js2-mode json-mode jsonrpc ledger-mode let-alist lua-mode magit
-           map marginalia markdown-mode minions modus-themes monkeytype
-           multiple-cursors nadvice nerd-icons nerd-icons-completion
+           geiser-guile gnuplot go-mode gptel helpful hl-todo ibuffer-project
+           idlwave jinx js2-mode json-mode jsonrpc ledger-mode let-alist
+           lua-mode magit map marginalia markdown-mode minions modus-themes
+           monkeytype multiple-cursors nadvice nerd-icons nerd-icons-completion
            nerd-icons-corfu nerd-icons-dired nov ntlm orderless org
            org-superstar otpp package-lint-flymake password-store
            pdf-view-restore peg persistent-scratch php-mode project python
