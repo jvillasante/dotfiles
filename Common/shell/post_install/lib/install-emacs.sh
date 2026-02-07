@@ -46,16 +46,18 @@ install-emacs() {
     [[ "$BRANCH" != "$EMACS_BRANCH" ]] && echo "Unexpected branch, expecting $EMACS_BRANCH, got $BRANCH" && exit 1
 
     # Install
-    # Pure GTK: --with-x-toolkit=no --with-pgtk
+    # Pure GTK: --with-pgtk
     # Lucid: --with-x-toolkit=lucid --with-cairo --with-xft
     ./autogen.sh
     ./configure \
         --prefix=/usr/local \
-        --without-compress-install \
-        --disable-gc-mark-trace \
-        --with-x-toolkit=lucid --with-cairo --with-xft \
+        --with-pgtk \
         --with-native-compilation=aot \
         --with-tree-sitter \
+        --with-json \
+        --with-modules \
+        --without-compress-install \
+        --disable-gc-mark-trace \
         CFLAGS="-O2 -mtune=native -march=native -pipe -fomit-frame-pointer"
     make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
     sudo make install

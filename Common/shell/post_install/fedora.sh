@@ -679,7 +679,8 @@ fedora_install() {
 
                 # emacs packages install
                 sudo dnf install -y autoconf gnutls-devel gmp-devel gtk3-devel gtk4-devel jansson-devel \
-                     libgccjit libgccjit-devel libmpc-devel libvterm libvterm-devel mpfr-devel ncurses-devel texinfo
+                     libgccjit libgccjit-devel libmpc-devel libvterm libvterm-devel mpfr-devel \
+                     ncurses-devel texinfo systemd-devel
 
                 # tree-sitter packages
                 sudo dnf install -y libtree-sitter libtree-sitter-devel tree-sitter-cli gcc-c++
