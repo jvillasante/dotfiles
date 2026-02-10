@@ -131,7 +131,14 @@
 
 (use-package imenu
     :ensure nil ;; emacs built-in
+    :hook ((markdown-mode . (lambda () (setq-local imenu-auto-rescan t)))
+           (makefile-mode . (lambda () (setq-local imenu-auto-rescan t)))
+           (org-mode .      (lambda () (setq-local imenu-auto-rescan t)))
+           (prog-mode .     (lambda ()
+                                (setq-local imenu-auto-rescan t)
+                                (setq-local imenu-sort-function #'imenu--sort-by-name))))
     :config
+    (setq org-imenu-depth 7)
     (setq imenu-flatten 'prefix))
 
 (use-package dabbrev
