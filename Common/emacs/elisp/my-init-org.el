@@ -3,7 +3,7 @@
 ;;
 ;;; Code:
 
-(use-package gnuplot)
+(use-package gnuplot :defer t)
 (use-package org
     :ensure nil ;; emacs built-in
     :defer t
@@ -79,6 +79,7 @@
 
 (use-package org-capture
     :ensure nil ;; emacs built-in
+    :defer t
     :init
     ;; when refiling from org-capture, Emacs prompts to kill the
     ;; underlying, modified buffer. This fixes that.
@@ -99,6 +100,7 @@
 
 (use-package org-agenda
     :ensure nil ;; emacs built-in
+    :defer t
     :config
     ;; org-agenda will visit all org files listed
     ;; in `org-agenda-files' to generate the org-agenda view.
@@ -129,6 +131,7 @@
             (search . " %i %-12:c"))))
 
 (use-package org-superstar
+    :defer t
     :hook (org-mode . org-superstar-mode)
     :config
     ;; (setq org-superstar-remove-leading-stars t)
@@ -142,6 +145,7 @@
 
 ;; verb :: allows you to organize and send HTTP requests.
 (use-package verb
+    :defer t
     :bind (:map org-mode-map
                 ("C-c C-r" . verb-command-map)))
 
