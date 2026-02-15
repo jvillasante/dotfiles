@@ -135,18 +135,16 @@
     (setq remote-file-name-inhibit-delete-by-moving-to-trash t)
     (setq tramp-use-scp-direct-remote-copying t)
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
+    (setq tramp-default-user-alist '(("\\`su\\(do\\)?\\'" nil "root")))
     (setq tramp-completion-use-auth-sources nil) ; do not use `.authinfo.gpg' for tramp
     (setq tramp-shell-prompt-pattern
           "\\(?:^\\|\\)[^]\n#-%>]*#?[]#-%>].*[[:blank:]]*") ; Tramp hangs: Not recognizing the remote shell prompt
-    (setq tramp-password-prompt-regexp ; Add verification code support.
-          (concat
-           "^.*"
-           (regexp-opt
-            '("passphrase" "Passphrase"
-              "password" "Password"
-              "Verification code")
-            t)
-           ".*:\0? *"))
+    (setq backup-enable-predicate
+          (lambda (name)
+              (and (normal-backup-enable-predicate name)
+                   (not (let ((method (file-remote-p name 'method)))
+                            (when (stringp method)
+                                (member method '("su" "sudo"))))))))
 
     ;; Use Direct Async (check it works with `M-: (tramp-direct-async-process-p) on a remote file')
     (connection-local-set-profile-variables
