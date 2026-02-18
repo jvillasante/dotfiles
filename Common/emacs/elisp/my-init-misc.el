@@ -368,7 +368,7 @@
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
-    :disabled t ; using flash
+    :disabled t ; using `flash'
     :bind (("M-j"     . avy-goto-char-timer)
            ("C-c C-j" . avy-resume)
            :map isearch-mode-map
@@ -380,18 +380,22 @@
 
 ;; flash : navigate your code with search labels
 (use-package flash
+    :vc (:url "git@github.com:Prgebish/flash.git"
+              :rev :newest)
     :commands (flash-jump flash-jump-continue
                           flash-treesitter)
-    :bind ("M-j" . flash-jump)
+    :bind (("M-j" . flash-jump)
+           :map isearch-mode-map
+           ("M-j" . flash-isearch--toggle))
+    :hook (after-init . flash-isearch-mode)
     :custom (flash-multi-window t)
     :config
-    ;; Search integration (labels during C-s, /, ?)
     (require 'flash-isearch)
-    (flash-isearch-mode 1))
+    (setq flash-isearch-enabled nil))
 
 ;; Expand Region : expand or contract selection
 (use-package expand-region
-    :disabled t
+    :disabled t ; using `expreg'
     :bind (("C-=" . er/expand-region)
            ("C--" . er/contract-region)))
 
@@ -399,9 +403,6 @@
 (use-package expreg
     :bind (("C-=" . expreg-expand)
            ("C--" . expreg-contract))
-    ;; :hook (text-mode . (lambda ()
-    ;;                        (with-eval-after-load 'expreg
-    ;;                            (add-to-list 'expreg-functions 'expreg--sentence))))
     :custom (shift-select-mode 'permanent))
 
 ;; better C-w and M-w
