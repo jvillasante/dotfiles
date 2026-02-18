@@ -368,6 +368,7 @@
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
+    :disabled t ; using flash
     :bind (("M-j"     . avy-goto-char-timer)
            ("C-c C-j" . avy-resume)
            :map isearch-mode-map
@@ -376,6 +377,17 @@
     (avy-orders-alist
      '((avy-goto-char-timer . avy-order-closest)
        (avy-goto-line . avy-order-closest))))
+
+;; flash : navigate your code with search labels
+(use-package flash
+    :commands (flash-jump flash-jump-continue
+                          flash-treesitter)
+    :bind ("M-j" . flash-jump)
+    :custom (flash-multi-window t)
+    :config
+    ;; Search integration (labels during C-s, /, ?)
+    (require 'flash-isearch)
+    (flash-isearch-mode 1))
 
 ;; Expand Region : expand or contract selection
 (use-package expand-region

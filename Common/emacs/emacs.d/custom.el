@@ -13,12 +13,12 @@
             (size 9 -1 :right) " " (mode 16 16 :left :elide) " "
             project-file-relative)))
  '(package-selected-packages
-      '(adoc-mode anzu apheleia avy bind-key cape chatgpt-shell cl-generic cl-lib
+      '(adoc-mode anzu apheleia bind-key cape chatgpt-shell cl-generic cl-lib
            cmake-mode compat consult-dir consult-notes corfu crux csv-mode dape
            deadgrep devdocs-browser diff-hl dired-sidebar diredfl docker
            dockerfile-mode dwim-shell-command editorconfig eglot eldoc
            eldoc-diffstat elfeed elisp-demos embark-consult engine-mode erc
-           expreg external-completion faceup fancy-compilation flymake
+           expreg external-completion faceup fancy-compilation flash flymake
            geiser-guile gnuplot go-mode gptel helpful hl-todo ibuffer-project
            idlwave jinx js2-mode json-mode jsonrpc ledger-mode let-alist
            lua-mode magit map marginalia markdown-mode minions modus-themes
