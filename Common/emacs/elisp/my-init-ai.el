@@ -25,6 +25,7 @@
                        :stream t)))
 
 (use-package chatgpt-shell
+    :disabled t
     :defer t
     :vc (:url "git@github.com:xenodium/chatgpt-shell.git"
               :rev :newest)
