@@ -36,7 +36,7 @@
       '(("UTC" "UTC")
         ("America/New_York" "Tampa")
         ("Europe/Amsterdam" "Amsterdam")
-        ("Europe/Paris" "France")))
+        ("Asia/Manila" "Philippines")))
 (setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; macros
