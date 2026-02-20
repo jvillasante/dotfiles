@@ -35,13 +35,24 @@
           (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
 (use-package agent-shell
+    :disabled t
     :defer t
     :config
-    (setq agent-shell-transcript-file-path-function)
     (setq agent-shell-preferred-agent-config
           (agent-shell-anthropic-make-claude-code-config))
     (setq agent-shell-anthropic-authentication
           (agent-shell-anthropic-make-authentication :login t)))
+
+(use-package claude-code-ide
+    :defer t
+    :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+    :bind ("C-c C-'" . claude-code-ide-menu)
+    :custom
+    (claude-code-ide-window-side 'right)
+    (claude-code-ide-window-width 90)
+    (claude-code-ide-focus-on-open t)
+    :config
+    (claude-code-ide-emacs-tools-setup))
 
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here

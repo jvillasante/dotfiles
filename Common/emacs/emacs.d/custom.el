@@ -14,23 +14,24 @@
             project-file-relative)))
  '(package-selected-packages
       '(adoc-mode agent-shell anzu apheleia bind-key cape chatgpt-shell cl-generic
-           cl-lib cmake-mode compat consult-dir consult-notes corfu crux
-           csv-mode dape deadgrep devdocs-browser diff-hl dired-sidebar diredfl
-           docker dockerfile-mode dwim-shell-command editorconfig eglot eldoc
-           eldoc-diffstat elfeed elisp-demos embark-consult engine-mode erc
-           expreg external-completion faceup fancy-compilation flash flymake
-           geiser-guile gnuplot go-mode gptel helpful hl-todo ibuffer-project
-           idlwave jinx js2-mode json-mode jsonrpc ledger-mode let-alist
-           lua-mode magit map marginalia markdown-mode minions modus-themes
-           monkeytype multiple-cursors nadvice nov ntlm orderless org
-           org-superstar otpp package-lint-flymake password-store
-           pdf-view-restore peg persistent-scratch php-mode project python
-           rmsbolt rust-mode seq so-long soap-client svg track-changes tramp-hlo
-           trashed use-package verb verilog-mode vertico vim-tab-bar vterm vundo
-           web-mode wgrep which-key window-tool-bar xref yaml-mode
-           yasnippet-snippets zig-mode))
+           cl-lib claude-code-ide cmake-mode compat consult-dir consult-notes
+           corfu crux csv-mode dape deadgrep devdocs-browser diff-hl
+           dired-sidebar diredfl docker dockerfile-mode dwim-shell-command
+           editorconfig eglot eldoc eldoc-diffstat elfeed elisp-demos
+           embark-consult engine-mode erc expreg external-completion faceup
+           fancy-compilation flash flymake geiser-guile gnuplot go-mode gptel
+           helpful hl-todo ibuffer-project idlwave jinx js2-mode json-mode
+           jsonrpc ledger-mode let-alist lua-mode magit map marginalia
+           markdown-mode minions modus-themes monkeytype multiple-cursors
+           nadvice nov ntlm orderless org org-superstar otpp
+           package-lint-flymake password-store pdf-view-restore peg
+           persistent-scratch php-mode project python rmsbolt rust-mode seq
+           so-long soap-client svg track-changes tramp-hlo trashed use-package
+           verb verilog-mode vertico vim-tab-bar vterm vundo web-mode wgrep
+           which-key window-tool-bar xref yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
-      '((flash :url "git@github.com:Prgebish/flash.git")
+      '((claude-code-ide :url "https://github.com/manzaltu/claude-code-ide.el")
+           (flash :url "git@github.com:Prgebish/flash.git")
            (chatgpt-shell :url "git@github.com:xenodium/chatgpt-shell.git")
            (gptel :url "git@github.com:karthink/gptel.git")
            (deadgrep :url "git@github.com:Wilfred/deadgrep.git")
