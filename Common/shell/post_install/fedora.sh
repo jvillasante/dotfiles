@@ -450,7 +450,10 @@ fedora_install() {
                 sudo npm install --location=global dockerfile-language-server-nodejs
                 sudo npm install --location=global bash-language-server
                 sudo npm install --location=global @devcontainers/cli
-                # sudo npm install --location=global @google/gemini-cli
+
+                # Claude
+                curl -fsSL https://claude.ai/install.sh | bash
+                sudo npm install --location=global @zed-industries/claude-agent-acp
 
                 # Needed for `lsp-bridge`
                 # pip3 install epc orjson sexpdata six setuptools paramiko rapidfuzz watchdog packaging

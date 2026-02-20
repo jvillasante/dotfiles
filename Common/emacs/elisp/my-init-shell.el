@@ -87,11 +87,10 @@
            :map project-prefix-map
            ("t" . eat-project)
            ("T" . eat-project-other-window))
-    :init
+    :config
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
-    :config
     (add-to-list 'eat-message-handler-alist (cons "open" 'my-eat-open))
     (setq process-adaptive-read-buffering nil) ; makes EAT a lot quicker!
     (setq eat-term-name "xterm-256color") ; https://codeberg.org/akib/emacs-eat/issues/119"

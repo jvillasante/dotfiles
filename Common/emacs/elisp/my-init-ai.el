@@ -34,5 +34,14 @@
       (lambda ()
           (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
+(use-package agent-shell
+    :defer t
+    :config
+    (setq agent-shell-transcript-file-path-function)
+    (setq agent-shell-preferred-agent-config
+          (agent-shell-anthropic-make-claude-code-config))
+    (setq agent-shell-anthropic-authentication
+          (agent-shell-anthropic-make-authentication :login t)))
+
 (provide 'my-init-ai)
 ;;; my-init-ai.el ends here

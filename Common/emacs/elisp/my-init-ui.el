@@ -228,6 +228,7 @@
     ;; Don't enable whitespace for
     (setq-default whitespace-global-modes
                   '(not shell-mode
+                        comint-mode
                         vterm-mode
                         eat-mode
                         help-mode
