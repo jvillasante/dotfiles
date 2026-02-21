@@ -47,11 +47,17 @@
 (use-package claude-code-ide
     :defer t
     :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
-    :bind ("C-c C-'" . claude-code-ide-menu)
+    :bind (("C-c C-'" . claude-code-ide-menu)
+           ("C-c a t" . claude-code-ide-toggle)
+           ("C-c a s" . claude-code-ide-send-prompt)
+           ("C-c a @" . claude-code-ide-insert-at-mentioned)
+           ("C-c a r" . claude-code-ide-resume)
+           ("C-c a c" . claude-code-ide-continue))
     :custom
     (claude-code-ide-window-side 'right)
     (claude-code-ide-window-width 90)
     (claude-code-ide-focus-on-open t)
+    (claude-code-ide-diagnostics-backend 'flycheck)
     :config
     (claude-code-ide-emacs-tools-setup))
 
