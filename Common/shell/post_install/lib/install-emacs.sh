@@ -36,7 +36,7 @@ install-emacs() {
         sudo make uninstall
         make clean && make distclean
         git reset --hard HEAD
-        sudo git clean -dfx
+        git clean -dfx
         git fetch && git pull
     fi
 
@@ -45,8 +45,8 @@ install-emacs() {
     BRANCH=$(git branch --show-current)
     [[ "$BRANCH" != "$EMACS_BRANCH" ]] && echo "Unexpected branch, expecting $EMACS_BRANCH, got $BRANCH" && exit 1
 
-    # Install
-    # Pure GTK: --with-pgtk
+    # Build and install
+    # Pure GTK (Wayland native): --with-pgtk
     # Lucid: --with-x-toolkit=lucid --with-cairo --with-xft
     ./autogen.sh
     ./configure \
@@ -56,9 +56,19 @@ install-emacs() {
         --with-tree-sitter \
         --with-json \
         --with-modules \
+        --with-sqlite3 \
+        --with-harfbuzz \
+        --with-rsvg \
+        --with-gnutls \
+        --with-libgmp \
+        --with-png \
+        --with-jpeg \
+        --with-gif \
+        --with-tiff \
         --without-compress-install \
         --disable-gc-mark-trace \
-        CFLAGS="-O2 -mtune=native -march=native -pipe -fomit-frame-pointer"
+        CFLAGS="-O2 -march=native -mtune=native -pipe -fomit-frame-pointer -fno-semantic-interposition -flto=auto" \
+        LDFLAGS="-flto=auto"
     make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
     sudo make install
 

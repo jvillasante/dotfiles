@@ -193,16 +193,16 @@ emacs_update() {
     [[ ! -d "$HOME"/Workspace/Software/emacs ]] &&
         echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
 
-    # Stop the service
-    emacsclient --eval '(progn (setq confirm-kill-emacs nil) (save-buffers-kill-emacs))'
-    systemctl --user stop emacs.service
+    # Stop the service (guard against Emacs not running)
+    emacsclient --eval '(progn (setq confirm-kill-emacs nil) (save-buffers-kill-emacs))' 2>/dev/null || true
+    systemctl --user stop emacs.service 2>/dev/null || true
 
     # Prepare git repo
     pushd "$HOME"/Workspace/Software/emacs || usage 1
     sudo make uninstall
     make clean && make distclean
     git reset --hard HEAD
-    sudo git clean -dfx
+    git clean -dfx
     git fetch && git pull
 
     # Set branch to use
@@ -215,17 +215,29 @@ emacs_update() {
     [[ "$BRANCH" != "$EMACS_BRANCH" ]] && echo "Found $BRANCH while expecting $EMACS_BRANCH, exiting..." && usage 1
 
     # Build and install
-    # Pure GTK: --with-x-toolkit=no --with-pgtk
+    # Pure GTK (Wayland native): --with-pgtk
     # Lucid: --with-x-toolkit=lucid --with-cairo --with-xft
     ./autogen.sh
     ./configure \
-          --prefix=/usr/local \
-          --without-compress-install \
-          --disable-gc-mark-trace \
-          --with-x-toolkit=lucid --with-cairo --with-xft \
-          --with-native-compilation=aot \
-          --with-tree-sitter \
-          CFLAGS="-O2 -mtune=native -march=native -pipe -fomit-frame-pointer"
+        --prefix=/usr/local \
+        --with-pgtk \
+        --with-native-compilation=aot \
+        --with-tree-sitter \
+        --with-json \
+        --with-modules \
+        --with-sqlite3 \
+        --with-harfbuzz \
+        --with-rsvg \
+        --with-gnutls \
+        --with-libgmp \
+        --with-png \
+        --with-jpeg \
+        --with-gif \
+        --with-tiff \
+        --without-compress-install \
+        --disable-gc-mark-trace \
+        CFLAGS="-O2 -march=native -mtune=native -pipe -fomit-frame-pointer -fno-semantic-interposition -flto=auto" \
+        LDFLAGS="-flto=auto"
     make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
     sudo make install
 
