@@ -8,7 +8,7 @@
 #     build.sh -j4
 #
 # Session behaviour:
-#   First call starts the container as a background daemon (sleep infinity).
+#   First call starts the container as a background daemon (tail -f /dev/null).
 #   Subsequent calls reuse the running container via `podman exec`.
 #   The container is auto-removed when stopped (--rm).
 #   To tear the session down: podman stop nntpcode
@@ -43,7 +43,7 @@ if ! container_running; then
         --workdir /tmp/nntpcode \
         --name "$CONTAINER" \
         "$IMAGE" \
-        sleep infinity
+        tail -f /dev/null
 else
     echo "[build] Reusing running container '$CONTAINER'."
 fi
