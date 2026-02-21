@@ -58,8 +58,9 @@
     (claude-code-ide-window-width 90)
     (claude-code-ide-focus-on-open t)
     (claude-code-ide-diagnostics-backend 'flycheck)
-    (claude-code-ide-focus-claude-after-ediff nil)
-    (claude-code-ide-show-claude-window-in-ediff nil)
+    (claude-code-ide-use-ide-diff t)                    ; use ediff instead of terminal diff
+    (claude-code-ide-show-claude-window-in-ediff nil)   ; hide Claude window while reviewing in ediff
+    (claude-code-ide-focus-claude-after-ediff nil)      ; no Claude window to focus while ediff is open
     :config
     (claude-code-ide-emacs-tools-setup))
 
