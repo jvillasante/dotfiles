@@ -11,6 +11,11 @@
 #   Expects and argument with the form "*.tar.gz.gpg" (symmetric) or "*.tar.gz.asc (asymmetric)"
 #
 
+set -o errexit
+set -o nounset
+set -o pipefail
+[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+
 usage() {
     echo "Usage:"
     echo "    $0 help:"
@@ -42,72 +47,61 @@ encrypt() {
         exit 1
     fi
 
-    local file_name
-    file_name=$(realpath "$2")
-    local file_to_encrypt="$file_name.tar.gz"
-    if [[ -f "$file_name" ]]; then
-        local base_name
-        base_name=$(basename "$file_name" | cut -d. -f1)
-        test $? -eq 0 || usage 1
+    local target
+    target=$(realpath "$2")
+    local parent_dir
+    parent_dir=$(dirname "$target")
+    local base_name
+    base_name=$(basename "$target")
 
-        mkdir -p "$base_name"
-        test $? -eq 0 || usage 1
-
-        mv "$file_name" "$base_name"
-        test $? -eq 0 || usage 1
-
-        file_name="$base_name"
-        file_to_encrypt="$file_name.tar.gz"
+    if [[ -f "$target" ]]; then
+        base_name="${base_name%.*}"
+        mkdir -p "$parent_dir/$base_name"
+        mv "$target" "$parent_dir/$base_name/"
+        target="$parent_dir/$base_name"
     fi
 
-    tar czf "$(basename "$file_to_encrypt")" "$(basename "$file_name")"
-    test $? -eq 0 || usage 1
+    local tar_file="$parent_dir/$base_name.tar.gz"
+    tar czf "$tar_file" -C "$parent_dir" "$(basename "$target")"
 
     if [ "$1" = "-s" ]; then
-        gpg --symmetric --cipher-algo AES256 -o "$file_to_encrypt.gpg" "$file_to_encrypt"
-        test $? -eq 0 || usage 1
-
-        echo "Encrypted $2 to $file_to_encrypt.gpg (symmetric)"
+        gpg --symmetric --cipher-algo AES256 -o "$tar_file.gpg" "$tar_file"
+        echo "Encrypted $2 to $tar_file.gpg (symmetric)"
     elif [ "$1" = "-a" ]; then
-        gpg --encrypt --sign --armor -r jvillasantegomez@gmail.com -o "$file_to_encrypt.asc" "$file_to_encrypt"
-        test $? -eq 0 || usage 1
-
-        echo "Encrypted $2 to $file_to_encrypt.asc (asymmetric)"
+        gpg --encrypt --sign --armor -r jvillasantegomez@gmail.com -o "$tar_file.asc" "$tar_file"
+        echo "Encrypted $2 to $tar_file.asc (asymmetric)"
     else
         echo "Invalid argument $2, exiting..."
         exit 1
     fi
 
-    rm -f "$file_to_encrypt"
-    test $? -eq 0 || usage 1
+    rm -f "$tar_file"
 
     # TODO: Add a flag for output directory
     # TODO: Remove original (put this behind a flag)
-    # rm -rf "$file_name"
-    # test $? -eq 0 || usage 1
+    # rm -rf "$target"
 }
 
 do_decrypt() {
     local DIR
     DIR=$(dirname "$1")
-    test $? -eq 0 || usage 1
+
+    local filename
+    filename=$(basename "$1")
 
     local p
-    p=$DIR/$(basename "$1" | cut -d. -f1)
-    test $? -eq 0 || usage 1
+    case "$filename" in
+        *.tar.gz.gpg) p="$DIR/${filename%.tar.gz.gpg}" ;;
+        *.tar.gz.asc) p="$DIR/${filename%.tar.gz.asc}" ;;
+        *)             p="$DIR/${filename%.*}" ;;
+    esac
 
     gpg --decrypt -o "$p.tar.gz" "$1" > /dev/null 2> /dev/null
-    test $? -eq 0 || usage 1
-
     tar xzf "$p.tar.gz" --warning=no-timestamp -C "$DIR"
-    test $? -eq 0 || usage 1
-
     rm -f "$p.tar.gz"
-    test $? -eq 0 || usage 1
 
     # TODO: Remove original (put this behind a flag)
     # rm -rf "$1"
-    # test $? -eq 0 || usage 1
 
     echo "Decrypted $1 to $p ($2)"
 }
@@ -120,37 +114,17 @@ decrypt() {
     fi
 
     echo "Decrypting $1..."
-    if [ -f "$1" ]; then
-        case "$1" in
-            *.tar.gz.asc)
-                { # Asymmetric
-                    do_decrypt "$1" "asymmetric"
-                }
-                ;;
-            *.tar.gz.gpg)
-                { # Symmetric
-                    do_decrypt "$1" "symmetric"
-                }
-                ;;
-            *)
-                {
-                    echo "Illegal arguments ($1 must exist and be a file)"
-                    echo "  Usage: ./crypt -d [filename.tar.gz.gpg (symmetric) | filename.tar.gz.asc (asymmetric)]"
-                    exit 1
-                }
-                ;;
-        esac
-    else
-        echo "Illegal arguments ($1 must exist and be a file)"
-        echo "  Usage: ./crypt -d [filename.tar.gz.gpg (symmetric) | filename.tar.gz.asc (asymmetric)]"
-        exit 1
-    fi
+    case "$1" in
+        *.tar.gz.asc)
+            do_decrypt "$1" "asymmetric" ;;
+        *.tar.gz.gpg)
+            do_decrypt "$1" "symmetric" ;;
+        *)
+            echo "Illegal arguments ($1 must exist and be a file)"
+            echo "  Usage: ./crypt -d [filename.tar.gz.gpg (symmetric) | filename.tar.gz.asc (asymmetric)]"
+            exit 1 ;;
+    esac
 }
-
-set -o errexit
-set -o nounset
-set -o pipefail
-[[ "${TRACE-0}" == "1" ]] && set -o xtrace
 
 nargs=$#
 cmd=${1-}
