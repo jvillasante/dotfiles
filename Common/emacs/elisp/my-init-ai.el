@@ -58,6 +58,8 @@
     (claude-code-ide-window-width 90)
     (claude-code-ide-focus-on-open t)
     (claude-code-ide-diagnostics-backend 'flycheck)
+    (claude-code-ide-focus-claude-after-ediff nil)
+    (claude-code-ide-show-claude-window-in-ediff nil)
     :config
     (claude-code-ide-emacs-tools-setup))
 
