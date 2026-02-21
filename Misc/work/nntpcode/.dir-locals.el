@@ -33,4 +33,4 @@ Use `podman stop nntpcode' to end the session."
                                         container)))))
 
                    ;; C-x p a  ("project attach") — consistent with C-x p c (compile)
-                   (keymap-set project-prefix-map "a" #'my/nntp-attach))))))
+                   (keymap-set project-prefix-map "a" #'my-nntp-attach))))))
