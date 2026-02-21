@@ -212,6 +212,10 @@ main() {
             [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el" ] &&
                 unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.dir-locals.el"
             ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.dir-locals.el" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
+
+            [ -L "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.scripts" ] &&
+                unlink "$HOME/Workspace/Work/Omicron/Projects/nntpcode/.scripts"
+            ln -s "$DOTFILES_DIR/Misc/work/nntpcode/.scripts" "$HOME/Workspace/Work/Omicron/Projects/nntpcode/"
         fi
     fi
 
