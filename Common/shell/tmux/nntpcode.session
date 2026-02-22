@@ -15,11 +15,24 @@ configure() {
     tmux send-keys -t "$unique_name" "git status" Enter
     tmux split-window -v -l 80% -t "$unique_name" -c "$selected"
 
+    # Start persistent daemon container if not already running
     tmux send-keys -t "$unique_name" \
-         "podman run --user nntpuser --rm --interactive --tty " \
+         "if ! podman inspect -f '{{.State.Running}}' '$selected_name' 2>/dev/null | grep -q '^true$'; then" Enter
+    tmux send-keys -t "$unique_name" \
+         "  podman rm '$selected_name' 2>/dev/null || true" Enter
+    tmux send-keys -t "$unique_name" \
+         "  podman run --user nntpuser --rm --detach --init " \
          "--volume $selected:/tmp/nntpcode:rw,z --userns=keep-id -w /tmp/nntpcode " \
-         "--name '$selected_name' localhost/nntp:latest /bin/bash" Enter
-    tmux send-keys -t "$unique_name" "mkdir build && cd build && ln -s ../Makefile" Enter
+         "--name '$selected_name' localhost/nntp:latest tail -f /dev/null" Enter
+    tmux send-keys -t "$unique_name" "fi" Enter
+
+    # Setup build dir on host (idempotent)
+    tmux send-keys -t "$unique_name" \
+         "mkdir -p '$selected/build' && [ ! -L '$selected/build/Makefile' ] && ln -sf ../Makefile '$selected/build/Makefile'; true" Enter
+
+    # Attach interactive shell inside the running container
+    tmux send-keys -t "$unique_name" \
+         "podman exec -it --user nntpuser '$selected_name' /bin/bash" Enter
     tmux send-keys -t "$unique_name" "clear" Enter
 }
 
