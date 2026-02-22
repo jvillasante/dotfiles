@@ -17,6 +17,12 @@ cd "$(dirname "$0")" || exit 1
 # shellcheck source=/dev/null
 source "$HOME/.config/shell/lib/functions.sh"
 
+# source everything in lib
+for f in "$HOME"/.config/shell/lib/*; do
+    # shellcheck source=/dev/null
+    source "$f" || exit 1
+done
+
 usage() {
     echo "Usage:"
     echo "    $SCRIPT_NAME help:"
@@ -130,59 +136,13 @@ dotfiles_update() {
 }
 
 psd_update() {
-    # Dependencies
-    sudo dnf install -y coreutils findutils glib2 kmod rsync systemd
+    ! hash psd 2> /dev/null && echo "psd not installed, exiting..." && usage 1
 
-    # Set branch to use
-    local PSD_BRANCH
-    PSD_BRANCH=master
+    # do install psd from source
+    install_psd
 
-    # Prepare git repo
-    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
-    if [ ! -d "$HOME"/Workspace/Software/profile-sync-daemon ]; then
-        git clone --depth 1 --branch "$PSD_BRANCH" git@github.com:graysky2/profile-sync-daemon.git \
-            "$HOME"/Workspace/Software/profile-sync-daemon
-        pushd "$HOME"/Workspace/Software/profile-sync-daemon
-    else
-        pushd "$HOME"/Workspace/Software/profile-sync-daemon
-
-        # Stop the service
-        systemctl is-active psd.service && systemctl --user stop psd.service
-
-        # Fetch update
-        sudo make uninstall
-        make clean && make distclean
-        git reset --hard HEAD
-        sudo git clean -dfx
-        git fetch && git pull
-    fi
-
-    # Setup git branch
-    local BRANCH
-    BRANCH=$(git branch --show-current)
-    [[ "$BRANCH" != "$PSD_BRANCH" ]] && echo "PSD unexpected branch, expecting $PSD_BRANCH, got $BRANCH" && usage 1
-
-    # Install
-    make -j"$(nproc --ignore=2)"
-    sudo make install
-
-    popd
-
-    #
-    # All the below should have been done on post_install script!
-    #
-    # # Copy brave profile
-    # if [ -f /usr/share/psd/contrib/brave ]; then
-    #     sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-    # elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
-    #     sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
-    # fi
-    #
-    # # PSD: Needs sudo permissions for overlay-fs - needs a logout :(
-    # echo 'jvillasante ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper' | sudo EDITOR='tee -a' visudo
-    #
-    # # PSD: Enable and Start the Daemon
-    # systemctl --user enable --now psd.service && systemctl --user start psd.service
+    # restart the service
+    systemctl --user start psd.service
 }
 
 emacs_update() {
@@ -197,87 +157,8 @@ emacs_update() {
     emacsclient --eval '(progn (setq confirm-kill-emacs nil) (save-buffers-kill-emacs))' 2>/dev/null || true
     systemctl --user stop emacs.service 2>/dev/null || true
 
-    # Prepare git repo
-    pushd "$HOME"/Workspace/Software/emacs || usage 1
-    sudo make uninstall
-    make clean && make distclean
-    git reset --hard HEAD
-    git clean -dfx
-    git fetch && git pull
-
-    # Set branch to use
-    local EMACS_BRANCH
-    EMACS_BRANCH=emacs-30
-
-    # Setup git branch
-    local BRANCH
-    BRANCH=$(git branch --show-current)
-    [[ "$BRANCH" != "$EMACS_BRANCH" ]] && echo "Found $BRANCH while expecting $EMACS_BRANCH, exiting..." && usage 1
-
-    # Build and install
-    # Pure GTK (Wayland native): --with-pgtk
-    # Lucid: --with-x-toolkit=lucid --with-cairo --with-xft
-    ./autogen.sh
-    ./configure \
-        --prefix=/usr/local \
-        --with-pgtk \
-        --with-native-compilation=aot \
-        --with-tree-sitter \
-        --with-json \
-        --with-modules \
-        --with-sqlite3 \
-        --with-harfbuzz \
-        --with-rsvg \
-        --with-gnutls \
-        --with-libgmp \
-        --with-png \
-        --with-jpeg \
-        --with-gif \
-        --with-tiff \
-        --without-compress-install \
-        --disable-gc-mark-trace \
-        CFLAGS="-O2 -march=native -mtune=native -pipe -fomit-frame-pointer -fno-semantic-interposition -flto=auto" \
-        LDFLAGS="-flto=auto"
-    make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
-    sudo make install
-
-    # Cleanup
-    popd || usage 1
-
-    # Update packages
-    if ask "Emacs has been installed, do you want to update packages now?"; then
-        local DOTFILES_DIR
-        DOTFILES_DIR="$(find_dotfiles)"
-        test $? -eq 0 || usage 1
-
-        # Clean up some trash
-        [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d ]] &&
-            echo "Emacs personal configuration not found, exiting..." && usage 1
-        [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache ]] &&
-            rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache
-        [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa ]] &&
-            rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa
-        [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter ]] &&
-            rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
-
-        # Launch emacs
-        /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/emacs.d
-    fi
-
-    if ask "Emacs packages updated, do you want to start the daemon as a systemd service now?"; then
-        systemctl --user daemon-reload
-        test $? -eq 0 || usage 1
-
-        systemctl --user enable emacs.service
-        test $? -eq 0 || usage 1
-
-        systemctl --user stop emacs.service
-        systemctl --user start emacs.service
-        test $? -eq 0 || usage 1
-
-        sleep 1 && systemctl --user status emacs.service
-        test $? -eq 0 || usage 1
-    fi
+    # do install emacs from source
+    install-emacs
 }
 
 stylua_update() {
@@ -286,22 +167,8 @@ stylua_update() {
     [ ! -d "$HOME"/Workspace/Software/stylua ] && mkdir -p "$HOME"/Workspace/Software/stylua
     [ -d "$HOME"/Workspace/Software/stylua ] && rm -rf "$HOME"/Workspace/Software/stylua/*
 
-    pushd "$HOME"/Workspace/Software/stylua || {
-        echo "Can't cd into $HOME/Workspace/Software/stylua"
-        usage 1
-    }
-
-    # Get the latest
-    STYLUA_VERSION=v2.3.1
-    STYLUA_RELEASE=stylua-linux-x86_64.zip
-    curl -LJO https://github.com/JohnnyMorganz/StyLua/releases/download/"$STYLUA_VERSION"/"$STYLUA_RELEASE"
-    atool --extract --explain "$STYLUA_RELEASE"
-    sudo cp -f stylua /usr/local/bin/
-
-    popd || {
-        echo "Can't pop directory"
-        usage 1
-    }
+    # do install
+    install_stylua
 }
 
 xremap_update() {
@@ -310,26 +177,8 @@ xremap_update() {
     [ ! -d "$HOME"/Workspace/Software/xremap ] && mkdir -p "$HOME"/Workspace/Software/xremap
     [ -d "$HOME"/Workspace/Software/xremap ] && rm -rf "$HOME"/Workspace/Software/xremap/*
 
-    pushd "$HOME"/Workspace/Software/xremap || {
-        echo "Can't cd into $HOME/Workspace/Software/xremap"
-        usage 1
-    }
-
-    # Get the latest
-    XREMAP_VERSION=v0.14.3
-    XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
-    if is_desktop_environment "Gnome"; then
-        XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
-    fi
-
-    curl -LJO https://github.com/k0kubun/xremap/releases/download/"$XREMAP_VERSION"/"$XREMAP_RELEASE"
-    atool --extract --explain "$XREMAP_RELEASE"
-    sudo cp -f xremap /usr/local/bin/
-
-    popd || {
-        echo "Can't pop directory"
-        usage 1
-    }
+    # do install
+    install_xremap
 
     # Restart the daemon
     systemctl --user daemon-reload

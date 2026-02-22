@@ -38,22 +38,6 @@ install_xremap() {
         echo "Can't cd to previous directory"
         exit 1
     }
-
-    # First create a new group to which we allow access to the input stuff; add this group to your user:
-    sudo gpasswd -a "$USER" input
-
-    # Second Create new udev rule granting access:
-    sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/70-xremap.rules \
-         /etc/udev/rules.d/70-xremap.rules
-
-    # Enable the daemon
-    [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
-    [ -L "$HOME/.config/systemd/user/xremap.service" ] &&
-        unlink "$HOME/.config/systemd/user/xremap.service"
-    ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" \
-       "$HOME/.config/systemd/user"
-    systemctl --user daemon-reload
-    systemctl --user enable --now xremap.service && systemctl --user start xremap.service
 }
 
 # --- End of Script ---

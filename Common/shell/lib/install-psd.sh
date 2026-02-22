@@ -29,8 +29,20 @@ install_psd() {
             exit 1
         }
     else
-        echo "PSD already installed"
-        exit 1
+        pushd "$HOME"/Workspace/Software/profile-sync-daemon || {
+            echo "Can't cd into $HOME/Workspace/Software/profile-sync-daemon"
+            exit 1
+        }
+
+        # Stop the service
+        systemctl is-active psd.service && systemctl --user stop psd.service
+
+        # Fetch update
+        sudo make uninstall
+        make clean && make distclean
+        git reset --hard HEAD
+        sudo git clean -dfx
+        git fetch && git pull
     fi
 
     # Setup git branch
@@ -43,19 +55,6 @@ install_psd() {
     sudo make install
 
     popd
-
-    # Copy brave profile
-    if [ -f /usr/share/psd/contrib/brave ]; then
-        sudo cp /usr/share/psd/contrib/brave /usr/share/psd/browsers
-    elif [ -f "$HOME"/Workspace/Public/dotfiles/Common/psd/brave ]; then
-        sudo cp "$HOME"/Workspace/Public/dotfiles/Common/psd/brave /usr/share/psd/browsers
-    fi
-
-    # PSD: Needs sudo permissions for overlay-fs - needs a logout :(
-    echo 'jvillasante ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper' | sudo EDITOR='tee -a' visudo
-
-    # PSD: Enable and Start the Daemon
-    systemctl --user enable --now psd.service && systemctl --user start psd.service
 }
 
 # --- End of Script ---

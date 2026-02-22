@@ -30,7 +30,13 @@ SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_NAME
 cd "$(dirname "$0")" || exit 1
 
-# source everything in lib
+# source everything in ../lib
+for f in "$(dirname "$0")"/../lib/*; do
+    # shellcheck source=/dev/null
+    source "$f" || exit 1
+done
+
+# source everything in ./lib
 for f in "$(dirname "$0")"/lib/*; do
     # shellcheck source=/dev/null
     source "$f" || exit 1
@@ -584,6 +590,22 @@ EOF
 
                 # do install
                 install_xremap
+
+                # First create a new group to which we allow access to the input stuff; add this group to your user:
+                sudo gpasswd -a "$USER" input
+
+                # Second Create new udev rule granting access:
+                sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/70-xremap.rules \
+                     /etc/udev/rules.d/70-xremap.rules
+
+                # Enable the daemon
+                [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
+                [ -L "$HOME/.config/systemd/user/xremap.service" ] &&
+                    unlink "$HOME/.config/systemd/user/xremap.service"
+                ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" \
+                   "$HOME/.config/systemd/user"
+                systemctl --user daemon-reload
+                systemctl --user enable --now xremap.service && systemctl --user start xremap.service
 
                 read -rp "$CHOICE) Xremap installed. Reboot for udev rules to take effect.
                               On Gnome, install the extension at https://extensions.gnome.org/extension/5060/xremap/.
