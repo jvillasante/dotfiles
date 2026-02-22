@@ -7,10 +7,10 @@
 #     build.sh clean
 #     build.sh -j4
 #
-# Session behaviour:
-#   First call starts the container as a background daemon (tail -f /dev/null).
+# Session behavior:
+#   First call starts the container as a background daemon (`tail -f /dev/null`).
 #   Subsequent calls reuse the running container via `podman exec`.
-#   The container is auto-removed when stopped (--rm).
+#   The container is auto-removed when stopped (`--rm`).
 #   To tear the session down: `podman stop nntpcode`
 
 set -euo pipefail
@@ -30,7 +30,7 @@ container_running() {
 
 if ! container_running; then
     # Remove any stale stopped container with the same name before starting fresh.
-    # (podman rm fails silently if the container does not exist)
+    # (`podman rm` fails silently if the container does not exist)
     podman rm "$CONTAINER" 2>/dev/null || true
 
     echo "[build] Starting daemon container '$CONTAINER' from image '$IMAGE'..."
@@ -38,6 +38,7 @@ if ! container_running; then
         --user nntpuser \
         --rm \
         --detach \
+        --init \
         --volume "$PROJ_DIR":/tmp/nntpcode:rw,z \
         --userns=keep-id \
         --workdir /tmp/nntpcode \
