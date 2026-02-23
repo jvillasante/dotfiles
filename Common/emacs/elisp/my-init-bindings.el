@@ -8,6 +8,7 @@
 
 ;; General
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
+(global-set-key (kbd "C-c y") 'my-copy-region-with-line-numbers) ; copy region with line numbers
 
 ;; Both `C-z' and `C-x C-z' are bound to `suspend-frame' which will effectively
 ;; suspend the current frame. To bring back the suspended frame in GUI mode we

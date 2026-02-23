@@ -514,6 +514,22 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
         (org-mode)
         (insert "#+TITLE: Scratch\n\n")))
 
+(defun my-copy-region-with-line-numbers (beg end)
+    "Copy region (BEG to END) to kill ring with line numbers prepended."
+    (interactive "r")
+    (let* ((start-line (line-number-at-pos beg))
+           (text (buffer-substring-no-properties beg end))
+           (lines (split-string text "\n"))
+           (lines (if (string= (car (last lines)) "") (butlast lines) lines))
+           (max-line (+ start-line (length lines) -1))
+           (width (length (number-to-string max-line)))
+           (fmt (format "%%%dd: %%s" width))
+           (numbered (cl-loop for line in lines
+                              for n from start-line
+                              collect (format fmt n line))))
+        (kill-new (mapconcat #'identity numbered "\n"))
+        (message "Copied %d lines with line numbers" (length numbered))))
+
 (defun my-comment-or-uncomment ()
     "Comments or uncomments the current line or region."
     (interactive)
