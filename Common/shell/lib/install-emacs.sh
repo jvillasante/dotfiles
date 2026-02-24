@@ -51,7 +51,7 @@ install-emacs() {
     ./autogen.sh
     ./configure \
         --prefix=/usr/local \
-        --with-pgtk \
+        --with-x-toolkit=lucid --with-cairo --with-xft \
         --with-native-compilation=aot \
         --with-tree-sitter \
         --with-json \
