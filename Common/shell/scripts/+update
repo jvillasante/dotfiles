@@ -97,6 +97,12 @@ fedora_update() {
 
     flatpak update --user -y
     test $? -eq 0 || usage 1
+
+    sudo npm update -g
+    test $? -eq 0 || usage 1
+
+    claude update
+    test $? -eq 0 || usage 1
 }
 
 system_update() {

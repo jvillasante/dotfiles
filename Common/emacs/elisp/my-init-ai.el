@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package gptel
+    :disabled t
     :defer t
     :vc (:url "git@github.com:karthink/gptel.git"
               :rev :newest)
@@ -20,9 +21,9 @@
     (setq
      gptel-model 'gemini-3-flash-preview
      gptel-backend (gptel-make-gemini "Gemini"
-                       :key (lambda ()
-                                (password-store-get-field "Work/Omicron/Gemini" "API Key"))
-                       :stream t)))
+                                      :key (lambda ()
+                                               (password-store-get-field "Work/Omicron/Gemini" "API Key"))
+                                      :stream t)))
 
 (use-package chatgpt-shell
     :disabled t
@@ -38,15 +39,43 @@
 (use-package agent-shell
     :disabled t
     :defer t
-    :config
-    (setq agent-shell-preferred-agent-config
-          (agent-shell-anthropic-make-claude-code-config))
-    (setq agent-shell-anthropic-authentication
-          (agent-shell-anthropic-make-authentication :login t)))
+    :vc (:url "https://github.com/xenodium/agent-shell.git"
+              :rev :newest)
+    :preface
+    (defun my-agent-shell-transcript-file-path ()
+        "Generate a transcript file path."
+        (let* ((dir (expand-file-name "agent-shell/transcripts" my-var-dir))
+               (filename (format-time-string "%F-%H-%M-%S.md"))
+               (filepath (expand-file-name filename dir)))
+            filepath))
+    :custom
+    (agent-shell-transcript-file-path-function
+     #'my-agent-shell-transcript-file-path)
+    (agent-shell-preferred-agent-config
+     (agent-shell-anthropic-make-claude-code-config))
+    (agent-shell-anthropic-authentication
+     (agent-shell-anthropic-make-authentication :login t)))
+
+(use-package agent-shell-sidebar
+    :disabled t
+    :defer t
+    :vc (:url "https://github.com/cmacrae/agent-shell-sidebar"
+              :rev :newest)
+    :bind (("C-c a s" . agent-shell-sidebar-toggle)
+           ("C-c a f" . agent-shell-sidebar-toggle-focus))
+    :custom
+    (agent-shell-sidebar-width "30%")
+    (agent-shell-sidebar-minimum-width 80)
+    (agent-shell-sidebar-maximum-width "50%")
+    (agent-shell-sidebar-position 'right)
+    (agent-shell-sidebar-locked t)
+    (agent-shell-sidebar-default-config
+     (agent-shell-anthropic-make-claude-code-config)))
 
 (use-package claude-code-ide
     :defer t
-    :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+    :vc (:url "https://github.com/manzaltu/claude-code-ide.el"
+              :rev :newest)
     :bind (("C-c C-'" . claude-code-ide-menu)
            ("C-c a t" . claude-code-ide-toggle)
            ("C-c a s" . claude-code-ide-send-prompt)

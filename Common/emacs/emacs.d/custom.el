@@ -18,15 +18,20 @@
            devdocs-browser diff-hl dired-sidebar diredfl docker dockerfile-mode
            dwim-shell-command editorconfig eglot eldoc-diffstat elfeed
            elisp-demos embark-consult engine-mode erc expreg faceup
-           fancy-compilation flash geiser-guile gnuplot go-mode gptel helpful
-           hl-todo ibuffer-project idlwave jinx js2-mode json-mode ledger-mode
-           lua-mode magit map marginalia markdown-mode minions modus-themes
-           monkeytype multiple-cursors nov ntlm orderless org-superstar otpp
+           fancy-compilation flash geiser-guile gnuplot go-mode helpful hl-todo
+           ibuffer-project idlwave jinx js2-mode json-mode ledger-mode lua-mode
+           magit map marginalia markdown-mode minions modus-themes monkeytype
+           multiple-cursors nov ntlm orderless org-superstar otpp
            package-lint-flymake password-store pdf-view-restore peg
            persistent-scratch php-mode python rmsbolt rust-mode shell-maker
            so-long soap-client svg track-changes tramp-hlo trashed use-package
            verb verilog-mode vertico vim-tab-bar vterm vundo web-mode wgrep
-           which-key window-tool-bar yaml-mode yasnippet-snippets zig-mode)))
+           which-key window-tool-bar yaml-mode yasnippet-snippets zig-mode))
+ '(package-vc-selected-packages
+      '((claude-code-ide :url "https://github.com/manzaltu/claude-code-ide.el")
+           (agent-shell-sidebar :url
+               "https://github.com/cmacrae/agent-shell-sidebar")
+           (agent-shell :url "https://github.com/xenodium/agent-shell.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
