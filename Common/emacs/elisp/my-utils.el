@@ -50,7 +50,7 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
 (defun my-shrunk-path--compute (file)
     "Compute the shrunk path string for FILE.
 Example:
-  /home/ghouse/code/python/app.py -> ~/c/p/python/app.py
+  /home/ghouse/code/python/app.py -> ~/c/python/app.py
   /ssh:server:/var/log/nginx/access.log -> /ssh:server:/v/l/nginx/access.log
   *scratch* (non-file) -> *scratch*"
     (when (and buffer-file-truename (not (file-remote-p file)))
@@ -68,7 +68,9 @@ Example:
                                     (butlast parts) "/")
                          "/" (car (last parts)))
                       (car parts))))
-                (concat remote "/" shrunk-dir "/" filename))
+                (if (file-name-absolute-p shrunk-dir)
+                    (concat shrunk-dir "/" filename)
+                  (concat remote "/" shrunk-dir "/" filename)))
           (concat remote local-path))))
 
 (defun my-shrunk-path ()
