@@ -38,7 +38,7 @@ if [ "$INSIDE_EMACS" = 'vterm' ] && [ -n "$EMACS_VTERM_PATH" ]; then
     }
 
     dired() {
-        vterm_cmd dired "."
+        vterm_cmd dired "$(realpath "${@:-.}")"
     }
 
     say() {
