@@ -503,6 +503,7 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
         (switch-to-buffer-other-window
          (make-temp-name "scratch-markdown-"))
         (markdown-mode)
+        (auto-fill-mode -1)
         (insert "# Scratch\n\n")))
 
 (defun my-new-scratch-buffer-in-org ()
