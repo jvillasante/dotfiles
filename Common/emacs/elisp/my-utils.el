@@ -263,6 +263,53 @@ If region (BEG to END) is active, use the selected region as the symbol."
     (tramp-cleanup-all-connections)
     (tramp-cleanup-all-buffers))
 
+;;; Shell
+(defun my-remote-copy (source destination)
+    "Copy SOURCE file or directory to remote DESTINATION using rsync or scp.
+
+SOURCE is read with local file completion, defaulting to the current buffer's
+file or the file at point in `dired'.  DESTINATION is read via TRAMP's
+`read-file-name', starting at /ssh: so that host and remote path completion
+work out of the box.  rsync is preferred when available; scp -r is the
+fallback.  Output is shown in a dedicated async buffer."
+    (interactive
+     (let* ((src-default (cond
+                          ((derived-mode-p 'dired-mode) (dired-get-filename nil t))
+                          (buffer-file-name buffer-file-name)
+                          (t default-directory)))
+            (source (read-file-name
+                     "Source: "
+                     (and src-default (file-name-directory src-default))
+                     src-default t
+                     (and src-default (file-name-nondirectory (directory-file-name src-default)))))
+            (destination (read-file-name "Destination (remote): " "/ssh:")))
+         (list source destination)))
+    (unless (file-remote-p destination)
+        (user-error "Destination must be a remote TRAMP path, e.g. /ssh:host:/path/"))
+    (let* ((source (directory-file-name (expand-file-name source)))
+           (host (file-remote-p destination 'host))
+           (user (file-remote-p destination 'user))
+           (localname (file-remote-p destination 'localname))
+           (remote (if user (format "%s@%s:%s" user host localname)
+                       (format "%s:%s" host localname)))
+           (tool (cond ((executable-find "rsync") 'rsync)
+                       ((executable-find "scp") 'scp)
+                       (t (user-error "Neither rsync nor scp found in PATH"))))
+           (cmd (pcase tool
+                    ('rsync (format "rsync -avz --progress %s %s"
+                                    (shell-quote-argument source)
+                                    (shell-quote-argument remote)))
+                    ('scp (format "scp -r %s %s"
+                                  (shell-quote-argument source)
+                                  (shell-quote-argument remote)))))
+           (buf-name (format "*remote-copy: %s*"
+                             (file-name-nondirectory (directory-file-name source)))))
+        (message "Copying %s -> %s [%s]" source remote tool)
+        (async-shell-command cmd buf-name)
+        (with-current-buffer buf-name
+            (local-set-key (kbd "q") #'quit-window))
+        (pop-to-buffer buf-name)))
+
 ;;; Browser
 
 ;; Open link in eww or browser

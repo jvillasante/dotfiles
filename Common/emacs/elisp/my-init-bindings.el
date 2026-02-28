@@ -165,5 +165,8 @@ When run interactively:
     (global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)
     (global-set-key (kbd "C-c l D") 'dictionary-search))
 
+;; C-c s : shell
+(global-set-key (kbd "C-c s c") 'my-remote-copy)
+
 (provide 'my-init-bindings)
 ;;; my-init-bindings.el ends here
