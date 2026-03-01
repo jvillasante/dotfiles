@@ -41,36 +41,19 @@
     :defer t
     :vc (:url "https://github.com/xenodium/agent-shell.git"
               :rev :newest)
-    :preface
-    (defun my-agent-shell-transcript-file-path ()
-        "Generate a transcript file path."
-        (let* ((dir (expand-file-name "agent-shell/transcripts" my-var-dir))
-               (filename (format-time-string "%F-%H-%M-%S.md"))
-               (filepath (expand-file-name filename dir)))
-            filepath))
+    :bind ("C-c a s" . agent-shell)
     :custom
-    (agent-shell-transcript-file-path-function
-     #'my-agent-shell-transcript-file-path)
+    (agent-shell-display-action
+     '(display-buffer-in-side-window
+       (side . right)
+       (slot . 0)
+       (window-width . 0.3)
+       (dedicated . t)
+       (window-parameters . ((no-delete-other-windows . t)))))
     (agent-shell-preferred-agent-config
      (agent-shell-anthropic-make-claude-code-config))
     (agent-shell-anthropic-authentication
      (agent-shell-anthropic-make-authentication :login t)))
-
-(use-package agent-shell-sidebar
-    :disabled t
-    :defer t
-    :vc (:url "https://github.com/cmacrae/agent-shell-sidebar"
-              :rev :newest)
-    :bind (("C-c a s" . agent-shell-sidebar-toggle)
-           ("C-c a f" . agent-shell-sidebar-toggle-focus))
-    :custom
-    (agent-shell-sidebar-width "30%")
-    (agent-shell-sidebar-minimum-width 80)
-    (agent-shell-sidebar-maximum-width "50%")
-    (agent-shell-sidebar-position 'right)
-    (agent-shell-sidebar-locked t)
-    (agent-shell-sidebar-default-config
-     (agent-shell-anthropic-make-claude-code-config)))
 
 (use-package claude-code-ide
     :defer t
