@@ -37,6 +37,7 @@
           (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
 (use-package agent-shell
+    :disabled t
     :defer t
     :vc (:url "https://github.com/xenodium/agent-shell.git"
               :rev :newest)
@@ -55,7 +56,6 @@
      (agent-shell-anthropic-make-authentication :login t)))
 
 (use-package claude-code-ide
-    :disabled t
     :defer t
     :vc (:url "https://github.com/manzaltu/claude-code-ide.el"
               :rev :newest)
@@ -68,7 +68,7 @@
     :custom
     (claude-code-ide-window-side 'right)
     (claude-code-ide-window-width 90)
-    (claude-code-ide-focus-on-open t)
+    (claude-code-ide-focus-on-open nil)
     (claude-code-ide-diagnostics-backend 'flycheck)
     (claude-code-ide-use-ide-diff t)                    ; use ediff instead of terminal diff
     (claude-code-ide-show-claude-window-in-ediff nil)   ; hide Claude window while reviewing in ediff

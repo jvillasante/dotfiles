@@ -6,8 +6,8 @@
 [github]
     user = jvillasante
 
-[includeIf "gitdir:~/Workspace/Work/"]
-    path = ~/Workspace/Work/.gitconfig
+[includeIf "gitdir:~/Workspace/Work/Omicron/Projects/"]
+    path = ~/Workspace/Work/Omicron/Projects/.gitconfig
     # https://git-scm.com/docs/git-config#_includes
 
 [url "git@github.com:"]
