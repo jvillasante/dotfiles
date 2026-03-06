@@ -13,15 +13,15 @@
             (size 9 -1 :right) " " (mode 16 16 :left :elide) " "
             project-file-relative)))
  '(package-selected-packages
-      '(acp adoc-mode anzu apheleia cape cl-generic claude-code-ide cmake-mode
-           consult-dir consult-notes corfu crux csv-mode dape deadgrep
-           devdocs-browser diff-hl dired-sidebar diredfl docker dockerfile-mode
-           editorconfig eglot eldoc-diffstat elfeed elisp-demos embark-consult
-           engine-mode erc expreg faceup fancy-compilation flash geiser-guile
-           gnuplot go-mode helpful hl-todo ibuffer-project idlwave jinx js2-mode
-           json-mode ledger-mode lua-mode magit map marginalia markdown-mode
-           minions modus-themes monkeytype multiple-cursors nov ntlm orderless
-           org-superstar otpp package-lint-flymake password-store
+      '(acp adoc-mode agent-shell anzu apheleia cape cl-generic claude-code-ide
+           cmake-mode consult-dir consult-notes corfu crux csv-mode dape
+           deadgrep devdocs-browser diff-hl dired-sidebar diredfl docker
+           dockerfile-mode editorconfig eglot eldoc-diffstat elfeed elisp-demos
+           embark-consult engine-mode erc expreg faceup fancy-compilation flash
+           geiser-guile gnuplot go-mode helpful hl-todo ibuffer-project idlwave
+           jinx js2-mode json-mode ledger-mode lua-mode magit map marginalia
+           markdown-mode minions modus-themes monkeytype multiple-cursors nov
+           ntlm orderless org-superstar otpp package-lint-flymake password-store
            pdf-view-restore peg persistent-scratch php-mode python rmsbolt
            rust-mode shell-maker so-long soap-client svg track-changes tramp-hlo
            trashed use-package verb verilog-mode vertico vim-tab-bar vterm vundo

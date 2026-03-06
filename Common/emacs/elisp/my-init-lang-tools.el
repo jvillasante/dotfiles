@@ -217,9 +217,17 @@
     :ensure nil ; Emacs built in
     :defer t
     :custom
-    (compilation-always-kill t))
+    (compilation-scroll-output t)            ; Scroll the compilation buffer to follow output
+    (compilation-scroll-output 'first-error) ; ... or scroll until the first error appears
+    (compilation-skip-threshold 1)           ; Skip info when navigating with next-error
+    (compilation-always-kill t)
+    (compilation-finish-functions            ; Auto-close the compilation window on success
+     (list (lambda (buf status)
+               (when (string-match-p "finished" status)
+                   (run-at-time 1 nil #'delete-windows-on buf))))))
 
 (use-package fancy-compilation
+    :disabled t
     :defer t
     :init
     (with-eval-after-load 'compile
