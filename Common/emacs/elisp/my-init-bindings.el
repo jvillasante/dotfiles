@@ -30,7 +30,7 @@ When run interactively:
     (if current-prefix-arg
             (call-interactively #'kill-buffer)
         (kill-current-buffer)))
-(global-set-key (kbd "C-x k") 'my-smart-kill-buffer)
+(define-key (current-global-map) [remap kill-buffer] 'my-smart-kill-buffer)
 
 ;; smart kill emacs
 (defun my-smart-kill-emacs ()
@@ -48,7 +48,7 @@ When run interactively:
             (save-buffers-kill-terminal))))
 (when (daemonp)
     ;; Only override C-x C-c when running as a daemon
-    (global-set-key (kbd "C-x C-c") #'my-smart-kill-emacs))
+    (define-key (current-global-map) [remap kill-emacs] 'my-smart-kill-emacs))
 
 ;; Emacs29 changes `cycle-spacing' default
 (global-set-key [remap cycle-spacing] 'just-one-space)
