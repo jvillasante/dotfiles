@@ -170,6 +170,7 @@
 -I./lib/multipart
 -I./lib/newlicense
 -I./lib/nntp
+-I./lib/nntpcommand
 -I./lib/nntpconfig
 -I./lib/nntpfeed
 -I./lib/nntpparsedarticle
