@@ -28,7 +28,8 @@
            web-mode wgrep which-key window-tool-bar yaml-mode yasnippet-snippets
            zig-mode))
  '(package-vc-selected-packages
-      '((agent-shell :url "https://github.com/xenodium/agent-shell.git"))))
+      '((agent-shell :url "https://github.com/xenodium/agent-shell.git")
+           (shell-maker :url "https://github.com/xenodium/shell-maker.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

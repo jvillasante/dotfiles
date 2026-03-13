@@ -3,28 +3,6 @@
 ;;
 ;;; Code:
 
-(use-package gptel
-    :disabled t
-    :defer t
-    :vc (:url "git@github.com:karthink/gptel.git"
-              :rev :newest)
-    :hook ((gptel-post-stream . gptel-auto-scroll)
-           (gptel-mode . visual-line-mode))
-    :bind (:map gptel-mode-map
-                ("C-c C-c" . gptel-send))
-    :custom
-    (gptel-default-mode 'org-mode)
-    (gptel-expert-commands t)
-    (gptel-track-media t)
-    (gptel-include-reasoning 'ignore)
-    :config
-    (setq
-     gptel-model 'gemini-3-flash-preview
-     gptel-backend (gptel-make-gemini "Gemini"
-                                      :key (lambda ()
-                                               (password-store-get-field "Work/Omicron/Gemini" "API Key"))
-                                      :stream t)))
-
 (use-package chatgpt-shell
     :disabled t
     :defer t
@@ -36,10 +14,21 @@
       (lambda ()
           (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
+(use-package shell-maker
+    :defer t
+    :vc (:url "https://github.com/xenodium/shell-maker.git"
+              :rev :newest))
+
 (use-package agent-shell
     :defer t
     :vc (:url "https://github.com/xenodium/agent-shell.git"
               :rev :newest)
+    :preface
+    (defun my-agent-shell-dot-subdir (subdir)
+        (let* ((cwd (string-remove-suffix "/" (agent-shell-cwd)))
+               (sanitized (replace-regexp-in-string "/" "-" (string-remove-prefix "/" cwd))))
+            (expand-file-name subdir (expand-file-name
+                                      (concat "agent-shell/" sanitized) my-var-dir))))
     :bind ("C-c a s" . agent-shell)
     :custom
     (agent-shell-display-action
@@ -49,6 +38,9 @@
        (window-width . 0.3)
        (dedicated . t)
        (window-parameters . ((no-delete-other-windows . t)))))
+    (agent-shell-session-strategy 'prompt)
+    (agent-shell-dot-subdir-function
+     #'my-agent-shell-dot-subdir)
     (agent-shell-preferred-agent-config
      (agent-shell-anthropic-make-claude-code-config))
     (agent-shell-anthropic-authentication
