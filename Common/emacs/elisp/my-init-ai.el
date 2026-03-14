@@ -44,7 +44,8 @@
     (agent-shell-preferred-agent-config
      (agent-shell-anthropic-make-claude-code-config))
     (agent-shell-anthropic-authentication
-     (agent-shell-anthropic-make-authentication :login t)))
+     (agent-shell-anthropic-make-authentication :login t))
+    (agent-shell-anthropic-default-model-id "opus"))
 
 (use-package claude-code-ide
     :disabled t
