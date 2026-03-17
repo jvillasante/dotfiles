@@ -23,10 +23,10 @@
            markdown-mode minions modus-themes monkeytype multiple-cursors nov
            ntlm orderless org-superstar otpp package-lint-flymake password-store
            pdf-view-restore peg persistent-scratch php-mode python rmsbolt
-           rust-mode shell-maker so-long soap-client svg track-changes tramp-hlo
-           trashed use-package verb verilog-mode vertico vim-tab-bar vterm vundo
-           web-mode wgrep which-key window-tool-bar yaml-mode yasnippet-snippets
-           zig-mode))
+           rust-mode shell-maker so-long soap-client surround svg track-changes
+           tramp-hlo trashed use-package verb verilog-mode vertico vim-tab-bar
+           vterm vundo web-mode wgrep which-key window-tool-bar yaml-mode
+           yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((agent-shell :url "https://github.com/xenodium/agent-shell.git")
            (shell-maker :url "https://github.com/xenodium/shell-maker.git"))))

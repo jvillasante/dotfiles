@@ -127,6 +127,7 @@
     ;; Some default settings
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
     (setq tramp-use-connection-share nil) ; use Control* options from ssh config
+    (setq tramp-connection-timeout 10)    ; timeout so tramp won't hang forever
     (setq tramp-verbose 2)
     (setq tramp-copy-size-limit (* 1024 1024)) ;; 1MB
     (setq remote-file-name-inhibit-locks t)
@@ -456,8 +457,7 @@
 
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround
-    :disabled t
-    :bind (("M-'" . surround-keymap)))
+    :bind-keymap ("M-'" . surround-keymap))
 
 ;; emacs-everywhere : use emacs everywhere
 (use-package emacs-everywhere :disabled t)

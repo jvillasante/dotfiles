@@ -90,8 +90,8 @@
 
 ;; Use "y" and "n" to confirm/negate prompt
 (if (boundp 'use-short-answers)
-        (setq use-short-answers t)
-    (advice-add 'yes-or-no-p :override #'y-or-n-p))
+        (setopt use-short-answers t)
+    (fset 'yes-or-no-p 'y-or-n-p))
 
 ;; Some Defaults
 (setq user-full-name "Julio C. Villasante"
@@ -109,7 +109,6 @@
 (size-indication-mode t) ; Display size indication
 (setq kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
 (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
-(setq use-short-answers t) ; Abreviate Yes/No to y or n
 (setq require-final-newline t) ;; Newline at end of file
 (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
 (setq-default tab-width 4)            ;; but maintain correct appearance
