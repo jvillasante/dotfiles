@@ -74,8 +74,22 @@
                                                    (when my-format-on-save
                                                        (eglot-format-buffer)))
                                                nil t))))
-    :bind (:map c-ts-base-mode-map
-                ("C-x C-o" . my-eglot-clangd-find-other-file))
+    :bind (("C-c l l" . eglot)
+           ("C-c l Q" . eglot-shutdown-all)
+           :map eglot-mode-map
+           ("C-c l q" . eglot-shutdown)
+           ("C-c l R" . eglot-reconnect)
+           ("C-c l r" . eglot-rename)
+           ("C-c l d" . eglot-find-declaration)
+           ("C-c l ." . eglot-find-typeDefinition)
+           ("C-c l i" . eglot-find-implementation)
+           ("C-c l a" . eglot-code-actions)
+           ("C-c l x" . eglot-code-action-quickfix)
+           ("C-c l o" . eglot-code-action-organize-imports)
+           ("C-c l =" . eglot-format-buffer)
+           ("C-c l f" . eglot-format)
+           :map c-ts-base-mode-map
+           ("C-x C-o" . my-eglot-clangd-find-other-file))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)

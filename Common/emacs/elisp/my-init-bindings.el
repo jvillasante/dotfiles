@@ -114,29 +114,6 @@ When run interactively:
     (global-set-key (kbd "M-[") 'tab-bar-history-back)
     (global-set-key (kbd "M-]") 'tab-bar-history-forward))
 
-;; C-c c : Code
-(with-eval-after-load 'hs-minor-mode
-    (define-key hs-minor-mode-map (kbd "C-c c f") 'my-hs-toggle-hidding))
-(with-eval-after-load 'consult-eglot
-    (define-key eglot-mode-map (kbd "C-c c s") 'consult-eglot-symbols))
-(with-eval-after-load 'eglot
-    (global-set-key            (kbd "C-c c Q") 'eglot-shutdown-all)
-    (define-key eglot-mode-map (kbd "C-c c q") 'eglot-shutdown)
-    (define-key eglot-mode-map (kbd "C-c c R") 'eglot-reconnect)
-    (define-key eglot-mode-map (kbd "C-c c m") 'eglot-menu)
-    (define-key eglot-mode-map (kbd "C-c c r") 'eglot-rename)
-    (define-key eglot-mode-map (kbd "C-c c d") 'eglot-find-declaration)
-    (define-key eglot-mode-map (kbd "C-c c .") 'eglot-find-typeDefinition)
-    (define-key eglot-mode-map (kbd "C-c c i") 'eglot-find-implementation)
-    (define-key eglot-mode-map (kbd "C-c c a") 'eglot-code-actions)
-    (define-key eglot-mode-map (kbd "C-c c o") 'eglot-code-action-organize-imports))
-(with-eval-after-load 'lsp-mode
-    (define-key lsp-mode-map (kbd "C-h .") 'lsp-describe-thing-at-point)
-    (define-key lsp-mode-map (kbd "C-c c q") 'lsp-workspace-shutdown)
-    (define-key lsp-mode-map (kbd "C-c c R") 'lsp-workspace-restart))
-(with-eval-after-load 'flymake
-    (define-key flymake-mode-map (kbd "C-c c e") 'flymake-show-buffer-diagnostics)
-    (define-key flymake-mode-map (kbd "C-c c E") 'flymake-show-project-diagnostics))
 
 ;; C-c o : Open
 (when (package-installed-p 'elfeed)
@@ -160,10 +137,10 @@ When run interactively:
     (global-set-key (kbd "C-c n n") 'consult-notes))
 (global-set-key (kbd "C-c n a") 'org-agenda)
 
-;; C-c l : lookup
+;; C-c d : dictionary
 (when (fboundp 'dictionary-lookup-definition)
-    (global-set-key (kbd "C-c l d") 'dictionary-lookup-definition)
-    (global-set-key (kbd "C-c l D") 'dictionary-search))
+    (global-set-key (kbd "C-c d d") 'dictionary-lookup-definition)
+    (global-set-key (kbd "C-c d D") 'dictionary-search))
 
 ;; C-c s : shell
 (global-set-key (kbd "C-c s c") 'my-remote-copy)
