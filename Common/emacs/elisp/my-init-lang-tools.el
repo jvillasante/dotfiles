@@ -53,6 +53,9 @@
 (use-package package-lint-flymake
     :hook (flymake-diagnostic-functions . package-lint-flymake))
 
+(defvar-local my-format-on-save t
+    "When non-nil, format buffer on save via eglot.")
+
 (use-package eglot
     :ensure nil ;; emacs built-in
     :defer t
@@ -63,7 +66,14 @@
                                                  (remove #'flymake-eldoc-function eldoc-documentation-functions)))
 
                                      ;; Show all eldoc feedback.
-                                     (setq eldoc-documentation-strategy #'eldoc-documentation-compose))))
+                                     (setq eldoc-documentation-strategy #'eldoc-documentation-compose)
+
+                                     ;; Format on save via LSP.
+                                     (add-hook 'before-save-hook
+                                               (lambda ()
+                                                   (when my-format-on-save
+                                                       (eglot-format-buffer)))
+                                               nil t))))
     :bind (:map c-ts-base-mode-map
                 ("C-x C-o" . my-eglot-clangd-find-other-file))
     :config
@@ -131,53 +141,6 @@
     :config
     (eglot-inactive-regions-mode 1))
 
-(use-package lsp-mode
-    :disabled t
-    :commands lsp
-    :hook
-    (c++-ts-mode . lsp)
-    (lsp-mode . (lambda ()
-                    (my-lsp-eldoc)
-                    (lsp-enable-which-key-integration)))
-    :custom
-    (lsp-log-io nil)
-    (lsp-idle-delay 0.1)                      ; clangd is fast
-    (lsp-lens-enable nil)
-    (lsp-auto-guess-root t)                   ; Detect project root
-    (lsp-keymap-prefix "C-c c")
-    (lsp-enable-indentation nil)              ; no formatting (use `apheleia')
-    (lsp-enable-symbol-highlighting nil)
-    (lsp-headerline-breadcrumb-enable nil)
-    (lsp-modeline-code-actions-enable nil)
-    (lsp-modeline-diagnostics-enable nil)
-    (lsp-clients-clangd-args
-     '("-j=8"
-       "--enable-config"
-       "--query-driver=/**/*"
-       "--log=error"
-       "--malloc-trim"
-       "--background-index"
-       "--clang-tidy"
-       "--all-scopes-completion"
-       "--completion-style=detailed"
-       "--pch-storage=memory"
-       "--header-insertion=never"
-       "--header-insertion-decorators=0")))
-
-;; optionally
-(use-package lsp-ui
-    :disabled t
-    :commands lsp-ui-mode
-    :custom
-    (lsp-ui-doc-enable nil)
-    (lsp-ui-sideline-enable nil))
-
-(use-package lsp-bridge
-    :disabled t
-    :vc (:url "git@github.com:manateelazycat/lsp-bridge.git"
-              :rev :newest)
-    :hook (after-init . global-lsp-bridge-mode))
-
 ;; geiser : hacking scheme in emacs
 (use-package geiser
     :defer t)
@@ -189,29 +152,6 @@
 
 ;; dape : Debug Adapter Protocol for Emacs
 (use-package dape :defer t)
-
-;; apheleia : Good code is automatically formatted
-(use-package apheleia
-    :preface
-    (defun my-disable-apheleia ()
-        (apheleia-mode -1))
-    :hook
-    ((prog-mode . apheleia-mode)
-     (web-mode . my-disable-apheleia))
-    :config
-    ;; Set custom formatting commands
-    (dolist (formatter-cmd '((shfmt    . ("shfmt" "-i" "4" "-ci" "-kp" "-sr"))
-                             (zigfmt   . ("zig" "fmt" "--stdin"))
-                             (fourmolu . ("fourmolu" "--indentation" "2" "--stdin-input-file"
-                                          (or (buffer-file-name) (buffer-name))))))
-        (add-to-list #'apheleia-formatters formatter-cmd))
-
-    ;; Set custom formatters for modes
-    (dolist (formatter-mode '((emacs-lisp-mode . lisp-indent)
-                              (clojure-mode . lisp-indent)
-                              (zig-mode     . zigfmt)
-                              (haskell-mode . fourmolu)))
-        (add-to-list #'apheleia-mode-alist formatter-mode)))
 
 (use-package compile
     :ensure nil ; Emacs built in

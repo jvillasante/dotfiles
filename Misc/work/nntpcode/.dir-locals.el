@@ -4,7 +4,7 @@
 ((nil .
       ((eval . (progn
                    ;; At work, we don't auto-format code :(
-                   (apheleia-mode -1)
+                   (setq-local my-format-on-save nil)
 
                    ;; Point compile-command at the build script using an absolute
                    ;; path derived from the .dir-locals.el location so it works
