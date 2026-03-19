@@ -102,6 +102,11 @@ if type fzf > /dev/null 2> /dev/null; then
             return
         fi
 
+        if [[ nntp = "$selected_name" ]]; then
+            echo "Git Worktrees are not supported, use Emacs instead"
+            return
+        fi
+
         tmux_running=$(pgrep tmux)
         if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
             tmux new-session -s "$selected_name" -c "$selected"
