@@ -37,7 +37,9 @@
              (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
              (magit-diff-refine-hunk 'all) ; show word-granularity differences within diff hunks.
              (magit-save-repository-buffers nil)
-             (magit-define-global-key-bindings nil)))
+             (magit-define-global-key-bindings nil))
+    :config
+    (add-hook 'magit-status-sections-hook #'magit-insert-worktrees t))
 
 ;; eldoc-diffstat : provides a way to display VCS diffstat information via eldoc.
 (use-package eldoc-diffstat
