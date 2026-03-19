@@ -114,7 +114,6 @@ When run interactively:
     (global-set-key (kbd "M-[") 'tab-bar-history-back)
     (global-set-key (kbd "M-]") 'tab-bar-history-forward))
 
-
 ;; C-c o : Open
 (when (package-installed-p 'elfeed)
     (global-set-key (kbd "C-c o f") 'elfeed)
