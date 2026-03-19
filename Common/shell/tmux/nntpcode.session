@@ -7,44 +7,43 @@ set -o pipefail
 cd "$(dirname "$0")" || exit 1
 
 selected="$1"
-selected_name="$2"
-unique_name="$selected_name"
+selected_name=nntp-"$2"
 tmux_running=$(pgrep tmux)
 
 configure() {
-    tmux send-keys -t "$unique_name" "git status" Enter
-    tmux split-window -v -l 80% -t "$unique_name" -c "$selected"
+    tmux send-keys -t "$selected_name" "git status" Enter
+    tmux split-window -v -l 80% -t "$selected_name" -c "$selected"
 
     # Start persistent daemon container if not already running
-    tmux send-keys -t "$unique_name" \
+    tmux send-keys -t "$selected_name" \
          "if ! podman inspect -f '{{.State.Running}}' '$selected_name' 2>/dev/null | grep -q '^true$'; then" Enter
-    tmux send-keys -t "$unique_name" \
+    tmux send-keys -t "$selected_name" \
          "  podman rm '$selected_name' 2>/dev/null || true" Enter
-    tmux send-keys -t "$unique_name" \
+    tmux send-keys -t "$selected_name" \
          "  podman run --user nntpuser --rm --detach --init " \
          "--volume $selected:/tmp/nntpcode:rw,z --userns=keep-id -w /tmp/nntpcode " \
          "--name '$selected_name' localhost/nntp:latest tail -f /dev/null" Enter
-    tmux send-keys -t "$unique_name" "fi" Enter
+    tmux send-keys -t "$selected_name" "fi" Enter
 
     # Setup build dir on host (idempotent)
-    tmux send-keys -t "$unique_name" \
+    tmux send-keys -t "$selected_name" \
          "mkdir -p '$selected/build' && [ ! -L '$selected/build/Makefile' ] && ln -sf ../Makefile '$selected/build/Makefile'; true" Enter
 
     # Attach interactive shell inside the running container
-    tmux send-keys -t "$unique_name" \
+    tmux send-keys -t "$selected_name" \
          "podman exec -it --user nntpuser '$selected_name' /bin/bash" Enter
-    tmux send-keys -t "$unique_name" "clear" Enter
+    tmux send-keys -t "$selected_name" "clear" Enter
 }
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s "$unique_name" -c "$selected"
+    tmux new-session -s "$selected_name" -c "$selected"
     configure
 else
-    if ! tmux has-session -t="$unique_name" 2> /dev/null; then
-        tmux new-session -ds "$unique_name" -c "$selected"
-        tmux switch-client -t "$unique_name"
+    if ! tmux has-session -t="$selected_name" 2> /dev/null; then
+        tmux new-session -ds "$selected_name" -c "$selected"
+        tmux switch-client -t "$selected_name"
         configure
     else
-        tmux switch-client -t "$unique_name"
+        tmux switch-client -t "$selected_name"
     fi
 fi

@@ -15,8 +15,9 @@
 
 set -euo pipefail
 
-PROJ_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-CONTAINER="nntpcode"
+PROJ_DIR=$(git rev-parse --show-toplevel)
+WORKTREE_NAME=$(basename "$PROJ_DIR")
+CONTAINER="nntp-${WORKTREE_NAME}"
 IMAGE="localhost/nntp:latest"
 BUILD_DIR="$PROJ_DIR/build"
 

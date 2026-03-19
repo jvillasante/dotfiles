@@ -20,7 +20,7 @@
                    (defun my-nntp-attach ()
                        "Attach an interactive bash shell to the nntpcode podman container in vterm.
 If the container is not running, starts it first (without building).
-Use `podman stop nntpcode' to end the session."
+Use `podman stop <name>' to end the session."
                        (interactive)
                        (let* ((root (locate-dominating-file default-directory ".dir-locals.el"))
                               (container (file-name-nondirectory (directory-file-name root)))
@@ -31,7 +31,7 @@ Use `podman stop nntpcode' to end the session."
                            (with-current-buffer v-buf
                                (setq-local vterm-scroll-to-bottom-on-output t)
                                (vterm-send-string
-                                (format "podman exec -it --user nntpuser %s /bin/bash\n"
+                                (format "podman exec -it --user nntpuser nntp-%s /bin/bash\n"
                                         container)))))
 
                    ;; C-x p a  ("project attach") — consistent with C-x p c (compile)
