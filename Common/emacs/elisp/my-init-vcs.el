@@ -56,6 +56,12 @@
     "Alist of (SOURCE . DEST) for symlinks from dotfiles into each new worktree.
 SOURCE is relative to `my-nntp-dotfiles-dir', DEST is relative to the worktree.")
 
+;; Make the master worktree read-only to prevent accidental edits.
+(dir-locals-set-class-variables 'nntp-master-readonly
+    '((nil . ((buffer-read-only . t)))))
+(dir-locals-set-directory-class
+    (expand-file-name "master" my-nntp-worktree-base) 'nntp-master-readonly)
+
 (defun my-nntp-worktree-add (name start-point &optional detach)
     "Create an nntp worktree called NAME based on START-POINT.
 With prefix argument DETACH, use detached HEAD (useful for code reviews)."
