@@ -18,21 +18,33 @@
                    ;; If the container is not running yet, start it first via the
                    ;; build script so the session is consistent.
                    (defun my-nntp-attach ()
-                       "Attach an interactive bash shell to the nntpcode podman container in vterm.
-If the container is not running, starts it first (without building).
+                       "Attach an interactive bash shell to the nntp podman container in vterm.
+If the container is not running, starts it first via the build script.
 Use `podman stop <name>' to end the session."
                        (interactive)
                        (let* ((root (locate-dominating-file default-directory ".dir-locals.el"))
                               (container (file-name-nondirectory (directory-file-name root)))
+                              (cname (format "nntp-%s" container))
                               (buf-name (format "*vterm-%s*" container))
-                              (v-buf (or (get-buffer buf-name)
-                                         (vterm-other-window buf-name))))
-                           (pop-to-buffer v-buf)
-                           (with-current-buffer v-buf
-                               (setq-local vterm-scroll-to-bottom-on-output t)
-                               (vterm-send-string
-                                (format "podman exec -it --user nntpuser nntp-%s /bin/bash\n"
-                                        container)))))
+                              (running-p (string= "true"
+                                                  (string-trim
+                                                   (shell-command-to-string
+                                                    (format "podman inspect -f '{{.State.Running}}' %s 2>/dev/null"
+                                                            (shell-quote-argument cname)))))))
+                           ;; Start the container if not running
+                           (unless running-p
+                               (let ((default-directory root))
+                                   (message "Starting container %s..." cname)
+                                   (call-process "bash" nil nil nil
+                                                 (expand-file-name ".scripts/ensure-container.sh" root))))
+                           (let ((v-buf (or (get-buffer buf-name)
+                                            (vterm-other-window buf-name))))
+                               (pop-to-buffer v-buf)
+                               (with-current-buffer v-buf
+                                   (setq-local vterm-scroll-to-bottom-on-output t)
+                                   (vterm-send-string
+                                    (format "podman exec -it --user nntpuser %s /bin/bash\n"
+                                            cname))))))
 
                    ;; C-x p a  ("project attach") — consistent with C-x p c (compile)
                    (keymap-set project-prefix-map "a" #'my-nntp-attach))))))

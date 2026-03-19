@@ -25,6 +25,7 @@
 ;; Paths used throughout
 (defconst my-home-path         (expand-file-name "~/"))
 (defconst my-dotfiles-path     (expand-file-name "Workspace/Public/dotfiles/" my-home-path))
+(defconst my-work-path         (expand-file-name "Workspace/Work/Omicron/"    my-home-path))
 (defconst my-software-path     (expand-file-name "Workspace/Software/"        my-home-path))
 (defconst my-dropbox-path      (expand-file-name "Dropbox/"                   my-home-path))
 

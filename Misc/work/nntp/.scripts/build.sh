@@ -15,40 +15,15 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJ_DIR=$(git rev-parse --show-toplevel)
-WORKTREE_NAME=$(basename "$PROJ_DIR")
-CONTAINER="nntp-${WORKTREE_NAME}"
-IMAGE="localhost/nntp:latest"
 BUILD_DIR="$PROJ_DIR/build"
 
 # ---------------------------------------------------------------------------
-# Container lifecycle
+# Container lifecycle (shared with ensure-container.sh)
 # ---------------------------------------------------------------------------
 
-container_running() {
-    podman inspect -f '{{.State.Running}}' "$CONTAINER" 2>/dev/null | grep -q "^true$"
-}
-
-if ! container_running; then
-    # Remove any stale stopped container with the same name before starting fresh.
-    # (`podman rm` fails silently if the container does not exist)
-    podman rm "$CONTAINER" 2>/dev/null || true
-
-    echo "[build] Starting daemon container '$CONTAINER' from image '$IMAGE'..."
-    podman run \
-        --user nntpuser \
-        --rm \
-        --detach \
-        --init \
-        --volume "$PROJ_DIR":/tmp/nntpcode:rw,z \
-        --userns=keep-id \
-        --workdir /tmp/nntpcode \
-        --name "$CONTAINER" \
-        "$IMAGE" \
-        tail -f /dev/null
-else
-    echo "[build] Reusing running container '$CONTAINER'."
-fi
+source "$SCRIPT_DIR/ensure-container.sh"
 
 # ---------------------------------------------------------------------------
 # Build directory setup (idempotent)
