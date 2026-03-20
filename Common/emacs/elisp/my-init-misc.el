@@ -439,21 +439,6 @@
         (wgrep-auto-save-buffer t)
         (wgrep-change-readonly-file t)))
 
-;; deadgrep : use ripgrep from Emac
-(use-package deadgrep
-    :vc (:url "git@github.com:Wilfred/deadgrep.git"
-              :rev :newest)
-    :bind (("M-s R" . deadgrep) ; extend M-s r (consult-ripgrep)
-           :map deadgrep-mode-map
-           ("e"       . deadgrep-edit-mode)
-           ("C-x C-q" . deadgrep-edit-mode)
-           :map deadgrep-edit-mode-map
-           ("C-c C-c" . deadgrep-mode))
-    :custom (deadgrep-extra-arguments
-             '("--no-config"   ;; don't use global config
-               "--hidden"      ;; consider hidden folders/files
-               "--follow")))   ;; follow symlinks
-
 ;; surround : insert, change, and, delete surrounding pairs of quotes, braces, etc.
 (use-package surround
     :bind-keymap ("M-'" . surround-keymap))
