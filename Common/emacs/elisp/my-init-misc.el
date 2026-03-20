@@ -124,7 +124,6 @@
     (with-eval-after-load 'tramp-archive
         (setq tramp-archive-enabled nil))
     :config
-    ;; Some default settings
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
     (setq tramp-use-connection-share nil) ; use Control* options from ssh config
     (setq tramp-connection-timeout 10)    ; timeout so tramp won't hang forever
