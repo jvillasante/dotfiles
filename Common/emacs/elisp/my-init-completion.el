@@ -362,7 +362,7 @@
                   "-or -path */.cache* -prune )"))
     (setq consult-ripgrep-args
           (concat consult-ripgrep-args
-                  " --hidden")) ;; consider hidden folders/files
+                  " --hidden --glob !.git/")) ;; consider hidden files but exclude .git
 
     ;; Optionally configure the narrowing key.
     ;; Both < and C-+ work reasonably well.
