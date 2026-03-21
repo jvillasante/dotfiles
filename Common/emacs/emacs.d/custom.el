@@ -15,13 +15,13 @@
  '(package-selected-packages
       '(adoc-mode agent-shell anzu bind-key cape cl-generic cl-lib cmake-mode compat
            consult-dir consult-notes corfu crux csv-mode dape devdocs-browser
-           diff-hl dired-sidebar diredfl docker dockerfile-mode editorconfig
-           eglot eldoc eldoc-diffstat elfeed elisp-demos embark-consult
-           engine-mode erc expreg external-completion faceup flash flymake
-           geiser-guile gnuplot go-mode helpful hl-todo ibuffer-project idlwave
-           jinx js2-mode json-mode jsonrpc ledger-mode let-alist lua-mode magit
-           map marginalia markdown-mode minions modus-themes monkeytype
-           multiple-cursors nadvice nov ntlm orderless org org-superstar otpp
+           diff-hl dired-sidebar diredfl dockerfile-mode editorconfig eglot
+           eldoc eldoc-diffstat elfeed elisp-demos embark-consult engine-mode
+           erc expreg external-completion faceup flash flymake geiser-guile
+           gnuplot go-mode helpful hl-todo ibuffer-project idlwave jinx js2-mode
+           json-mode jsonrpc ledger-mode let-alist lua-mode magit map marginalia
+           markdown-mode minions modus-themes monkeytype multiple-cursors
+           nadvice nov ntlm orderless org org-superstar otpp
            package-lint-flymake password-store pdf-view-restore peg
            persistent-scratch php-mode project python rmsbolt rust-mode seq
            shell-maker so-long soap-client surround svg track-changes tramp-hlo

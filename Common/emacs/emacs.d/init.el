@@ -61,7 +61,7 @@
 (load (expand-file-name "Common/emacs/elisp/my-init-org"           my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-langs"         my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-lang-tools"    my-dotfiles-path))
-(load (expand-file-name "Common/emacs/elisp/my-init-docker"        my-dotfiles-path))
+;; (load (expand-file-name "Common/emacs/elisp/my-init-docker"        my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-apps"          my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-shell"         my-dotfiles-path))
 (load (expand-file-name "Common/emacs/elisp/my-init-misc"          my-dotfiles-path))
