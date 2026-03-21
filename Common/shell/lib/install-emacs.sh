@@ -17,7 +17,8 @@ fi
 install-emacs() {
     # Set branch to use
     local EMACS_BRANCH
-    EMACS_BRANCH=emacs-30
+    # EMACS_BRANCH=emacs-30
+    EMACS_BRANCH=master
 
     # Prepare git repo
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -37,7 +38,9 @@ install-emacs() {
         make clean && make distclean
         git reset --hard HEAD
         git clean -dfx
-        git fetch && git pull
+        git fetch --all
+        git switch "$EMACS_BRANCH"
+        git pull
     fi
 
     # Setup git branch

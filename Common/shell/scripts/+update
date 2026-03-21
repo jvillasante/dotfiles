@@ -155,9 +155,9 @@ emacs_update() {
     # Preconditions
     ! hash emacs 2> /dev/null && echo "emacs not installed, exiting..." && usage 1
     [[ ! -d "$HOME"/Workspace/Software ]] &&
-        echo "$HOME/Workspace/Software does not exists, exiting..." && usage 1
+        echo "$HOME/Workspace/Software does not exists, exiting..." && usage 2
     [[ ! -d "$HOME"/Workspace/Software/emacs ]] &&
-        echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
+       echo "$HOME/Workspace/Software/emacs does not exists, exiting..." && usage 1
 
     # Stop the service (guard against Emacs not running)
     emacsclient --eval '(progn (setq confirm-kill-emacs nil) (save-buffers-kill-emacs))' 2>/dev/null || true
