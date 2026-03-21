@@ -41,6 +41,41 @@ otherwise use `bufler-switch-buffer'."
 ;; otpp : One tab per project, with unique names
 (use-package otpp
     :after project
+    :preface
+    (defun my-otpp-project-name (dir)
+        "Get project name for DIR, with git worktree support.
+For worktree checkouts, returns \"project » worktree\".
+Otherwise, falls back to the default `otpp-project-name'."
+        (let* ((default-name (otpp-project-name dir))
+                  (proj (project-current nil dir))
+                  (root (and proj (expand-file-name (project-root proj))))
+                  (git-file (and root (expand-file-name ".git" root))))
+            (if (and git-file (file-regular-p git-file))
+                ;; .git is a file, so this is a worktree checkout
+                (let* ((worktree-name (file-name-nondirectory (directory-file-name root)))
+                          (git-content (with-temp-buffer
+                                           (insert-file-contents git-file)
+                                           (buffer-string)))
+                          (gitdir (and (string-match "gitdir: \\(.+\\)" git-content)
+                                      (expand-file-name (match-string 1 git-content) root)))
+                          ;; Navigate from .git/worktrees/<name> up to the main repo
+                          (main-git-dir (and gitdir (expand-file-name "../.." gitdir)))
+                          (main-root (and main-git-dir
+                                         (or
+                                             ;; Bare repo: .bare is in the project root
+                                             (let ((bare-parent (file-name-directory (directory-file-name main-git-dir))))
+                                                 (and (file-exists-p (expand-file-name ".bare" bare-parent))
+                                                     bare-parent))
+                                             ;; Standard worktree: .git dir is inside the main working tree
+                                             (file-name-directory (directory-file-name main-git-dir)))))
+                          (project-name (and main-root
+                                            (file-name-nondirectory (directory-file-name main-root)))))
+                    (if project-name
+                        (format "%s » %s" project-name worktree-name)
+                        (or default-name (file-name-nondirectory (directory-file-name root)))))
+                (or default-name (and root (file-name-nondirectory (directory-file-name root)))))))
+    :custom
+    (otpp-project-name-function #'my-otpp-project-name)
     :hook (after-init . (lambda ()
                             ;; Enable `otpp-mode` globally
                             (otpp-mode 1)
