@@ -427,14 +427,23 @@
            ("C-S-c C-S-c" . mc/edit-lines))
     :config (setq mc/list-file (expand-file-name "mc-list.el" my-var-dir)))
 
-;;; wgrep (writable grep)
-;; See the `grep-edit-mode' for the new built-in feature.
-(unless (>= emacs-major-version 31)
+;;; writable grep
+(if (>= emacs-major-version 31)
+    (use-package grep
+        :ensure nil ; emacs builtin
+        :if (>= emacs-major-version 31)
+        :bind ((:map grep-mode-map
+                   ("e"       . grep-change-to-grep-edit-mode)
+                   ("C-x C-q" . grep-change-to-grep-edit-mode))
+                  (:map grep-edit-mode-map
+                      ("C-c C-c" . grep-edit-save-changes))))
     (use-package wgrep
-        :bind (:map grep-mode-map
-                    ("e"       . wgrep-change-to-wgrep-mode)
-                    ("C-x C-q" . wgrep-change-to-wgrep-mode)
-                    ("C-c C-c" . wgrep-finish-edit))
+        :if (< emacs-major-version 31)
+        :bind ((:map grep-mode-map
+                   ("e"       . wgrep-change-to-wgrep-mode)
+                   ("C-x C-q" . wgrep-change-to-wgrep-mode))
+                  (:map wgrep-mode-map
+                      ("C-c C-c" . wgrep-finish-edit)))
         :custom
         (wgrep-auto-save-buffer t)
         (wgrep-change-readonly-file t)))
