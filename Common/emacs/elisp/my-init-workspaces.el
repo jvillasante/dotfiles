@@ -3,41 +3,6 @@
 ;;
 ;;; Code:
 
-;; activities : manage frames/tabs, windows, and buffers according to their purpose
-(use-package activities
-    :disabled t
-    :preface
-    (defun my-switch-to-buffer ()
-        "Switch to buffer offered from various sources.
-If an activity is current, use `activities-switch-buffer';
-otherwise use `bufler-switch-buffer'."
-        (interactive)
-        (cond ((or (equal '(16) current-prefix-arg)
-                   (not (activities-current)))
-               (call-interactively #'consult-buffer))
-              (t (call-interactively #'activities-switch-buffer))))
-    :bind (("C-x C-a C-n" . activities-new)
-           ("C-x C-a C-d" . activities-define)
-           ("C-x C-a C-a" . activities-resume)
-           ("C-x C-a C-s" . activities-suspend)
-           ("C-x C-a C-k" . activities-kill)
-           ("C-x C-a RET" . activities-switch)
-           ("C-x C-a b"   . activities-switch-buffer)
-           ("C-x C-a g"   . activities-revert)
-           ("C-x C-a l"   . activities-list)
-           ("C-x b"       . my-switch-to-buffer))
-    :hook
-    (after-init . (lambda ()
-                      (activities-mode)
-                      (activities-tabs-mode)))
-    :init
-    ;; Prevent `edebug' default bindings from interfering.
-    (setq edebug-inhibit-emacs-lisp-mode-bindings t)
-    :custom
-    (activities-bookmark-store nil)
-    (activities-kill-buffers t)
-    (activities-always-persist t))
-
 ;; otpp : One tab per project, with unique names
 (use-package otpp
     :after project
