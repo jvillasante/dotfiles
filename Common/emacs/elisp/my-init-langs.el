@@ -178,24 +178,28 @@
          Notes: `treesit-explore-mode' can be very useful to see where you're at in the tree-sitter tree,
                 especially paired with `(setq treesit--indent-verbose t)' to debug what rules is being
                 applied at a given point."
-        `(;; do not indent preprocessor statements
-          ((node-is "preproc") column-0 0)
-          ;; do not indent namespace children
-          ;; ((n-p-gp nil nil "namespace_definition") grand-parent 0)
-          ((n-p-gp nil "declaration_list" "namespace_definition") parent-bol 0)
-          ;; append to bsd style
-          ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
+        (let ((my-rules '(;; do not indent preprocessor statements
+                             ((node-is "preproc") column-0 0)
+                             ;; do not indent namespace children
+                             ((n-p-gp nil "declaration_list" "namespace_definition") parent-bol 0))))
+            (if (>= emacs-major-version 31)
+                ;; Emacs 31+: c-ts-mode--simple-indent-rules
+                (let ((bsd-rules (cdar (c-ts-mode--simple-indent-rules 'cpp 'bsd))))
+                    `((cpp ,@my-rules ,@bsd-rules)))
+                ;; Emacs 30: c-ts-mode--indent-styles
+                (let ((bsd-rules (alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
+                    `(,@my-rules ,@bsd-rules)))))
     :mode ("\\.h\\'"
-           "\\.H\\'"
-           "\\.hpp\\'"
-           "\\.HPP\\'"
-           "\\.c\\'"
-           "\\.C\\'"
-           "\\.cpp\\'"
-           "\\.CPP\\'"
-           "\\.inc\\'")
+              "\\.H\\'"
+              "\\.hpp\\'"
+              "\\.HPP\\'"
+              "\\.c\\'"
+              "\\.C\\'"
+              "\\.cpp\\'"
+              "\\.CPP\\'"
+              "\\.inc\\'")
     :bind (:map c-ts-base-mode-map
-                ("C-x C-o" . ff-find-other-file))
+              ("C-x C-o" . ff-find-other-file))
     :custom
     (c-ts-mode-indent-offset 4)
     (c-ts-mode-indent-style #'my-c-ts-indent-style))
