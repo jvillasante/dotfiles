@@ -60,7 +60,8 @@ When run interactively:
 (windmove-default-keybindings 'control)
 
 ;; better `keyword-quit'
-(define-key global-map [remap keyboard-quit] 'my-keyboard-quit-dwim)
+(if (< emacs-major-version 31)
+    (define-key global-map [remap keyboard-quit] 'my-keyboard-quit-dwim))
 
 ;; Repeat in emacs is not as good as vim :(
 (global-set-key (kbd "C-.") 'repeat)
