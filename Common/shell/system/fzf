@@ -78,7 +78,9 @@ if type fzf > /dev/null 2> /dev/null; then
                         "$HOME"/Workspace/Public/ \
                         "$HOME"/Workspace/Work/Nielsen/Projects/ \
                         "$HOME"/Workspace/Work/Omicron/Projects/ \
-                        -name .git -printf '%h\n' -prune | fzf)
+                        -name .git -printf '%h\n' -prune \
+                   | grep -v "$HOME/Workspace/Work/Omicron/Projects/nntp$" \
+                   | fzf)
         [[ -z $selected ]] && return
 
         selected_name=$(basename "$selected" | tr . _)
@@ -97,13 +99,8 @@ if type fzf > /dev/null 2> /dev/null; then
             return
         fi
 
-        if [[ nntpcode = "$selected_name" ]]; then
-            "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/nntpcode.session" "$selected" "$selected_name"
-            return
-        fi
-
-        if [[ nntp = "$selected_name" ]]; then
-            echo "Git Worktrees are not supported, use Emacs instead"
+        if [[ "$selected" == "$HOME/Workspace/Work/Omicron/Projects/nntp/"* ]]; then
+            "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/nntp.session" "$selected" "$selected_name"
             return
         fi
 
