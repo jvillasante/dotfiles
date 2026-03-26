@@ -84,10 +84,7 @@ if type fzf > /dev/null 2> /dev/null; then
         [[ -z $selected ]] && return
 
         selected_name=$(basename "$selected" | tr . _)
-        [[ -z $selected ]] && return
-
-        selected_parent="$(dirname "$selected")"
-        [[ -z $selected_parent ]] && return
+        [[ -z $selected_name ]] && return
 
         if [[ dmxs = "$selected_name" ]]; then
             "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/dmxs.session" "$selected" "$selected_name"
