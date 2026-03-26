@@ -59,10 +59,11 @@
            ("C-c a r" . claude-code-ide-resume)
            ("C-c a c" . claude-code-ide-continue))
     :custom
+    (claude-code-ide-cli-extra-flags "--model opus")
     (claude-code-ide-window-side 'right)
     (claude-code-ide-window-width 90)
     (claude-code-ide-focus-on-open nil)
-    (claude-code-ide-diagnostics-backend 'flycheck)
+    (claude-code-ide-diagnostics-backend 'flymake)
     (claude-code-ide-use-ide-diff t)                    ; use ediff instead of terminal diff
     (claude-code-ide-show-claude-window-in-ediff nil)   ; hide Claude window while reviewing in ediff
     (claude-code-ide-focus-claude-after-ediff nil)      ; no Claude window to focus while ediff is open
