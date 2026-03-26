@@ -136,6 +136,7 @@
 
 ;; ultra-scroll : scroll emacs like lightning
 (use-package ultra-scroll
+    :disabled t
     :preface
     (defun my-scroll-half-page-down ()
         "Scroll down half a screen."
@@ -158,6 +159,82 @@
     :bind
     ("C-v" . my-scroll-half-page-down)
     ("M-v" . my-scroll-half-page-up))
+
+;; scrolling
+(progn
+    ;; Enables faster scrolling through unfontified regions. This may result in
+    ;; brief periods of inaccurate syntax highlighting immediately after scrolling,
+    ;; which should quickly self-correct.
+    (setq fast-but-imprecise-scrolling t)
+
+    ;; Move point to top/bottom of buffer before signaling a scrolling error.
+    (setq scroll-error-top-bottom t)
+
+    ;; The number of lines to try scrolling a window by when point moves out.
+    (setq scroll-step 1)
+
+    ;; Emacs spends excessive time recentering the screen when the cursor moves more
+    ;; than N lines past the window edges (where N is the value of
+    ;; `scroll-conservatively`). This can be particularly slow in larger files
+    ;; during extensive scrolling. If `scroll-conservatively` is set above 100, the
+    ;; window is never automatically recentered. The default value of 0 triggers
+    ;; recentering too aggressively. Setting it to 10 reduces excessive recentering
+    ;; and only recenters the window when scrolling significantly off-screen.
+    (setq scroll-conservatively 10)
+
+    ;; Try to keep screen position when PgDn/PgUp.
+    (setq scroll-preserve-screen-position t)
+
+    ;; Start scrolling when marker at top/bottom.
+    (setq scroll-margin 1)
+
+    ;; Horizontal scrolling
+    (setq hscroll-margin 2
+          hscroll-step 1)
+
+    ;; Mouse scroll moves 1 line at a time, instead of 5 lines.
+    (setq mouse-wheel-scroll-amount '(1))
+
+    ;; On a long mouse scroll keep scrolling by 1 line.
+    (setq mouse-wheel-progressive-speed nil)
+
+    ;; Speedup cursor movement.
+    ;; https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
+    (setq auto-window-vscroll nil)
+
+    ;; smooth scrolling
+    (use-package pixel-scroll
+        :ensure nil ;; emacs built-in
+        :if (fboundp 'pixel-scroll-precision-mode)
+        :preface
+        (defvar my-default-scroll-lines 30) ;; scroll less than default
+        (defun my-pixel-scroll-up-command (&optional arg)
+            "Similar to `scroll-up-command' but with pixel scrolling."
+            (interactive "^P")
+            (pixel-scroll-precision-interpolate (- (* my-default-scroll-lines (line-pixel-height)))))
+        (defun my-pixel-scroll-down-command (&optional arg)
+            "Similar to `scroll-down-command' but with pixel scrolling."
+            (interactive "^P")
+            (pixel-scroll-precision-interpolate (* my-default-scroll-lines (line-pixel-height))))
+        (defun my-pixel-recenter-top-bottom (&optional arg)
+            "Similar to `recenter-top-bottom' but with pixel scrolling."
+            (interactive "^P")
+            (let* ((current-row (cdr (nth 6 (posn-at-point))))
+                   (target-row (save-window-excursion
+                                   (recenter-top-bottom)
+                                   (cdr (nth 6 (posn-at-point)))))
+                   (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
+                (pixel-scroll-precision-interpolate distance-in-pixels)))
+        :bind (([remap scroll-up-command]   . my-pixel-scroll-up-command)
+               ([remap scroll-down-command] . my-pixel-scroll-down-command)
+               ([remap recenter-top-bottom] . my-pixel-recenter-top-bottom))
+        :custom ((pixel-scroll-precision-interpolation-factor 0.75)
+                 (pixel-scroll-precision-use-momentum nil)
+                 (pixel-scroll-precision-interpolate-mice t)
+                 (pixel-scroll-precision-large-scroll-height 10.0)
+                 (pixel-scroll-precision-interpolation-total-time 0.2)
+                 (pixel-scroll-precision-interpolate-page t))
+        :hook (after-init . pixel-scroll-precision-mode)))
 
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
