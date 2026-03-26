@@ -15,10 +15,8 @@ if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
 fi
 
 install-emacs() {
-    # Set branch to use
-    local EMACS_BRANCH
-    # EMACS_BRANCH=emacs-30
-    EMACS_BRANCH=master
+    # Set branch to use (default: emacs-30, override with first argument)
+    local EMACS_BRANCH="${1:-emacs-30}"
 
     # Prepare git repo
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
@@ -34,13 +32,13 @@ install-emacs() {
             exit 1
         }
 
-        sudo make uninstall
-        make clean && make distclean
+        [ -f Makefile ] && sudo make uninstall || true
+        [ -f Makefile ] && make clean || true
+        [ -f Makefile ] && make distclean || true
         git reset --hard HEAD
         git clean -dfx
-        git fetch --all
-        git switch "$EMACS_BRANCH"
-        git pull
+        git fetch --depth 1 origin "$EMACS_BRANCH"
+        git checkout -B "$EMACS_BRANCH" FETCH_HEAD
     fi
 
     # Setup git branch
@@ -54,13 +52,14 @@ install-emacs() {
     ./autogen.sh
     ./configure \
         --prefix=/usr/local \
-        --with-pgtk \
+        --with-x-toolkit=lucid --with-cairo --with-xft \
         --with-native-compilation=aot \
         --with-tree-sitter \
         --with-json \
         --with-modules \
         --with-sqlite3 \
         --with-harfbuzz \
+        --with-webp \
         --with-rsvg \
         --with-gnutls \
         --with-libgmp \
