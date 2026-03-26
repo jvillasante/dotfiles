@@ -20,6 +20,7 @@
               :rev :newest))
 
 (use-package agent-shell
+    :disabled t
     :defer t
     :vc (:url "https://github.com/xenodium/agent-shell.git"
               :rev :newest)
@@ -48,7 +49,6 @@
     (agent-shell-anthropic-default-model-id "opus"))
 
 (use-package claude-code-ide
-    :disabled t
     :defer t
     :vc (:url "https://github.com/manzaltu/claude-code-ide.el"
               :rev :newest)
