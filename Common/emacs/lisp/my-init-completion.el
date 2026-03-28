@@ -392,13 +392,6 @@
            ("C-c C-d" . consult-dir)
            ("C-c C-j" . consult-dir-jump-file)))
 
-;; consult-xref-stack : Navigate the Xref stack with Consult.
-(use-package consult-xref-stack
-    :disabled t
-    :vc (:url "git@github.com:brett-lempereur/consult-xref-stack.git"
-              :rev :newest)
-    :bind (("C-," . consult-xref-stack-backward)))
-
 ;; consult-notes : select notes via consult
 (use-package consult-notes
     :config

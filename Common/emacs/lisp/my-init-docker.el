@@ -42,10 +42,5 @@
                                       "-w /tmp/nntpcode"
                                       "--name nntp-emacs" . ,docker-image-run-default-args))))
 
-;; (use-package devcontainer
-;;     :vc (:url "git@github.com:johannes-mueller/devcontainer.el.git"
-;;               :rev :newest)
-;;     :config (setq devcontainer-engine 'podman))
-
 (provide 'my-init-docker)
 ;;; my-init-docker.el ends here

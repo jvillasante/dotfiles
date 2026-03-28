@@ -381,8 +381,6 @@
 
 ;; flash : navigate your code with search labels
 (use-package flash
-    :vc (:url "git@github.com:Prgebish/flash.git"
-              :rev :newest)
     :commands (flash-jump flash-jump-continue
                           flash-treesitter)
     :bind (("M-j" . flash-jump)

@@ -18,8 +18,8 @@
            dired-sidebar diredfl dockerfile-mode editorconfig eglot
            eldoc-diffstat elfeed elisp-demos embark-consult engine-mode erc
            expreg faceup flash geiser-guile gnuplot go-mode helpful hl-todo
-           ibuffer-project idlwave jinx js2-mode json-mode ledger-mode lua-mode
-           magit map marginalia markdown-mode minions modus-themes monkeytype
+           ibuffer-project idlwave jinx js2-mode json-mode lua-mode magit map
+           marginalia markdown-mode minions modus-themes monkeytype
            multiple-cursors nov ntlm orderless org-superstar otpp
            package-lint-flymake password-store pdf-view-restore peg
            persistent-scratch php-mode python rmsbolt rust-mode so-long

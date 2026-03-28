@@ -6,25 +6,15 @@
 (use-package chatgpt-shell
     :disabled t
     :defer t
-    :vc (:url "git@github.com:xenodium/chatgpt-shell.git"
-              :rev :newest)
     :custom
     ((chatgpt-shell-model-version "gemini-3-flash-preview")
      (chatgpt-shell-google-key
       (lambda ()
           (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
-(use-package shell-maker
-    :disabled t
-    :defer t
-    :vc (:url "https://github.com/xenodium/shell-maker.git"
-              :rev :newest))
-
 (use-package agent-shell
     :disabled t
     :defer t
-    :vc (:url "https://github.com/xenodium/agent-shell.git"
-              :rev :newest)
     :preface
     (defun my/agent-shell-dot-subdir (subdir)
         (let* ((cwd (string-remove-suffix "/" (agent-shell-cwd)))
@@ -51,8 +41,7 @@
 
 (use-package claude-code-ide
     :defer t
-    :vc (:url "https://github.com/manzaltu/claude-code-ide.el"
-              :rev :newest)
+    :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
     :bind (("C-c C-'" . claude-code-ide-menu)
            ("C-c a t" . claude-code-ide-toggle)
            ("C-c a s" . claude-code-ide-send-prompt)
