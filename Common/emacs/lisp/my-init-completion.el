@@ -157,7 +157,7 @@
     (setq dabbrev-upcase-means-case-search t)
 
     ;; `abbrev' (Abbreviations, else Abbrevs)
-    (setq abbrev-file-name (expand-file-name "abbrevs" my-etc-dir))
+    (setq abbrev-file-name (expand-file-name "abbrevs" my/etc-dir))
     (setq only-global-abbrevs nil))
 
 ;; hippie expand is dabbrev expand on steroids
@@ -406,9 +406,9 @@
 (use-package consult-notes
     :config
     (setq consult-notes-file-dir-sources
-          `(("Org"    ?o ,(expand-file-name "Apps/org"       my-dropbox-path))
-            ("Notes"  ?n ,(expand-file-name "Apps/org/notes" my-dropbox-path))
-            ("Ledger" ?l ,(expand-file-name "Apps/ledger"    my-dropbox-path)))))
+          `(("Org"    ?o ,(expand-file-name "Apps/org"       my/dropbox-path))
+            ("Notes"  ?n ,(expand-file-name "Apps/org/notes" my/dropbox-path))
+            ("Ledger" ?l ,(expand-file-name "Apps/ledger"    my/dropbox-path)))))
 
 ;; embark : Emacs Mini-Buffer Actions Rooted in Keymaps
 (use-package embark
@@ -455,7 +455,7 @@
     :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
            ("M-*" . tempel-insert))
     :init
-    (setq tempel-path (expand-file-name "tempel-templates" my-etc-dir))
+    (setq tempel-path (expand-file-name "tempel-templates" my/etc-dir))
 
     ;; Setup completion at point
     (defun tempel-setup-capf ()
@@ -487,7 +487,7 @@
     :bind (("M-+" . yas-expand)
            ("M-*" . yas-insert-snippet))
     :config (add-to-list 'yas-snippet-dirs
-                         (expand-file-name "yasnippet/snippets" my-etc-dir)))
+                         (expand-file-name "yasnippet/snippets" my/etc-dir)))
 
 ;; yasnippet-capf
 (use-package yasnippet-capf :disabled t)
@@ -504,9 +504,9 @@
     (setq langtool-default-language "en-US")
     (setq langtool-java-user-arguments '("-Dfile.encoding=UTF-8"))
     (setq langtool-language-tool-jar
-          (expand-file-name "LanguageTool-6.4/languagetool-commandline.jar" my-software-path))
+          (expand-file-name "LanguageTool-6.4/languagetool-commandline.jar" my/software-path))
     (setq langtool-language-tool-server-jar
-          (expand-file-name "LanguageTool-6.4/languagetool-server.jar" my-software-path)))
+          (expand-file-name "LanguageTool-6.4/languagetool-server.jar" my/software-path)))
 
 (provide 'my-init-completion)
 ;;; my-init-completion.el ends here

@@ -7,7 +7,7 @@
 (use-package otpp
     :after project
     :preface
-    (defun my-otpp-project-name (dir)
+    (defun my/otpp-project-name (dir)
         "Get project name for DIR, with git worktree support.
 For worktree checkouts, returns \"project » worktree\".
 Otherwise, falls back to the default `otpp-project-name'."
@@ -40,7 +40,7 @@ Otherwise, falls back to the default `otpp-project-name'."
                         (or default-name (file-name-nondirectory (directory-file-name root)))))
                 (or default-name (and root (file-name-nondirectory (directory-file-name root)))))))
     :custom
-    (otpp-project-name-function #'my-otpp-project-name)
+    (otpp-project-name-function #'my/otpp-project-name)
     :hook (after-init . (lambda ()
                             ;; Enable `otpp-mode` globally
                             (otpp-mode 1)
@@ -52,7 +52,7 @@ Otherwise, falls back to the default `otpp-project-name'."
 (use-package tabspaces
     :disabled t
     :preface
-    (defun my-tabspace-setup ()
+    (defun my/tabspace-setup ()
         "Set up tabspace at startup."
         ;; Add *Messages* and *splash* to Tab \`Default\'
         (tabspaces-mode 1)
@@ -69,7 +69,7 @@ Otherwise, falls back to the default `otpp-project-name'."
                                      (cons (get-buffer "*splash*")
                                            (frame-parameter nil 'buffer-list))))))
 
-    (defun my-consult-tabspaces ()
+    (defun my/consult-tabspaces ()
         "Deactivate isolated buffers when not using tabspaces."
         (require 'consult)
         (cond (tabspaces-mode
@@ -84,8 +84,8 @@ Otherwise, falls back to the default `otpp-project-name'."
     (tabspaces-switch-or-create-workspace
      tabspaces-open-or-create-project-and-workspace)
     :hook
-    ((after-init . my-tabspace-setup)
-     (tabspaces-mode . my-consult-tabspaces))
+    ((after-init . my/tabspace-setup)
+     (tabspaces-mode . my/consult-tabspaces))
     :init
     (with-eval-after-load 'consult
         ;; hide full buffer list (still available with "b" prefix)

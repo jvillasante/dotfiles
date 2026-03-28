@@ -53,7 +53,7 @@
 (use-package package-lint-flymake
     :hook (flymake-diagnostic-functions . package-lint-flymake))
 
-(defvar-local my-format-on-save t
+(defvar-local my/format-on-save t
     "When non-nil, format buffer on save via eglot.")
 
 (use-package eglot
@@ -71,7 +71,7 @@
                                      ;; Format on save via LSP.
                                      (add-hook 'before-save-hook
                                                (lambda ()
-                                                   (when my-format-on-save
+                                                   (when my/format-on-save
                                                        (eglot-format-buffer)))
                                                nil t))))
     :bind (("C-c l l" . eglot)
@@ -89,7 +89,7 @@
            ("C-c l =" . eglot-format-buffer)
            ("C-c l f" . eglot-format)
            :map c-ts-base-mode-map
-           ("C-x C-o" . my-eglot-clangd-find-other-file))
+           ("C-x C-o" . my/eglot-clangd-find-other-file))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)

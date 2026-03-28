@@ -14,14 +14,14 @@
     :ensure nil ;; emacs built-in
     :defer t
     :preface
-    (defun my-eshell-other-window ()
+    (defun my/eshell-other-window ()
         "Open a `eshell' in a new window."
         (interactive)
         (let ((buf (eshell)))
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
     :bind (("C-c o e" . eshell)
-           ("C-c o E" . my-eshell-other-window))
+           ("C-c o E" . my/eshell-other-window))
     :hook
     (eshell-mode . (lambda ()
                        ;; visual commands
@@ -56,14 +56,14 @@
 (use-package shell
     :ensure nil ;; emacs built-in
     :preface
-    (defun my-shell-other-window ()
+    (defun my/shell-other-window ()
         "Open a `shell' in a new window."
         (interactive)
         (let ((buf (shell)))
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
     :bind (("C-c o s" . shell)
-           ("C-c o S" . my-shell-other-window)))
+           ("C-c o S" . my/shell-other-window)))
 
 ;; bash-completion : bash-completion for Emacs
 ;; (use-package bash-completion
@@ -74,7 +74,7 @@
     :disabled t
     :defer t
     :preface
-    (defun my-eat-open (file)
+    (defun my/eat-open (file)
         "Helper function to open files from eat terminal."
         (interactive)
         (if (file-exists-p file)
@@ -91,7 +91,7 @@
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
-    (add-to-list 'eat-message-handler-alist (cons "open" 'my-eat-open))
+    (add-to-list 'eat-message-handler-alist (cons "open" 'my/eat-open))
     (setq process-adaptive-read-buffering nil) ; makes EAT a lot quicker!
     (setq eat-term-name "xterm-256color") ; https://codeberg.org/akib/emacs-eat/issues/119"
     (setq eat-kill-buffer-on-exit t)
@@ -103,16 +103,16 @@
 (use-package vterm
     :defer t
     :preface
-    (defun my-vterm-copy-mode-cancel ()
+    (defun my/vterm-copy-mode-cancel ()
         (interactive)
         (vterm-copy-mode -1))
-    (defun my-vterm-project ()
+    (defun my/vterm-project ()
         (interactive)
         (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
                (vterm-buffer-name (project-prefixed-buffer-name "vterm")))
             (vterm)))
-    (defun my-vterm-project-other-window ()
+    (defun my/vterm-project-other-window ()
         (interactive)
         (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
@@ -124,20 +124,20 @@
     :bind (("C-c o t" . vterm)
            ("C-c o T" . vterm-other-window)
            :map vterm-copy-mode-map
-           ("<return>" . my-vterm-copy-mode-cancel)
-           ("RET"      . my-vterm-copy-mode-cancel)
+           ("<return>" . my/vterm-copy-mode-cancel)
+           ("RET"      . my/vterm-copy-mode-cancel)
            :map vterm-mode-map
            ("<insert>" . ignore)
            ("C-g"      . vterm-send-escape)
            ("M-["      . vterm-copy-mode)
            ("C-q"      . vterm-send-next-key)
            :map project-prefix-map
-           ("t" . my-vterm-project)
-           ("T" . my-vterm-project-other-window))
+           ("t" . my/vterm-project)
+           ("T" . my/vterm-project-other-window))
     :config
     (add-to-list 'vterm-eval-cmds '("dired" dired))
-    (add-to-list 'project-switch-commands '(my-vterm-project "vTerm") t)
-    (add-to-list 'project-switch-commands '(my-vterm-project-other-window "vTerm other window") t)
+    (add-to-list 'project-switch-commands '(my/vterm-project "vTerm") t)
+    (add-to-list 'project-switch-commands '(my/vterm-project-other-window "vTerm other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=On -DCMAKE_BUILD_TYPE=Release")
     (setq vterm-always-compile-module nil)

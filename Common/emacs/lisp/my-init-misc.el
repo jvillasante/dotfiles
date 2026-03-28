@@ -24,7 +24,7 @@
 (use-package electric
     :ensure nil ;; emacs built-in
     :preface
-    (defun my-electric-indent-local-mode-maybe ()
+    (defun my/electric-indent-local-mode-maybe ()
         "Enable `electric-indent-local-mode' if appropriate."
         (unless (or (eq major-mode 'fundamental-mode)
                     (eq major-mode 'text-mode)
@@ -34,7 +34,7 @@
     (setq-default electric-indent-chars '(?\n ?\^?))
     (setq-default electric-indent-inhibit t) ;; Making electric-indent behave sanely
     (electric-indent-mode 0) ;; disable by default
-    (add-hook 'after-change-major-mode-hook #'my-electric-indent-local-mode-maybe))
+    (add-hook 'after-change-major-mode-hook #'my/electric-indent-local-mode-maybe))
 
 (use-package isearch
     :ensure nil ;; emacs built-in
@@ -59,7 +59,7 @@
     :ensure nil ;; emacs built-in
     :hook (after-init . save-place-mode)
     :config
-    (setq save-place-file (expand-file-name "saveplace" my-var-dir))
+    (setq save-place-file (expand-file-name "saveplace" my/var-dir))
     (setq save-place-limit 600))
 
 ;; savehist : save minibuffer history
@@ -85,11 +85,11 @@
     (setq recentf-max-saved-items 500
           recentf-max-menu-items 15
           recentf-auto-cleanup 'mode)
-    (add-to-list 'recentf-exclude (recentf-expand-file-name my-var-dir))
-    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "secrets/" my-etc-dir)))
-    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "Apps/elfeed/elfeed_db/" my-dropbox-path)))
-    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".password-store/" my-home-path)))
-    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".mail/" my-home-path)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name my/var-dir))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "secrets/" my/etc-dir)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "Apps/elfeed/elfeed_db/" my/dropbox-path)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".password-store/" my/home-path)))
+    (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name ".mail/" my/home-path)))
     (add-to-list 'recentf-exclude "/dev/shm/")
     (add-to-list 'recentf-exclude "\\.git")
     (add-to-list 'recentf-exclude "\\.jar$\\.rar$\\.zip$\\.tar$\\.gz$\\.iso$\\.7z$")
@@ -104,7 +104,7 @@
 (use-package project
     :ensure nil ;; emacs built-in
     :custom
-    ((project-list-file (expand-file-name "projects" my-var-dir))
+    ((project-list-file (expand-file-name "projects" my/var-dir))
      (project-vc-extra-root-markers '(".project.el" ".projectile"))
      (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
     :config
@@ -138,7 +138,8 @@
     (setq tramp-default-user-alist '(("\\`su\\(do\\)?\\'" nil "root")))
     (setq tramp-completion-use-auth-sources nil) ; do not use `.authinfo.gpg' for tramp
     (setq tramp-shell-prompt-pattern
-          "\\(?:^\\|\\)[^]\n#-%>]*#?[]#-%>].*[[:blank:]]*") ; Tramp hangs: Not recognizing the remote shell prompt
+          "\\(?:^\\|
+\\)[^]\n#-%>]*#?[]#-%>].*[[:blank:]]*") ; Tramp hangs: Not recognizing the remote shell prompt
     (setq backup-enable-predicate
           (lambda (name)
               (and (normal-backup-enable-predicate name)
@@ -264,7 +265,7 @@
 (use-package fortune
     :defer t
     :preface
-    (defun my-fortune ()
+    (defun my/fortune ()
         (interactive)
         (when (executable-find "fortune")
             (switch-to-buffer (make-temp-name "fortune"))
@@ -425,7 +426,7 @@
            ("C-<"         . mc/mark-previous-like-this)
            ("C-c C->"     . mc/mark-all-like-this)
            ("C-S-c C-S-c" . mc/edit-lines))
-    :config (setq mc/list-file (expand-file-name "mc-list.el" my-var-dir)))
+    :config (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
 ;;; writable grep
 (if (>= emacs-major-version 31)
@@ -460,23 +461,23 @@
     :defer t
     :config
     (setq monkeytype-directory
-          (expand-file-name "monkeytype" my-etc-dir)))
+          (expand-file-name "monkeytype" my/etc-dir)))
 
 ;; devdocs.el : Emacs viewer for DevDocs
 (use-package devdocs
     :disabled t
     :bind (("C-h D" . devdocs-lookup))
     :custom (devdocs-data-dir
-             (expand-file-name "devdocs" my-var-dir)))
+             (expand-file-name "devdocs" my/var-dir)))
 
 ;; devdocs-browser : Browse devdocs.io documents inside Emacs!
 (use-package devdocs-browser
     :defer t
     :bind (("C-h D" . devdocs-browser-open))
     :custom
-    (devdocs-data-dir (expand-file-name  "devdocs-browser" my-var-dir))
-    (devdocs-browser-cache-directory (expand-file-name  "devdocs-browser/cache" my-var-dir))
-    (devdocs-browser-data-directory (expand-file-name  "devdocs-browser/data" my-var-dir))
+    (devdocs-data-dir (expand-file-name  "devdocs-browser" my/var-dir))
+    (devdocs-browser-cache-directory (expand-file-name  "devdocs-browser/cache" my/var-dir))
+    (devdocs-browser-data-directory (expand-file-name  "devdocs-browser/data" my/var-dir))
     :hook
     (c-ts-mode . (lambda() (setq-local devdocs-browser-active-docs '("c"))))
     (c++-ts-mode . (lambda() (setq-local devdocs-browser-active-docs '("cpp")))))

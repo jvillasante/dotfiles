@@ -7,9 +7,9 @@
 
 ;;; Constants
 
-(defconst my-os-mac     (eq system-type 'darwin))
-(defconst my-os-unix    (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
-(defconst my-os-windows (memq system-type '(cygwin windows-nt ms-dos)))
+(defconst my/os-mac     (eq system-type 'darwin))
+(defconst my/os-unix    (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
+(defconst my/os-windows (memq system-type '(cygwin windows-nt ms-dos)))
 
 ;;; Macros
 
@@ -35,7 +35,7 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
 
 ;;; UI
 
-(defun my-toggle-continuation-fringe-indicator ()
+(defun my/toggle-continuation-fringe-indicator ()
     "Toggling the continuation indicator."
     (interactive)
     (setq-default
@@ -44,10 +44,10 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
              (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)
          (cons '(continuation right-curly-arrow left-curly-arrow) fringe-indicator-alist))))
 
-(defvar-local my-shrunk-path--cache nil
-    "Cache of (truename . shrunk-path) for `my-shrunk-path'.")
+(defvar-local my/shrunk-path--cache nil
+    "Cache of (truename . shrunk-path) for `my/shrunk-path'.")
 
-(defun my-shrunk-path--compute (file)
+(defun my/shrunk-path--compute (file)
     "Compute the shrunk path string for FILE.
 Example:
   /home/ghouse/code/python/app.py -> ~/c/python/app.py
@@ -73,19 +73,19 @@ Example:
                   (concat remote "/" shrunk-dir "/" filename)))
           (concat remote local-path))))
 
-(defun my-shrunk-path ()
+(defun my/shrunk-path ()
     "Return a shortened buffer path, cached per buffer."
     (let ((key buffer-file-truename))
-        (if (and my-shrunk-path--cache
-                 (equal (car my-shrunk-path--cache) key))
-            (cdr my-shrunk-path--cache)
-          (let ((result (my-shrunk-path--compute
+        (if (and my/shrunk-path--cache
+                 (equal (car my/shrunk-path--cache) key))
+            (cdr my/shrunk-path--cache)
+          (let ((result (my/shrunk-path--compute
                          (or buffer-file-truename (buffer-name)))))
-              (setq my-shrunk-path--cache (cons key result))
+              (setq my/shrunk-path--cache (cons key result))
               result))))
 
 ;; Run Interactively or with: (celebrate-new-year 5)
-(defun my-celebrate-new-year (seconds)
+(defun my/celebrate-new-year (seconds)
     "Count down from SECONDS and print a colorful message. Press 'q' to exit."
     (interactive "nCountdown seconds: ")
     (let ((buf (get-buffer-create "*New Year Celebration*")))
@@ -121,14 +121,14 @@ Example:
 
 ;;; VCS
 
-(defun my-project-todos ()
+(defun my/project-todos ()
     "Find `hl-todo--regex' items in project using `consult-ripgrep'."
     (interactive)
     (defvar hl-todo--regexp)
     (when (and (featurep 'consult) (fboundp 'consult-ripgrep))
         (consult-ripgrep nil hl-todo--regexp)))
 
-(defun my-vc-git-reflog ()
+(defun my/vc-git-reflog ()
     "Show git reflog in a new buffer with ANSI colors and custom keybindings."
     (interactive)
     (let* ((root (vc-root-dir))
@@ -157,7 +157,7 @@ Example:
             (setq major-mode 'special-mode))
         (pop-to-buffer buffer)))
 
-(defun my-vc-browse-remote (&optional current-line)
+(defun my/vc-browse-remote (&optional current-line)
     "Open the repository's remote URL in the browser.
 If CURRENT-LINE is non-nil, point to the current branch, file, and line.
 Otherwise, open the repository's main page."
@@ -180,7 +180,7 @@ Otherwise, open the repository's main page."
                          (format "https://%s/%s" host path))))
             (message "Could not determine repository URL"))))
 
-(defun my-vc-diff-on-current-hunk ()
+(defun my/vc-diff-on-current-hunk ()
     "Show the diff for the current file and jump to the hunk containing the current line."
     (interactive)
     (let ((current-line (line-number-at-pos)))
@@ -206,7 +206,7 @@ Otherwise, open the repository's main page."
 
 ;;; LSP
 
-(defun my-eglot-clangd-find-other-file ()
+(defun my/eglot-clangd-find-other-file ()
     "Switch between source and header using clangd, with a fallback to ff-find-other-file."
     (interactive)
     (let* ((server (eglot-current-server))
@@ -231,13 +231,13 @@ Otherwise, open the repository's main page."
 
 ;;; Elisp
 
-(defun my-helpful-lookup-symbl-at-point ()
+(defun my/helpful-lookup-symbl-at-point ()
     "Look up for the symbol under point."
     (interactive)
     (when (and (featurep 'helpful) (fboundp 'helpful-symbol))
         (helpful-symbol (symbol-at-point))))
 
-(defun my-elisp-look-up-symbol (beg end)
+(defun my/elisp-look-up-symbol (beg end)
     "Look up for the symbol under point.
 If region (BEG to END) is active, use the selected region as the symbol."
     (interactive "r")
@@ -248,13 +248,13 @@ If region (BEG to END) is active, use the selected region as the symbol."
 
 ;;; OS
 
-(defun my-server-shutdown ()
+(defun my/server-shutdown ()
     "Save buffers, Quit, and Shutdown (kill) server."
     (interactive)
     (setq confirm-kill-emacs nil)
     (save-buffers-kill-emacs))
 
-(defun my-macos-cmd-w ()
+(defun my/macos-cmd-w ()
     "If there is only one tab, close EMACS, otherwise close one tab."
     (interactive)
     (if (> (length (tab-bar-tabs)) 1)
@@ -262,14 +262,14 @@ If region (BEG to END) is active, use the selected region as the symbol."
         (kill-emacs)))
 
 ;;; Tramp
-(defun my-tramp-cleanup-all ()
+(defun my/tramp-cleanup-all ()
     "Cleanup all Tramp connections and buffers."
     (interactive)
     (tramp-cleanup-all-connections)
     (tramp-cleanup-all-buffers))
 
 ;;; Shell
-(defun my-remote-copy (source destination)
+(defun my/remote-copy (source destination)
     "Copy SOURCE file or directory to remote DESTINATION using rsync or scp.
 
 SOURCE is read with local file completion, defaulting to the current buffer's
@@ -318,7 +318,7 @@ fallback.  Output is shown in a dedicated async buffer."
 ;;; Browser
 
 ;; Open link in eww or browser
-(defun my-open-link-at-point-or-minibuffer-with-choice ()
+(defun my/open-link-at-point-or-minibuffer-with-choice ()
     "Use `consult` to select link at point.
 Then choose to open it in default browser or eww.
 If 'eww' is chosen, the link is opened in a window that occupies 80% of the frame height below the current one."
@@ -344,7 +344,7 @@ If 'eww' is chosen, the link is opened in a window that occupies 80% of the fram
 ;;; Misc
 
 ;; better `keyword-quit'
-(defun my-keyboard-quit-dwim ()
+(defun my/keyboard-quit-dwim ()
     "Do-What-I-Mean behaviour for a general `keyboard-quit'.
 
 The generic `keyboard-quit' does not do the expected thing when
@@ -369,7 +369,7 @@ The DWIM behaviour of this command is as follows:
       (keyboard-quit))))
 
 ;; close buffer and window
-(defun my-close-buffer-and-window ()
+(defun my/close-buffer-and-window ()
     "Close the current buffer and the window it's in."
     (interactive)
     (let ((window (selected-window)))
@@ -377,7 +377,7 @@ The DWIM behaviour of this command is as follows:
         (when (window-live-p window)   ;; Check if the window is still live
             (delete-window))))         ;; Delete the window if it exists
 
-(defun my-clone-buffer-in-new-window-readonly ()
+(defun my/clone-buffer-in-new-window-readonly ()
     "Clone the current buffer in a new window.
 
 Make it readonly, and set up a keybinding (q) to close the window."
@@ -392,51 +392,51 @@ Make it readonly, and set up a keybinding (q) to close the window."
                 (use-local-map map)))
         (switch-to-buffer-other-window clone-buffer)))
 
-(defun my-file-is-root-p (name)
+(defun my/file-is-root-p (name)
     "Check whether tramp su/sudo method is used for opening filepath NAME."
     ;; Adopted from https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-File-Lock-and-Backup.html
     (let ((method (file-remote-p name 'method)))
         (when (stringp method)
             (member method '("su" "sudo")))))
 
-(defun my-file-is-not-root-p (name)
+(defun my/file-is-not-root-p (name)
     "Check whether tramp su/sudo method is not used for opening filepath NAME."
-    (not (my-file-is-root-p name)))
+    (not (my/file-is-root-p name)))
 
-(defun my-project-root-or-default-dir ()
+(defun my/project-root-or-default-dir ()
     "If a project root is found, return it. Otherwise return `default-directory'."
     (when (fboundp 'project-root)
         (if-let ((proj (project-current)))
                 (project-root proj)
             default-directory)))
 
-(defun my-switch-to-messages-buffer ()
+(defun my/switch-to-messages-buffer ()
     "Stolen from spacemacs."
     (interactive)
     (with-current-buffer (messages-buffer)
         (goto-char (point-max))
         (switch-to-buffer (current-buffer))))
 
-(defun my-dos2unix ()
+(defun my/dos2unix ()
     "Replace DOS eolns CR LF with Unix eolns CR."
     (interactive)
     (save-excursion
         (goto-char (point-min))
         (while (search-forward (string ?\C-m) nil t) (replace-match ""))))
 
-(defun my-hide-dos-eol ()
+(defun my/hide-dos-eol ()
     "Hide ^M in files containing mixed UNIX and DOS line endings."
     (interactive)
     (setq buffer-display-table (make-display-table))
     (aset buffer-display-table ?\^M []))
 
-(defun my-show-dos-eol ()
+(defun my/show-dos-eol ()
     "Show ^M in files containing mixed UNIX and DOS line endings."
     (interactive)
     (setq buffer-display-table (make-display-table))
     (aset buffer-display-table ?\^M ?\^M))
 
-(defun my-switch-theme (theme)
+(defun my/switch-theme (theme)
     "This interactive call is taken from `load-theme'.
 Switch the current theme to THEME"
     (interactive
@@ -447,7 +447,7 @@ Switch the current theme to THEME"
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
 
-(defun my-save-all ()
+(defun my/save-all ()
     "Save all buffers without prompt."
     (interactive)
     (let ((modified-count
@@ -458,30 +458,30 @@ Switch the current theme to THEME"
             (save-some-buffers t)
             (message "%d buffer(s) saved" modified-count))))
 
-(defun my-fill-or-unfill ()
+(defun my/fill-or-unfill ()
     "Like `fill-paragraph', but `unfill' if used twice.
 Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html."
     (interactive)
     (let ((fill-column
-           (if (eq last-command 'my-fill-or-unfill)
+           (if (eq last-command 'my/fill-or-unfill)
                    (progn (setq this-command nil)
                           (point-max))
                fill-column)))
         (call-interactively #'fill-paragraph)))
 
-(defun my-org-fill-or-unfill ()
+(defun my/org-fill-or-unfill ()
     "Like `org-fill-paragraph', but `unfill' if used twice.
 Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html."
     (interactive)
     (when (fboundp 'org-fill-paragraph)
         (let ((fill-column
-               (if (eq last-command 'my-org-fill-or-unfill)
+               (if (eq last-command 'my/org-fill-or-unfill)
                        (progn (setq this-command nil)
                               (point-max))
                    fill-column)))
             (call-interactively #'org-fill-paragraph))))
 
-(defun my-fill-buffer ()
+(defun my/fill-buffer ()
     "Fill the entire current buffer."
     (interactive)
     (save-excursion
@@ -489,7 +489,7 @@ Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-sin
             (widen)
             (fill-region (point-min) (point-max)))))
 
-(defun my-unfill-paragraph (&optional region)
+(defun my/unfill-paragraph (&optional region)
     "Takes a REGION and make it into a single line of text.
 Taken from: https://www.emacswiki.org/emacs/UnfillParagraph."
     (interactive (progn (barf-if-buffer-read-only) '(t)))
@@ -498,7 +498,7 @@ Taken from: https://www.emacswiki.org/emacs/UnfillParagraph."
           (emacs-lisp-docstring-fill-column t))
         (fill-paragraph nil region)))
 
-(defun my-unfill-region (beg end)
+(defun my/unfill-region (beg end)
     "Unfill the region (BEG - END).
 Joining text paragraphs into a single
 logical line.  This is useful, e.g., for use with `visual-line-mode'.
@@ -507,7 +507,7 @@ Taken from: https://www.emacswiki.org/emacs/UnfillRegion."
     (let ((fill-column (point-max)))
         (fill-region beg end)))
 
-(defun my-unfill-buffer ()
+(defun my/unfill-buffer ()
     "Undo filling for all paragraphs.
 Taken from: https://www.emacswiki.org/emacs/UndoFilling."
     (interactive)
@@ -518,7 +518,7 @@ Taken from: https://www.emacswiki.org/emacs/UndoFilling."
             (forward-paragraph)
             (fill-paragraph nil))))
 
-(defun my-toggle-window-split ()
+(defun my/toggle-window-split ()
     "Toggle between vertical and horizontal split.
 Vertical split shows more of each line, horizontal split shows
 more lines. This code toggles between them. It only works for
@@ -548,7 +548,7 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
                     (select-window first-win)
                     (if this-win-2nd (other-window 1))))))
 
-(defun my-new-scratch-buffer-in-markdown ()
+(defun my/new-scratch-buffer-in-markdown ()
     "Make a temporary buffer in markdown mode and switch to it."
     (interactive)
     (when (fboundp 'markdown-mode)
@@ -558,7 +558,7 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
         (auto-fill-mode -1)
         (insert "# Scratch\n\n")))
 
-(defun my-new-scratch-buffer-in-org ()
+(defun my/new-scratch-buffer-in-org ()
     "Make a temporary buffer in org mode and switch to it."
     (interactive)
     (when (fboundp 'org-mode)
@@ -567,7 +567,7 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
         (org-mode)
         (insert "#+TITLE: Scratch\n\n")))
 
-(defun my-copy-region-with-line-numbers (beg end)
+(defun my/copy-region-with-line-numbers (beg end)
     "Copy region (BEG to END) to kill ring with line numbers prepended."
     (interactive "r")
     (let ((text (buffer-substring-no-properties beg end))
@@ -578,7 +578,7 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
              (rectangle-number-lines (point-min) (point-max) start-line)
              (buffer-string)))))
 
-(defun my-comment-or-uncomment ()
+(defun my/comment-or-uncomment ()
     "Comments or uncomments the current line or region."
     (interactive)
     (if (region-active-p)
@@ -588,7 +588,7 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
          (line-beginning-position) (line-end-position))))
 
 ;; Behave like vi's o command
-(defun my-open-next-line (arg)
+(defun my/open-next-line (arg)
     "Move to the next line and then opens ARG lines."
     (interactive "p")
     (end-of-line)
@@ -598,7 +598,7 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
         (indent-according-to-mode)))
 
 ;; Behave like vi's O command
-(defun my-open-previous-line (arg)
+(defun my/open-previous-line (arg)
     "Open ARG lines before the current one."
     (interactive "p")
     (beginning-of-line)
@@ -608,87 +608,87 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
 
 ;; Movement
 
-(defun my-move-character-backward ()
+(defun my/move-character-backward ()
     "Move character backward."
     (interactive)
     (transpose-chars 1)
     (backward-char 2))
 
-(defun my-move-character-forward ()
+(defun my/move-character-forward ()
     "Move character forward."
     (interactive)
     (forward-char 1)
     (transpose-chars 1)
     (backward-char))
 
-(defun my-move-word-backwards ()
+(defun my/move-word-backwards ()
     "Move word backwards."
     (interactive)
     (backward-to-word 1)
     (transpose-words 1)
     (backward-word-strictly 2))
 
-(defun my-move-word-forward ()
+(defun my/move-word-forward ()
     "Move word forward."
     (interactive)
     (forward-to-word 1)
     (transpose-words 1)
     (backward-word))
 
-(defun my-move-sentence-backward ()
+(defun my/move-sentence-backward ()
     "Move sentence backward."
     (interactive)
     (transpose-sentences 1)
     (backward-sentence 2))
 
-(defun my-move-sentence-forward ()
+(defun my/move-sentence-forward ()
     "Move sentence forward."
     (interactive)
     (forward-sentence 1)
     (transpose-sentences 1)
     (backward-sentence))
 
-(defun my-move-paragraph-backward ()
+(defun my/move-paragraph-backward ()
     "Move paragraph up."
     (interactive)
     (transpose-paragraphs -1)
     (backward-paragraph)
     (forward-line))
 
-(defun my-move-paragraph-forward ()
+(defun my/move-paragraph-forward ()
     "Move paragraph down."
     (interactive)
     (transpose-paragraphs 1)
     (backward-paragraph)
     (forward-line))
 
-(defun my-move-sexp-backward ()
+(defun my/move-sexp-backward ()
     "Move sexp backward."
     (interactive)
     (transpose-sexps 1)
     (backward-sexp 2))
 
-(defun my-move-sexp-forward ()
+(defun my/move-sexp-forward ()
     "Move sexp forward."
     (interactive)
     (forward-sexp 1)
     (transpose-sexps 1)
     (backward-sexp))
 
-(defun my-move-line-backward ()
+(defun my/move-line-backward ()
     "Move line up."
     (interactive)
     (transpose-lines 1)
     (forward-line -2))
 
-(defun my-move-line-forward ()
+(defun my/move-line-forward ()
     "Move line down."
     (interactive)
     (forward-line 1)
     (transpose-lines 1)
     (forward-line -1))
 
-(defun my-move-line-up ()
+(defun my/move-line-up ()
     "Move up the current line."
     (interactive)
     (transpose-lines 1)
@@ -696,7 +696,7 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
     (when electric-indent-mode
         (indent-according-to-mode)))
 
-(defun my-move-line-down ()
+(defun my/move-line-down ()
     "Move down the current line."
     (interactive)
     (forward-line 1)

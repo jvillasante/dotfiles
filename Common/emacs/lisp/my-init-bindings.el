@@ -1,4 +1,4 @@
-;; my-init-bindings.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;; my/init-bindings.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -8,7 +8,7 @@
 
 ;; General
 (global-set-key (kbd "C-c u") 'browse-url-at-point) ; simple browse url
-(global-set-key (kbd "C-c y") 'my-copy-region-with-line-numbers) ; copy region with line numbers
+(global-set-key (kbd "C-c y") 'my/copy-region-with-line-numbers) ; copy region with line numbers
 
 ;; Both `C-z' and `C-x C-z' are bound to `suspend-frame' which will effectively
 ;; suspend the current frame. To bring back the suspended frame in GUI mode we
@@ -21,7 +21,7 @@
 (global-unset-key (kbd "C-?"))
 
 ;; smart kill buffers
-(defun my-smart-kill-buffer ()
+(defun my/smart-kill-buffer ()
     "Kill buffers.
 When run interactively:
 - Without a prefix arg (`C-x C-k`), `kill-current-buffer'.
@@ -30,10 +30,10 @@ When run interactively:
     (if current-prefix-arg
             (call-interactively #'kill-buffer)
         (kill-current-buffer)))
-(global-set-key (kbd "C-x k") 'my-smart-kill-buffer)
+(global-set-key (kbd "C-x k") 'my/smart-kill-buffer)
 
 ;; smart kill emacs
-(defun my-smart-kill-emacs ()
+(defun my/smart-kill-emacs ()
     "Kill Emacs client or daemon with confirmation.
 When run interactively:
 - Without a prefix arg (`C-x C-c`), ask to close the client frame.
@@ -48,7 +48,7 @@ When run interactively:
             (save-buffers-kill-terminal))))
 (when (daemonp)
     ;; Only override C-x C-c when running as a daemon
-    (global-set-key (kbd "C-x C-c") #'my-smart-kill-emacs))
+    (global-set-key (kbd "C-x C-c") #'my/smart-kill-emacs))
 
 ;; Emacs29 changes `cycle-spacing' default
 (global-set-key [remap cycle-spacing] 'just-one-space)
@@ -61,16 +61,16 @@ When run interactively:
 
 ;; better `keyword-quit'
 (if (< emacs-major-version 31)
-    (define-key global-map [remap keyboard-quit] 'my-keyboard-quit-dwim))
+    (define-key global-map [remap keyboard-quit] 'my/keyboard-quit-dwim))
 
 ;; Repeat in emacs is not as good as vim :(
 (global-set-key (kbd "C-.") 'repeat)
 
 ;; Clone the current buffer in a new window with `q' to exit
-(global-set-key (kbd "C-x 9") 'my-clone-buffer-in-new-window-readonly) ; same
+(global-set-key (kbd "C-x 9") 'my/clone-buffer-in-new-window-readonly) ; same
 
 ;; ctl-x-4-map
-(define-key ctl-x-4-map (kbd "T") 'my-toggle-window-split)
+(define-key ctl-x-4-map (kbd "T") 'my/toggle-window-split)
 
 ;; duplicate current line or region
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
@@ -88,18 +88,18 @@ When run interactively:
 (global-set-key (kbd "C-M-=") 'count-matches)
 
 ;; Open line(s) below/above current one (using crux implementation)
-;; (global-set-key (kbd "C-o") 'my-open-next-line)
-;; (global-set-key (kbd "M-o") 'my-open-previous-line)
+;; (global-set-key (kbd "C-o") 'my/open-next-line)
+;; (global-set-key (kbd "M-o") 'my/open-previous-line)
 
 ;; better comment/un-comment
-;; (global-set-key (kbd "M-;") 'my-comment-or-uncomment)
-;; (global-set-key (kbd "C-x C-;") 'my-comment-or-uncomment)
+;; (global-set-key (kbd "M-;") 'my/comment-or-uncomment)
+;; (global-set-key (kbd "C-x C-;") 'my/comment-or-uncomment)
 (global-set-key (kbd "C-x C-;") 'comment-dwim)
 
 ;; fill-unfill
-(define-key global-map [remap fill-paragraph] 'my-fill-or-unfill)
-(global-set-key (kbd "M-Q") 'my-unfill-paragraph)
-(global-set-key (kbd "C-M-Q") 'my-unfill-region)
+(define-key global-map [remap fill-paragraph] 'my/fill-or-unfill)
+(global-set-key (kbd "M-Q") 'my/unfill-paragraph)
+(global-set-key (kbd "C-M-Q") 'my/unfill-region)
 
 ;;; Prefix
 ;; C-c w : windows
@@ -119,18 +119,18 @@ When run interactively:
 (when (package-installed-p 'elfeed)
     (global-set-key (kbd "C-c o f") 'elfeed)
     (with-eval-after-load 'elfeed
-        (define-key elfeed-show-mode-map (kbd "q") 'my-close-buffer-and-window)
-        (define-key elfeed-search-mode-map (kbd "q") 'my-close-buffer-and-window)
-        ;; (define-key elfeed-search-mode-map (kbd "t") 'my-elfeed-w3m-open)
-        (define-key elfeed-search-mode-map (kbd "w") 'my-elfeed-eww-open)
-        (define-key elfeed-search-mode-map (kbd "f") 'my-elfeed-firefox-open)))
+        (define-key elfeed-show-mode-map (kbd "q") 'my/close-buffer-and-window)
+        (define-key elfeed-search-mode-map (kbd "q") 'my/close-buffer-and-window)
+        ;; (define-key elfeed-search-mode-map (kbd "t") 'my/elfeed-w3m-open)
+        (define-key elfeed-search-mode-map (kbd "w") 'my/elfeed-eww-open)
+        (define-key elfeed-search-mode-map (kbd "f") 'my/elfeed-firefox-open)))
 (when (package-installed-p 'consult-notes)
     (global-set-key (kbd "C-c o n") 'consult-notes))
 (global-set-key (kbd "C-c o a") 'org-agenda)
 (global-set-key (kbd "C-c o i") 'ielm)
-(global-set-key (kbd "C-c o b") 'my-open-link-at-point-or-minibuffer-with-choice)
-(global-set-key (kbd "C-c o m") 'my-new-scratch-buffer-in-markdown)
-(global-set-key (kbd "C-c o o") 'my-new-scratch-buffer-in-org)
+(global-set-key (kbd "C-c o b") 'my/open-link-at-point-or-minibuffer-with-choice)
+(global-set-key (kbd "C-c o m") 'my/new-scratch-buffer-in-markdown)
+(global-set-key (kbd "C-c o o") 'my/new-scratch-buffer-in-org)
 
 ;; C c n : Notes
 (when (package-installed-p 'consult-notes)
@@ -143,7 +143,7 @@ When run interactively:
     (global-set-key (kbd "C-c d D") 'dictionary-search))
 
 ;; C-c s : shell
-(global-set-key (kbd "C-c s c") 'my-remote-copy)
+(global-set-key (kbd "C-c s c") 'my/remote-copy)
 
 (provide 'my-init-bindings)
 ;;; my-init-bindings.el ends here

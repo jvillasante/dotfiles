@@ -6,7 +6,7 @@
 ;; Docs:
 ;;   https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 ;; Install Language Grammars:
-;;   Call the command `M-x my-treesit-install-language-grammars'
+;;   Call the command `M-x my/treesit-install-language-grammars'
 ;; Check if grammar is working:
 ;;   (treesit-language-available-p 'cpp)
 ;; List all known tree-sitter major modes:
@@ -15,7 +15,7 @@
 (use-package treesit
     :ensure nil ;; emacs built-in
     :preface
-    (defun my-treesit-install-language-grammars ()
+    (defun my/treesit-install-language-grammars ()
         "Install Tree-sitter grammars if they are absent."
         (interactive)
         (dolist (grammar
@@ -77,7 +77,7 @@
             ;; this obviously prevents that from happening.
             (unless (treesit-language-available-p (car grammar))
                 (treesit-install-language-grammar (car grammar)
-                                                  (expand-file-name "tree-sitter" my-var-dir)))))
+                                                  (expand-file-name "tree-sitter" my/var-dir)))))
     :mode (("\\.tsx\\'" . tsx-ts-mode)
            ("\\.js\\'"  . typescript-ts-mode)
            ("\\.mjs\\'" . typescript-ts-mode)
@@ -152,7 +152,7 @@
                        (yaml-mode                                       . yaml-ts-mode)))
         (add-to-list 'major-mode-remap-alist mapping))
     (setq treesit-extra-load-path
-          `(,(expand-file-name "tree-sitter" my-var-dir)))
+          `(,(expand-file-name "tree-sitter" my/var-dir)))
     (setq treesit-font-lock-level 4))
 
 (use-package elisp-mode
@@ -172,23 +172,23 @@
     :ensure nil ;; emacs built-in
     :defer t
     :preface
-    (defun my-c-ts-indent-style()
+    (defun my/c-ts-indent-style()
         "Override the built-in BSD indentation style with some additional rules.
          Docs: https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html
          Notes: `treesit-explore-mode' can be very useful to see where you're at in the tree-sitter tree,
                 especially paired with `(setq treesit--indent-verbose t)' to debug what rules is being
                 applied at a given point."
-        (let ((my-rules '(;; do not indent preprocessor statements
+        (let ((my/rules '(;; do not indent preprocessor statements
                              ((node-is "preproc") column-0 0)
                              ;; do not indent namespace children
                              ((n-p-gp nil "declaration_list" "namespace_definition") parent-bol 0))))
             (if (>= emacs-major-version 31)
                 ;; Emacs 31+: c-ts-mode--simple-indent-rules
                 (let ((bsd-rules (cdar (c-ts-mode--simple-indent-rules 'cpp 'bsd))))
-                    `((cpp ,@my-rules ,@bsd-rules)))
+                    `((cpp ,@my/rules ,@bsd-rules)))
                 ;; Emacs 30: c-ts-mode--indent-styles
                 (let ((bsd-rules (alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
-                    `(,@my-rules ,@bsd-rules)))))
+                    `(,@my/rules ,@bsd-rules)))))
     :mode ("\\.h\\'"
               "\\.H\\'"
               "\\.hpp\\'"
@@ -202,7 +202,7 @@
               ("C-x C-o" . ff-find-other-file))
     :custom
     (c-ts-mode-indent-offset 4)
-    (c-ts-mode-indent-style #'my-c-ts-indent-style))
+    (c-ts-mode-indent-style #'my/c-ts-indent-style))
 
 ;; cmake
 (use-package cmake-mode :defer t)
@@ -250,11 +250,11 @@
 (use-package python
     :defer t
     :config
-    (defvar my-python-enable-ipython t
+    (defvar my/python-enable-ipython t
         "use ipython as the embedded REPL.")
     (setq python-indent-offset 4)
 
-    (when my-python-enable-ipython
+    (when my/python-enable-ipython
         (setq python-shell-interpreter "ipython3")
         (setq python-shell-interpreter-args "-i --simple-prompt --no-color-info")))
 
@@ -276,12 +276,12 @@
 (use-package go-mode
     :defer t
     :preface
-    (defun my-go-setup ()
+    (defun my/go-setup ()
         (setq-local c-basic-offset 4) ; Base indent size when indented automatically
         (setq-local tab-width 4)
         (setq-local indent-tabs-mode nil))
-    :hook ((go-mode . my-go-setup)
-           (go-ts-mode . my-go-setup)))
+    :hook ((go-mode . my/go-setup)
+           (go-ts-mode . my/go-setup)))
 
 (use-package sql
     :defer t

@@ -25,11 +25,11 @@
     :vc (:url "https://github.com/xenodium/agent-shell.git"
               :rev :newest)
     :preface
-    (defun my-agent-shell-dot-subdir (subdir)
+    (defun my/agent-shell-dot-subdir (subdir)
         (let* ((cwd (string-remove-suffix "/" (agent-shell-cwd)))
                (sanitized (replace-regexp-in-string "/" "-" (string-remove-prefix "/" cwd))))
             (expand-file-name subdir (expand-file-name
-                                      (concat "agent-shell/" sanitized) my-var-dir))))
+                                      (concat "agent-shell/" sanitized) my/var-dir))))
     :bind ("C-c a s" . agent-shell)
     :custom
     (agent-shell-display-action
@@ -41,7 +41,7 @@
        (window-parameters . ((no-delete-other-windows . t)))))
     (agent-shell-session-strategy 'prompt)
     (agent-shell-dot-subdir-function
-     #'my-agent-shell-dot-subdir)
+     #'my/agent-shell-dot-subdir)
     (agent-shell-preferred-agent-config
      (agent-shell-anthropic-make-claude-code-config))
     (agent-shell-anthropic-authentication

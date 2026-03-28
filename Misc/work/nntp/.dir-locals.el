@@ -4,7 +4,7 @@
 ((nil .
       ((eval . (progn
                    ;; At work, we don't auto-format code :(
-                   (setq-local my-format-on-save nil)
+                   (setq-local my/format-on-save nil)
 
                    ;; Point compile-command at the build script using an absolute
                    ;; path derived from the .dir-locals.el location so it works
@@ -17,7 +17,7 @@
                    ;; Open an interactive shell inside the running podman container.
                    ;; If the container is not running yet, start it first via the
                    ;; build script so the session is consistent.
-                   (defun my-nntp-attach ()
+                   (defun my/nntp-attach ()
                        "Attach an interactive bash shell to the nntp podman container in vterm.
 If the container is not running, starts it first via the build script.
 Use `podman stop <name>' to end the session."
@@ -47,4 +47,4 @@ Use `podman stop <name>' to end the session."
                                             cname))))))
 
                    ;; C-x p a  ("project attach") — consistent with C-x p c (compile)
-                   (keymap-set project-prefix-map "a" #'my-nntp-attach))))))
+                   (keymap-set project-prefix-map "a" #'my/nntp-attach))))))

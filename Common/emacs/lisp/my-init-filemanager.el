@@ -15,7 +15,7 @@
                                 (auto-revert-mode))))
     :bind (:map dired-mode-map
                 ("C-<return>" . dired-do-open)
-                ;; ("q"          . my-close-buffer-and-window)
+                ;; ("q"          . my/close-buffer-and-window)
                 ("e"          . dired-toggle-read-only))
     :config
     (setq dired-free-space nil

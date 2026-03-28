@@ -6,7 +6,7 @@
 ;; vc : builtin emacs version control
 (use-package vc
     :ensure nil ;; emacs built-in
-    :bind ("C-x v R" . my-vc-git-reflog)
+    :bind ("C-x v R" . my/vc-git-reflog)
     :custom
     (vc-handled-backends '(Git))
     (vc-follow-symlinks t)                   ; always follow symlinks
@@ -20,7 +20,7 @@
 (use-package magit
     :defer t
     :preface
-    (defun my-magit-kill-buffers ()
+    (defun my/magit-kill-buffers ()
         "Restore window configuration and kill all Magit buffers."
         (interactive)
         (let ((buffers (magit-mode-get-buffers)))
@@ -28,8 +28,8 @@
             (mapc #'kill-buffer buffers)))
     :bind (("C-x g" . magit-status)
            :map magit-status-mode-map
-           ("q"     . my-magit-kill-buffers)
-           ("C-x k" . my-magit-kill-buffers)
+           ("q"     . my/magit-kill-buffers)
+           ("C-x k" . my/magit-kill-buffers)
            :map project-prefix-map
            ("m" . magit-project-status))
     :custom ((git-commit-summary-max-length 50)
@@ -41,34 +41,34 @@
     :config
     (add-hook 'magit-status-sections-hook #'magit-insert-worktrees t)
     (transient-append-suffix 'magit-worktree "c"
-        '("a" "Add nntp worktree" my-nntp-worktree-add)))
+        '("a" "Add nntp worktree" my/nntp-worktree-add)))
 
 ;; nntp worktree helper - create a worktree and seed it with personal config
 ;; files that are not tracked by git.
-(defvar my-nntp-worktree-base (expand-file-name "Projects/nntp" my-work-path)
+(defvar my/nntp-worktree-base (expand-file-name "Projects/nntp" my/work-path)
     "Parent directory where nntp worktrees live.")
 
-(defvar my-nntp-dotfiles-dir (expand-file-name "Misc/work/nntp" my-dotfiles-path)
+(defvar my/nntp-dotfiles-dir (expand-file-name "Misc/work/nntp" my/dotfiles-path)
     "Directory containing personal config files to copy into new worktrees.")
 
-(defvar my-nntp-config-files '((".clang-tidy"               . ".clang-tidy")
+(defvar my/nntp-config-files '((".clang-tidy"               . ".clang-tidy")
                                 (".dir-locals.el"           . ".dir-locals.el")
                                 ("compile_flags.fedora.txt" . "compile_flags.txt")
                                 (".scripts"                 . ".scripts"))
     "Alist of (SOURCE . DEST) for symlinks from dotfiles into each new worktree.
-SOURCE is relative to `my-nntp-dotfiles-dir', DEST is relative to the worktree.")
+SOURCE is relative to `my/nntp-dotfiles-dir', DEST is relative to the worktree.")
 
-(defun my-nntp-worktree-add (name start-point &optional detach)
+(defun my/nntp-worktree-add (name start-point &optional detach)
     "Create an nntp worktree called NAME based on START-POINT.
 With prefix argument DETACH, use detached HEAD (useful for code reviews)."
     (interactive
      (let ((n (read-string "Worktree name: "))
            (sp (magit-read-branch-or-commit "Starting point")))
          (list n sp current-prefix-arg)))
-    (let* ((base (expand-file-name my-nntp-worktree-base))
+    (let* ((base (expand-file-name my/nntp-worktree-base))
            (master (expand-file-name "master" base))
            (wt-path (expand-file-name name base))
-           (dotfiles (expand-file-name my-nntp-dotfiles-dir))
+           (dotfiles (expand-file-name my/nntp-dotfiles-dir))
            (args (if detach
                      (list "worktree" "add" wt-path start-point)           ;; detached HEAD for reviews
                    (list "worktree" "add" "-b" name wt-path start-point)))) ;; new branch for development
@@ -83,7 +83,7 @@ With prefix argument DETACH, use detached HEAD (useful for code reviews)."
             (let ((default-directory wt-path))
                 (magit-run-git "branch" (format "--set-upstream-to=%s" start-point) name)))
         ;; Symlink personal config files
-        (dolist (entry my-nntp-config-files)
+        (dolist (entry my/nntp-config-files)
             (let ((src (expand-file-name (car entry) dotfiles))
                   (dst (expand-file-name (cdr entry) wt-path)))
                 (make-symbolic-link src dst)))
