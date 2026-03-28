@@ -8,7 +8,7 @@
             "denyRead": ["~/"],
             "allowRead": ["."],
             "allowWrite": [".", "/tmp"],
-            "denyWrite": [".env", ".env.*"]
+            "denyWrite": [".env", ".env.*", "/"]
         },
 
         "allowedDomains": [
