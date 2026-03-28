@@ -186,9 +186,9 @@ fedora_install() {
                     # Allow max volume
                     gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
 
-                    # Wayland - Set fractional scaling to 1.1 (110%), default is 1.0 (100%)
+                    # Wayland - Set fractional scaling
                     # if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
-                    #     gsettings set org.gnome.desktop.interface text-scaling-factor 1.1
+                    #     gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
                     # fi
 
                     # Stop Gnome Software downloading updates
