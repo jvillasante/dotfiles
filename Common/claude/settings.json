@@ -1,0 +1,47 @@
+{
+    "$schema": "https://json.schemastore.org/claude-code-settings.json",
+
+    "sandbox": {
+        "enabled": true,
+        "autoAllowBashIfSandboxed": true,
+        "filesystem": {
+            "denyRead": ["~/"],
+            "allowRead": ["."],
+            "allowWrite": [".", "/tmp"],
+            "denyWrite": [".env", ".env.*"]
+        },
+
+        "allowedDomains": [
+            "github.com",
+            "*.github.com",
+            "npmjs.org",
+            "*.npmjs.org",
+            "registry.npmjs.org",
+            "pypi.org",
+            "*.pypi.org"
+        ]
+    },
+
+    "permissions": {
+        "allow": [
+            "Bash(npm run *)",
+            "Bash(git status)",
+            "Bash(git diff *)",
+            "Bash(git log *)"
+        ],
+        "deny": [
+            "Read(./.env)",
+            "Read(./.env.*)",
+            "Read(./secrets/**)",
+            "Bash(git push --force *)"
+        ]
+    },
+
+    "enabledPlugins": {
+        "clangd-lsp@claude-plugins-official": true
+    },
+
+    "env": {
+        "ENABLE_LSP_TOOL": "1"
+    }
+}
