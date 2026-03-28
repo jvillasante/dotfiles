@@ -271,9 +271,6 @@
     )
 
 (use-package consult
-    ;; Enable automatic preview at point in the *Completions* buffer. This is
-    ;; relevant when you use the default completion UI.
-    :hook (completion-list-mode . consult-preview-at-point-mode)
     :bind (;; C-c bindings (mode-specific-map)
            ("C-c M-x" . consult-mode-command)
            ("C-c h"   . consult-history)
@@ -427,8 +424,7 @@
                    (window-parameters (mode-line-format . none)))))
 
 ;; Consult users will also want the embark-consult package.
-(use-package embark-consult
-    :hook (embark-collect-mode . consult-preview-at-point-mode))
+(use-package embark-consult)
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
