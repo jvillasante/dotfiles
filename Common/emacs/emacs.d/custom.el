@@ -13,9 +13,9 @@
             (size 9 -1 :right) " " (mode 16 16 :left :elide) " "
             project-file-relative)))
  '(package-selected-packages
-      '(adoc-mode agent-shell anzu cape cl-generic claude-code-ide cmake-mode
-           consult-dir consult-notes corfu crux csv-mode dape devdocs-browser
-           diff-hl dired-sidebar diredfl dockerfile-mode editorconfig eglot
+      '(adoc-mode anzu cape cl-generic claude-code-ide cmake-mode consult-dir
+           consult-notes corfu crux csv-mode dape devdocs-browser diff-hl
+           dired-sidebar diredfl dockerfile-mode editorconfig eglot
            eldoc-diffstat elfeed elisp-demos embark-consult engine-mode erc
            expreg faceup flash geiser-guile gnuplot go-mode helpful hl-todo
            ibuffer-project idlwave jinx js2-mode json-mode ledger-mode lua-mode

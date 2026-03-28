@@ -96,13 +96,11 @@
       package-install-upgrade-built-in t
       package-vc-allow-build-commands t
       package-user-dir (expand-file-name "elpa" my/var-dir)
-      package-archives '(("melpa"        . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("gnu"          . "https://elpa.gnu.org/packages/")
-                         ("nongnu"       . "https://elpa.nongnu.org/nongnu/"))
-      package-archive-priorities '(("gnu"          . 99)
-                                   ("nongnu"       . 80)
-                                   ("melpa-stable" . 70)
-                                   ("melpa"        . 0)))
+      package-archives '(("melpa"  . "https://melpa.org/packages/")
+                         ("gnu"    . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+      package-archive-priorities '(("gnu"    . 99)
+                                   ("nongnu" . 80)
+                                   ("melpa"  . 0)))
 (provide 'early-init)
 ;;; early-init.el ends here

@@ -15,6 +15,7 @@
           (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
 (use-package shell-maker
+    :disabled t
     :defer t
     :vc (:url "https://github.com/xenodium/shell-maker.git"
               :rev :newest))
