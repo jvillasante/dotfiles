@@ -331,6 +331,7 @@
             ;; Linux
             ("http://dominique.leuenberger.net/blog/feed/rss/")
             ;; Misc
+            ("https://www.birkey.co/rss.xml")
             ("https://lambdaland.org/index.xml")
             ("https://cpp-rendering.io/feed/")
             ("https://michaelneuper.com/index.xml")
