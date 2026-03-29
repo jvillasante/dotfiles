@@ -134,32 +134,6 @@
     :ensure nil ;; emacs built-in
     :hook (after-init . winner-mode))
 
-;; ultra-scroll : scroll emacs like lightning
-(use-package ultra-scroll
-    :disabled t
-    :preface
-    (defun my/scroll-half-page-down ()
-        "Scroll down half a screen."
-        (interactive)
-        (let ((half (/ (window-body-height) 2)))
-            (scroll-up half)))
-    (defun my/scroll-half-page-up ()
-        "Scroll up half a screen."
-        (interactive)
-        (let ((half (/ (window-body-height) 2)))
-            (scroll-down half)))
-    :init
-    (setq scroll-conservatively 3 ; or whatever value you prefer, since v0.4
-          scroll-margin 0)        ; important: scroll-margin>0 not yet supported
-    :config
-    (setq ultra-scroll-hide-cursor 0.25)    ; hide cursor at window edges during scroll
-    (setq ultra-scroll-preserve-column t)   ; restore column after scroll completes
-    :hook
-    (after-init . ultra-scroll-mode)
-    :bind
-    ("C-v" . my/scroll-half-page-down)
-    ("M-v" . my/scroll-half-page-up))
-
 ;; scrolling
 (progn
     ;; Enables faster scrolling through unfontified regions. This may result in
@@ -169,9 +143,6 @@
 
     ;; Move point to top/bottom of buffer before signaling a scrolling error.
     (setq scroll-error-top-bottom t)
-
-    ;; The number of lines to try scrolling a window by when point moves out.
-    (setq scroll-step 1)
 
     ;; Emacs spends excessive time recentering the screen when the cursor moves more
     ;; than N lines past the window edges (where N is the value of
@@ -202,20 +173,27 @@
     ;; https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
     (setq auto-window-vscroll nil)
 
+    ;; Skip fontification when input is pending (pairs with fast-but-imprecise-scrolling).
+    (setq redisplay-skip-fontification-on-input t)
+
     ;; smooth scrolling
     (use-package pixel-scroll
         :ensure nil ;; emacs built-in
         :if (fboundp 'pixel-scroll-precision-mode)
         :preface
         (defvar my/default-scroll-lines 30) ;; scroll less than default
-        (defun my/pixel-scroll-up-command (&optional arg)
-            "Similar to `scroll-up-command' but with pixel scrolling."
+        (defun my/pixel-scroll-up-command (&optional lines)
+            "Similar to `scroll-up-command' but with pixel scrolling.
+Optional LINES overrides the default scroll distance."
             (interactive "^P")
-            (pixel-scroll-precision-interpolate (- (* my/default-scroll-lines (line-pixel-height)))))
-        (defun my/pixel-scroll-down-command (&optional arg)
-            "Similar to `scroll-down-command' but with pixel scrolling."
+            (let ((n (or lines my/default-scroll-lines)))
+                (pixel-scroll-precision-interpolate (- (* n (line-pixel-height))))))
+        (defun my/pixel-scroll-down-command (&optional lines)
+            "Similar to `scroll-down-command' but with pixel scrolling.
+Optional LINES overrides the default scroll distance."
             (interactive "^P")
-            (pixel-scroll-precision-interpolate (* my/default-scroll-lines (line-pixel-height))))
+            (let ((n (or lines my/default-scroll-lines)))
+                (pixel-scroll-precision-interpolate (* n (line-pixel-height)))))
         (defun my/pixel-recenter-top-bottom (&optional arg)
             "Similar to `recenter-top-bottom' but with pixel scrolling."
             (interactive "^P")
