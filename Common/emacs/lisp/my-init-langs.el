@@ -101,7 +101,7 @@
     ;; also
     (dolist (mapping '((awk-mode                                        . awk-ts-mode)
                        (bash-mode                                       . bash-ts-mode)
-                       (bibtex-mode                                     . bibtext-ts-mode)
+                       (bibtex-mode                                     . bibtex-ts-mode)
                        (blueprint-mode                                  . blueprint-ts-mode)
                        (c-mode                                          . c-ts-mode)
                        (c-sharp                                         . c-sharp-ts-mode)
@@ -119,7 +119,7 @@
                        (go-mode                                         . go-ts-mode)
                        (go-mod-mode                                     . go-mod-ts-mode)
                        (heex-mode                                       . heex-ts-mode)
-                       (haskell-mode                                    . haskel-ts-mode)
+                       (haskell-mode                                    . haskell-ts-mode)
                        ((html-mode mhtml-mode sgml-mode)                . html-ts-mode)
                        ;; (janet-mode                                      . janet-ts-mode)
                        (java-mode                                       . java-ts-mode)
@@ -215,7 +215,9 @@
 ;; csv-mode : Support for csv files (use csv-align-mode for alignment)
 (use-package csv-mode
     :defer t
-    :mode "\\.csv\\'")
+    :mode "\\.csv\\'"
+    :hook ((csv-mode . csv-align-mode)
+           (csv-mode . (lambda () (toggle-truncate-lines nil)))))
 
 ;; yaml-mode : Support gitlab-ci.yml
 (use-package yaml-mode
@@ -225,15 +227,10 @@
 ;; web-mode : Support various web files
 (use-package web-mode
     :defer t
-    :mode ("\\.css\\'"
-           "\\.html?\\'"
+    :mode ("\\.html?\\'"
            "\\.html\\.twig\\'"
            "\\.phtml\\'"
-           "\\.tpl\\.php\\'"
-           "\\.ts\\'"
-           "\\.js\\'"
-           "\\.jsx?$"
-           "\\.vue\\'")
+           "\\.tpl\\.php\\'")
     :custom ((web-mode-script-padding 0) ; For vue.js SFC : no initial padding in the script section
              (web-mode-markup-indent-offset 2)
              (web-mode-css-indent-offset 2)
@@ -285,7 +282,7 @@
 
 (use-package sql
     :defer t
-    :config (add-hook 'sql-mode-hook (setq-local tab-width 4)))
+    :hook (sql-mode . (lambda () (setq-local tab-width 4))))
 
 ;; rust-mode : blazingly fast
 (use-package rust-mode
@@ -319,13 +316,6 @@
                   js2-global-externs (list "window" "module" "require" "buster" "sinon" "assert" "refute"
                                            "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location"
                                            "__dirname" "console" "JSON" "jQuery" "$")))
-
-(use-package csv-mode
-    :ensure nil ;; emacs built-in
-    :defer t
-    :init
-    (add-hook 'csv-mode-hook 'csv-align-mode)
-    (add-hook 'csv-mode-hook (lambda () (interactive) (toggle-truncate-lines nil))))
 
 (provide 'my-init-langs)
 ;;; my-init-langs.el ends here

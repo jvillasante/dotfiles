@@ -14,7 +14,7 @@
 (setq gc-cons-threshold most-positive-fixnum)
 (add-hook 'emacs-startup-hook
           (lambda ()
-              (setq gc-cons-threshold (* 16 1024 1024))
+              (setq gc-cons-threshold (* 64 1024 1024))
               (message "Emacs loaded in %s with %d garbage collections."
                        (format "%.2f seconds"
                                (float-time
@@ -45,16 +45,12 @@
 ;;; UI elements
 
 ;; Disable startup screens and messages
-(setq inhibit-splash-screen t
-      inhibit-startup-screen t
-      inhibit-startup-message t
+(setq inhibit-startup-screen t
       inhibit-startup-buffer-menu t)
 
 ;; some default-frame-alist
 (push '(width . 160) default-frame-alist)
 (push '(height . 46) default-frame-alist)
-(push '(background-color . "white") default-frame-alist)
-(push '(mouse-color . "white") default-frame-alist)
 (push '(bottom-divider-width . 0) default-frame-alist)
 (push '(right-divider-width . 1) default-frame-alist)
 
@@ -77,7 +73,7 @@
 ;; tooltip
 (if (fboundp 'tooltip-mode) (tooltip-mode -1))
 
-;; fringe
+;; fringe - explicitly set default fringe width (8px on each side)
 (if (fboundp 'fringe-mode) (fringe-mode nil))
 
 ;; Disable GUIs because they are inconsistent across systems, desktop
@@ -85,9 +81,8 @@
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
 
-;; Avoid raising the *Messages* buffer if anything is still without
-;; lexical bindings
-(setq warning-minimum-level :error)
+;; Suppress lexical-binding warnings but keep other warnings visible.
+(setq warning-minimum-level :warning)
 (setq warning-suppress-types '((lexical-binding)))
 
 ;;; package.el

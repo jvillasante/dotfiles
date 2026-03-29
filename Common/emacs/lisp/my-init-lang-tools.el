@@ -65,9 +65,6 @@
                                            (cons #'flymake-eldoc-function
                                                  (remove #'flymake-eldoc-function eldoc-documentation-functions)))
 
-                                     ;; Show all eldoc feedback.
-                                     (setq eldoc-documentation-strategy #'eldoc-documentation-compose)
-
                                      ;; Format on save via LSP.
                                      (add-hook 'before-save-hook
                                                (lambda ()
@@ -171,8 +168,7 @@
     :ensure nil ; Emacs built in
     :defer t
     :custom
-    (compilation-scroll-output t)            ; Scroll the compilation buffer to follow output
-    (compilation-scroll-output 'first-error) ; ... or scroll until the first error appears
+    (compilation-scroll-output 'first-error) ; Scroll until the first error appears
     (compilation-skip-threshold 1)           ; Skip info when navigating with next-error
     (compilation-always-kill t)
     (compilation-finish-functions            ; Auto-close the compilation window on success

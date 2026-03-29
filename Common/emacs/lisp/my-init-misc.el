@@ -18,8 +18,8 @@
     :defer t
     :config
     (setq ediff-keep-variants nil) ;; Kill variants upon quitting an Ediff session
-    (setq ediff-split-window-function 'split-window-horizontally) ;; Show diffs side-by-side
-    (setq ediff-window-setup-function 'ediff-setup-windows-plain)) ;; Puts the control panel in the same frame
+    (setq ediff-split-window-function #'split-window-horizontally) ;; Show diffs side-by-side
+    (setq ediff-window-setup-function #'ediff-setup-windows-plain)) ;; Puts the control panel in the same frame
 
 (use-package electric
     :ensure nil ;; emacs built-in
@@ -137,17 +137,9 @@
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq tramp-default-user-alist '(("\\`su\\(do\\)?\\'" nil "root")))
     (setq tramp-completion-use-auth-sources nil) ; do not use `.authinfo.gpg' for tramp
-    (setq tramp-shell-prompt-pattern
-          "\\(?:^\\|
-\\)[^]\n#-%>]*#?[]#-%>].*[[:blank:]]*") ; Tramp hangs: Not recognizing the remote shell prompt
-    (setq backup-enable-predicate
-          (lambda (name)
-              (and (normal-backup-enable-predicate name)
-                   (not (let ((method (file-remote-p name 'method)))
-                            (when (stringp method)
-                                (member method '("su" "sudo"))))))))
 
-    ;; Use Direct Async (check it works with `M-: (tramp-direct-async-process-p) on a remote file')
+    ;; Use Direct Async (check it works with
+    ;; `M-: (tramp-direct-async-process-p) on a remote file')
     (connection-local-set-profile-variables
      'remote-direct-async-process
      '((tramp-direct-async-process . t)))
@@ -185,7 +177,7 @@
                     (?\{ . ?\})
                     (?\[ . ?\])))
     (setq-default electric-pair-inhibit-predicate
-                  'electric-pair-conservative-inhibit))
+                  #'electric-pair-conservative-inhibit))
 
 ;; parent.el : Highlight matching paren
 (use-package paren
@@ -241,15 +233,14 @@
                          (unless (eq ibuffer-sorting-mode 'project-file-relative)
                              (ibuffer-do-sort-by-project-file-relative))))
     :config
-    (custom-set-variables
-     '(ibuffer-formats
-       '((mark modified read-only locked " "
-               (name 30 30 :left :elide)
-               " "
-               (size 9 -1 :right)
-               " "
-               (mode 16 16 :left :elide)
-               " " project-file-relative))))
+    (setq ibuffer-formats
+          '((mark modified read-only locked " "
+                  (name 30 30 :left :elide)
+                  " "
+                  (size 9 -1 :right)
+                  " "
+                  (mode 16 16 :left :elide)
+                  " " project-file-relative)))
     (setq ibuffer-project-root-functions '((ibuffer-project-project-root . "Project")))
     (add-to-list 'ibuffer-project-root-functions '(file-remote-p . "Remote")))
 
@@ -473,9 +464,9 @@
     :defer t
     :bind (("C-h D" . devdocs-browser-open))
     :custom
-    (devdocs-data-dir (expand-file-name  "devdocs-browser" my/var-dir))
-    (devdocs-browser-cache-directory (expand-file-name  "devdocs-browser/cache" my/var-dir))
-    (devdocs-browser-data-directory (expand-file-name  "devdocs-browser/data" my/var-dir))
+    (devdocs-data-dir (expand-file-name "devdocs-browser" my/var-dir))
+    (devdocs-browser-cache-directory (expand-file-name "devdocs-browser/cache" my/var-dir))
+    (devdocs-browser-data-directory (expand-file-name "devdocs-browser/data" my/var-dir))
     :hook
     (c-ts-mode . (lambda() (setq-local devdocs-browser-active-docs '("c"))))
     (c++-ts-mode . (lambda() (setq-local devdocs-browser-active-docs '("cpp")))))

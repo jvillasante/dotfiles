@@ -20,7 +20,7 @@ This can be used as a drop-in replacement for `setq' and *should* be used
 instead of `setopt'.  Unlike `setq', this triggers custom setters on variables.
 Unlike `setopt', this won't needlessly pull in dependencies."
     (macroexp-progn
-     (cl-loop for (var val) on settings by 'cddr
+     (cl-loop for (var val) on settings by #'cddr
               collect `(funcall (or (get ',var 'custom-set) #'set-default-toplevel-value)
                                 ',var ,val))))
 
@@ -104,14 +104,14 @@ Example:
             (setq seconds (1- seconds))
 
             ;; Check if buffer still exists (in case user pressed 'q' during countdown)
-            (unless (get-buffer buf) (setq seconds 0)))
+            (unless (buffer-live-p buf) (setq seconds 0)))
 
         ;; The Animated Celebration
-        (when (get-buffer buf)
+        (when (buffer-live-p buf)
             (let ((message "✨ HAPPY NEW YEAR! ✨")
                   (colors '("red" "orange" "yellow" "green" "cyan" "magenta" "violet")))
                 (dotimes (i 50) ; Animation loop
-                    (when (get-buffer buf)
+                    (when (buffer-live-p buf)
                         (erase-buffer)
                         (insert "\n\n   ")
                         (let ((current-color (nth (mod i (length colors)) colors)))
@@ -162,6 +162,8 @@ Example:
 If CURRENT-LINE is non-nil, point to the current branch, file, and line.
 Otherwise, open the repository's main page."
     (interactive "P")
+    (unless (buffer-file-name)
+        (user-error "Buffer is not visiting a file"))
     (let* ((remote-url (string-trim (vc-git--run-command-string nil "config" "--get" "remote.origin.url")))
            (branch (string-trim (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD")))
            (file (string-trim (file-relative-name (buffer-file-name) (vc-root-dir))))
@@ -442,7 +444,7 @@ Switch the current theme to THEME"
     (interactive
      (list
       (intern (completing-read "Load custom theme: "
-                               (mapcar 'symbol-name
+                               (mapcar #'symbol-name
                                        (custom-available-themes))))))
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
@@ -511,12 +513,13 @@ Taken from: https://www.emacswiki.org/emacs/UnfillRegion."
     "Undo filling for all paragraphs.
 Taken from: https://www.emacswiki.org/emacs/UndoFilling."
     (interactive)
-    (goto-char (point-min))
-    (let ((fill-column 99999))
-        (fill-paragraph nil)
-        (while (< (point) (point-max))
-            (forward-paragraph)
-            (fill-paragraph nil))))
+    (save-excursion
+        (goto-char (point-min))
+        (let ((fill-column 99999))
+            (fill-paragraph nil)
+            (while (< (point) (point-max))
+                (forward-paragraph)
+                (fill-paragraph nil)))))
 
 (defun my/toggle-window-split ()
     "Toggle between vertical and horizontal split.

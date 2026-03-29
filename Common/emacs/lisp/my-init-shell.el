@@ -91,8 +91,7 @@
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
-    (add-to-list 'eat-message-handler-alist (cons "open" 'my/eat-open))
-    (setq process-adaptive-read-buffering nil) ; makes EAT a lot quicker!
+    (add-to-list 'eat-message-handler-alist (cons "open" #'my/eat-open))
     (setq eat-term-name "xterm-256color") ; https://codeberg.org/akib/emacs-eat/issues/119"
     (setq eat-kill-buffer-on-exit t)
     (setq eat-shell-prompt-annotation-failure-margin-indicator "")

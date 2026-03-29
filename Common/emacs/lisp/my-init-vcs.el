@@ -34,7 +34,7 @@
            ("m" . magit-project-status))
     :custom ((git-commit-summary-max-length 50)
              (git-commit-fill-column 72)
-             (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
+             (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
              (magit-diff-refine-hunk 'all) ; show word-granularity differences within diff hunks.
              (magit-save-repository-buffers nil)
              (magit-define-global-key-bindings nil))
@@ -65,10 +65,10 @@ With prefix argument DETACH, use detached HEAD (useful for code reviews)."
      (let ((n (read-string "Worktree name: "))
            (sp (magit-read-branch-or-commit "Starting point")))
          (list n sp current-prefix-arg)))
-    (let* ((base (expand-file-name my/nntp-worktree-base))
+    (let* ((base my/nntp-worktree-base)
            (master (expand-file-name "master" base))
            (wt-path (expand-file-name name base))
-           (dotfiles (expand-file-name my/nntp-dotfiles-dir))
+           (dotfiles my/nntp-dotfiles-dir)
            (args (if detach
                      (list "worktree" "add" wt-path start-point)           ;; detached HEAD for reviews
                    (list "worktree" "add" "-b" name wt-path start-point)))) ;; new branch for development

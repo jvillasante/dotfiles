@@ -49,10 +49,10 @@
     (setq completion-cycle-threshold 3)
     (setq tab-always-indent 'complete)
 
-    (setq completion-ignore-case t)
-    (setq read-buffer-completion-ignore-case t)
-    (setq read-file-name-completion-ignore-case t)
-    (setq-default case-fold-search t)   ; For general regexp
+    (setq completion-ignore-case t)                ; ignore case (orderless handles smart-case)
+    (setq read-file-name-completion-ignore-case t) ; ... also when completing filenames
+    (setq read-buffer-completion-ignore-case t)    ; ... and when completing buffers
+    (setq-default case-fold-search t)              ; For general regexp
 
     (setq enable-recursive-minibuffers t)
     (setq resize-mini-windows t)
@@ -87,7 +87,7 @@
     :ensure nil ; emacs built-in
     :custom
     (uniquify-buffer-name-style 'reverse)
-    (uniquify-separator " - ")
+    (uniquify-separator " • ")
     (uniquify-after-kill-buffer-p t)
     (uniquify-ignore-buffers-re "^\\*"))
 
@@ -113,8 +113,7 @@
           completion-auto-help 'visible ;; Display *Completions* upon first request
           completions-format 'one-column ;; Use only one column
           completions-sort 'historical ;; Order based on minibuffer history
-          completions-max-height 20 ;; Limit completions to 15 (completions start at line 5)
-          completion-ignore-case t)
+          completions-max-height 20) ;; Limit completions to 15 (completions start at line 5)
     (setq tab-always-indent 'complete)  ;; Starts completion with TAB
     (setq icomplete-delay-completions-threshold 0)
     (setq icomplete-compute-delay 0)
@@ -247,11 +246,6 @@
 (use-package cape
     :bind ("C-c p" . cape-prefix-map)
     :init
-    ;; Sanitize the `pcomplete-completions-at-point' Capf.
-    (when (< emacs-major-version 29)
-        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
-        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
-
     ;; Add to the global default value of `completion-at-point-functions' which is
     ;; used by `completion-at-point'.  The order of the functions matters, the
     ;; first function returning a result wins.  Note that the list of buffer-local
@@ -339,17 +333,12 @@
     ;; register formatting, adds thin separator lines, register sorting and hides
     ;; the window mode line.
     (advice-add #'register-preview :override #'consult-register-window)
-    (setq register-preview-delay 0.5)
+    (setq register-preview-delay 0.5
+          register-preview-function #'consult-register-format)
 
     ;; Use Consult to select xref locations with preview
     (setq xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref)
-
-    ;; Optionally configure the register formatting. This improves the register
-    ;; preview for `consult-register', `consult-register-load',
-    ;; `consult-register-store' and the Emacs built-ins.
-    (setq register-preview-delay 0.5
-          register-preview-function #'consult-register-format)
 
     :config
     (setq consult-line-numbers-widen t)
@@ -459,9 +448,9 @@
                     (cons #'tempel-expand
                           completion-at-point-functions)))
 
-    (add-hook 'conf-mode-hook 'tempel-setup-capf)
-    (add-hook 'prog-mode-hook 'tempel-setup-capf)
-    (add-hook 'text-mode-hook 'tempel-setup-capf)
+    (add-hook 'conf-mode-hook #'tempel-setup-capf)
+    (add-hook 'prog-mode-hook #'tempel-setup-capf)
+    (add-hook 'text-mode-hook #'tempel-setup-capf)
 
     ;; Optionally make the Tempel templates available to Abbrev,
     ;; either locally or globally. `expand-abbrev' is bound to C-x '.

@@ -119,15 +119,6 @@
                          (t (buffer-name))))))
 (setq-default icon-title-format frame-title-format)
 
-;; unique buffer names dependent on file name
-(use-package uniquify
-    :ensure nil ;; emacs built-in
-    :custom
-    (uniquify-buffer-name-style 'reverse)
-    (uniquify-separator "•")
-    (uniquify-after-kill-buffer-p t)
-    (uniquify-ignore-buffers-re "^\\*"))
-
 ;; winner-mode : "undo" and "redo" changes in window configurations
 (use-package winner
     :disabled t ;; does not understand tabs!

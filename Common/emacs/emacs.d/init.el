@@ -7,17 +7,11 @@
 ;;; package.el
 (require 'package)
 (package-initialize)
-(when (< emacs-major-version 29)
-    (unless (package-installed-p 'use-package)
-        (unless package-archive-contents
-            (package-refresh-contents))
-        (package-install 'use-package)))
 
 ;; use-package : macro that allows to isolate package configuration
 (use-package use-package
     :ensure nil ;; emacs built-in
-    :custom ((use-package-verbose t)
-             (use-package-vc-prefer-newest t)
+    :custom ((use-package-vc-prefer-newest t)
              (use-package-compute-statistics nil) ; use `use-package-report'
              (use-package-always-ensure t)
              (use-package-expand-minimally t)))
@@ -30,23 +24,22 @@
 (defconst my/dropbox-path      (expand-file-name "Dropbox/"                   my/home-path))
 
 ;; Set environment variables - `exec-path-from-shell' is too slow!
-(progn
-    (setq my/exec-path-list
-          (list (expand-file-name ".go/bin" my/home-path)
-                (expand-file-name ".cargo/bin" my/home-path)
-                (expand-file-name ".local/bin" my/home-path)
-                "/usr/local/bin"
-                "/usr/local/sbin"
-                "/usr/bin"
-                "/usr/sbin"
-                "/bin"
-                "/sbin"))
+(setq my/exec-path-list
+      (list (expand-file-name ".go/bin" my/home-path)
+            (expand-file-name ".cargo/bin" my/home-path)
+            (expand-file-name ".local/bin" my/home-path)
+            "/usr/local/bin"
+            "/usr/local/sbin"
+            "/usr/bin"
+            "/usr/sbin"
+            "/bin"
+            "/sbin"))
 
-    ;; Set the `$PATH' environment variable
-    (setenv "PATH" (mapconcat 'identity my/exec-path-list path-separator))
+;; Set the `$PATH' environment variable
+(setenv "PATH" (mapconcat #'identity my/exec-path-list path-separator))
 
-    ;; Set the Emacs-internal `exec-path'
-    (setq exec-path (append (parse-colon-path (getenv "PATH")) (list exec-directory))))
+;; Set the Emacs-internal `exec-path'
+(setq exec-path (append (parse-colon-path (getenv "PATH")) (list exec-directory)))
 
 ;; Telling Emacs where the C source code is let's us jump all the way down into
 ;; primitive functions when exploring elisp functions.

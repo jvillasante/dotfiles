@@ -102,7 +102,7 @@
 (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
 (setq enable-local-eval t) ; Enable eval blocks in .dir-locals.el
 (setq enable-local-variables :all) ; Enable by default variables in .dir-locals.el
-(setq ring-bell-function 'ignore) ; Disable the bell for emacs
+(setq ring-bell-function #'ignore) ; Disable the bell for emacs
 (setq debug-on-error nil) ; Display the stacktrace if error encountered in one of the lisp method
 (setq completions-detailed t) ; Detailed description for the built in describe symbol etc
 (column-number-mode t) ; Display column numbers in the status line
@@ -112,14 +112,10 @@
 (setq require-final-newline t) ;; Newline at end of file
 (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
 (setq-default tab-width 4)            ;; but maintain correct appearance
-(setq indent-line-function 'insert-tab) ;; indent the current line
+(setq indent-line-function #'insert-tab) ;; indent the current line
 (setq standard-indent 4)
 (setq line-spacing 0.1) ;; line spacing
-(setq completion-ignore-case nil)              ;; do NOT ignore case by default
-(setq read-file-name-completion-ignore-case t) ;; ... but, ignore case when completing filenames
-(setq read-buffer-completion-ignore-case t)    ;; ... and, ignore case whem completing buffers
 (setq delete-by-moving-to-trash t) ;; use the system trash
-(setq sentence-end-double-space nil) ;; Nobody ends sentences with double space!
 (setq select-enable-clipboard t) ; Non-nil means cutting and pasting uses the clipboard.
 (setq undo-limit 67108864) ; 64mb.
 (setq undo-strong-limit 100663296) ; 96mb.
@@ -140,7 +136,7 @@
     (setq auth-source-save-behavior nil)
 
     ;; setup epg
-    (require 'epg)
+    (require 'epg-config)
     (setq epg-gpg-home-directory (expand-file-name ".gnupg" my/home-path))
     (setq epg-gpg-program (executable-find "gpg2"))
     ;; (setq epg-pinentry-mode 'loopback)
@@ -159,7 +155,7 @@
     (require 'org-crypt)
     (org-crypt-use-before-save-magic)
     (setq org-crypt-disable-auto-save nil
-          org-tags-exclude-from-inheritance (quote ("crypt"))
+          org-tags-exclude-from-inheritance '("crypt")
           org-crypt-key nil
           org-crypt-key user-mail-address))
 
@@ -167,7 +163,7 @@
 ;; (use-package auth-source-pass
 ;;     :hook (after-init . auth-source-pass-enable))
 
-;; Tree-sitter performance enhancement
+;; lsp-mode performance: use plists instead of hash tables for deserialization
 (setenv "LSP_USE_PLISTS" "true")
 (setq lsp-use-plists t)
 
@@ -245,7 +241,7 @@
         ;; disable auto-save for specific protocols
         (dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh"))
             (connection-local-set-profiles
-             `(:application tramp :protocol ,protocol 'no-remote-auto-save-profile))))
+             `(:application tramp :protocol ,protocol no-remote-auto-save-profile))))
 
     (progn ;; bookmarks
         (setq bookmark-default-file

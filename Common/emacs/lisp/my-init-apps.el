@@ -61,7 +61,7 @@
            "%1{%B%}"
            "%s\n")
           gnus-summary-display-arrow t)
-    (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+    (add-hook 'dired-mode-hook #'turn-on-gnus-dired-mode)
     (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
     (add-hook 'gnus-select-group-hook #'gnus-group-set-timestamp)
     (dolist (mode '(gnus-group-mode-hook gnus-summary-mode-hook gnus-browse-mode-hook))
@@ -79,7 +79,7 @@
     :config
     (setq newsticker-url-list '(("Planet Emacslife" "https://planet.emacslife.com/atom.xml")
                                 ("Hacker News" "https://news.ycombinator.com/rss")))
-    (advice-add 'newsticker-treeview-quit :after 'my/close-newsticker))
+    (advice-add #'newsticker-treeview-quit :after #'my/close-newsticker))
 
 (use-package eww
     :ensure nil ; emacs built-in
@@ -177,8 +177,8 @@
         (string-trim (nth 0 (process-lines "pass" "show" "Logins/irc.libera.chat"))))
     :init
     (require 'lui-autopaste)
-    (add-hook 'circe-channel-mode-hook 'enable-lui-autopaste)
-    (add-hook 'circe-chat-mode-hook 'my/circe-prompt)
+    (add-hook 'circe-channel-mode-hook #'enable-lui-autopaste)
+    (add-hook 'circe-chat-mode-hook #'my/circe-prompt)
     :config
     (setq circe-use-cycle-completion t)
     (setq circe-reduce-lurker-spam t)
@@ -230,16 +230,6 @@
                      do (eww-browse-url it))
             (mapc #'elfeed-search-update-entry entries)
             (unless (use-region-p) (forward-line))))
-    (defun my/elfeed-w3m-open (&optional use-generic-p)
-        "open with w3m"
-        (interactive "P")
-        (let ((entries (elfeed-search-selected)))
-            (cl-loop for entry in entries
-                     do (elfeed-untag entry 'unread)
-                     when (elfeed-entry-link entry)
-                     do (eww-browse-url it))
-            (mapc #'elfeed-search-update-entry entries)
-            (unless (use-region-p) (forward-line))))
     (defun my/elfeed-firefox-open (&optional use-generic-p)
         "open with firefox"
         (interactive "P")
@@ -252,12 +242,12 @@
             (unless (use-region-p) (forward-line))))
     :config
     (setq elfeed-use-curl t)
+    (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
     (setq elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
     (setq elfeed-search-title-min-width 60)
     (setq elfeed-search-title-max-width 100)
     (setq elfeed-search-trailing-width 0)
     (setq elfeed-search-filter "@6-months-ago +unread")
-    (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
     (setq elfeed-show-entry-switch #'pop-to-buffer)
     (setq shr-max-image-proportion 0.7)
     (add-to-list 'display-buffer-alist
