@@ -65,10 +65,6 @@
     :bind (("C-c o s" . shell)
            ("C-c o S" . my/shell-other-window)))
 
-;; bash-completion : bash-completion for Emacs
-;; (use-package bash-completion
-;;     :hook (after-init . bash-completion-setup))
-
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
     :disabled t
@@ -94,6 +90,7 @@
     (add-to-list 'eat-message-handler-alist (cons "open" #'my/eat-open))
     (setq eat-term-name "xterm-256color") ; https://codeberg.org/akib/emacs-eat/issues/119"
     (setq eat-kill-buffer-on-exit t)
+    (setq eat-term-scrollback-size 500000)
     (setq eat-shell-prompt-annotation-failure-margin-indicator "")
     (setq eat-shell-prompt-annotation-running-margin-indicator "")
     (setq eat-shell-prompt-annotation-success-margin-indicator ""))
@@ -144,7 +141,7 @@
     (setq vterm-copy-exclude-prompt t)
     (setq vterm-copy-mode-remove-fake-newlines t)
     (setq vterm-kill-buffer-on-exit t)
-    (setq vterm-max-scrollback 100000)
+    (setq vterm-max-scrollback 500000)
     (setq vterm-shell (executable-find "bash"))
     (setq vterm-tramp-shells '(("ssh" "/bin/bash")
                                ("docker" "/bin/bash")
