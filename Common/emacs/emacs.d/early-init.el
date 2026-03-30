@@ -94,8 +94,8 @@
       package-archives '(("melpa"  . "https://melpa.org/packages/")
                          ("gnu"    . "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-      package-archive-priorities '(("melpa"  . 90)
-                                   ("gnu"    . 80)
-                                   ("nongnu" . 70)))
+      package-archive-priorities '(("gnu"    . 90)
+                                   ("nongnu" . 80)
+                                   ("melpa"  . 70)))
 (provide 'early-init)
 ;;; early-init.el ends here
