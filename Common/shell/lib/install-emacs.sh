@@ -16,7 +16,8 @@ fi
 
 install-emacs() {
     # Set branch to use (default: emacs-30, override with first argument)
-    local EMACS_BRANCH="${1:-emacs-30}"
+    # local EMACS_BRANCH="${1:-emacs-30}"
+    local EMACS_BRANCH="${1:-master}"
 
     # Prepare git repo
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
