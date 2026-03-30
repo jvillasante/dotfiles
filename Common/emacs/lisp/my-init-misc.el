@@ -137,6 +137,8 @@
     (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
     (setq tramp-default-user-alist '(("\\`su\\(do\\)?\\'" nil "root")))
     (setq tramp-completion-use-auth-sources nil) ; do not use `.authinfo.gpg' for tramp
+    (setq tramp-shell-prompt-pattern ; Tramp hangs: Not recognizing the remote shell prompt
+        "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
 
     ;; Use Direct Async (check it works with
     ;; `M-: (tramp-direct-async-process-p) on a remote file')
