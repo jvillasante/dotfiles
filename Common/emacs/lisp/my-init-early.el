@@ -239,7 +239,7 @@
            (remote-file-name-inhibit-auto-save . t)))
 
         ;; disable auto-save for specific protocols
-        (dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh"))
+        (dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh" "scp"))
             (connection-local-set-profiles
              `(:application tramp :protocol ,protocol no-remote-auto-save-profile))))
 
