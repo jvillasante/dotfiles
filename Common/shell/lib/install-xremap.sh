@@ -24,11 +24,11 @@ install_xremap() {
         exit 1
     }
 
-    XREMAP_VERSION=v0.14.3
+    XREMAP_VERSION=v0.15.0
     XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
-    if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
-        XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
-    fi
+    # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
+    #     XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
+    # fi
 
     curl -LJO https://github.com/k0kubun/xremap/releases/download/"$XREMAP_VERSION"/"$XREMAP_RELEASE"
     atool --extract --explain "$XREMAP_RELEASE"
