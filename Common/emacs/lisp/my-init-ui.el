@@ -172,7 +172,7 @@
         :ensure nil ;; emacs built-in
         :if (fboundp 'pixel-scroll-precision-mode)
         :preface
-        (defvar my/default-scroll-lines 30) ;; scroll less than default
+        (defvar my/default-scroll-lines 25) ;; scroll less than default
         (defun my/pixel-scroll-up-command (&optional lines)
             "Similar to `scroll-up-command' but with pixel scrolling.
 Optional LINES overrides the default scroll distance."
@@ -197,11 +197,11 @@ Optional LINES overrides the default scroll distance."
         :bind (([remap scroll-up-command]   . my/pixel-scroll-up-command)
                ([remap scroll-down-command] . my/pixel-scroll-down-command)
                ([remap recenter-top-bottom] . my/pixel-recenter-top-bottom))
-        :custom ((pixel-scroll-precision-interpolation-factor 0.75)
+        :custom ((pixel-scroll-precision-interpolation-factor 1.0)
                  (pixel-scroll-precision-use-momentum nil)
                  (pixel-scroll-precision-interpolate-mice t)
                  (pixel-scroll-precision-large-scroll-height 10.0)
-                 (pixel-scroll-precision-interpolation-total-time 0.2)
+                 (pixel-scroll-precision-interpolation-total-time 0.1)
                  (pixel-scroll-precision-interpolate-page t))
         :hook (after-init . pixel-scroll-precision-mode)))
 
