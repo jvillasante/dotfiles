@@ -28,10 +28,11 @@
           (lambda () (load custom-file :no-error-if-file-is-missing)))
 
 ;; Reducing clutter in ~/.emacs.d by redirecting files to ~/emacs.d/var/
-(setq user-lisp-directory (expand-file-name "user-lisp/" my/user-directory))
-(setq my/var-dir (expand-file-name "var/" my/user-directory))
-(setq my/etc-dir (expand-file-name "etc/" my/user-directory))
-(setq user-emacs-directory my/var-dir)
+(setq user-lisp-directory (expand-file-name "../user-lisp/" my/user-directory))
+(setq my/lisp-dir (expand-file-name "../lisp/"              my/user-directory))
+(setq my/var-dir  (expand-file-name "var/"                  my/user-directory))
+(setq my/etc-dir  (expand-file-name "etc/"                  my/user-directory))
+(setq user-emacs-directory                                  my/var-dir)
 
 ;;; Native compilation and Byte compilation
 (if (and (featurep 'native-compile)
