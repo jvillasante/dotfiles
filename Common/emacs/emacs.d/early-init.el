@@ -83,8 +83,10 @@
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
 
-;; Suppress lexical-binding warnings but keep other warnings visible.
-(setq warning-minimum-level :warning)
+;; Only show error-level warnings (suppress warnings and debug messages)
+(setq warning-minimum-level :error)
+
+;; Suppress warnings about packages lacking a `lexical-binding' declaration
 (setq warning-suppress-types '((lexical-binding)))
 
 ;;; package.el
