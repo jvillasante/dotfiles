@@ -393,9 +393,18 @@
 
 ;; Expreg : like expand-region but nicer
 (use-package expreg
+    :preface
+    (defvar my/expreg-repeat-map
+        (let ((map (make-sparse-keymap)))
+            (define-key map "=" #'expreg-expand)
+            (define-key map "-" #'expreg-contract)
+            map))
     :bind (("C-=" . expreg-expand)
            ("C--" . expreg-contract))
-    :custom (shift-select-mode 'permanent))
+    :custom (shift-select-mode 'permanent)
+    :config
+    (put 'expreg-expand 'repeat-map 'my/expreg-repeat-map)
+    (put 'expreg-contract 'repeat-map 'my/expreg-repeat-map))
 
 ;; better C-w and M-w
 (use-package whole-line-or-region
