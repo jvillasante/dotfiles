@@ -296,8 +296,8 @@ Run this function at the post theme load phase, such as with the
         (if (eq modus-themes-org-blocks 'gray-background)
                 (setq org-fontify-whole-block-delimiter-line t)
             (setq org-fontify-whole-block-delimiter-line nil)))
-    :hook
-    (modus-themes-after-load-theme . my/modus-themes-org-fontify-block-delimiter-lines)
+    :hook (modus-themes-after-load-theme
+              . my/modus-themes-org-fontify-block-delimiter-lines)
     :config
     ;; In all of the following, WEIGHT is a symbol such as `semibold',
     ;; `light', `bold', or anything mentioned in `modus-themes-weights'.
