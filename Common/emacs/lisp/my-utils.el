@@ -408,8 +408,8 @@ Make it readonly, and set up a keybinding (q) to close the window."
 (defun my/project-root-or-default-dir ()
     "If a project root is found, return it. Otherwise return `default-directory'."
     (when (fboundp 'project-root)
-        (if-let ((proj (project-current)))
-                (project-root proj)
+        (if-let* ((proj (project-current)))
+            (project-root proj)
             default-directory)))
 
 (defun my/switch-to-messages-buffer ()
