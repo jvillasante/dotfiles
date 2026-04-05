@@ -288,68 +288,72 @@ Optional LINES overrides the default scroll distance."
 
 ;; theme
 (use-package modus-themes
+    :ensure nil ;; emacs built-in
     :preface
     (defun my/modus-themes-org-fontify-block-delimiter-lines ()
         "Match `org-fontify-whole-block-delimiter-line' to theme style.
 Run this function at the post theme load phase, such as with the
 `modus-themes-after-load-theme-hook'."
         (if (eq modus-themes-org-blocks 'gray-background)
-                (setq org-fontify-whole-block-delimiter-line t)
+            (setq org-fontify-whole-block-delimiter-line t)
             (setq org-fontify-whole-block-delimiter-line nil)))
-    :hook (modus-themes-after-load-theme
-              . my/modus-themes-org-fontify-block-delimiter-lines)
+    :init
+    (require-theme 'modus-themes) ; `require-theme' is ONLY for the built-in `modus-themes'
+    :hook
+    (modus-themes-after-load-theme
+        . my/modus-themes-org-fontify-block-delimiter-lines)
     :config
     ;; In all of the following, WEIGHT is a symbol such as `semibold',
     ;; `light', `bold', or anything mentioned in `modus-themes-weights'.
     (setq modus-themes-italic-constructs t
-          modus-themes-bold-constructs t
-          modus-themes-mixed-fonts t
-          modus-themes-variable-pitch-ui t
-          modus-themes-custom-auto-reload t
-          modus-themes-disable-other-themes t
+        modus-themes-bold-constructs t
+        modus-themes-mixed-fonts t
+        modus-themes-variable-pitch-ui t
+        modus-themes-custom-auto-reload t
+        modus-themes-disable-other-themes t
 
-          ;; Options for `modus-themes-prompts' are either nil (the
-          ;; default), or a list of properties that may include any of those
-          ;; symbols: `italic', `WEIGHT'
-          modus-themes-prompts '(italic bold)
+        ;; Options for `modus-themes-prompts' are either nil (the
+        ;; default), or a list of properties that may include any of those
+        ;; symbols: `italic', `WEIGHT'
+        modus-themes-prompts '(italic bold)
 
-          ;; The `modus-themes-completions' is an alist that reads two
-          ;; keys: `matches', `selection'.  Each accepts a nil value (or
-          ;; empty list) or a list of properties that can include any of
-          ;; the following (for WEIGHT read further below):
-          ;;
-          ;; `matches'   :: `underline', `italic', `WEIGHT'
-          ;; `selection' :: `underline', `italic', `WEIGHT'
-          modus-themes-completions
-          '((matches . (extrabold))
-            (selection . (semibold italic text-also)))
+        ;; The `modus-themes-completions' is an alist that reads two
+        ;; keys: `matches', `selection'.  Each accepts a nil value (or
+        ;; empty list) or a list of properties that can include any of
+        ;; the following (for WEIGHT read further below):
+        ;;
+        ;; `matches'   :: `underline', `italic', `WEIGHT'
+        ;; `selection' :: `underline', `italic', `WEIGHT'
+        modus-themes-completions
+        '((matches . (extrabold))
+             (selection . (semibold italic text-also)))
 
-          modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
+        modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
 
-          ;; The `modus-themes-headings' is an alist: read the manual's
-          ;; node about it or its doc string.  Basically, it supports
-          ;; per-level configurations for the optional use of
-          ;; `variable-pitch' typography, a height value as a multiple of
-          ;; the base font size (e.g. 1.5), and a `WEIGHT'.
-          modus-themes-headings
-          '((1 . (variable-pitch 1.5))
-            (2 . (1.3))
-            (agenda-date . (1.3))
-            (agenda-structure . (variable-pitch light 1.8))
-            (t . (1.1))))
+        ;; The `modus-themes-headings' is an alist: read the manual's
+        ;; node about it or its doc string.  Basically, it supports
+        ;; per-level configurations for the optional use of
+        ;; `variable-pitch' typography, a height value as a multiple of
+        ;; the base font size (e.g. 1.5), and a `WEIGHT'.
+        modus-themes-headings
+        '((1 . (variable-pitch 1.5))
+             (2 . (1.3))
+             (agenda-date . (1.3))
+             (agenda-structure . (variable-pitch light 1.8))
+             (t . (1.1)))
 
-    ;; Theme overrides
-    (setq modus-themes-common-palette-overrides
-          `(;; Make the mode line border-less
-            (border-mode-line-active unspecified)
-            (border-mode-line-inactive unspecified)
+        ;; Theme overrides
+        modus-themes-common-palette-overrides
+        `(;; Make the mode line border-less
+             (border-mode-line-active unspecified)
+             (border-mode-line-inactive unspecified)
 
-            ;; Make line numbers pop - Only needed for `modus-themes-preset-overrides-faint'
-            ;; (fg-line-number-active fg-main) (fg-line-number-inactive "grey50")
-            ;; (bg-line-number-active bg-inactive) (bg-line-number-inactive bg-dim)
+             ;; Make line numbers pop - Only needed for `modus-themes-preset-overrides-faint'
+             ;; (fg-line-number-active fg-main) (fg-line-number-inactive "grey50")
+             ;; (bg-line-number-active bg-inactive) (bg-line-number-inactive bg-dim)
 
-            ;; Make the theme look less colorful/intense
-            ,@modus-themes-preset-overrides-faint)))
+             ;; Make the theme look less colorful/intense
+             ,@modus-themes-preset-overrides-faint)))
 
 ;; minions : menu that lists enabled minor-modes
 ;; In Emacs 31 see `mode-line-collapse-minor-modes'

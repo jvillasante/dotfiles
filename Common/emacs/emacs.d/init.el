@@ -64,9 +64,8 @@
 (load (expand-file-name "my-init-ui"            my/lisp-dir))
 (load (expand-file-name "my-init-ai"            my/lisp-dir))
 ;; (load (expand-file-name "my-init-icons"         my/lisp-dir))
-(load (expand-file-name "my-init-transient"     my/lisp-dir))
+;; (load (expand-file-name "my-init-transient"     my/lisp-dir))
 (load (expand-file-name "my-init-bindings"      my/lisp-dir))
-(load (expand-file-name "modus-themes-exporter" my/lisp-dir))
 
 (provide 'init)
 ;;; init.el ends here
