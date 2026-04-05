@@ -28,6 +28,7 @@
           (lambda () (load custom-file :no-error-if-file-is-missing)))
 
 ;; Reducing clutter in ~/.emacs.d by redirecting files to ~/emacs.d/var/
+(setq user-lisp-directory (expand-file-name "user-lisp/" my/user-directory))
 (setq my/var-dir (expand-file-name "var/" my/user-directory))
 (setq my/etc-dir (expand-file-name "etc/" my/user-directory))
 (setq user-emacs-directory my/var-dir)
@@ -97,5 +98,6 @@
       package-archive-priorities '(("gnu"    . 90)
                                    ("nongnu" . 80)
                                    ("melpa"  . 70)))
+
 (provide 'early-init)
 ;;; early-init.el ends here
