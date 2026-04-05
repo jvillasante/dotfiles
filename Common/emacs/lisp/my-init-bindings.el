@@ -18,7 +18,18 @@
 (global-unset-key (kbd "C-x C-z"))
 
 ;; The undo mechanism is weird but powerful, better to learn it well
+;; Also, with `repeat-mode', `C-x u u u u' is better!
+(global-unset-key (kbd "C-/"))
 (global-unset-key (kbd "C-?"))
+(global-unset-key (kbd "C-_"))
+(global-unset-key (kbd "M-C-_"))
+(defvar my/undo-repeat-map
+        (let ((map (make-sparse-keymap)))
+            (define-key map "u" #'undo)
+            (define-key map "r" #'undo-redo)
+            map))
+(put 'undo 'repeat-map 'my/undo-repeat-map)
+(put 'undo-redo 'repeat-map 'my/undo-repeat-map)
 
 ;; smart kill buffers
 (defun my/smart-kill-buffer ()
