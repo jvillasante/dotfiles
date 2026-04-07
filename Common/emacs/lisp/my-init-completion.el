@@ -16,6 +16,7 @@
 
 (use-package emacs
     :ensure nil ;; emacs built-in
+    :no-require t ;; no emacs.el file exists; skip (require 'emacs)
     :init
     (when (>= emacs-major-version 30)
         ;; Disable Ispell completion function. Try `cape-dict' as an alternative.
