@@ -9,8 +9,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-      '(adoc-mode anzu cape claude-code-ide cmake-mode consult-dir consult-notes corfu
-           crux csv-mode dape devdocs-browser diff-hl dired-sidebar diredfl
+      '(adoc-mode cape claude-code-ide cmake-mode consult-dir consult-notes corfu crux
+           csv-mode dape devdocs-browser diff-hl dired-sidebar diredfl
            dockerfile-mode eldoc-diffstat elfeed elisp-demos embark-consult
            engine-mode expreg flash geiser-guile gnuplot go-mode helpful hl-todo
            ibuffer-project jinx js2-mode json-mode magit marginalia

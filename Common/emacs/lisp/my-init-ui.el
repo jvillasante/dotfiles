@@ -100,6 +100,10 @@
 (if (fboundp 'blink-cursor-mode)
         (blink-cursor-mode -1)) ; annoying
 
+;; Don't Render Cursors in Non-Focused Windows
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+
 ;; Use variable-pitch fonts
 (add-hook 'text-mode-hook 'variable-pitch-mode)
 
@@ -121,8 +125,8 @@
 
 ;; winner-mode : "undo" and "redo" changes in window configurations
 (use-package winner
-    :disabled t ;; does not understand tabs!
-    :ensure nil ;; emacs built-in
+    :disabled t ; does not understand tabs!
+    :ensure nil ; emacs built-in
     :hook (after-init . winner-mode))
 
 ;; scrolling
@@ -131,6 +135,9 @@
     ;; brief periods of inaccurate syntax highlighting immediately after scrolling,
     ;; which should quickly self-correct.
     (setq fast-but-imprecise-scrolling t)
+
+    ;; Skip fontification when input is pending (pairs with fast-but-imprecise-scrolling).
+    (setq redisplay-skip-fontification-on-input t)
 
     ;; Move point to top/bottom of buffer before signaling a scrolling error.
     (setq scroll-error-top-bottom t)
@@ -163,9 +170,6 @@
     ;; Speedup cursor movement.
     ;; https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
     (setq auto-window-vscroll nil)
-
-    ;; Skip fontification when input is pending (pairs with fast-but-imprecise-scrolling).
-    (setq redisplay-skip-fontification-on-input t)
 
     ;; smooth scrolling
     (use-package pixel-scroll
@@ -402,6 +406,7 @@ Run this function at the post theme load phase, such as with the
 
 ;; anzu : displays current match and total matches information in the mode-line in various search modes.
 (use-package anzu
+    :disabled t ; using isearch builtin
     :hook (after-init . global-anzu-mode)
     :custom
     (anzu-mode-lighter "")
@@ -443,9 +448,9 @@ Run this function at the post theme load phase, such as with the
 ;;          https://www.masteringemacs.org/article/demystifying-emacs-window-manager
 (progn
     ;; window split and resizing
-    ;; (setq window-combination-resize t)
-    ;; (setq split-height-threshold 80)
-    ;; (setq split-width-threshold 135)
+    (setq window-combination-resize t) ; Proportional Window Resizing
+    (setq split-height-threshold 80)   ; Minimum height for splitting windows sensibly
+    (setq split-width-threshold 150)   ; Minimum width for splitting windows sensibly.
 
     ;; defaults
     (setq switch-to-buffer-in-dedicated-window 'pop)

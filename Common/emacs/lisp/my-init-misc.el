@@ -50,7 +50,7 @@
     (setq isearch-allow-motion t)               ; enable Emacs28 isearch motions
     (setq isearch-motion-changes-direction t)
     (setq isearch-lazy-highlight t)             ; highlight occurrences
-    (setq isearch-lazy-count nil)               ; using anzu
+    (setq isearch-lazy-count t)                 ; show counts
     (setq lazy-count-prefix-format "(%s/%s) ")
     (setq lazy-count-suffix-format nil))
 
@@ -60,22 +60,32 @@
     :hook (after-init . save-place-mode)
     :config
     (setq save-place-file (expand-file-name "saveplace" my/var-dir))
-    (setq save-place-limit 600))
+    (setq save-place-limit 600)
+
+    ;; Recenter After save-place Restores Position
+    (advice-add 'save-place-find-file-hook :after
+        (lambda (&rest _)
+            (when buffer-file-name (ignore-errors (recenter))))))
 
 ;; savehist : save minibuffer history
 (use-package savehist
     :ensure nil ;; emacs built-in
-    :hook (after-init . savehist-mode)
+    :hook ((after-init . savehist-mode)
+              ;; strips text properties before saving
+              (savehist-save . (lambda ()
+                                   (setq kill-ring
+                                       (mapcar #'substring-no-properties
+                                           (cl-remove-if-not #'stringp kill-ring))))))
     :config
     (setq history-length 500
-          history-delete-duplicates t
-          savehist-save-minibuffer-history t
-          savehist-additional-variables
-          '(register-alist
-            kill-ring
-            mark-ring
-            search-ring
-            regexp-search-ring)))
+        history-delete-duplicates t
+        savehist-save-minibuffer-history t
+        savehist-additional-variables
+        '(register-alist
+             kill-ring
+             mark-ring
+             search-ring
+             regexp-search-ring)))
 
 ;; recentf : recent files
 (use-package recentf

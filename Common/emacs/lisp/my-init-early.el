@@ -30,6 +30,12 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
+;; assume left-to-right text everywhere and skip
+;; the bidirectional parenthesis algorithm
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 (require 'time)
 (setq world-clock-list
@@ -108,6 +114,7 @@
 (column-number-mode t) ; Display column numbers in the status line
 (size-indication-mode t) ; Display size indication
 (setq kill-do-not-save-duplicates t) ; Do not save duplicates in kill-ring
+(setq save-interprogram-paste-before-kill t) ; Save the clipboard content into the kill-ring before overwriting it
 (setq next-error-message-highlight t) ; When jumping between errors, occurs, etc, highlight the current line
 (setq require-final-newline t) ;; Newline at end of file
 (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
@@ -121,6 +128,7 @@
 (setq undo-strong-limit 100663296) ; 96mb.
 (setq undo-outer-limit 1006632960) ; 960mb.
 (setq apropos-sort-by-scores t) ; sort apropos by score
+(setq ffap-machine-p-known 'reject) ; Prevent ffap from Pinging Hostnames
 
 ;; Increase the depth in `eval', `apply' and `funcall' before error.
 (setq max-lisp-eval-depth (* 30 max-lisp-eval-depth))
@@ -184,6 +192,8 @@
 (require 'my-utils)
 (use-package emacs
     :ensure nil ;; emacs built-in
+    :hook (after-save . ;; Auto-Chmod Scripts on Save
+              #'executable-make-buffer-file-executable-if-script-p)
     :config
     (progn ;; backups
         (setq create-lockfiles nil      ; avoid generating lockfiles
