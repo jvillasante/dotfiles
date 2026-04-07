@@ -13,8 +13,8 @@
           (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
 (use-package agent-shell
-    :disabled t
     :defer t
+    :pin melpa
     :preface
     (defun my/agent-shell-dot-subdir (subdir)
         (let* ((cwd (string-remove-suffix "/" (agent-shell-cwd)))
@@ -40,6 +40,7 @@
     (agent-shell-anthropic-default-model-id "opus"))
 
 (use-package claude-code-ide
+    :disabled t
     :defer t
     :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
     :bind (("C-c C-'" . claude-code-ide-menu)

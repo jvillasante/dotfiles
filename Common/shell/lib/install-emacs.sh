@@ -22,7 +22,7 @@ install-emacs() {
     # Prepare git repo
     [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
     if [ ! -d "$HOME"/Workspace/Software/emacs ]; then
-        git clone --depth 1 --branch "$EMACS_BRANCH" git://git.savannah.gnu.org/emacs.git "$HOME"/Workspace/Software/emacs
+        git clone --depth 1 --branch "$EMACS_BRANCH" https://git.savannah.gnu.org/git/emacs.git "$HOME"/Workspace/Software/emacs
         pushd "$HOME"/Workspace/Software/emacs || {
             echo "Can't cd into $HOME/Workspace/Software/emacs"
             exit 1
@@ -33,9 +33,11 @@ install-emacs() {
             exit 1
         }
 
-        [ -f Makefile ] && sudo make uninstall || true
-        [ -f Makefile ] && make clean || true
-        [ -f Makefile ] && make distclean || true
+        if [ -f Makefile ]; then
+            sudo make uninstall || true
+            make clean || true
+            make distclean || true
+        fi
         git reset --hard HEAD
         git clean -dfx
         git fetch --depth 1 origin "$EMACS_BRANCH"
@@ -45,34 +47,26 @@ install-emacs() {
     # Setup git branch
     local BRANCH
     BRANCH=$(git branch --show-current)
-    [[ "$BRANCH" != "$EMACS_BRANCH" ]] && echo "Unexpected branch, expecting $EMACS_BRANCH, got $BRANCH" && exit 1
+    if [[ "$BRANCH" != "$EMACS_BRANCH" ]]; then
+        echo "Unexpected branch, expecting $EMACS_BRANCH, got $BRANCH"
+        exit 1
+    fi
 
     # Build and install
     # Pure GTK (Wayland native): --with-pgtk
-    # Lucid: --with-x-toolkit=lucid --with-cairo --with-xft
+    # Lucid (X11/Xwayland): --with-x-toolkit=lucid
     ./autogen.sh
     ./configure \
-        --prefix=/usr/local \
-        --with-x-toolkit=lucid --with-cairo --with-xft \
+        --with-x-toolkit=lucid \
         --with-native-compilation=aot \
         --with-tree-sitter \
-        --with-json \
-        --with-modules \
-        --with-sqlite3 \
-        --with-harfbuzz \
-        --with-webp \
-        --with-rsvg \
-        --with-gnutls \
-        --with-libgmp \
-        --with-png \
-        --with-jpeg \
-        --with-gif \
-        --with-tiff \
+        --with-dbus \
+        --with-cairo-xcb \
         --without-compress-install \
         --disable-gc-mark-trace \
         CFLAGS="-O2 -march=native -mtune=native -pipe -fomit-frame-pointer -fno-semantic-interposition -flto=auto" \
         LDFLAGS="-flto=auto"
-    make -j"$(nproc --ignore=2)" NATIVE_FULL_AOT=1
+    make -j"$(nproc --ignore=2)"
     sudo make install
 
     popd
@@ -83,8 +77,10 @@ install-emacs() {
         local DOTFILES_DIR
         DOTFILES_DIR="$HOME"/Workspace/Public/dotfiles/
 
-        [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d ]] &&
-            echo "Emacs personal configuration not found, exiting..." && exit 1
+        if [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d ]]; then
+            echo "Emacs personal configuration not found, exiting..."
+            exit 1
+        fi
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache ]] &&
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa ]] &&
@@ -92,14 +88,13 @@ install-emacs() {
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter ]] &&
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
         /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/emacs.d
-    fi
 
-    read -rp "Emacs packages updated, do you want to start the systemd service now? (Y/N): " confirm
-    if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
-        systemctl --user daemon-reload
-        sleep 1 && systemctl --user enable --now emacs.service
-        sleep 1 && systemctl --user start emacs.service
-        sleep 1 && systemctl --user status emacs.service
+        read -rp "Emacs packages updated, do you want to start the systemd service now? (Y/N): " confirm
+        if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+            systemctl --user daemon-reload
+            systemctl --user enable --now emacs.service
+            systemctl --user status emacs.service
+        fi
     fi
 }
 

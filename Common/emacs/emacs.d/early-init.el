@@ -51,6 +51,9 @@
       inhibit-startup-buffer-menu t)
 
 ;; some default-frame-alist
+(when (and (string-match-p "CAIRO" system-configuration-features)
+           (string-match-p "HARFBUZZ" system-configuration-features))
+    (push '(font-backend . "ftcrhb") default-frame-alist))
 (push '(width . 160) default-frame-alist)
 (push '(height . 46) default-frame-alist)
 (push '(bottom-divider-width . 0) default-frame-alist)

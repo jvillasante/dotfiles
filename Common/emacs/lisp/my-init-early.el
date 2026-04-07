@@ -192,8 +192,8 @@
 (require 'my-utils)
 (use-package emacs
     :ensure nil ;; emacs built-in
-    :hook (after-save . ;; Auto-Chmod Scripts on Save
-              #'executable-make-buffer-file-executable-if-script-p)
+    ;; Auto-Chmod Scripts on Save
+    :hook (after-save . #'executable-make-buffer-file-executable-if-script-p)
     :config
     (progn ;; backups
         (setq create-lockfiles nil      ; avoid generating lockfiles

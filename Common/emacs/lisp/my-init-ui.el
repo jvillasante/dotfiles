@@ -15,9 +15,6 @@
           (lambda ()
               (select-frame-set-input-focus (selected-frame))))
 
-;; Prevents some cases of Emacs flickering
-(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-
 ;; Resizing the Emacs frame can be costly when changing the font. Disable this
 ;; to improve startup times with fonts larger than the system default.
 (setq frame-resize-pixelwise t)
