@@ -193,9 +193,6 @@
 (use-package emacs
     :ensure nil   ; emacs built-in
     :no-require t ; no emacs.el file exists; skip (require 'emacs)
-    :hook
-    ;; Auto-Chmod Scripts on Save
-    (after-save . executable-make-buffer-file-executable-if-script-p)
     :config
     (progn ;; backups
         (setq create-lockfiles nil      ; avoid generating lockfiles
