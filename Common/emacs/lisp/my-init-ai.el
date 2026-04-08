@@ -31,13 +31,9 @@
        (dedicated . t)
        (window-parameters . ((no-delete-other-windows . t)))))
     (agent-shell-session-strategy 'prompt)
-    (agent-shell-dot-subdir-function
-     #'my/agent-shell-dot-subdir)
-    (agent-shell-preferred-agent-config
-     (agent-shell-anthropic-make-claude-code-config))
-    (agent-shell-anthropic-authentication
-     (agent-shell-anthropic-make-authentication :login t))
-    (agent-shell-anthropic-default-model-id "opus"))
+    (agent-shell-dot-subdir-function #'my/agent-shell-dot-subdir)
+    (agent-shell-preferred-agent-config 'claude-code)
+    (agent-shell-anthropic-default-model-id "opus[1m]"))
 
 (use-package claude-code-ide
     :disabled t

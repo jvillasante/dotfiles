@@ -72,6 +72,7 @@
 
 ;; dired-subtree
 (use-package dired-subtree
+    :after dired
     :bind (:map dired-mode-map
                 ("<tab>" . dired-subtree-toggle)
                 ("TAB" . dired-subtree-toggle)
@@ -83,6 +84,7 @@
 ;; dired-x : dired eXtenxions
 (use-package dired-x
     :ensure nil ;; emacs built-in
+    :after dired
     :bind (:map dired-mode-map
                 ("." . dired-omit-mode))
     :config
@@ -118,6 +120,7 @@
 
 ;; Addtional syntax highlighting for dired
 (use-package diredfl
+    :after dired
     :hook (dired-mode . diredfl-mode))
 
 ;; dired-sidebar : dired in the sidebar
