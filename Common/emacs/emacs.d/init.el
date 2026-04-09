@@ -65,6 +65,7 @@
 (load (expand-file-name "my-init-ai"            my/lisp-dir))
 ;; (load (expand-file-name "my-init-icons"         my/lisp-dir))
 ;; (load (expand-file-name "my-init-transient"     my/lisp-dir))
+(load (expand-file-name "my-init-mail"          my/lisp-dir))
 (load (expand-file-name "my-init-bindings"      my/lisp-dir))
 
 (provide 'init)
