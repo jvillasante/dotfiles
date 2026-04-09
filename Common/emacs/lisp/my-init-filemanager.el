@@ -10,12 +10,10 @@
     :ensure nil ;; emacs built-in
     :hook (dired-mode . (lambda ()
                             (hl-line-mode)
-                            ;; (dired-hide-details-mode)
                             (unless (file-remote-p default-directory)
                                 (auto-revert-mode))))
     :bind (:map dired-mode-map
                 ("C-<return>" . dired-do-open)
-                ;; ("q"          . my/close-buffer-and-window)
                 ("e"          . dired-toggle-read-only))
     :config
     (setq dired-free-space nil
@@ -55,20 +53,18 @@
     ;;  -h : Human-readable sizes like 1K, 234M, ..
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     (setq dired-listing-switches
-          "-a -l -h -v --group-directories-first --color=auto")
+          "-a -l -h -v --group-directories-first")
 
-    ;; enable some really cool extensions like C-x C-j(dired-jump)
-    (if (< emacs-major-version 28)
-            (add-hook 'dired-load-hook (lambda ()
-                                           (load "dired-x"))))
+    ;; Move deleted files to trash instead of permanently deleting them
+    (setq delete-by-moving-to-trash t)
 
     ;; Make dired use the same buffer for viewing directory
-    (if (< emacs-major-version 28)
-            (progn
-                (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
-                (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))) ; was dired-up-directory
-        (progn
-            (setq dired-kill-when-opening-new-dired-buffer t))))
+    (setq dired-kill-when-opening-new-dired-buffer t))
+
+;; Addtional syntax highlighting for dired
+(use-package diredfl
+    :after dired
+    :hook (dired-mode . diredfl-mode))
 
 ;; dired-subtree
 (use-package dired-subtree
@@ -93,35 +89,31 @@
                   dired-bibtex-unclean-extensions
                   dired-texinfo-unclean-extensions))
     (setq dired-omit-files
-          (concat
-           "\\(" "^\\.?#\\|^\\.$\\|^\\.\\.$"               "\\)" "\\|"
-           "\\(" "^\\.\\(git\\|cache\\|tox\\|coverage\\)$" "\\)" "\\|"
-           "\\(" "^\\.\\(DS_Store\\|python\\-version\\)"   "\\)" "\\|"
-           "\\(" "^\\(htmlcov\\|node_modules\\)$"          "\\)" "\\|"
-           "\\(" "^\\.\\(vscode\\|devcontainer\\)$"        "\\)" "\\|"
-           "\\(" "\\.elcs$"                                "\\)" "\\|"
-           "\\(" "^\\.coverage\\..*"                       "\\)" "\\|"
-           "\\(" "\\.ipynb.*$"                             "\\)" "\\|"
-           "\\(" "\\.py[cod]$"                             "\\)" "\\|"
-           "\\(" "~$"                                      "\\)" "\\|"
-           "\\(" "^#.*#$"                                  "\\)" "\\|"
-           "\\(" "^\\.#.*$"                                "\\)" "\\|"
-           "\\(" "^__pycache__$"                           "\\)" "\\|"
-           "\\(" "\\.gcda$"                                "\\)" "\\|"
-           "\\(" "\\.gcov$"                                "\\)" "\\|"
-           "\\(" "\\.gcno$"                                "\\)" "\\|"
-           "\\(" "\\.lo$"                                  "\\)" "\\|"
-           "\\(" "\\.o$"                                   "\\)" "\\|"
-           "\\(" "\\.so$"                                  "\\)" "\\|"
-           "\\(" "^\\.cproject$"                           "\\)" "\\|"
-           "\\(" "^\\.project$"                            "\\)" "\\|"
-           "\\(" "^\\.projectile$"                         "\\)" "\\|"
-           "\\(" "\\.egg\-info$"                           "\\)")))
-
-;; Addtional syntax highlighting for dired
-(use-package diredfl
-    :after dired
-    :hook (dired-mode . diredfl-mode))
+          (rx (or
+               ;; Emacs lock/autosave files
+               (seq bol (? ".") "#")
+               (seq bol "#" (* anything) "#" eol)
+               (seq bol ".#" (* anything) eol)
+               (seq "~" eol)
+               ;; Current and parent directory
+               (seq bol "." eol)
+               (seq bol ".." eol)
+               ;; Hidden dotfile directories
+               (seq bol "." (or "git" "cache" "tox" "coverage"
+                                "DS_Store" "python-version"
+                                "vscode" "devcontainer"
+                                "cproject" "project" "projectile") eol)
+               ;; Build/tool directories
+               (seq bol (or "htmlcov" "node_modules" "__pycache__") eol)
+               ;; Coverage data
+               (seq bol ".coverage." (* anything))
+               ;; Compiled/object files
+               (seq (or ".elcs" ".pyc" ".pyo" ".pyd"
+                        ".gcda" ".gcov" ".gcno"
+                        ".lo" ".o" ".so"
+                        ".egg-info") eol)
+               ;; Notebook checkpoints
+               (seq ".ipynb" (* anything) eol)))))
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
