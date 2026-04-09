@@ -147,7 +147,6 @@
     (require 'epg-config)
     (setq epg-gpg-home-directory (expand-file-name ".gnupg" my/home-path))
     (setq epg-gpg-program (executable-find "gpg2"))
-    ;; (setq epg-pinentry-mode 'loopback)
 
     ;; setup epa
     (require 'epa-file)
@@ -158,6 +157,13 @@
     (require 'auth-source)
     (setq auth-sources
           (list (expand-file-name "secrets/.authinfo.gpg" my/etc-dir)))
+
+    ;; Cache authinfo passwords in memory for 24 hours (86400 seconds)
+    ;; Use nil if you never want the cache to expire while Emacs is open
+    (setq auth-source-cache-expiry 86400)
+
+    ;; Tell Emacs' EasyPG (epa) to use the standard GPG loopback for pinentry
+    (setq epa-pinentry-mode 'loopback)
 
     ;; setup org-crypt
     (require 'org-crypt)
