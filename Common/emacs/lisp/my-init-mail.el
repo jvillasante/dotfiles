@@ -6,12 +6,14 @@
 ;; we need mu4e loaded
 ;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")    ; original
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e") ; manual install
-(require 'mu4e)
+(use-package mu4e :ensure nil :defer t)
 
 ;; mu4easy : A global minor mode that defines a full working setup for mu4e and mbsync
 (use-package mu4easy
-    :demand t
-    :hook (after-init . mu4easy-mode)
+    :defer t
+    :hook (after-init . (lambda ()
+                            (mu4easy-mode)
+                            (mu4e-alert-disable-mode-line-display)))
     :bind ("C-c o u" . mu4e)
     :custom
     (mu4easy-signature "\n\n*Julio Villasante*")

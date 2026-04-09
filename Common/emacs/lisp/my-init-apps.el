@@ -27,6 +27,7 @@
 ;; gnus
 (use-package gnus
     :ensure nil ;; emacs built-in
+    :disabled t
     :defer t
     :config
     (require 'gnus-topic)
