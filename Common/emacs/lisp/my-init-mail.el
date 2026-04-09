@@ -7,25 +7,21 @@
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (use-package mu4e
     :ensure nil ;; built-in
-    :defer t)
-
-(use-package org-msg
     :defer t
-    :hook (after-init . org-msg-mode)
-    :config
-    (setq mail-user-agent 'mu4e-user-agent)
-    (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-        org-msg-startup "hidestars indent inlineimages"
-        org-msg-greeting-fmt "\nHi%s,\n\n"
-        org-msg-greeting-name-limit 3
-        org-msg-default-alternatives '((new             . (text html))
-                                       (reply-to-html   . (text html))
-                                       (reply-to-text   . (text)))
-        org-msg-convert-citation t))
+    :custom (mu4e-update-interval 600))
+
+;; org-msg
+(use-package org-msg :defer t)
 
 ;; mu4easy : A global minor mode that defines a full working setup for mu4e and mbsync
+;; NOTE: mu4easy handles org-msg setup (activation, options, greeting, alternatives, etc.)
 (use-package mu4easy
     :defer t
+    :preface
+    (defun my/mu4e-action-view-in-firefox (msg)
+        "View MSG in Firefox."
+        (let ((browse-url-browser-function #'browse-url-firefox))
+            (mu4e-action-view-in-browser msg)))
     :hook (after-init . (lambda ()
                             (mu4easy-mode)
                             (mu4e-alert-disable-mode-line-display)))
@@ -46,7 +42,10 @@
                  :c-name  "Apple"
                  :maildir "julio.villasante@icloud.com"
                  :mail    "julio.villasante@icloud.com"
-                 :smtp    "smtp.mail.me.com"))))
+                 :smtp    "smtp.mail.me.com")))
+    :config
+    (add-to-list 'mu4e-view-actions
+                 '("View in Firefox" . my/mu4e-action-view-in-firefox) t))
 
 (provide 'my-init-mail)
 ;;; my-init-mail.el ends here
