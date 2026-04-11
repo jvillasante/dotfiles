@@ -3,16 +3,9 @@
 # install-emacs.sh - Install emacs from source
 #
 # This file should be sourced by other scripts, not executed directly.
-
-# Only apply options if this file hasn't been sourced before,
-# and if it's being sourced (not executed directly).
-if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
-    # Exit immediately if a command exits with a non-zero status.
-    set -o errexit
-
-    # Treat unset variables as an error.
-    set -o nounset
-fi
+#
+# Note: errexit/nounset are intentionally not set here to avoid leaking
+# shell options to the sourcing script. Errors are handled explicitly.
 
 install-emacs() {
     # Set branch to use (default: emacs-30, override with first argument)
@@ -20,17 +13,18 @@ install-emacs() {
     local EMACS_BRANCH="${1:-master}"
 
     # Prepare git repo
-    [ ! -d "$HOME"/Workspace/Software ] && mkdir -p "$HOME"/Workspace/Software
+    mkdir -p "$HOME"/Workspace/Software
     if [ ! -d "$HOME"/Workspace/Software/emacs ]; then
-        git clone --depth 1 --branch "$EMACS_BRANCH" https://git.savannah.gnu.org/git/emacs.git "$HOME"/Workspace/Software/emacs
+        git clone --depth 1 --branch "$EMACS_BRANCH" https://git.savannah.gnu.org/git/emacs.git \
+            "$HOME"/Workspace/Software/emacs
         pushd "$HOME"/Workspace/Software/emacs || {
             echo "Can't cd into $HOME/Workspace/Software/emacs"
-            exit 1
+            return 1
         }
     else
         pushd "$HOME"/Workspace/Software/emacs || {
             echo "Can't cd into $HOME/Workspace/Software/emacs"
-            exit 1
+            return 1
         }
 
         if [ -f Makefile ]; then
@@ -38,19 +32,13 @@ install-emacs() {
             make clean || true
             make distclean || true
         fi
-        git reset --hard HEAD
         git clean -dfx
         git fetch --depth 1 origin "$EMACS_BRANCH"
         git checkout -B "$EMACS_BRANCH" FETCH_HEAD
     fi
 
-    # Setup git branch
-    local BRANCH
-    BRANCH=$(git branch --show-current)
-    if [[ "$BRANCH" != "$EMACS_BRANCH" ]]; then
-        echo "Unexpected branch, expecting $EMACS_BRANCH, got $BRANCH"
-        exit 1
-    fi
+    # Ensure popd runs on any return (normal or early)
+    trap 'popd' RETURN
 
     # Build and install
     # Pure GTK (Wayland native): --with-pgtk
@@ -63,13 +51,13 @@ install-emacs() {
         --with-dbus \
         --with-cairo-xcb \
         --without-compress-install \
+        --with-mailutils \
+        --with-imagemagick \
         --disable-gc-mark-trace \
         CFLAGS="-O2 -march=native -mtune=native -pipe -fomit-frame-pointer -fno-semantic-interposition -flto=auto" \
         LDFLAGS="-flto=auto"
     make -j"$(nproc --ignore=2)"
     sudo make install
-
-    popd
 
     # Update packages
     read -rp "Emacs has been installed, do you want to update packages now? (Y/N): " confirm
@@ -79,7 +67,7 @@ install-emacs() {
 
         if [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d ]]; then
             echo "Emacs personal configuration not found, exiting..."
-            exit 1
+            return 1
         fi
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache ]] &&
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/eln-cache
@@ -100,4 +88,4 @@ install-emacs() {
 
 # --- End of Script ---
 # Ensure no unexpected output is produced when sourcing.
-return 0
+return 0 2>/dev/null
