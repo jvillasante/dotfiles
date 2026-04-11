@@ -226,6 +226,7 @@ Optional LINES overrides the default scroll distance."
                   '(not shell-mode
                         comint-mode
                         vterm-mode
+                        ghostel-mode
                         eat-mode
                         help-mode
                         magit-mode

@@ -18,6 +18,43 @@
                    ;; If the container is not running yet, start it first via the
                    ;; build script so the session is consistent.
                    (defun my/nntp-attach ()
+                       "Attach an interactive bash shell to the nntp podman container in ghostel.
+If the container is not running, starts it first via the build script.
+Use `podman stop <name>' to end the session."
+                       (interactive)
+                       (let* ((root (locate-dominating-file default-directory ".dir-locals.el"))
+                              (container (file-name-nondirectory (directory-file-name root)))
+                              (cname (format "nntp-%s" container))
+                              (buf-name (format "*ghostel-%s*" container))
+                              (running-p (string= "true"
+                                                  (string-trim
+                                                   (shell-command-to-string
+                                                    (format "podman inspect -f '{{.State.Running}}' %s 2>/dev/null"
+                                                            (shell-quote-argument cname)))))))
+                           ;; Start the container if not running
+                           (unless running-p
+                               (let ((default-directory root))
+                                   (message "Starting container %s..." cname)
+                                   (call-process "bash" nil nil nil
+                                                 (expand-file-name ".scripts/ensure-container.sh" root))))
+                           (let ((g-buf (get-buffer buf-name)))
+                               (if g-buf
+                                       (pop-to-buffer g-buf)
+                                   ;; Create a new ghostel buffer in the other window
+                                   (display-buffer-override-next-command
+                                    (lambda (buffer alist)
+                                        (cons (display-buffer-pop-up-window buffer alist) 'window)))
+                                   (let ((ghostel-buffer-name buf-name))
+                                       (ghostel))
+                                   (setq g-buf (get-buffer buf-name)))
+                               (with-current-buffer g-buf
+                                   (process-send-string
+                                    ghostel--process
+                                    (format "podman exec -it --user nntpuser %s /bin/bash\n"
+                                            cname))))))
+
+                   ;; Kept for reference in case we switch back to vterm.
+                   (defun my/nntp-attach-vterm ()
                        "Attach an interactive bash shell to the nntp podman container in vterm.
 If the container is not running, starts it first via the build script.
 Use `podman stop <name>' to end the session."
