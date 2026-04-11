@@ -129,8 +129,6 @@
               ("T" . my/ghostel-project-other-window))
     :custom
     (ghostel-module-auto-install 'download)
-    (ghostel-shell-integration t)
-    (ghostel-tramp-shell-integration t)
     (ghostel-tramp-shells
         '(("ssh" login-shell)           ; auto-detect via getent
              ("scp" login-shell)        ; auto-detect via getent
