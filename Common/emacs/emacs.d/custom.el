@@ -18,7 +18,7 @@
            orderless org-superstar otpp package-lint-flymake password-store
            pdf-view-restore persistent-scratch php-mode rmsbolt rust-mode
            surround tramp-hlo trashed verb vertico vim-tab-bar vterm vundo
-           web-mode web-server websocket yaml-mode yasnippet-snippets zig-mode)))
+           web-mode yaml-mode yasnippet-snippets zig-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

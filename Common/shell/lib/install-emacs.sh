@@ -37,9 +37,6 @@ install-emacs() {
         git checkout -B "$EMACS_BRANCH" FETCH_HEAD
     fi
 
-    # Ensure popd runs on any return (normal or early)
-    trap 'popd' RETURN
-
     # Build and install
     # Pure GTK (Wayland native): --with-pgtk
     # Lucid (X11/Xwayland): --with-x-toolkit=lucid
@@ -54,10 +51,12 @@ install-emacs() {
         --with-mailutils \
         --with-imagemagick \
         --disable-gc-mark-trace \
-        CFLAGS="-O2 -march=native -mtune=native -pipe -fomit-frame-pointer -fno-semantic-interposition -flto=auto" \
+        CFLAGS="-O3 -march=native -mtune=native -pipe -fomit-frame-pointer -fno-semantic-interposition -flto=auto" \
         LDFLAGS="-flto=auto"
     make -j"$(nproc --ignore=2)"
     sudo make install
+
+    popd || return 1
 
     # Update packages
     read -rp "Emacs has been installed, do you want to update packages now? (Y/N): " confirm
