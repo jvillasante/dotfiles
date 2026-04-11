@@ -8,12 +8,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(c-ts-indent-offset 4 nil nil "Customized with use-package c++-ts-mode")
  '(package-selected-packages
       '(adoc-mode agent-shell cape cmake-mode consult-dir consult-notes corfu crux
            csv-mode dape devdocs-browser diff-hl dired-sidebar diredfl
            dockerfile-mode eldoc-diffstat elfeed elisp-demos embark-consult
-           engine-mode expreg flash geiser-guile gnuplot go-mode helpful hl-todo
-           ibuffer-project jinx js2-mode json-mode magit marginalia
+           engine-mode expreg flash geiser-guile ghostel gnuplot go-mode helpful
+           hl-todo ibuffer-project jinx js2-mode json-mode magit marginalia
            markdown-mode minions monkeytype mu4easy multiple-cursors nov
            orderless org-superstar otpp package-lint-flymake password-store
            pdf-view-restore persistent-scratch php-mode rmsbolt rust-mode

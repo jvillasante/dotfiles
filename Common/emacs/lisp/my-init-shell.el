@@ -95,8 +95,51 @@
     (setq eat-shell-prompt-annotation-running-margin-indicator "")
     (setq eat-shell-prompt-annotation-success-margin-indicator ""))
 
+;; ghostel : Emacs terminal emulator powered by libghostty-vt
+(use-package ghostel
+    :defer t
+    :pin melpa
+    :preface
+    (defun my/ghostel-other-window ()
+        "Open a `ghostel' terminal in another window."
+        (interactive)
+        (display-buffer-override-next-command
+         (lambda (buffer alist)
+             (cons (display-buffer-pop-up-window buffer alist) 'window)))
+        (ghostel))
+    (defun my/ghostel-project-other-window ()
+        "Open a `ghostel' terminal in the project root in another window."
+        (interactive)
+        (display-buffer-override-next-command
+         (lambda (buffer alist)
+             (cons (display-buffer-pop-up-window buffer alist) 'window)))
+        (ghostel-project))
+    :config
+    (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+    (add-to-list 'project-switch-commands '(my/ghostel-project-other-window "Ghostel other window") t)
+    :bind (("C-c o t" . ghostel)
+              ("C-c o T" . my/ghostel-other-window)
+              :map ghostel-copy-mode-map
+              ("<return>" . ghostel-copy-mode-exit)
+              ("RET"      . ghostel-copy-mode-exit)
+              :map ghostel-mode-map
+              ("M-[" . ghostel-copy-mode)
+              :map project-prefix-map
+              ("t" . ghostel-project)
+              ("T" . my/ghostel-project-other-window))
+    :custom
+    (ghostel-module-auto-install 'download)
+    (ghostel-shell-integration t)
+    (ghostel-tramp-shell-integration t)
+    (ghostel-tramp-shells
+        '(("ssh" login-shell)           ; auto-detect via getent
+             ("scp" login-shell)        ; auto-detect via getent
+             ("docker" "/bin/bash")     ; fixed shell for containers
+             ("podman" "/bin/bash"))))  ; fixed shell for containers
+
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
+    :disabled t
     :defer t
     :preface
     (defun my/vterm-copy-mode-cancel ()
@@ -104,13 +147,11 @@
         (vterm-copy-mode -1))
     (defun my/vterm-project ()
         (interactive)
-        (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
                (vterm-buffer-name (project-prefixed-buffer-name "vterm")))
             (vterm)))
     (defun my/vterm-project-other-window ()
         (interactive)
-        (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
                (vterm-buffer-name (project-prefixed-buffer-name "vterm")))
             (vterm-other-window)))
