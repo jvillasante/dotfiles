@@ -17,6 +17,8 @@
                    ;; Open an interactive shell inside the running podman container.
                    ;; If the container is not running yet, start it first via the
                    ;; build script so the session is consistent.
+                   (defvar ghostel-buffer-name)
+                   (defvar ghostel--process)
                    (defun my/nntp-attach ()
                        "Attach an interactive bash shell to the nntp podman container in ghostel.
 If the container is not running, starts it first via the build script.
