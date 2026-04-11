@@ -3,46 +3,6 @@
 ;;
 ;;; Code:
 
-;; vc : builtin emacs version control
-(use-package vc
-    :ensure nil ;; emacs built-in
-    :bind ("C-x v R" . my/vc-git-reflog)
-    :custom
-    (vc-handled-backends '(Git))
-    (vc-follow-symlinks t)                   ; always follow symlinks
-    (vc-git-diff-switches '("--histogram"))  ; use a different diff option
-    (vc-ignore-dir-regexp                    ; make sure vc stuff is not making tramp slower
-     (format "\\(%s\\)\\|\\(%s\\)"
-             vc-ignore-dir-regexp
-             tramp-file-name-regexp)))
-
-;; magit : A Git Porcelain inside Emacs
-(use-package magit
-    :defer t
-    :preface
-    (defun my/magit-kill-buffers ()
-        "Restore window configuration and kill all Magit buffers."
-        (interactive)
-        (let ((buffers (magit-mode-get-buffers)))
-            (magit-restore-window-configuration)
-            (mapc #'kill-buffer buffers)))
-    :bind (("C-x g" . magit-status)
-           :map magit-status-mode-map
-           ("q"     . my/magit-kill-buffers)
-           ("C-x k" . my/magit-kill-buffers)
-           :map project-prefix-map
-           ("m" . magit-project-status))
-    :custom ((git-commit-summary-max-length 50)
-             (git-commit-fill-column 72)
-             (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-             (magit-diff-refine-hunk 'all) ; show word-granularity differences within diff hunks.
-             (magit-save-repository-buffers nil)
-             (magit-define-global-key-bindings nil))
-    :config
-    (add-hook 'magit-status-sections-hook #'magit-insert-worktrees t)
-    (transient-append-suffix 'magit-worktree "c"
-        '("a" "Add nntp worktree" my/nntp-worktree-add)))
-
 ;; nntp worktree helper - create a worktree and seed it with personal config
 ;; files that are not tracked by git.
 (defvar my/nntp-worktree-base (expand-file-name "Projects/nntp" my/work-path)
@@ -88,6 +48,46 @@ With prefix argument DETACH, use detached HEAD (useful for code reviews)."
                   (dst (expand-file-name (cdr entry) wt-path)))
                 (make-symbolic-link src dst)))
         (message "Symlinked config files into %s" wt-path)))
+
+;; vc : builtin emacs version control
+(use-package vc
+    :ensure nil ;; emacs built-in
+    :bind ("C-x v R" . my/vc-git-reflog)
+    :custom
+    (vc-handled-backends '(Git))
+    (vc-follow-symlinks t)                   ; always follow symlinks
+    (vc-git-diff-switches '("--histogram"))  ; use a different diff option
+    (vc-ignore-dir-regexp                    ; make sure vc stuff is not making tramp slower
+     (format "\\(%s\\)\\|\\(%s\\)"
+             vc-ignore-dir-regexp
+             tramp-file-name-regexp)))
+
+;; magit : A Git Porcelain inside Emacs
+(use-package magit
+    :defer t
+    :preface
+    (defun my/magit-kill-buffers ()
+        "Restore window configuration and kill all Magit buffers."
+        (interactive)
+        (let ((buffers (magit-mode-get-buffers)))
+            (magit-restore-window-configuration)
+            (mapc #'kill-buffer buffers)))
+    :bind (("C-x g" . magit-status)
+           :map magit-status-mode-map
+           ("q"     . my/magit-kill-buffers)
+           ("C-x k" . my/magit-kill-buffers)
+           :map project-prefix-map
+           ("m" . magit-project-status))
+    :custom ((git-commit-summary-max-length 50)
+             (git-commit-fill-column 72)
+             (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+             (magit-diff-refine-hunk 'all) ; show word-granularity differences within diff hunks.
+             (magit-save-repository-buffers nil)
+             (magit-define-global-key-bindings nil))
+    :config
+    (add-hook 'magit-status-sections-hook #'magit-insert-worktrees t)
+    (transient-append-suffix 'magit-worktree "c"
+        '("a" "Add nntp worktree" my/nntp-worktree-add)))
 
 ;; eldoc-diffstat : provides a way to display VCS diffstat information via eldoc.
 (use-package eldoc-diffstat
