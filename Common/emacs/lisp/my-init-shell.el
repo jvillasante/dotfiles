@@ -128,12 +128,12 @@
               ("t" . ghostel-project)
               ("T" . my/ghostel-project-other-window))
     :custom
-    (ghostel-module-auto-install 'download)
+    (ghostel-module-auto-install 'download) ; TODO: Change this to compile!
     (ghostel-tramp-shells
-        '(("ssh" login-shell)           ; auto-detect via getent
-             ("scp" login-shell)        ; auto-detect via getent
-             ("docker" "/bin/bash")     ; fixed shell for containers
-             ("podman" "/bin/bash"))))  ; fixed shell for containers
+        '(("ssh" login-shell)
+             ("scp" login-shell)
+             ("docker" "/bin/bash")
+             ("podman" "/bin/bash"))))
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
