@@ -458,7 +458,7 @@ fedora_install() {
 
                 # Claude
                 curl -fsSL https://claude.ai/install.sh | bash
-                sudo npm install --location=global @zed-industries/claude-agent-acp
+                sudo npm install --location=global @agentclientprotocol/claude-agent-acp
 
                 # vscode devcontainers
                 # sudo npm install --location=global @devcontainers/cli
