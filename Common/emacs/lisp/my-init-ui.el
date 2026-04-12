@@ -12,8 +12,8 @@
 
 ;; Select and raise the frame, always
 (add-hook 'server-after-make-frame-hook
-          (lambda ()
-              (select-frame-set-input-focus (selected-frame))))
+    (lambda ()
+        (select-frame-set-input-focus (selected-frame))))
 
 ;; Resizing the Emacs frame can be costly when changing the font. Disable this
 ;; to improve startup times with fonts larger than the system default.
@@ -60,7 +60,7 @@
 
 ;; display line indication on fringe
 (setq visual-line-fringe-indicators
-      '(left-curly-arrow right-curly-arrow))
+    '(left-curly-arrow right-curly-arrow))
 
 ;; these ones just make sense
 (setq sentence-end-double-space nil)
@@ -74,28 +74,28 @@
     "Set up fonts at startup."
     (setq x-underline-at-descent-line nil)
     (let ((fixed-font "Berkeley Mono")
-          (variable-font "Berkeley Mono Variable"))
+             (variable-font "Berkeley Mono Variable"))
         (custom-set-faces
-         ;; Default fonts for all text
-         '(default ((t (:family fixed-font :height 147))))
-         '(fixed-pitch ((t (:family fixed-font :height 147))))
-         '(variable-pitch ((t (:family variable-font :height 1.0))))
+            ;; Default fonts for all text
+            '(default ((t (:family fixed-font :height 147))))
+            '(fixed-pitch ((t (:family fixed-font :height 147))))
+            '(variable-pitch ((t (:family variable-font :height 1.0))))
 
-         ;; Current line number
-         ;; '(line-number-current-line ((t (:foreground "yellow" :inherit line-number))))
+            ;; Current line number
+            ;; '(line-number-current-line ((t (:foreground "yellow" :inherit line-number))))
 
-         ;; Modeline
-         ;; '(mode-line ((t (:family fixed-font :weight Bold))))
+            ;; Modeline
+            ;; '(mode-line ((t (:family fixed-font :weight Bold))))
 
-         ;; Programming
-         ;; '(font-lock-function-name-face ((t (:family fixed-font :slant italic))))
-         ;; '(font-lock-variable-name-face ((t (:family variable-font :weight bold))))
-         '(font-lock-comment-face ((t (:family fixed-font :slant italic)))))))
+            ;; Programming
+            ;; '(font-lock-function-name-face ((t (:family fixed-font :slant italic))))
+            ;; '(font-lock-variable-name-face ((t (:family variable-font :weight bold))))
+            '(font-lock-comment-face ((t (:family fixed-font :slant italic)))))))
 
 ;; cursor
 (setq-default cursor-type t)
 (if (fboundp 'blink-cursor-mode)
-        (blink-cursor-mode -1)) ; annoying
+    (blink-cursor-mode -1)) ; annoying
 
 ;; Don't Render Cursors in Non-Focused Windows
 (setq-default cursor-in-non-selected-windows nil)
@@ -106,18 +106,18 @@
 
 ;; Set default frame title
 (setq-default frame-title-format
-              '(:eval
-                (format "%s@%s: %s"
-                        (or (file-remote-p default-directory 'user)
-                            user-real-login-name)
-                        (or (file-remote-p default-directory 'host)
-                            system-name)
-                        (cond
-                         (buffer-file-truename
-                          (concat buffer-file-truename))
-                         (dired-directory
-                          (concat dired-directory))
-                         (t (buffer-name))))))
+    '(:eval
+         (format "%s@%s: %s"
+             (or (file-remote-p default-directory 'user)
+                 user-real-login-name)
+             (or (file-remote-p default-directory 'host)
+                 system-name)
+             (cond
+                 (buffer-file-truename
+                     (concat buffer-file-truename))
+                 (dired-directory
+                     (concat dired-directory))
+                 (t (buffer-name))))))
 (setq-default icon-title-format frame-title-format)
 
 ;; winner-mode : "undo" and "redo" changes in window configurations
@@ -156,7 +156,7 @@
 
     ;; Horizontal scrolling
     (setq hscroll-margin 2
-          hscroll-step 1)
+        hscroll-step 1)
 
     ;; Mouse scroll moves 1 line at a time, instead of 5 lines.
     (setq mouse-wheel-scroll-amount '(1))
@@ -190,27 +190,27 @@ Optional LINES overrides the default scroll distance."
             "Similar to `recenter-top-bottom' but with pixel scrolling."
             (interactive "^P")
             (let* ((current-row (cdr (nth 6 (posn-at-point))))
-                   (target-row (save-window-excursion
-                                   (recenter-top-bottom)
-                                   (cdr (nth 6 (posn-at-point)))))
-                   (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
+                      (target-row (save-window-excursion
+                                      (recenter-top-bottom)
+                                      (cdr (nth 6 (posn-at-point)))))
+                      (distance-in-pixels (* (- target-row current-row) (line-pixel-height))))
                 (pixel-scroll-precision-interpolate distance-in-pixels)))
         :bind (([remap scroll-up-command]   . my/pixel-scroll-up-command)
-               ([remap scroll-down-command] . my/pixel-scroll-down-command)
-               ([remap recenter-top-bottom] . my/pixel-recenter-top-bottom))
+                  ([remap scroll-down-command] . my/pixel-scroll-down-command)
+                  ([remap recenter-top-bottom] . my/pixel-recenter-top-bottom))
         :custom ((pixel-scroll-precision-interpolation-factor 1.0)
-                 (pixel-scroll-precision-use-momentum nil)
-                 (pixel-scroll-precision-interpolate-mice t)
-                 (pixel-scroll-precision-large-scroll-height 10.0)
-                 (pixel-scroll-precision-interpolation-total-time 0.1)
-                 (pixel-scroll-precision-interpolate-page t))
+                    (pixel-scroll-precision-use-momentum nil)
+                    (pixel-scroll-precision-interpolate-mice t)
+                    (pixel-scroll-precision-large-scroll-height 10.0)
+                    (pixel-scroll-precision-interpolation-total-time 0.1)
+                    (pixel-scroll-precision-interpolate-page t))
         :hook (after-init . pixel-scroll-precision-mode)))
 
 ;; display line numbers in the left margin of the window.
 (use-package display-line-numbers
     :ensure nil ;; emacs built-in
     :hook ((prog-mode . display-line-numbers-mode)
-           (conf-mode . display-line-numbers-mode))
+              (conf-mode . display-line-numbers-mode))
     :config
     (setq display-line-numbers-type t)
     (setq display-line-numbers-width 3)
@@ -223,24 +223,24 @@ Optional LINES overrides the default scroll distance."
     :config
     ;; Don't enable whitespace for
     (setq-default whitespace-global-modes
-                  '(not shell-mode
-                        comint-mode
-                        vterm-mode
-                        ghostel-mode
-                        eat-mode
-                        help-mode
-                        magit-mode
-                        magit-diff-mode
-                        archive-mode
-                        ibuffer-mode
-                        dired-mode
-                        occur-mode
-                        circe-mode
-                        nov-mode))
+        '(not shell-mode
+             comint-mode
+             vterm-mode
+             ghostel-mode
+             eat-mode
+             help-mode
+             magit-mode
+             magit-diff-mode
+             archive-mode
+             ibuffer-mode
+             dired-mode
+             occur-mode
+             circe-mode
+             nov-mode))
 
     ;; Define the whitespace style (`C-h v whitespace-style' for more styles)
     (setq-default whitespace-style
-                  '(face empty tabs newline trailing tab-mark newline-mark))
+        '(face empty tabs newline trailing tab-mark newline-mark))
 
     ;; Set whitespace actions (`C-h f whitespace-cleanup' for more cleanup actions)
     ;; Not needed, using editor-config instead
@@ -249,20 +249,20 @@ Optional LINES overrides the default scroll distance."
 
     ;; Make these characters represent whitespace
     (setq-default whitespace-display-mappings
-                  '(;; space -> · else .
-                    ;; (space-mark 32 [183] [46])
-                    ;; new line -> ¬ else $
-                    ;; (newline-mark ?\n [172 ?\n] [36 ?\n])
-                    ;; carriage return (Windows) -> ¶ else #
-                    ;; (newline-mark ?\r [182] [35])
-                    ;; tabs -> » else >
-                    (tab-mark ?\t [187 ?\t] [62 ?\t]))))
+        '(;; space -> · else .
+             ;; (space-mark 32 [183] [46])
+             ;; new line -> ¬ else $
+             ;; (newline-mark ?\n [172 ?\n] [36 ?\n])
+             ;; carriage return (Windows) -> ¶ else #
+             ;; (newline-mark ?\r [182] [35])
+             ;; tabs -> » else >
+             (tab-mark ?\t [187 ?\t] [62 ?\t]))))
 
 ;; tab-bar : frame-local tabs with named persistent window configurations
 (use-package tab-bar
     :ensure nil ;; emacs built-in
     :hook ((after-init . tab-bar-mode)
-           (pre-command . tab-bar-history-mode))
+              (pre-command . tab-bar-history-mode))
     :custom
     (tab-bar-show t)                           ;; always show tab-bar
     (tab-bar-new-button nil)                   ;; hide button for creating new tabs
@@ -272,7 +272,7 @@ Optional LINES overrides the default scroll distance."
     (tab-bar-tab-hints t)                      ;; show tab numbers
     (tab-bar-auto-width nil)                   ;; do not resize tabs
     (tab-bar-format '(tab-bar-format-tabs      ;; elements to include in bar
-                      tab-bar-separator)))
+                         tab-bar-separator)))
 
 ;; vim-tab-bar : A Vim-Inspired Emacs Tab-Bar That Automatically Adapts to Any Theme
 (use-package vim-tab-bar
@@ -286,7 +286,7 @@ Optional LINES overrides the default scroll distance."
 (setq mode-line-right-align-edge 'right-fringe)
 (setq find-file-visit-truename t) ; only display real names in the modeline
 (setq-default mode-line-buffer-identification
-              '(:eval (my/shrunk-path)))
+    '(:eval (my/shrunk-path)))
 
 ;; theme
 (use-package modus-themes
@@ -376,8 +376,8 @@ Run this function at the post theme load phase, such as with the
                             (which-key-setup-side-window-bottom)))
     :config
     (setq which-key-show-early-on-C-h t
-          which-key-idle-delay 1e6 ; 11 days - wait for C-h to appear
-          which-key-idle-secondary-delay 0.05))
+        which-key-idle-delay 1e6 ; 11 days - wait for C-h to appear
+        which-key-idle-secondary-delay 0.05))
 
 (use-package window
     :ensure nil
@@ -399,7 +399,7 @@ Run this function at the post theme load phase, such as with the
 ;; hl-todo : Highlight TODO and similar keywords in comments and strings
 (use-package hl-todo
     :hook ((prog-mode . hl-todo-mode)
-           (conf-mode . hl-todo-mode))
+              (conf-mode . hl-todo-mode))
     :config (setq hl-todo-highlight-punctuation ":"))
 
 ;; anzu : displays current match and total matches information in the mode-line in various search modes.
@@ -423,21 +423,21 @@ Run this function at the post theme load phase, such as with the
     :disabled t
     :bind (("C-x o" . ace-window))
     :init (custom-set-faces
-           '(aw-leading-char-face
-             ((t (:inherit ace-jump-face-foreground :height 4.0)))))
+              '(aw-leading-char-face
+                   ((t (:inherit ace-jump-face-foreground :height 4.0)))))
     :custom (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-                     aw-char-position 'left
-                     aw-ignore-current nil
-                     aw-leading-char-style 'char
-                     aw-scope 'frame))
+                aw-char-position 'left
+                aw-ignore-current nil
+                aw-leading-char-style 'char
+                aw-scope 'frame))
 
 ;; Load fonts/theme/etc
 (if (daemonp)
-        (add-hook 'after-make-frame-functions
-                  (lambda (frame)
-                      (with-selected-frame frame
-                          (my/setup-fonts)
-                          (modus-themes-load-theme 'modus-operandi))))
+    (add-hook 'after-make-frame-functions
+        (lambda (frame)
+            (with-selected-frame frame
+                (my/setup-fonts)
+                (modus-themes-load-theme 'modus-operandi))))
     (add-hook 'after-init-hook  (lambda ()
                                     (my/setup-fonts)
                                     (modus-themes-load-theme 'modus-operandi))))
@@ -462,19 +462,19 @@ Run this function at the post theme load phase, such as with the
 
     ;; do not show async shell command window
     (add-to-list 'display-buffer-alist
-                 '("\\*Async Shell Command\\*"
-                   display-buffer-no-window
-                   (allow-no-window . t)))
+        '("\\*Async Shell Command\\*"
+             display-buffer-no-window
+             (allow-no-window . t)))
 
     ;; same window for proced
     (add-to-list 'display-buffer-alist
-                 '("\\*Proced\\*"
-                   display-buffer-same-window))
+        '("\\*Proced\\*"
+             display-buffer-same-window))
 
     ;; several buffers that should not pop new windows
     (add-to-list 'display-buffer-alist
-                 '("\\*\\(Backtrace\\|Messages\\|[Cc]ompilation\\)\\*"
-                   display-buffer-reuse-window))
+        '("\\*\\(Backtrace\\|Messages\\|[Cc]ompilation\\)\\*"
+             display-buffer-reuse-window))
 
     ;; hide compilation buffer
     ;; (add-to-list 'display-buffer-alist
@@ -484,15 +484,15 @@ Run this function at the post theme load phase, such as with the
 
     ;; Info/Help windows
     (add-to-list 'display-buffer-alist
-                 '((or (major-mode . Info-mode)
-                       (major-mode . help-mode)
-                       (major-mode . helpful-mode)
-                       (major-mode . Man-mode)
-                       (major-mode . woman-mode)
-                       (major-mode . occur-mode)
-                       (major-mode . rg-mode))
-                   (display-buffer-reuse-mode-window
-                    display-buffer-pop-up-window))))
+        '((or (major-mode . Info-mode)
+              (major-mode . help-mode)
+              (major-mode . helpful-mode)
+              (major-mode . Man-mode)
+              (major-mode . woman-mode)
+              (major-mode . occur-mode)
+              (major-mode . rg-mode))
+             (display-buffer-reuse-mode-window
+                 display-buffer-pop-up-window))))
 
 (provide 'my-init-ui)
 ;;; my-init-ui.el ends here

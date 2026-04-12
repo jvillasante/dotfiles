@@ -36,8 +36,8 @@
                             (which-function-mode)
                             (flymake-mode))))
     :bind (:map prog-mode-map
-                ("M-n" . flymake-goto-next-error)
-                ("M-p" . flymake-goto-prev-error))
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error))
     :custom
     (flymake-suppress-zero-counters t)
     (flymake-no-changes-timeout 3)) ;; Don't be so hasty in syntax checking.
@@ -62,31 +62,31 @@
     :hook ((eglot-managed-mode . (lambda ()
                                      ;; Show flymake diagnostics first.
                                      (setq eldoc-documentation-functions
-                                           (cons #'flymake-eldoc-function
-                                                 (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+                                         (cons #'flymake-eldoc-function
+                                             (remove #'flymake-eldoc-function eldoc-documentation-functions)))
 
                                      ;; Format on save via LSP.
                                      (add-hook 'before-save-hook
-                                               (lambda ()
-                                                   (when my/format-on-save
-                                                       (eglot-format-buffer)))
-                                               nil t))))
+                                         (lambda ()
+                                             (when my/format-on-save
+                                                 (eglot-format-buffer)))
+                                         nil t))))
     :bind (("C-c l l" . eglot)
-           ("C-c l Q" . eglot-shutdown-all)
-           :map eglot-mode-map
-           ("C-c l q" . eglot-shutdown)
-           ("C-c l R" . eglot-reconnect)
-           ("C-c l r" . eglot-rename)
-           ("C-c l d" . eglot-find-declaration)
-           ("C-c l ." . eglot-find-typeDefinition)
-           ("C-c l i" . eglot-find-implementation)
-           ("C-c l a" . eglot-code-actions)
-           ("C-c l x" . eglot-code-action-quickfix)
-           ("C-c l o" . eglot-code-action-organize-imports)
-           ("C-c l =" . eglot-format-buffer)
-           ("C-c l f" . eglot-format)
-           :map c-ts-base-mode-map
-           ("C-x C-o" . my/eglot-clangd-find-other-file))
+              ("C-c l Q" . eglot-shutdown-all)
+              :map eglot-mode-map
+              ("C-c l q" . eglot-shutdown)
+              ("C-c l R" . eglot-reconnect)
+              ("C-c l r" . eglot-rename)
+              ("C-c l d" . eglot-find-declaration)
+              ("C-c l ." . eglot-find-typeDefinition)
+              ("C-c l i" . eglot-find-implementation)
+              ("C-c l a" . eglot-code-actions)
+              ("C-c l x" . eglot-code-action-quickfix)
+              ("C-c l o" . eglot-code-action-organize-imports)
+              ("C-c l =" . eglot-format-buffer)
+              ("C-c l f" . eglot-format)
+              :map c-ts-base-mode-map
+              ("C-x C-o" . my/eglot-clangd-find-other-file))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)
@@ -97,29 +97,29 @@
     (setq eglot-sync-connect nil)
     (setq eglot-report-progress t)
     (setq eglot-confirm-server-edits '((eglot-rename . nil)
-                                       (t . diff)))
+                                          (t . diff)))
     (setq eglot-ignored-server-capabilities
-          '(;; :hoverProvider
-            ;; :documentHighlightProvider
-            ;; :documentFormattingProvider
-            ;; :documentRangeFormattingProvider
-            :documentOnTypeFormattingProvider
-            :documentLinkProvider
-            :colorProvider
-            :foldingRangeProvider
-            :inlayHintProvider))
+        '(;; :hoverProvider
+             ;; :documentHighlightProvider
+             ;; :documentFormattingProvider
+             ;; :documentRangeFormattingProvider
+             :documentOnTypeFormattingProvider
+             :documentLinkProvider
+             :colorProvider
+             :foldingRangeProvider
+             :inlayHintProvider))
 
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
     (setq-default eglot-workspace-configuration
-                  '(
-                    :gopls (:staticcheck t :usePlaceholders t)
-                    :rust-analyzer (:check (:command "clippy")
-                                           :cargo (:sysroot "discover"
-                                                            :features "all"
-                                                            :buildScripts (:enable t))
-                                           :diagnostics (:disabled ["macro-error"])
-                                           :procMacro (:enable t))))
+        '(
+             :gopls (:staticcheck t :usePlaceholders t)
+             :rust-analyzer (:check (:command "clippy")
+                                :cargo (:sysroot "discover"
+                                           :features "all"
+                                           :buildScripts (:enable t))
+                                :diagnostics (:disabled ["macro-error"])
+                                :procMacro (:enable t))))
     ;; don't try to manage these
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
     (add-to-list 'eglot-stay-out-of 'imenu)
@@ -128,20 +128,20 @@
 
     ;; C++
     (add-to-list 'eglot-server-programs
-                 '((c-ts-mode c++-ts-mode c-mode c++-mode)
-                   . ("clangd"
-                      "-j=8"
-                      "--enable-config"
-                      "--query-driver=/**/*"
-                      "--log=error"
-                      "--malloc-trim"
-                      "--background-index"
-                      "--clang-tidy"
-                      "--all-scopes-completion"
-                      "--completion-style=detailed"
-                      "--pch-storage=memory"
-                      "--header-insertion=never"
-                      "--header-insertion-decorators=0"))))
+        '((c-ts-mode c++-ts-mode c-mode c++-mode)
+             . ("clangd"
+                   "-j=8"
+                   "--enable-config"
+                   "--query-driver=/**/*"
+                   "--log=error"
+                   "--malloc-trim"
+                   "--background-index"
+                   "--clang-tidy"
+                   "--all-scopes-completion"
+                   "--completion-style=detailed"
+                   "--pch-storage=memory"
+                   "--header-insertion=never"
+                   "--header-insertion-decorators=0"))))
 
 ;; eglot-inactive-regions : Eglot extension to visually style inactive pre-processor branches
 (use-package eglot-inactive-regions
@@ -172,9 +172,9 @@
     (compilation-skip-threshold 1)           ; Skip info when navigating with next-error
     (compilation-always-kill t)
     (compilation-finish-functions            ; Auto-close the compilation window on success
-     (list (lambda (buf status)
-               (when (string-match-p "finished" status)
-                   (run-at-time 1 nil #'delete-windows-on buf))))))
+        (list (lambda (buf status)
+                  (when (string-match-p "finished" status)
+                      (run-at-time 1 nil #'delete-windows-on buf))))))
 
 (use-package fancy-compilation
     :disabled t

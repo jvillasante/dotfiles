@@ -13,19 +13,19 @@
 
 (setq gc-cons-threshold most-positive-fixnum)
 (add-hook 'emacs-startup-hook
-          (lambda ()
-              (setq gc-cons-threshold (* 64 1024 1024))
-              (message "Emacs loaded in %s with %d garbage collections."
-                       (format "%.2f seconds"
-                               (float-time
-                                (time-subtract after-init-time before-init-time)))
-                       gcs-done)))
+    (lambda ()
+        (setq gc-cons-threshold (* 64 1024 1024))
+        (message "Emacs loaded in %s with %d garbage collections."
+            (format "%.2f seconds"
+                (float-time
+                    (time-subtract after-init-time before-init-time)))
+            gcs-done)))
 
 ;;; Custom
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (add-hook 'after-init-hook
-          (lambda () (load custom-file :no-error-if-file-is-missing)))
+    (lambda () (load custom-file :no-error-if-file-is-missing)))
 
 ;; Reducing clutter in ~/.emacs.d by redirecting files to ~/emacs.d/var/
 (setq user-lisp-directory (expand-file-name "../user-lisp/" my/user-directory))
@@ -36,11 +36,11 @@
 
 ;;; Native compilation and Byte compilation
 (if (and (featurep 'native-compile)
-         (fboundp 'native-comp-available-p)
-         (native-comp-available-p))
-        ;; Activate `native-compile'
-        (setq native-comp-jit-compilation t
-              package-native-compile t)
+        (fboundp 'native-comp-available-p)
+        (native-comp-available-p))
+    ;; Activate `native-compile'
+    (setq native-comp-jit-compilation t
+        package-native-compile t)
     ;; Deactivate the `native-compile' feature if it is not available
     (setq features (delq 'native-compile features)))
 
@@ -48,11 +48,11 @@
 
 ;; Disable startup screens and messages
 (setq inhibit-startup-screen t
-      inhibit-startup-buffer-menu t)
+    inhibit-startup-buffer-menu t)
 
 ;; some default-frame-alist
 (when (and (string-match-p "CAIRO" system-configuration-features)
-           (string-match-p "HARFBUZZ" system-configuration-features))
+          (string-match-p "HARFBUZZ" system-configuration-features))
     (push '(font-backend . "ftcrhb") default-frame-alist))
 (push '(width . 160) default-frame-alist)
 (push '(height . 46) default-frame-alist)
@@ -95,15 +95,15 @@
 ;;; package.el
 (setq load-prefer-newer t)
 (setq package-enable-at-startup nil
-      package-install-upgrade-built-in t
-      package-vc-allow-build-commands t
-      package-user-dir (expand-file-name "elpa" my/var-dir)
-      package-archives '(("melpa"  . "https://melpa.org/packages/")
-                         ("gnu"    . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-      package-archive-priorities '(("gnu"    . 90)
-                                   ("nongnu" . 80)
-                                   ("melpa"  . 70)))
+    package-install-upgrade-built-in t
+    package-vc-allow-build-commands t
+    package-user-dir (expand-file-name "elpa" my/var-dir)
+    package-archives '(("melpa"  . "https://melpa.org/packages/")
+                          ("gnu"    . "https://elpa.gnu.org/packages/")
+                          ("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+    package-archive-priorities '(("gnu"    . 90)
+                                    ("nongnu" . 80)
+                                    ("melpa"  . 70)))
 
 (provide 'early-init)
 ;;; early-init.el ends here

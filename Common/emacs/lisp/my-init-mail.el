@@ -45,7 +45,7 @@
                  :smtp    "smtp.mail.me.com")))
     :config
     (add-to-list 'mu4e-view-actions
-                 '("View in Firefox" . my/mu4e-action-view-in-firefox) t))
+        '("View in Firefox" . my/mu4e-action-view-in-firefox) t))
 
 (provide 'my-init-mail)
 ;;; my-init-mail.el ends here

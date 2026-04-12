@@ -20,18 +20,18 @@ This can be used as a drop-in replacement for `setq' and *should* be used
 instead of `setopt'.  Unlike `setq', this triggers custom setters on variables.
 Unlike `setopt', this won't needlessly pull in dependencies."
     (macroexp-progn
-     (cl-loop for (var val) on settings by #'cddr
-              collect `(funcall (or (get ',var 'custom-set) #'set-default-toplevel-value)
-                                ',var ,val))))
+        (cl-loop for (var val) on settings by #'cddr
+            collect `(funcall (or (get ',var 'custom-set) #'set-default-toplevel-value)
+                         ',var ,val))))
 
 (defmacro delq! (elt list &optional fetcher)
     "`delq' ELT from LIST in-place.
 
 If FETCHER is a function, ELT is used as the key in LIST (an alist)."
     `(setq ,list (delq ,(if fetcher
-                                `(funcall ,fetcher ,elt ,list)
+                            `(funcall ,fetcher ,elt ,list)
                             elt)
-                       ,list)))
+                     ,list)))
 
 ;;; UI
 
@@ -39,10 +39,10 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
     "Toggling the continuation indicator."
     (interactive)
     (setq-default
-     fringe-indicator-alist
-     (if (assq 'continuation fringe-indicator-alist)
-             (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)
-         (cons '(continuation right-curly-arrow left-curly-arrow) fringe-indicator-alist))))
+        fringe-indicator-alist
+        (if (assq 'continuation fringe-indicator-alist)
+            (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)
+            (cons '(continuation right-curly-arrow left-curly-arrow) fringe-indicator-alist))))
 
 (defvar-local my/shrunk-path--cache nil
     "Cache of (truename . shrunk-path) for `my/shrunk-path'.")
@@ -56,33 +56,33 @@ Example:
     (when (and buffer-file-truename (not (file-remote-p file)))
         (setq file (abbreviate-file-name file)))
     (let* ((remote     (or (file-remote-p file) ""))
-           (local-path (file-local-name file))
-           (dir        (file-name-directory local-path))
-           (filename   (file-name-nondirectory local-path)))
+              (local-path (file-local-name file))
+              (dir        (file-name-directory local-path))
+              (filename   (file-name-nondirectory local-path)))
         (if (and dir (not (string= dir "/")))
             (let* ((parts (split-string dir "/" t))
-                   (shrunk-dir
-                    (if (cdr parts)
-                        (concat
-                         (mapconcat (lambda (p) (substring p 0 1))
-                                    (butlast parts) "/")
-                         "/" (car (last parts)))
-                      (car parts))))
+                      (shrunk-dir
+                          (if (cdr parts)
+                              (concat
+                                  (mapconcat (lambda (p) (substring p 0 1))
+                                      (butlast parts) "/")
+                                  "/" (car (last parts)))
+                              (car parts))))
                 (if (file-name-absolute-p shrunk-dir)
                     (concat shrunk-dir "/" filename)
-                  (concat remote "/" shrunk-dir "/" filename)))
-          (concat remote local-path))))
+                    (concat remote "/" shrunk-dir "/" filename)))
+            (concat remote local-path))))
 
 (defun my/shrunk-path ()
     "Return a shortened buffer path, cached per buffer."
     (let ((key buffer-file-truename))
         (if (and my/shrunk-path--cache
-                 (equal (car my/shrunk-path--cache) key))
+                (equal (car my/shrunk-path--cache) key))
             (cdr my/shrunk-path--cache)
-          (let ((result (my/shrunk-path--compute
-                         (or buffer-file-truename (buffer-name)))))
-              (setq my/shrunk-path--cache (cons key result))
-              result))))
+            (let ((result (my/shrunk-path--compute
+                              (or buffer-file-truename (buffer-name)))))
+                (setq my/shrunk-path--cache (cons key result))
+                result))))
 
 ;; Run Interactively or with: (celebrate-new-year 5)
 (defun my/celebrate-new-year (seconds)
@@ -109,7 +109,7 @@ Example:
         ;; The Animated Celebration
         (when (buffer-live-p buf)
             (let ((message "✨ HAPPY NEW YEAR! ✨")
-                  (colors '("red" "orange" "yellow" "green" "cyan" "magenta" "violet")))
+                     (colors '("red" "orange" "yellow" "green" "cyan" "magenta" "violet")))
                 (dotimes (i 50) ; Animation loop
                     (when (buffer-live-p buf)
                         (erase-buffer)
@@ -132,15 +132,15 @@ Example:
     "Show git reflog in a new buffer with ANSI colors and custom keybindings."
     (interactive)
     (let* ((root (vc-root-dir))
-           (buffer (get-buffer-create "*vc-git-reflog*")))
+              (buffer (get-buffer-create "*vc-git-reflog*")))
         (with-current-buffer buffer
             (setq-local vc-git-reflog-root root)
             (let ((inhibit-read-only t))
                 (erase-buffer)
                 (vc-git-command buffer nil nil
-                                "reflog"
-                                "--color=always"
-                                "--pretty=format:%C(yellow)%h%Creset %C(auto)%d%Creset %Cgreen%gd%Creset %s %Cblue(%cr)%Creset")
+                    "reflog"
+                    "--color=always"
+                    "--pretty=format:%C(yellow)%h%Creset %C(auto)%d%Creset %Cgreen%gd%Creset %s %Cblue(%cr)%Creset")
                 (goto-char (point-min))
                 (ansi-color-apply-on-region (point-min) (point-max)))
 
@@ -165,21 +165,21 @@ Otherwise, open the repository's main page."
     (unless (buffer-file-name)
         (user-error "Buffer is not visiting a file"))
     (let* ((remote-url (string-trim (vc-git--run-command-string nil "config" "--get" "remote.origin.url")))
-           (branch (string-trim (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD")))
-           (file (string-trim (file-relative-name (buffer-file-name) (vc-root-dir))))
-           (line (line-number-at-pos)))
+              (branch (string-trim (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD")))
+              (file (string-trim (file-relative-name (buffer-file-name) (vc-root-dir))))
+              (line (line-number-at-pos)))
         (message "Opening remote on browser: %s" remote-url)
         (if (and remote-url (string-match "\\(?:git@\\|https://\\)\\([^:/]+\\)[:/]\\(.+?\\)\\(?:\\.git\\)?$" remote-url))
-                (let ((host (match-string 1 remote-url))
-                      (path (match-string 2 remote-url)))
-                    ;; Convert SSH URLs to HTTPS (e.g., git@github.com:user/repo.git -> https://github.com/user/repo)
-                    (when (string-prefix-p "git@" host)
-                        (setq host (replace-regexp-in-string "^git@" "" host)))
-                    ;; Construct the appropriate URL based on CURRENT-LINE
-                    (browse-url
-                     (if current-line
-                             (format "https://%s/%s/blob/%s/%s#L%d" host path branch file line)
-                         (format "https://%s/%s" host path))))
+            (let ((host (match-string 1 remote-url))
+                     (path (match-string 2 remote-url)))
+                ;; Convert SSH URLs to HTTPS (e.g., git@github.com:user/repo.git -> https://github.com/user/repo)
+                (when (string-prefix-p "git@" host)
+                    (setq host (replace-regexp-in-string "^git@" "" host)))
+                ;; Construct the appropriate URL based on CURRENT-LINE
+                (browse-url
+                    (if current-line
+                        (format "https://%s/%s/blob/%s/%s#L%d" host path branch file line)
+                        (format "https://%s/%s" host path))))
             (message "Could not determine repository URL"))))
 
 (defun my/vc-diff-on-current-hunk ()
@@ -192,13 +192,13 @@ Otherwise, open the repository's main page."
             (goto-char (point-min))
             (let ((found-hunk nil))
                 (while (and (not found-hunk)
-                            (re-search-forward "^@@ -\\([0-9]+\\), *[0-9]+ \\+\\([0-9]+\\), *\\([0-9]+\\) @@" nil t))
+                           (re-search-forward "^@@ -\\([0-9]+\\), *[0-9]+ \\+\\([0-9]+\\), *\\([0-9]+\\) @@" nil t))
                     (let* ((start-line (string-to-number (match-string 2)))
-                           (line-count (string-to-number (match-string 3)))
-                           (end-line (+ start-line line-count)))
+                              (line-count (string-to-number (match-string 3)))
+                              (end-line (+ start-line line-count)))
                         (message "Found hunk: %d to %d" start-line end-line)
                         (when (and (>= current-line start-line)
-                                   (<= current-line end-line))
+                                  (<= current-line end-line))
                             (message "Current line %d is within hunk range %d to %d" current-line start-line end-line)
                             (setq found-hunk t)
                             (goto-char (match-beginning 0)))))
@@ -212,22 +212,22 @@ Otherwise, open the repository's main page."
     "Switch between source and header using clangd, with a fallback to ff-find-other-file."
     (interactive)
     (let* ((server (eglot-current-server))
-           ;; Check if the server process command contains "clangd"
-           (is-clangd (and server
-                           (cl-find "clangd" (process-command (jsonrpc--process server))
-                                    :test #'string-match-p))))
+              ;; Check if the server process command contains "clangd"
+              (is-clangd (and server
+                             (cl-find "clangd" (process-command (jsonrpc--process server))
+                                 :test #'string-match-p))))
         (if is-clangd
-                (let ((rep (jsonrpc-request
-                            server
-                            :textDocument/switchSourceHeader
-                            (eglot--TextDocumentIdentifier))))
-                    (if (and rep (not (eq rep :null)))
-                            (let ((target-path (eglot--uri-to-path rep)))
-                                (if current-prefix-arg
-                                        (find-file-other-window target-path)
-                                    (find-file target-path)))
-                        ;; Clangd is running but couldn't find the file (e.g. not indexed)
-                        (call-interactively #'ff-find-other-file)))
+            (let ((rep (jsonrpc-request
+                           server
+                           :textDocument/switchSourceHeader
+                           (eglot--TextDocumentIdentifier))))
+                (if (and rep (not (eq rep :null)))
+                    (let ((target-path (eglot--uri-to-path rep)))
+                        (if current-prefix-arg
+                            (find-file-other-window target-path)
+                            (find-file target-path)))
+                    ;; Clangd is running but couldn't find the file (e.g. not indexed)
+                    (call-interactively #'ff-find-other-file)))
             ;; No server or not clangd: use standard Emacs fallback
             (call-interactively #'ff-find-other-file))))
 
@@ -245,7 +245,7 @@ If region (BEG to END) is active, use the selected region as the symbol."
     (interactive "r")
     (when (and (featurep 'helpful) (fboundp 'helpful-symbol))
         (if (use-region-p)
-                (helpful-symbol (intern (buffer-substring beg end)))
+            (helpful-symbol (intern (buffer-substring beg end)))
             (helpful-symbol (symbol-at-point)))))
 
 ;;; OS
@@ -260,7 +260,7 @@ If region (BEG to END) is active, use the selected region as the symbol."
     "If there is only one tab, close EMACS, otherwise close one tab."
     (interactive)
     (if (> (length (tab-bar-tabs)) 1)
-            (tab-bar-close-tab)
+        (tab-bar-close-tab)
         (kill-emacs)))
 
 ;;; Tramp
@@ -280,37 +280,37 @@ file or the file at point in `dired'.  DESTINATION is read via TRAMP's
 work out of the box.  rsync is preferred when available; scp -r is the
 fallback.  Output is shown in a dedicated async buffer."
     (interactive
-     (let* ((src-default (cond
-                          ((derived-mode-p 'dired-mode) (dired-get-filename nil t))
-                          (buffer-file-name buffer-file-name)
-                          (t default-directory)))
-            (source (read-file-name
-                     "Source: "
-                     (and src-default (file-name-directory src-default))
-                     src-default t
-                     (and src-default (file-name-nondirectory (directory-file-name src-default)))))
-            (destination (read-file-name "Destination (remote): " "/ssh:")))
-         (list source destination)))
+        (let* ((src-default (cond
+                                ((derived-mode-p 'dired-mode) (dired-get-filename nil t))
+                                (buffer-file-name buffer-file-name)
+                                (t default-directory)))
+                  (source (read-file-name
+                              "Source: "
+                              (and src-default (file-name-directory src-default))
+                              src-default t
+                              (and src-default (file-name-nondirectory (directory-file-name src-default)))))
+                  (destination (read-file-name "Destination (remote): " "/ssh:")))
+            (list source destination)))
     (unless (file-remote-p destination)
         (user-error "Destination must be a remote TRAMP path, e.g. /ssh:host:/path/"))
     (let* ((source (directory-file-name (expand-file-name source)))
-           (host (file-remote-p destination 'host))
-           (user (file-remote-p destination 'user))
-           (localname (file-remote-p destination 'localname))
-           (remote (if user (format "%s@%s:%s" user host localname)
-                       (format "%s:%s" host localname)))
-           (tool (cond ((executable-find "rsync") 'rsync)
-                       ((executable-find "scp") 'scp)
-                       (t (user-error "Neither rsync nor scp found in PATH"))))
-           (cmd (pcase tool
-                    ('rsync (format "rsync -avz --progress %s %s"
-                                    (shell-quote-argument source)
-                                    (shell-quote-argument remote)))
-                    ('scp (format "scp -r %s %s"
-                                  (shell-quote-argument source)
-                                  (shell-quote-argument remote)))))
-           (buf-name (format "*remote-copy: %s*"
-                             (file-name-nondirectory (directory-file-name source)))))
+              (host (file-remote-p destination 'host))
+              (user (file-remote-p destination 'user))
+              (localname (file-remote-p destination 'localname))
+              (remote (if user (format "%s@%s:%s" user host localname)
+                          (format "%s:%s" host localname)))
+              (tool (cond ((executable-find "rsync") 'rsync)
+                        ((executable-find "scp") 'scp)
+                        (t (user-error "Neither rsync nor scp found in PATH"))))
+              (cmd (pcase tool
+                       ('rsync (format "rsync -avz --progress %s %s"
+                                   (shell-quote-argument source)
+                                   (shell-quote-argument remote)))
+                       ('scp (format "scp -r %s %s"
+                                 (shell-quote-argument source)
+                                 (shell-quote-argument remote)))))
+              (buf-name (format "*remote-copy: %s*"
+                            (file-name-nondirectory (directory-file-name source)))))
         (message "Copying %s -> %s [%s]" source remote tool)
         (async-shell-command cmd buf-name)
         (with-current-buffer buf-name
@@ -330,17 +330,17 @@ If 'eww' is chosen, the link is opened in a window that occupies 80% of the fram
                     ;; (consult-omni)                                    ;; Use consult-omni results to select a link
                     (read-string "Enter URL: "))))                    ;; Fall back to manual URL entry
         (if url
-                (let ((choice (completing-read "Open link in: " '("Browser" "eww"))))
-                    (cond
-                     ((string-equal choice "Browser")
-                      (shell-command (concat browse-url-generic-program " " (shell-quote-argument url))))
-                     ((string-equal choice "eww")
-                      ;; Calculate the height for the top window (20% of the frame height)
-                      (let ((window (selected-window))
-                            (top-window-height (floor (* 0.2 (window-total-height)))))
-                          ;; Split window with 20% height on top and 80% height for eww on the bottom
-                          (select-window (split-window window top-window-height))
-                          (eww url)))))
+            (let ((choice (completing-read "Open link in: " '("Browser" "eww"))))
+                (cond
+                    ((string-equal choice "Browser")
+                        (shell-command (concat browse-url-generic-program " " (shell-quote-argument url))))
+                    ((string-equal choice "eww")
+                        ;; Calculate the height for the top window (20% of the frame height)
+                        (let ((window (selected-window))
+                                 (top-window-height (floor (* 0.2 (window-total-height)))))
+                            ;; Split window with 20% height on top and 80% height for eww on the bottom
+                            (select-window (split-window window top-window-height))
+                            (eww url)))))
             (message "No URL provided."))))
 
 ;;; Misc
@@ -361,14 +361,14 @@ The DWIM behaviour of this command is as follows:
 - In every other case use the regular `keyboard-quit'."
     (interactive)
     (cond
-     ((region-active-p)
-      (keyboard-quit))
-     ((derived-mode-p 'completion-list-mode)
-      (delete-completion-window))
-     ((> (minibuffer-depth) 0)
-      (abort-recursive-edit))
-     (t
-      (keyboard-quit))))
+        ((region-active-p)
+            (keyboard-quit))
+        ((derived-mode-p 'completion-list-mode)
+            (delete-completion-window))
+        ((> (minibuffer-depth) 0)
+            (abort-recursive-edit))
+        (t
+            (keyboard-quit))))
 
 ;; close buffer and window
 (defun my/close-buffer-and-window ()
@@ -442,10 +442,10 @@ Make it readonly, and set up a keybinding (q) to close the window."
     "This interactive call is taken from `load-theme'.
 Switch the current theme to THEME"
     (interactive
-     (list
-      (intern (completing-read "Load custom theme: "
-                               (mapcar #'symbol-name
-                                       (custom-available-themes))))))
+        (list
+            (intern (completing-read "Load custom theme: "
+                        (mapcar #'symbol-name
+                            (custom-available-themes))))))
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t))
 
@@ -453,9 +453,9 @@ Switch the current theme to THEME"
     "Save all buffers without prompt."
     (interactive)
     (let ((modified-count
-           (length (cl-loop for buf in (buffer-list)
-                            when (and (buffer-file-name buf) (buffer-modified-p buf))
-                            collect buf))))
+              (length (cl-loop for buf in (buffer-list)
+                          when (and (buffer-file-name buf) (buffer-modified-p buf))
+                          collect buf))))
         (save-excursion
             (save-some-buffers t)
             (message "%d buffer(s) saved" modified-count))))
@@ -465,10 +465,10 @@ Switch the current theme to THEME"
 Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html."
     (interactive)
     (let ((fill-column
-           (if (eq last-command 'my/fill-or-unfill)
-                   (progn (setq this-command nil)
-                          (point-max))
-               fill-column)))
+              (if (eq last-command 'my/fill-or-unfill)
+                  (progn (setq this-command nil)
+                      (point-max))
+                  fill-column)))
         (call-interactively #'fill-paragraph)))
 
 (defun my/org-fill-or-unfill ()
@@ -477,10 +477,10 @@ Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-sin
     (interactive)
     (when (fboundp 'org-fill-paragraph)
         (let ((fill-column
-               (if (eq last-command 'my/org-fill-or-unfill)
-                       (progn (setq this-command nil)
-                              (point-max))
-                   fill-column)))
+                  (if (eq last-command 'my/org-fill-or-unfill)
+                      (progn (setq this-command nil)
+                          (point-max))
+                      fill-column)))
             (call-interactively #'org-fill-paragraph))))
 
 (defun my/fill-buffer ()
@@ -496,8 +496,8 @@ Taken from: https://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-sin
 Taken from: https://www.emacswiki.org/emacs/UnfillParagraph."
     (interactive (progn (barf-if-buffer-read-only) '(t)))
     (let ((fill-column (point-max))
-          ;; This would override `fill-column' if it's an integer.
-          (emacs-lisp-docstring-fill-column t))
+             ;; This would override `fill-column' if it's an integer.
+             (emacs-lisp-docstring-fill-column t))
         (fill-paragraph nil region)))
 
 (defun my/unfill-region (beg end)
@@ -529,34 +529,34 @@ frames with exactly two windows. Taken from:
 https://www.emacswiki.org/emacs/ToggleWindowSplit"
     (interactive)
     (if (= (count-windows) 2)
-            (let* ((this-win-buffer (window-buffer))
-                   (next-win-buffer (window-buffer (next-window)))
-                   (this-win-edges (window-edges (selected-window)))
-                   (next-win-edges (window-edges (next-window)))
-                   (this-win-2nd (not (and (<= (car this-win-edges)
-                                               (car next-win-edges))
-                                           (<= (cadr this-win-edges)
-                                               (cadr next-win-edges)))))
-                   (splitter
-                    (if (= (car this-win-edges)
-                           (car (window-edges (next-window))))
-                            'split-window-horizontally
-                        'split-window-vertically)))
-                (delete-other-windows)
-                (let ((first-win (selected-window)))
-                    (funcall splitter)
-                    (if this-win-2nd (other-window 1))
-                    (set-window-buffer (selected-window) this-win-buffer)
-                    (set-window-buffer (next-window) next-win-buffer)
-                    (select-window first-win)
-                    (if this-win-2nd (other-window 1))))))
+        (let* ((this-win-buffer (window-buffer))
+                  (next-win-buffer (window-buffer (next-window)))
+                  (this-win-edges (window-edges (selected-window)))
+                  (next-win-edges (window-edges (next-window)))
+                  (this-win-2nd (not (and (<= (car this-win-edges)
+                                              (car next-win-edges))
+                                         (<= (cadr this-win-edges)
+                                             (cadr next-win-edges)))))
+                  (splitter
+                      (if (= (car this-win-edges)
+                              (car (window-edges (next-window))))
+                          'split-window-horizontally
+                          'split-window-vertically)))
+            (delete-other-windows)
+            (let ((first-win (selected-window)))
+                (funcall splitter)
+                (if this-win-2nd (other-window 1))
+                (set-window-buffer (selected-window) this-win-buffer)
+                (set-window-buffer (next-window) next-win-buffer)
+                (select-window first-win)
+                (if this-win-2nd (other-window 1))))))
 
 (defun my/new-scratch-buffer-in-markdown ()
     "Make a temporary buffer in markdown mode and switch to it."
     (interactive)
     (when (fboundp 'markdown-mode)
         (switch-to-buffer-other-window
-         (make-temp-name "scratch-markdown-"))
+            (make-temp-name "scratch-markdown-"))
         (markdown-mode)
         (auto-fill-mode -1)
         (insert "# Scratch\n\n")))
@@ -566,7 +566,7 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
     (interactive)
     (when (fboundp 'org-mode)
         (switch-to-buffer-other-window
-         (make-temp-name "scratch-org-"))
+            (make-temp-name "scratch-org-"))
         (org-mode)
         (insert "#+TITLE: Scratch\n\n")))
 
@@ -574,21 +574,21 @@ https://www.emacswiki.org/emacs/ToggleWindowSplit"
     "Copy region (BEG to END) to kill ring with line numbers prepended."
     (interactive "r")
     (let ((text (buffer-substring-no-properties beg end))
-          (start-line (line-number-at-pos beg t)))
+             (start-line (line-number-at-pos beg t)))
         (kill-new
-         (with-temp-buffer
-             (insert text)
-             (rectangle-number-lines (point-min) (point-max) start-line)
-             (buffer-string)))))
+            (with-temp-buffer
+                (insert text)
+                (rectangle-number-lines (point-min) (point-max) start-line)
+                (buffer-string)))))
 
 (defun my/comment-or-uncomment ()
     "Comments or uncomments the current line or region."
     (interactive)
     (if (region-active-p)
-            (comment-or-uncomment-region
-             (region-beginning) (region-end))
         (comment-or-uncomment-region
-         (line-beginning-position) (line-end-position))))
+            (region-beginning) (region-end))
+        (comment-or-uncomment-region
+            (line-beginning-position) (line-end-position))))
 
 ;; Behave like vi's o command
 (defun my/open-next-line (arg)

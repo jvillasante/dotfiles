@@ -6,7 +6,7 @@
 (use-package kmacro
     :ensure nil ;; emacs built-in
     :bind (([remap kmacro-start-macro] . kmacro-start-macro-or-insert-counter)
-           ([remap kmacro-end-macro] . kmacro-end-or-call-macro)))
+              ([remap kmacro-end-macro] . kmacro-end-or-call-macro)))
 
 (use-package re-builder
     :ensure nil ;; emacs built-in
@@ -39,10 +39,10 @@
 (use-package isearch
     :ensure nil ;; emacs built-in
     :bind (:map isearch-mode-map
-                ([remap isearch-delete-char] . isearch-del-char)
-                ("C-o" . isearch-occur)
-                ("C-n" . isearch-repeat-forward)
-                ("C-p" . isearch-repeat-backward))
+              ([remap isearch-delete-char] . isearch-del-char)
+              ("C-o" . isearch-occur)
+              ("C-n" . isearch-repeat-forward)
+              ("C-p" . isearch-repeat-backward))
     :config
     (setq isearch-resume-in-command-history t)  ; use history for isearch as well
     (setq search-whitespace-regexp ".*?")       ; isearch convenience, space matches anything (non-greedy)
@@ -93,8 +93,8 @@
     :hook (after-init . recentf-mode)
     :config
     (setq recentf-max-saved-items 500
-          recentf-max-menu-items 15
-          recentf-auto-cleanup 'mode)
+        recentf-max-menu-items 15
+        recentf-auto-cleanup 'mode)
     (add-to-list 'recentf-exclude (recentf-expand-file-name my/var-dir))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "secrets/" my/etc-dir)))
     (add-to-list 'recentf-exclude (recentf-expand-file-name (expand-file-name "Apps/elfeed/elfeed_db/" my/dropbox-path)))
@@ -115,8 +115,8 @@
     :ensure nil ;; emacs built-in
     :custom
     ((project-list-file (expand-file-name "projects" my/var-dir))
-     (project-vc-extra-root-markers '(".project.el" ".projectile"))
-     (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
+        (project-vc-extra-root-markers '(".project.el" ".projectile"))
+        (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
     :config
     (add-to-list 'project-switch-commands '(project-dired "Dired at root")))
 
@@ -129,7 +129,7 @@
     (with-eval-after-load 'tramp
         (with-eval-after-load 'compile
             (remove-hook 'compilation-mode-hook
-                         #'tramp-compile-disable-ssh-controlmaster-options)))
+                #'tramp-compile-disable-ssh-controlmaster-options)))
     ;; Don't use `tramp-archive'
     (with-eval-after-load 'tramp-archive
         (setq tramp-archive-enabled nil))
@@ -153,14 +153,14 @@
     ;; Use Direct Async (check it works with
     ;; `M-: (tramp-direct-async-process-p) on a remote file')
     (connection-local-set-profile-variables
-     'remote-direct-async-process
-     '((tramp-direct-async-process . t)))
+        'remote-direct-async-process
+        '((tramp-direct-async-process . t)))
     (connection-local-set-profiles
-     '(:application tramp :protocol "ssh")
-     'remote-direct-async-process)
+        '(:application tramp :protocol "ssh")
+        'remote-direct-async-process)
     (connection-local-set-profiles
-     '(:application tramp :protocol "scp")
-     'remote-direct-async-process)
+        '(:application tramp :protocol "scp")
+        'remote-direct-async-process)
     (setq magit-tramp-pipe-stty-settings 'pty))
 
 ;; tramp-hlo : Higher level emacs functions as optimized tramp operations
@@ -184,12 +184,12 @@
     :config
     ;; make electric-pair-mode work on more brackets
     (setq-default electric-pair-pairs
-                  '((?\" . ?\")
-                    (?\( . ?\))
-                    (?\{ . ?\})
-                    (?\[ . ?\])))
+        '((?\" . ?\")
+             (?\( . ?\))
+             (?\{ . ?\})
+             (?\[ . ?\])))
     (setq-default electric-pair-inhibit-predicate
-                  #'electric-pair-conservative-inhibit))
+        #'electric-pair-conservative-inhibit))
 
 ;; parent.el : Highlight matching paren
 (use-package paren
@@ -197,9 +197,9 @@
     :hook (after-init . show-paren-mode)
     :config
     (setq show-paren-delay 0.1
-          show-paren-highlight-openparen t
-          show-paren-when-point-inside-paren t
-          show-paren-when-point-in-periphery t))
+        show-paren-highlight-openparen t
+        show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t))
 
 ;; ibuffer : replacement for the built-in `list-buffer'
 (use-package ibuffer
@@ -208,14 +208,14 @@
                               (hl-line-mode)
                               (ibuffer-auto-mode)))
     :bind (([remap list-buffers] . ibuffer)
-           :map ibuffer-mode-map
-           ("{" . ibuffer-backwards-next-marked)
-           ("}" . ibuffer-forward-next-marked)
-           ("[" . ibuffer-backward-filter-group)
-           ("]" . ibuffer-forward-filter-group)
-           ("$" . ibuffer-toggle-filter-group)
-           ("<double-mouse-1>" . ibuffer-visit-buffer)
-           ("M-<double-mouse-1>" . ibuffer-visit-buffer-other-window))
+              :map ibuffer-mode-map
+              ("{" . ibuffer-backwards-next-marked)
+              ("}" . ibuffer-forward-next-marked)
+              ("[" . ibuffer-backward-filter-group)
+              ("]" . ibuffer-forward-filter-group)
+              ("$" . ibuffer-toggle-filter-group)
+              ("<double-mouse-1>" . ibuffer-visit-buffer)
+              ("M-<double-mouse-1>" . ibuffer-visit-buffer-other-window))
     :config
     (setq ibuffer-expert t)
     (setq ibuffer-display-summary nil)
@@ -226,16 +226,16 @@
     (setq ibuffer-use-header-line t)
     (setq ibuffer-default-shrink-to-minimum-size nil)
     (setq ibuffer-formats
-          '((mark modified read-only locked " "
-                  (name 30 30 :left :elide)
-                  " "
-                  (size 9 -1 :right)
-                  " "
-                  (mode 16 16 :left :elide)
-                  " " filename-and-process)
-            (mark " "
-                  (name 16 -1)
-                  " " filename))))
+        '((mark modified read-only locked " "
+              (name 30 30 :left :elide)
+              " "
+              (size 9 -1 :right)
+              " "
+              (mode 16 16 :left :elide)
+              " " filename-and-process)
+             (mark " "
+                 (name 16 -1)
+                 " " filename))))
 
 ;; ibuffer-project : group buffers by custom functions or regexps.
 (use-package ibuffer-project
@@ -246,13 +246,13 @@
                              (ibuffer-do-sort-by-project-file-relative))))
     :config
     (setq ibuffer-formats
-          '((mark modified read-only locked " "
-                  (name 30 30 :left :elide)
-                  " "
-                  (size 9 -1 :right)
-                  " "
-                  (mode 16 16 :left :elide)
-                  " " project-file-relative)))
+        '((mark modified read-only locked " "
+              (name 30 30 :left :elide)
+              " "
+              (size 9 -1 :right)
+              " "
+              (mode 16 16 :left :elide)
+              " " project-file-relative)))
     (setq ibuffer-project-root-functions '((ibuffer-project-project-root . "Project")))
     (add-to-list 'ibuffer-project-root-functions '(file-remote-p . "Remote")))
 
@@ -295,7 +295,7 @@
     :disabled t
     :custom (undo-fu-allow-undo-in-region t)
     :bind (([remap undo]      . undo-fu-only-undo)
-           ([remap undo-redo] . undo-fu-only-redo)))
+              ([remap undo-redo] . undo-fu-only-redo)))
 
 ;; vundo : visual undo
 (use-package vundo
@@ -304,50 +304,50 @@
 ;; helpful : better help buffers
 (use-package helpful
     :bind (([remap describe-function] . helpful-callable)
-           ([remap describe-variable] . helpful-variable)
-           ([remap describe-command]  . helpful-command)
-           ([remap describe-key]      . helpful-key)
-           ([remap describe-symbol]   . helpful-symbol)
-           ("C-c C-d"                 . helpful-at-point)
-           ("C-h F"                   . helpful-function)
-           ("C-h K"                   . describe-keymap)))
+              ([remap describe-variable] . helpful-variable)
+              ([remap describe-command]  . helpful-command)
+              ([remap describe-key]      . helpful-key)
+              ([remap describe-symbol]   . helpful-symbol)
+              ("C-c C-d"                 . helpful-at-point)
+              ("C-h F"                   . helpful-function)
+              ("C-h K"                   . describe-keymap)))
 
 ;; crux : A Collection of Ridiculously Useful eXtensions for Emacs
 (use-package crux
     :bind (("C-k"              . crux-smart-kill-line)
-           ("M-o"              . crux-smart-open-line-above)
-           ("C-o"              . crux-smart-open-line)
-           ;; ("C-c n"         . crux-cleanup-buffer-or-region)
-           ;; ("C-c f"         . crux-recentf-find-file)
-           ;; ("C-c F"         . crux-recentf-find-directory)
-           ;; ("C-c u"         . crux-view-url)
-           ;; ("C-c e"         . crux-eval-and-replace)
-           ("C-x 4 t"          . crux-transpose-windows)
-           ("C-c D"            . crux-delete-file-and-buffer)
-           ;; ("C-c c"         . crux-copy-file-preserve-attributes)
-           ;; ("C-c d"         . crux-duplicate-current-line-or-region)
-           ;; ("C-c M-d"       . crux-duplicate-and-comment-current-line-or-region)
-           ("C-x x R"          . crux-rename-buffer-and-file)
-           ;; ("C-c t"         . crux-visit-term-buffer)
-           ;; ("C-c k"         . crux-kill-other-buffers)
-           ;; ("C-M-z"         . crux-indent-defun)
-           ;; ("C-c TAB"       . crux-indent-rigidly-and-copy-to-clipboard)
-           ;; ("C-c i"         . crux-find-user-init-file)
-           ;; ("C-c I"         . crux-find-user-custom-file)
-           ;; ("C-c S"         . crux-find-shell-init-file)
-           ;; ("C-^"           . crux-top-join-line)
-           ;; ("C-<backspace>" . crux-kill-line-backwards)
-           ;; ("C-S-Backspace" . crux-kill-and-join-forward)
-           ;; ("C-c P"         . crux-kill-buffer-truename)
-           ;; ("C-c s"         . crux-ispell-word-then-abbrev)
-           ;; ("C-x C-u"       . crux-upcase-region)
-           ;; ("C-x C-l"       . crux-downcase-region)
-           ;; ("C-x M-c"       . crux-capitalize-region)
-           ;; ("m-o"           . crux-other-window-or-switch-buffer)
-           ;; ("C-c w"         . crux-swap-windows)
-           ;; ("C-c o"         . crux-open-with)
-           ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-           ([remap kill-whole-line]        . crux-kill-whole-line)))
+              ("M-o"              . crux-smart-open-line-above)
+              ("C-o"              . crux-smart-open-line)
+              ;; ("C-c n"         . crux-cleanup-buffer-or-region)
+              ;; ("C-c f"         . crux-recentf-find-file)
+              ;; ("C-c F"         . crux-recentf-find-directory)
+              ;; ("C-c u"         . crux-view-url)
+              ;; ("C-c e"         . crux-eval-and-replace)
+              ("C-x 4 t"          . crux-transpose-windows)
+              ("C-c D"            . crux-delete-file-and-buffer)
+              ;; ("C-c c"         . crux-copy-file-preserve-attributes)
+              ;; ("C-c d"         . crux-duplicate-current-line-or-region)
+              ;; ("C-c M-d"       . crux-duplicate-and-comment-current-line-or-region)
+              ("C-x x R"          . crux-rename-buffer-and-file)
+              ;; ("C-c t"         . crux-visit-term-buffer)
+              ;; ("C-c k"         . crux-kill-other-buffers)
+              ;; ("C-M-z"         . crux-indent-defun)
+              ;; ("C-c TAB"       . crux-indent-rigidly-and-copy-to-clipboard)
+              ;; ("C-c i"         . crux-find-user-init-file)
+              ;; ("C-c I"         . crux-find-user-custom-file)
+              ;; ("C-c S"         . crux-find-shell-init-file)
+              ;; ("C-^"           . crux-top-join-line)
+              ;; ("C-<backspace>" . crux-kill-line-backwards)
+              ;; ("C-S-Backspace" . crux-kill-and-join-forward)
+              ;; ("C-c P"         . crux-kill-buffer-truename)
+              ;; ("C-c s"         . crux-ispell-word-then-abbrev)
+              ;; ("C-x C-u"       . crux-upcase-region)
+              ;; ("C-x C-l"       . crux-downcase-region)
+              ;; ("C-x M-c"       . crux-capitalize-region)
+              ;; ("m-o"           . crux-other-window-or-switch-buffer)
+              ;; ("C-c w"         . crux-swap-windows)
+              ;; ("C-c o"         . crux-open-with)
+              ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+              ([remap kill-whole-line]        . crux-kill-whole-line)))
 
 ;; scratch : create scratch buffers
 (use-package scratch
@@ -357,38 +357,38 @@
                                (save-excursion
                                    (goto-char (point-min))
                                    (insert "#+TITLE: Scratch\n\n")))))
-           (markdown-mode . (lambda ()
-                                (when scratch-buffer
-                                    (save-excursion
-                                        (goto-char (point-min))
-                                        (insert "# Scratch\n\n")))))))
+              (markdown-mode . (lambda ()
+                                   (when scratch-buffer
+                                       (save-excursion
+                                           (goto-char (point-min))
+                                           (insert "# Scratch\n\n")))))))
 
 ;; editorconfig : editorconfig for Emacs
 (use-package editorconfig
     :ensure nil ;; emacs built-in
     :hook (after-init . editorconfig-mode)
     :custom (editorconfig-exclude-regexps
-             '("\\.jar$" "\\.rar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$" "\\.t$")))
+                '("\\.jar$" "\\.rar$" "\\.zip$" "\\.tar$" "\\.gz$" "\\.iso$" "\\.7z$" "\\.t$")))
 
 ;; avy : GNU Emacs package for jumping to visible text using a char-based decision tree
 (use-package avy
     :disabled t ; using `flash'
     :bind (("M-j"     . avy-goto-char-timer)
-           ("C-c C-j" . avy-resume)
-           :map isearch-mode-map
-           ("M-j" . avy-isearch))
+              ("C-c C-j" . avy-resume)
+              :map isearch-mode-map
+              ("M-j" . avy-isearch))
     :custom
     (avy-orders-alist
-     '((avy-goto-char-timer . avy-order-closest)
-       (avy-goto-line . avy-order-closest))))
+        '((avy-goto-char-timer . avy-order-closest)
+             (avy-goto-line . avy-order-closest))))
 
 ;; flash : navigate your code with search labels
 (use-package flash
     :commands (flash-jump flash-jump-continue
-                          flash-treesitter)
+                  flash-treesitter)
     :bind (("M-j" . flash-jump)
-           :map isearch-mode-map
-           ("M-j" . flash-isearch--toggle))
+              :map isearch-mode-map
+              ("M-j" . flash-isearch--toggle))
     :hook (after-init . flash-isearch-mode)
     :custom (flash-multi-window t)
     :config
@@ -399,7 +399,7 @@
 (use-package expand-region
     :disabled t ; using `expreg'
     :bind (("C-=" . er/expand-region)
-           ("C--" . er/contract-region)))
+              ("C--" . er/contract-region)))
 
 ;; Expreg : like expand-region but nicer
 (use-package expreg
@@ -410,7 +410,7 @@
             (define-key map "-" #'expreg-contract)
             map))
     :bind (("C-=" . expreg-expand)
-           ("C--" . expreg-contract))
+              ("C--" . expreg-contract))
     :custom (shift-select-mode 'permanent)
     :config
     (put 'expreg-expand 'repeat-map 'my/expreg-repeat-map)
@@ -425,17 +425,17 @@
 (use-package easy-kill
     :disabled t
     :bind (([remap kill-ring-save] . easy-kill)
-           ([remap mark-sexp]      . easy-mark)))
+              ([remap mark-sexp]      . easy-mark)))
 
 ;; multiple-cursors: Multiple cursors for Emacs
 (use-package multiple-cursors
     :defer t
     :bind (("H-SPC"       . set-rectangular-region-anchor)
-           ("C-M-SPC"     . set-rectangular-region-anchor)
-           ("C->"         . mc/mark-next-like-this)
-           ("C-<"         . mc/mark-previous-like-this)
-           ("C-c C->"     . mc/mark-all-like-this)
-           ("C-S-c C-S-c" . mc/edit-lines))
+              ("C-M-SPC"     . set-rectangular-region-anchor)
+              ("C->"         . mc/mark-next-like-this)
+              ("C-<"         . mc/mark-previous-like-this)
+              ("C-c C->"     . mc/mark-all-like-this)
+              ("C-S-c C-S-c" . mc/edit-lines))
     :config (setq mc/list-file (expand-file-name "mc-list.el" my/var-dir)))
 
 ;;; writable grep
@@ -471,14 +471,14 @@
     :defer t
     :config
     (setq monkeytype-directory
-          (expand-file-name "monkeytype" my/etc-dir)))
+        (expand-file-name "monkeytype" my/etc-dir)))
 
 ;; devdocs.el : Emacs viewer for DevDocs
 (use-package devdocs
     :disabled t
     :bind (("C-h D" . devdocs-lookup))
     :custom (devdocs-data-dir
-             (expand-file-name "devdocs" my/var-dir)))
+                (expand-file-name "devdocs" my/var-dir)))
 
 ;; devdocs-browser : Browse devdocs.io documents inside Emacs!
 (use-package devdocs-browser

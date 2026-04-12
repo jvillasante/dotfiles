@@ -11,16 +11,16 @@
         (defvar eat-buffer-name)
         (defvar eat-kill-buffer-on-exit)
         (if (fboundp 'eat-other-window)
-                (let* ((process-args (-remove 's-blank? (-flatten args)))
-                       (eat-buffer-name (s-join " " (-insert-at 0 program process-args)))
-                       (eat-kill-buffer-on-exit nil))
-                    (eat-other-window eat-buffer-name args))
+            (let* ((process-args (-remove 's-blank? (-flatten args)))
+                      (eat-buffer-name (s-join " " (-insert-at 0 program process-args)))
+                      (eat-kill-buffer-on-exit nil))
+                (eat-other-window eat-buffer-name args))
             (error "The eat package is not installed")))
     :bind (("C-c o d" . docker))
     :config
     (setq docker-command "podman"
-          docker-compose-command "podman-compose"
-          docker-container-tramp-method "podman")
+        docker-compose-command "podman-compose"
+        docker-container-tramp-method "podman")
 
     ;; (when (package-installed-p 'eat)
     ;;     (setq docker-run-async-with-buffer-function #'my/docker-run-async-with-buffer-eat))
@@ -31,16 +31,16 @@
     ;; regular expression "^postgres", the option "-e POSTGRES_PASSWORD=postgres"
     ;; will appear as set along with the defaults specified by `docker-image-run-default-args'.
     (add-to-list 'docker-image-run-custom-args
-                 `("^postgres" ("-e POSTGRES_PASSWORD=postgres" . ,docker-image-run-default-args)))
+        `("^postgres" ("-e POSTGRES_PASSWORD=postgres" . ,docker-image-run-default-args)))
 
     ;; podman run --user nntpuser --rm --interactive --tty --volume
     ;;    $selected:/tmp/nntpcode:rw,z --userns=keep-id
     ;;    -w /tmp/nntpcode --name nntp-$selected_name nntp:latest /bin/bash
     (add-to-list 'docker-image-run-custom-args
-                 `("^localhost/nntp" ("-u nntpuser"
-                                      "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntpcode:/tmp/nntpcode:rw,z --userns=keep-id"
-                                      "-w /tmp/nntpcode"
-                                      "--name nntp-emacs" . ,docker-image-run-default-args))))
+        `("^localhost/nntp" ("-u nntpuser"
+                                "-v \"$HOME\"/Workspace/Work/Omicron/Projects/nntpcode:/tmp/nntpcode:rw,z --userns=keep-id"
+                                "-w /tmp/nntpcode"
+                                "--name nntp-emacs" . ,docker-image-run-default-args))))
 
 (provide 'my-init-docker)
 ;;; my-init-docker.el ends here

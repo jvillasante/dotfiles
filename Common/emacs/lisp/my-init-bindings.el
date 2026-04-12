@@ -25,7 +25,7 @@ When run interactively:
 - With a prefix arg (`C-u C-x C-k`), `kill-buffer'."
     (interactive)
     (if current-prefix-arg
-            (call-interactively #'kill-buffer)
+        (call-interactively #'kill-buffer)
         (kill-current-buffer)))
 (global-set-key (kbd "C-x k") 'my/smart-kill-buffer)
 
@@ -37,9 +37,9 @@ When run interactively:
 - With a prefix arg (`C-u C-x C-c`), ask to kill the entire daemon."
     (interactive)
     (if current-prefix-arg
-            ;; C-u was pressed: target the whole daemon
-            (when (y-or-n-p "Really kill the Emacs daemon? ")
-                (save-buffers-kill-emacs))
+        ;; C-u was pressed: target the whole daemon
+        (when (y-or-n-p "Really kill the Emacs daemon? ")
+            (save-buffers-kill-emacs))
         ;; No prefix: target just this client/terminal
         (when (y-or-n-p "Really close this Emacs client? ")
             (save-buffers-kill-terminal))))

@@ -8,28 +8,29 @@
     :defer t
     :custom
     ((chatgpt-shell-model-version "gemini-3-flash-preview")
-     (chatgpt-shell-google-key
-      (lambda ()
-          (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
+        (chatgpt-shell-google-key
+            (lambda ()
+                (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
 (use-package agent-shell
+    :disabled t
     :defer t
     :pin melpa
     :preface
     (defun my/agent-shell-dot-subdir (subdir)
         (let* ((cwd (string-remove-suffix "/" (agent-shell-cwd)))
-               (sanitized (replace-regexp-in-string "/" "-" (string-remove-prefix "/" cwd))))
+                  (sanitized (replace-regexp-in-string "/" "-" (string-remove-prefix "/" cwd))))
             (expand-file-name subdir (expand-file-name
-                                      (concat "agent-shell/" sanitized) my/var-dir))))
+                                         (concat "agent-shell/" sanitized) my/var-dir))))
     :bind ("C-c a s" . agent-shell)
     :custom
     (agent-shell-display-action
-     '(display-buffer-in-side-window
-       (side . right)
-       (slot . 0)
-       (window-width . 0.3)
-       (dedicated . t)
-       (window-parameters . ((no-delete-other-windows . t)))))
+        '(display-buffer-in-side-window
+             (side . right)
+             (slot . 0)
+             (window-width . 0.3)
+             (dedicated . t)
+             (window-parameters . ((no-delete-other-windows . t)))))
     (agent-shell-session-strategy 'prompt)
     (agent-shell-dot-subdir-function #'my/agent-shell-dot-subdir)
     (agent-shell-preferred-agent-config 'claude-code)
@@ -40,11 +41,11 @@
     :defer t
     :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
     :bind (("C-c C-'" . claude-code-ide-menu)
-           ("C-c a t" . claude-code-ide-toggle)
-           ("C-c a s" . claude-code-ide-send-prompt)
-           ("C-c a @" . claude-code-ide-insert-at-mentioned)
-           ("C-c a r" . claude-code-ide-resume)
-           ("C-c a c" . claude-code-ide-continue))
+              ("C-c a t" . claude-code-ide-toggle)
+              ("C-c a s" . claude-code-ide-send-prompt)
+              ("C-c a @" . claude-code-ide-insert-at-mentioned)
+              ("C-c a r" . claude-code-ide-resume)
+              ("C-c a c" . claude-code-ide-continue))
     :custom
     (claude-code-ide-cli-extra-flags "--model opus")
     (claude-code-ide-window-side 'right)

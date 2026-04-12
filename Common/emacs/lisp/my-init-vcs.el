@@ -12,9 +12,9 @@
     "Directory containing personal config files to copy into new worktrees.")
 
 (defvar my/nntp-config-files '((".clang-tidy"               . ".clang-tidy")
-                                (".dir-locals.el"           . ".dir-locals.el")
-                                ("compile_flags.fedora.txt" . "compile_flags.txt")
-                                (".scripts"                 . ".scripts"))
+                                  (".dir-locals.el"           . ".dir-locals.el")
+                                  ("compile_flags.fedora.txt" . "compile_flags.txt")
+                                  (".scripts"                 . ".scripts"))
     "Alist of (SOURCE . DEST) for symlinks from dotfiles into each new worktree.
 SOURCE is relative to `my/nntp-dotfiles-dir', DEST is relative to the worktree.")
 
@@ -22,16 +22,16 @@ SOURCE is relative to `my/nntp-dotfiles-dir', DEST is relative to the worktree."
     "Create an nntp worktree called NAME based on START-POINT.
 With prefix argument DETACH, use detached HEAD (useful for code reviews)."
     (interactive
-     (let ((n (read-string "Worktree name: "))
-           (sp (magit-read-branch-or-commit "Starting point")))
-         (list n sp current-prefix-arg)))
+        (let ((n (read-string "Worktree name: "))
+                 (sp (magit-read-branch-or-commit "Starting point")))
+            (list n sp current-prefix-arg)))
     (let* ((base my/nntp-worktree-base)
-           (master (expand-file-name "master" base))
-           (wt-path (expand-file-name name base))
-           (dotfiles my/nntp-dotfiles-dir)
-           (args (if detach
-                     (list "worktree" "add" wt-path start-point)           ;; detached HEAD for reviews
-                   (list "worktree" "add" "-b" name wt-path start-point)))) ;; new branch for development
+              (master (expand-file-name "master" base))
+              (wt-path (expand-file-name name base))
+              (dotfiles my/nntp-dotfiles-dir)
+              (args (if detach
+                        (list "worktree" "add" wt-path start-point)           ;; detached HEAD for reviews
+                        (list "worktree" "add" "-b" name wt-path start-point)))) ;; new branch for development
         (when (file-exists-p wt-path)
             (user-error "Worktree %s already exists" wt-path))
         ;; Create the worktree
@@ -45,7 +45,7 @@ With prefix argument DETACH, use detached HEAD (useful for code reviews)."
         ;; Symlink personal config files
         (dolist (entry my/nntp-config-files)
             (let ((src (expand-file-name (car entry) dotfiles))
-                  (dst (expand-file-name (cdr entry) wt-path)))
+                     (dst (expand-file-name (cdr entry) wt-path)))
                 (make-symbolic-link src dst)))
         (message "Symlinked config files into %s" wt-path)))
 
@@ -58,9 +58,9 @@ With prefix argument DETACH, use detached HEAD (useful for code reviews)."
     (vc-follow-symlinks t)                   ; always follow symlinks
     (vc-git-diff-switches '("--histogram"))  ; use a different diff option
     (vc-ignore-dir-regexp                    ; make sure vc stuff is not making tramp slower
-     (format "\\(%s\\)\\|\\(%s\\)"
-             vc-ignore-dir-regexp
-             tramp-file-name-regexp)))
+        (format "\\(%s\\)\\|\\(%s\\)"
+            vc-ignore-dir-regexp
+            tramp-file-name-regexp)))
 
 ;; magit : A Git Porcelain inside Emacs
 (use-package magit
@@ -73,17 +73,17 @@ With prefix argument DETACH, use detached HEAD (useful for code reviews)."
             (magit-restore-window-configuration)
             (mapc #'kill-buffer buffers)))
     :bind (("C-x g" . magit-status)
-           :map magit-status-mode-map
-           ("q"     . my/magit-kill-buffers)
-           ("C-x k" . my/magit-kill-buffers)
-           :map project-prefix-map
-           ("m" . magit-project-status))
+              :map magit-status-mode-map
+              ("q"     . my/magit-kill-buffers)
+              ("C-x k" . my/magit-kill-buffers)
+              :map project-prefix-map
+              ("m" . magit-project-status))
     :custom ((git-commit-summary-max-length 50)
-             (git-commit-fill-column 72)
-             (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-             (magit-diff-refine-hunk 'all) ; show word-granularity differences within diff hunks.
-             (magit-save-repository-buffers nil)
-             (magit-define-global-key-bindings nil))
+                (git-commit-fill-column 72)
+                (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+                (magit-diff-refine-hunk 'all) ; show word-granularity differences within diff hunks.
+                (magit-save-repository-buffers nil)
+                (magit-define-global-key-bindings nil))
     :config
     (add-hook 'magit-status-sections-hook #'magit-insert-worktrees t)
     (transient-append-suffix 'magit-worktree "c"
@@ -96,8 +96,8 @@ With prefix argument DETACH, use detached HEAD (useful for code reviews)."
 ;; diff-hl : highlights uncommitted changes on the left side
 (use-package diff-hl
     :hook ((magit-post-refresh . diff-hl-magit-post-refresh)
-           ;; (dired-mode . diff-hl-dired-mode-unless-remote)
-           (after-init . global-diff-hl-mode))
+              ;; (dired-mode . diff-hl-dired-mode-unless-remote)
+              (after-init . global-diff-hl-mode))
     :custom (diff-hl-disable-on-remote t))
 
 (provide 'my-init-vcs)

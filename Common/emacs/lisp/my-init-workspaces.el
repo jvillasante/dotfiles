@@ -60,32 +60,32 @@ Otherwise, falls back to the default `otpp-project-name'."
             (tab-bar-rename-tab "Default")
             (when (get-buffer "*Messages*")
                 (set-frame-parameter nil
-                                     'buffer-list
-                                     (cons (get-buffer "*Messages*")
-                                           (frame-parameter nil 'buffer-list))))
+                    'buffer-list
+                    (cons (get-buffer "*Messages*")
+                        (frame-parameter nil 'buffer-list))))
             (when (get-buffer "*splash*")
                 (set-frame-parameter nil
-                                     'buffer-list
-                                     (cons (get-buffer "*splash*")
-                                           (frame-parameter nil 'buffer-list))))))
+                    'buffer-list
+                    (cons (get-buffer "*splash*")
+                        (frame-parameter nil 'buffer-list))))))
 
     (defun my/consult-tabspaces ()
         "Deactivate isolated buffers when not using tabspaces."
         (require 'consult)
         (cond (tabspaces-mode
-               ;; hide full buffer list (still available with "b")
-               (consult-customize consult--source-buffer :hidden t :default nil)
-               (add-to-list 'consult-buffer-sources 'consult--source-workspace))
-              (t
-               ;; reset consult-buffer to show all buffers
-               (consult-customize consult--source-buffer :hidden nil :default t)
-               (setq consult-buffer-sources (remove #'consult--source-workspace consult-buffer-sources)))))
+                  ;; hide full buffer list (still available with "b")
+                  (consult-customize consult--source-buffer :hidden t :default nil)
+                  (add-to-list 'consult-buffer-sources 'consult--source-workspace))
+            (t
+                ;; reset consult-buffer to show all buffers
+                (consult-customize consult--source-buffer :hidden nil :default t)
+                (setq consult-buffer-sources (remove #'consult--source-workspace consult-buffer-sources)))))
     :commands
     (tabspaces-switch-or-create-workspace
-     tabspaces-open-or-create-project-and-workspace)
+        tabspaces-open-or-create-project-and-workspace)
     :hook
     ((after-init . my/tabspace-setup)
-     (tabspaces-mode . my/consult-tabspaces))
+        (tabspaces-mode . my/consult-tabspaces))
     :init
     (with-eval-after-load 'consult
         ;; hide full buffer list (still available with "b" prefix)
@@ -93,15 +93,15 @@ Otherwise, falls back to the default `otpp-project-name'."
         ;; set consult-workspace buffer list
         (defvar consult--source-workspace
             (list :name     "Workspace Buffers"
-                  :narrow   ?w
-                  :history  'buffer-name-history
-                  :category 'buffer
-                  :state    #'consult--buffer-state
-                  :default  t
-                  :items    (lambda () (consult--buffer-query
-                                        :predicate #'tabspaces--local-buffer-p
-                                        :sort 'visibility
-                                        :as #'buffer-name)))
+                :narrow   ?w
+                :history  'buffer-name-history
+                :category 'buffer
+                :state    #'consult--buffer-state
+                :default  t
+                :items    (lambda () (consult--buffer-query
+                                         :predicate #'tabspaces--local-buffer-p
+                                         :sort 'visibility
+                                         :as #'buffer-name)))
 
             "Set workspace buffer list for consult-buffer.")
         (add-to-list 'consult-buffer-sources 'consult--source-workspace))

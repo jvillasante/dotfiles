@@ -33,16 +33,16 @@
 ;; assume left-to-right text everywhere and skip
 ;; the bidirectional parenthesis algorithm
 (setq-default bidi-display-reordering 'left-to-right
-              bidi-paragraph-direction 'left-to-right)
+    bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
 
 ;; https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 (require 'time)
 (setq world-clock-list
-      '(("UTC" "UTC")
-        ("America/New_York" "Tampa")
-        ("Europe/Amsterdam" "Amsterdam")
-        ("Asia/Manila" "Philippines")))
+    '(("UTC" "UTC")
+         ("America/New_York" "Tampa")
+         ("Europe/Amsterdam" "Amsterdam")
+         ("Asia/Manila" "Philippines")))
 (setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; macros
@@ -60,7 +60,7 @@
     ;; disable repeat-mode startup log
     (defun shut-up--advice (fn &rest args)
         (let ((inhibit-message t)
-              (message-log-max))
+                 (message-log-max))
             (apply fn args)))
     (advice-add #'repeat-mode :around #'shut-up--advice)
     (repeat-mode +1))
@@ -96,13 +96,13 @@
 
 ;; Use "y" and "n" to confirm/negate prompt
 (if (boundp 'use-short-answers)
-        (setopt use-short-answers t)
+    (setopt use-short-answers t)
     (fset 'yes-or-no-p 'y-or-n-p))
 
 ;; Some Defaults
 (setq user-full-name "Julio C. Villasante"
-      user-mail-address "jvillasantegomez@gmail.com"
-      user-login-name "jvillasante")
+    user-mail-address "jvillasantegomez@gmail.com"
+    user-login-name "jvillasante")
 (setq visible-cursor nil) ;; make it work in terminal too
 (setq large-file-warning-threshold 100000000) ;; warn when opening files bigger than 100MB
 (setq confirm-kill-processes nil) ;; quit Emacs directly even if there are running processes
@@ -151,12 +151,12 @@
     ;; setup epa
     (require 'epa-file)
     (setq epa-file-encrypt-to user-mail-address
-          epa-file-cache-passphrase-for-symmetric-encryption nil)
+        epa-file-cache-passphrase-for-symmetric-encryption nil)
 
     ;; setup auth-sources
     (require 'auth-source)
     (setq auth-sources
-          (list (expand-file-name "secrets/.authinfo.gpg" my/etc-dir)))
+        (list (expand-file-name "secrets/.authinfo.gpg" my/etc-dir)))
 
     ;; Cache authinfo passwords in memory for 24 hours (86400 seconds)
     ;; Use nil if you never want the cache to expire while Emacs is open
@@ -171,9 +171,9 @@
     (require 'org-crypt)
     (org-crypt-use-before-save-magic)
     (setq org-crypt-disable-auto-save nil
-          org-tags-exclude-from-inheritance '("crypt")
-          org-crypt-key nil
-          org-crypt-key user-mail-address))
+        org-tags-exclude-from-inheritance '("crypt")
+        org-crypt-key nil
+        org-crypt-key user-mail-address))
 
 ;; Integrate auth-source with password-store
 ;; (use-package auth-source-pass
@@ -204,33 +204,33 @@
     :config
     (progn ;; backups
         (setq create-lockfiles nil      ; avoid generating lockfiles
-              make-backup-files t       ; backup of a file the first time it is saved.
-              backup-by-copying t       ; don't clobber symlinks
-              version-control t         ; version numbers for backup files
-              delete-old-versions t     ; delete excess backup files silently
-              kept-old-versions 5       ; oldest versions to keep when a new numbered backup is made (default: 2)
-              kept-new-versions 5       ; newest versions to keep when a new numbered backup is made (default: 2)
-              vc-make-backup-files nil) ; Do not backup version controlled files
+            make-backup-files t       ; backup of a file the first time it is saved.
+            backup-by-copying t       ; don't clobber symlinks
+            version-control t         ; version numbers for backup files
+            delete-old-versions t     ; delete excess backup files silently
+            kept-old-versions 5       ; oldest versions to keep when a new numbered backup is made (default: 2)
+            kept-new-versions 5       ; newest versions to keep when a new numbered backup is made (default: 2)
+            vc-make-backup-files nil) ; Do not backup version controlled files
 
         ;; backup all files
         (setq backup-directory-alist
-              `(("\\.env$" . nil)
-                ("." . ,(expand-file-name "backup" my/var-dir))))
+            `(("\\.env$" . nil)
+                 ("." . ,(expand-file-name "backup" my/var-dir))))
         (with-eval-after-load 'tramp
             (setq tramp-backup-directory-alist nil))
 
         ;; ... do not backup some
         (setq backup-enable-predicate
-              (lambda (name)
-                  (and (normal-backup-enable-predicate name)
-                       (not (s-starts-with? "/dev/shm" name))
-                       (not (s-contains? "password-store" name))
-                       (my/file-is-not-root-p name)))))
+            (lambda (name)
+                (and (normal-backup-enable-predicate name)
+                    (not (s-starts-with? "/dev/shm" name))
+                    (not (s-contains? "password-store" name))
+                    (my/file-is-not-root-p name)))))
 
     (progn ;; autosave
         (setq auto-save-default t      ; auto-save every buffer that visits a file
-              auto-save-timeout 20     ; number of seconds idle time before auto-save (default: 30)
-              auto-save-interval 200)  ; number of keystrokes between auto-saves (default: 300)
+            auto-save-timeout 20     ; number of seconds idle time before auto-save (default: 30)
+            auto-save-interval 200)  ; number of keystrokes between auto-saves (default: 300)
 
         ;; Do not auto-disable auto-save after deleting large chunks of
         ;; text. The purpose of auto-save is to provide a fail-safe, and
@@ -242,35 +242,35 @@
 
         ;; auto-save files
         (setq auto-save-file-name-transforms
-              `((".*" ,(expand-file-name "auto-save" my/var-dir) t)))
+            `((".*" ,(expand-file-name "auto-save" my/var-dir) t)))
         (setq auto-save-list-file-prefix
-              (expand-file-name "auto-save/" my/var-dir))
+            (expand-file-name "auto-save/" my/var-dir))
         (setq tramp-auto-save-directory
-              (expand-file-name "tramp-autosave/" my/var-dir))
+            (expand-file-name "tramp-autosave/" my/var-dir))
 
         ;; disable auto-save on certain tramp profiles
         (connection-local-set-profile-variables
-         'no-remote-auto-save-profile
-         '((buffer-auto-save-file-name . nil)
-           (remote-file-name-inhibit-auto-save-visited . t)
-           (remote-file-name-inhibit-auto-save . t)))
+            'no-remote-auto-save-profile
+            '((buffer-auto-save-file-name . nil)
+                 (remote-file-name-inhibit-auto-save-visited . t)
+                 (remote-file-name-inhibit-auto-save . t)))
 
         ;; disable auto-save for specific protocols
         (dolist (protocol '("sudo" "doas" "su" "sudoedit" "ssh" "scp"))
             (connection-local-set-profiles
-             `(:application tramp :protocol ,protocol no-remote-auto-save-profile))))
+                `(:application tramp :protocol ,protocol no-remote-auto-save-profile))))
 
     (progn ;; bookmarks
         (setq bookmark-default-file
-              (expand-file-name "bookmarks.el" my/var-dir))
+            (expand-file-name "bookmarks.el" my/var-dir))
         (setq bookmark-save-flag 1)
         (setq bookmark-set-fringe-mark nil))
 
     (progn ;; make `save-some-buffers` show diff on demand
         (add-to-list 'save-some-buffers-action-alist
-                     (list "d"
-                           (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
-                           "show diff between the buffer and its file")))
+            (list "d"
+                (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
+                "show diff between the buffer and its file")))
 
     ;; Browse the web
     ;; (setq browse-url-browser-function 'browse-url-generic) ; Use default Browser
@@ -284,9 +284,9 @@
         (setq ns-use-thin-smoothing t)
         (setq ns-alternate-modifier nil)
         (setq mac-command-key-is-meta nil
-              mac-command-modifier 'super
-              mac-option-key-is-meta t
-              mac-option-modifier 'meta)
+            mac-command-modifier 'super
+            mac-option-key-is-meta t
+            mac-option-modifier 'meta)
         (setq default-input-method "MacOSX")
         (defconst my/clang-path "/usr/local/opt/llvm/bin/clang")
         (defconst my/mu-path "/usr/local/bin/mu")
@@ -295,8 +295,8 @@
         ;; Use spotlight search backend as a default for M-x locate (and helm/ivy
         ;; variants thereof), since it requires no additional setup.
         (setq locate-command "mdfind"
-              ;; Visit files opened outside of Emacs in existing frame, not a new one
-              ns-pop-up-frames nil))
+            ;; Visit files opened outside of Emacs in existing frame, not a new one
+            ns-pop-up-frames nil))
 
     (when my/os-unix
         (setq x-super-keysym 'meta)

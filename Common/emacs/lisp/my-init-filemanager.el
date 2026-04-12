@@ -13,22 +13,22 @@
                             (unless (file-remote-p default-directory)
                                 (auto-revert-mode))))
     :bind (:map dired-mode-map
-                ("C-<return>" . dired-do-open)
-                ("e"          . dired-toggle-read-only))
+              ("C-<return>" . dired-do-open)
+              ("e"          . dired-toggle-read-only))
     :config
     (setq dired-free-space nil
-          dired-deletion-confirmer 'y-or-n-p
-          dired-filter-verbose nil
-          dired-recursive-deletes 'always
-          dired-recursive-copies  'always
-          dired-create-destination-dirs 'ask)
+        dired-deletion-confirmer 'y-or-n-p
+        dired-filter-verbose nil
+        dired-recursive-deletes 'always
+        dired-recursive-copies  'always
+        dired-create-destination-dirs 'ask)
     (setq dired-ls-F-marks-symlinks t) ;; mark symlinks
     (setq dired-dwim-target t) ;; makes dired guess the target directory
     (setq dired-auto-revert-buffer t) ;; auto-revert dired buffers if file changed on disk
     (setq dired-hide-details-hide-symlink-targets nil
-          ;; Disable the prompt about whether I want to kill the Dired buffer for a
-          ;; deleted directory. Of course I do!
-          dired-clean-confirm-killing-deleted-buffers nil)
+        ;; Disable the prompt about whether I want to kill the Dired buffer for a
+        ;; deleted directory. Of course I do!
+        dired-clean-confirm-killing-deleted-buffers nil)
 
     ;; Allow to change permissions with wdired
     (setq wdired-allow-to-change-permissions t)
@@ -41,11 +41,11 @@
     ;; suggestions.  Of course, you can always type an arbitrary program
     ;; despite these defaults.
     (setq dired-guess-shell-alist-user
-          (append '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
-                    ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
-                    ("\\.pdf\\'" "okular")
-                    (".*" "xdg-open"))
-                  dired-guess-shell-alist-user))
+        (append '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
+                     ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
+                     ("\\.pdf\\'" "okular")
+                     (".*" "xdg-open"))
+            dired-guess-shell-alist-user))
 
     ;; Dired listing switches
     ;;  -a : Do not ignore entries starting with .
@@ -53,7 +53,7 @@
     ;;  -h : Human-readable sizes like 1K, 234M, ..
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     (setq dired-listing-switches
-          "-a -l -h -v --group-directories-first")
+        "-a -l -h -v --group-directories-first")
 
     ;; Move deleted files to trash instead of permanently deleting them
     (setq delete-by-moving-to-trash t)
@@ -70,10 +70,10 @@
 (use-package dired-subtree
     :after dired
     :bind (:map dired-mode-map
-                ("<tab>" . dired-subtree-toggle)
-                ("TAB" . dired-subtree-toggle)
-                ("<backtab>" . dired-subtree-remove)
-                ("S-TAB" . dired-subtree-remove))
+              ("<tab>" . dired-subtree-toggle)
+              ("TAB" . dired-subtree-toggle)
+              ("<backtab>" . dired-subtree-remove)
+              ("S-TAB" . dired-subtree-remove))
     :config
     (setq dired-subtree-use-backgrounds nil))
 
@@ -82,38 +82,38 @@
     :ensure nil ;; emacs built-in
     :after dired
     :bind (:map dired-mode-map
-                ("." . dired-omit-mode))
+              ("." . dired-omit-mode))
     :config
     (setq dired-omit-extensions
-          (append dired-latex-unclean-extensions
-                  dired-bibtex-unclean-extensions
-                  dired-texinfo-unclean-extensions))
+        (append dired-latex-unclean-extensions
+            dired-bibtex-unclean-extensions
+            dired-texinfo-unclean-extensions))
     (setq dired-omit-files
-          (rx (or
-               ;; Emacs lock/autosave files
-               (seq bol (? ".") "#")
-               (seq bol "#" (* anything) "#" eol)
-               (seq bol ".#" (* anything) eol)
-               (seq "~" eol)
-               ;; Current and parent directory
-               (seq bol "." eol)
-               (seq bol ".." eol)
-               ;; Hidden dotfile directories
-               (seq bol "." (or "git" "cache" "tox" "coverage"
-                                "DS_Store" "python-version"
-                                "vscode" "devcontainer"
-                                "cproject" "project" "projectile") eol)
-               ;; Build/tool directories
-               (seq bol (or "htmlcov" "node_modules" "__pycache__") eol)
-               ;; Coverage data
-               (seq bol ".coverage." (* anything))
-               ;; Compiled/object files
-               (seq (or ".elcs" ".pyc" ".pyo" ".pyd"
-                        ".gcda" ".gcov" ".gcno"
-                        ".lo" ".o" ".so"
-                        ".egg-info") eol)
-               ;; Notebook checkpoints
-               (seq ".ipynb" (* anything) eol)))))
+        (rx (or
+                ;; Emacs lock/autosave files
+                (seq bol (? ".") "#")
+                (seq bol "#" (* anything) "#" eol)
+                (seq bol ".#" (* anything) eol)
+                (seq "~" eol)
+                ;; Current and parent directory
+                (seq bol "." eol)
+                (seq bol ".." eol)
+                ;; Hidden dotfile directories
+                (seq bol "." (or "git" "cache" "tox" "coverage"
+                                 "DS_Store" "python-version"
+                                 "vscode" "devcontainer"
+                                 "cproject" "project" "projectile") eol)
+                ;; Build/tool directories
+                (seq bol (or "htmlcov" "node_modules" "__pycache__") eol)
+                ;; Coverage data
+                (seq bol ".coverage." (* anything))
+                ;; Compiled/object files
+                (seq (or ".elcs" ".pyc" ".pyo" ".pyd"
+                         ".gcda" ".gcov" ".gcno"
+                         ".lo" ".o" ".so"
+                         ".egg-info") eol)
+                ;; Notebook checkpoints
+                (seq ".ipynb" (* anything) eol)))))
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar

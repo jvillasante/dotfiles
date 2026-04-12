@@ -12,9 +12,9 @@
 (use-package use-package
     :ensure nil ;; emacs built-in
     :custom ((use-package-vc-prefer-newest t)
-             (use-package-compute-statistics nil) ; use `use-package-report'
-             (use-package-always-ensure t)
-             (use-package-expand-minimally t)))
+                (use-package-compute-statistics nil) ; use `use-package-report'
+                (use-package-always-ensure t)
+                (use-package-expand-minimally t)))
 
 ;; Paths used throughout
 (defconst my/home-path         (expand-file-name "~/"))
@@ -25,15 +25,15 @@
 
 ;; Set environment variables - `exec-path-from-shell' is too slow!
 (setq my/exec-path-list
-      (list (expand-file-name ".go/bin" my/home-path)
-            (expand-file-name ".cargo/bin" my/home-path)
-            (expand-file-name ".local/bin" my/home-path)
-            "/usr/local/bin"
-            "/usr/local/sbin"
-            "/usr/bin"
-            "/usr/sbin"
-            "/bin"
-            "/sbin"))
+    (list (expand-file-name ".go/bin" my/home-path)
+        (expand-file-name ".cargo/bin" my/home-path)
+        (expand-file-name ".local/bin" my/home-path)
+        "/usr/local/bin"
+        "/usr/local/sbin"
+        "/usr/bin"
+        "/usr/sbin"
+        "/bin"
+        "/sbin"))
 
 ;; Set the `$PATH' environment variable
 (setenv "PATH" (mapconcat #'identity my/exec-path-list path-separator))

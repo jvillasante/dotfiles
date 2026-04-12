@@ -21,7 +21,7 @@
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
     :bind (("C-c o e" . eshell)
-           ("C-c o E" . my/eshell-other-window))
+              ("C-c o E" . my/eshell-other-window))
     :hook
     (eshell-mode . (lambda ()
                        ;; visual commands
@@ -34,7 +34,7 @@
 
                        ;; aliases
                        (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                                         "/usr/local/bin/gls"
+                                     "/usr/local/bin/gls"
                                      "/bin/ls")))
                            (eshell/alias "ls" (concat ls " --group-directories-first --color"))
                            (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
@@ -63,7 +63,7 @@
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
     :bind (("C-c o s" . shell)
-           ("C-c o S" . my/shell-other-window)))
+              ("C-c o S" . my/shell-other-window)))
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
@@ -74,15 +74,15 @@
         "Helper function to open files from eat terminal."
         (interactive)
         (if (file-exists-p file)
-                (find-file-other-window file t)
+            (find-file-other-window file t)
             (warn "File doesn't exist")))
     :hook ((eshell-mode . eat-eshell-mode)
-           (eat-exit . (lambda (&rest _) (kill-buffer-and-window))))
+              (eat-exit . (lambda (&rest _) (kill-buffer-and-window))))
     :bind (("C-c o t" . eat)
-           ("C-c o T" . eat-other-window)
-           :map project-prefix-map
-           ("t" . eat-project)
-           ("T" . eat-project-other-window))
+              ("C-c o T" . eat-other-window)
+              :map project-prefix-map
+              ("t" . eat-project)
+              ("T" . eat-project-other-window))
     :config
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
     (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
@@ -104,15 +104,15 @@
         "Open a `ghostel' terminal in another window."
         (interactive)
         (display-buffer-override-next-command
-         (lambda (buffer alist)
-             (cons (display-buffer-pop-up-window buffer alist) 'window)))
+            (lambda (buffer alist)
+                (cons (display-buffer-pop-up-window buffer alist) 'window)))
         (ghostel))
     (defun my/ghostel-project-other-window ()
         "Open a `ghostel' terminal in the project root in another window."
         (interactive)
         (display-buffer-override-next-command
-         (lambda (buffer alist)
-             (cons (display-buffer-pop-up-window buffer alist) 'window)))
+            (lambda (buffer alist)
+                (cons (display-buffer-pop-up-window buffer alist) 'window)))
         (ghostel-project))
     :config
     (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
@@ -146,29 +146,29 @@
     (defun my/vterm-project ()
         (interactive)
         (let* ((default-directory (project-root (project-current t)))
-               (vterm-buffer-name (project-prefixed-buffer-name "vterm")))
+                  (vterm-buffer-name (project-prefixed-buffer-name "vterm")))
             (vterm)))
     (defun my/vterm-project-other-window ()
         (interactive)
         (let* ((default-directory (project-root (project-current t)))
-               (vterm-buffer-name (project-prefixed-buffer-name "vterm")))
+                  (vterm-buffer-name (project-prefixed-buffer-name "vterm")))
             (vterm-other-window)))
     :hook ((vterm-copy-mode . (lambda ()
                                   (set-buffer-modified-p (not (buffer-modified-p)))
                                   (force-mode-line-update))))
     :bind (("C-c o t" . vterm)
-           ("C-c o T" . vterm-other-window)
-           :map vterm-copy-mode-map
-           ("<return>" . my/vterm-copy-mode-cancel)
-           ("RET"      . my/vterm-copy-mode-cancel)
-           :map vterm-mode-map
-           ("<insert>" . ignore)
-           ("C-g"      . vterm-send-escape)
-           ("M-["      . vterm-copy-mode)
-           ("C-q"      . vterm-send-next-key)
-           :map project-prefix-map
-           ("t" . my/vterm-project)
-           ("T" . my/vterm-project-other-window))
+              ("C-c o T" . vterm-other-window)
+              :map vterm-copy-mode-map
+              ("<return>" . my/vterm-copy-mode-cancel)
+              ("RET"      . my/vterm-copy-mode-cancel)
+              :map vterm-mode-map
+              ("<insert>" . ignore)
+              ("C-g"      . vterm-send-escape)
+              ("M-["      . vterm-copy-mode)
+              ("C-q"      . vterm-send-next-key)
+              :map project-prefix-map
+              ("t" . my/vterm-project)
+              ("T" . my/vterm-project-other-window))
     :config
     (add-to-list 'vterm-eval-cmds '("dired" dired))
     (add-to-list 'project-switch-commands '(my/vterm-project "vTerm") t)
@@ -183,8 +183,8 @@
     (setq vterm-max-scrollback 500000)
     (setq vterm-shell (executable-find "bash"))
     (setq vterm-tramp-shells '(("ssh" "/bin/bash")
-                               ("docker" "/bin/bash")
-                               ("podman" "/bin/bash"))))
+                                  ("docker" "/bin/bash")
+                                  ("podman" "/bin/bash"))))
 
 (provide 'my-init-shell)
 ;;; my-init-shell.el ends here
