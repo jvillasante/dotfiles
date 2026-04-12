@@ -4,12 +4,14 @@
 #   ./+emux top - runs top inside your active Emacs instance.
 #   ./+emux watch free -hg - calls watch and tells it to run free -hg.
 #   ./+emux - on its own will call your $SHELL instead.
+#
+# vterm version:   (let ((vterm-shell "${cmd}")) (if (fboundp 'vterm) (vterm t) (term vterm-shell)))
+# ghostel version: (let ((ghostel-shell "${cmd}")) (if (fboundp 'ghostel) (ghostel t) (term "${cmd}")))
 
 set -o nounset -o errexit -o pipefail
 
 argcmd="$@"
 cmd="${argcmd:=$SHELL}"
-# vterm version: (let ((vterm-shell "${cmd}")) (if (fboundp 'vterm) (vterm t) (term vterm-shell)))
 exec emacsclient -e <<EOF
-(let ((ghostel-shell "${cmd}")) (if (fboundp 'ghostel) (ghostel t) (term "${cmd}")))
+(let ((vterm-shell "${cmd}")) (if (fboundp 'vterm) (vterm t) (term vterm-shell)))
 EOF
