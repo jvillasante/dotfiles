@@ -13,7 +13,6 @@
                 (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
 (use-package agent-shell
-    :disabled t
     :defer t
     :pin melpa
     :preface
