@@ -171,7 +171,6 @@
     ;; smooth scrolling
     (use-package pixel-scroll
         :ensure nil ;; emacs built-in
-        :if (fboundp 'pixel-scroll-precision-mode)
         :preface
         (defvar my/default-scroll-lines 25) ;; scroll less than default
         (defun my/pixel-scroll-up-command (&optional lines)

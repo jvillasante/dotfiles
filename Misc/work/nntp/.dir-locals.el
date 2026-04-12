@@ -14,16 +14,13 @@
                                    (concat "bash "
                                            (expand-file-name ".scripts/build.sh" root))))
 
-                   ;; Open an interactive shell inside the running podman container.
-                   ;; If the container is not running yet, start it first via the
-                   ;; build script so the session is consistent.
-                   (defvar ghostel-buffer-name)
-                   (defvar ghostel--process)
-                   (defun my/nntp-attach ()
+                   (defun my/nntp-attach-ghostel ()
                        "Attach an interactive bash shell to the nntp podman container in ghostel.
 If the container is not running, starts it first via the build script.
 Use `podman stop <name>' to end the session."
                        (interactive)
+                       (defvar ghostel-buffer-name)
+                       (defvar ghostel--process)
                        (let* ((root (locate-dominating-file default-directory ".dir-locals.el"))
                               (container (file-name-nondirectory (directory-file-name root)))
                               (cname (format "nntp-%s" container))
@@ -55,7 +52,6 @@ Use `podman stop <name>' to end the session."
                                     (format "podman exec -it --user nntpuser %s /bin/bash\n"
                                             cname))))))
 
-                   ;; Kept for reference in case we switch back to vterm.
                    (defun my/nntp-attach-vterm ()
                        "Attach an interactive bash shell to the nntp podman container in vterm.
 If the container is not running, starts it first via the build script.
@@ -86,4 +82,4 @@ Use `podman stop <name>' to end the session."
                                             cname))))))
 
                    ;; C-x p a  ("project attach") — consistent with C-x p c (compile)
-                   (keymap-set project-prefix-map "a" #'my/nntp-attach))))))
+                   (keymap-set project-prefix-map "a" #'my/nntp-attach-vterm))))))

@@ -33,17 +33,13 @@ if [ "$INSIDE_EMACS" = 'vterm' ] && [ -n "$EMACS_VTERM_PATH" ]; then
             source "$EMACS_VTERM_PATH/etc/emacs-vterm-fish.sh"
     fi
 
-    find-file() {
-        vterm_cmd find-file "$(realpath "${@:-.}")"
-    }
+    # Open a file in Emacs from the terminal
+    e()   { vterm_cmd find-file "${1:-$PWD}"; }
+    eow() { vterm_cmd find-file-other-window "${1:-$PWD}"; }
 
-    dired() {
-        vterm_cmd dired "$(realpath "${@:-.}")"
-    }
-
-    say() {
-        vterm_cmd message "%s" "$*"
-    }
+    # Open dired in another window, defaulting to the current directory
+    d()   { vterm_cmd dired "${1:-$PWD}"; }
+    dow() { vterm_cmd dired-other-window "${1:-$PWD}"; }
 fi
 
 # emacs ghostel: https://github.com/dakra/ghostel
@@ -55,9 +51,6 @@ if [[ "$INSIDE_EMACS" = 'ghostel' ]]; then
     # Open dired in another window, defaulting to the current directory
     d() { ghostel_cmd dired "${1:-$PWD}"; }
     dow() { ghostel_cmd dired-other-window "${1:-$PWD}"; }
-
-    # Open magit for the current directory
-    # gst() { ghostel_cmd magit-status-setup-buffer "$(pwd)"; }
 fi
 
 # emacs eat: https://codeberg.org/akib/emacs-eat

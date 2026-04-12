@@ -97,6 +97,7 @@
 
 ;; ghostel : Emacs terminal emulator powered by libghostty-vt
 (use-package ghostel
+    :disabled t
     :defer t
     :pin melpa
     :preface
@@ -137,7 +138,6 @@
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
     :defer t
     :preface
     (defun my/vterm-copy-mode-cancel ()
@@ -145,17 +145,16 @@
         (vterm-copy-mode -1))
     (defun my/vterm-project ()
         (interactive)
+        (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
                   (vterm-buffer-name (project-prefixed-buffer-name "vterm")))
             (vterm)))
     (defun my/vterm-project-other-window ()
         (interactive)
+        (defvar vterm-buffer-name)
         (let* ((default-directory (project-root (project-current t)))
                   (vterm-buffer-name (project-prefixed-buffer-name "vterm")))
             (vterm-other-window)))
-    :hook ((vterm-copy-mode . (lambda ()
-                                  (set-buffer-modified-p (not (buffer-modified-p)))
-                                  (force-mode-line-update))))
     :bind (("C-c o t" . vterm)
               ("C-c o T" . vterm-other-window)
               :map vterm-copy-mode-map
@@ -170,7 +169,9 @@
               ("t" . my/vterm-project)
               ("T" . my/vterm-project-other-window))
     :config
+    (add-to-list 'vterm-eval-cmds '("find-file-other-window" find-file-other-window))
     (add-to-list 'vterm-eval-cmds '("dired" dired))
+    (add-to-list 'vterm-eval-cmds '("dired-other-window" dired-other-window))
     (add-to-list 'project-switch-commands '(my/vterm-project "vTerm") t)
     (add-to-list 'project-switch-commands '(my/vterm-project-other-window "vTerm other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
@@ -182,7 +183,8 @@
     (setq vterm-kill-buffer-on-exit t)
     (setq vterm-max-scrollback 500000)
     (setq vterm-shell (executable-find "bash"))
-    (setq vterm-tramp-shells '(("ssh" "/bin/bash")
+    (setq vterm-tramp-shells '(("ssh" login-shell)
+                                  ("scp" login-shell)
                                   ("docker" "/bin/bash")
                                   ("podman" "/bin/bash"))))
 
