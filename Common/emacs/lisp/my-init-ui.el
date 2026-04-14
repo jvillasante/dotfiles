@@ -70,27 +70,38 @@
 (setq adaptive-fill-mode t)
 
 ;; Set the font (M-x `describe-font' to see available fonts)
+(defface fixed-pitch-large
+    '((t :inherit fixed-pitch))
+    "A larger variant of `fixed-pitch' for reading modes.")
+
+(defface variable-pitch-large
+    '((t :inherit variable-pitch))
+    "A larger variant of `variable-pitch' for reading modes.")
+
 (defun my/setup-fonts ()
     "Set up fonts at startup."
     (setq x-underline-at-descent-line nil)
     (let ((fixed-font "Berkeley Mono")
              (variable-font "Berkeley Mono Variable"))
-        (custom-set-faces
-            ;; Default fonts for all text
-            '(default ((t (:family fixed-font :height 147))))
-            '(fixed-pitch ((t (:family fixed-font :height 147))))
-            '(variable-pitch ((t (:family variable-font :height 1.0))))
+        ;; Default fonts for all text
+        (set-face-attribute 'default nil :family fixed-font :height 147)
+        (set-face-attribute 'fixed-pitch nil :family fixed-font :height 147)
+        (set-face-attribute 'variable-pitch nil :family variable-font :height 1.0)
 
-            ;; Current line number
-            ;; '(line-number-current-line ((t (:foreground "yellow" :inherit line-number))))
+        ;; Larger variants for reading modes (e.g. nov, eww)
+        (set-face-attribute 'fixed-pitch-large nil :family fixed-font :height 170)
+        (set-face-attribute 'variable-pitch-large nil :family variable-font :height 170)
 
-            ;; Modeline
-            ;; '(mode-line ((t (:family fixed-font :weight Bold))))
+        ;; Current line number
+        ;; (set-face-attribute 'line-number-current-line nil :foreground "yellow" :inherit 'line-number)
 
-            ;; Programming
-            ;; '(font-lock-function-name-face ((t (:family fixed-font :slant italic))))
-            ;; '(font-lock-variable-name-face ((t (:family variable-font :weight bold))))
-            '(font-lock-comment-face ((t (:family fixed-font :slant italic)))))))
+        ;; Modeline
+        ;; (set-face-attribute 'mode-line nil :family fixed-font :weight 'bold)
+
+        ;; Programming
+        ;; (set-face-attribute 'font-lock-function-name-face nil :family fixed-font :slant 'italic)
+        ;; (set-face-attribute 'font-lock-variable-name-face nil :family variable-font :weight 'bold)
+        (set-face-attribute 'font-lock-comment-face nil :family fixed-font :slant 'italic)))
 
 ;; cursor
 (setq-default cursor-type t)

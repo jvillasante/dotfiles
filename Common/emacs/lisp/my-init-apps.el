@@ -85,6 +85,8 @@
 (use-package eww
     :ensure nil ; emacs built-in
     :defer t
+    :hook (eww-mode . (lambda ()
+                          (face-remap-add-relative 'default 'fixed-pitch-large)))
     :config
     (setq shr-use-fonts  nil)                              ; No special fonts
     (setq shr-use-colors nil)                              ; No colors
@@ -114,6 +116,8 @@
 ;; nov.el : Major mode for reading EPUBs in Emacs
 (use-package nov
     :defer t
+    :hook (nov-mode . (lambda ()
+                          (face-remap-add-relative 'default 'fixed-pitch-large)))
     :mode ("\\.epub\\'" . nov-mode)
     :bind (:map nov-mode-map
               ;; ("q" . nil)
