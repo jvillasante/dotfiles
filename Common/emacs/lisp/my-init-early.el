@@ -165,7 +165,7 @@
     ;; Tell Emacs' EasyPG (epa) to use the standard GPG loopback for pinentry.
     ;; In `.gnupg/gpg-agent.conf' add `allow-loopback-entry'  and then
     ;; `gpgconf --reload gpg-agent' to reload the config
-    (setq epa-pinentry-mode 'loopback)
+    ;; (setq epa-pinentry-mode 'loopback)
 
     ;; setup org-crypt
     (require 'org-crypt)
