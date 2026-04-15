@@ -93,7 +93,7 @@
     (setq jsonrpc-event-hook nil)
     (setq eglot-autoshutdown t)
     (setq eglot-autoreconnect nil)
-    (setq eglot-extend-to-xref nil)
+    (setq eglot-extend-to-xref t)
     (setq eglot-sync-connect nil)
     (setq eglot-report-progress t)
     (setq eglot-confirm-server-edits '((eglot-rename . nil)
@@ -112,8 +112,7 @@
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
     (setq-default eglot-workspace-configuration
-        '(
-             :gopls (:staticcheck t :usePlaceholders t)
+        '(:gopls (:staticcheck t :usePlaceholders t)
              :rust-analyzer (:check (:command "clippy")
                                 :cargo (:sysroot "discover"
                                            :features "all"
