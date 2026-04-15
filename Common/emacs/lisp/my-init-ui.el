@@ -131,6 +131,12 @@
                  (t (buffer-name))))))
 (setq-default icon-title-format frame-title-format)
 
+;; windmove : directional window-selection routines
+(use-package windmove
+    :ensure nil ; emacs built-in
+    :hook (after-init . windmove-default-keybindings)
+    :custom (windmove-wrap-around t))
+
 ;; winner-mode : "undo" and "redo" changes in window configurations
 (use-package winner
     :disabled t ; does not understand tabs!
