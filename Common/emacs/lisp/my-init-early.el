@@ -228,7 +228,7 @@
                     (my/file-is-not-root-p name)))))
 
     (progn ;; autosave
-        (setq auto-save-default t      ; auto-save every buffer that visits a file
+        (setq auto-save-default t    ; auto-save every buffer that visits a file
             auto-save-timeout 20     ; number of seconds idle time before auto-save (default: 30)
             auto-save-interval 200)  ; number of keystrokes between auto-saves (default: 300)
 
@@ -242,7 +242,7 @@
 
         ;; auto-save files
         (setq auto-save-file-name-transforms
-            `((".*" ,(expand-file-name "auto-save" my/var-dir) t)))
+            `((".*" ,(expand-file-name "auto-save/" my/var-dir) t)))
         (setq auto-save-list-file-prefix
             (expand-file-name "auto-save/" my/var-dir))
         (setq tramp-auto-save-directory
