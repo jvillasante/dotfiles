@@ -27,8 +27,8 @@
 ;; Make URLs in comments/strings clickable, (Emacs > v22).
 ;; (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
-;; Switching the focus to the help window when it's opened.
-(setq help-window-select t)
+;; Help Windows
+(setq help-window-select nil)
 (setq help-window-keep-selected t)
 
 ;; default amount of padding to use when calling `aligh-regexp'
@@ -394,23 +394,6 @@ Run this function at the post theme load phase, such as with the
     (setq which-key-show-early-on-C-h t
         which-key-idle-delay 1e6 ; 11 days - wait for C-h to appear
         which-key-idle-secondary-delay 0.05))
-
-(use-package window
-    :ensure nil
-    :preface
-    (defun my/split-window-below ()
-        "Focus to the last created horizontal window."
-        (interactive)
-        (split-window-below)
-        (other-window 1))
-    (defun my/split-window-right ()
-        "Focus to the last created vertical window."
-        (interactive)
-        (split-window-right)
-        (other-window 1))
-    :config
-    (global-set-key (kbd "C-x 2") #'my/split-window-below)
-    (global-set-key (kbd "C-x 3") #'my/split-window-right))
 
 ;; hl-todo : Highlight TODO and similar keywords in comments and strings
 (use-package hl-todo
