@@ -133,7 +133,6 @@
 (use-package imenu
     :ensure nil ;; emacs built-in
     :hook ((markdown-mode . (lambda () (setq-local imenu-auto-rescan t)))
-              (makefile-mode . (lambda () (setq-local imenu-auto-rescan t)))
               (org-mode .      (lambda () (setq-local imenu-auto-rescan t)))
               (prog-mode .     (lambda ()
                                    (setq-local imenu-auto-rescan t)
@@ -142,29 +141,28 @@
     (setq org-imenu-depth 7)
     (setq imenu-flatten 'prefix))
 
+(use-package abbrev
+    :ensure nil ;; emacs built-in
+    :custom
+    (abbrev-file-name (expand-file-name "abbrevs" my/etc-dir))
+    (only-global-abbrevs nil))
+
+;; dabbrev : dynamic word completion (dynamic abbreviations)
 (use-package dabbrev
     :ensure nil ;; emacs built-in
-    :init
-    ;; `dabbrev' (dynamic word completion (dynamic abbreviations))
-    (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'"))
-    (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_")
-    (setq dabbrev-abbrev-skip-leading-regexp "[$*/=~']")
-    (setq dabbrev-backward-only nil)
-    (setq dabbrev-case-distinction 'case-replace)
-    (setq dabbrev-case-fold-search nil)
-    (setq dabbrev-case-replace 'case-replace)
-    (setq dabbrev-check-other-buffers t)
-    (setq dabbrev-eliminate-newlines t)
-    (setq dabbrev-upcase-means-case-search t)
-
-    ;; `abbrev' (Abbreviations, else Abbrevs)
-    (setq abbrev-file-name (expand-file-name "abbrevs" my/etc-dir))
-    (setq only-global-abbrevs nil))
+    :custom
+    (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'"))
+    (dabbrev-abbrev-char-regexp "\\sw\\|\\s_")
+    (dabbrev-abbrev-skip-leading-regexp "[$*/=~']")
+    (dabbrev-backward-only nil)
+    (dabbrev-case-distinction 'case-replace)
+    (dabbrev-case-fold-search nil)
+    (dabbrev-case-replace 'case-replace)
+    (dabbrev-check-other-buffers t)
+    (dabbrev-eliminate-newlines t)
+    (dabbrev-upcase-means-case-search t))
 
 ;; hippie expand is dabbrev expand on steroids
-;;
-;; TODO: Perhaps I should spend a bit time investigating removing `hippie-exp'
-;; in favor of `corfu' and `cape' behavior.
 (use-package hippie-exp
     :ensure nil ;; emacs built-in
     :bind ([remap dabbrev-expand] . hippie-expand)
@@ -221,9 +219,8 @@
 
     ;; SPC should never complete: use it for `orderless' groups.
     ;; The `?' is a regexp construct.
-    (let ((map minibuffer-local-completion-map))
-        (define-key map (kbd "SPC") nil)
-        (define-key map (kbd "?") nil)))
+    (keymap-unset minibuffer-local-completion-map "SPC")
+    (keymap-unset minibuffer-local-completion-map "?"))
 
 (use-package corfu
     :custom
@@ -241,7 +238,7 @@
 
 (use-package prescient
     :custom
-    (prescient-save-file (expand-file-name "prescient-save.el" my/etc-dir))
+    (prescient-save-file (expand-file-name "prescient-save.el" my/var-dir))
     :hook (after-init . prescient-persist-mode))
 
 (use-package vertico-prescient
@@ -263,18 +260,21 @@
     ;; used by `completion-at-point'.  The order of the functions matters, the
     ;; first function returning a result wins.  Note that the list of buffer-local
     ;; completion functions takes precedence over the global list.
+    ;; These three are good for auto-completion (corfu-auto):
     (add-to-list 'completion-at-point-functions #'cape-dabbrev)
     (add-to-list 'completion-at-point-functions #'cape-file)
     (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+    ;; The rest are available on-demand via `cape-prefix-map' (C-c p),
+    ;; which is the manual replacement for hippie-expand.
+    ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+    ;;(add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
+    ;;(add-to-list 'completion-at-point-functions #'cape-line)
     ;;(add-to-list 'completion-at-point-functions #'cape-history)
     ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
     ;;(add-to-list 'completion-at-point-functions #'cape-tex)
     ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
     ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-    ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
     ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-    ;;(add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
-    ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
 
 (use-package consult
@@ -396,8 +396,8 @@
 
 ;; consult-notes : select notes via consult
 (use-package consult-notes
-    :config
-    (setq consult-notes-file-dir-sources
+    :custom
+    (consult-notes-file-dir-sources
         `(("Org"    ?o ,(expand-file-name "Apps/org"       my/dropbox-path))
              ("Notes"  ?n ,(expand-file-name "Apps/org/notes" my/dropbox-path))
              ("Ledger" ?l ,(expand-file-name "Apps/ledger"    my/dropbox-path)))))
