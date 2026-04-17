@@ -233,15 +233,28 @@
     :bind (:map corfu-map
               ("SPC" . corfu-insert-separator)
               ("<tab>" . corfu-complete))
-    :hook ((after-init . (lambda ()
-                             (global-corfu-mode)
-                             (with-eval-after-load 'savehist
-                                 (corfu-history-mode 1)
-                                 (add-to-list 'savehist-additional-variables 'corfu-history))))
+    :hook ((after-init . global-corfu-mode)
               ((shell-mode eshell-mode) . (lambda ()
                                               (setq-local corfu-auto nil)
                                               (keymap-set corfu-map "RET" #'corfu-send)
                                               (corfu-mode)))))
+
+(use-package prescient
+    :custom
+    (prescient-save-file (expand-file-name "prescient-save.el" my/etc-dir))
+    :hook (after-init . prescient-persist-mode))
+
+(use-package vertico-prescient
+    :after vertico
+    :custom
+    (vertico-prescient-enable-filtering nil)
+    :hook (vertico-mode . vertico-prescient-mode))
+
+(use-package corfu-prescient
+    :after corfu
+    :custom
+    (corfu-prescient-enable-filtering nil)
+    :hook (global-corfu-mode . corfu-prescient-mode))
 
 (use-package cape
     :bind ("C-c p" . cape-prefix-map)
