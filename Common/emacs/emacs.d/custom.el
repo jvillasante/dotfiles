@@ -21,15 +21,6 @@
            persistent-scratch php-mode prescient rmsbolt rust-mode surround
            tramp-hlo trashed verb vertico vertico-prescient vim-tab-bar vterm
            vundo web-mode yaml-mode yasnippet-snippets zig-mode)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family fixed-font :height 147))))
- '(fixed-pitch ((t (:family fixed-font :height 147))))
- '(font-lock-comment-face ((t (:family fixed-font :slant italic))))
- '(variable-pitch ((t (:family variable-font :height 1.0)))))
 
 (provide 'custom)
 ;;; custom.el ends here
