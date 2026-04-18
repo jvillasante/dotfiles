@@ -131,6 +131,24 @@
                  (t (buffer-name))))))
 (setq-default icon-title-format frame-title-format)
 
+;; window : window commands
+(use-package window
+    :ensure nil
+    :preface
+    (defun my/split-window-below ()
+        "Focus to the last created horizontal window."
+        (interactive)
+        (split-window-below)
+        (other-window 1))
+    (defun my/split-window-right ()
+        "Focus to the last created vertical window."
+        (interactive)
+        (split-window-right)
+        (other-window 1))
+    :config
+    (global-set-key (kbd "C-x 2") #'my/split-window-below)
+    (global-set-key (kbd "C-x 3") #'my/split-window-right))
+
 ;; windmove : directional window-selection routines
 (use-package windmove
     :ensure nil ; emacs built-in

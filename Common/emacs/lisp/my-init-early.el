@@ -77,13 +77,17 @@
 ;; emacs28 truecolors on terminal
 (setenv "COLORTERM" "truecolor")
 
-;; Prevent killing Messages buffer
-(with-current-buffer "*Messages*"
-    (emacs-lock-mode 'kill))
+;; Setup some special buffers
+(add-hook 'after-init-hook
+    (lambda ()
+        ;; Prevent killing Messages buffer
+        (with-current-buffer "*Messages*"
+            (emacs-lock-mode 'kill))
 
-;; Prevent killing scratch buffer
-(with-current-buffer "*scratch*"
-    (emacs-lock-mode 'kill))
+        ;; Prevent killing scratch buffer and trust it
+        (with-current-buffer "*scratch*"
+            (setq-local trusted-content :all)
+            (emacs-lock-mode 'kill))))
 
 ;; Printer
 (setq printer-name "Brother_HL_L2370DW_series")
