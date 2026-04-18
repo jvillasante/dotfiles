@@ -28,7 +28,7 @@
 ;; (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
 ;; Help Windows
-(setq help-window-select nil)
+(setq help-window-select t)
 (setq help-window-keep-selected t)
 
 ;; default amount of padding to use when calling `aligh-regexp'
