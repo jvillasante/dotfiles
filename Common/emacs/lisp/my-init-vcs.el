@@ -31,7 +31,7 @@ With prefix argument DETACH, use detached HEAD (useful for code reviews)."
                   (wt-path (expand-file-name name base))
                   (dotfiles my/nntp-dotfiles-dir)
                   (args (if detach
-                            (list "worktree" "add" wt-path start-point)           ;; detached HEAD for reviews
+                            (list "worktree" "add" wt-path start-point)              ;; detached HEAD for reviews
                             (list "worktree" "add" "-b" name wt-path start-point)))) ;; new branch for development
             (when (file-exists-p wt-path)
                 (user-error "Worktree %s already exists" wt-path))
