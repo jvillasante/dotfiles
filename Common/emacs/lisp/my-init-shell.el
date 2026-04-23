@@ -139,6 +139,7 @@
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
     :defer t
+    :pin melpa
     :preface
     (defun my/vterm-copy-mode-cancel ()
         (interactive)
