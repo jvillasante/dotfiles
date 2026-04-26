@@ -157,7 +157,7 @@
 
 ;; geiser support for guile
 (use-package geiser-guile
-    :defer t
+    :after geiser
     :custom (geiser-guile-binary "guile3.0"))
 
 ;; dape : Debug Adapter Protocol for Emacs

@@ -27,7 +27,6 @@
 ;; gnus
 (use-package gnus
     :ensure nil ;; emacs built-in
-    :disabled t
     :defer t
     :config
     (require 'gnus-topic)
@@ -37,7 +36,8 @@
              (nntp-open-connection-function nntp-open-ssl-stream)
              (nntp-port-number 563)))
     ;; init file
-    (setq gnus-startup-file (expand-file-name "Apps/gnus/newsrc" my/dropbox-path)
+    (setq gnus-startup-file
+        (expand-file-name "Apps/gnus/newsrc" my/dropbox-path)
         gnus-save-newsrc-file nil
         gnus-read-newsrc-file nil)
 
