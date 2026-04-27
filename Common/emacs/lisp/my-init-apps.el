@@ -26,6 +26,7 @@
 
 ;; gnus
 (use-package gnus
+    :disabled t
     :ensure nil ;; emacs built-in
     :hook ((dired-mode       . turn-on-gnus-dired-mode)
               (gnus-group-mode   . gnus-topic-mode)
@@ -64,18 +65,28 @@
             "%1{%B%}%s\n")))
 
 (use-package newsticker
-    :ensure nil  ;; emacs built-in
     :disabled t
+    :ensure nil ;; emacs built-in
+    :commands (newsticker-treeview newsticker-show-news newsticker-start)
     :preface
-    (defun my/close-newsticker ()
-        "Kill all tree-view related buffers."
-        (kill-buffer "*Newsticker List*")
-        (kill-buffer "*Newsticker Item*")
-        (kill-buffer "*Newsticker Tree*"))
+    (defun my/newsticker-cleanup-buffers (&rest _)
+        "Kill leftover newsticker buffers after quitting the tree view."
+        (dolist (buf '("*Newsticker List*" "*Newsticker Item*" "*Newsticker Tree*"))
+            (when (get-buffer buf)
+                (kill-buffer buf))))
+    :bind ("C-c n n" . newsticker-treeview)
+    :custom
+    (newsticker-dir (expand-file-name "Apps/newsticker" my/dropbox-path))
+    (newsticker-retrieval-method 'intern)            ;; use built-in url.el; no wget/curl needed
+    (newsticker-retrieval-interval 0)                ;; no auto-refresh; press G to fetch (avoids Dropbox races)
+    (newsticker-html-renderer #'shr-render-region)   ;; readable article view
+    (newsticker-automatically-mark-visited-items-as-old t)
+    (newsticker-url-list-defaults nil)               ;; drop bundled sample feeds
+    (newsticker-url-list
+        '(("Planet Emacslife" "https://planet.emacslife.com/atom.xml")
+             ("Hacker News"      "https://news.ycombinator.com/rss")))
     :config
-    (setq newsticker-url-list '(("Planet Emacslife" "https://planet.emacslife.com/atom.xml")
-                                   ("Hacker News" "https://news.ycombinator.com/rss")))
-    (advice-add #'newsticker-treeview-quit :after #'my/close-newsticker))
+    (advice-add #'newsticker-treeview-quit :after #'my/newsticker-cleanup-buffers))
 
 (use-package eww
     :ensure nil ; emacs built-in
@@ -218,26 +229,26 @@
 (use-package elfeed
     :defer t
     :preface
-    (defun my/elfeed-eww-open (&optional use-generic-p)
-        "open with eww"
-        (interactive "P")
+    (defun my/elfeed-open-with (browser-fn)
+        "Open selected entries via BROWSER-FN, untag as read, advance point."
         (let ((entries (elfeed-search-selected)))
-            (cl-loop for entry in entries
-                do (elfeed-untag entry 'unread)
-                when (elfeed-entry-link entry)
-                do (eww-browse-url it))
+            (dolist (entry entries)
+                (elfeed-untag entry 'unread)
+                (when-let ((link (elfeed-entry-link entry)))
+                    (funcall browser-fn link)))
             (mapc #'elfeed-search-update-entry entries)
             (unless (use-region-p) (forward-line))))
-    (defun my/elfeed-firefox-open (&optional use-generic-p)
-        "open with firefox"
-        (interactive "P")
-        (let ((entries (elfeed-search-selected)))
-            (cl-loop for entry in entries
-                do (elfeed-untag entry 'unread)
-                when (elfeed-entry-link entry)
-                do (browse-url-firefox it))
-            (mapc #'elfeed-search-update-entry entries)
-            (unless (use-region-p) (forward-line))))
+    (defun my/elfeed-eww-open ()
+        "Open selected entries in eww."
+        (interactive)
+        (my/elfeed-open-with #'eww-browse-url))
+    (defun my/elfeed-firefox-open ()
+        "Open selected entries in Firefox."
+        (interactive)
+        (my/elfeed-open-with #'browse-url-firefox))
+    :bind (:map elfeed-search-mode-map
+              ("b" . my/elfeed-eww-open)
+              ("B" . my/elfeed-firefox-open))
     :config
     (setq elfeed-use-curl t)
     (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
@@ -247,7 +258,6 @@
     (setq elfeed-search-trailing-width 0)
     (setq elfeed-search-filter "@6-months-ago +unread")
     (setq elfeed-show-entry-switch #'pop-to-buffer)
-    (setq shr-max-image-proportion 0.7)
     (add-to-list 'display-buffer-alist
         '("\\*elfeed-entry"
              (display-buffer-below-selected)
