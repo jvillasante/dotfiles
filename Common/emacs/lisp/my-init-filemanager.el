@@ -53,7 +53,7 @@
     ;;  -h : Human-readable sizes like 1K, 234M, ..
     ;;  -v : Do natural sort .. so the file names starting with . will show up first.
     (setq dired-listing-switches
-        "-a -l -h -v --group-directories-first --color=auto")
+        "-a -l -h -v --group-directories-first")
 
     ;; Move deleted files to trash instead of permanently deleting them
     (setq delete-by-moving-to-trash t)

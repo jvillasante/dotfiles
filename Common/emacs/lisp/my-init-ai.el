@@ -49,11 +49,14 @@
     (claude-code-ide-cli-extra-flags "--model opus")
     (claude-code-ide-window-side 'right)
     (claude-code-ide-window-width 90)
-    (claude-code-ide-focus-on-open nil)
+    (claude-code-ide-focus-on-open t)
     (claude-code-ide-diagnostics-backend 'flymake)
+    (claude-code-ide-vterm-anti-flicker t)              ; Enable intelligent flicker reduction for vterm display
+    (claude-code-ide-vterm-render-delay 0.01)           ; Increase for smoother but less responsive
     (claude-code-ide-use-ide-diff t)                    ; use ediff instead of terminal diff
     (claude-code-ide-show-claude-window-in-ediff nil)   ; hide Claude window while reviewing in ediff
     (claude-code-ide-focus-claude-after-ediff nil)      ; no Claude window to focus while ediff is open
+    (claude-code-ide-switch-tab-on-ediff t)             ; yank me to Claude's tab when ediff opens
     :config
     (claude-code-ide-emacs-tools-setup))
 
