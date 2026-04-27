@@ -27,46 +27,41 @@
 ;; gnus
 (use-package gnus
     :ensure nil ;; emacs built-in
-    :defer t
-    :config
-    (require 'gnus-topic)
-    (setq gnus-select-method '(nnnil))
-    (add-to-list 'gnus-secondary-select-methods
-        '(nntp "news.eternal-september.org"
-             (nntp-open-connection-function nntp-open-ssl-stream)
-             (nntp-port-number 563)))
-    ;; init file
-    (setq gnus-startup-file
-        (expand-file-name "Apps/gnus/newsrc" my/dropbox-path)
-        gnus-save-newsrc-file nil
-        gnus-read-newsrc-file nil)
-
-    ;; other settings
-    (setq gnus-asynchronous t ;; async
-        gnus-sum-thread-tree-indent "  "
-        gnus-sum-thread-tree-root ""
-        gnus-sum-thread-tree-false-root ""
-        gnus-sum-thread-tree-single-indent ""
-        gnus-sum-thread-tree-vertical        "│"
-        gnus-sum-thread-tree-leaf-with-other "├─► "
-        gnus-sum-thread-tree-single-leaf     "╰─► "
-        gnus-summary-line-format
-        (concat
-            "%0{%U%R%z%}"
-            "%3{│%}" "%1{%d%}" "%3{│%}" ;; date
+    :hook ((dired-mode       . turn-on-gnus-dired-mode)
+              (gnus-group-mode   . gnus-topic-mode)
+              (gnus-select-group . gnus-group-set-timestamp)
+              (gnus-group-mode   . hl-line-mode)
+              (gnus-summary-mode . hl-line-mode)
+              (gnus-browse-mode  . hl-line-mode))
+    :custom
+    (gnus-select-method '(nnnil))
+    (gnus-secondary-select-methods
+        '((nntp "news.eternal-september.org"
+              (nntp-open-connection-function nntp-open-ssl-stream)
+              (nntp-port-number 563))
+             ;; Gwene: RSS/Atom feeds exposed as NNTP groups (plain NNTP, port 119).
+             (nntp "news.gwene.org")))
+    ;; Use only `.newsrc.eldt'; ignore the legacy `.newsrc' format.
+    (gnus-startup-file (expand-file-name "Apps/gnus/newsrc" my/dropbox-path))
+    (gnus-save-newsrc-file nil)
+    (gnus-read-newsrc-file nil)
+    (gnus-asynchronous t)
+    (gnus-summary-display-arrow t)
+    ;; Thread tree glyphs
+    (gnus-sum-thread-tree-indent          "  ")
+    (gnus-sum-thread-tree-root            "")
+    (gnus-sum-thread-tree-false-root      "")
+    (gnus-sum-thread-tree-single-indent   "")
+    (gnus-sum-thread-tree-vertical        "│")
+    (gnus-sum-thread-tree-leaf-with-other "├─► ")
+    (gnus-sum-thread-tree-single-leaf     "╰─► ")
+    (gnus-summary-line-format
+        (concat "%0{%U%R%z%}"
+            "%3{│%}%1{%d%}%3{│%}"   ;; date
             "  "
-            "%4{%-20,20f%}"             ;; name
-            "  "
-            "%3{│%}"
-            " "
-            "%1{%B%}"
-            "%s\n")
-        gnus-summary-display-arrow t)
-    (add-hook 'dired-mode-hook #'turn-on-gnus-dired-mode)
-    (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
-    (add-hook 'gnus-select-group-hook #'gnus-group-set-timestamp)
-    (dolist (mode '(gnus-group-mode-hook gnus-summary-mode-hook gnus-browse-mode-hook))
-        (add-hook mode #'hl-line-mode)))
+            "%4{%-20,20f%}"         ;; author
+            "  %3{│%} "
+            "%1{%B%}%s\n")))
 
 (use-package newsticker
     :ensure nil  ;; emacs built-in
@@ -274,6 +269,7 @@
              ;; ("https://emacs.tv/videos.rss" emacs videos)
              ;; Lisp
              ("https://dthompson.us/feed.xml" lisp guile guix)
+             ("https://www.alexvear.com/atom.xml" lisp)
              ;; C++
              ("https://isocpp.org/blog/rss" C++ ISO)
              ("http://arne-mertz.de/feed/" C++)
