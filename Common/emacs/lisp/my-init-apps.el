@@ -246,9 +246,8 @@
         "Open selected entries in Firefox."
         (interactive)
         (my/elfeed-open-with #'browse-url-firefox))
-    :bind (:map elfeed-search-mode-map
-              ("b" . my/elfeed-eww-open)
-              ("B" . my/elfeed-firefox-open))
+    :hook (elfeed-show-mode . (lambda ()
+                                  (face-remap-add-relative 'default 'fixed-pitch-large)))
     :config
     (setq elfeed-use-curl t)
     (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
