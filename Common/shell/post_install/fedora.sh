@@ -81,10 +81,10 @@ fedora_install() {
 
     OPTIONS=(
         1 "Setup Defaults - Set some defaults (hostname, folders structure, global settings, etc)"
-        2 "Setup RPM Fussion - Update Kernel, RPM Fussion & Firmware (reboot needed)"
+        2 "Setup RPM Fusion - Update Kernel, RPM Fusion & Firmware (reboot needed)"
         3 "Install NVIDIA - Install NVIDIA Drivers (reboot needed)"
         4 "Install Software - Installs a bunch of my most used software"
-        5 "Install Extras - Themes Fonts and Codecs"
+        5 "Install Extras - Themes, Fonts and Codecs"
         6 "Enable Flatpak - Enables the Flatpak repo and installs packages"
         7 "Setup Secrets and Repos - Setup ssh and gpg from backups and get git repos"
         8 "Install Emacs - Install Emacs"
@@ -113,11 +113,11 @@ fedora_install() {
                     # hostname
                     read -r -p "Enter pretty hostname (defaults to 'Julio's Personal Laptop'): " HOSTNAME_PRETTY
                     [ -z "$HOSTNAME_PRETTY" ] && HOSTNAME_PRETTY="Julio's Personal Laptop"
-                    hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
+                    sudo hostnamectl set-hostname --pretty "$HOSTNAME_PRETTY"
 
                     read -r -p "Enter static hostname (defaults to 'fedora-xps-9710'): " HOSTNAME_STATIC
                     [ -z "$HOSTNAME_STATIC" ] && HOSTNAME_STATIC="fedora-xps-9710"
-                    hostnamectl set-hostname --static "$HOSTNAME_STATIC"
+                    sudo hostnamectl set-hostname --static "$HOSTNAME_STATIC"
 
                     # xdg
                     export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
@@ -195,7 +195,7 @@ fedora_install() {
                     fi
 
                     # Faster Boot
-                    sudo systemctl disable NetworkManager-wait-online.service
+                    sudo systemctl disable --now NetworkManager-wait-online.service
 
                     # Setup dnf configs and update
                     if ! grep -q '^max_parallel_downloads=' /etc/dnf/dnf.conf; then
@@ -219,52 +219,67 @@ fedora_install() {
                     # Upgrade everything
                     sudo dnf upgrade -y --refresh
                     sudo dnf group upgrade -y core
-                    sudo dnf4 group install core
-                    sudo dnf -y update
 
                     # Terra (https://terra.fyralabs.com/)
                     # sudo dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 
-                    # Install some packages and firmware
+                    # Enable tainted repos and pull kernel firmware blobs
+                    # (broadcom wifi, microcode, etc.) — these are the *-firmware
+                    # *packages*, loaded by the kernel at boot. They are NOT the
+                    # same as device firmware updates from LVFS (handled below
+                    # via fwupdmgr — BIOS/UEFI, NIC, NVMe, Thunderbolt, etc.).
                     sudo dnf install -y rpmfusion-free-release-tainted
                     sudo dnf install -y rpmfusion-nonfree-release-tainted
                     sudo dnf install -y dnf-plugins-core
                     sudo dnf install -y \*-firmware
 
-                    # Update system firmware
-                    sudo fwupdmgr refresh --force
-                    sudo fwupdmgr get-devices # Lists devices with available updates.
-                    sudo fwupdmgr get-updates # Fetches list of available updates.
-                    sudo fwupdmgr update      # Apply updates
+                    # Update device firmware from LVFS. `update` is interactive
+                    # by default (prompts per update); pass --assume-yes for
+                    # unattended runs. UEFI/Thunderbolt updates apply at next
+                    # boot via UEFI capsule, so a reboot is needed afterwards.
+                    sudo dnf install -y fwupd
+                    sudo fwupdmgr refresh --force --assume-yes
+                    sudo fwupdmgr update --assume-yes --no-reboot-check
                 ) || echo "Step $CHOICE had errors (continuing)..."
-                pause "$CHOICE) Done. fwupdmgr should be run manually. Press enter to continue..."
+                pause "$CHOICE) Done. Reboot to apply any pending UEFI/firmware updates. Press enter to continue..."
                 ;;
             3)
-                echo "$CHOICE) Installing NVIDIA Drivers. Disable secure boot in the bios."
+                echo "$CHOICE) Installing NVIDIA Drivers."
+                echo "  Note: requires Turing or newer GPU (RTX 20-series / GTX 16-series and up)."
+                echo "  Note: either disable Secure Boot in the BIOS, or enroll a MOK with:"
+                echo "        sudo kmodgenca -a && sudo mokutil --import /etc/pki/akmods/certs/public_key.der"
+                echo "  Check Secure Boot state with: mokutil --sb-state"
                 (
-                    # htop to watch kernel module build after installing nvidia
-                    sudo dnf install -y htop
-
-                    # Check if you have Secure Boot enabled with - easier if yes!
-                    #     mokutil --sb-state
-
                     # Install kernel headers and dev tools
-                    sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid \
+                    sudo dnf install -y kernel-devel kernel-headers gcc make \
                          libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
 
-                    # NVIDIA - Install Proprietary Drivers
-                    # sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+                    # NVIDIA - Install Proprietary Drivers (Maxwell/Pascal/Volta or older)
+                    # sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda nvidia-settings
 
-                    # NVIDIA - Install Open Drivers
-                    sudo dnf install -y akmod-nvidia-open xorg-x11-drv-nvidia-cuda
+                    # NVIDIA - Install Open Drivers (Turing or newer)
+                    sudo dnf install -y akmod-nvidia-open xorg-x11-drv-nvidia-cuda nvidia-settings
 
-                    # Monitor progress
-                    #  sudo journalctl -f -u akmods
+                    # NVIDIA hardware video accel (VAAPI passthrough for browsers/mpv)
+                    sudo dnf install -y --allowerasing --skip-unavailable nvidia-vaapi-driver
 
-                    # Check if the kernel module is built.
-                    #     modinfo -F version nvidia
+                    # Wait for the akmod kernel module to finish building so the
+                    # user doesn't reboot into nouveau / a black screen.
+                    # Watch progress in another terminal with: journalctl -f -u akmods
+                    echo "Waiting for nvidia kernel module to build (typically 1-3 min)..."
+                    timeout=600
+                    while ! modinfo -F version nvidia &> /dev/null; do
+                        sleep 5
+                        timeout=$((timeout - 5))
+                        if [ "$timeout" -le 0 ]; then
+                            echo "Timed out waiting for akmod build. Check: journalctl -u akmods" >&2
+                            break
+                        fi
+                    done
+                    modinfo -F version nvidia &> /dev/null && \
+                        echo "nvidia module built: $(modinfo -F version nvidia)"
                 ) || echo "Step $CHOICE had errors (continuing)..."
-                pause "$CHOICE) Done. *Important* - Reboot after akmod build!!!. Press enter to continue..."
+                pause "$CHOICE) Done. *Important* - Reboot to load the nvidia driver. Press enter to continue..."
                 ;;
             4)
                 echo "$CHOICE) Installing Software"
@@ -469,9 +484,7 @@ fedora_install() {
 
                     # Install additional codecs
                     sudo dnf -y group install multimedia
-                    sudo dnf -y group upgrade multimedia
                     sudo dnf -y group install sound-and-video
-                    sudo dnf -y group upgrade sound-and-video
 
                     # Switch to full FFMPEG.
                     sudo dnf swap 'ffmpeg-free' 'ffmpeg' --allowerasing
@@ -488,7 +501,6 @@ fedora_install() {
                     if grep -qi 'vendor.*intel' /proc/cpuinfo; then
                         echo "$CHOICE) Installing Hardware Accelerated Codecs for Intel Architecture"
                         sudo dnf swap libva-intel-media-driver intel-media-driver --allowerasing
-                        sudo dnf install -y libva-intel-driver
                     elif grep -qi 'vendor.*amd' /proc/cpuinfo; then
                         echo "$CHOICE) Installing Hardware Accelerated Codecs for AMD Architecture"
                         sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
@@ -503,16 +515,9 @@ fedora_install() {
                     sudo dnf install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
                     sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 
-                    # Hardware codecs with NVIDIA
-                    sudo dnf install -y nvidia-vaapi-driver --allowerasing --skip-unavailable
-
                     # Play a DVD
                     sudo dnf install -y rpmfusion-free-release-tainted
                     sudo dnf install -y libdvdcss
-
-                    # Various firmware
-                    sudo dnf install -y rpmfusion-nonfree-release-tainted
-                    sudo dnf --repo=rpmfusion-nonfree-tainted install -y "*-firmware"
 
                     #
                     # Chromium Browser (For use with eww)
@@ -524,7 +529,6 @@ fedora_install() {
                     # Brave Browser
                     #
 
-                    sudo dnf install -y dnf-plugins-core
                     sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
                     sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
                     sudo dnf install -y brave-browser
@@ -551,12 +555,15 @@ fedora_install() {
                     # sudo usermod -G docker -a "$USER"
                     # sudo systemctl restart docker
 
+                    # Note: texlive-scheme-full is ~5GB. Swap for
+                    # texlive-scheme-medium / -basic if disk space matters.
                     sudo dnf install -y --skip-unavailable \
                          wireguard-tools \
                          openvpn \
                          podman podman-compose podman-docker \
                          texlive-scheme-full \
                          steam-devices \
+                         pipewire-codec-aptx \
                          libreoffice-opensymbol-fonts \
                          adobe-source-code-pro-fonts \
                          jetbrains-mono-fonts-all \
