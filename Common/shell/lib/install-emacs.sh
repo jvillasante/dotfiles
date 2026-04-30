@@ -7,7 +7,7 @@
 # Note: errexit/nounset are intentionally not set here to avoid leaking
 # shell options to the sourcing script. Errors are handled explicitly.
 
-install-emacs() {
+install_emacs() {
     # Set branch to use (default: emacs-30, override with first argument)
     # local EMACS_BRANCH="${1:-emacs-30}"
     local EMACS_BRANCH="${1:-master}"

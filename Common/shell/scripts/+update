@@ -164,7 +164,7 @@ emacs_update() {
     systemctl --user stop emacs.service 2>/dev/null || true
 
     # do install emacs from source
-    install-emacs
+    install_emacs
 }
 
 stylua_update() {

@@ -14,7 +14,7 @@ if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
     set -o nounset
 fi
 
-setup-secrets-and-repos() {
+setup_secrets_and_repos() {
     read -r -p "Enter keys backup directory: " KEYS_DIR
     KEYS_DIR=${KEYS_DIR%/}
     [ ! -d "$KEYS_DIR" ] && echo "$KEYS_DIR is not a directory" && exit 1

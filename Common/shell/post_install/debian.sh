@@ -544,7 +544,7 @@ EOF
                 ;;
             7)
                 echo "$CHOICE) Setting up secrets and repos"
-                setup-secrets-and-repos
+                setup_secrets_and_repos
 
                 read -rp "$CHOICE) Secrets and repos are set. Press enter to continue..."
                 ;;
@@ -576,7 +576,7 @@ EOF
                 # sudo apt install -y libtool-bin # vterm
 
                  # do install emacs from source
-                install-emacs
+                install_emacs
 
                 read -rp "$CHOICE) Emacs has been installed. Press enter to continue..."
                 ;;
