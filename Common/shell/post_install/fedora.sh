@@ -385,6 +385,10 @@ fedora_install() {
                         # Needed for keychrome firmware flash
                         dfu-util
 
+                        # Power management (PPD provides perf/balanced/power-saver
+                        # toggle integrated with KDE/GNOME — no need for TLP).
+                        power-profiles-daemon
+
                         # alacritty - A fast, cros-platform, OpenGL terminal emulator
                         # alacritty
 
