@@ -12,6 +12,17 @@
     :ensure nil ;; emacs built-in
     :config (setq reb-re-syntax 'string))
 
+;;;; Diff
+(use-package diff
+    :ensure nil ; emacs built-in
+    :bind (:map diff-mode-map
+              ("q" . quit-window))
+    :config
+    ;; You cannot expect the syntax highlighting of themes to look
+    ;; equally readabable against what typically are red and green
+    ;; backgrounds.  This should be opt-in by default, not opt-out.
+    (setq diff-font-lock-syntax nil))
+
 ;; http://www.yummymelon.com/devnull/using-ediff-in-2023.html
 (use-package ediff
     :ensure nil ;; emacs built-in

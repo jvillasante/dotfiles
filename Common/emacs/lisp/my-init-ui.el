@@ -85,7 +85,7 @@
              (variable-font "Berkeley Mono Variable"))
         ;; Default fonts for all text
         (set-face-attribute 'default nil :family fixed-font :height 148)
-        (set-face-attribute 'fixed-pitch nil :family fixed-font :height 148)
+        (set-face-attribute 'fixed-pitch nil :family fixed-font :height 1.0)
         (set-face-attribute 'variable-pitch nil :family variable-font :height 1.0)
 
         ;; Larger variants for reading modes (e.g. nov, eww)

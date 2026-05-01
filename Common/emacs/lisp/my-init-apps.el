@@ -88,17 +88,28 @@
     :config
     (advice-add #'newsticker-treeview-quit :after #'my/newsticker-cleanup-buffers))
 
+;;;; SHR
+(use-package shr
+    :ensure nil ; emacs built-in
+    :config
+    ;; t is bad for accessibility and generally awkward for HTML email
+    ;; (especially with dark themes).
+    (setq shr-use-colors nil)
+    ;; This option should not exist, given `variable-pitch-mode'.
+    ;; Furthermore, its default value runs counter to almost everything
+    ;; else in Emacs which just uses the `default' face.
+    (setq shr-use-fonts nil)
+    (setq shr-indentation 2)             ; Left-side margin
+    (setq shr-width 80)                  ; Fold text to 80 columns
+    (setq shr-max-image-proportion 0.6)) ; Images use at most 60% of window height
+
+;;;; EWW
 (use-package eww
     :ensure nil ; emacs built-in
     :defer t
     :hook (eww-mode . (lambda ()
                           (face-remap-add-relative 'default 'fixed-pitch-large)))
     :config
-    (setq shr-use-fonts  nil)                              ; No special fonts
-    (setq shr-use-colors nil)                              ; No colors
-    (setq shr-indentation 2)                               ; Left-side margin
-    (setq shr-width 80)                                    ; Fold text to 80 columns
-    (setq shr-max-image-proportion 0.6)                    ; Images use at most 60% of window height
     (setq eww-auto-rename-buffer 'url)                     ; open url in new buffer
     (setq eww-download-directory
         (expand-file-name "~/Downloads/eww-downloads"))  ; keeps eww downloads separate

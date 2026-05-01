@@ -23,6 +23,8 @@
 
 ;;; Custom
 
+;; Without the `custom-file', Emacs writes directly to the "init.el",
+;; which can be confusing.
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (add-hook 'after-init-hook
     (lambda () (load custom-file :no-error-if-file-is-missing)))
@@ -98,12 +100,14 @@
     package-install-upgrade-built-in t
     package-vc-allow-build-commands t
     package-user-dir (expand-file-name "elpa" my/var-dir)
-    package-archives '(("melpa"  . "https://melpa.org/packages/")
-                          ("gnu"    . "https://elpa.gnu.org/packages/")
-                          ("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-    package-archive-priorities '(("gnu"    . 90)
-                                    ("nongnu" . 80)
-                                    ("melpa"  . 70)))
+    package-archives
+    '(("melpa" . "https://melpa.org/packages/")
+         ("gnu" . "https://elpa.gnu.org/packages/")
+         ("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+    package-archive-priorities
+    '(("gnu" . 3)
+         ("nongnu" . 2)
+         ("melpa" . 1)))
 
 (provide 'early-init)
 ;;; early-init.el ends here
