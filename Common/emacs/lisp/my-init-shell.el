@@ -44,11 +44,6 @@ Eshell passes numeric args as strings, so coerce."
     (defun eshell/ff (pattern &optional dir)
         "Recursively find files matching PATTERN under DIR (default cwd)."
         (find-name-dired (or dir default-directory) pattern))
-    (defun eshell/clear-really ()
-        "Clear the eshell buffer, not just the scrollback."
-        (let ((inhibit-read-only t))
-            (erase-buffer)
-            (eshell-send-input)))
     (defun eshell/rcd (path)
         "Cd to PATH on the current remote host (auto-prepends current Tramp prefix).
 Falls back to plain `cd' when `default-directory' is local."
@@ -137,8 +132,10 @@ symbol completion at the prompt."
               ("C-c o E" . my/eshell-other-window)
               :map project-prefix-map
               ("E" . my/project-eshell-other-window))
-    :hook ((eshell-mode . my/eshell-per-host-history)
-              (eshell-mode . my/eshell-extra-capfs))
+    :hook (eshell-mode . (lambda ()
+                             (set (make-local-variable 'debug-on-error) nil)
+                             (my/eshell-per-host-history)
+                             (my/eshell-extra-capfs)))
     :config
     ;; `M-r' as fzf-style history search (overrides em-hist's default which
     ;; is a regex-only `eshell-previous-matching-input').

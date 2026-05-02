@@ -6,7 +6,7 @@ alias f find-file $1
 alias fd find-dired $PWD ''
 alias e find-file-other-window $1
 alias d dired $1
-alias c clear-scrollback
+alias clear clear t
 alias .. cd ..
 alias ... cd ../..
 alias g magit-status
