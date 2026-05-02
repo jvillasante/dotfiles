@@ -9,6 +9,9 @@
 ;; hideshow : code folding
 (use-package hideshow
     :ensure nil ;; emacs built-in
+    :bind (("C-c TAB" . hs-toggle-hiding)
+              ("C-\\" . hs-toggle-hiding)
+              ("M-+" . hs-show-all))
     :hook (prog-mode . hs-minor-mode))
 
 ;; subword-mode: treats CamelCase as distinct words

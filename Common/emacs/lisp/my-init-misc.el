@@ -47,6 +47,7 @@
     (electric-indent-mode 0) ;; disable by default
     (add-hook 'after-change-major-mode-hook #'my/electric-indent-local-mode-maybe))
 
+;; isearch : incremental search
 (use-package isearch
     :ensure nil ;; emacs built-in
     :bind (:map isearch-mode-map
