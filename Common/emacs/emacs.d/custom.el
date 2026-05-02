@@ -13,15 +13,14 @@
       '(activities adoc-mode agent-shell cape cmake-mode consult-dir consult-notes
            corfu corfu-prescient crux csv-mode dape devdocs-browser diff-hl
            dired-sidebar diredfl dockerfile-mode eldoc-diffstat elfeed
-           elisp-demos embark-consult engine-mode eshell-syntax-highlighting
-           expreg flash geiser-guile gnuplot go-mode helpful hl-todo
-           ibuffer-project jinx js2-mode json-mode magit marginalia
-           markdown-mode minions monkeytype mu4easy multiple-cursors nov
-           orderless org-superstar otpp package-lint-flymake password-store
-           pcmpl-args pdf-view-restore persistent-scratch php-mode prescient
-           rmsbolt rust-mode surround tramp-hlo trashed verb vertico
-           vertico-prescient vim-tab-bar vterm vundo web-mode yaml-mode
-           yasnippet-snippets zig-mode)))
+           elisp-demos embark-consult engine-mode expreg flash geiser-guile
+           gnuplot go-mode helpful hl-todo ibuffer-project jinx js2-mode
+           json-mode magit marginalia markdown-mode minions monkeytype mu4easy
+           multiple-cursors nov orderless org-superstar otpp
+           package-lint-flymake password-store pcmpl-args pdf-view-restore
+           persistent-scratch php-mode prescient rmsbolt rust-mode surround
+           tramp-hlo trashed verb vertico vertico-prescient vim-tab-bar vterm
+           vundo web-mode yaml-mode yasnippet-snippets zig-mode)))
 
 (provide 'custom)
 ;;; custom.el ends here

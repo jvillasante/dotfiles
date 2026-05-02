@@ -59,8 +59,12 @@ Falls back to plain `cd' when `default-directory' is local."
 GNU tail prepends `==> filename <==' separators automatically when more
 than one file is supplied.  Handles arbitrarily large logs since files
 are never loaded — only trailing bytes stream from the remote `tail'
-process.  `C-c C-c' to stop.  Trailing `|| true' keeps the shell exit
-clean so SIGINT-on-stop does not produce a spurious \"abnormal\" message."
+process.  `C-c C-c' to stop.
+
+We replace the buffer's sentinel with `ignore' so the spurious
+\"exited abnormally\" message does not appear on SIGINT-induced stops
+(common over Tramp where SSH itself exits with 255 when the local
+client is interrupted, regardless of what the remote `tail' did)."
         (unless files (error "tailf: At least one file required"))
         ;; Eshell tokenises numeric-looking args as integers; stringify upfront
         ;; so `file-name-nondirectory' and `shell-quote-argument' don't choke.
@@ -70,9 +74,11 @@ clean so SIGINT-on-stop does not produce a spurious \"abnormal\" message."
                                 (if (cdr files) (format "+%d" (length (cdr files))) ""))))
             (async-shell-command
                 (concat "tail -F -n 200 "
-                    (mapconcat #'shell-quote-argument files " ")
-                    " || true")
-                buf-name)))
+                    (mapconcat #'shell-quote-argument files " "))
+                buf-name)
+            (when-let ((proc (get-buffer-process buf-name)))
+                (set-process-sentinel proc #'ignore))
+            nil))
     (defun eshell/notify-when-done (&rest cmd)
         "Run CMD asynchronously, desktop-notify when it finishes.
 Output buffer is auto-killed on success; kept on non-zero exit for inspection.
@@ -178,12 +184,6 @@ symbol completion at the prompt."
              "nmtui"))
     ;; subcommands of otherwise non-visual commands that ARE visual
     (eshell-visual-subcommands '(("git" "log" "diff" "show"))))
-
-;; eshell-syntax-highlighting : fish-style command coloring on the prompt
-(use-package eshell-syntax-highlighting
-    :after eshell
-    :config
-    (eshell-syntax-highlighting-global-mode +1))
 
 ;; pcmpl-args : rich pcomplete arg completion for git/find/tar/ssh/curl/...
 (use-package pcmpl-args
