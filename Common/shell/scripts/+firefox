@@ -163,8 +163,8 @@ user_pref("dom.security.https_only_mode_error_page_user_suggestions", true);
 // Set DNS-over-HTTPS (DoH) provider
 user_pref("network.trr.uri", "https://dns.quad9.net/dns-query");
 
-// Enforce DoH
-user_pref("network.trr.mode", 3);
+// Disable DoH - I'm using AdGuard Home
+user_pref("network.trr.mode", 5);
 
 // DoH Excluded domains (comma separated list of domains)
 user_pref("network.trr.excluded-domains", "goldfinger.omidev.net");
