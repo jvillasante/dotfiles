@@ -1,0 +1,21 @@
+alias ls ls --group-directories-first --color $*
+alias ll ls -AlFh --group-directories-first --color $*
+alias la ls -A --group-directories-first --color $*
+alias lt ls -t --color $*
+alias f find-file $1
+alias fd find-dired $PWD ''
+alias e find-file-other-window $1
+alias d dired $1
+alias c clear-scrollback
+alias .. cd ..
+alias ... cd ../..
+alias g magit-status
+alias pj project-switch-project
+alias pf project-find-file
+alias bm bookmark-jump
+alias o xdg-open $1
+alias df df -h $*
+alias du du -sh $*
+alias psg ps aux | grep -v grep | grep $1
+alias mkcd mkdir -p $1 && cd $1
+alias path echo $PATH | tr ':' '\n'

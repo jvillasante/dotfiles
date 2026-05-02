@@ -20,37 +20,179 @@
         (let ((buf (eshell)))
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
+    (defun my/project-eshell-other-window ()
+        "Open `project-eshell' in another window."
+        (interactive)
+        (let* ((default-directory (project-root (project-current t)))
+                  (eshell-buffer-name (project-prefixed-buffer-name "eshell"))
+                  (buf (eshell)))
+            (switch-to-buffer (other-buffer buf))
+            (switch-to-buffer-other-window buf)))
+    (defun my/eshell-prompt ()
+        "Lightweight prompt: shrunk path in shadow + status char."
+        (concat
+            (propertize (my/shrunk-path) 'face 'shadow)
+            (if (zerop eshell-last-command-status) " › " " × ")))
+    (defun eshell/up (&optional n)
+        "Go up N directories (default 1).  `up 3' is `cd ../../..'.
+Eshell passes numeric args as strings, so coerce."
+        (let* ((n (cond ((null n) 1)
+                      ((stringp n) (string-to-number n))
+                      (t n)))
+                  (path (apply #'concat (make-list (max n 1) "../"))))
+            (eshell/cd path)))
+    (defun eshell/ff (pattern &optional dir)
+        "Recursively find files matching PATTERN under DIR (default cwd)."
+        (find-name-dired (or dir default-directory) pattern))
+    (defun eshell/clear-really ()
+        "Clear the eshell buffer, not just the scrollback."
+        (let ((inhibit-read-only t))
+            (erase-buffer)
+            (eshell-send-input)))
+    (defun eshell/rcd (path)
+        "Cd to PATH on the current remote host (auto-prepends current Tramp prefix).
+Falls back to plain `cd' when `default-directory' is local."
+        (let ((prefix (or (file-remote-p default-directory) "")))
+            (eshell/cd (concat prefix path))))
+    (defun eshell/tailf (&rest files)
+        "Stream `tail -F' on FILES in an async shell buffer (Tramp-aware).
+GNU tail prepends `==> filename <==' separators automatically when more
+than one file is supplied.  Handles arbitrarily large logs since files
+are never loaded — only trailing bytes stream from the remote `tail'
+process.  `C-c C-c' to stop.  Trailing `|| true' keeps the shell exit
+clean so SIGINT-on-stop does not produce a spurious \"abnormal\" message."
+        (unless files (error "tailf: At least one file required"))
+        ;; Eshell tokenises numeric-looking args as integers; stringify upfront
+        ;; so `file-name-nondirectory' and `shell-quote-argument' don't choke.
+        (let* ((files (mapcar (lambda (a) (format "%s" a)) files))
+                  (buf-name (format "*tail %s%s*"
+                                (file-name-nondirectory (car files))
+                                (if (cdr files) (format "+%d" (length (cdr files))) ""))))
+            (async-shell-command
+                (concat "tail -F -n 200 "
+                    (mapconcat #'shell-quote-argument files " ")
+                    " || true")
+                buf-name)))
+    (defun eshell/notify-when-done (&rest cmd)
+        "Run CMD asynchronously, desktop-notify when it finishes.
+Output buffer is auto-killed on success; kept on non-zero exit for inspection.
+Falls back to `message' on systems lacking `notifications-notify'."
+        (unless cmd (user-error "notify-when-done: command required"))
+        (let* ((command (mapconcat (lambda (a) (format "%s" a)) cmd " "))
+                  (start (current-time))
+                  (buf (generate-new-buffer (format "*notify %s*" (car cmd))))
+                  (proc (start-file-process-shell-command
+                            (format "notify-%s" (car cmd)) buf command)))
+            (set-process-sentinel proc
+                (lambda (p _event)
+                    (when (memq (process-status p) '(exit signal))
+                        (let ((elapsed (float-time
+                                           (time-subtract (current-time) start)))
+                                 (status (process-exit-status p)))
+                            (if (fboundp 'notifications-notify)
+                                (notifications-notify
+                                    :title "eshell"
+                                    :body (format "%s\nfinished in %.1fs (exit %d)"
+                                              command elapsed status))
+                                (message "eshell: %s finished in %.1fs (exit %d)"
+                                    command elapsed status))
+                            (when (and (zerop status)
+                                      (buffer-live-p (process-buffer p)))
+                                (kill-buffer (process-buffer p)))))))
+            nil))
+    (defun my/eshell-per-host-history ()
+        "Use a per-host history file when in a Tramp-remote dir.
+NOTE: history is bound at eshell-mode start; cd'ing across hosts in a
+single buffer does NOT swap files.  Use a fresh eshell per host for
+clean separation."
+        (when-let* ((host (file-remote-p default-directory 'host))
+                       (dir (file-name-directory eshell-history-file-name)))
+            (setq-local eshell-history-file-name
+                (expand-file-name (format "history-%s" host) dir))))
+    (defun my/eshell-extra-capfs ()
+        "Append cape-history and cape-elisp-symbol after pcomplete.
+Pcomplete (added by eshell itself) handles arg/path completion first;
+these CAPFs fall through for whole-line history matches and elisp
+symbol completion at the prompt."
+        (add-hook 'completion-at-point-functions #'cape-history t t)
+        (add-hook 'completion-at-point-functions #'cape-elisp-symbol t t))
+    (defun my/eshell-please ()
+        "Replace input with `sudo PREV-CMD' and submit.  Bash equivalent of `sudo !!'."
+        (interactive)
+        (if (or (not (boundp 'eshell-input-ring))
+                (ring-empty-p eshell-input-ring))
+            (user-error "No previous command")
+            (let ((prev (ring-ref eshell-input-ring 0)))
+                (eshell-bol)
+                (delete-region (point) (point-max))
+                (insert "sudo " prev)
+                (eshell-send-input))))
     :bind (("C-c o e" . eshell)
-              ("C-c o E" . my/eshell-other-window))
-    :hook
-    (eshell-mode . (lambda ()
-                       ;; visual commands
-                       (add-to-list 'eshell-visual-commands "top")
-                       (add-to-list 'eshell-visual-commands "htop")
-                       (add-to-list 'eshell-visual-commands "ssh")
-                       (add-to-list 'eshell-visual-commands "tail")
-                       (add-to-list 'eshell-visual-commands "lynx")
-                       (setq eshell-visual-subcommands '(("git" "log" "diff" "show")))
-
-                       ;; aliases
-                       (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                                     "/usr/local/bin/gls"
-                                     "/bin/ls")))
-                           (eshell/alias "ls" (concat ls " --group-directories-first --color"))
-                           (eshell/alias "ll" (concat ls " -AlFh --group-directories-first --color")))
-                       (eshell/alias "f" "find-file $1")
-                       (eshell/alias "fd" "find-dired $PWD ''")
-                       (eshell/alias "e" "find-file-other-window $1")
-                       (eshell/alias "d" "dired $1")
-                       (eshell/alias "c" "clear-scrollback")))
+              ("C-c o E" . my/eshell-other-window)
+              :map project-prefix-map
+              ("E" . my/project-eshell-other-window))
+    :hook ((eshell-mode . my/eshell-per-host-history)
+              (eshell-mode . my/eshell-extra-capfs))
+    :config
+    ;; `M-r' as fzf-style history search (overrides em-hist's default which
+    ;; is a regex-only `eshell-previous-matching-input').
+    (with-eval-after-load 'em-hist
+        (define-key eshell-hist-mode-map (kbd "M-r") #'consult-history))
+    ;; `eshell-mode-map' lives in `esh-mode.el', NOT in `eshell.el', so binding
+    ;; it under use-package's `:bind :map' fails (eshell.el loads first; the
+    ;; map is still void).  Defer to esh-mode load instead.
+    (with-eval-after-load 'esh-mode
+        ;; Output-block navigation (treat each prompt+output as a section)
+        (define-key eshell-mode-map (kbd "C-c C-p") #'eshell-previous-prompt)
+        (define-key eshell-mode-map (kbd "C-c C-n") #'eshell-next-prompt)
+        (define-key eshell-mode-map (kbd "C-c C-o") #'eshell-kill-output)
+        (define-key eshell-mode-map (kbd "C-c M-o") #'eshell-show-output)
+        ;; `sudo !!' equivalent — re-run previous command with sudo prefix
+        (define-key eshell-mode-map (kbd "C-c C-r") #'my/eshell-please))
     :custom
+    (eshell-aliases-file (expand-file-name "eshell/aliases" my/etc-dir))
+    ;; --- prompt ---
+    (eshell-prompt-function #'my/eshell-prompt)
+    (eshell-prompt-regexp "^.*[›×] ")  ;; must match prompt's terminator chars
+    (eshell-highlight-prompt nil)      ;; let our face properties show through
+    (eshell-banner-message "")         ;; suppress welcome blurb
+    ;; --- scrolling ---
     (eshell-scroll-to-bottom-on-input 'this)
     (eshell-scroll-to-bottom-on-output nil)
-    (eshell-prefer-lisp-functions nil)
-    (eshell-error-if-no-glob t)
-    (eshell-hist-ignoredups t)
+    ;; --- behaviour ---
+    (eshell-prefer-lisp-functions nil) ;; prefer external `ls' etc. over eshell's lisp impls
+    (eshell-error-if-no-glob t)        ;; fail loudly when a glob matches nothing
+    (eshell-glob-case-insensitive t)   ;; *.MD matches *.md
+    (eshell-destroy-buffer-when-process-dies t)
+    ;; --- history ---
+    (eshell-history-size 500000)
+    (eshell-hist-ignoredups 'erase)        ;; remove earlier dupes too, not just adjacent
+    (eshell-input-filter-initial-space t)  ;; bash HISTCONTROL=ignorespace equivalent
     (eshell-save-history-on-exit t)
-    (eshell-destroy-buffer-when-process-dies t))
+    ;; --- visual commands (spawned in term-mode for full TUI support) ---
+    (eshell-visual-commands
+        '("top" "htop" "btop" "nvtop"
+             "vi" "vim" "nvim"
+             "less" "more" "watch"
+             "ssh" "tail" "lynx" "ranger" "tmux"
+             "nmtui"))
+    ;; subcommands of otherwise non-visual commands that ARE visual
+    (eshell-visual-subcommands '(("git" "log" "diff" "show"))))
+
+;; eshell-syntax-highlighting : fish-style command coloring on the prompt
+(use-package eshell-syntax-highlighting
+    :after eshell
+    :config
+    (eshell-syntax-highlighting-global-mode +1))
+
+;; pcmpl-args : rich pcomplete arg completion for git/find/tar/ssh/curl/...
+(use-package pcmpl-args
+    :after eshell)
+
+;; with-editor : route $EDITOR (e.g. `git commit') back to an Emacs buffer
+(use-package with-editor
+    :hook ((eshell-mode . with-editor-export-editor)
+              (shell-mode  . with-editor-export-editor)))
 
 ;; shell : shell in emacs
 (use-package shell
@@ -85,7 +227,6 @@
               ("T" . eat-project-other-window))
     :config
     (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
-    (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
     (add-to-list 'eat-message-handler-alist (cons "open" #'my/eat-open))
     (setq eat-term-name "xterm-256color") ; https://codeberg.org/akib/emacs-eat/issues/119"
@@ -117,7 +258,6 @@
         (ghostel-project))
     :config
     (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
-    (add-to-list 'project-switch-commands '(my/ghostel-project-other-window "Ghostel other window") t)
     :bind (("C-c o t" . ghostel)
               ("C-c o T" . my/ghostel-other-window)
               :map ghostel-copy-mode-map
@@ -174,7 +314,6 @@
     (add-to-list 'vterm-eval-cmds '("dired" dired))
     (add-to-list 'vterm-eval-cmds '("dired-other-window" dired-other-window))
     (add-to-list 'project-switch-commands '(my/vterm-project "vTerm") t)
-    (add-to-list 'project-switch-commands '(my/vterm-project-other-window "vTerm other window") t)
     (add-to-list 'project-kill-buffer-conditions '(major-mode . vterm-mode))
     (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=On -DCMAKE_BUILD_TYPE=Release")
     (setq vterm-always-compile-module nil)

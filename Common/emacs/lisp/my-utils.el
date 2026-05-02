@@ -45,18 +45,18 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
             (cons '(continuation right-curly-arrow left-curly-arrow) fringe-indicator-alist))))
 
 (defvar-local my/shrunk-path--cache nil
-    "Cache of (truename . shrunk-path) for `my/shrunk-path'.")
+    "Cache of (input . shrunk) for `my/shrunk-path'.")
 
 (defun my/shrunk-path--compute (file)
-    "Compute the shrunk path string for FILE.
-Example:
-  /home/ghouse/code/python/app.py -> ~/c/python/app.py
-  /ssh:server:/var/log/nginx/access.log -> /ssh:server:/v/l/nginx/access.log
-  *scratch* (non-file) -> *scratch*"
-    (when (and buffer-file-truename (not (file-remote-p file)))
-        (setq file (abbreviate-file-name file)))
-    (let* ((remote     (or (file-remote-p file) ""))
-              (local-path (file-local-name file))
+    "Compute the shrunk path string for FILE (file or directory).
+Examples:
+  /home/me/code/python/app.py    -> ~/c/python/app.py
+  /home/me/Workspace/Public/dot  -> ~/W/Public/dot
+  /ssh:server:/var/log/nginx/x   -> /ssh:server:/v/l/nginx/x
+  *scratch* (non-file)           -> *scratch*"
+    (let* ((file (if (file-remote-p file) file (abbreviate-file-name file)))
+              (remote     (or (file-remote-p file) ""))
+              (local-path (directory-file-name (file-local-name file)))
               (dir        (file-name-directory local-path))
               (filename   (file-name-nondirectory local-path)))
         (if (and dir (not (string= dir "/")))
@@ -73,14 +73,15 @@ Example:
                     (concat remote "/" shrunk-dir "/" filename)))
             (concat remote local-path))))
 
-(defun my/shrunk-path ()
-    "Return a shortened buffer path, cached per buffer."
-    (let ((key buffer-file-truename))
+(defun my/shrunk-path (&optional path)
+    "Return a shortened version of PATH.
+Default PATH is the buffer file, then `default-directory', then buffer name.
+Cached per-buffer, keyed by input."
+    (let ((key (or path buffer-file-truename default-directory (buffer-name))))
         (if (and my/shrunk-path--cache
                 (equal (car my/shrunk-path--cache) key))
             (cdr my/shrunk-path--cache)
-            (let ((result (my/shrunk-path--compute
-                              (or buffer-file-truename (buffer-name)))))
+            (let ((result (my/shrunk-path--compute key)))
                 (setq my/shrunk-path--cache (cons key result))
                 result))))
 
