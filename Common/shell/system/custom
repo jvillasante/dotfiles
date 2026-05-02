@@ -60,7 +60,49 @@ if ! shopt -oq posix; then
 fi
 
 # PS1
-eval "$(starship init bash)"
+case "$INSIDE_EMACS" in
+    ""|*vterm*)
+        # full custom prompt for plain terminals + vterm
+        shrink_path() {
+            local path
+            if [[ "$PWD" == "$HOME" ]]; then
+                printf '~'; return
+            elif [[ "$PWD" == "$HOME"/* ]]; then
+                path="~${PWD#"$HOME"}"
+            else
+                path="$PWD"
+            fi
+            local IFS=/
+            local -a parts
+            read -ra parts <<<"$path"
+            local n=${#parts[@]} i sep="" out="" seg
+            for ((i = 0; i < n; i++)); do
+                seg="${parts[i]}"
+                if [[ -z "$seg" && $i -eq 0 ]]; then
+                    out=""; sep="/"; continue
+                fi
+                (( i < n - 2 )) && seg="${seg:0:1}"
+                out+="${sep}${seg}"
+                sep="/"
+            done
+            [[ -z "$out" ]] && out="/"
+            printf '%s' "$out"
+        }
+
+        __set_ps1() {
+            local rc=$?
+            local char='›'
+            (( rc != 0 )) && char='×'
+            # \[\033[90m\] = bright black / dark gray (16-color palette)
+            PS1='\[\033[90m\]$(shrink_path)\[\033[0m\] '"${char}"' '
+        }
+        PROMPT_COMMAND=__set_ps1
+        ;;
+    *)
+        # comint/Tramp/shell-mode: keep prompt boring so Tramp's regex matches
+        PS1='\u@\h:\w\$ '
+        ;;
+esac
 
 # Emacs please
 if type emacs > /dev/null 2> /dev/null; then

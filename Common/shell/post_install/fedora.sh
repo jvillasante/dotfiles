@@ -442,8 +442,8 @@ fedora_install() {
                     # gpg smartcard daemon
                     sudo systemctl enable --now pcscd
 
-                    # Starship Prompt
-                    curl -sS https://starship.rs/install.sh | sh
+                    # Starship Prompt - Using PS1 instead
+                    # curl -sS https://starship.rs/install.sh | sh
 
                     # Mullvad VPN (Using Network Manager)
                     # sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
