@@ -61,7 +61,7 @@ fi
 
 # PS1
 case "$INSIDE_EMACS" in
-    ""|*vterm*)
+    ""|*vterm*|*ghostel*)
         # full custom prompt for plain terminals + vterm
         shrink_path() {
             local path
