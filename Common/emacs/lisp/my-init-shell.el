@@ -265,7 +265,7 @@ symbol completion at the prompt."
               ("t" . ghostel-project)
               ("T" . my/ghostel-project-other-window))
     :custom
-    (ghostel-module-auto-install 'download) ; TODO: Change this to compile!
+    (ghostel-module-auto-install 'download)
     (ghostel-tramp-shells
         '(("ssh" login-shell)
              ("scp" login-shell)
