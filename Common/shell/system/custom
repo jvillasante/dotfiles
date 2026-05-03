@@ -61,8 +61,8 @@ fi
 
 # PS1
 case "$INSIDE_EMACS" in
-    ""|*vterm*|*ghostel*)
-        # full custom prompt for plain terminals + vterm
+    ""|*vterm*|*ghostel*|*comint*)
+        # full custom prompt for plain terminals, vterm, ghostel, and `M-x shell'
         shrink_path() {
             local path
             if [[ "$PWD" == "$HOME" ]]; then
@@ -99,7 +99,8 @@ case "$INSIDE_EMACS" in
         PROMPT_COMMAND=__set_ps1
         ;;
     *)
-        # comint/Tramp/shell-mode: keep prompt boring so Tramp's regex matches
+        # other contexts (e.g. M-x term, scripted bash with INSIDE_EMACS set):
+        # keep prompt boring as a defensive fallback.
         PS1='\u@\h:\w\$ '
         ;;
 esac

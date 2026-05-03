@@ -186,10 +186,12 @@ symbol completion at the prompt."
 (use-package pcmpl-args
     :after eshell)
 
-;; with-editor : route $EDITOR (e.g. `git commit') back to an Emacs buffer
+;; with-editor : route $EDITOR (e.g. `git commit') back to an Emacs buffer.
+;; Only wired into eshell — shell-mode uses the `EDITOR=emacsclient' value
+;; from `~/.bashrc' directly, which avoids the loud `export EDITOR=...'
+;; banner with-editor would otherwise inject at session start.
 (use-package with-editor
-    :hook ((eshell-mode . with-editor-export-editor)
-              (shell-mode  . with-editor-export-editor)))
+    :hook (eshell-mode . with-editor-export-editor))
 
 ;; shell : shell in emacs
 (use-package shell
@@ -202,7 +204,29 @@ symbol completion at the prompt."
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
     :bind (("C-c o s" . shell)
-              ("C-c o S" . my/shell-other-window)))
+              ("C-c o S" . my/shell-other-window))
+    :hook (shell-mode . compilation-shell-minor-mode) ;; M-g M-n on errors in build output
+    :custom
+    ;; --- shell binary (pin explicitly so behaviour is consistent) ---
+    (explicit-shell-file-name "/bin/bash")
+    (shell-file-name "/bin/bash")
+    ;; --- prompt detection: match the shrunk-path prompt set in `Common/shell/system/custom'.
+    ;; Used by `comint-bol', `comint-previous-prompt', etc.  ANSI escape codes
+    ;; in the prompt are kept as text properties or literal bytes; `^.*' matches
+    ;; through them either way.
+    (shell-prompt-pattern "^.*[›×] ")
+    ;; --- comint hygiene (apply to all comint-derived modes, including shell) ---
+    (comint-prompt-read-only t)            ;; protect past prompts from accidental edits
+    (comint-input-ignoredups t)            ;; dedupe adjacent history entries
+    (comint-completion-autolist t)         ;; show completions on first TAB, not second
+    (comint-completion-addsuffix t)        ;; add `/' for dirs, ` ' for executables
+    (comint-history-isearch 'dwim)         ;; M-r does isearch through history
+    (comint-scroll-to-bottom-on-input t)   ;; typing brings you to the bottom
+    (comint-scroll-show-maximum-output t)) ;; keep cursor at bottom on output
+
+;; bash-completion : full bash-aware TAB in shell-mode (git/systemctl/kubectl/...)
+(use-package bash-completion
+    :hook (shell-mode . bash-completion-setup))
 
 ;; eat: Emulate A Terminal (https://codeberg.org/akib/emacs-eat)
 (use-package eat
@@ -235,6 +259,7 @@ symbol completion at the prompt."
 
 ;; ghostel : Emacs terminal emulator powered by libghostty-vt
 (use-package ghostel
+    :disabled t
     :defer t
     :pin melpa
     :preface
@@ -274,7 +299,6 @@ symbol completion at the prompt."
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
     :defer t
     :pin melpa
     :preface
