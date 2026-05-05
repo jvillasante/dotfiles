@@ -299,7 +299,9 @@ symbol completion at the prompt."
               ("t" . ghostel-project)
               ("T" . my/ghostel-project-other-window))
     :custom
-    (ghostel-module-auto-install 'download)
+    (ghostel-module-auto-install 'download)  ; What to do when the native module is missing
+    (ghostel-shell-integration t)            ; Automatically inject shell integration on startup
+    (ghostel-tramp-shell-integration nil)    ; Inject shell integration for remote TRAMP sessions
     (ghostel-tramp-shells
         '(("ssh" login-shell)
              ("scp" login-shell)

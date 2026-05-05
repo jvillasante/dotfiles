@@ -82,4 +82,4 @@ Use `podman stop <name>' to end the session."
                                             cname))))))
 
                    ;; C-x p a  ("project attach") — consistent with C-x p c (compile)
-                   (keymap-set project-prefix-map "a" #'my/nntp-attach-vterm))))))
+                   (keymap-set project-prefix-map "a" #'my/nntp-attach-ghostel))))))

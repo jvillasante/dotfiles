@@ -62,7 +62,7 @@ fi
 # PS1
 case "$INSIDE_EMACS" in
     ""|*vterm*|*ghostel*|*comint*)
-        # full custom prompt for plain terminals, vterm, ghostel, and `M-x shell'
+        # full custom prompt for plain terminals
         shrink_path() {
             local path
             if [[ "$PWD" == "$HOME" ]]; then
