@@ -20,6 +20,7 @@
         (let ((buf (eshell)))
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
+
     (defun my/project-eshell-other-window ()
         "Open `project-eshell' in another window."
         (interactive)
@@ -28,11 +29,13 @@
                   (buf (eshell)))
             (switch-to-buffer (other-buffer buf))
             (switch-to-buffer-other-window buf)))
+
     (defun my/eshell-prompt ()
         "Lightweight prompt: shrunk path in shadow + status char."
         (concat
             (propertize (my/shrunk-path) 'face 'shadow)
             (if (zerop eshell-last-command-status) " › " " × ")))
+
     (defun eshell/up (&optional n)
         "Go up N directories (default 1).  `up 3' is `cd ../../..'.
 Eshell passes numeric args as strings, so coerce."
@@ -41,14 +44,17 @@ Eshell passes numeric args as strings, so coerce."
                       (t n)))
                   (path (apply #'concat (make-list (max n 1) "../"))))
             (eshell/cd path)))
+
     (defun eshell/ff (pattern &optional dir)
         "Recursively find files matching PATTERN under DIR (default cwd)."
         (find-name-dired (or dir default-directory) pattern))
+
     (defun eshell/rcd (path)
         "Cd to PATH on the current remote host (auto-prepends current Tramp prefix).
 Falls back to plain `cd' when `default-directory' is local."
         (let ((prefix (or (file-remote-p default-directory) "")))
             (eshell/cd (concat prefix path))))
+
     (defun eshell/tailf (&rest files)
         "Stream `tail -F' on FILES in an async shell buffer (Tramp-aware).
 GNU tail prepends `==> filename <==' separators automatically when more
@@ -74,6 +80,7 @@ client is interrupted, regardless of what the remote `tail' did)."
             (when-let ((proc (get-buffer-process buf-name)))
                 (set-process-sentinel proc #'ignore))
             nil))
+
     (defun eshell/notify-when-done (&rest cmd)
         "Run CMD asynchronously, desktop-notify when it finishes.
 Output buffer is auto-killed on success; kept on non-zero exit for inspection.
@@ -101,6 +108,7 @@ Falls back to `message' on systems lacking `notifications-notify'."
                                       (buffer-live-p (process-buffer p)))
                                 (kill-buffer (process-buffer p)))))))
             nil))
+
     (defun my/eshell-per-host-history ()
         "Use a per-host history file when in a Tramp-remote dir.
 NOTE: history is bound at eshell-mode start; cd'ing across hosts in a
@@ -110,6 +118,7 @@ clean separation."
                        (dir (file-name-directory eshell-history-file-name)))
             (setq-local eshell-history-file-name
                 (expand-file-name (format "history-%s" host) dir))))
+
     (defun my/eshell-extra-capfs ()
         "Append cape-history and cape-elisp-symbol after pcomplete.
 Pcomplete (added by eshell itself) handles arg/path completion first;
@@ -117,6 +126,7 @@ these CAPFs fall through for whole-line history matches and elisp
 symbol completion at the prompt."
         (add-hook 'completion-at-point-functions #'cape-history t t)
         (add-hook 'completion-at-point-functions #'cape-elisp-symbol t t))
+
     (defun my/eshell-please ()
         "Replace input with `sudo PREV-CMD' and submit.  Bash equivalent of `sudo !!'."
         (interactive)
