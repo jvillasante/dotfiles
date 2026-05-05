@@ -39,4 +39,6 @@ fi
 # ---------------------------------------------------------------------------
 
 exec podman exec --user nntpuser "$CONTAINER" \
-    bash -c 'cd /tmp/nntpcode/build && exec make "$@"' -- "$@"
+    bash -c 'cd /tmp/nntpcode/build \
+        && export MAKEFLAGS="PARALLEL_SUBDIRS=1 -j$(nproc --ignore=2)" \
+        && exec make "$@"' -- "$@"
