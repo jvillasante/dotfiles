@@ -8,7 +8,9 @@
 (use-package mu4e
     :ensure nil ;; built-in
     :defer t
-    :custom (mu4e-update-interval 600))
+    :custom
+    (mu4e-modeline-show-global nil)
+    (mu4e-update-interval 600))
 
 ;; org-msg
 (use-package org-msg :defer t)
