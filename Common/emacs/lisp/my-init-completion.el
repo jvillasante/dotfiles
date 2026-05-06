@@ -404,7 +404,6 @@
 
 ;; embark : Emacs Mini-Buffer Actions Rooted in Keymaps
 (use-package embark
-    :pin melpa
     :bind (("C-;"   . embark-act)
               ("M-;"   . embark-dwim)
               ("C-h B" . embark-bindings))
@@ -420,8 +419,7 @@
              (window-parameters (mode-line-format . none)))))
 
 ;; Consult users will also want the embark-consult package.
-(use-package embark-consult
-    :pin melpa)
+(use-package embark-consult)
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia

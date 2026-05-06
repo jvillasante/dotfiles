@@ -14,7 +14,6 @@
 
 (use-package agent-shell
     :defer t
-    :pin melpa
     :preface
     (defun my/agent-shell-dot-subdir (subdir)
         (let* ((cwd (string-remove-suffix "/" (agent-shell-cwd)))

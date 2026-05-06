@@ -270,7 +270,6 @@ symbol completion at the prompt."
 ;; ghostel : Emacs terminal emulator powered by libghostty-vt
 (use-package ghostel
     :defer t
-    :pin melpa
     :preface
     (defun my/ghostel-other-window ()
         "Open a `ghostel' terminal in another window."
@@ -312,7 +311,6 @@ symbol completion at the prompt."
 (use-package vterm
     :disabled t
     :defer t
-    :pin melpa
     :preface
     (defun my/vterm-copy-mode-cancel ()
         (interactive)

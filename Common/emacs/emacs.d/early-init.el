@@ -105,9 +105,9 @@
          ("gnu" . "https://elpa.gnu.org/packages/")
          ("nongnu" . "https://elpa.nongnu.org/nongnu/"))
     package-archive-priorities
-    '(("gnu" . 3)
-         ("nongnu" . 2)
-         ("melpa" . 1)))
+    '(("melpa" . 3)
+         ("gnu" . 2)
+         ("nongnu" . 1)))
 
 (provide 'early-init)
 ;;; early-init.el ends here
