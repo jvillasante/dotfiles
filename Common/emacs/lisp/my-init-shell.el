@@ -289,9 +289,9 @@ symbol completion at the prompt."
     (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
     :bind (("C-c o t" . ghostel)
               ("C-c o T" . my/ghostel-other-window)
-              :map ghostel-copy-mode-map
-              ("<return>" . ghostel-copy-mode-exit)
-              ("RET"      . ghostel-copy-mode-exit)
+              :map ghostel-readonly-mode-map
+              ("<return>" . ghostel-readonly-exit)
+              ("RET"      . ghostel-readonly-exit)
               :map ghostel-mode-map
               ("M-[" . ghostel-copy-mode)
               :map project-prefix-map
@@ -300,6 +300,7 @@ symbol completion at the prompt."
     :custom
     (ghostel-module-auto-install 'download)  ; What to do when the native module is missing
     (ghostel-shell-integration t)            ; Automatically inject shell integration on startup
+    (ghostel-readonly-fast-exit nil)         ; Don't exit copy mode automatically
     (ghostel-tramp-shell-integration nil)    ; Inject shell integration for remote TRAMP sessions
     (ghostel-tramp-shells
         '(("ssh" login-shell)
