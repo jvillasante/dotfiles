@@ -302,6 +302,7 @@ symbol completion at the prompt."
     (ghostel-shell-integration t)            ; Automatically inject shell integration on startup
     (ghostel-readonly-fast-exit nil)         ; Don't exit copy mode automatically
     (ghostel-tramp-shell-integration nil)    ; Inject shell integration for remote TRAMP sessions
+    (ghostel-password-prompt-functions nil)  ; Don't try to handle passwords
     (ghostel-tramp-shells
         '(("ssh" login-shell)
              ("scp" login-shell)
