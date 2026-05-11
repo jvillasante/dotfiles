@@ -339,6 +339,8 @@
              ("https://itsallaboutthebit.com/atom.xml")
              ;; Linux
              ("http://dominique.leuenberger.net/blog/feed/rss/")
+             ;; Math, Security
+             ("https://0xkrt26.github.io/math_behind_security/feed.xml")
              ;; Misc
              ("https://blog.codingconfessions.com/feed")
              ("https://scheatkode.com/rss.xml")
