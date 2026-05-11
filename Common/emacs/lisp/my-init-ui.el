@@ -191,7 +191,7 @@
 
     ;; Horizontal scrolling
     (setq hscroll-margin 2
-        hscroll-step 1)
+          hscroll-step 1)
 
     ;; Mouse scroll moves 1 line at a time, instead of 5 lines.
     (setq mouse-wheel-scroll-amount '(1))
@@ -234,7 +234,7 @@ Optional LINES overrides the default scroll distance."
                   ([remap recenter-top-bottom] . my/pixel-recenter-top-bottom))
         :custom ((pixel-scroll-precision-interpolation-factor 1.0)
                     (pixel-scroll-precision-use-momentum nil)
-                    (pixel-scroll-precision-interpolate-mice t)
+                    (pixel-scroll-precision-interpolate-mice nil)
                     (pixel-scroll-precision-large-scroll-height 10.0)
                     (pixel-scroll-precision-interpolation-total-time 0.1)
                     (pixel-scroll-precision-interpolate-page t))

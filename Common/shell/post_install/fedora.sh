@@ -658,14 +658,16 @@ fedora_install() {
                         sudo dnf -y builddep emacs
 
                         sudo dnf install -y --skip-unavailable \
-                             Xaw3d Xaw3d-devel libpng libpng-devel zlib libjpeg-turbo libjpeg-devel \
+                             Xaw3d Xaw3d-devel libpng libpng-devel zlib zlib-devel libjpeg-turbo libjpeg-devel \
                              libtiff libtiff-devel giflib giflib-devel librsvg2 librsvg2-devel libwebp libwebp-devel \
-                             ImageMagick ImageMagick-devel \
-                             autoconf gnutls-devel gmp-devel gtk3-devel gtk4-devel jansson-devel \
-                             libgccjit libgccjit-devel libmpc-devel libvterm libvterm-devel mpfr-devel \
-                             ncurses-devel texinfo systemd-devel \
+                             ImageMagick ImageMagick-devel autoconf gnutls gnutls-devel gmp-devel gtk3-devel \
+                             gtk4-devel jansson-devel libgccjit libgccjit-devel libmpc-devel libvterm libvterm-devel \
+                             mpfr-devel ncurses ncurses-devel texinfo systemd-devel \
                              libtree-sitter libtree-sitter-devel tree-sitter-cli gcc-c++ \
-                             enchant2-devel pkgconf
+                             enchant2-devel pkgconf glib2 glib2-devel cairo cairo-devel \
+                             harfbuzz harfbuzz-devel pango pango-devel dbus dbus-devel lcms2 lcms2-devel \
+                             fontconfig fontconfig-devel freetype freetype-devel libotf libotf-devel \
+                             m17n-lib m17n-lib-devel libxml2 libxml2-devel
 
                         # do install emacs from source
                         install_emacs

@@ -8,9 +8,9 @@
 # shell options to the sourcing script. Errors are handled explicitly.
 
 install_emacs() {
-    # Set branch to use (default: emacs-30, override with first argument)
-    # local EMACS_BRANCH="${1:-emacs-30}"
-    local EMACS_BRANCH="${1:-master}"
+    # Set branch to use (default: emacs-31, override with first argument)
+    local EMACS_BRANCH="${1:-emacs-31}"
+    # local EMACS_BRANCH="${1:-master}"
 
     # Prepare git repo
     mkdir -p "$HOME"/Workspace/Software
@@ -38,23 +38,35 @@ install_emacs() {
     fi
 
     # Build and install
-    # Pure GTK (Wayland native): --with-pgtk
-    # Lucid (X11/Xwayland): --with-x-toolkit=lucid
     ./autogen.sh
     ./configure \
-        --with-x-toolkit=lucid \
-        --with-native-compilation=aot \
-        --with-tree-sitter \
-        --with-dbus \
-        --with-cairo-xcb \
-        --without-compress-install \
-        --with-mailutils \
-        --with-imagemagick \
+        --without-x \
+        --with-pgtk \
+        --with-toolkit-scroll-bars \
+        --with-cairo \
+        --without-xft \
+        --with-harfbuzz \
+        --without-libotf \
+        --with-gnutls \
+        --without-xdbe \
+        --without-xim \
+        --without-gpm \
         --disable-gc-mark-trace \
-        CFLAGS="-O3 -march=native -mtune=native -pipe -fomit-frame-pointer -fno-semantic-interposition -flto=auto" \
-        LDFLAGS="-flto=auto"
+        --enable-link-time-optimization \
+        --with-gsettings \
+        --with-modules \
+        --with-threads \
+        --with-libgmp \
+        --with-xml2 \
+        --with-tree-sitter \
+        --with-zlib \
+        --with-native-compilation \
+        --with-file-notification=inotify \
+        --without-compress-install \
+        CFLAGS="-O2 -pipe -march=native -mtune=native -fomit-frame-pointer -flto=auto" \
+        LDFLAGS="-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,pack-relative-relocs -flto=auto"
     make -j"$(nproc --ignore=2)"
-    sudo make install
+    sudo make install-strip
 
     popd || return 1
 
