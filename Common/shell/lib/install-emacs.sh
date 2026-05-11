@@ -63,7 +63,7 @@ install_emacs() {
         --with-native-compilation \
         --with-file-notification=inotify \
         --without-compress-install \
-        CFLAGS="-O2 -pipe -march=native -mtune=native -fomit-frame-pointer -flto=auto" \
+        CFLAGS="-O2 -pipe -march=native -mtune=native -fno-omit-frame-pointer -flto=auto" \
         LDFLAGS="-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,pack-relative-relocs -flto=auto"
     make -j"$(nproc --ignore=2)"
     sudo make install-strip
