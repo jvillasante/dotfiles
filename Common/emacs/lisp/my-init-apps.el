@@ -340,6 +340,7 @@
              ;; Linux
              ("http://dominique.leuenberger.net/blog/feed/rss/")
              ;; Misc
+             ("https://blog.codingconfessions.com/feed")
              ("https://scheatkode.com/rss.xml")
              ("https://www.birkey.co/rss.xml")
              ("https://lambdaland.org/index.xml")
