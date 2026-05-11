@@ -28,7 +28,7 @@ export BORG_CACHE_DIR=/home/"$USER"/.cache/borgbackup/
 
 # Setting this, so the repo does not need to be given on the commandline:
 # export BORG_REPO=/run/media/"$USER"/Toshiba/borgbackup/
-export BORG_REPO=ssh://synology-backup.lan/volume1/BorgBackup
+export BORG_REPO=ssh://nas-backup.local/volume1/BorgBackup
 
 # See the section "Passphrase notes" for more infos.
 BORG_PASSPHRASE=$(pass Apps/borgbackup | head -n 1)
