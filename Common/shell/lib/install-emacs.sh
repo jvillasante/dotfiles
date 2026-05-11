@@ -86,6 +86,7 @@ install_emacs() {
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/elpa
         [[ -d "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter ]] &&
             rm -rf "$DOTFILES_DIR"/Common/emacs/emacs.d/var/tree-sitter
+        find "$DOTFILES_DIR"/Common/emacs/emacs.d/ -name '*.eln' -delete
         /usr/local/bin/emacs --init-directory="$DOTFILES_DIR"/Common/emacs/emacs.d
 
         read -rp "Emacs packages updated, do you want to start the systemd service now? (Y/N): " confirm
