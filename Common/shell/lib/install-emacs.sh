@@ -65,7 +65,7 @@ install_emacs() {
         --without-compress-install \
         CFLAGS="-O2 -pipe -march=native -mtune=native -fno-omit-frame-pointer -flto=auto" \
         LDFLAGS="-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,pack-relative-relocs -flto=auto"
-    make -j"$(nproc --ignore=2)"
+    make -j"$(nproc)" -l"$(nproc --ignore=1)"
     sudo make install-strip
 
     popd || return 1
