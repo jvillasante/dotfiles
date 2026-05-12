@@ -124,7 +124,10 @@ if type emacs > /dev/null 2> /dev/null; then
     function emacs     { /usr/local/bin/emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
     function edebug    { /usr/local/bin/emacs --debug-init --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ "$@"; }
     function eminimal  { /usr/local/bin/emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/emacs.d/ -Q "$@"; }
-    # function eminimal  { /usr/local/bin/emacs --init-directory="$HOME"/Workspace/Public/dotfiles/Common/emacs/minimal.emacs.d/ "$@"; }
+    function eunfreeze {
+        echo "Sending SIGUSR2 to Emacs daemon..."
+        systemctl --user kill -s SIGUSR2 emacs.service
+    }
 fi
 
 # guile
