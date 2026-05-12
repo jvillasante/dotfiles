@@ -38,6 +38,8 @@ install_emacs() {
     fi
 
     # Build and install
+    # Pure GTK (Wayland native): --with-pgtk
+    # Lucid (X11/Xwayland): --with-x-toolkit=lucid
     ./autogen.sh
     ./configure \
         --without-x \
