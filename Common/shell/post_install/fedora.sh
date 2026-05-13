@@ -310,6 +310,9 @@ fedora_install() {
                         cowsay fortune-mod gnuplot telnet rlwrap nmap-ncat
                         libgcrypt libgcrypt-devel
 
+                        # Tiny Emacs-like editor
+                        mg
+
                         # System Monitor
                         htop smem
                         # atop below btop nvtop
