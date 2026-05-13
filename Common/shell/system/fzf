@@ -4,17 +4,28 @@
 # fzf
 #
 if type fzf > /dev/null 2> /dev/null; then
-    [ -f "$HOME"/.fzf.zsh ] && source "$HOME"/.fzf.zsh
-    [ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
-    [ -f /usr/share/bash-completion/completions/fzf-key-bindings ] && source /usr/share/bash-completion/completions/fzf-key-bindings
-    [ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
+    # Source the first key-bindings file we find -- elif (not && chain) so
+    # we don't double-source on distros that ship both locations.
+    if [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
+        # shellcheck source=/dev/null
+        source /usr/share/fzf/shell/key-bindings.bash
+    elif [ -f /usr/share/bash-completion/completions/fzf-key-bindings ]; then
+        # shellcheck source=/dev/null
+        source /usr/share/bash-completion/completions/fzf-key-bindings
+    elif [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+        # shellcheck source=/dev/null
+        source /usr/share/doc/fzf/examples/key-bindings.bash
+    elif [ -f "$HOME"/.fzf.bash ]; then
+        # shellcheck source=/dev/null
+        source "$HOME"/.fzf.bash
+    fi
 
     # Use ~~ as the trigger sequence instead of the default **
     # export FZF_COMPLETION_TRIGGER='~~'
 
     # Options to fzf command
     # export FZF_TMUX_OPTS="-u40%"
-    export FZF_DEFAULT_OPTS='--height 80% --ansi --extended --layout=reverse --no-border --info=inline --color=light,gutter:-1,bg+:#e0e0e0'
+    export FZF_DEFAULT_OPTS='--height 80% --ansi --layout=reverse --no-border --info=inline --color=light,gutter:-1,bg+:#e0e0e0'
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -51,17 +62,18 @@ if type fzf > /dev/null 2> /dev/null; then
         [ -n "$file" ] && rm "$file"
     }
 
-    # fd - cd to selected directory
-    fd() {
+    # fcd - cd to selected directory (excludes hidden dirs). Renamed from
+    # `fd` to avoid shadowing the fd-find binary used in FZF_DEFAULT_COMMAND.
+    fcd() {
         local dir
-        dir=$(find ${1:-*} -path '*/\.*' -prune \
-                   -o -type d -print 2> /dev/null | fzf +m) && cd "$dir"
+        dir=$(find "${1:-.}" -path '*/\.*' -prune \
+                   -o -type d -print 2> /dev/null | fzf +m) && cd "$dir" || return
     }
 
     # fda - including hidden directories
     fda() {
         local dir
-        dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+        dir=$(find "${1:-.}" -type d 2> /dev/null | fzf +m) && cd "$dir" || return
     }
 
     # cdf - cd into the directory of the selected file
@@ -73,17 +85,40 @@ if type fzf > /dev/null 2> /dev/null; then
 
     # switch to a project
     fproj() {
-        local selected tmux_running selected_name
-        selected=$(find "$HOME"/Workspace/Private/Projects/ \
-                        "$HOME"/Workspace/Public/ \
-                        "$HOME"/Workspace/Work/Nielsen/Projects/ \
-                        "$HOME"/Workspace/Work/Omicron/Projects/ \
-                        -name .git -printf '%h\n' -prune \
+        local selected tmux_running selected_name d first
+        local -a roots=(
+            "$HOME/Workspace/Private/Projects/"
+            "$HOME/Workspace/Public/"
+            "$HOME/Workspace/Work/Nielsen/Projects/"
+            "$HOME/Workspace/Work/Omicron/Projects/"
+        )
+        # Directories pruned before recursion -- avoids surfacing vendored
+        # dependencies that carry their own .git (e.g. CMake _deps under
+        # build/, npm modules under node_modules/, Cargo deps under target/).
+        # Edit this list to add or remove patterns.
+        local -a skip_dirs=(build node_modules target vendor)
+
+        # Build the find expression: \( -path '*/X' -o -path '*/Y' ... \) -prune -o ...
+        local -a find_args=("${roots[@]}")
+        if (( ${#skip_dirs[@]} > 0 )); then
+            find_args+=(\()
+            first=1
+            for d in "${skip_dirs[@]}"; do
+                (( first )) || find_args+=(-o)
+                first=0
+                find_args+=(-path "*/$d")
+            done
+            find_args+=(\) -prune -o)
+        fi
+        find_args+=(-name .git -printf '%h\n' -prune)
+
+        selected=$(find "${find_args[@]}" \
                    | grep -v "$HOME/Workspace/Work/Omicron/Projects/nntp$" \
                    | fzf)
         [[ -z $selected ]] && return
 
-        selected_name=$(basename "$selected" | tr . _)
+        # tmux session names cannot contain `.` or `:` -- swap both for `_`.
+        selected_name=$(basename "$selected" | tr '.:' '__')
         [[ -z $selected_name ]] && return
 
         if [[ dmxs = "$selected_name" ]]; then
@@ -117,31 +152,27 @@ if type fzf > /dev/null 2> /dev/null; then
         find . -wholename \*"$1"\* -not -path './.*/*' | fzf
     }
 
-    # run a command from the history
-    fhist() {
-        "$(history | cut -c8- | sort -u | fzf)"
-    }
-
     #
     # Processes
     #
 
     # show process id - interactive grep
     fpid() {
-        ps aux | eval fzf | awk '{ print $2 }'
+        ps aux | fzf --header-lines=1 | awk '{print $2}'
     }
 
-    # kill processes - list only the ones you can kill.
+    # kill processes - list only the ones you can kill. Default signal is
+    # SIGTERM (15); pass an explicit signal number for harsher signals,
+    # e.g. `fpkill 9`.
     fpkill() {
         local pid
         if [ "$UID" != "0" ]; then
-            pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+            pid=$(ps -f -u "$UID" | fzf -m --header-lines=1 | awk '{print $2}')
         else
-            pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+            pid=$(ps -ef | fzf -m --header-lines=1 | awk '{print $2}')
         fi
-
-        if [ "x$pid" != "x" ]; then
-            echo "$pid" | xargs kill -"${1:-9}"
+        if [ -n "$pid" ]; then
+            echo "$pid" | xargs kill -"${1:-15}"
         fi
     }
 
@@ -165,7 +196,7 @@ if type fzf > /dev/null 2> /dev/null; then
     fbr() {
         local branches branch
         branches=$(git branch --all | grep -v HEAD) &&
-            branch=$(echo "$branches" | fzf -d $((2 + $(wc -l <<< "$branches"))) +m) &&
+            branch=$(echo "$branches" | fzf +m) &&
             git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
     }
 
@@ -192,12 +223,15 @@ if type fzf > /dev/null 2> /dev/null; then
     # fcoc - checkout git commit
     fcoc() {
         local commits commit
-        commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
-            commit=$(echo "$commits" | fzf --tac +s +m -e) &&
+        commits=$(git log --pretty=oneline --abbrev-commit) &&
+            commit=$(echo "$commits" | fzf +s +m -e) &&
             git checkout "$(echo "$commit" | sed "s/ .*//")"
     }
 
-    # fshow - git commit browser
+    # fshow - git commit browser.
+    # NOTE: do not reformat -- the `FZF-EOF` heredoc marker must remain at
+    # column 1 (no indent) or the bind breaks. shfmt / shellharden will
+    # destroy this block.
     fshow() {
         git log --graph --color=always \
             --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
@@ -213,48 +247,10 @@ FZF-EOF"
     # Pass
     #
     if type pass > /dev/null 2> /dev/null; then
-        -fpass() {
-            local passfile actions action
-            pushd "${PASSWORD_STORE_DIR:-${HOME}/.password-store}" || return
-            passfile=$(tree -Ffi | grep '.gpg' | sed 's/.gpg$//g' | sed 's/^..//' | fzf)
-            if [ -z "$passfile" ]; then
-                popd && return || return
-            fi
-            popd || return
-            actions="Copy Password\nCopy Password and Quit\nView File\nView File and Quit\nEdit File\nEdit File and Quit\nQuit"
-            while true; do
-                action=$(echo -e "$actions" | fzf --height 12 --border --header "Pass file $passfile")
-                case ${action} in
-                    "Copy Password")
-                        pass --clip "${passfile}"
-                        ;;
-                    "Copy Password and Quit")
-                        pass --clip "${passfile}"
-                        break
-                        ;;
-                    "View File")
-                        pass "${passfile}"
-                        ;;
-                    "View File and Quit")
-                        pass "${passfile}"
-                        break
-                        ;;
-                    "Edit File")
-                        pass edit "${passfile}"
-                        ;;
-                    "Edit File and Quit")
-                        pass edit "${passfile}"
-                        break
-                        ;;
-                    "Quit") break ;;
-                    *) break ;;
-                esac
-            done
-        }
-
         fpass() {
-            store="$HOME/.password-store/"
-            swapfile="/swap/swapfile" # Set path to any swapfile not listed in /etc/fstab
+            local store="$HOME/.password-store/"
+            local swapfile="/swap/swapfile" # Set path to any swapfile not listed in /etc/fstab
+            local selection arg tmp
 
             # Open pass tomb, if any
             if [[ -e "$HOME/.password.tomb" ]]; then
@@ -301,66 +297,64 @@ M-p: git pull, M-P: git push, C-g/Esc: clear query or exit' \
                     arg="show --clip"
                 fi
 
-                if ! [[ -v "$selection" ]]; then
-                    clear
-                    case "$arg" in
-                        add)
-                            printf "\033[0;32mNew password Directory/Name:\033[0m ${selection}"
-                            if [[ -n "$selection" ]]; then
-                                printf "\033[0;32m\nPress Return to confirm or type new Directory/Name:\033[0m "
-                            fi
-                            read -r
-                            tmp="${REPLY:=$selection}"
-                            pass ${arg} "${tmp}"
-                            tmp="${selection:=$tmp}"
-                            continue
-                            ;;
-                        mv | cp)
+                clear
+                case "$arg" in
+                    add)
+                        printf '\033[0;32mNew password Directory/Name:\033[0m %s' "$selection"
+                        if [[ -n "$selection" ]]; then
+                            printf '\033[0;32m\nPress Return to confirm or type new Directory/Name:\033[0m '
+                        fi
+                        read -r
+                        tmp="${REPLY:=$selection}"
+                        pass ${arg} "${tmp}"
+                        tmp="${selection:=$tmp}"
+                        continue
+                        ;;
+                    mv | cp)
+                        tmp=${selection::-4} && tmp=${tmp#"$store"}
+                        printf "\033[0;32m\nNew Directory/Name to %s '%s' to:\033[0m " "$arg" "$tmp"
+                        read -r
+                        if [[ -n "$REPLY" ]]; then
+                            pass ${arg} "${tmp}" "${REPLY}"
+                        fi
+                        tmp="${REPLY:=$tmp}"
+                        continue
+                        ;;
+                    "generate --clip")
+                        printf '\033[0;32mNew password Directory/Name:\033[0m %s' "$selection"
+                        if [[ -n "$selection" ]]; then
+                            printf '\033[0;32m\nPress Return to confirm or type new Directory/Name:\033[0m '
+                        fi
+                        read -r
+                        tmp="${REPLY:=$selection}"
+                        printf '\033[0;32mNumber of characters:\033[0m '
+                        read -r
+                        pass ${arg} --in-place "${tmp}" "${REPLY}" \
+                            2> /dev/null  || pass ${arg} "${tmp}" "${REPLY}"
+                        tmp="${selection:=$tmp}"
+                        printf '\nPress any key to continue. '
+                        read -rsn1
+                        continue
+                        ;;
+                    quit)
+                        if [[ -z "$selection" ]]; then
+                            pkill -P $$
+                            break
+                        fi
+                        continue
+                        ;;
+                    *)
+                        if [[ -n "$selection" ]]; then
                             tmp=${selection::-4} && tmp=${tmp#"$store"}
-                            printf "\033[0;32m\nNew Directory/Name to ${arg} '${tmp}' to:\033[0m "
-                            read -r
-                            if [[ -n "$REPLY" ]]; then
-                                pass ${arg} "${tmp}" "${REPLY}"
-                            fi
-                            tmp="${REPLY:=$tmp}"
-                            continue
-                            ;;
-                        "generate --clip")
-                            printf "\033[0;32mNew password Directory/Name:\033[0m ${selection}"
-                            if [[ -n "$selection" ]]; then
-                                printf "\033[0;32m\nPress Return to confirm or type new Directory/Name:\033[0m "
-                            fi
-                            read -r
-                            tmp="${REPLY:=$selection}"
-                            printf "\033[0;32mNumber of characters:\033[0m "
-                            read -r
-                            pass ${arg} --in-place "${tmp}" "${REPLY}" \
-                                2> /dev/null  || pass ${arg} "${tmp}" "${REPLY}"
-                            tmp="${selection:=$tmp}"
-                            printf "\nPress any key to continue. "
-                            read -rsn1
-                            continue
-                            ;;
-                        quit)
-                            if [[ -z "$selection" ]]; then
-                                pkill -P $$
-                                break
-                            fi
-                            continue
-                            ;;
-                        *)
-                            if [[ -n "$selection" ]]; then
-                                tmp=${selection::-4} && tmp=${tmp#"$store"}
-                                pass ${arg} "${tmp}"
-                            else
-                                pass ${arg}
-                            fi
-                            printf "\nPress any key to continue. "
-                            read -rsn1
-                            continue
-                            ;;
-                    esac
-                fi
+                            pass ${arg} "${tmp}"
+                        else
+                            pass ${arg}
+                        fi
+                        printf '\nPress any key to continue. '
+                        read -rsn1
+                        continue
+                        ;;
+                esac
             done
 
             # Close pass tomb, if any

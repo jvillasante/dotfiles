@@ -1,0 +1,82 @@
+# -*- mode: sh; sh-shell: bash -*-
+
+# nntp <host> [port] - interactive NNTP client with readline history. Wraps
+# `ncat` (nmap) in `rlwrap` to give telnet-like sessions line editing, per-host
+# history (stored under $XDG_STATE_HOME/nntp/), and auto-TLS on port 563. Output
+# is sanitized (CR stripped, control bytes shown as ^X/M-x via `cat -v`) so
+# binary article bodies can't corrupt the terminal or inject bytes into
+# readline. Note: `cat -v` renders multibyte UTF-8 as `M-` sequences - desired
+# here for a raw-byte debug view. rlwrap's `-g` filters matching lines from
+# being saved to history (it does NOT exit the session). If the sibling
+# `nntp-fzf-filter.pl` and `nntp.inputrc` are present, C-R is rebound to an
+# fzf history picker for this session only (via a scoped INPUTRC). Depends on
+# GNU coreutils (`stdbuf`, `cat -v`) and `ncat` from nmap; optional: `fzf`,
+# `perl`, and `RlwrapFilter.pm` (ships with rlwrap) for the C-R picker.
+nntp() {
+    if [ -z "$1" ]; then
+        echo "usage: nntp <host> [port]" >&2
+        return 1
+    fi
+    local host=$1 port=${2:-119}
+    local dir=${XDG_STATE_HOME:-$HOME/.local/state}/nntp
+    mkdir -p "$dir" || { echo "failed to create $dir" >&2; return 1; }
+    local ssl=""; [ "$port" = "563" ] && ssl="--ssl"
+    local sysdir="$HOME/Workspace/Public/dotfiles/Common/shell/system"
+    local filter_name="nntp-fzf-filter.pl"
+    local inputrc="$sysdir/nntp.inputrc"
+    # Subshell scopes RLWRAP_FILTERDIR / INPUTRC to rlwrap only, so we never
+    # clobber a pre-existing value in the parent shell. rlwrap 0.47 resolves
+    # --filter against RLWRAP_FILTERDIR even when given an absolute path, so
+    # we point FILTERDIR at our sysdir and pass the bare filename. The filter
+    # itself does `use lib '/usr/share/rlwrap/filters'` to find RlwrapFilter.pm.
+    (
+        local -a fzf_args=()
+        if [ -x "$sysdir/$filter_name" ] && [ -f "$inputrc" ] && type fzf > /dev/null 2>&1; then
+            fzf_args=(--filter "$filter_name")
+            export RLWRAP_FILTERDIR="$sysdir"
+            export INPUTRC="$inputrc"
+        fi
+        exec rlwrap -s 10000 -D 1 \
+                    "${fzf_args[@]}" \
+                    -g '^(quit|QUIT|exit|EXIT)$' \
+                    -H "$dir/history.$host.$port" \
+                    sh -c 'stdbuf -o0 ncat -C -v "$@" | stdbuf -o0 tr -d "\r" | stdbuf -o0 cat -v' \
+                    _ $ssl "$host" "$port"
+    )
+}
+
+# nntp-history-dedup - one-shot cleanup of every per-host NNTP history file.
+# Strips non-printable bytes (which can break readline's history loader), drops
+# empty/whitespace-only lines, and dedupes keeping the most recent occurrence of
+# each command. Useful for files left over from before output sanitization was
+# in place, or after a crash mid-session. Sweeps orphan `*.tmp` files from
+# previously-interrupted runs. Depends on GNU `tac`.
+nntp-history-dedup() {
+    local dir=${XDG_STATE_HOME:-$HOME/.local/state}/nntp
+    if [ ! -d "$dir" ]; then
+        echo "no history directory at $dir" >&2
+        return 1
+    fi
+    \rm -f "$dir"/history.*.tmp
+    local f changed=0 processed=0
+    for f in "$dir"/history.*; do
+        [ -f "$f" ] || continue
+        case "$f" in *.tmp) continue;; esac
+        processed=$((processed + 1))
+        if ! tr -cd '[:print:]\t\n' < "$f" \
+                | tac \
+                | awk 'NF && !seen[$0]++' \
+                | tac \
+                > "$f.tmp"; then
+            echo "skipped: $f" >&2
+            \rm -f "$f.tmp"
+            continue
+        fi
+        if cmp -s "$f" "$f.tmp"; then
+            \rm -f "$f.tmp"
+        else
+            \mv "$f.tmp" "$f" && changed=$((changed + 1))
+        fi
+    done
+    echo "processed $processed file(s), $changed changed, in $dir"
+}

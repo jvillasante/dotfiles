@@ -1,0 +1,7 @@
+# Readline config used only when `nntp` invokes rlwrap (via INPUTRC env var).
+# Inherits the user's normal inputrc, then overrides C-R so the rlwrap filter
+# nntp-fzf-filter.pl can intercept it and run fzf over the session history.
+
+$include ~/.inputrc
+
+"\C-r": rlwrap-hotkey
