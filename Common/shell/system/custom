@@ -23,9 +23,9 @@ XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}" && export XDG_DATA_HOME
 XDG_LIB_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}" && export XDG_LIB_HOME
 XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}" && export XDG_STATE_HOME
 
-# Don't put duplicate lines or liens starting with space int he history.
+# Don't put duplicate lines or liens starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth:erasedups
 
 # Append to the history file, don't overwrite it
 shopt -s histappend
@@ -35,7 +35,11 @@ HISTSIZE=10000
 HISTFILESIZE=20000
 
 # Some commands to ignore
-HISTIGNORE="ls*:ll*:cd*:pwd*:exit*:clear*:history*:fproj*"
+HISTIGNORE="ls:ls *:ll:ll *:cd:cd *:pwd:exit:clear:history:history *:fproj:fproj *"
+
+# More history settings
+HISTTIMEFORMAT="%F %T  "   # timestamps when you run `history`
+shopt -s cmdhist           # multi-line commands stored as one entry
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -236,6 +240,24 @@ if [ "$(uname -s)" = 'Linux' ]; then
         }
     fi
 fi
+
+# nntp <host> [port] - interactive NNTP client with readline history. Wraps
+# `ncat` (nmap) in `rlwrap` to give telnet-like sessions line editing, per-host
+# history (stored under $XDG_STATE_HOME/nntp/), and auto-TLS on port 563.
+nntp() {
+    if [ -z "$1" ]; then
+        echo "usage: nntp <host> [port]" >&2
+        return 1
+    fi
+    local host=$1 port=${2:-119}
+    local dir=${XDG_STATE_HOME:-$HOME/.local/state}/nntp
+    mkdir -p "$dir"
+    local ssl=""; [ "$port" = "563" ] && ssl="--ssl"
+    rlwrap -s 10000 -D 2 \
+           -g '^(quit|QUIT|exit|EXIT)$' \
+           -H "$dir/history.$host.$port" \
+           ncat -C -v $ssl "$host" "$port"
+}
 
 #
 # Tmux

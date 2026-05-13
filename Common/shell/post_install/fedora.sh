@@ -307,7 +307,7 @@ fedora_install() {
                         feh mpv ncurses-term ccache meson
                         zlib-devel bzip2 bzip2-devel readline-devel xz xz-devel
                         libffi-devel findutils tk-devel libyaml-devel
-                        cowsay fortune-mod gnuplot telnet rlwrap
+                        cowsay fortune-mod gnuplot telnet rlwrap nmap-ncat
                         libgcrypt libgcrypt-devel
 
                         # System Monitor
