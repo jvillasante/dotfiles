@@ -39,7 +39,7 @@ nntp() {
         exec rlwrap -s 10000 -D 1 \
                     "${fzf_args[@]}" \
                     -g '^(quit|QUIT|exit|EXIT)$' \
-                    -H "$dir/history.$host.$port" \
+                    -H "$dir/history.$host" \
                     sh -c 'stdbuf -o0 ncat -C -v "$@" | stdbuf -o0 tr -d "\r" | stdbuf -o0 cat -v' \
                     _ $ssl "$host" "$port"
     )

@@ -163,6 +163,7 @@ if type rlwrap > /dev/null 2> /dev/null; then
 fi
 
 # utils
+alias quit="exit"
 alias hex="od -Ax -tx1z -v"
 # shellcheck disable=SC2032
 alias ls="ls --group-directories-first --color=auto"
