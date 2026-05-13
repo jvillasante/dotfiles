@@ -243,7 +243,9 @@ fi
 
 # nntp <host> [port] - interactive NNTP client with readline history. Wraps
 # `ncat` (nmap) in `rlwrap` to give telnet-like sessions line editing, per-host
-# history (stored under $XDG_STATE_HOME/nntp/), and auto-TLS on port 563.
+# history (stored under $XDG_STATE_HOME/nntp/), and auto-TLS on port 563. Output
+# is sanitized (CR stripped, control bytes shown as ^X/M-x) so binary article
+# bodies can't corrupt the terminal or inject bytes into readline.
 nntp() {
     if [ -z "$1" ]; then
         echo "usage: nntp <host> [port]" >&2
@@ -251,12 +253,39 @@ nntp() {
     fi
     local host=$1 port=${2:-119}
     local dir=${XDG_STATE_HOME:-$HOME/.local/state}/nntp
-    mkdir -p "$dir"
+    mkdir -p "$dir" || { echo "failed to create $dir" >&2; return 1; }
     local ssl=""; [ "$port" = "563" ] && ssl="--ssl"
-    rlwrap -s 10000 -D 2 \
+    rlwrap -s 10000 -D 1 \
            -g '^(quit|QUIT|exit|EXIT)$' \
            -H "$dir/history.$host.$port" \
-           ncat -C -v $ssl "$host" "$port"
+           sh -c 'stdbuf -o0 ncat -C -v "$@" | stdbuf -o0 tr -d "\r" | stdbuf -o0 cat -v' \
+           _ $ssl "$host" "$port"
+}
+
+# nntp-history-dedup - one-shot cleanup of every per-host NNTP history file.
+# Strips non-printable bytes (which can break readline's history loader), drops
+# empty/whitespace-only lines, and dedupes keeping the most recent occurrence of
+# each command. Useful for files left over from before output sanitization was
+# in place, or after a crash mid-session.
+nntp-history-dedup() {
+    local dir=${XDG_STATE_HOME:-$HOME/.local/state}/nntp
+    if [ ! -d "$dir" ]; then
+        echo "no history directory at $dir" >&2
+        return 1
+    fi
+    local f cleaned=0
+    for f in "$dir"/history.*; do
+        [ -f "$f" ] || continue
+        case "$f" in *.tmp) continue;; esac
+        tr -cd '[:print:]\t\n' < "$f" \
+            | tac \
+            | awk 'NF && !seen[$0]++' \
+            | tac \
+            > "$f.tmp" \
+            && \mv "$f.tmp" "$f" \
+            && cleaned=$((cleaned + 1))
+    done
+    echo "cleaned $cleaned history file(s) in $dir"
 }
 
 #
