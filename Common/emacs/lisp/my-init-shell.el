@@ -269,6 +269,7 @@ symbol completion at the prompt."
 
 ;; ghostel : Emacs terminal emulator powered by libghostty-vt
 (use-package ghostel
+    :disabled t
     :defer t
     :preface
     (defun my/ghostel-other-window ()
@@ -311,7 +312,6 @@ symbol completion at the prompt."
 
 ;; vterm : fully-fledged terminal emulator inside GNU emacs
 (use-package vterm
-    :disabled t
     :defer t
     :preface
     (defun my/vterm-copy-mode-cancel ()
