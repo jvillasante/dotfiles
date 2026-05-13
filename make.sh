@@ -217,10 +217,6 @@ main() {
                 unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.dir-locals.el"
             ln -s "$DOTFILES_DIR/Misc/work/nntp/.dir-locals.el" "$HOME/Workspace/Work/Omicron/Projects/nntp/master/"
 
-            [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/CLAUDE.md" ] &&
-                unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/CLAUDE.md"
-            ln -s "$DOTFILES_DIR/Misc/work/nntp/AGENTS.md" "$HOME/Workspace/Work/Omicron/Projects/nntp/master/CLAUDE.md"
-
             [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.scripts" ] &&
                 unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.scripts"
             ln -s "$DOTFILES_DIR/Misc/work/nntp/.scripts" "$HOME/Workspace/Work/Omicron/Projects/nntp/master/"
