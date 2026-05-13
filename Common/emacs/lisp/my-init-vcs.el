@@ -251,7 +251,6 @@ Auto-generated wrapper around `my/worktree-add' for the `%s' family." fam-name f
         :config-files '((".clang-tidy"               . ".clang-tidy")
                            (".dir-locals.el"           . ".dir-locals.el")
                            ("compile_flags.fedora.txt" . "compile_flags.txt")
-                           ("AGENTS.md"                . "CLAUDE.md")
                            (".scripts"                 . ".scripts"))
         :source-worktree "master"
         :protected '(".bare" "master")
