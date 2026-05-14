@@ -3,6 +3,13 @@
 ;;
 ;;; Code:
 
+;; calc
+(use-package calc
+    :ensure nil ; emacs built-in
+    :defer t
+    :init
+    (setq calc-window-height 15))
+
 ;; password-store for emacs
 (use-package password-store
     :preface
@@ -101,14 +108,17 @@
     (setq shr-use-fonts nil)
     (setq shr-indentation 2)             ; Left-side margin
     (setq shr-width 80)                  ; Fold text to 80 columns
-    (setq shr-max-image-proportion 0.6)) ; Images use at most 60% of window height
+    (setq shr-max-image-proportion 0.7)) ; Images use at most 70% of window height
 
 ;;;; EWW
 (use-package eww
     :ensure nil ; emacs built-in
     :defer t
-    :hook (eww-mode . (lambda ()
-                          (face-remap-add-relative 'default 'fixed-pitch-large)))
+    :preface
+    (defun my/eww-font-setup ()
+        "Setup fonts for eww-mode."
+        (face-remap-add-relative 'default 'fixed-pitch-large))
+    :hook (eww-mode . my/eww-font-setup)
     :config
     (setq eww-auto-rename-buffer 'url)                     ; open url in new buffer
     (setq eww-download-directory
@@ -122,24 +132,27 @@
     (setq eww-search-prefix
         "https://duckduckgo.com/?q=")) ; Use another engine for searching
 
-;; calc
-(use-package calc-mode
-    :ensure nil ;; emacs built-in
-    :defer t
-    :config (setq calc-window-height 20))
-
 ;; nov.el : Major mode for reading EPUBs in Emacs
 (use-package nov
     :defer t
-    :hook (nov-mode . (lambda ()
-                          (face-remap-add-relative 'default 'fixed-pitch-large)))
+    :preface
+    (defun my/nov-font-setup ()
+        "Setup fonts for nov-mode."
+        (face-remap-add-relative 'default 'fixed-pitch-large))
+    (defun my/nov-dos2unix-wrapper ()
+        "Wrapper to allow my/dos2unix to run in read-only nov buffers."
+        (let ((inhibit-read-only t))
+            (my/dos2unix)))
+    :hook ((nov-mode . my/nov-font-setup)
+              (nov-post-html-render . my/nov-dos2unix-wrapper))
     :mode ("\\.epub\\'" . nov-mode)
     :bind (:map nov-mode-map
               ("n" . next-line)
               ("p" . previous-line))
     :custom ((nov-text-width 80)
                 (nov-variable-pitch nil) ; breaks rendering!
-                (nov-save-place-file (expand-file-name "nov-places" my/var-dir))))
+                (nov-save-place-file (expand-file-name
+                                         "nov-places" my/var-dir))))
 
 ;; pdf-tools: replacement of DocView for PDF files
 (use-package pdf-tools
