@@ -80,7 +80,7 @@ if type fzf > /dev/null 2> /dev/null; then
     cdf() {
         local file
         local dir
-        file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+        file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || return
     }
 
     # switch to a project
