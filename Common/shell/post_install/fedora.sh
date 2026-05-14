@@ -637,6 +637,7 @@ fedora_install() {
                     flatpak install --user --noninteractive flathub com.valvesoftware.Steam
                     flatpak install --user --noninteractive flathub org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
                     flatpak install --user --noninteractive flathub org.raspberrypi.rpi-imager # Raspberri PI imager
+                    # flatpak install --user --noninteractive flathub org.mozilla.Thunderbird
                     # flatpak install --user --noninteractive flathub org.keepassxc.KeePassXC
                     # flatpak install --user --noninteractive flathub com.borgbase.Vorta
                     # flatpak install --user --noninteractive flathub io.github.Hexchat
@@ -702,16 +703,16 @@ fedora_install() {
                 echo "$CHOICE) Installing App Launcher"
 
                 #
-                # Vicinae
+                # Vicinae - Using KDE KRunner
                 #
-                if hash vicinae 2> /dev/null; then
-                    echo "Vicinae is already installed"
-                else
-                    (
-                        curl -fsSL https://vicinae.com/install.sh | bash
-                        systemctl --user enable vicinae --now
-                    ) || echo "Step $CHOICE had errors (continuing)..."
-                fi
+                # if hash vicinae 2> /dev/null; then
+                #     echo "Vicinae is already installed"
+                # else
+                #     (
+                #         curl -fsSL https://vicinae.com/install.sh | bash
+                #         systemctl --user enable vicinae --now
+                #     ) || echo "Step $CHOICE had errors (continuing)..."
+                # fi
                 pause "$CHOICE) Done. Press enter to continue..."
                 ;;
             11)
