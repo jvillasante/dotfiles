@@ -135,7 +135,6 @@
                           (face-remap-add-relative 'default 'fixed-pitch-large)))
     :mode ("\\.epub\\'" . nov-mode)
     :bind (:map nov-mode-map
-              ;; ("q" . nil)
               ("n" . next-line)
               ("p" . previous-line))
     :custom ((nov-text-width 80)
