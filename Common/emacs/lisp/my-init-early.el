@@ -5,7 +5,7 @@
 
 ;; do not wait for GTK events
 (when (boundp 'pgtk-wait-for-event-timeout)
-    (setq pgtk-wait-for-event-timeout nil))
+    (setq pgtk-wait-for-event-timeout 0.001))
 
 ;; TODO: Research how to use this more!
 ;; (when (eq window-system 'pgtk)
