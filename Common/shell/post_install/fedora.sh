@@ -146,6 +146,14 @@ fedora_install() {
                     mkdir -p "$HOME/Workspace/Work/Software"
                     mkdir -p "$HOME/Workspace/Work/Stuff"
 
+                    # XDG user-dirs (Desktop, Documents, Downloads, Music, Pictures,
+                    # Public, Templates, Videos). Usually created by the desktop
+                    # session on first login, but run explicitly so headless setups
+                    # and post-install steps that depend on these paths work too.
+                    if hash xdg-user-dirs-update 2> /dev/null; then
+                        xdg-user-dirs-update
+                    fi
+
                     # Gnome Gsettings - dconf-editor
                     #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
                     #  - Reset to default setting - gsettings reset org.gnome.desktop.interface enable-animations
