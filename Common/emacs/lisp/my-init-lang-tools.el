@@ -60,18 +60,19 @@
 (use-package eglot
     :ensure nil ;; emacs built-in
     :defer t
-    :hook ((eglot-managed-mode . (lambda ()
-                                     ;; Show flymake diagnostics first.
-                                     (setq eldoc-documentation-functions
-                                         (cons #'flymake-eldoc-function
-                                             (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+    :hook ((eglot-managed-mode .
+               (lambda ()
+                   ;; Show flymake diagnostics first.
+                   (setq eldoc-documentation-functions
+                       (cons #'flymake-eldoc-function
+                           (remove #'flymake-eldoc-function eldoc-documentation-functions)))
 
-                                     ;; Format on save via LSP.
-                                     (add-hook 'before-save-hook
-                                         (lambda ()
-                                             (when my/format-on-save
-                                                 (eglot-format-buffer)))
-                                         nil t))))
+                   ;; Format on save via LSP.
+                   (add-hook 'before-save-hook
+                       (lambda ()
+                           (when my/format-on-save
+                               (eglot-format-buffer)))
+                       nil t))))
     :bind (("C-c l l" . eglot)
               ("C-c l Q" . eglot-shutdown-all)
               :map eglot-mode-map
