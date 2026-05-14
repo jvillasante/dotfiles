@@ -16,31 +16,6 @@
                 (use-package-always-ensure t)
                 (use-package-expand-minimally t)))
 
-;; Paths used throughout
-(defconst my/home-path         (expand-file-name "~/"))
-(defconst my/dotfiles-path     (expand-file-name "Workspace/Public/dotfiles/" my/home-path))
-(defconst my/work-path         (expand-file-name "Workspace/Work/Omicron/"    my/home-path))
-(defconst my/software-path     (expand-file-name "Workspace/Software/"        my/home-path))
-(defconst my/dropbox-path      (expand-file-name "Dropbox/"                   my/home-path))
-
-;; Set environment variables - `exec-path-from-shell' is too slow!
-(setq my/exec-path-list
-    (list (expand-file-name ".go/bin" my/home-path)
-        (expand-file-name ".cargo/bin" my/home-path)
-        (expand-file-name ".local/bin" my/home-path)
-        "/usr/local/bin"
-        "/usr/local/sbin"
-        "/usr/bin"
-        "/usr/sbin"
-        "/bin"
-        "/sbin"))
-
-;; Set the `$PATH' environment variable
-(setenv "PATH" (mapconcat #'identity my/exec-path-list path-separator))
-
-;; Set the Emacs-internal `exec-path'
-(setq exec-path (append (parse-colon-path (getenv "PATH")) (list exec-directory)))
-
 ;; Telling Emacs where the C source code is let's us jump all the way down into
 ;; primitive functions when exploring elisp functions.
 (setq source-directory (expand-file-name "emacs/" my/software-path))
