@@ -9,12 +9,9 @@
 #  - /sbin
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 
-# set PATH so it includes .local bin if it exists
-[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
-
-# Reset the prompt for remote TRAMP shells.
-if [ "${INSIDE_EMACS/*tramp*/tramp}" = "tramp" ]; then
-    PS1="[\u@\h \w]$ "
+# Ensure local bin is in path
+if [[ ":$PATH:" != *":$XDG_BIN_HOME:"* ]]; then
+    export PATH="$XDG_BIN_HOME:$PATH"
 fi
 
 # emacs vterm: https://github.com/akermu/emacs-libvterm
