@@ -168,9 +168,6 @@
     ;; which should quickly self-correct.
     (setq fast-but-imprecise-scrolling t)
 
-    ;; Skip fontification when input is pending (pairs with fast-but-imprecise-scrolling).
-    (setq redisplay-skip-fontification-on-input t)
-
     ;; Move point to top/bottom of buffer before signaling a scrolling error.
     (setq scroll-error-top-bottom t)
 

@@ -64,7 +64,7 @@
 ;; Addtional syntax highlighting for dired
 (use-package diredfl
     :after dired
-    :hook (after-init . diredfl-global-mode))
+    :hook (dired-mode . diredfl-mode))
 
 ;; dired-subtree
 (use-package dired-subtree
