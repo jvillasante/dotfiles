@@ -26,7 +26,6 @@
 ;; diff-hl : highlights uncommitted changes on the left side
 (use-package diff-hl
     :hook ((magit-post-refresh . diff-hl-magit-post-refresh)
-              (dired-mode . diff-hl-dired-mode-unless-remote)
               (after-init . (lambda ()
                                 (global-diff-hl-mode 1)
                                 (unless (display-graphic-p)
