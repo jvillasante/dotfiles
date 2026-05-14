@@ -38,7 +38,7 @@ if type sk >/dev/null 2>/dev/null; then
 
     # switch to a project
     sk_proj() {
-        cd "$(find ~/Workspace/Private/Projects/ -maxdepth 2 -type d | sk)" || exit
+        cd "$(find ~/Workspace/Scratch/ -maxdepth 2 -type d | sk)" || exit
     }
 
     sk_wproj() {

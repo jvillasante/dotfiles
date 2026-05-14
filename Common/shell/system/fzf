@@ -87,8 +87,8 @@ if type fzf > /dev/null 2> /dev/null; then
     fproj() {
         local selected tmux_running selected_name d first
         local -a roots=(
-            "$HOME/Workspace/Private/Projects/"
-            "$HOME/Workspace/Public/"
+            "$HOME/Workspace/Projects/"
+            "$HOME/Workspace/Scratch/"
             "$HOME/Workspace/Work/Nielsen/Projects/"
             "$HOME/Workspace/Work/Omicron/Projects/"
         )
@@ -122,17 +122,17 @@ if type fzf > /dev/null 2> /dev/null; then
         [[ -z $selected_name ]] && return
 
         if [[ dmxs = "$selected_name" ]]; then
-            "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/dmxs.session" "$selected" "$selected_name"
+            "$HOME/Workspace/Projects/dotfiles/Common/shell/tmux/dmxs.session" "$selected" "$selected_name"
             return
         fi
 
         if [[ sm2-dhcpee = "$selected_name" ]]; then
-            "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/dhcpee.session" "$selected" "$selected_name"
+            "$HOME/Workspace/Projects/dotfiles/Common/shell/tmux/dhcpee.session" "$selected" "$selected_name"
             return
         fi
 
         if [[ "$selected" == "$HOME/Workspace/Work/Omicron/Projects/nntp/"* ]]; then
-            "$HOME/Workspace/Public/dotfiles/Common/shell/tmux/nntp.session" "$selected" "$selected_name"
+            "$HOME/Workspace/Projects/dotfiles/Common/shell/tmux/nntp.session" "$selected" "$selected_name"
             return
         fi
 

@@ -21,7 +21,7 @@ nntp() {
     local dir=${XDG_STATE_HOME:-$HOME/.local/state}/nntp
     mkdir -p "$dir" || { echo "failed to create $dir" >&2; return 1; }
     local ssl=""; [ "$port" = "563" ] && ssl="--ssl"
-    local sysdir="$HOME/Workspace/Public/dotfiles/Common/shell/system"
+    local sysdir="$HOME/Workspace/Projects/dotfiles/Common/shell/system"
     local filter_name="nntp-fzf-filter.pl"
     local inputrc="$sysdir/nntp.inputrc"
     # Subshell scopes RLWRAP_FILTERDIR / INPUTRC to rlwrap only, so we never

@@ -51,7 +51,7 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
     "Compute the shrunk path string for FILE (file or directory).
 Examples:
   /home/me/code/python/app.py    -> ~/c/python/app.py
-  /home/me/Workspace/Public/dot  -> ~/W/Public/dot
+  /home/me/Workspace/Projects/dot  -> ~/W/Projects/dot
   /ssh:server:/var/log/nginx/x   -> /ssh:server:/v/l/nginx/x
   *scratch* (non-file)           -> *scratch*"
     (let* ((file (if (file-remote-p file) file (abbreviate-file-name file)))

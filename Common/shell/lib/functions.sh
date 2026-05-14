@@ -64,7 +64,7 @@ find_os() {
 find_dotfiles() {
     local DOTFILES_DIR
     DOTFILES_DIR="NOT_FOUND"
-    [ -d "$HOME"/Workspace/Public/dotfiles ] && DOTFILES_DIR="$HOME"/Workspace/Public/dotfiles
+    [ -d "$HOME"/Workspace/Projects/dotfiles ] && DOTFILES_DIR="$HOME"/Workspace/Projects/dotfiles
     echo "$DOTFILES_DIR"
 }
 

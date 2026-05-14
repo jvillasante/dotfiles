@@ -51,27 +51,27 @@ setup_secrets_and_repos() {
     # With the new keys we can go ahead and download some repos
     [ ! -d "$HOME/.password-store" ] &&
         git clone git@github.com:jvillasante/pass.git "$HOME"/.password-store
-    [ ! -d "$HOME"/Workspace/Public/dotfiles ] &&
-        git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Public/dotfiles
-    [ ! -d "$HOME"/Workspace/Public/resume ] &&
-        git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Public/resume
-    [ ! -d "$HOME"/Workspace/Public/cpp_utils ] &&
-        git clone git@github.com:jvillasante/cpp_utils.git "$HOME"/Workspace/Public/cpp_utils
+    [ ! -d "$HOME"/Workspace/Projects/dotfiles ] &&
+        git clone git@github.com:jvillasante/dotfiles.git "$HOME"/Workspace/Projects/dotfiles
+    [ ! -d "$HOME"/Workspace/Projects/resume ] &&
+        git clone git@github.com:jvillasante/resume.git "$HOME"/Workspace/Projects/resume
+    [ ! -d "$HOME"/Workspace/Projects/cpp_utils ] &&
+        git clone git@github.com:jvillasante/cpp_utils.git "$HOME"/Workspace/Projects/cpp_utils
 
     # Set dotfiles
-    if [ -f "$HOME"/Workspace/Public/dotfiles/make.sh ]; then
+    if [ -f "$HOME"/Workspace/Projects/dotfiles/make.sh ]; then
         [ -f "$HOME"/.bashrc ] && mv "$HOME"/.bashrc "$HOME"/.bashrc.bak
         [ -f "$HOME"/.bash_profile ] && mv "$HOME"/.bash_profile "$HOME"/.bash_profile.bak
         [ -d "$HOME"/.config/psd ] && rm -rf "$HOME"/.config/psd
-        "$HOME"/Workspace/Public/dotfiles/make.sh
+        "$HOME"/Workspace/Projects/dotfiles/make.sh
 
         # Udev rules for ZSA Voyager
-        # sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/50-zsa.rules \
+        # sudo cp -f "$HOME"/Workspace/Projects/dotfiles/Common/udev/50-zsa.rules \
             #      /etc/udev/rules.d/50-zsa.rules
 
         # Custom DNS - Breaks work VPN
         # [ -d /etc/systemd/resolved.conf.d ] && sudo mv /etc/systemd/resolved.conf.d /etc/systemd/resolved.conf.d.bak
-        # sudo cp -r "$HOME"/Workspace/Public/dotfiles/Common/systemd/resolved.conf.d /etc/systemd/
+        # sudo cp -r "$HOME"/Workspace/Projects/dotfiles/Common/systemd/resolved.conf.d /etc/systemd/
         # sudo systemctl restart systemd-resolved
         # verify DoT is working
         #   resolvectl status

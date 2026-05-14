@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-DOTFILES_DIR="$HOME/Workspace/Public/dotfiles/Misc/work/nntp"
+DOTFILES_DIR="$HOME/Workspace/Projects/dotfiles/Misc/work/nntp"
 WORKTREE_BASE="$HOME/Workspace/Work/Omicron/Projects/nntp"
 
 if [[ $# -lt 1 ]]; then

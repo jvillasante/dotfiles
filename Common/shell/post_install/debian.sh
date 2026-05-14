@@ -168,18 +168,28 @@ EOF
                           "${XDG_LIB_HOME}" \
                           "${XDG_STATE_HOME}"
 
-                    # Folder structure
-                    mkdir -p "$HOME/.local/bin"
-                    mkdir -p "$HOME/Workspace"
-                    mkdir -p "$HOME/Workspace/Books"
-                    mkdir -p "$HOME/Workspace/Private/Projects"
-                    mkdir -p "$HOME/Workspace/Public"
-                    mkdir -p "$HOME/Workspace/Software"
-                    mkdir -p "$HOME/Workspace/Stuff"
-                    mkdir -p "$HOME/Workspace/Work"
-                    mkdir -p "$HOME/Workspace/Work/Projects"
-                    mkdir -p "$HOME/Workspace/Work/Software"
-                    mkdir -p "$HOME/Workspace/Work/Stuff"
+                    # XDG user-dirs (Desktop, Documents, Downloads, Music, Pictures,
+                    # Public, Templates, Videos). Usually created by the desktop
+                    # session on first login, but run explicitly so headless setups
+                    # and post-install steps that depend on these paths work too.
+                    # Must run BEFORE the folder-structure block so it owns the
+                    # XDG-standard dirs (and picks the right locale-specific names),
+                    # rather than letting `mkdir -p Documents/Books` force them.
+                    if hash xdg-user-dirs-update 2> /dev/null; then
+                        xdg-user-dirs-update
+                    fi
+
+                    # Folder structure (layered on top of XDG user-dirs)
+                    mkdir -p \
+                          "$HOME/.local/bin" \
+                          "$HOME/Documents/Books" \
+                          "$HOME/Workspace/Projects" \
+                          "$HOME/Workspace/Scratch" \
+                          "$HOME/Workspace/Software" \
+                          "$HOME/Workspace/Stuff" \
+                          "$HOME/Workspace/Work/Projects" \
+                          "$HOME/Workspace/Work/Software" \
+                          "$HOME/Workspace/Work/Stuff"
 
                     # Gnome Gsettings - dconf-editor
                     #  - View current settings - gsettings list-recursively org.gnome.desktop.interface
@@ -662,14 +672,14 @@ EOF
                         sudo gpasswd -a "$USER" input
 
                         # Second Create new udev rule granting access:
-                        sudo cp -f "$HOME"/Workspace/Public/dotfiles/Common/udev/70-xremap.rules \
+                        sudo cp -f "$HOME"/Workspace/Projects/dotfiles/Common/udev/70-xremap.rules \
                              /etc/udev/rules.d/70-xremap.rules
 
                         # Enable the daemon
                         [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
                         [ -L "$HOME/.config/systemd/user/xremap.service" ] &&
                             unlink "$HOME/.config/systemd/user/xremap.service"
-                        ln -s "$HOME/Workspace/Public/dotfiles/Common/systemd/user/xremap.service" \
+                        ln -s "$HOME/Workspace/Projects/dotfiles/Common/systemd/user/xremap.service" \
                            "$HOME/.config/systemd/user"
                         systemctl --user daemon-reload
                         systemctl --user enable --now xremap.service

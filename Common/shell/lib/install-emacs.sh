@@ -76,7 +76,7 @@ install_emacs() {
     read -rp "Emacs has been installed, do you want to update packages now? (Y/N): " confirm
     if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
         local DOTFILES_DIR
-        DOTFILES_DIR="$HOME"/Workspace/Public/dotfiles/
+        DOTFILES_DIR="$HOME"/Workspace/Projects/dotfiles/
 
         if [[ ! -d "$DOTFILES_DIR"/Common/emacs/emacs.d ]]; then
             echo "Emacs personal configuration not found, exiting..."

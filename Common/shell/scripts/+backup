@@ -124,7 +124,9 @@ do_borg_backup() {
         --exclude '/home/*/Virtualbox VMs*' \
         --exclude '/home/*/Desktop/*.desktop' \
         --exclude '/home/*/Dropbox' \
-        --exclude '/home/*/Workspace/Public/' \
+        --exclude '/home/*/Workspace/Projects/dotfiles/' \
+        --exclude '/home/*/Workspace/Projects/resume/' \
+        --exclude '/home/*/Workspace/Projects/cpp_utils/' \
         --exclude '/home/*/Workspace/Software/' \
         --exclude '/home/*/Workspace/Work/Nielsen/Firmware/' \
         --exclude '/home/*/Workspace/Work/Nielsen/Software/' \
@@ -139,9 +141,9 @@ do_borg_backup() {
         --exclude '/home/*/Workspace/Work/Nielsen/Projects/dmxs/models/test' \
         --exclude '/home/*/Workspace/Work/Omicron/Projects/nntpcode/build' \
         --exclude '/home/*/Workspace/Work/Omicron/Projects/nntp/**/build' \
-        --exclude '/home/*/Workspace/Private/Projects/cpp/**/bin/' \
-        --exclude '/home/*/Workspace/Private/Projects/cpp/**/build/' \
-        --exclude '/home/*/Workspace/Private/Projects/cpp/**/.cache/' \
+        --exclude '/home/*/Workspace/Scratch/cpp/**/bin/' \
+        --exclude '/home/*/Workspace/Scratch/cpp/**/build/' \
+        --exclude '/home/*/Workspace/Scratch/cpp/**/.cache/' \
         --exclude 're:/*var/cache/' \
         --exclude 're:/*vendor*/' \
         --exclude 're:/*target*/' \
