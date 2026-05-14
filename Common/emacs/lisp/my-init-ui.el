@@ -440,7 +440,7 @@ Run this function at the post theme load phase, such as with the
     ;; window split and resizing
     (setq window-combination-resize t) ; Proportional Window Resizing
     (setq split-height-threshold 80)   ; Minimum height for splitting windows sensibly
-    (setq split-width-threshold 150)   ; Minimum width for splitting windows sensibly.
+    (setq split-width-threshold 150)   ; Minimum width for splitting windows sensibly
 
     ;; defaults
     (setq switch-to-buffer-in-dedicated-window 'pop)
