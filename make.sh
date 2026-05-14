@@ -129,8 +129,12 @@ main() {
     done
 
     echo ">>> Linking claude files in $HOME/.claude..."
-    [ -L "$HOME/.claude/settings.json" ] && unlink "$HOME/.claude/settings.json"
-    ln -s "$DOTFILES_DIR/Common/claude/settings.json" "$HOME/.claude"
+    mkdir -p "$HOME/.claude"
+    files="settings.json CLAUDE.md"
+    for file in $files; do
+        [ -L "$HOME/.claude/$file" ] && unlink "$HOME/.claude/$file"
+        ln -s "$DOTFILES_DIR/Common/claude/$file" "$HOME/.claude"
+    done
 
     echo ">>> Linking common files in $HOME/.config..."
     files="git btop nyxt alacritty foot ghostty shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml clangd containers .ripgreprc gopass vicinae"

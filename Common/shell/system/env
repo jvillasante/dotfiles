@@ -71,8 +71,8 @@ fi
 [ -d "/snap/bin" ] && export PATH="$PATH:/snap/bin"
 
 # common-lisp qlot
-if [ -d "$HOME/.local/share/qlot/bin/" ]; then
-    export PATH="$PATH:$HOME/.local/share/qlot/bin"
+if [ -d "$XDG_DATA_HOME/qlot/bin/" ]; then
+    export PATH="$PATH:$XDG_DATA_HOME/qlot/bin"
 fi
 
 # llvm
@@ -94,8 +94,8 @@ fi
 
 # Go
 if type go > /dev/null 2> /dev/null; then
-    [ ! -d "$HOME/.go/" ] && mkdir -p "$HOME/.go/"
-    GOPATH="$HOME/.go" && export GOPATH
+    GOPATH="$XDG_DATA_HOME/go" && export GOPATH
     GOBIN="$GOPATH/bin" && export GOBIN
+    [ ! -d "$GOBIN" ] && mkdir -p "$GOBIN"
     PATH="$GOBIN:$PATH" && export PATH
 fi
