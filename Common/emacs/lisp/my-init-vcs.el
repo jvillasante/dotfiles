@@ -248,7 +248,7 @@ Auto-generated wrapper around `my/worktree-add' for the `%s' family." fam-name f
         :dotfiles-dir (expand-file-name "Misc/work/nntp" my/dotfiles-path)
         :config-files '((".clang-tidy"               . ".clang-tidy")
                            (".dir-locals.el"           . ".dir-locals.el")
-                           ("compile_flags.fedora.txt" . "compile_flags.txt")
+                           (".clangd"                  . ".clangd")
                            (".scripts"                 . ".scripts"))
         :source-worktree "master"
         :protected '(".bare" "master")

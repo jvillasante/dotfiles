@@ -194,24 +194,9 @@ main() {
         ln -s "$DOTFILES_DIR/Misc/work/.gitconfig" "$HOME/Workspace/Work/Omicron/Projects"
 
         if [ -d "$HOME/Workspace/Work/Omicron/Projects/nntp/master" ]; then
-            [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/compile_flags.txt" ] &&
-                unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/compile_flags.txt"
-            if [ -f /etc/fedora-release ]; then
-                ln -s "$DOTFILES_DIR/Misc/work/nntp/compile_flags.fedora.txt" \
-                   "$HOME/Workspace/Work/Omicron/Projects/nntp/master/compile_flags.txt"
-            elif [ -f /etc/debian_version ]; then
-                ln -s "$DOTFILES_DIR/Misc/work/nntp/compile_flags.debian.txt" \
-                   "$HOME/Workspace/Work/Omicron/Projects/nntp/master/compile_flags.txt"
-            elif [ -f /etc/products.d/openSUSE.prod ]; then
-                ln -s "$DOTFILES_DIR/Misc/work/nntp/compile_flags.suse.txt" \
-                   "$HOME/Workspace/Work/Omicron/Projects/nntp/master/compile_flags.txt"
-            else
-                echo ">>> Unknown OS (only fedora and debian are supported)..."
-            fi
-
-            # [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clangd" ] &&
-            #     unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clangd"
-            # ln -s "$DOTFILES_DIR/Misc/.clangd" "$HOME/Workspace/Work/Omicron/Projects/nntp/"
+            [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clangd" ] &&
+                unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clangd"
+            ln -s "$DOTFILES_DIR/Misc//work/nntp/.clangd" "$HOME/Workspace/Work/Omicron/Projects/nntp/master/"
 
             [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clang-tidy" ] &&
                 unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clang-tidy"

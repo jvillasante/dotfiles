@@ -23,14 +23,20 @@ if ! container_running; then
     podman rm "$CONTAINER" 2>/dev/null || true
 
     echo "[container] Starting daemon container '$CONTAINER' from image '$IMAGE'..."
+    # Bind-mount the project at the same absolute path inside the container
+    # as on the host, so paths in compile_commands.json, header symlinks,
+    # etc. work transparently on both sides. NNTP_PROJ_DIR lets scripts
+    # inside the container reference the project without hardcoding.
     podman run \
         --user nntpuser \
         --rm \
         --detach \
         --init \
-        --volume "$PROJ_DIR":/tmp/nntpcode:rw,z \
+        --volume "$PROJ_DIR":"$PROJ_DIR":rw,z \
         --userns=keep-id \
-        --workdir /tmp/nntpcode \
+        --workdir "$PROJ_DIR" \
+        --env "NNTP_PROJ_DIR=$PROJ_DIR" \
+        --env "COMPDB_FRAGMENT_DIR=$PROJ_DIR/build/.compdb-fragments" \
         --name "$CONTAINER" \
         "$IMAGE" \
         tail -f /dev/null

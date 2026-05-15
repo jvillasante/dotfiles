@@ -14,14 +14,21 @@ configure() {
     tmux send-keys -t "$selected_name" "git status" Enter
     tmux split-window -v -l 80% -t "$selected_name" -c "$selected"
 
-    # Start persistent daemon container if not already running
+    # Start persistent daemon container if not already running. The bind mount
+    # uses the same absolute path inside the container as on the host so
+    # compile_commands.json entries, header symlinks, etc. work transparently
+    # from both sides. NNTP_PROJ_DIR and COMPDB_FRAGMENT_DIR are passed in so
+    # the compile-commands recording wrapper baked into the image can find
+    # and write to the right places.
     tmux send-keys -t "$selected_name" \
          "if ! podman inspect -f '{{.State.Running}}' '$selected_name' 2>/dev/null | grep -q '^true$'; then" Enter
     tmux send-keys -t "$selected_name" \
          "  podman rm '$selected_name' 2>/dev/null || true" Enter
     tmux send-keys -t "$selected_name" \
          "  podman run --user nntpuser --rm --detach --init " \
-         "--volume $selected:/tmp/nntpcode:rw,z --userns=keep-id -w /tmp/nntpcode " \
+         "--volume $selected:$selected:rw,z --userns=keep-id -w $selected " \
+         "--env NNTP_PROJ_DIR=$selected " \
+         "--env COMPDB_FRAGMENT_DIR=$selected/build/.compdb-fragments " \
          "--name '$selected_name' localhost/nntp:latest tail -f /dev/null" Enter
     tmux send-keys -t "$selected_name" "fi" Enter
 

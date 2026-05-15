@@ -26,9 +26,9 @@ WORKTREE_PATH="$WORKTREE_BASE/$WORKTREE_NAME"
 git -C "$WORKTREE_BASE/master" worktree add "$WORKTREE_PATH" "$@"
 
 # Symlink personal config files
+ln -s "$DOTFILES_DIR/.clangd" "$WORKTREE_PATH/.clangd"
 ln -s "$DOTFILES_DIR/.clang-tidy" "$WORKTREE_PATH/.clang-tidy"
 ln -s "$DOTFILES_DIR/.dir-locals.el" "$WORKTREE_PATH/.dir-locals.el"
-ln -s "$DOTFILES_DIR/compile_flags.fedora.txt" "$WORKTREE_PATH/compile_flags.txt"
 ln -s "$DOTFILES_DIR/.scripts" "$WORKTREE_PATH/.scripts"
 
 echo ""
