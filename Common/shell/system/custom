@@ -40,7 +40,7 @@ HISTSIZE=10000
 HISTFILESIZE=20000
 
 # Some commands to ignore
-HISTIGNORE="ls:ls *:ll:ll *:cd:cd *:pwd:exit:clear:history:history *:fproj:fproj *"
+HISTIGNORE="ls:ll:cd:pwd:exit:clear:history:fproj"
 
 # More history settings
 HISTTIMEFORMAT="%F %T  "   # timestamps when you run `history`
