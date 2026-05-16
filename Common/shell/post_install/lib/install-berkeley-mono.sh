@@ -18,8 +18,8 @@ install_berkeley_mono_font() {
     [ ! -d "$(pwd)"/fonts ] && echo "$(pwd)/fonts is not a directory" && exit 1
     [ ! -f "$(pwd)"/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
         echo "$(pwd)/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" && exit 1
-    [ ! -f "$(pwd)"/../scripts/+crypt ] &&
-        echo "$(pwd)/../scripts/+crypt script does not exists" && exit 1
+    [ ! -f "$(pwd)"/../scripts/my-crypt ] &&
+        echo "$(pwd)/../scripts/my-crypt script does not exists" && exit 1
     [ ! -d "$HOME"/Workspace/Software/fonts ] && mkdir -p "$HOME"/Workspace/Software/fonts
     [ -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
         rm -rf "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface
@@ -29,7 +29,7 @@ install_berkeley_mono_font() {
     [ ! -f "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg ] &&
         echo "$HOME/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg does not exists" \
                     && exit 1
-    "$(pwd)"/../scripts/+crypt -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg
+    "$(pwd)"/../scripts/my-crypt -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface.tar.gz.gpg
     [ ! -d "$HOME"/Workspace/Software/fonts/berkeley-mono-typeface ] &&
         echo "Decryption failed, $HOME/Workspace/Software/fonts/berkeley-mono-typeface does not exists" \
                     && exit 1

@@ -18,12 +18,12 @@ setup_secrets_and_repos() {
     read -r -p "Enter keys backup directory: " KEYS_DIR
     KEYS_DIR=${KEYS_DIR%/}
     [ ! -d "$KEYS_DIR" ] && echo "$KEYS_DIR is not a directory" && exit 1
-    [ ! -f "$(pwd)/../scripts/+crypt" ] && echo "$(pwd)/../scripts/+crypt script does not exists" && exit 1
+    [ ! -f "$(pwd)/../scripts/my-crypt" ] && echo "$(pwd)/../scripts/my-crypt script does not exists" && exit 1
     [ ! -f "$KEYS_DIR/ssh.tar.gz.gpg" ] && echo "$KEYS_DIR/ssh.tar.gz.gpg does not exists" && exit 1
     [ ! -f "$KEYS_DIR/gpg.tar.gz.gpg" ] && echo "$KEYS_DIR/gpg.tar.gz.gpg does not exists" && exit 1
 
     echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
-    "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
+    "$(pwd)/../scripts/my-crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
     [ ! -d "$KEYS_DIR"/.ssh ] && echo "Decryption failed, $KEYS_DIR/ssh does not exists" && exit 1
     mkdir -p ~/.ssh && rm -rf ~/.ssh/*
     cp "$KEYS_DIR"/.ssh/id_* ~/.ssh
@@ -35,7 +35,7 @@ setup_secrets_and_repos() {
     rm -rf "$KEYS_DIR"/.ssh
 
     echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
-    "$(pwd)/../scripts/+crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
+    "$(pwd)/../scripts/my-crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
     [ ! -d "$KEYS_DIR"/gpg ] && echo "Decryption failed, $KEYS_DIR/gpg does not exists" && exit 1
     mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
     cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
