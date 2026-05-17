@@ -39,7 +39,7 @@ install_psd() {
 
         # Fetch update
         sudo make uninstall
-        make clean && make distclean
+        make clean
         git reset --hard HEAD
         sudo git clean -dfx
         git fetch && git pull
