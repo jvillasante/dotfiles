@@ -354,6 +354,7 @@
              ;; Math, Security
              ("https://0xkrt26.github.io/math_behind_security/feed.xml")
              ;; Misc
+             ("https://david.alvarezrosa.com/index.xml")
              ("https://blog.codingconfessions.com/feed")
              ("https://scheatkode.com/rss.xml")
              ("https://www.birkey.co/rss.xml")
