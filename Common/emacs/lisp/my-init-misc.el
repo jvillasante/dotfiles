@@ -126,7 +126,8 @@
 (use-package project
     :ensure nil ;; emacs built-in
     :custom
-    ((project-list-file (expand-file-name "projects" my/var-dir))
+    ((project-compilation-buffer-name-function 'project-prefixed-buffer-name)
+        (project-list-file (expand-file-name "projects" my/var-dir))
         (project-vc-extra-root-markers '(".project.el" ".projectile"))
         (project-vc-ignores '("target/" "bin/" "build/" "obj/")))
     :config
