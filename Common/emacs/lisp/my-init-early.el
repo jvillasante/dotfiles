@@ -3,7 +3,7 @@
 ;;
 ;;; Code:
 
-;; do not wait for GTK events
+;; Reduce Wayland event loop blocking to fix typing latency
 (when (boundp 'pgtk-wait-for-event-timeout)
     (setq pgtk-wait-for-event-timeout 0.001))
 

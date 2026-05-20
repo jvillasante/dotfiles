@@ -84,13 +84,13 @@
     (let ((fixed-font "Berkeley Mono")
              (variable-font "Berkeley Mono Variable"))
         ;; Default fonts for all text
-        (set-face-attribute 'default nil :family fixed-font :height 146)
+        (set-face-attribute 'default nil :family fixed-font :height 160)
         (set-face-attribute 'fixed-pitch nil :family fixed-font :height 1.0)
         (set-face-attribute 'variable-pitch nil :family variable-font :height 1.0)
 
         ;; Larger variants for reading modes (e.g. nov, eww)
-        (set-face-attribute 'fixed-pitch-large nil :family fixed-font :height 168)
-        (set-face-attribute 'variable-pitch-large nil :family variable-font :height 170)
+        (set-face-attribute 'fixed-pitch-large nil :family fixed-font :height 182)
+        (set-face-attribute 'variable-pitch-large nil :family variable-font :height 182)
 
         ;; Current line number
         ;; (set-face-attribute 'line-number-current-line nil :foreground "yellow" :inherit 'line-number)
@@ -163,6 +163,9 @@
 
 ;; scrolling
 (progn
+    ;; Disable Pixel-Precise Scrolling - PGTK build does not likes it!
+    (pixel-scroll-precision-mode -1)
+
     ;; Enables faster scrolling through unfontified regions. This may result in
     ;; brief periods of inaccurate syntax highlighting immediately after scrolling,
     ;; which should quickly self-correct.
