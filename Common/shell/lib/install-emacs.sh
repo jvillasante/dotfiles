@@ -33,6 +33,7 @@ install_emacs() {
             make distclean || true
         fi
         git clean -dfx
+        rm -fr .git/hooks/*
         git fetch --depth 1 origin "$EMACS_BRANCH"
         git checkout -B "$EMACS_BRANCH" FETCH_HEAD
     fi
@@ -54,7 +55,6 @@ install_emacs() {
         --without-xim \
         --without-gpm \
         --disable-gc-mark-trace \
-        --enable-link-time-optimization \
         --with-gsettings \
         --with-modules \
         --with-threads \
@@ -62,12 +62,13 @@ install_emacs() {
         --with-xml2 \
         --with-tree-sitter \
         --with-zlib \
+        --without-included-regex \
         --with-native-compilation \
         --with-file-notification=inotify \
         --without-compress-install \
-        CFLAGS="-O2 -pipe -march=native -mtune=native -fno-omit-frame-pointer -flto=auto" \
-        LDFLAGS="-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,pack-relative-relocs -flto=auto"
-    make -j"$(nproc)" -l"$(nproc --ignore=1)"
+        CFLAGS="-O2 -pipe -march=native -mtune=native -fno-omit-frame-pointer -fno-plt -flto=auto" \
+        LDFLAGS="-Wl,-O2 -Wl,-z,now -Wl,-z,relro -Wl,--sort-common -Wl,--as-needed -Wl,-z,pack-relative-relocs -flto=auto -O2"
+    make -j"$(nproc)" -l"$(nproc --ignore=2)"
     sudo make install-strip
 
     popd || return 1
