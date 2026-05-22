@@ -59,17 +59,22 @@
     "The default value of the `user-emacs-directory' variable.")
 
 ;; Paths used throughout
-(defconst my/home-path         (expand-file-name "~/"))
-(defconst my/dotfiles-path     (expand-file-name "Workspace/Projects/dotfiles/" my/home-path))
-(defconst my/work-path         (expand-file-name "Workspace/Work/Omicron/"    my/home-path))
-(defconst my/software-path     (expand-file-name "Workspace/Software/"        my/home-path))
-(defconst my/dropbox-path      (expand-file-name "Dropbox/"                   my/home-path))
+(defconst my/home-path     (expand-file-name "~/"))
+(defconst my/dotfiles-path (expand-file-name "Workspace/Projects/dotfiles/" my/home-path))
+(defconst my/work-path     (expand-file-name "Workspace/Work/Omicron/"      my/home-path))
+(defconst my/software-path (expand-file-name "Workspace/Software/"          my/home-path))
+(defconst my/dropbox-path  (expand-file-name "Dropbox/"                     my/home-path))
 
 ;;; Env - needs to be in `early-init.el'
 
+;; Emacs built with GTK lags in its response to keyboard input
+(when (or (featurep 'gtk)
+          (featurep 'pgtk))
+    (setenv "GTK_IM_MODULE" "none"))
+
 ;; Set environment variables - `exec-path-from-shell' is too slow!
 (setq my/exec-path-list
-    (list (expand-file-name ".go/bin" my/home-path)
+    (list (expand-file-name "go/bin" my/home-path)
         (expand-file-name ".cargo/bin" my/home-path)
         (expand-file-name ".local/bin" my/home-path)
         "/usr/local/bin"
@@ -81,11 +86,6 @@
 
 ;; Set the `$PATH' environment variable
 (setenv "PATH" (mapconcat #'identity my/exec-path-list path-separator))
-
-;; Emacs built with GTK lags in its response to keyboard input
-(when (or (featurep 'gtk)
-          (featurep 'pgtk))
-    (setenv "GTK_IM_MODULE" "none"))
 
 ;; Set the Emacs-internal `exec-path'
 (setq exec-path (append (parse-colon-path (getenv "PATH")) (list exec-directory)))
