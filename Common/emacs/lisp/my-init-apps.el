@@ -108,7 +108,7 @@
     (setq shr-use-fonts nil)
     (setq shr-indentation 2)             ; Left-side margin
     (setq shr-width 80)                  ; Fold text to 80 columns
-    (setq shr-max-image-proportion 0.7)) ; Images use at most 70% of window height
+    (setq shr-max-image-proportion 0.6)) ; Images use at most 60% of window height
 
 ;;;; EWW
 (use-package eww
