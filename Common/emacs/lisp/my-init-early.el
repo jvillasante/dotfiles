@@ -277,7 +277,8 @@
                 "show diff between the buffer and its file")))
 
     ;; Browse the web
-    ;; (setq browse-url-browser-function 'browse-url-generic) ; Use default Browser
+    ;; (setq browse-url-browser-function 'browse-url-generic)
+    ;; (setq browse-url-secondary-browser-function 'eww-browse-url)
     (setq browse-url-browser-function 'eww-browse-url)
     (setq browse-url-secondary-browser-function 'browse-url-default-browser)
 
