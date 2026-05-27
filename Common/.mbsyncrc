@@ -26,6 +26,14 @@ Create Both
 Expunge Both
 SyncState *
 
+Channel Gmail-sent
+Far :Gmail-remote:"[Gmail]/Sent Mail"
+Near :Gmail-local:"Sent"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
 Channel Gmail-trash
 Far :Gmail-remote:"[Gmail]/Trash"
 Near :Gmail-local:"Trash"
@@ -60,6 +68,7 @@ SyncState *
 
 Group Gmail
 Channel Gmail-inbox
+Channel Gmail-sent
 Channel Gmail-trash
 Channel Gmail-all
 Channel Gmail-spam

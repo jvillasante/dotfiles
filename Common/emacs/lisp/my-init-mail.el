@@ -14,6 +14,7 @@
     (mu4e-update-interval 600)
     (mu4e-hide-index-messages t)
     (mu4e-view-show-images t)
+    (mu4e-search-skip-duplicates t)
     ;; Tell Emacs to use an external sendmail program
     (send-mail-function 'message-send-mail-with-sendmail)
     (message-send-mail-function 'message-send-mail-with-sendmail)
