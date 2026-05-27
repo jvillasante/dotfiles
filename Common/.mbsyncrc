@@ -113,49 +113,50 @@ Channel Apple-all
 # Omicron (Outlook)
 #
 
-# IMAPAccount Omicron
-# Host outlook.office365.com
-# User julio.villasante@omicronmedia.com
+IMAPAccount Omicron
+Host outlook.office365.com
+User julio.villasante@omicronmedia.com
+AuthMechs XOAUTH2
 # PassCmd "pass show Apps/mu4e-omicron | head -n1"
-# AuthMechs LOGIN
-# TLSType IMAPS
-# TLSVersions +1.2
-# CertificateFile /etc/ssl/certs/ca-certificates.crt
+PassCmd "/usr/local/bin/mutt_oauth2.py ~/.mbsync_work_token"
+TLSType IMAPS
+TLSVersions +1.2
+CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-# MaildirStore Omicron-local
-# Path ~/.mail/julio.villasante@omicronmedia.com/
-# Inbox ~/.mail/julio.villasante@omicronmedia.com/Inbox
-# SubFolders Verbatim
+MaildirStore Omicron-local
+Path ~/.mail/julio.villasante@omicronmedia.com/
+Inbox ~/.mail/julio.villasante@omicronmedia.com/Inbox
+SubFolders Verbatim
 
-# IMAPStore Omicron-remote
-# Account Omicron
+IMAPStore Omicron-remote
+Account Omicron
 
-# Channel Omicron-all
-# Far :Omicron-remote:
-# Near :Omicron-local:
-# Patterns "INBOX" "Archive" "Sent"
-# CopyArrivalDate yes
-# Create Both
-# Expunge Both
-# SyncState *
+Channel Omicron-all
+Far :Omicron-remote:
+Near :Omicron-local:
+Patterns "INBOX" "Archive" "Sent Items" "Nightly Builds"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
 
-# Channel Omicron-junk
-# Far :Omicron-remote:"Junk"
-# Near :Omicron-local:"Spam"
-# CopyArrivalDate yes
-# Create Both
-# Expunge Both
-# SyncState *
+Channel Omicron-junk
+Far :Omicron-remote:"Junk Email"
+Near :Omicron-local:"Spam"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
 
-# Channel Omicron-trash
-# Far :Omicron-remote:"Deleted"
-# Near :Omicron-local:"Trash"
-# CopyArrivalDate yes
-# Create Both
-# Expunge Both
-# SyncState *
+Channel Omicron-trash
+Far :Omicron-remote:"Deleted Items"
+Near :Omicron-local:"Trash"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
 
-# Group Omicron
-# Channel Omicron-all
-# Channel Omicron-junk
-# Channel Omicron-trash
+Group Omicron
+Channel Omicron-all
+Channel Omicron-junk
+Channel Omicron-trash

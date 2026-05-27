@@ -10,7 +10,9 @@
     :defer t
     :custom
     (mu4e-modeline-show-global nil)
-    (mu4e-update-interval 600))
+    (mu4e-update-interval 600)
+    (mu4e-hide-index-messages t)
+    (mu4e-view-show-images t))
 
 ;; org-msg
 (use-package org-msg :defer t)
@@ -24,14 +26,36 @@
         "View MSG in Firefox."
         (let ((browse-url-browser-function #'browse-url-firefox))
             (mu4e-action-view-in-browser msg)))
-    :hook (after-init . (lambda ()
-                            (mu4easy-mode)
-                            (mu4e-alert-disable-mode-line-display)))
+    (defun my/mu4easy-patch-omicron-context ()
+        "Inject the Nightly Builds shortcut into the mu4easy-generated Omicron context."
+        (let* ((ctx (seq-find (lambda (c) (string= (mu4e-context-name c) "Omicron")) mu4e-contexts))
+                  (vars (when ctx (mu4e-context-vars ctx)))
+                  (shortcuts-cell (assq 'mu4e-maildir-shortcuts vars)))
+            (when shortcuts-cell
+                (setcdr shortcuts-cell
+                    (append (cdr shortcuts-cell)
+                        '(("/julio.villasante@omicronmedia.com/Nightly Builds" . ?n)))))))
+    (defun my/mu4easy-setup ()
+        "Initialize mu4easy and apply post-initialization patches."
+        (mu4easy-mode)
+        (mu4e-alert-disable-mode-line-display)
+        (with-eval-after-load 'mu4e
+            ;; Patch the Omicron context
+            (my/mu4easy-patch-omicron-context)
+
+            ;; Patch the Bookmarks List
+            (unless (seq-find (lambda (b) (eq (plist-get b :key) ?n)) mu4e-bookmarks)
+                (setq mu4e-bookmarks
+                    (append mu4e-bookmarks
+                        '((:query "maildir:\"/julio.villasante@omicronmedia.com/Nightly Builds\" AND date:today..now"
+                              :name "Today's Nightly Builds"
+                              :key ?n)))))))
+    :hook (after-init . my/mu4easy-setup)
     :bind ("C-c o u" . mu4e)
     :custom
     (mu4easy-signature "---\nRegards,\nJulio")
     (mu4easy-headers
-        '((:human-date . 18) (:flags . 6) (:maildir . 28) (:from-or-to . 22)
+        '((:human-date . 18) (:flags . 6) (:short-folder . 22) (:from-or-to . 26)
              (:mailing-list . 10) (:tags . 10) (:subject . 92)))
     (mu4easy-contexts
         '((mu4easy-context
@@ -44,10 +68,36 @@
                  :c-name  "Apple"
                  :maildir "julio.villasante@icloud.com"
                  :mail    "julio.villasante@icloud.com"
+                 :smtp    "smtp.mail.me.com")
+             (mu4easy-context
+                 :c-name  "Omicron"
+                 :maildir "julio.villasante@omicronmedia.com"
+                 :mail    "julio.villasante@omicronmedia.com"
                  :smtp    "smtp.mail.me.com")))
     :config
-    (add-to-list 'mu4e-view-actions
-        '("View in Firefox" . my/mu4e-action-view-in-firefox) t))
+    (with-eval-after-load 'mu4e
+        ;; Add Firefox action (`a' and then `V' when viewing Email)
+        (add-to-list 'mu4e-view-actions '("View in Firefox" . my/mu4e-action-view-in-firefox) t)
+
+        ;; Add Custom Header Field (shorter so it fits)
+        (add-to-list 'mu4e-header-info-custom
+            '(:short-folder .
+                 (:name "Folder"
+                     :shortname "Folder"
+                     :help "Folder name with short account alias"
+                     :function (lambda (msg)
+                                   (let* ((maildir (mu4e-message-field msg :maildir))
+                                             (aliases '(("jvillasantegomez@gmail.com"        . "Gmail")
+                                                           ("julio.villasante@icloud.com"       . "Apple")
+                                                           ("julio.villasante@omicronmedia.com" . "Omicron"))))
+                                       (if (string-match "^/\\([^/]+\\)/\\(.*\\)" maildir)
+                                           (let* ((account (match-string 1 maildir))
+                                                     (folder  (match-string 2 maildir))
+                                                     (alias   (cdr (assoc account aliases))))
+                                               (if alias
+                                                   (concat alias "/" folder)
+                                                   (concat account "/" folder)))
+                                           maildir))))))))
 
 (provide 'my-init-mail)
 ;;; my-init-mail.el ends here

@@ -277,10 +277,10 @@
                 "show diff between the buffer and its file")))
 
     ;; Browse the web
-    ;; (setq browse-url-browser-function 'browse-url-generic)
-    ;; (setq browse-url-secondary-browser-function 'eww-browse-url)
-    (setq browse-url-browser-function 'eww-browse-url)
-    (setq browse-url-secondary-browser-function 'browse-url-default-browser)
+    (setq browse-url-browser-function 'browse-url-generic)
+    (setq browse-url-secondary-browser-function 'eww-browse-url)
+    ;; (setq browse-url-browser-function 'eww-browse-url)
+    ;; (setq browse-url-secondary-browser-function 'browse-url-default-browser)
 
     (when my/os-mac
         (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
