@@ -9,10 +9,19 @@
     :ensure nil ;; built-in
     :defer t
     :custom
+    ;; Some defaults
     (mu4e-modeline-show-global nil)
     (mu4e-update-interval 600)
     (mu4e-hide-index-messages t)
-    (mu4e-view-show-images t))
+    (mu4e-view-show-images t)
+    ;; Tell Emacs to use an external sendmail program
+    (send-mail-function 'message-send-mail-with-sendmail)
+    (message-send-mail-function 'message-send-mail-with-sendmail)
+    (sendmail-program "msmtp")
+    ;; Tell msmtp to read the "From:" field in your email to figure out
+    ;; which account to use from your ~/.msmtprc file automatically!
+    (message-sendmail-extra-arguments '("--read-envelope-from"))
+    (message-sendmail-f-is-evil t))
 
 ;; org-msg
 (use-package org-msg :defer t)
@@ -22,19 +31,23 @@
 (use-package mu4easy
     :defer t
     :preface
+    (defun my/change-message-send-mail-function ()
+        "Using sendmail"
+        (setq message-send-mail-function #'message-send-mail-with-sendmail))
     (defun my/mu4e-action-view-in-firefox (msg)
         "View MSG in Firefox."
         (let ((browse-url-browser-function #'browse-url-firefox))
             (mu4e-action-view-in-browser msg)))
     (defun my/mu4easy-patch-omicron-context ()
         "Inject the Nightly Builds shortcut into the mu4easy-generated Omicron context."
-        (let* ((ctx (seq-find (lambda (c) (string= (mu4e-context-name c) "Omicron")) mu4e-contexts))
-                  (vars (when ctx (mu4e-context-vars ctx)))
-                  (shortcuts-cell (assq 'mu4e-maildir-shortcuts vars)))
-            (when shortcuts-cell
-                (setcdr shortcuts-cell
-                    (append (cdr shortcuts-cell)
-                        '(("/julio.villasante@omicronmedia.com/Nightly Builds" . ?n)))))))
+        (let ((shortcut '("/julio.villasante@omicronmedia.com/Nightly" . ?n)))
+            (when-let* ((ctx (seq-find (lambda (c) (string= (mu4e-context-name c) "Omicron"))
+                                 mu4e-contexts))
+                           (vars (mu4e-context-vars ctx))
+                           (shortcuts (alist-get 'mu4e-maildir-shortcuts vars)))
+                (unless (member shortcut shortcuts)
+                    (setf (alist-get 'mu4e-maildir-shortcuts vars)
+                        (append shortcuts (list shortcut)))))))
     (defun my/mu4easy-setup ()
         "Initialize mu4easy and apply post-initialization patches."
         (mu4easy-mode)
@@ -47,33 +60,32 @@
             (unless (seq-find (lambda (b) (eq (plist-get b :key) ?n)) mu4e-bookmarks)
                 (setq mu4e-bookmarks
                     (append mu4e-bookmarks
-                        '((:query "maildir:\"/julio.villasante@omicronmedia.com/Nightly Builds\" AND date:today..now"
-                              :name "Today's Nightly Builds"
+                        '((:query "maildir:\"/julio.villasante@omicronmedia.com/Nightly\" AND date:today..now"
+                              :name "Today's Omicron Nightly Builds"
                               :key ?n)))))))
-    :hook (after-init . my/mu4easy-setup)
+    :hook ((after-init . my/mu4easy-setup)
+              (mu4easy-mode . my/change-message-send-mail-function)
+              (mu4e-compose-mode . org-msg-edit-mode))
     :bind ("C-c o u" . mu4e)
     :custom
     (mu4easy-signature "---\nRegards,\nJulio")
     (mu4easy-headers
-        '((:human-date . 18) (:flags . 6) (:short-folder . 22) (:from-or-to . 26)
+        '((:human-date . 18) (:flags . 6) (:short-folder . 18) (:from-or-to . 26)
              (:mailing-list . 10) (:tags . 10) (:subject . 92)))
     (mu4easy-contexts
         '((mu4easy-context
               :c-name  "Google"
               :maildir "jvillasantegomez@gmail.com"
               :mail    "jvillasantegomez@gmail.com"
-              :smtp    "smtp.gmail.com"
               :sent-action delete)
              (mu4easy-context
                  :c-name  "Apple"
                  :maildir "julio.villasante@icloud.com"
-                 :mail    "julio.villasante@icloud.com"
-                 :smtp    "smtp.mail.me.com")
+                 :mail    "julio.villasante@icloud.com")
              (mu4easy-context
                  :c-name  "Omicron"
                  :maildir "julio.villasante@omicronmedia.com"
-                 :mail    "julio.villasante@omicronmedia.com"
-                 :smtp    "smtp.mail.me.com")))
+                 :mail    "julio.villasante@omicronmedia.com")))
     :config
     (with-eval-after-load 'mu4e
         ;; Add Firefox action (`a' and then `V' when viewing Email)
