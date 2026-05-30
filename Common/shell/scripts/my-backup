@@ -71,7 +71,7 @@ do_ssh_backup() {
             info "$HOME/.ssh does not exists" && exit 1
 
         [ -f "$HOME/.ssh.tar.gz.gpg" ] && rm -f "$HOME/.ssh.tar.gz.gpg"
-        +crypt -e -s "$HOME/.ssh" > /dev/null 2>&1;
+        my-crypt -e -s "$HOME/.ssh" > /dev/null 2>&1;
         [ ! -f "$HOME/.ssh.tar.gz.gpg" ] &&
             info "Could not create $HOME/.ssh.tar.gz.gpg" && exit 1
 
