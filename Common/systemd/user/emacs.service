@@ -4,12 +4,11 @@ Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
 After=graphical-session.target
 
 [Service]
-Type=simple
+Type=notify
 ExecStart=/usr/local/bin/emacs --init-directory=/home/jvillasante/Workspace/Projects/dotfiles/Common/emacs/emacs.d/ --fg-daemon
 ExecStartPost=/usr/bin/notify-send "Emacs Server" "Daemon has started successfully" --icon=emacs
-ExecStop=/usr/local/bin/emacsclient --eval '(progn (setq confirm-kill-emacs nil) (save-buffers-kill-emacs))'
-# ExecStopPost=/usr/bin/bash -c 'if [ "$SERVICE_RESULT" = "exit-code" ] || [ "$SERVICE_RESULT" = "signal" ]; then notify-send "Emacs Server" "Service crashed! Restarting..." --urgency=critical; fi'
-Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+ExecStop=/usr/local/bin/emacsclient --eval '(progn (setq confirm-kill-emacs nil) (save-buffers-kill-emacs t))'
+Environment=SSH_AUTH_SOCK=%t/gnupg/S.gpg-agent.ssh
 Restart=on-failure
 
 [Install]
