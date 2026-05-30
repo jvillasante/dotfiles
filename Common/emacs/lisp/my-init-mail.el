@@ -11,7 +11,6 @@
     :custom
     ;; Some defaults
     (mu4e-modeline-show-global nil)
-    (mu4e-update-interval 600)
     (mu4e-hide-index-messages t)
     (mu4e-view-show-images t)
     (mu4e-search-skip-duplicates t)
@@ -49,13 +48,29 @@
                 (unless (member shortcut shortcuts)
                     (setf (alist-get 'mu4e-maildir-shortcuts vars)
                         (append shortcuts (list shortcut)))))))
+    (defun my/mu4easy-patch-gmail-context ()
+        "Drop the Sent shortcut from the Gmail context.
+The local Gmail Sent folder is intentionally not synced: Gmail double-labels
+sent mail with `[Gmail]/Sent Mail' AND `[Gmail]/All Mail', so syncing both
+duplicates the messages on disk.  Sent mail is still browsable under Archive
+(which maps to All Mail)."
+        (when-let* ((ctx (seq-find (lambda (c) (string= (mu4e-context-name c) "Google"))
+                             mu4e-contexts))
+                       (vars (mu4e-context-vars ctx)))
+            (setf (alist-get 'mu4e-maildir-shortcuts vars)
+                (seq-remove (lambda (s) (eq (cdr s) ?s))
+                    (alist-get 'mu4e-maildir-shortcuts vars)))))
     (defun my/mu4easy-setup ()
         "Initialize mu4easy and apply post-initialization patches."
         (mu4easy-mode)
         (mu4e-alert-disable-mode-line-display)
+        (setq mu4e-update-interval 600)
         (with-eval-after-load 'mu4e
-            ;; Patch the Omicron context
+            ;; Patch the Omicron context (add the "Nightly Builds" shortcut)
             (my/mu4easy-patch-omicron-context)
+
+            ;; Patch the Gmail context (drop the dead "Sent" shortcut)
+            (my/mu4easy-patch-gmail-context)
 
             ;; Patch the Bookmarks List
             (unless (seq-find (lambda (b) (eq (plist-get b :key) ?n)) mu4e-bookmarks)
@@ -70,6 +85,7 @@
     :bind ("C-c o u" . mu4e)
     :custom
     (mu4easy-signature "---\nRegards,\nJulio")
+    (mu4easy-accounts '("Gmail" "iCloud" "Omicron"))
     (mu4easy-headers
         '((:human-date . 18) (:flags . 6) (:short-folder . 18) (:from-or-to . 26)
              (:mailing-list . 10) (:tags . 10) (:subject . 92)))
@@ -80,7 +96,7 @@
               :mail    "jvillasantegomez@gmail.com"
               :sent-action delete)
              (mu4easy-context
-                 :c-name  "Apple"
+                 :c-name  "iCloud"
                  :maildir "julio.villasante@icloud.com"
                  :mail    "julio.villasante@icloud.com")
              (mu4easy-context
@@ -101,7 +117,7 @@
                      :function (lambda (msg)
                                    (let* ((maildir (mu4e-message-field msg :maildir))
                                              (aliases '(("jvillasantegomez@gmail.com"        . "Gmail")
-                                                           ("julio.villasante@icloud.com"       . "Apple")
+                                                           ("julio.villasante@icloud.com"       . "iCloud")
                                                            ("julio.villasante@omicronmedia.com" . "Omicron"))))
                                        (if (string-match "^/\\([^/]+\\)/\\(.*\\)" maildir)
                                            (let* ((account (match-string 1 maildir))

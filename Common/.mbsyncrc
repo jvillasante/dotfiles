@@ -69,7 +69,7 @@ Channel Gmail-drafts
 # iCloud
 #
 
-IMAPAccount Apple
+IMAPAccount iCloud
 Host imap.mail.me.com
 PORT 993
 User julio.villasante@icloud.com
@@ -78,34 +78,43 @@ AuthMechs LOGIN
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-MaildirStore Apple-local
+MaildirStore iCloud-local
 Path ~/.mail/julio.villasante@icloud.com/
 Inbox ~/.mail/julio.villasante@icloud.com/Inbox
 SubFolders Verbatim
 
-IMAPStore Apple-remote
-Account Apple
+IMAPStore iCloud-remote
+Account iCloud
 
-Channel Apple-all
-Far :Apple-remote:
-Near :Apple-local:
-Patterns "INBOX" "Archive" "Trash" "Spam" "Drafts"
+Channel iCloud-all
+Far :iCloud-remote:
+Near :iCloud-local:
+Patterns "INBOX" "Archive" "Trash" "Drafts"
 CopyArrivalDate yes
 Create Both
 Expunge Both
 SyncState *
 
-Channel Apple-sent
-Far :Apple-remote:"Sent Messages"
-Near :Apple-local:"Sent"
+Channel iCloud-sent
+Far :iCloud-remote:"Sent Messages"
+Near :iCloud-local:"Sent"
 CopyArrivalDate yes
 Create Both
 Expunge Both
 SyncState *
 
-Group Apple
-Channel Apple-sent
-Channel Apple-all
+Channel iCloud-junk
+Far :iCloud-remote:"Junk"
+Near :iCloud-local:"Spam"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+Group iCloud
+Channel iCloud-sent
+Channel iCloud-junk
+Channel iCloud-all
 
 #
 # Omicron (Outlook)
