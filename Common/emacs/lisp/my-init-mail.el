@@ -48,29 +48,18 @@
                 (unless (member shortcut shortcuts)
                     (setf (alist-get 'mu4e-maildir-shortcuts vars)
                         (append shortcuts (list shortcut)))))))
-    (defun my/mu4easy-patch-gmail-context ()
-        "Drop the Sent shortcut from the Gmail context.
-The local Gmail Sent folder is intentionally not synced: Gmail double-labels
-sent mail with `[Gmail]/Sent Mail' AND `[Gmail]/All Mail', so syncing both
-duplicates the messages on disk.  Sent mail is still browsable under Archive
-(which maps to All Mail)."
-        (when-let* ((ctx (seq-find (lambda (c) (string= (mu4e-context-name c) "Google"))
-                             mu4e-contexts))
-                       (vars (mu4e-context-vars ctx)))
-            (setf (alist-get 'mu4e-maildir-shortcuts vars)
-                (seq-remove (lambda (s) (eq (cdr s) ?s))
-                    (alist-get 'mu4e-maildir-shortcuts vars)))))
     (defun my/mu4easy-setup ()
         "Initialize mu4easy and apply post-initialization patches."
         (mu4easy-mode)
+        (mu4e-alert-set-default-style 'libnotify)
+        (mu4e-alert-enable-notifications)
         (mu4e-alert-disable-mode-line-display)
-        (setq mu4e-update-interval 600)
         (with-eval-after-load 'mu4e
+            ;; default is 300
+            (setq mu4e-update-interval 600)
+
             ;; Patch the Omicron context (add the "Nightly Builds" shortcut)
             (my/mu4easy-patch-omicron-context)
-
-            ;; Patch the Gmail context (drop the dead "Sent" shortcut)
-            (my/mu4easy-patch-gmail-context)
 
             ;; Patch the Bookmarks List
             (unless (seq-find (lambda (b) (eq (plist-get b :key) ?n)) mu4e-bookmarks)
@@ -85,20 +74,15 @@ duplicates the messages on disk.  Sent mail is still browsable under Archive
     :bind ("C-c o u" . mu4e)
     :custom
     (mu4easy-signature "---\nRegards,\nJulio")
-    (mu4easy-accounts '("Gmail" "iCloud" "Omicron"))
+    (mu4easy-accounts '("iCloud" "Omicron"))
     (mu4easy-headers
         '((:human-date . 18) (:flags . 6) (:short-folder . 18) (:from-or-to . 26)
              (:mailing-list . 10) (:tags . 10) (:subject . 92)))
     (mu4easy-contexts
         '((mu4easy-context
-              :c-name  "Google"
-              :maildir "jvillasantegomez@gmail.com"
-              :mail    "jvillasantegomez@gmail.com"
-              :sent-action delete)
-             (mu4easy-context
-                 :c-name  "iCloud"
-                 :maildir "julio.villasante@icloud.com"
-                 :mail    "julio.villasante@icloud.com")
+              :c-name  "iCloud"
+              :maildir "julio.villasante@icloud.com"
+              :mail    "julio.villasante@icloud.com")
              (mu4easy-context
                  :c-name  "Omicron"
                  :maildir "julio.villasante@omicronmedia.com"
@@ -116,8 +100,7 @@ duplicates the messages on disk.  Sent mail is still browsable under Archive
                      :help "Folder name with short account alias"
                      :function (lambda (msg)
                                    (let* ((maildir (mu4e-message-field msg :maildir))
-                                             (aliases '(("jvillasantegomez@gmail.com"        . "Gmail")
-                                                           ("julio.villasante@icloud.com"       . "iCloud")
+                                             (aliases '(("julio.villasante@icloud.com" . "iCloud")
                                                            ("julio.villasante@omicronmedia.com" . "Omicron"))))
                                        (if (string-match "^/\\([^/]+\\)/\\(.*\\)" maildir)
                                            (let* ((account (match-string 1 maildir))
