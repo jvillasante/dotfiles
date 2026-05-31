@@ -167,7 +167,7 @@
     (setq auth-source-cache-expiry 86400)
 
     ;; Tell Emacs' EasyPG (epa) to use the standard GPG loopback for pinentry.
-    ;; In `.gnupg/gpg-agent.conf' add `allow-loopback-entry'  and then
+    ;; In `.gnupg/gpg-agent.conf' add `allow-loopback-pinentry'  and then
     ;; `gpgconf --reload gpg-agent' to reload the config
     ;; (setq epa-pinentry-mode 'loopback)
 
