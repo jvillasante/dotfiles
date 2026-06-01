@@ -13,6 +13,7 @@
                 (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
 (use-package agent-shell
+    :disabled t
     :defer t
     :preface
     (defun my/agent-shell-dot-subdir (subdir)
@@ -35,7 +36,6 @@
     (agent-shell-anthropic-default-model-id "opus[1m]"))
 
 (use-package claude-code-ide
-    :disabled t
     :defer t
     :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
     :bind (("C-c C-'" . claude-code-ide-menu)
@@ -43,8 +43,12 @@
               ("C-c a s" . claude-code-ide-send-prompt)
               ("C-c a @" . claude-code-ide-insert-at-mentioned)
               ("C-c a r" . claude-code-ide-resume)
-              ("C-c a c" . claude-code-ide-continue))
+              ("C-c a c" . claude-code-ide-continue)
+              ("C-c a k" . claude-code-ide-stop)
+              ("C-c a l" . claude-code-ide-list-sessions)
+              ("C-c a b" . claude-code-ide-switch-to-buffer))
     :custom
+    (claude-code-ide-terminal-backend 'ghostel)
     (claude-code-ide-cli-extra-flags "--model opus")
     (claude-code-ide-use-side-window t)
     (claude-code-ide-window-side 'right)
@@ -52,9 +56,6 @@
     (claude-code-ide-focus-on-open t)
     (claude-code-ide-focus-claude-after-ediff nil)
     (claude-code-ide-diagnostics-backend 'flymake)
-    (claude-code-ide-no-flicker nil)
-    (claude-code-ide-vterm-anti-flicker t)              ; Enable intelligent flicker reduction for vterm display
-    (claude-code-ide-vterm-render-delay 0.01)           ; Increase for smoother but less responsive
     (claude-code-ide-use-ide-diff t)                    ; use ediff instead of terminal diff
     (claude-code-ide-show-claude-window-in-ediff nil)   ; hide Claude window while reviewing in ediff
     (claude-code-ide-switch-tab-on-ediff t)             ; yank me to Claude's tab when ediff opens
