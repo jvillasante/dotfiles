@@ -51,8 +51,6 @@
     (defun my/mu4easy-setup ()
         "Initialize mu4easy and apply post-initialization patches."
         (mu4easy-mode)
-        (mu4e-alert-set-default-style 'libnotify)
-        (mu4e-alert-enable-notifications)
         (mu4e-alert-disable-mode-line-display)
         (with-eval-after-load 'mu4e
             ;; default is 300
