@@ -13,7 +13,6 @@
                 (password-store-get-field "Work/Omicron/Gemini" "API Key")))))
 
 (use-package agent-shell
-    :disabled t
     :defer t
     :preface
     (defun my/agent-shell-dot-subdir (subdir)
@@ -36,6 +35,7 @@
     (agent-shell-anthropic-default-model-id "opus[1m]"))
 
 (use-package claude-code-ide
+    :disabled t
     :defer t
     :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
     :bind (("C-c C-'" . claude-code-ide-menu)

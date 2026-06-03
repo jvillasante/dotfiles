@@ -22,7 +22,7 @@ Account iCloud
 Channel iCloud-all
 Far :iCloud-remote:
 Near :iCloud-local:
-Patterns "INBOX" "Archive" "Trash" "Drafts"
+Patterns "INBOX" "Archive" "Drafts"
 CopyArrivalDate yes
 Create Both
 Expunge Both
@@ -44,9 +44,18 @@ Create Both
 Expunge Both
 SyncState *
 
+Channel iCloud-trash
+Far :iCloud-remote:"Deleted Messages"
+Near :iCloud-local:"Trash"
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
 Group iCloud
 Channel iCloud-sent
 Channel iCloud-junk
+Channel iCloud-trash
 Channel iCloud-all
 
 #

@@ -10,7 +10,7 @@
  ;; If there is more than one, they won't work right.
  '(c-ts-indent-offset 4 nil nil "Customized with use-package c++-ts-mode")
  '(package-selected-packages
-      '(activities adoc-mode bash-completion cape claude-code-ide cmake-mode
+      '(activities adoc-mode agent-recall agent-shell bash-completion cape cmake-mode
            consult-dir consult-notes corfu-prescient crux csv-mode dape
            devdocs-browser diff-hl dired-sidebar diredfl dockerfile-mode elfeed
            elisp-demos embark-consult engine-mode expreg flash geiser-guile
