@@ -61,18 +61,18 @@
     :ensure nil ;; emacs built-in
     :defer t
     :hook ((eglot-managed-mode .
-               (lambda ()
-                   ;; Show flymake diagnostics first.
-                   (setq eldoc-documentation-functions
-                       (cons #'flymake-eldoc-function
-                           (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+                  (lambda ()
+                      ;; Show flymake diagnostics first.
+                      (setq eldoc-documentation-functions
+                          (cons #'flymake-eldoc-function
+                              (remove #'flymake-eldoc-function eldoc-documentation-functions)))
 
-                   ;; Format on save via LSP.
-                   (add-hook 'before-save-hook
-                       (lambda ()
-                           (when my/format-on-save
-                               (eglot-format-buffer)))
-                       nil t))))
+                      ;; Format on save via LSP.
+                      (add-hook 'before-save-hook
+                          (lambda ()
+                              (when my/format-on-save
+                                  (eglot-format-buffer)))
+                          nil t))))
     :bind (("C-c l l" . eglot)
               ("C-c l Q" . eglot-shutdown-all)
               :map eglot-mode-map
@@ -87,7 +87,7 @@
               ("C-c l o" . eglot-code-action-organize-imports)
               ("C-c l =" . eglot-format-buffer)
               ("C-c l f" . eglot-format)
-              :map c-ts-base-mode-map
+              :map c-mode-base-map
               ("C-x C-o" . my/eglot-clangd-find-other-file))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
@@ -127,22 +127,33 @@
     ;; (add-to-list 'eglot-stay-out-of 'flymake)
     ;; (add-to-list 'eglot-stay-out-of 'yasnippet)
 
-    ;; C++
-    (add-to-list 'eglot-server-programs
-        '((c-ts-mode c++-ts-mode c-mode c++-mode)
-             . ("clangd"
-                   "-j=8"
-                   "--enable-config"
-                   "--query-driver=/**/*"
-                   "--log=error"
-                   "--malloc-trim"
-                   "--background-index"
-                   "--clang-tidy"
-                   "--all-scopes-completion"
-                   "--completion-style=detailed"
-                   "--pch-storage=memory"
-                   "--header-insertion=never"
-                   "--header-insertion-decorators=0"))))
+    (with-eval-after-load 'eglot
+        ;; Writing
+        (add-to-list 'eglot-server-programs
+            '(text-mode . ("harper-ls" "--stdio")))
+        (add-to-list 'eglot-server-programs
+            '(markdown-mode . ("harper-ls" "--stdio")))
+        (add-to-list 'eglot-server-programs
+            '(org-mode . ("harper-ls" "--stdio")))
+        (add-to-list 'eglot-server-programs
+            '(org-msg-mode . ("harper-ls" "--stdio")))
+
+        ;; C++
+        (add-to-list 'eglot-server-programs
+            '((c-ts-mode c++-ts-mode c-mode c++-mode)
+                 . ("clangd"
+                       "-j=8"
+                       "--enable-config"
+                       "--query-driver=/**/*"
+                       "--log=error"
+                       "--malloc-trim"
+                       "--background-index"
+                       "--clang-tidy"
+                       "--all-scopes-completion"
+                       "--completion-style=detailed"
+                       "--pch-storage=memory"
+                       "--header-insertion=never"
+                       "--header-insertion-decorators=0")))))
 
 ;; eglot-inactive-regions : Eglot extension to visually style inactive pre-processor branches
 (use-package eglot-inactive-regions

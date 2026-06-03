@@ -24,7 +24,7 @@ install_harper() {
         exit 1
     }
 
-    HARPER_VERSION=v0.70.0
+    HARPER_VERSION=v2.3.1
     HARPER_CLI_RELEASE=harper-cli-x86_64-unknown-linux-gnu.tar.gz
     HARPER_LS_RELEASE=harper-ls-x86_64-unknown-linux-gnu.tar.gz
 
