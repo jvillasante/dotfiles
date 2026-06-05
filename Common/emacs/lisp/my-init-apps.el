@@ -244,22 +244,25 @@
     (setq-default ledger-accounts-file
         (expand-file-name "Apps/ledger/accounts.ledger" my/dropbox-path))
     :config
-    (with-eval-after-load 'ledger-mode
-        '(progn
-             (add-to-list 'ledger-reports
-                 '("1. monthly budget" "ledger [[ledger-mode-flags]] -f %(ledger-file) --budget -p \"this month\" bal ^Expenses"))
-             (add-to-list 'ledger-reports
-                 '("2. monthly actual" "ledger [[ledger-mode-flags]] -f %(ledger-file) -p \"this month\" bal ^Expenses"))
-             (add-to-list 'ledger-reports
-                 '("3. cash flow" "ledger [[ledger-mode-flags]] -f %(ledger-file) -p \"this month\" bal ^Income ^Expenses"))
-             (add-to-list 'ledger-reports
-                 '("4. credit cards" "ledger [[ledger-mode-flags]] -f %(ledger-file) bal ^Liabilities:Credit"))
-             (add-to-list 'ledger-reports
-                 '("5. net worth" "ledger [[ledger-mode-flags]] -f %(ledger-file) bal ^Assets ^Liabilities"))
-             (add-to-list 'ledger-reports
-                 '("6. YTD expenses" "ledger [[ledger-mode-flags]] -f %(ledger-file) -p \"this year\" bal ^Expenses"))
-             (add-to-list 'ledger-reports
-                 '("7. YTD cash flow" "ledger [[ledger-mode-flags]] -f %(ledger-file) -p \"this year\" bal ^Income ^Expenses")))))
+    (setq ledger-reports
+        '(("balance" "%(binary) -f %(ledger-file) bal")
+             ("register" "%(binary) -f %(ledger-file) reg")
+             ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+             ("account" "%(binary) -f %(ledger-file) reg %(account)")
+             ("net worth"
+                 "%(binary) -f %(ledger-file) bal --depth 1 --market ^Assets: ^Liabilities:")
+             ("expenses this month"
+                 "%(binary) -f %(ledger-file) bal --period \"this month\" ^Expenses:")
+             ("budget this month"
+                 "%(binary) -f %(ledger-file) --budget -p \"this month\" bal ^Expenses")
+             ("cash flow"
+                 "%(binary) -f %(ledger-file) -p \"this month\" bal ^Income ^Expenses")
+             ("credit cards"
+                 "%(binary) -f %(ledger-file) bal ^Liabilities:Credit")
+             ("YTD expenses"
+                 "%(binary) -f %(ledger-file) -p \"this year\" bal ^Expenses")
+             ("YTD cash flow"
+                 "%(binary) -f %(ledger-file) -p \"this year\" bal ^Income ^Expenses"))))
 
 ;; elfeed
 (use-package elfeed
