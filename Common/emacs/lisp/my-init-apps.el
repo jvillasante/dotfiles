@@ -231,22 +231,35 @@
 
 ;; ledger-mode : Emacs interface for `ledger-cli'
 (use-package ledger-mode
-    :disabled t
     :defer t
+    :mode ("\\.ledger\\'" . ledger-mode)
     :hook (ledger-mode . (lambda ()
+                             (turn-off-auto-fill)
                              (setq-local tab-always-indent 'complete)
                              (setq-local completion-cycle-threshold t)
                              (setq-local ledger-complete-in-steps t)))
+    :init
+    (setq-default ledger-master-file
+        (expand-file-name "Apps/ledger/main.ledger" my/dropbox-path))
+    (setq-default ledger-accounts-file
+        (expand-file-name "Apps/ledger/accounts.ledger" my/dropbox-path))
     :config
-    (setq ledger-reports
-        '(("balance" "%(binary) -f %(ledger-file) bal")
-             ("register" "%(binary) -f %(ledger-file) reg")
-             ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
-             ("account" "%(binary) -f %(ledger-file) reg %(account)")
-             ("net worth"
-                 "%(binary) -f %(ledger-file) bal --depth 1 --market ^Assets: ^Liabilities:")
-             ("expenses this month"
-                 "%(binary) -f %(ledger-file) bal --period \"this month\" ^Expenses:"))))
+    (with-eval-after-load 'ledger-mode
+        '(progn
+             (add-to-list 'ledger-reports
+                 '("1. monthly budget" "ledger [[ledger-mode-flags]] -f %(ledger-file) --budget -p \"this month\" bal ^Expenses"))
+             (add-to-list 'ledger-reports
+                 '("2. monthly actual" "ledger [[ledger-mode-flags]] -f %(ledger-file) -p \"this month\" bal ^Expenses"))
+             (add-to-list 'ledger-reports
+                 '("3. cash flow" "ledger [[ledger-mode-flags]] -f %(ledger-file) -p \"this month\" bal ^Income ^Expenses"))
+             (add-to-list 'ledger-reports
+                 '("4. credit cards" "ledger [[ledger-mode-flags]] -f %(ledger-file) bal ^Liabilities:Credit"))
+             (add-to-list 'ledger-reports
+                 '("5. net worth" "ledger [[ledger-mode-flags]] -f %(ledger-file) bal ^Assets ^Liabilities"))
+             (add-to-list 'ledger-reports
+                 '("6. YTD expenses" "ledger [[ledger-mode-flags]] -f %(ledger-file) -p \"this year\" bal ^Expenses"))
+             (add-to-list 'ledger-reports
+                 '("7. YTD cash flow" "ledger [[ledger-mode-flags]] -f %(ledger-file) -p \"this year\" bal ^Income ^Expenses")))))
 
 ;; elfeed
 (use-package elfeed
