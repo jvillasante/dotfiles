@@ -138,33 +138,46 @@
     :ensure nil ;; emacs built-in
     :defer t
     :init
-    ;; Fix remote compile
-    (with-eval-after-load 'tramp
-        (with-eval-after-load 'compile
-            (remove-hook 'compilation-mode-hook
-                #'tramp-compile-disable-ssh-controlmaster-options)))
-    ;; Don't use `tramp-archive'
-    (with-eval-after-load 'tramp-archive
-        (setq tramp-archive-enabled nil))
+    ;; Disable `tramp-archive' safely before TRAMP loads
+    (setq tramp-archive-enabled nil)
+
     :config
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-    (setq tramp-use-connection-share nil) ; use Control* options from ssh config
-    (setq tramp-connection-timeout 10)    ; timeout so tramp won't hang forever
+
+    ;; Connection & Timeout
+    ;; Note: 'nil' here requires ControlMaster configured in ~/.ssh/config!
+    (setq tramp-use-connection-share nil)
+    (setq tramp-connection-timeout 10)
     (setq tramp-verbose 2)
-    (setq tramp-copy-size-limit (* 1024 1024)) ;; 1MB
+
+    ;; Core Performance Tweaks (Disable locks/trash/polling)
     (setq remote-file-name-inhibit-locks t)
     (setq remote-file-name-inhibit-auto-save-visited t)
     (setq remote-file-name-inhibit-cache nil)
     (setq remote-file-name-inhibit-delete-by-moving-to-trash t)
-    (setq tramp-use-scp-direct-remote-copying t)
-    (setq tramp-default-method "ssh")    ; ssh is faster than scp and supports ports.
-    (setq tramp-default-user-alist '(("\\`su\\(do\\)?\\'" nil "root")))
-    (setq tramp-completion-use-auth-sources nil) ; do not use `.authinfo.gpg' for tramp
-    (setq tramp-shell-prompt-pattern ; Tramp hangs: Not recognizing the remote shell prompt
-        "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+    (setq auto-revert-remote-files nil) ; Stop polling for remote changes
+    (setq vc-handled-backends '(Git))   ; Restrict VC checks to Git only
 
-    ;; Use Direct Async (check it works with
-    ;; `M-: (tramp-direct-async-process-p) on a remote file')
+    ;; Transfer Settings
+    (setq tramp-use-scp-direct-remote-copying t)
+    (setq tramp-copy-size-limit (* 1024 1024)) ;; 1MB threshold
+    (setq tramp-default-method "scp") ; rsync breaks remote shells!
+
+    ;; Remote Shell Prompt Handling (Local Only)
+    (setq tramp-terminal-type "dumb")
+    (setq tramp-shell-prompt-pattern
+          "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+
+    ;; Authentication & Users
+    (setq tramp-default-user-alist '(("\\`su\\(do\\)?\\'" nil "root")))
+    (setq tramp-completion-use-auth-sources nil)
+
+    ;; Fix remote compile
+    (with-eval-after-load 'compile
+        (remove-hook 'compilation-mode-hook
+            #'tramp-compile-disable-ssh-controlmaster-options))
+
+    ;; Direct Async (Speeds up remote shells and asynchronous tasks)
     (connection-local-set-profile-variables
         'remote-direct-async-process
         '((tramp-direct-async-process . t)))
@@ -174,10 +187,14 @@
     (connection-local-set-profiles
         '(:application tramp :protocol "scp")
         'remote-direct-async-process)
+    (connection-local-set-profiles
+        '(:application tramp :protocol "rsync")
+        'remote-direct-async-process)
     (setq magit-tramp-pipe-stty-settings 'pty))
 
 ;; tramp-hlo : Higher level emacs functions as optimized tramp operations
 (use-package tramp-hlo
+    :disabled t
     :hook (after-init . tramp-hlo-setup))
 
 ;; autorevert : Refresh files automatically when modified from outside emacs

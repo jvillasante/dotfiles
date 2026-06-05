@@ -18,9 +18,8 @@
            json-mode magit marginalia markdown-mode minions monkeytype mu4easy
            multiple-cursors nov orderless org-superstar package-lint-flymake
            password-store pcmpl-args pdf-view-restore persistent-scratch
-           php-mode rmsbolt rust-mode surround tramp-hlo trashed verb
-           vertico-prescient vim-tab-bar vundo web-mode yaml-mode
-           yasnippet-snippets zig-mode))
+           php-mode rmsbolt rust-mode surround trashed verb vertico-prescient
+           vim-tab-bar vundo web-mode yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
       '((claude-code-ide :url "https://github.com/manzaltu/claude-code-ide.el"))))
 
