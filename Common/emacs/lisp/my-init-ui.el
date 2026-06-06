@@ -428,18 +428,13 @@ Run this function at the post theme load phase, such as with the
 
 ;; Correctly init frames (daemon & non-daemon frames)
 (if (daemonp)
-    (progn
-        ;; Fonts and themes belong here (runs while the frame is being built)
-        (add-hook 'after-make-frame-functions
-            (lambda (frame)
+    ;; Fonts and themes belong here (runs while the frame is being built)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
                 (with-selected-frame frame
-                    (my/setup-fonts)
-                    (modus-themes-load-theme 'modus-operandi))))
-
-        ;; Tab renaming belongs here (runs AFTER the server finishes all client setup)
-        (add-hook 'server-after-make-frame-hook
-            (lambda ()
-                (tab-bar-rename-tab "scratch"))))
+                  (my/setup-fonts)
+                  (modus-themes-load-theme 'modus-operandi)
+                  (tab-bar-rename-tab "scratch"))))
 
     ;; Standard non-daemon fallback
     (add-hook 'emacs-startup-hook
