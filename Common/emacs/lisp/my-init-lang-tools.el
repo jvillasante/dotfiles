@@ -87,7 +87,7 @@
               ("C-c l o" . eglot-code-action-organize-imports)
               ("C-c l =" . eglot-format-buffer)
               ("C-c l f" . eglot-format)
-              :map c-mode-base-map
+              :map c-ts-base-mode-map
               ("C-x C-o" . my/eglot-clangd-find-other-file))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
