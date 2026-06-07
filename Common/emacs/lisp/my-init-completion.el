@@ -236,23 +236,6 @@
                                               (keymap-set corfu-map "RET" #'corfu-send)
                                               (corfu-mode)))))
 
-(use-package prescient
-    :custom
-    (prescient-save-file (expand-file-name "prescient-save.el" my/var-dir))
-    :hook (after-init . prescient-persist-mode))
-
-(use-package vertico-prescient
-    :after vertico
-    :custom
-    (vertico-prescient-enable-filtering nil)
-    :hook (vertico-mode . vertico-prescient-mode))
-
-(use-package corfu-prescient
-    :after corfu
-    :custom
-    (corfu-prescient-enable-filtering nil)
-    :hook (global-corfu-mode . corfu-prescient-mode))
-
 (use-package cape
     :bind ("C-c p" . cape-prefix-map)
     :init
