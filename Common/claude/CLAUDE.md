@@ -25,3 +25,12 @@
 - **Avoid em dashes (—).** They're an overused LLM tic. Use commas,
   parentheses, colons, or a new sentence instead. This applies everywhere,
   including list separators (use `:`, not `—`, after the bold lead-in).
+
+## C++ style
+
+- **Prefer east const (`Type const*`) over west const (`const Type*`).**
+  Write the `const` to the right of what it qualifies, e.g. `std::string const
+  *s`, not `const std::string *s`. Apply this to const I introduce in new code;
+  don't churn pre-existing west-const declarations on lines I'm not otherwise
+  touching, and defer to a project's established convention when its
+  instructions say to match surrounding style.
