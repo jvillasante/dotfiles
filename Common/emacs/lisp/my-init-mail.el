@@ -38,34 +38,13 @@
         "View MSG in Firefox."
         (let ((browse-url-browser-function #'browse-url-firefox))
             (mu4e-action-view-in-browser msg)))
-    (defun my/mu4easy-patch-omicron-context ()
-        "Inject the Nightly Builds shortcut into the mu4easy-generated Omicron context."
-        (let ((shortcut '("/julio.villasante@omicronmedia.com/Nightly" . ?n)))
-            (when-let* ((ctx (seq-find (lambda (c) (string= (mu4e-context-name c) "Omicron"))
-                                 mu4e-contexts))
-                           (vars (mu4e-context-vars ctx))
-                           (shortcuts (alist-get 'mu4e-maildir-shortcuts vars)))
-                (unless (member shortcut shortcuts)
-                    (setf (alist-get 'mu4e-maildir-shortcuts vars)
-                        (append shortcuts (list shortcut)))))))
     (defun my/mu4easy-setup ()
         "Initialize mu4easy and apply post-initialization patches."
         (mu4easy-mode)
         (mu4e-alert-disable-mode-line-display)
         (with-eval-after-load 'mu4e
             ;; default is 300
-            (setq mu4e-update-interval 600)
-
-            ;; Patch the Omicron context (add the "Nightly Builds" shortcut)
-            (my/mu4easy-patch-omicron-context)
-
-            ;; Patch the Bookmarks List
-            (unless (seq-find (lambda (b) (eq (plist-get b :key) ?n)) mu4e-bookmarks)
-                (setq mu4e-bookmarks
-                    (append mu4e-bookmarks
-                        '((:query "maildir:\"/julio.villasante@omicronmedia.com/Nightly\" AND date:today..now"
-                              :name "Today's Omicron Nightly Builds"
-                              :key ?n)))))))
+            (setq mu4e-update-interval 600)))
     :hook ((after-init . my/mu4easy-setup)
               (mu4easy-mode . my/change-message-send-mail-function)
               (mu4e-compose-mode . org-msg-edit-mode))

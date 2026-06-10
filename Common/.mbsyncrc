@@ -111,17 +111,17 @@ Create Both
 Expunge Both
 SyncState *
 
-Channel Omicron-nightly
-Far :Omicron-remote:"Nightly Builds"
-Near :Omicron-local:"Nightly"
-CopyArrivalDate yes
-Create Both
-Expunge Both
-SyncState *
+# Channel Omicron-nightly
+# Far :Omicron-remote:"Nightly Builds"
+# Near :Omicron-local:"Nightly"
+# CopyArrivalDate yes
+# Create Both
+# Expunge Both
+# SyncState *
 
 Group Omicron
 Channel Omicron-all
 Channel Omicron-sent
 Channel Omicron-junk
 Channel Omicron-trash
-Channel Omicron-nightly
+# Channel Omicron-nightly
