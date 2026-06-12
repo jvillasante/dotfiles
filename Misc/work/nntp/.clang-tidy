@@ -41,6 +41,8 @@ Checks: "*,
         -*-use-anonymous-namespace,
         -*-array-to-pointer-decay,
         -*-no-array-decay,
+        -*-use-ranges,
+        -*-reinterpret-cast,
 "
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
