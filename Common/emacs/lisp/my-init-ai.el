@@ -20,19 +20,33 @@
                   (sanitized (replace-regexp-in-string "/" "-" (string-remove-prefix "/" cwd))))
             (expand-file-name subdir (expand-file-name
                                          (concat "agent-shell/" sanitized) my/var-dir))))
-    :bind ("C-c a s" . agent-shell)
+    :bind (("C-c a s" . agent-shell)
+              ("C-c a t" . agent-shell-toggle)
+              ("C-c a b" . agent-shell-switch-buffer)
+              ("C-c a n" . agent-shell-new-shell)
+              ("C-c a o" . agent-shell-other-buffer))
+    :hook
+    (agent-shell-viewport-edit-mode . turn-off-auto-fill)
     :custom
-    (agent-shell-display-action
-        '(display-buffer-in-side-window
-             (side . right)
-             (slot . 0)
-             (window-width . 0.3)
-             (dedicated . t)
-             (window-parameters . ((no-delete-other-windows . t)))))
     (agent-shell-session-strategy 'prompt)
+    (agent-shell-session-restore-verbosity 'last)
+    (agent-shell-prefer-viewport-interaction t)
     (agent-shell-dot-subdir-function #'my/agent-shell-dot-subdir)
     (agent-shell-preferred-agent-config 'claude-code)
-    (agent-shell-anthropic-default-model-id "opus[1m]"))
+    (agent-shell-anthropic-default-model-id "opus[1m]")
+    (agent-shell-anthropic-default-session-mode-id "default")
+    (agent-shell-screenshot-command '("spectacle" "--region" "--background" "--nonotify" "--output"))
+    (agent-shell-show-usage-at-turn-end t)
+    :init
+    (setq switch-to-buffer-obey-display-actions t)
+    (add-to-list 'display-buffer-alist
+        '("Agent @"
+             (display-buffer-in-side-window)
+             (side . right)
+             (slot . 0)
+             (window-width . 0.4)
+             (dedicated . t)
+             (window-parameters . ((no-delete-other-windows . t))))))
 
 (use-package claude-code-ide
     :disabled t
