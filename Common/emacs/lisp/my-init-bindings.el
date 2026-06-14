@@ -50,8 +50,16 @@ When run interactively:
 ;; Emacs29 changes `cycle-spacing' default
 (global-set-key [remap cycle-spacing] 'just-one-space)
 
-;; `zap-up-to-char' is just better
+;; It kills text up to right before a given character. I find it more useful
+;; than zap-to-char which kills up to and including the character you type.
 (global-set-key [remap zap-to-char] 'zap-up-to-char)
+
+;; this moves you to the first character of the next word (compare with the more
+;; famous forward-word, which leaves point at the end of a word).
+(global-set-key [remap forward-word] 'forward-to-word)
+
+;; the backward-moving companion to the previous command.
+(global-set-key [remap backward-word] 'backward-to-word)
 
 ;; Use Ctrl+arrow keys to move between windows.
 (windmove-default-keybindings 'control)
