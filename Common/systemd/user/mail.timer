@@ -1,0 +1,12 @@
+[Unit]
+Description=Mailbox synchronization timer
+
+[Timer]
+# Wait 2 minutes after your computer boots before syncing
+OnBootSec=2m
+# Sync every 5 minutes thereafter
+OnUnitActiveSec=5m
+Unit=mail.service
+
+[Install]
+WantedBy=timers.target

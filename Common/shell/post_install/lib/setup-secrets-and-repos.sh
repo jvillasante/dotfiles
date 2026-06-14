@@ -64,17 +64,6 @@ setup_secrets_and_repos() {
         [ -f "$HOME"/.bash_profile ] && mv "$HOME"/.bash_profile "$HOME"/.bash_profile.bak
         [ -d "$HOME"/.config/psd ] && rm -rf "$HOME"/.config/psd
         "$HOME"/Workspace/Projects/dotfiles/make.sh
-
-        # Udev rules for ZSA Voyager
-        # sudo cp -f "$HOME"/Workspace/Projects/dotfiles/Common/udev/50-zsa.rules \
-            #      /etc/udev/rules.d/50-zsa.rules
-
-        # Custom DNS - Breaks work VPN
-        # [ -d /etc/systemd/resolved.conf.d ] && sudo mv /etc/systemd/resolved.conf.d /etc/systemd/resolved.conf.d.bak
-        # sudo cp -r "$HOME"/Workspace/Projects/dotfiles/Common/systemd/resolved.conf.d /etc/systemd/
-        # sudo systemctl restart systemd-resolved
-        # verify DoT is working
-        #   resolvectl status
     fi
 }
 

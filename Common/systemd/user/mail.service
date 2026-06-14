@@ -1,0 +1,33 @@
+[Unit]
+Description=Mailbox synchronization service
+After=network-online.target
+
+[Service]
+Type=oneshot
+# Run mbsync to fetch all mail
+ExecStart=/usr/bin/mbsync -a
+# Run mu index ONLY if mbsync succeeds
+ExecStartPost=/usr/bin/mu index
+
+[Install]
+WantedBy=default.target
+
+#####
+
+[Unit]
+Description=Mailbox synchronization service
+After=network-online.target
+
+[Service]
+Type=oneshot
+# Check if a Yubico device is plugged into USB. If not, silently skip the run.
+ExecCondition=/usr/bin/bash -c "lsusb | grep -qi yubico"
+
+# Run mbsync to fetch all mail
+ExecStart=/usr/bin/mbsync -a
+
+# Run mu index ONLY if mbsync succeeds
+ExecStartPost=/usr/bin/mu index
+
+[Install]
+WantedBy=default.target

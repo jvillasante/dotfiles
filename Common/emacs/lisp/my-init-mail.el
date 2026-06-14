@@ -43,8 +43,15 @@
         (mu4easy-mode)
         (mu4e-alert-disable-mode-line-display)
         (with-eval-after-load 'mu4e
-            ;; default is 300
-            (setq mu4e-update-interval 600)))
+            ;; The command to fetch mail (with the YubiKey safety check)
+            (setq mu4e-get-mail-command
+                "lsusb | grep -qi yubico && mbsync -a || echo 'YubiKey not inserted. Sync skipped.'")
+
+            ;; Run that command automatically every 5 minutes (300 seconds)
+            (setq mu4e-update-interval 300)
+
+            ;; Hide the indexing messages in the echo area
+            (setq mu4e-hide-index-messages t)))
     :hook ((after-init . my/mu4easy-setup)
               (mu4easy-mode . my/change-message-send-mail-function)
               (mu4e-compose-mode . org-msg-edit-mode))
