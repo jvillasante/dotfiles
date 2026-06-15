@@ -123,6 +123,9 @@ user_pref("browser.startup.homepage", "about:home");
 user_pref("browser.newtabpage.enabled", true);
 user_pref("browser.newtab.preload", true);
 
+// Disables Widgets
+user_pref("browser.newtabpage.activity-stream.widgets.enabled", false);
+
 // Disables Pocket extension
 user_pref("extensions.pocket.enabled", false);
 
