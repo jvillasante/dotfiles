@@ -40,6 +40,7 @@
             (mu4e-action-view-in-browser msg)))
     (defun my/mu4easy-setup ()
         "Initialize mu4easy and apply post-initialization patches."
+        (setq mail-user-agent 'mu4e-user-agent)
         (mu4easy-mode)
         (mu4e-alert-disable-mode-line-display)
         (with-eval-after-load 'mu4e
@@ -53,8 +54,7 @@
             ;; Hide the indexing messages in the echo area
             (setq mu4e-hide-index-messages t)))
     :hook ((after-init . my/mu4easy-setup)
-              (mu4easy-mode . my/change-message-send-mail-function)
-              (mu4e-compose-mode . org-msg-edit-mode))
+              (mu4easy-mode . my/change-message-send-mail-function))
     :bind ("C-c o u" . mu4e)
     :custom
     (mu4easy-signature "---\nRegards,\nJulio")
