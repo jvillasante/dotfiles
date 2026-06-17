@@ -242,27 +242,50 @@
     (setq-default ledger-master-file
         (expand-file-name "Apps/ledger/main.ledger" my/dropbox-path))
     (setq-default ledger-accounts-file
-        (expand-file-name "Apps/ledger/accounts.ledger" my/dropbox-path))
+       (expand-file-name "Apps/ledger/accounts.ledger" my/dropbox-path))
     :config
+    (setq ledger-post-amount-alignment-column 60)
     (setq ledger-reports
-        '(("balance" "%(binary) -f %(ledger-file) bal")
+        '(;; All account balances, full tree
+             ("balance" "%(binary) -f %(ledger-file) bal")
+             ;; Every posting in the file, oldest to newest
              ("register" "%(binary) -f %(ledger-file) reg")
+             ;; All postings for the payee under point
              ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+             ;; All postings for the account under point
              ("account" "%(binary) -f %(ledger-file) reg %(account)")
+             ;; Net worth: assets minus liabilities, top level only
+             ;; (--market values any non-$ holdings at current price)
              ("net worth"
                  "%(binary) -f %(ledger-file) bal --depth 1 --market ^Assets: ^Liabilities:")
+             ;; Spending by category for the current month
              ("expenses this month"
                  "%(binary) -f %(ledger-file) bal --period \"this month\" ^Expenses:")
+             ;; Actual vs budgeted this month (positive = over budget)
              ("budget this month"
                  "%(binary) -f %(ledger-file) --budget -p \"this month\" bal ^Expenses")
+             ;; Actual vs. budget year-to-date (budget covers only months with data)
+             ("budget YTD" "%(binary) -f %(ledger-file) --budget -p \"this year\" bal ^Expenses")
+             ;; Income and expenses this month; grand total = net saved/overspent
              ("cash flow"
                  "%(binary) -f %(ledger-file) -p \"this month\" bal ^Income ^Expenses")
+             ;; Current balance owed on each credit card
              ("credit cards"
                  "%(binary) -f %(ledger-file) bal ^Liabilities:Credit")
+             ;; Spending by category since Jan 1
              ("YTD expenses"
                  "%(binary) -f %(ledger-file) -p \"this year\" bal ^Expenses")
+             ;; Income vs expenses for the year; grand total = net saved
              ("YTD cash flow"
-                 "%(binary) -f %(ledger-file) -p \"this year\" bal ^Income ^Expenses"))))
+                 "%(binary) -f %(ledger-file) -p \"this year\" bal ^Income ^Expenses")
+             ;; Postings not yet reconciled (! or unmarked); empty when all cleared
+             ("uncleared" "%(binary) -f %(ledger-file) reg --uncleared")
+             ;; Everything entered this month, transaction by transaction
+             ("this month" "%(binary) -f %(ledger-file) reg -p \"this month\"")
+             ;; Total spending per month, to see the trend
+             ("monthly expenses" "%(binary) -f %(ledger-file) reg ^Expenses -M --collapse")
+             ;; Individual expense postings, largest first
+             ("biggest expenses" "%(binary) -f %(ledger-file) reg ^Expenses --sort \"(-amount)\""))))
 
 ;; elfeed
 (use-package elfeed
