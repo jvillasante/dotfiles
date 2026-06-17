@@ -267,7 +267,7 @@
              ;; Actual vs. budget year-to-date (budget covers only months with data)
              ("budget YTD" "%(binary) -f %(ledger-file) --budget -p \"this year\" bal ^Expenses")
              ;; Income and expenses this month; grand total = net saved/overspent
-             ("cash flow"
+             ("income statement"
                  "%(binary) -f %(ledger-file) -p \"this month\" bal ^Income ^Expenses")
              ;; Current balance owed on each credit card
              ("credit cards"
@@ -276,7 +276,7 @@
              ("YTD expenses"
                  "%(binary) -f %(ledger-file) -p \"this year\" bal ^Expenses")
              ;; Income vs expenses for the year; grand total = net saved
-             ("YTD cash flow"
+             ("YTD income statement"
                  "%(binary) -f %(ledger-file) -p \"this year\" bal ^Income ^Expenses")
              ;; Postings not yet reconciled (! or unmarked); empty when all cleared
              ("uncleared" "%(binary) -f %(ledger-file) reg --uncleared")
@@ -285,7 +285,15 @@
              ;; Total spending per month, to see the trend
              ("monthly expenses" "%(binary) -f %(ledger-file) reg ^Expenses -M --collapse")
              ;; Individual expense postings, largest first
-             ("biggest expenses" "%(binary) -f %(ledger-file) reg ^Expenses --sort \"(-amount)\""))))
+             ("biggest expenses" "%(binary) -f %(ledger-file) reg ^Expenses --sort \"(-amount)\"")
+             ;; Net worth at each month-end (running total column)
+             ("net worth over time" "%(binary) -f %(ledger-file) reg ^Assets ^Liabilities -M --collapse")
+             ;; All debt: credit cards + mortgage + car loan
+             ("debt" "%(binary) -f %(ledger-file) bal ^Liabilities")
+             ;; Position snapshot: assets vs liabilities only (no income/expense dump)
+             ("balance sheet" "%(binary) -f %(ledger-file) bal ^Assets ^Liabilities")
+             ;; Loan payoff progress, month by month
+             ("loan payoff" "%(binary) -f %(ledger-file) reg ^Liabilities:Loans -M --collapse"))))
 
 ;; elfeed
 (use-package elfeed
