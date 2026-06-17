@@ -268,26 +268,20 @@
 (use-package elfeed
     :defer t
     :preface
-    (defun my/elfeed-open-with (browser-fn)
-        "Open selected entries via BROWSER-FN, untag as read, advance point."
-        (let ((entries (elfeed-search-selected)))
-            (dolist (entry entries)
-                (elfeed-untag entry 'unread)
-                (when-let ((link (elfeed-entry-link entry)))
-                    (funcall browser-fn link)))
-            (mapc #'elfeed-search-update-entry entries)
-            (unless (use-region-p) (forward-line))))
-    (defun my/elfeed-eww-open ()
-        "Open selected entries in eww."
+    (defun my/elfeed-strip-old-content ()
+        "Database Management, recommended to run manually from time to time."
         (interactive)
-        (my/elfeed-open-with #'eww-browse-url))
-    (defun my/elfeed-firefox-open ()
-        "Open selected entries in Firefox."
-        (interactive)
-        (my/elfeed-open-with #'browse-url-firefox))
+        (let ((limit (elfeed-float-time "60 days ago")))
+            (elfeed-db-visit (entry feed)
+                (cond
+                    ((< (elfeed-entry-date entry) limit)
+                        (elfeed-db-return))
+                    ((equal "https://example.com/feed/" (elfeed-feed-url feed))
+                        (setf (elfeed-entry-content entry) nil))))))
     :hook (elfeed-show-mode . (lambda ()
                                   (face-remap-add-relative 'default 'fixed-pitch-large)))
     :config
+    (setq elfeed-curl-program-name (executable-find "curl"))
     (setq elfeed-use-curl t)
     (setq elfeed-db-directory (expand-file-name "Apps/elfeed/elfeed_db" my/dropbox-path))
     (setq elfeed-enclosure-default-dir (expand-file-name "closures" elfeed-db-directory))
