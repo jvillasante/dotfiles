@@ -24,7 +24,7 @@ install_xremap() {
         exit 1
     }
 
-    XREMAP_VERSION=v0.15.0
+    XREMAP_VERSION=v0.15.8
     XREMAP_RELEASE=xremap-linux-x86_64-kde.zip
     # if [[ "$WINDOW_MANAGER" == "$WM_GNOME" ]]; then
     #     XREMAP_RELEASE=xremap-linux-x86_64-gnome.zip
