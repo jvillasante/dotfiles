@@ -106,6 +106,12 @@ When run interactively:
 (global-set-key (kbd "M-Q") 'my/unfill-paragraph)
 (global-set-key (kbd "C-M-Q") 'my/unfill-region)
 
+;; EMACS-31 Windows
+(global-set-key (kbd "C-x w t")   'window-layout-transpose)
+(global-set-key (kbd "C-x w r")   'window-layout-rotate-clockwise)
+(global-set-key (kbd "C-x w f h") 'window-layout-flip-leftright)
+(global-set-key (kbd "C-x w f v") 'window-layout-flip-topdown)
+
 ;;; Prefix
 ;; C-c w : windows
 (global-set-key (kbd "C-c w m") 'minimize-window)

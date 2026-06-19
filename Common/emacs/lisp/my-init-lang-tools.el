@@ -29,6 +29,8 @@
                             (global-eldoc-mode)))
     :bind (("C-h ." . eldoc))
     :custom
+    (eldoc-help-at-pt t)
+    (eldoc-echo-area-prefer-doc-buffer t)
     (eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
     (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 

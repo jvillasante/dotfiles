@@ -246,16 +246,17 @@
               ("$" . ibuffer-toggle-filter-group)
               ("<double-mouse-1>" . ibuffer-visit-buffer)
               ("M-<double-mouse-1>" . ibuffer-visit-buffer-other-window))
-    :config
-    (setq ibuffer-expert t)
-    (setq ibuffer-display-summary nil)
-    (setq ibuffer-use-other-window nil)
-    (setq ibuffer-show-empty-filter-groups nil)
-    (setq ibuffer-default-sorting-mode 'filename/process)
-    (setq ibuffer-title-face 'font-lock-doc-face)
-    (setq ibuffer-use-header-line t)
-    (setq ibuffer-default-shrink-to-minimum-size nil)
-    (setq ibuffer-formats
+    :custom
+    (ibuffer-human-readable-size t)
+    (ibuffer-expert t)
+    (ibuffer-display-summary nil)
+    (ibuffer-use-other-window nil)
+    (ibuffer-show-empty-filter-groups nil)
+    (ibuffer-default-sorting-mode 'filename/process)
+    (ibuffer-title-face 'font-lock-doc-face)
+    (ibuffer-use-header-line t)
+    (ibuffer-default-shrink-to-minimum-size nil)
+    (ibuffer-formats
         '((mark modified read-only locked " "
               (name 30 30 :left :elide)
               " "

@@ -161,6 +161,13 @@
     :ensure nil ; emacs built-in
     :hook (after-init . winner-mode))
 
+;; speedbar
+(use-package speedbar
+    :ensure nil ; emacs built-in
+    :custom
+    (speedbar-window-default-width 25)
+    (speedbar-window-max-width 25))
+
 ;; scrolling
 (progn
     ;; Disable Pixel-Precise Scrolling - PGTK build does not likes it!
