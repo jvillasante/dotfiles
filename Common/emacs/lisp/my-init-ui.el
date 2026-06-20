@@ -101,7 +101,13 @@
         ;; Programming
         ;; (set-face-attribute 'font-lock-function-name-face nil :family fixed-font :slant 'italic)
         ;; (set-face-attribute 'font-lock-variable-name-face nil :family variable-font :weight 'bold)
-        (set-face-attribute 'font-lock-comment-face nil :family fixed-font :slant 'italic)))
+        (set-face-attribute 'font-lock-comment-face nil :family fixed-font :slant 'italic)
+        (set-face-attribute
+            'hs-ellipsis nil ;; hideshow (code folding)
+            :family variable-font
+            :height 0.8
+            :slant 'italic
+            :box '(:line-width -1 :color "#9f9f9f"))))
 
 ;; cursor
 (setq-default cursor-type t)
