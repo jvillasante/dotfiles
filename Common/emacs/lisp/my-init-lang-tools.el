@@ -12,7 +12,11 @@
     :bind (("C-c TAB" . hs-toggle-hiding)
               ("C-\\" . hs-toggle-hiding)
               ("M-+" . hs-show-all))
-    :hook (prog-mode . hs-minor-mode))
+    :hook (prog-mode . hs-minor-mode)
+    :custom
+    (hs-indicator-type nil)
+    (hs-show-indicators nil)
+    (hs-display-lines-hidden t))
 
 ;; subword-mode: treats CamelCase as distinct words
 (use-package subword
