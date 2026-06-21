@@ -42,15 +42,21 @@
     ;;   This avoids problems with symbolic links.
     (setq find-file-existing-other-name t)
 
-    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
-    ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+    ;; Hide commands in M-x which do not apply to the current mode.  Corfu
+    ;; commands are hidden, since they are not used via M-x. This setting is
+    ;; useful beyond Corfu.
     (setq read-extended-command-predicate
         #'command-completion-default-include-p)
 
-    ;; TAB cycle if there are only few candidates
-    (setq completion-cycle-threshold 3)
+    ;; Enable indentation+completion using the TAB key.
+    ;; `completion-at-point' is often bound to M-TAB.
     (setq tab-always-indent 'complete)
 
+    ;; Emacs 30 and newer: Disable Ispell completion function.
+    ;; Try `cape-dict' as an alternative.
+    (setq text-mode-ispell-word-completion nil)
+
+    ;; more things
     (setq completion-ignore-case t)                ; ignore case (orderless handles smart-case)
     (setq read-file-name-completion-ignore-case t) ; ... also when completing filenames
     (setq read-buffer-completion-ignore-case t)    ; ... and when completing buffers
@@ -150,8 +156,14 @@
 ;; dabbrev : dynamic word completion (dynamic abbreviations)
 (use-package dabbrev
     :ensure nil ;; emacs built-in
+    :config
+    (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+    (add-to-list 'dabbrev-ignored-buffer-regexps "\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")
+    (add-to-list 'dabbrev-ignored-buffer-modes 'authinfo-mode)
+    (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+    (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+    (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode)
     :custom
-    (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'"))
     (dabbrev-abbrev-char-regexp "\\sw\\|\\s_")
     (dabbrev-abbrev-skip-leading-regexp "[$*/=~']")
     (dabbrev-backward-only nil)
@@ -211,7 +223,9 @@
     :custom
     (completion-styles '(orderless basic))
     (completion-category-overrides
-        '((file (styles basic partial-completion))))
+        '((file (styles partial-completion))))
+    (completion-category-defaults nil)  ;; Disable defaults, use our settings
+    (completion-pcm-leading-wildcard t) ;; Emacs 31: partial-completion behaves like substring
     :init
     (setq orderless-component-separator " +")
     (setq orderless-matching-styles
@@ -222,6 +236,7 @@
     (keymap-unset minibuffer-local-completion-map "SPC")
     (keymap-unset minibuffer-local-completion-map "?"))
 
+;; corfu : COmpletion in Region FUnction
 (use-package corfu
     :custom
     (corfu-auto t)
@@ -235,6 +250,31 @@
                                               (setq-local corfu-auto nil)
                                               (keymap-set corfu-map "RET" #'corfu-send)
                                               (corfu-mode)))))
+
+;; completion-preview: builtin alternative to corfu
+(use-package completion-preview
+    :disabled t
+    :ensure nil ;; emacs builtin
+    :preface
+    (defun my/detect-org-table ()
+        "Return true if point in Org table."
+        (and (derived-mode-p 'org-mode) (org-at-table-p)))
+    :hook (after-init . global-completion-preview-mode)
+    :bind
+    (:map completion-preview-active-mode-map
+        ("M-n" . completion-preview-next-candidate)
+        ("M-p" . completion-preview-prev-candidate))
+    :custom
+    (completion-preview-minimum-symbol-length 2) ; Show the preview already after two symbol characters
+    (completion-preview-exact-match-only nil) ; If t, only show suggestion if there is only one candidate
+    (completion-preview-idle-delay 0.3) ; If non-nil, wait this many idle seconds before displaying preview
+    :config
+    ;; Add Org mode's custom 'self-insert-command' to completion-previews
+    (with-eval-after-load 'org
+        (push 'org-self-insert-command completion-preview-commands))
+    ;; Disable completion preview in Org tables (Emacs 31+)
+    (add-hook 'completion-preview-inhibit-functions
+        #'my/detect-org-table))
 
 (use-package cape
     :bind ("C-c p" . cape-prefix-map)
