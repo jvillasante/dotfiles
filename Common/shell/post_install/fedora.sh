@@ -634,9 +634,9 @@ fedora_install() {
                     flatpak install --user --noninteractive flathub com.transmissionbt.Transmission
                     flatpak install --user --noninteractive flathub org.telegram.desktop
                     flatpak install --user --noninteractive flathub io.podman_desktop.PodmanDesktop
-                    flatpak install --user --noninteractive flathub com.valvesoftware.Steam
-                    flatpak install --user --noninteractive flathub org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
-                    flatpak install --user --noninteractive flathub org.raspberrypi.rpi-imager # Raspberri PI imager
+                    # flatpak install --user --noninteractive flathub com.valvesoftware.Steam
+                    # flatpak install --user --noninteractive flathub org.freedesktop.Platform.VulkanLayer.MangoHud # this is needed for steam!
+                    # flatpak install --user --noninteractive flathub org.raspberrypi.rpi-imager # Raspberri PI imager
                     # flatpak install --user --noninteractive flathub org.mozilla.Thunderbird
                     # flatpak install --user --noninteractive flathub org.keepassxc.KeePassXC
                     # flatpak install --user --noninteractive flathub com.borgbase.Vorta

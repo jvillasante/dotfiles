@@ -52,6 +52,8 @@ setup_secrets_and_repos() {
     [ ! -d "$KEYS_DIR"/gpg ] && echo "Decryption failed, $KEYS_DIR/gpg does not exists" && exit 1
     backup_dir_if_present ~/.gnupg && mkdir -p ~/.gnupg
     cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
+    find ~/.gnupg -type f -exec chmod 600 {} \;
+    find ~/.gnupg -type d -exec chmod 700 {} \;
     gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
     rm -rf "$KEYS_DIR"/gpg
 
