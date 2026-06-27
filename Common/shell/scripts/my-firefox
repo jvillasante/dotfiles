@@ -49,7 +49,7 @@ firefox_default_profile() {
     if [ -d "$HOME"/.var/app/org.mozilla.firefox/.mozilla/firefox ]; then
         PROFILE_DIR="$HOME"/.var/app/org.mozilla.firefox/.mozilla/firefox
     else
-        PROFILE_DIR="$HOME"/.mozilla/firefox
+        PROFILE_DIR="$HOME"/.config/mozilla/firefox
     fi
     [ -z "$PROFILE_DIR" ] && usage 1
 
