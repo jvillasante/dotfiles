@@ -20,7 +20,7 @@ If the container is not running, starts it first via the build script.
 Use `podman stop <name>' to end the session."
                        (interactive)
                        (defvar ghostel-buffer-name)
-                       (defvar ghostel--process)
+                       (defvar ghostel-buffer-name-function)
                        (let* ((root (locate-dominating-file default-directory ".dir-locals.el"))
                               (container (file-name-nondirectory (directory-file-name root)))
                               (cname (format "nntp-%s" container))
@@ -37,18 +37,26 @@ Use `podman stop <name>' to end the session."
                                    (call-process "bash" nil nil nil
                                                  (expand-file-name ".scripts/ensure-container.sh" root))))
                            (let ((g-buf (get-buffer buf-name)))
-                               (if g-buf
-                                       (pop-to-buffer g-buf)
-                                   ;; Create a new ghostel buffer in the other window
+                               (unless g-buf
+                                   ;; Create a new ghostel buffer in the other window.
                                    (display-buffer-override-next-command
                                     (lambda (buffer alist)
                                         (cons (display-buffer-pop-up-window buffer alist) 'window)))
-                                   (let ((ghostel-buffer-name buf-name))
-                                       (ghostel))
-                                   (setq g-buf (get-buffer buf-name)))
+                                   ;; Bind `ghostel-buffer-name-function' to nil so the buffer
+                                   ;; keeps BUF-NAME; otherwise it gets renamed after the shell
+                                   ;; title and the `get-buffer' reuse check above never matches.
+                                   ;; `ghostel' returns the buffer, so capture it directly rather
+                                   ;; than looking it up by a name that may already have changed.
+                                   (setq g-buf (let ((ghostel-buffer-name buf-name)
+                                                     (ghostel-buffer-name-function nil))
+                                                   (ghostel))))
+                               (pop-to-buffer g-buf)
                                (with-current-buffer g-buf
-                                   (process-send-string
-                                    ghostel--process
+                                   ;; Send through the PTY.  `ghostel--process' is only the
+                                   ;; lifecycle/event process, not the shell's stdin, so
+                                   ;; `process-send-string' to it never reaches the shell;
+                                   ;; `ghostel-send-string' writes to the terminal.
+                                   (ghostel-send-string
                                     (format "podman exec -it --user nntpuser %s /bin/bash\n"
                                             cname))))))
 

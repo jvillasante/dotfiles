@@ -74,9 +74,11 @@
 
 ;; Set environment variables - `exec-path-from-shell' is too slow!
 (setq my/exec-path-list
-    (list (expand-file-name "go/bin" my/home-path)
+    (list
+        (expand-file-name "go/bin" my/home-path)
         (expand-file-name ".cargo/bin" my/home-path)
         (expand-file-name ".local/bin" my/home-path)
+        (expand-file-name ".local/share/npm/bin" my/home-path)
         "/usr/local/bin"
         "/usr/local/sbin"
         "/usr/bin"
