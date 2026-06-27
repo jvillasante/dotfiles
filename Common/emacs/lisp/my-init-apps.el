@@ -261,17 +261,12 @@
              ;; Spending by category for the current month
              ("expenses this month"
                  "%(binary) -f %(ledger-file) bal --period \"this month\" ^Expenses:")
-             ;; Actual vs budgeted this month (positive = over budget)
-             ("budget this month"
-                 "%(binary) -f %(ledger-file) --budget -p \"this month\" bal ^Expenses")
-             ;; Actual vs. budget year-to-date (budget covers only months with data)
-             ("budget YTD" "%(binary) -f %(ledger-file) --budget -p \"this year\" bal ^Expenses")
              ;; Income and expenses this month; grand total = net saved/overspent
              ("income statement"
                  "%(binary) -f %(ledger-file) -p \"this month\" bal ^Income ^Expenses")
              ;; Current balance owed on each credit card
              ("credit cards"
-                 "%(binary) -f %(ledger-file) bal ^Liabilities:Credit")
+                 "%(binary) -f %(ledger-file) bal ^Liabilities:CreditCards")
              ;; Spending by category since Jan 1
              ("YTD expenses"
                  "%(binary) -f %(ledger-file) -p \"this year\" bal ^Expenses")
@@ -284,6 +279,9 @@
              ("this month" "%(binary) -f %(ledger-file) reg -p \"this month\"")
              ;; Total spending per month, to see the trend
              ("monthly expenses" "%(binary) -f %(ledger-file) reg ^Expenses -M --collapse")
+             ;; Monthly expense totals with a running average (last column)
+             ("avg monthly expenses"
+                 "%(binary) -f %(ledger-file) -p \"this year\" --average -M reg ^Expenses --collapse")
              ;; Individual expense postings, largest first
              ("biggest expenses" "%(binary) -f %(ledger-file) reg ^Expenses --sort \"(-amount)\"")
              ;; Net worth at each month-end (running total column)
@@ -293,7 +291,13 @@
              ;; Position snapshot: assets vs liabilities only (no income/expense dump)
              ("balance sheet" "%(binary) -f %(ledger-file) bal ^Assets ^Liabilities")
              ;; Loan payoff progress, month by month
-             ("loan payoff" "%(binary) -f %(ledger-file) reg ^Liabilities:Loans -M --collapse"))))
+             ("loan payoff" "%(binary) -f %(ledger-file) reg ^Liabilities:Loans -M --collapse")
+             ;; Total interest paid to lenders this year (mortgage + car)
+             ("interest paid"
+                 "%(binary) -f %(ledger-file) -p \"this year\" bal ^Expenses:Interest")
+             ;; Portfolio snapshot: brokerage, retirement, and 529 balances
+             ("investments"
+                 "%(binary) -f %(ledger-file) bal ^Assets:Schwab:Brokerage ^Assets:Robinhood ^Assets:Schwab:529"))))
 
 ;; elfeed
 (use-package elfeed
