@@ -263,6 +263,9 @@ fedora_install() {
                     sudo dnf install -y kernel-devel kernel-headers gcc make \
                          libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
 
+                    # Install htop to check build status
+                    sudo dnf install -y htop
+
                     # NVIDIA - Install Proprietary Drivers (Maxwell/Pascal/Volta or older)
                     # sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda nvidia-settings
 
