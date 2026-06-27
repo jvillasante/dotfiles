@@ -14,6 +14,19 @@ if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
     set -o nounset
 fi
 
+# Move an existing, non-empty dir aside to "<dir>.bak.<timestamp>" instead of
+# deleting it, so re-running this on an already-configured machine can never
+# clobber a live ~/.ssh or ~/.gnupg. No-op if the dir is missing or empty.
+backup_dir_if_present() {
+    local d="$1"
+    if [ -d "$d" ] && [ -n "$(ls -A "$d" 2>/dev/null)" ]; then
+        local bak
+        bak="${d}.bak.$(date +%Y%m%d-%H%M%S)"
+        echo ">> $d is not empty; backing it up to $bak"
+        mv "$d" "$bak"
+    fi
+}
+
 setup_secrets_and_repos() {
     read -r -p "Enter keys backup directory: " KEYS_DIR
     KEYS_DIR=${KEYS_DIR%/}
@@ -25,7 +38,7 @@ setup_secrets_and_repos() {
     echo ">> Setting up ssh keys from $KEYS_DIR/ssh.tar.gz.gpg"
     "$(pwd)/../scripts/my-crypt" -d "$KEYS_DIR/ssh.tar.gz.gpg"
     [ ! -d "$KEYS_DIR"/.ssh ] && echo "Decryption failed, $KEYS_DIR/ssh does not exists" && exit 1
-    mkdir -p ~/.ssh && rm -rf ~/.ssh/*
+    backup_dir_if_present ~/.ssh && mkdir -p ~/.ssh
     cp "$KEYS_DIR"/.ssh/id_* ~/.ssh
     cp "$KEYS_DIR"/.ssh/config ~/.ssh
     chmod 700 ~/.ssh
@@ -37,7 +50,7 @@ setup_secrets_and_repos() {
     echo ">> Setting up gpg keys from $KEYS_DIR/gpg.tar.gz.gpg"
     "$(pwd)/../scripts/my-crypt" -d "$KEYS_DIR/gpg.tar.gz.gpg"
     [ ! -d "$KEYS_DIR"/gpg ] && echo "Decryption failed, $KEYS_DIR/gpg does not exists" && exit 1
-    mkdir -p ~/.gnupg && rm -rf ~/.gnupg/*
+    backup_dir_if_present ~/.gnupg && mkdir -p ~/.gnupg
     cp "$KEYS_DIR"/gpg/config/*.conf ~/.gnupg
     gpg --import "$KEYS_DIR"/gpg/new_keys/0xB3F739419D91C7F3-2022-09-28.pub.asc
     rm -rf "$KEYS_DIR"/gpg

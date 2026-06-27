@@ -25,17 +25,15 @@ fi
 SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_NAME
 
-# source everything in ../lib
-for f in "$(dirname "$0")"/../lib/*; do
+# source everything in ../lib and ./lib. nullglob so an empty dir expands to
+# nothing (rather than a literal unmatched glob that `source` would fail on);
+# scoped so it doesn't affect later globbing in sourced functions.
+shopt -s nullglob
+for f in "$(dirname "$0")"/../lib/* "$(dirname "$0")"/lib/*; do
     # shellcheck source=/dev/null
     source "$f" || exit 1
 done
-
-# source everything in ./lib
-for f in "$(dirname "$0")"/lib/*; do
-    # shellcheck source=/dev/null
-    source "$f" || exit 1
-done
+shopt -u nullglob
 
 readonly WS_WAYLAND="Wayland"
 readonly WS_X11="X11"
@@ -76,8 +74,8 @@ fedora_install() {
         exit 0
     fi
 
-    # Check to see if Dialog is installed, if not install it
-    rpm -q dialog &> /dev/null || sudo dnf install -y dialog
+    # Make sure dialog is installed
+    sudo dnf install -y dialog
 
     OPTIONS=(
         1 "Setup Defaults - Set some defaults (hostname, folders structure, global settings, etc)"
@@ -371,7 +369,7 @@ fedora_install() {
                         libssh libssh-devel
 
                         # mail
-                        isync mu maildir-utils gnutls gnutls-devel
+                        isync maildir-utils gnutls gnutls-devel
 
                         # ledger (https://ledger-cli.org/)
                         ledger
@@ -398,10 +396,6 @@ fedora_install() {
 
                         # Needed for keychrome firmware flash
                         dfu-util
-
-                        # Power management (PPD provides perf/balanced/power-saver
-                        # toggle integrated with KDE/GNOME — no need for TLP).
-                        power-profiles-daemon
 
                         # alacritty - A fast, cros-platform, OpenGL terminal emulator
                         # alacritty
@@ -454,7 +448,7 @@ fedora_install() {
                     sudo dnf install -y --skip-unavailable "${pkgs[@]}"
 
                     # gpg smartcard daemon
-                    sudo systemctl enable --now pcscd
+                    sudo systemctl enable --now pcscd.socket
 
                     # Starship Prompt - Using PS1 instead
                     # curl -sS https://starship.rs/install.sh | sh
@@ -473,20 +467,26 @@ fedora_install() {
                     # non dnf software
                     pipx install cmake-language-server
                     pipx install pyright
-                    sudo npm install --location=global npm@latest
-                    sudo npm install --location=global \
-                         prettier \
-                         js-beautify \
-                         typescript-language-server typescript \
-                         dockerfile-language-server-nodejs \
-                         bash-language-server
+
+                    # Point npm's global prefix at a user-owned dir so global
+                    # installs never touch the dnf-managed /usr tree (which a
+                    # `dnf upgrade nodejs` would otherwise clobber).
+                    NPM_PREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/npm"
+                    mkdir -p "$NPM_PREFIX"
+                    npm config set prefix "$NPM_PREFIX"
+                    npm install --location=global \
+                        prettier \
+                        js-beautify \
+                        typescript-language-server typescript \
+                        dockerfile-language-server-nodejs \
+                        bash-language-server
 
                     # Claude
                     curl -fsSL https://claude.ai/install.sh | bash
-                    sudo npm install --location=global @agentclientprotocol/claude-agent-acp
+                    npm install --location=global @agentclientprotocol/claude-agent-acp
 
                     # vscode devcontainers
-                    sudo npm install --location=global @devcontainers/cli
+                    # npm install --location=global @devcontainers/cli
 
                     # Needed for `lsp-bridge`
                     # pip3 install epc orjson sexpdata six setuptools paramiko rapidfuzz watchdog packaging
@@ -611,7 +611,7 @@ fedora_install() {
                     sudo dnf install -y flatpak
 
                     # Remove the limited Fedora repo
-                    flatpak remote-delete fedora
+                    flatpak remote-delete --force fedora || true
 
                     # Add the real Flathub and update everything
                     flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -732,7 +732,10 @@ fedora_install() {
                     fi
 
                     # PSD: Needs sudo permissions for overlay-fs - needs a logout :(
-                    echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper" | sudo EDITOR='tee -a' visudo
+                    echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper" | \
+                        sudo tee /etc/sudoers.d/psd > /dev/null
+                    sudo chmod 0440 /etc/sudoers.d/psd
+                    sudo visudo -cf /etc/sudoers.d/psd
 
                     # PSD: Enable and Start the Daemon
                     systemctl --user enable --now psd.service

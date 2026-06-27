@@ -75,6 +75,11 @@ if [ -d "$XDG_DATA_HOME/qlot/bin/" ]; then
     export PATH="$PATH:$XDG_DATA_HOME/qlot/bin"
 fi
 
+# npm global prefix (user-owned, set via `npm config set prefix` in post_install)
+if [ -d "$XDG_DATA_HOME/npm/bin" ]; then
+    export PATH="$PATH:$XDG_DATA_HOME/npm/bin"
+fi
+
 # llvm
 [ -d "/usr/local/opt/llvm/bin" ] && export PATH="/usr/local/opt/llvm/bin:$PATH"
 
