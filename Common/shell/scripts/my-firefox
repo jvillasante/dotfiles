@@ -174,6 +174,7 @@ user_pref("network.trr.excluded-domains", "goldfinger.omidev.net");
 
 // Run on the GPU
 user_pref("layers.acceleration.force-enabled", true);
+user_pref("gfx.webrender.all", true);
 
 // 1=always block, 2=you want to be prompted for every site that tries to autoplay
 user_pref("media.autoplay.default", 1);
@@ -186,6 +187,11 @@ user_pref("browser.contentblocking.category", "standard");
 
 // Allow websites to ask you to receive site notifications - I need this for slack!
 user_pref("permissions.default.desktop-notification", 0);
+
+// Control Scrolling speed
+user_pref("mousewheel.default.delta_multiplier_y", 60);
+user_pref("mousewheel.default.delta_multiplier_x", 60);
+user_pref("mousewheel.system_scroll_override.enabled", false)
 
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
