@@ -295,9 +295,12 @@
              ;; Total interest paid to lenders this year (mortgage + car)
              ("interest paid"
                  "%(binary) -f %(ledger-file) -p \"this year\" bal ^Expenses:Interest")
-             ;; Portfolio snapshot: brokerage, retirement, and 529 balances
+             ;; Portfolio snapshot: brokerage, retirement, 401k, and 529 balances
              ("investments"
-                 "%(binary) -f %(ledger-file) bal ^Assets:Schwab:Brokerage ^Assets:Robinhood ^Assets:Schwab:529"))))
+                 "%(binary) -f %(ledger-file) bal ^Assets:Schwab:Brokerage ^Assets:Robinhood ^Assets:ADP ^Assets:Schwab:529")
+             ;; Cumulative market gains/losses booked at investment reconciles
+             ("investment gains"
+                 "%(binary) -f %(ledger-file) bal ^Equity:Unrealized"))))
 
 ;; elfeed
 (use-package elfeed
