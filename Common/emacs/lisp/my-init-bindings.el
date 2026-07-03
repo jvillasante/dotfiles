@@ -142,7 +142,8 @@ When run interactively:
 
 ;; C c n : Notes
 (when (package-installed-p 'consult-notes)
-    (global-set-key (kbd "C-c n n") 'consult-notes))
+    (global-set-key (kbd "C-c n n") 'consult-notes)
+    (global-set-key (kbd "C-c n N") 'consult-notes-search-in-all-notes))
 (global-set-key (kbd "C-c n a") 'org-agenda)
 
 ;; C-c d : dictionary

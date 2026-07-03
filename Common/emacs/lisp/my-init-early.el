@@ -17,7 +17,7 @@
 
 ;; Set your language environment and default input method
 ;;   - Use `describe-input-method'
-;;   - Use `C-\ toggle-input-method' to switch
+;;   - Use `toggle-input-method' to switch
 (set-language-environment "latin-1")
 (setq default-input-method "spanish-prefix")
 
