@@ -139,6 +139,8 @@ When run interactively:
 (global-set-key (kbd "C-c o b") 'my/open-link-at-point-or-minibuffer-with-choice)
 (global-set-key (kbd "C-c o m") 'my/new-scratch-buffer-in-markdown)
 (global-set-key (kbd "C-c o o") 'my/new-scratch-buffer-in-org)
+(global-set-key (kbd "C-c o p") 'list-processes)
+(global-set-key (kbd "C-c o P") 'proced)
 
 ;; C c n : Notes
 (when (package-installed-p 'consult-notes)

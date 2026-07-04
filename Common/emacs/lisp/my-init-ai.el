@@ -17,14 +17,21 @@
     :preface
     (defun my/agent-shell-dot-subdir (subdir)
         (let* ((cwd (string-remove-suffix "/" (agent-shell-cwd)))
-                  (sanitized (replace-regexp-in-string "/" "-" (string-remove-prefix "/" cwd))))
+                  (sanitized (replace-regexp-in-string "/" "-"
+                                 (string-remove-prefix "/" cwd))))
             (expand-file-name subdir (expand-file-name
-                                         (concat "agent-shell/" sanitized) my/var-dir))))
+                                         (concat "agent-shell/" sanitized)
+                                         my/var-dir))))
     :bind (("C-c a s" . agent-shell)
               ("C-c a t" . agent-shell-toggle)
               ("C-c a b" . agent-shell-switch-buffer)
               ("C-c a n" . agent-shell-new-shell)
-              ("C-c a o" . agent-shell-other-buffer))
+              ("C-c a o" . agent-shell-other-buffer)
+              ("C-c a r" . agent-shell-resume-session)
+              ("C-c a c" . agent-shell-prompt-compose)
+              ("C-c a f" . agent-shell-fork)
+              ("C-c a k" . agent-shell-interrupt)
+              ("C-c a w" . agent-shell-new-worktree-shell))
     :hook
     (agent-shell-viewport-edit-mode . turn-off-auto-fill)
     :custom
@@ -33,14 +40,17 @@
     (agent-shell-prefer-viewport-interaction t)
     (agent-shell-dot-subdir-function #'my/agent-shell-dot-subdir)
     (agent-shell-preferred-agent-config 'claude-code)
-    (agent-shell-anthropic-default-model-id "opus[1m]")
+    (agent-shell-anthropic-authentication
+        (agent-shell-anthropic-make-authentication :login t))
+    (agent-shell-anthropic-default-model-id nil)
     (agent-shell-anthropic-default-session-mode-id "default")
-    (agent-shell-screenshot-command '("spectacle" "--region" "--background" "--nonotify" "--output"))
+    (agent-shell-screenshot-command '("spectacle" "--region" "--background"
+                                         "--nonotify" "--output"))
     (agent-shell-show-usage-at-turn-end t)
     :init
     (setq switch-to-buffer-obey-display-actions t)
     (add-to-list 'display-buffer-alist
-        '("Agent @"
+        '("[Aa]gent @ "
              (display-buffer-in-side-window)
              (side . right)
              (slot . 0)
