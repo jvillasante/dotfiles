@@ -302,7 +302,7 @@ fedora_install() {
                     pkgs=(
                         # general
                         ripgrep fd-find util-linux-user xprop xwininfo
-                        aspell aspell-en aspell-es autojump atool autoconf automake bat cmake vim
+                        autojump atool autoconf automake bat cmake vim
                         freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
                         dnsutils dos2unix doxygen msmtp fastfetch
                         graphviz mercurial ninja-build nodejs npm python3 python3-pip pipx
@@ -321,6 +321,10 @@ fedora_install() {
                         libffi-devel findutils tk-devel libyaml-devel
                         cowsay fortune-mod gnuplot telnet rlwrap nmap-ncat
                         libgcrypt libgcrypt-devel
+
+                        # Language packs
+                        # aspell aspell-en aspell-es
+                        hunspell hunspell-en hunspell-es
 
                         # Tiny Emacs-like editor
                         mg
