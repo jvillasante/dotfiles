@@ -43,6 +43,7 @@ Checks: "*,
         -*-no-array-decay,
         -*-use-ranges,
         -*-reinterpret-cast,
+        -*-use-designated-initializers,
 "
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
