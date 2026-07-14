@@ -68,8 +68,8 @@ When run interactively:
 (if (< emacs-major-version 31)
     (define-key global-map [remap keyboard-quit] 'my/keyboard-quit-dwim))
 
-;; Repeat in emacs is not as good as vim :(
-(global-set-key (kbd "C-.") 'repeat)
+;; Repeat in emacs is not as good as vim - I'm using `C-.' for `embark'
+;; (global-set-key (kbd "C-.") 'repeat)
 
 ;; Clone the current buffer in a new window with `q' to exit
 (global-set-key (kbd "C-x 9") 'my/clone-buffer-in-new-window-readonly) ; same
