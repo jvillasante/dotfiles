@@ -161,6 +161,21 @@
                        "--header-insertion=never"
                        "--header-insertion-decorators=0")))))
 
+;; consult-eglot : A consulting-read interface for eglot
+(use-package consult-eglot
+  :after (consult eglot)
+  :bind (:map eglot-mode-map
+              ("C-c l s" . consult-eglot-symbols))
+  :custom
+  (consult-eglot-sort-results t)     ; Pre-sort search results by their LSP matching score
+  (consult-eglot-ignore-column nil)) ; Jump to the exact symbol column, not just the start of the line
+
+;; consult-eglot-embark : Support for embark exports and action overrides to consult-eglot searches
+(use-package consult-eglot-embark
+  :after (consult-eglot embark)
+  :config
+  (consult-eglot-embark-mode 1))
+
 ;; eglot-inactive-regions : Eglot extension to visually style inactive pre-processor branches
 (use-package eglot-inactive-regions
     :disabled t
