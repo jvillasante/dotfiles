@@ -146,7 +146,7 @@
 
         ;; C++
         (add-to-list 'eglot-server-programs
-            '((c-ts-mode c++-ts-mode c-mode c++-mode)
+            '((c++-ts-mode c-ts-mode c++-mode c-mode objc-mode)
                  . ("clangd"
                        "-j=8"
                        "--enable-config"

@@ -309,7 +309,6 @@ fedora_install() {
                         multimarkdown pandoc poppler poppler-utils poppler-data
                         subversion tldr tree w3m lynx wget libtool texinfo
                         wordnet shfmt editorconfig glslang ShellCheck parallel
-                        llvm clang clang-tools-extra libpcap libpcap-devel
                         pkg-config flex bison tar unar unrar unzip p7zip p7zip-plugins
                         ImageMagick ImageMagick-devel ffmpegthumbnailer mediainfo
                         sqlite sqlite-devel curl libcurl libcurl-devel
@@ -320,7 +319,10 @@ fedora_install() {
                         zlib-devel bzip2 bzip2-devel readline-devel xz xz-devel
                         libffi-devel findutils tk-devel libyaml-devel
                         cowsay fortune-mod gnuplot telnet rlwrap nmap-ncat
-                        libgcrypt libgcrypt-devel
+                        libgcrypt libgcrypt-devel libpcap libpcap-devel
+
+                        # llvm
+                        llvm clang clang-tools-extra lldb
 
                         # Language packs
                         # aspell aspell-en aspell-es

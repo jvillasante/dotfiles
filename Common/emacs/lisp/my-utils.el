@@ -207,7 +207,7 @@ Otherwise, open the repository's main page."
                     (message "Current line %d is not within any hunk range." current-line)
                     (goto-char (point-min)))))))
 
-;;; LSP
+;;; Coding
 
 (defun my/eglot-clangd-find-other-file ()
     "Switch between source and header using clangd, with a fallback to ff-find-other-file."
@@ -231,6 +231,37 @@ Otherwise, open the repository's main page."
                     (call-interactively #'ff-find-other-file)))
             ;; No server or not clangd: use standard Emacs fallback
             (call-interactively #'ff-find-other-file))))
+
+(defun my/cpp-doctor ()
+    "Report which C/C++ toolchain programs Emacs can locate on its PATH."
+    (interactive)
+    (let ((tools '(("clangd"       . "LSP: completion, diagnostics, navigation")
+                   ("clang-format" . "format-on-save")
+                   ("clang-tidy"   . "lint")
+                   ("cmake"        . "build system ")
+                   ("make"         . "Makefile builds")
+                   ("lldb-dap"     . "debug adapter (LLVM)")
+                   ("gdb"          . "debug adapter (GNU)")
+                   ("rg"           . "project search")))
+          (ok t))
+        (with-current-buffer (get-buffer-create "*cpp-doctor*")
+            (erase-buffer)
+            (insert "C/C++ toolchain — as seen by Emacs\n")
+            (insert "==================================\n\n")
+            (dolist (tc tools)
+                (let ((found (executable-find (car tc))))
+                    (unless found (setq ok nil))
+                    (insert (format "  %-14s %s\n                 %s\n\n"
+                                    (car tc)
+                                    (if found (concat "✓ " found) "✗ MISSING")
+                                    (cdr tc)))))
+            (insert (if ok
+                            "All set — you're good to build and debug.\n"
+                        "Anything MISSING is either not installed or not on Emacs's PATH.\n\
+See README.md → \"C/C++ prerequisites\" for the install commands, then\n\
+restart Emacs so the new PATH is picked up.\n"))
+            (goto-char (point-min))
+            (display-buffer (current-buffer)))))
 
 ;;; Elisp
 

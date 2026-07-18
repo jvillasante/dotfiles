@@ -94,7 +94,8 @@
 
 ;;; Startup and garbage collection
 
-(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
 (add-hook 'emacs-startup-hook
     (lambda ()
         (setq gc-cons-threshold (* 64 1024 1024))
@@ -123,7 +124,8 @@
 
 ;; Disable startup screens and messages
 (setq inhibit-startup-screen t
-    inhibit-startup-buffer-menu t)
+      inhibit-startup-echo-area-message user-login-name
+      inhibit-startup-buffer-menu t)
 
 ;; some default-frame-alist
 (push '(width . 160) default-frame-alist)
@@ -134,16 +136,16 @@
 ;; menu-bar
 (push '(menu-bar-lines . 0) default-frame-alist)
 (unless (memq window-system '(mac ns))
-    (setq menu-bar-mode nil))
+    (setq menu-bar-mode -1))
 
 ;; tool-bar
 (push '(tool-bar-lines . 0) default-frame-alist)
-(setq tool-bar-mode nil)
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
 ;; scroll bars
-(push '(vertical-scroll-bars) default-frame-alist)
-(push '(horizontal-scroll-bars) default-frame-alist)
-(setq scroll-bar-mode nil)
+(push '(vertical-scroll-bars . nil) default-frame-alist)
+(push '(horizontal-scroll-bars . nil) default-frame-alist)
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (when (fboundp 'horizontal-scroll-bar-mode)
     (horizontal-scroll-bar-mode -1))
 
@@ -163,6 +165,9 @@
 
 ;; Suppress warnings about packages lacking a `lexical-binding' declaration
 (setq warning-suppress-types '((lexical-binding)))
+
+;; don't resize frame as fonts load
+(setq frame-inhibit-implied-resize t)
 
 ;;; package.el
 (setq load-prefer-newer t)
