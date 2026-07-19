@@ -238,18 +238,31 @@
 
 ;; corfu : COmpletion in Region FUnction
 (use-package corfu
+    :init (setq tab-always-indent 'complete)
     :custom
     (corfu-auto t)
     (corfu-auto-prefix 2)
     (corfu-quit-no-match t)
+    (corfu-preview-current nil)
+    (corfu-min-width 20)
+    (corfu-popupinfo-delay '(1.25 . 0.5))
     :bind (:map corfu-map
               ("SPC" . corfu-insert-separator)
               ("<tab>" . corfu-complete))
-    :hook ((after-init . global-corfu-mode)
-              ((shell-mode eshell-mode) . (lambda ()
-                                              (setq-local corfu-auto nil)
-                                              (keymap-set corfu-map "RET" #'corfu-send)
-                                              (corfu-mode)))))
+    :config
+    (with-eval-after-load 'savehist
+        ;; Sort by input history (no need to modify `corfu-sort-function').
+        (corfu-history-mode 1)
+        (add-to-list 'savehist-additional-variables 'corfu-history))
+    :hook ((after-init .
+               (lambda ()
+                   (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
+                   (global-corfu-mode 1)))  ; enable globally
+              ((shell-mode eshell-mode) .
+                  (lambda ()
+                      (setq-local corfu-auto nil)
+                      (keymap-set corfu-map "RET" #'corfu-send)
+                      (corfu-mode)))))
 
 ;; completion-preview: builtin alternative to corfu
 (use-package completion-preview
@@ -277,18 +290,20 @@
         #'my/detect-org-table))
 
 (use-package cape
+    :after corfu
     :bind ("C-c p" . cape-prefix-map)
-    :init
-    ;; Add to the global default value of `completion-at-point-functions' which is
-    ;; used by `completion-at-point'.  The order of the functions matters, the
-    ;; first function returning a result wins.  Note that the list of buffer-local
-    ;; completion functions takes precedence over the global list.
+    :config
+    ;; Add to the global default value of `completion-at-point-functions' which
+    ;; is used by `completion-at-point'. The order of the functions matters, the
+    ;; first function returning a result wins. Note that the list of
+    ;; buffer-local completion functions takes precedence over the global list.
     ;; These three are good for auto-completion (corfu-auto):
     (add-to-list 'completion-at-point-functions #'cape-dabbrev)
     (add-to-list 'completion-at-point-functions #'cape-file)
     (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-    ;; The rest are available on-demand via `cape-prefix-map' (C-c p),
-    ;; which is the manual replacement for hippie-expand.
+
+    ;; The rest are available on-demand via `cape-prefix-map' (C-c p), which is
+    ;; the manual replacement for hippie-expand.
     ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
     ;;(add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
