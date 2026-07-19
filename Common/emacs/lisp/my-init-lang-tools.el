@@ -92,9 +92,7 @@
               ("C-c l x" . eglot-code-action-quickfix)
               ("C-c l o" . eglot-code-action-organize-imports)
               ("C-c l =" . eglot-format-buffer)
-              ("C-c l f" . eglot-format)
-              :map c-ts-base-mode-map
-              ("C-x C-o" . my/eglot-clangd-find-other-file))
+              ("C-c l f" . eglot-format))
     :config
     (setf (plist-get eglot-events-buffer-config :size) 0)
     (fset #'jsonrpc--log-event #'ignore)
@@ -102,20 +100,16 @@
     (setq eglot-autoshutdown t)
     (setq eglot-autoreconnect nil)
     (setq eglot-extend-to-xref t)
-    (setq eglot-sync-connect nil)
+    (setq eglot-sync-connect 3)
     (setq eglot-report-progress t)
     (setq eglot-confirm-server-edits '((eglot-rename . nil)
                                           (t . diff)))
     (setq eglot-ignored-server-capabilities
-        '(;; :hoverProvider
-             ;; :documentHighlightProvider
-             ;; :documentFormattingProvider
-             ;; :documentRangeFormattingProvider
-             :documentOnTypeFormattingProvider
+        '(:documentOnTypeFormattingProvider
              :documentLinkProvider
+             :inlayHintProvider
              :colorProvider
-             :foldingRangeProvider
-             :inlayHintProvider))
+             :foldingRangeProvider))
 
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
@@ -133,33 +127,37 @@
     ;; (add-to-list 'eglot-stay-out-of 'flymake)
     ;; (add-to-list 'eglot-stay-out-of 'yasnippet)
 
-    (with-eval-after-load 'eglot
-        ;; Writing
-        (add-to-list 'eglot-server-programs
-            '(text-mode . ("harper-ls" "--stdio")))
-        (add-to-list 'eglot-server-programs
-            '(markdown-mode . ("harper-ls" "--stdio")))
-        (add-to-list 'eglot-server-programs
-            '(org-mode . ("harper-ls" "--stdio")))
-        (add-to-list 'eglot-server-programs
-            '(org-msg-mode . ("harper-ls" "--stdio")))
+    ;; Writing
+    (add-to-list 'eglot-server-programs
+        '(text-mode . ("harper-ls" "--stdio")))
+    (add-to-list 'eglot-server-programs
+        '(markdown-mode . ("harper-ls" "--stdio")))
+    (add-to-list 'eglot-server-programs
+        '(org-mode . ("harper-ls" "--stdio")))
+    (add-to-list 'eglot-server-programs
+        '(org-msg-mode . ("harper-ls" "--stdio")))
 
-        ;; C++
-        (add-to-list 'eglot-server-programs
-            '((c++-ts-mode c-ts-mode c++-mode c-mode objc-mode)
-                 . ("clangd"
-                       "-j=8"
-                       "--enable-config"
-                       "--query-driver=/**/*"
-                       "--log=error"
-                       "--malloc-trim"
-                       "--background-index"
-                       "--clang-tidy"
-                       "--all-scopes-completion"
-                       "--completion-style=detailed"
-                       "--pch-storage=memory"
-                       "--header-insertion=never"
-                       "--header-insertion-decorators=0")))))
+    ;; TypeScript / JavaScript
+    ;; (add-to-list 'eglot-server-programs
+    ;;     '((typescript-ts-mode tsx-ts-mode js-ts-mode)
+    ;;          . ("typescript-language-server" "--stdio")))
+
+    ;; C++
+    (add-to-list 'eglot-server-programs
+        '((c++-ts-mode c-ts-mode c++-mode c-mode objc-mode)
+             . ("clangd"
+                   "-j=8"
+                   "--enable-config"
+                   "--query-driver=/**/*"
+                   "--log=error"
+                   "--malloc-trim"
+                   "--background-index"
+                   "--clang-tidy"
+                   "--all-scopes-completion"
+                   "--completion-style=detailed"
+                   "--pch-storage=memory"
+                   "--header-insertion=never"
+                   "--header-insertion-decorators=0"))))
 
 ;; consult-eglot : A consulting-read interface for eglot
 (use-package consult-eglot

@@ -213,10 +213,9 @@ Otherwise, open the repository's main page."
     "Switch between source and header using clangd, with a fallback to ff-find-other-file."
     (interactive)
     (let* ((server (eglot-current-server))
-              ;; Check if the server process command contains "clangd"
               (is-clangd (and server
-                             (cl-find "clangd" (process-command (jsonrpc--process server))
-                                 :test #'string-match-p))))
+                             (string-match-p "clangd"
+                                 (or (plist-get (eglot--server-info server) :name) "")))))
         (if is-clangd
             (let ((rep (jsonrpc-request
                            server
