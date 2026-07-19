@@ -52,10 +52,10 @@
                 (let ((bsd-rules (alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
                     `(,@my/rules ,@bsd-rules)))))
     :mode (("\\.c\\'"   . c-ts-mode)
-              ("\\.C\\'"   . c-or-c++-ts-mode)
-              ("\\.h\\'"   . c-or-c++-ts-mode)
-              ("\\.H\\'"   . c-or-c++-ts-mode)
-              ("\\.inc\\'" . c-or-c++-ts-mode)
+              ("\\.C\\'"   . c++-ts-mode) ; alternatively: c-or-c++-ts-mode
+              ("\\.h\\'"   . c++-ts-mode) ; alternatively: c-or-c++-ts-mode
+              ("\\.H\\'"   . c++-ts-mode) ; alternatively: c-or-c++-ts-mode
+              ("\\.inc\\'" . c++-ts-mode) ; alternatively: c-or-c++-ts-mode
               ("\\.hpp\\'" . c++-ts-mode)
               ("\\.HPP\\'" . c++-ts-mode)
               ("\\.cpp\\'" . c++-ts-mode)
