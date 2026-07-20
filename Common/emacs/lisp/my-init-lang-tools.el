@@ -66,12 +66,33 @@
 (use-package eglot
     :ensure nil ;; emacs built-in
     :defer t
+    :preface
+    (defun my/vertico-eglot-commands ()
+        "Display Eglot commands, leveraging native Marginalia annotations."
+        (interactive)
+        (let ((cmds '()))
+            ;; Extract the raw commands from the menu
+            (map-keymap
+                (lambda (_key binding)
+                    (when (and (consp binding) (eq (car binding) 'menu-item))
+                        (let ((cmd (nth 2 binding)))
+                            (when (commandp cmd)
+                                (push (symbol-name cmd) cmds)))))
+                eglot-menu)
+
+            ;; Tag the completion with the 'command category so Marginalia annotates it
+            (let* ((completion-extra-properties '(:category command))
+                      (selection (completing-read "Eglot: " (nreverse cmds) nil t)))
+                (call-interactively (intern selection)))))
     :hook ((eglot-managed-mode .
                   (lambda ()
                       ;; Show flymake diagnostics first.
                       (setq eldoc-documentation-functions
                           (cons #'flymake-eldoc-function
                               (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+
+                      ;; Show all eldoc feedback.
+                      (setq eldoc-documentation-strategy #'eldoc-documentation-compose)
 
                       ;; Format on save via LSP.
                       (add-hook 'before-save-hook
@@ -90,6 +111,7 @@
               ("C-c l i" . eglot-find-implementation)
               ("C-c l a" . eglot-code-actions)
               ("C-c l x" . eglot-code-action-quickfix)
+              ("C-c l m" . my/vertico-eglot-commands)
               ("C-c l o" . eglot-code-action-organize-imports)
               ("C-c l =" . eglot-format-buffer)
               ("C-c l f" . eglot-format))
@@ -111,16 +133,31 @@
              :colorProvider
              :foldingRangeProvider))
 
+    ;; Cleans up Emacs 31 visual noise
+    (setopt eglot-code-action-indications nil)
+
     ;; Setting the workspace configuration for every buffer, this can also be
     ;; done as dir-local variables for project/directory.
     (setq-default eglot-workspace-configuration
         '(:gopls (:staticcheck t :usePlaceholders t)
+             :haskell (:formattingProvider "ormolu")
+             :typescript (:format (:baseIndentSize 0
+                                      :convertTabsToSpaces t
+                                      :indentSize 2
+                                      :semicolons "remove"
+                                      :tabSize 2))
+             :javascript (:format (:baseIndentSize 0
+                                      :convertTabsToSpaces t
+                                      :indentSize 2
+                                      :semicolons "remove"
+                                      :tabSize 2))
              :rust-analyzer (:check (:command "clippy")
                                 :cargo (:sysroot "discover"
                                            :features "all"
                                            :buildScripts (:enable t))
                                 :diagnostics (:disabled ["macro-error"])
                                 :procMacro (:enable t))))
+
     ;; don't try to manage these
     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
     (add-to-list 'eglot-stay-out-of 'imenu)
@@ -138,9 +175,9 @@
         '(org-msg-mode . ("harper-ls" "--stdio")))
 
     ;; TypeScript / JavaScript
-    ;; (add-to-list 'eglot-server-programs
-    ;;     '((typescript-ts-mode tsx-ts-mode js-ts-mode)
-    ;;          . ("typescript-language-server" "--stdio")))
+    (add-to-list 'eglot-server-programs
+        '((typescript-ts-mode tsx-ts-mode js-ts-mode)
+             . ("typescript-language-server" "--stdio")))
 
     ;; C++
     (add-to-list 'eglot-server-programs
