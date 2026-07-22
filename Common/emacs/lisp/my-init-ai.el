@@ -39,14 +39,14 @@
     (agent-shell-session-restore-verbosity 'last)
     (agent-shell-prefer-viewport-interaction t)
     (agent-shell-dot-subdir-function #'my/agent-shell-dot-subdir)
-    (agent-shell-preferred-agent-config 'claude-code)
+    (agent-shell-preferred-agent-config '(auto . claude-code))
     (agent-shell-anthropic-authentication
         (agent-shell-anthropic-make-authentication :login t))
     (agent-shell-anthropic-default-model-id nil)
     (agent-shell-anthropic-default-session-mode-id "default")
     (agent-shell-screenshot-command '("spectacle" "--region" "--background"
                                          "--nonotify" "--output"))
-    (agent-shell-show-usage-at-turn-end t)
+    (agent-shell-show-usage-at-turn-end nil)
     :init
     (setq switch-to-buffer-obey-display-actions t)
     (add-to-list 'display-buffer-alist
