@@ -3,47 +3,56 @@ BasedOnStyle: LLVM
 ---
 Language: Cpp
 
-# Things I like
+# --- General ---
 ColumnLimit: 80
-Cpp11BracedListStyle: true
+IndentWidth: 4
+AccessModifierOffset: -4
+MaxEmptyLinesToKeep: 1
 
-# Braces
+# --- Pointers & Includes ---
+DerivePointerAlignment: false
+PointerAlignment: Left
+SortIncludes: true
+ReflowComments: false
+FixNamespaceComments: true
+
+# --- Constructors & Lists ---
+Cpp11BracedListStyle: true
+PackConstructorInitializers: NextLine
 AlwaysBreakTemplateDeclarations: true
-AllowShortBlocksOnASingleLine: true
-AllowShortEnumsOnASingleLine: true
-AllowShortFunctionsOnASingleLine: true
-AllowShortIfStatementsOnASingleLine: WithoutElse
-AllowShortLambdasOnASingleLine: true
+
+# --- Short Blocks (Preventing ugly one-liners) ---
+AllowShortBlocksOnASingleLine: Never
+AllowShortEnumsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: None
+AllowShortFunctionsOnASingleLine: InlineOnly # or 'Empty'
+
+# --- Braces (The "Sane" Hybrid Style) ---
+BreakBeforeBraces: Custom
 BraceWrapping:
-  AfterCaseLabel:        true
+  # Structural blocks get their own line for clarity
   AfterClass:            true
-  AfterControlStatement: true
   AfterEnum:             true
   AfterFunction:         true
   AfterNamespace:        true
-  AfterObjCDeclaration:  true
   AfterStruct:           true
   AfterUnion:            true
   AfterExternBlock:      true
-  BeforeCatch:           true
-  BeforeElse:            true
+  AfterObjCDeclaration:  true
+  AfterCaseLabel:        true
+
+  # Control flow stays attached to save vertical space
+  AfterControlStatement: false
+  BeforeCatch:           false
+  BeforeElse:            false
+  BeforeWhile:           false
   BeforeLambdaBody:      false
-  BeforeWhile:           true
+
   IndentBraces:          false
+
+  # Empty blocks collapse to {} to save space
   SplitEmptyFunction:    false
   SplitEmptyRecord:      false
   SplitEmptyNamespace:   false
-BreakBeforeBraces: Custom
-
-# Force pointers to the type for C++.
-DerivePointerAlignment: false
-PointerAlignment: Left
-
-# Indent with 4 spaces
-IndentWidth: 4
-AccessModifierOffset: -4
-
-# Disable formatting options which may break tests.
-SortIncludes: true
-ReflowComments: false
 ---
