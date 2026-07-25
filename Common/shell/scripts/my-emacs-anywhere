@@ -57,7 +57,7 @@ main() {
 
     # Open in Emacs (returns immediately; Emacs handles focus)
     /usr/local/bin/emacsclient -c -a '' \
-        -F '((width . 80) (height . 20))' "$TMPFILE"
+        -F '((width . 120) (height . 30))' "$TMPFILE"
 
     # Block until Emacs writes a signal to the FIFO.
     # The 300s timeout is a backstop for the rare case where Emacs is killed
