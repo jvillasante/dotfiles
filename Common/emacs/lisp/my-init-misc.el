@@ -494,9 +494,6 @@
 (use-package surround
     :bind-keymap ("M-'" . surround-keymap))
 
-;; emacs-everywhere : use emacs everywhere
-(use-package emacs-everywhere :disabled t)
-
 ;; monkeytype : A typing game/tutor inspired by the open source and community driven monkeytype.com
 (use-package monkeytype
     :defer t

@@ -456,6 +456,21 @@ fedora_install() {
 
                     sudo dnf install -y --skip-unavailable "${pkgs[@]}"
 
+                    # After installation we need `ydotool` to work
+                    if [[ "$WINDOW_SYSTEM" == "$WS_WAYLAND" ]]; then
+                        # Add $USER to input group
+                        sudo usermod -aG input "$USER"
+
+                        # Enable the daemon
+                        [ ! -d "$HOME"/.config/systemd/user ] && mkdir -p "$HOME"/.config/systemd/user
+                        [ -L "$HOME/.config/systemd/user/ydotoold.service" ] &&
+                            unlink "$HOME/.config/systemd/user/ydotoold.service"
+                        ln -s "$HOME/Workspace/Projects/dotfiles/Common/systemd/user/ydotoold.service" \
+                           "$HOME/.config/systemd/user"
+                        systemctl --user daemon-reload
+                        systemctl --user enable --now ydotoold.service
+                    fi
+
                     # gpg smartcard daemon
                     sudo systemctl enable --now pcscd.socket
 
