@@ -441,15 +441,12 @@ Run this function at the post theme load phase, such as with the
 
 ;; Correctly init frames (daemon & non-daemon frames)
 (if (daemonp)
-    ;; Fonts and themes belong here (runs while the frame is being built)
     (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (with-selected-frame frame
-                  (my/setup-fonts)
-                  (modus-themes-load-theme 'modus-operandi)
-                  (tab-bar-rename-tab "scratch"))))
-
-    ;; Standard non-daemon fallback
+        (lambda (frame)
+            (with-selected-frame frame
+                (my/setup-fonts)
+                (modus-themes-load-theme 'modus-operandi)
+                (tab-bar-rename-tab "scratch"))))
     (add-hook 'emacs-startup-hook
         (lambda ()
             (my/setup-fonts)
