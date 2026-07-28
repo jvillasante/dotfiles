@@ -46,7 +46,7 @@
     (agent-shell-anthropic-default-session-mode-id "default")
     (agent-shell-screenshot-command '("spectacle" "--region" "--background"
                                          "--nonotify" "--output"))
-    (agent-shell-show-usage-at-turn-end nil)
+    (agent-shell-show-usage-at-turn-end t)
     :init
     (setq switch-to-buffer-obey-display-actions t)
     (add-to-list 'display-buffer-alist
