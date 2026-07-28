@@ -42,7 +42,7 @@
     (agent-shell-preferred-agent-config '(auto . claude-code))
     (agent-shell-anthropic-authentication
         (agent-shell-anthropic-make-authentication :login t))
-    (agent-shell-anthropic-default-model-id nil)
+    (agent-shell-anthropic-default-model-id "opus[1m]")
     (agent-shell-anthropic-default-session-mode-id "default")
     (agent-shell-screenshot-command '("spectacle" "--region" "--background"
                                          "--nonotify" "--output"))
