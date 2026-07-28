@@ -3,6 +3,20 @@
 ;;
 ;;; Code:
 
+;; project-x : project and session management
+(use-package project-x
+    :disabled t
+    :after project
+    :hook
+    (after-init . (lambda ()
+                      (project-x-mode 1)
+                      (project-x-tabs-mode 1)))
+    :custom
+    ;; auto-save project state after 5 seconds of idle time
+    (project-x-auto-save-delay nil) ; nil to disable autosave
+    ;; use the custom prompter that shows session labels (optional)
+    (project-prompter #'project-x--project-prompt))
+
 ;; activities : manage frames/tabs, windows, and buffers according to their purpose
 (use-package activities
     :preface
