@@ -16,7 +16,6 @@
 
 (use-package emacs
     :ensure nil ;; emacs built-in
-    :no-require t ;; no emacs.el file exists; skip (require 'emacs)
     :init
     (when (>= emacs-major-version 30)
         ;; Disable Ispell completion function. Try `cape-dict' as an alternative.
@@ -90,6 +89,57 @@
                           (car args))
                     (cdr args))))))
 
+(use-package minibuffer
+    :ensure nil ;; emacs built-in
+    :config
+    ;; Do not inform me about the default keybindings to select a
+    ;; candidate.
+    (setq completion-show-help nil)
+
+    ;; Do not print messages in the echo area that pertain to
+    ;; completion---those are distracting.
+    (setq completion-show-inline-help nil)
+
+    ;; Show useful annotations in various minibuffer prompts (though the
+    ;; `marginalia' package greatly improves this).
+    (setq completions-detailed t)
+
+    ;; Do not use rows and columns for completions: a single vertical
+    ;; list is easier to follow.
+    (setq completions-format 'one-column)
+
+    ;; Put an upper limit to the Completions window, so that it does not
+    ;; disorient me.
+    (setq completions-max-height 15)
+
+    ;; Rely on previous inputs to surface candidates towards the top of
+    ;; the list (enable the built-in `savehist-mode' to persist
+    ;; history).
+    (setq completions-sort 'historical)
+
+    ;; Show the Completions buffer if I hit TAB but there is no unique match yet.
+    (setq completion-auto-help t)
+
+    ;; Never switch to the Completions buffer when I type TAB, because I
+    ;; want to select candidates while the minibuffer is still in focus,
+    ;; per `minibuffer-visible-completions'.  This has the advantage of
+    ;; auto-updating the completions as I type.
+    (setq completion-auto-select nil
+        minibuffer-visible-completions t)
+
+    ;; Those two are also relevant for the `completion-category-overrides', which I
+    ;; cover elsewhere in this article.
+    (setq completion-eager-display t)
+    (setq completion-eager-update t)
+
+    ;; Pattern-matching styles to interpret our input in every context.
+    (setq completion-styles '(basic substring initials flex))
+
+    ;; An exception to the above for the `file' category, where we
+    ;; specifically want to use the `partial-completion' style:
+    (setq completion-category-overrides
+        '((file . ((styles partial-completion))))))
+
 ;; uniquify : Making Buffer Names Unique
 (use-package uniquify
     :ensure nil ; emacs built-in
@@ -98,43 +148,6 @@
     (uniquify-separator " • ")
     (uniquify-after-kill-buffer-p t)
     (uniquify-ignore-buffers-re "^\\*"))
-
-;; emacs default completion
-(use-package icomplete
-    :disabled t
-    :ensure nil ;; emacs built-in
-    :bind
-    (:map icomplete-minibuffer-map
-        ("C-n" . icomplete-forward-completions)
-        ("C-p" . icomplete-backward-completions)
-        ("C-v" . icomplete-vertical-toggle)
-        ("RET" . icomplete-force-complete-and-exit))
-    :hook
-    (after-init . (lambda ()
-                      (fido-mode -1)
-                      (icomplete-mode 1)
-                      (icomplete-vertical-mode 1)
-                      (completion-preview-mode 1)))
-    :config
-    (setq completion-styles '(basic flex)
-        completion-auto-select t ;; Show completion on first call
-        completion-auto-help 'visible ;; Display *Completions* upon first request
-        completions-format 'one-column ;; Use only one column
-        completions-sort 'historical ;; Order based on minibuffer history
-        completions-max-height 20) ;; Limit completions to 15 (completions start at line 5)
-    (setq tab-always-indent 'complete)  ;; Starts completion with TAB
-    (setq icomplete-delay-completions-threshold 0)
-    (setq icomplete-compute-delay 0)
-    (setq icomplete-show-matches-on-no-input t)
-    (setq icomplete-hide-common-prefix nil)
-    (setq icomplete-prospects-height 10)
-    (setq icomplete-separator " . ")
-    (setq icomplete-with-completion-tables t)
-    (setq icomplete-in-buffer t)
-    (setq icomplete-max-delay-chars 0)
-    (setq icomplete-scroll t)
-    (advice-add 'completion-at-point
-        :after #'minibuffer-hide-completions))
 
 (use-package imenu
     :ensure nil ;; emacs built-in
