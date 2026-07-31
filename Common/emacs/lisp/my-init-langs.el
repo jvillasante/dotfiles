@@ -12,7 +12,7 @@
     :custom
     (treesit-extra-load-path
         `(,(expand-file-name "tree-sitter" my/var-dir)))
-    (treesit-auto-install-grammar 'ask)
+    (treesit-auto-install-grammar 'always)
     (treesit-enabled-modes t)
     (treesit-font-lock-level 4))
 

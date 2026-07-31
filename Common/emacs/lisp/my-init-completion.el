@@ -68,17 +68,7 @@
     (setq read-answer-short t) ; also check `use-short-answers' for Emacs28
     (setq echo-keystrokes 0.25)
     (setq kill-ring-max 60) ; Keep it small
-
-    ;; Do not allow the cursor to move inside the minibuffer prompt.  I
-    ;; got this from the documentation of Daniel Mendler's Vertico
-    ;; package: <https://github.com/minad/vertico>.
-    (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-    (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
     (file-name-shadow-mode 1)
-    (minibuffer-depth-indicate-mode 1)
-    (minibuffer-electric-default-mode 1)
 
     ;; Prompt indicator for `completing-read-multiple'.
     (when (< emacs-major-version 31)
@@ -91,6 +81,15 @@
 
 (use-package minibuffer
     :ensure nil ;; emacs built-in
+    :preface
+    (defun my/minibuffer-truncate-lines ()
+        "Keep minibuffer lines unwrapped."
+        (setq-local truncate-lines t))
+    :bind (:map minibuffer-visible-completions-up-down-map
+              ("C-n" . minibuffer-next-completion)
+              ("C-p" . minibuffer-previous-completion))
+    :hook ((minibuffer-setup . cursor-intangible-mode)
+              (minibuffer-setup . my/minibuffer-truncate-lines))
     :config
     ;; Do not inform me about the default keybindings to select a
     ;; candidate.
@@ -138,7 +137,17 @@
     ;; An exception to the above for the `file' category, where we
     ;; specifically want to use the `partial-completion' style:
     (setq completion-category-overrides
-        '((file . ((styles partial-completion))))))
+        '((file . ((styles partial-completion)))))
+
+    ;; Do not allow the cursor to move inside the minibuffer prompt.  I
+    ;; got this from the documentation of Daniel Mendler's Vertico
+    ;; package: <https://github.com/minad/vertico>.
+    (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+
+    ;; misc
+    (minibuffer-depth-indicate-mode 1)
+    (minibuffer-electric-default-mode 1))
 
 ;; uniquify : Making Buffer Names Unique
 (use-package uniquify

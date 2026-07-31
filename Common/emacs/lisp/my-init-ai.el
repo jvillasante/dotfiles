@@ -53,7 +53,6 @@
         '("[Aa]gent @ "
              (display-buffer-in-side-window)
              (side . right)
-             (slot . 0)
              (window-width . 0.4)
              (dedicated . t)
              (window-parameters . ((no-delete-other-windows . t))))))
