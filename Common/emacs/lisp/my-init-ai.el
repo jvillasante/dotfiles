@@ -38,6 +38,11 @@
     (agent-shell-session-strategy 'prompt)
     (agent-shell-session-restore-verbosity 'last)
     (agent-shell-prefer-viewport-interaction t)
+    (agent-shell-display-action
+        '(display-buffer-in-side-window
+             (side . right)
+             (slot . 0)
+             (window-width . 0.4)))
     (agent-shell-dot-subdir-function #'my/agent-shell-dot-subdir)
     (agent-shell-preferred-agent-config '(auto . claude-code))
     (agent-shell-anthropic-authentication
@@ -46,16 +51,7 @@
     (agent-shell-anthropic-default-session-mode-id "default")
     (agent-shell-screenshot-command '("spectacle" "--region" "--background"
                                          "--nonotify" "--output"))
-    (agent-shell-show-usage-at-turn-end t)
-    :init
-    (setq switch-to-buffer-obey-display-actions t)
-    (add-to-list 'display-buffer-alist
-        '("[Aa]gent @ "
-             (display-buffer-in-side-window)
-             (side . right)
-             (window-width . 0.4)
-             (dedicated . t)
-             (window-parameters . ((no-delete-other-windows . t))))))
+    (agent-shell-show-usage-at-turn-end t))
 
 (use-package claude-code-ide
     :disabled t
