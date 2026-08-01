@@ -9,7 +9,7 @@ target_link_libraries(libmath_tests
 )
 
 set_target_properties(libmath_tests PROPERTIES
-    CXX_STANDARD 23
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
 )
