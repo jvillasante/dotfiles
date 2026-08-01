@@ -4,10 +4,41 @@ set -o errexit
 set -o nounset
 set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
+
+if [[ -z "${BASH_VERSION}" ]]; then
+    echo "Error: This script requires Bash to run." >&2
+    exit 1
+fi
+
+SCRIPT_NAME="$(basename "$0")"
+readonly SCRIPT_NAME
 cd "$(dirname "$0")" || exit 1
 
 # shellcheck source=/dev/null
 source "$HOME/.config/shell/lib/functions.sh"
+
+# source everything in lib
+for f in "$HOME"/.config/shell/lib/*; do
+    # shellcheck source=/dev/null
+    source "$f" || exit 1
+done
+
+usage() {
+    echo "Usage:"
+    echo "    $SCRIPT_NAME help:"
+    echo "        Show this help message"
+    echo "    $SCRIPT_NAME c:"
+    echo "        Create C Project (gcc)"
+    echo "    $SCRIPT_NAME cpp:"
+    echo "        Create C++ Project (gcc)"
+    echo "    $SCRIPT_NAME rust:"
+    echo "        Create Rust Project"
+    echo "    $SCRIPT_NAME sfml:"
+    echo "        Create SFML Project"
+    echo
+    echo " e.g: $SCRIPT_NAME cpp"
+    exit "$1"
+}
 
 create_c_project() {
     read -r -p "Enter project name: " PROJECT_NAME
@@ -213,34 +244,36 @@ create_sfml_project() {
     fi
 }
 
-while true; do
-    PS3="Choose an option: "
-    options=("Create C Project (gcc)" "Create C++ Project (gcc)" "Create Rust Project" "Create SFML Project" "Quit")
+main() {
+    nargs=$#
+    cmd=${1-}
+    rc=0
+    if [ "$#" -gt 0 ]; then shift; fi
+    case $cmd in
+        c)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            create_c_project
+            ;;
+        cpp)
+            [ "$nargs" -eq 1 ] || usage 1
+            create_cpp_project
+            ;;
+        rust)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            create_rust_project
+            ;;
+        sfml)
+            [[ "$nargs" -eq 1 ]] || usage 1
+            create_sfml_project
+            ;;
+        help | --help | -h)
+            usage 0
+            ;;
+        *)
+            usage 1
+            ;;
+    esac
+    return $rc
+}
 
-    select opt in "${options[@]}"; do
-        case $REPLY in
-            1)
-                create_c_project
-                hr
-                break
-                ;;
-            2)
-                create_cpp_project
-                hr
-                break
-                ;;
-            3)
-                create_rust_project
-                hr
-                break
-                ;;
-            4)
-                create_sfml_project
-                hr
-                break
-                ;;
-            5) break 2 ;;
-            *) echo "Invalid option '$opt'" >&2 ;;
-        esac
-    done
-done
+main "$@"
