@@ -1,14 +1,60 @@
 # clangd configuration : https://clangd.llvm.org/config.html
+
 CompileFlags:
-    # directory to search for compilation database.
-    CompilationDatabase: build/debug/
+  # directory to search for compilation database.
+  CompilationDatabase: build/debug/
 
-    # https://github.com/clangd/clangd/issues/662
-    Add: -Wno-unknown-warning-option
+  # Hint for standard headers
+  Compiler: clang++
 
-    # Remove: [-m*, -f*]
+  Add:
+    # Fallback standard if a file is opened outside a compile_commands.json project
+    - "-std=c++17"
+
+    # Ignore compiler flags that GCC supports but Clang does not
+    - "-Wno-unknown-warning-option"
+
+    # Globally suppress the __COUNTER__ and extension warnings
+    # (great for test frameworks like Catch2 and GoogleTest)
+    - "-Wno-c2y-extensions"
+    - "-Wno-c++26-extensions"
+    - "-Wno-gnu-counter"
+
+  Remove:
+    # Strip out common GCC-specific optimization flags that cause
+    # clangd to throw parsing errors in the editor.
+    - "-fconserve-stack"
+    - "-fno-allow-store-data-races"
+    - "-fno-semantic-interposition"
 
 Diagnostics:
-    ClangTidy:
-        # https://github.com/llvm/llvm-project/issues/109367
-        Remove: boost-use-ranges
+  ClangTidy:
+    # https://github.com/llvm/llvm-project/issues/109367
+    Remove:
+      - "boost-use-ranges"
+
+  # Ignore warnings from third-party libraries!
+  # This makes clangd significantly faster and keeps your diagnostics clean.
+  Suppress:
+    - "*:build/_deps/*"
+    - "*:third_party/*"
+    - "*:external/*"
+
+  Includes:
+    # Prevent clangd's Include Cleaner from aggressively messing with Catch2 macros
+    IgnoreHeader: ".*catch2/.*"
+
+Index:
+  # Ensure clangd builds a background index for go-to-definition across the whole project
+  Background: Build
+
+InlayHints:
+  # Visual hints
+  Enabled: No
+  ParameterNames: No
+  DeducedTypes: No
+  Designators: No
+
+Hover:
+  # Resolve typedefs
+  ShowAKA: No

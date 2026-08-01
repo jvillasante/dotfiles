@@ -86,7 +86,7 @@
 ;; yaml
 (use-package yaml-ts-mode
     :ensure nil
-    :mode ("\\.yml\\'" "\\.yaml\\'" "\\.clangd\\'"))
+    :mode ("\\.yml\\'" "\\.yaml\\'" "\\.clangd\\'" "\\.clang-tidy\\'" "\\.clang-format\\'"))
 
 ;; web-mode : Support various web files
 (use-package web-mode

@@ -1,33 +1,58 @@
 ---
-Checks: "*,
-        -abseil-*,
-        -altera-*,
-        -android-*,
-        -fuchsia-*,
-        -google-*,
-        -llvm*,
-        -zircon-*,
-        -modernize-use-trailing-return-type,
-        -readability-else-after-return,
-        -readability-static-accessed-through-instance,
-        -readability-avoid-const-params-in-decls,
-        -cppcoreguidelines-non-private-member-variables-in-classes,
-        -misc-non-private-member-variables-in-classes,
-        -misc-no-recursion,
-        -misc-use-anonymous-namespace,
-        -misc-use-internal-linkage,
-        -*-identifier-length,
-        -*-magic-numbers,
-        -*-const-or-ref-data-members,
-"
+# Use the > syntax so you don't need quotes and can safely use newlines
+Checks: >
+  *,
+
+  # --- Vendor / Platform exclusions ---
+  -abseil-*,
+  -altera-*,
+  -android-*,
+  -darwin-*,
+  -fuchsia-*,
+  -google-*,
+  -hicpp-*,
+  -linuxkernel-*,
+  -llvm-*,
+  -llvmlibc-*,
+  -mpi-*,
+  -objc-*,
+  -openmp-*,
+  -zircon-*,
+
+  # --- Global pedantic / subjective exclusions ---
+  -*-magic-numbers,
+  -*-const-or-ref-data-members,
+  -*-avoid-do-while,
+  -*-magic-numbers,
+  -modernize-use-trailing-return-type,
+  -modernize-use-nodiscard,
+  -cert-err58-cpp,
+
+  # --- Readability exclusions ---
+  -readability-else-after-return,
+  -readability-static-accessed-through-instance,
+  -readability-avoid-const-params-in-decls,
+  -readability-identifier-length,
+  -readability-uppercase-literal-suffix,
+
+  # --- Misc / Structure exclusions ---
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -misc-non-private-member-variables-in-classes,
+  -misc-no-recursion,
+  -misc-use-anonymous-namespace,
+  -misc-use-internal-linkage,
+
+  # --- Core Guidelines Noise (Highly recommended to exclude) ---
+  -cppcoreguidelines-macro-usage,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-type-vararg
+
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
-FormatStyle:     none
+FormatStyle: none
 
 CheckOptions:
-  - key: readability-identifier-length.IgnoredVariableNames
-    value: 'x|y|z'
-  - key: readability-identifier-length.IgnoredParameterNames
-    value: 'x|y|z'
+  # Prevents Catch2 TEST_CASE macros from triggering cognitive complexity errors
   - key: readability-function-cognitive-complexity.IgnoreMacros
     value: true

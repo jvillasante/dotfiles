@@ -1,29 +1,32 @@
 add_library(libmath
-    ${CMAKE_SOURCE_DIR}/include/libmath/libmath.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/libmath/libmath.hpp
     libmath.cpp
 )
+
+# Standardize the name internally and externally
 add_library(math::libmath ALIAS libmath)
 set_target_properties(libmath PROPERTIES OUTPUT_NAME math)
-set_target_properties(libmath PROPERTIES LINKER_LANGUAGE CXX)
 
-# Since we specify `PUBLIC` visibility here, any targets that compile against
-# `libmath` will inherit these properties!
+# Set the floor standard for the library and its consumers
 target_compile_features(libmath PUBLIC cxx_std_17)
-target_compile_options(libmath PUBLIC
+
+# Keep strict warnings PRIVATE so they don't infect consumer code!
+target_compile_options(libmath PRIVATE
     $<$<CONFIG:Debug>:-Wall -Wextra -Werror -Wpedantic>
 )
 
-# For `./src/libmath/include` we use `PRIVATE` visibility as dependent targets
-# shouldn't transitively add it to their include directories.
+# Define public headers for both local builds and installed environments
 target_include_directories(libmath
     PUBLIC
       $<INSTALL_INTERFACE:include>
-      $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     PRIVATE
-        ${CMAKE_SOURCE_DIR}/src/libmath/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/src/libmath/include
 )
 
+# --- Installation Rules ---
 include(GNUInstallDirs)
+
 install(TARGETS libmath
     EXPORT math-targets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

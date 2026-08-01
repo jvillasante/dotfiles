@@ -9,5 +9,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2)
 
+# Tell CMake where to find the Catch2 test discovery scripts
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+
 # add_executable(tests test.cpp)
 # target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)

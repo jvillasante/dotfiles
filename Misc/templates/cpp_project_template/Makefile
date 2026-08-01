@@ -7,42 +7,38 @@ clean:
 
 .PHONY: debug
 debug:
-	cmake -E make_directory "build/debug" && \
-    cmake -S . -B "build/debug" -G Ninja \
-          -DCMAKE_BUILD_TYPE=Debug \
-          -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && \
-    cmake --build build/debug --config Debug
+	cmake -S . -B "build/debug" -G Ninja \
+		-DCMAKE_BUILD_TYPE=Debug \
+		-DCMAKE_EXPORT_COMPILE_COMMANDS=1
+	cmake --build build/debug
 
 .PHONY: release
 release:
-	cmake -E make_directory "build/release" && \
-    cmake -S . -B "build/release" -G Ninja \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_TESTING=OFF && \
-    cmake --build build/release --config Release
+	cmake -S . -B "build/release" -G Ninja \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DBUILD_TESTING=OFF
+	cmake --build build/release
 
 .PHONY: relwithdebinfo
 relwithdebinfo:
-	cmake -E make_directory "build/relwithdebinfo" && \
-    cmake -S . -B "build/relwithdebinfo" -G Ninja \
-        -DCMAKE_BUILD_TYPE= RelWithDebInfo \
-        -DBUILD_TESTING=OFF && \
-    cmake --build build/relwithdebinfo --config Release
+	cmake -S . -B "build/relwithdebinfo" -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DBUILD_TESTING=OFF
+	cmake --build build/relwithdebinfo
 
 .PHONY: minsizerel
 minsizerel:
-	cmake -E make_directory "build/minsizerel" && \
-    cmake -S . -B "build/minsizerel" -G Ninja \
-        -DCMAKE_BUILD_TYPE= MinSizeRel \
-        -DBUILD_TESTING=OFF && \
-    cmake --build build/minsizerel --config Release
+	cmake -S . -B "build/minsizerel" -G Ninja \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DBUILD_TESTING=OFF
+	cmake --build build/minsizerel
 
 .PHONY: test
 test: debug
-	ctest --output-on-failure --test-dir build/debug/test
+	ctest --output-on-failure --test-dir build/debug
 
 .PHONY: install
-install:
-	cmake --build build/release --config Release --target install
+install: release
+	cmake --install build/release
 
 .DEFAULT_GOAL := debug

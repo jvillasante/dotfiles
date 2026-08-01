@@ -1,30 +1,33 @@
 cmake_minimum_required(VERSION 3.27)
 
-# Use ccache if available
-find_program(CCACHE_PROGRAM ccache)
-if(CCACHE_PROGRAM)
-    set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
-    set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
-    # set(CMAKE_CUDA_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
-    message(STATUS "Ccache found: ${CCACHE_PROGRAM}")
-else ()
-    message(STATUS "Ccache not found")
-endif()
-
-# Set the project name and language
+# Initialize the project and specify languages
 project(
   project-name
   VERSION 0.0.1
   DESCRIPTION ""
-  LANGUAGES CXX)
+  LANGUAGES CXX
+)
 
+# Setup ccache
+find_program(CCACHE_PROGRAM ccache)
+if(CCACHE_PROGRAM)
+    set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
+    message(STATUS "Ccache found: ${CCACHE_PROGRAM}")
+else()
+    message(STATUS "Ccache not found")
+endif()
+
+# CTest automatically calls enable_testing() and provides BUILD_TESTING
 include(CTest)
 
+# Personal C++ Utils
+include(${PROJECT_SOURCE_DIR}/cmake/CppUtils.cmake)
+
+# Sources
 add_subdirectory("src")
 add_subdirectory("tools")
 
+# Conditionally include the test directory
 if(BUILD_TESTING)
-    enable_testing()
-    # find_package(Catch2 CONFIG REQUIRED)
     add_subdirectory("test")
 endif()
