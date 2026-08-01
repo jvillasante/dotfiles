@@ -1,5 +1,4 @@
 add_library(libmath
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/libmath/libmath.hpp
     libmath.cpp
 )
 
