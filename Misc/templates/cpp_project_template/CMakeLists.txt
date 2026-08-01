@@ -8,6 +8,12 @@ project(
   LANGUAGES CXX
 )
 
+# Single source of truth for the language standard. Applied as the default for
+# every target created after this point (lib, tools, tests).
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # Setup ccache
 find_program(CCACHE_PROGRAM ccache)
 if(CCACHE_PROGRAM)

@@ -8,12 +8,6 @@ target_link_libraries(libmath_tests
         Catch2::Catch2WithMain
 )
 
-set_target_properties(libmath_tests PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED ON
-    CXX_EXTENSIONS OFF
-)
-
 target_compile_options(libmath_tests
     PRIVATE
         -Wno-c2y-extensions
