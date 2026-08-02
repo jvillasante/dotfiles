@@ -41,7 +41,9 @@
 ;; flymake
 (use-package flymake
     :ensure nil ;; emacs built-in
-    :hook (prog-mode . flymake-mode)
+    :hook ((prog-mode . (lambda ()
+                            (which-function-mode)
+                            (flymake-mode))))
     :bind (:map prog-mode-map
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error))
