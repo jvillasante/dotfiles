@@ -1,24 +1,17 @@
 ---
 Checks: >
-  *,
-  -abseil-*,
-  -altera-*,
-  -android-*,
-  -darwin-*,
-  -fuchsia-*,
-  -google-*,
-  -hicpp-*,
-  -linuxkernel-*,
-  -llvm-*,
-  -llvmlibc-*,
-  -mpi-*,
-  -objc-*,
-  -openmp-*,
-  -zircon-*,
+  bugprone-*,
+  clang-analyzer-*,
+  concurrency-*,
+  cppcoreguidelines-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
   -*-magic-numbers,
   -*-const-or-ref-data-members,
   -*-avoid-do-while,
-  -*-magic-numbers,
   -modernize-use-trailing-return-type,
   -modernize-use-nodiscard,
   -cert-err58-cpp,
@@ -38,7 +31,7 @@ Checks: >
   -cppcoreguidelines-pro-type-vararg
 
 WarningsAsErrors: ''
-HeaderFilterRegex: ''
+HeaderFilterRegex: '^(include|src)/.*'
 FormatStyle: none
 
 CheckOptions:
