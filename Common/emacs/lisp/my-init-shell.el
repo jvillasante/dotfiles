@@ -266,8 +266,33 @@ symbol completion at the prompt."
 
 ;; ghostel : Emacs terminal emulator powered by libghostty-vt
 (use-package ghostel
-    :defer t
-    :preface
+    :hook (; Make eshell-visual-commands run in a Ghostel buffer
+              (eshell-load . ghostel-eshell-visual-command-mode)
+              ; Run all compile commands in a Ghostel buffer
+              (after-init . ghostel-compile-global-mode)
+              ; Replace comint's built-in ansi-color-process-output with Ghostel's VT parser
+              (after-init . ghostel-comint-global-mode))
+    :bind (("C-c o t" . ghostel)
+              ("C-c o T" . my/ghostel-other-window)
+              :map ghostel-semi-char-mode-map
+              ("C-s"  . consult-line)
+              ("C-k"  . my/ghostel-send-C-k-and-kill)
+              :map ghostel-readonly-mode-map
+              ("<return>" . ghostel-readonly-exit)
+              ("RET"      . ghostel-readonly-exit)
+              :map ghostel-mode-map
+              ("M-[" . ghostel-copy-mode)
+              :map project-prefix-map
+              ("t" . ghostel-project)
+              ("T" . my/ghostel-project-other-window))
+    :config
+    (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+    (add-to-list 'project-switch-commands '(ghostel-project-list-buffers "Ghostel buffers") t)
+    (add-to-list 'ghostel-eval-cmds '("magit-status-setup-buffer" magit-status-setup-buffer))
+    (add-to-list 'ghostel-eval-cmds '("find-file" find-file))
+    (add-to-list 'ghostel-eval-cmds '("find-file-other-window" find-file-other-window))
+    (add-to-list 'ghostel-eval-cmds '("dired" dired))
+    (add-to-list 'ghostel-eval-cmds '("dired-other-window" dired-other-window))
     (defun my/ghostel-other-window ()
         "Open a `ghostel' terminal in another window."
         (interactive)
@@ -282,23 +307,17 @@ symbol completion at the prompt."
             (lambda (buffer alist)
                 (cons (display-buffer-pop-up-window buffer alist) 'window)))
         (ghostel-project))
-    :config
-    (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
-    :bind (("C-c o t" . ghostel)
-              ("C-c o T" . my/ghostel-other-window)
-              :map ghostel-readonly-mode-map
-              ("<return>" . ghostel-readonly-exit)
-              ("RET"      . ghostel-readonly-exit)
-              :map ghostel-mode-map
-              ("M-[" . ghostel-copy-mode)
-              :map project-prefix-map
-              ("t" . ghostel-project)
-              ("T" . my/ghostel-project-other-window))
+    (defun my/ghostel-send-C-k-and-kill ()
+        "Send `C-k' to ghostel.
+Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
+        (interactive)
+        (kill-ring-save (point) (line-end-position))
+        (ghostel-send-key "k" "ctrl"))
     :custom
     (ghostel-module-auto-install 'download)  ; What to do when the native module is missing
     (ghostel-shell-integration t)            ; Automatically inject shell integration on startup
-    (ghostel-readonly-fast-exit nil)         ; Don't exit copy mode automatically
     (ghostel-tramp-shell-integration nil)    ; Inject shell integration for remote TRAMP sessions
+    (ghostel-readonly-fast-exit nil)         ; Don't exit copy mode automatically
     (ghostel-password-prompt-functions nil)  ; Don't try to handle passwords
     (ghostel-tramp-shells
         '(("ssh" login-shell)
