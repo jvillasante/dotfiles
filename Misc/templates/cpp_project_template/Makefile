@@ -44,7 +44,6 @@ debug:
 		-DCMAKE_BUILD_TYPE=Debug \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1
 	cmake --build build/debug
-	@ln -sf build/debug/compile_commands.json compile_commands.json
 
 # Configures and builds the project in Release mode (tests disabled)
 .PHONY: release
@@ -102,3 +101,19 @@ format:
 .PHONY: format-patch
 format-patch:
 	git clang-format
+
+# Runs clang-tidy on all source files
+.PHONY: tidy
+tidy: debug
+	@echo "Running clang-tidy..."
+	@find $(FORMAT_DIRS) -type f \( -name "*.cpp" -o -name "*.cc" \) \
+		-exec clang-tidy -p build/debug --header-filter=".*" {} +
+	@echo "Clang-tidy complete!"
+
+# Runs clang-tidy and automatically applies suggested fixes
+.PHONY: tidy-fix
+tidy-fix: debug
+	@echo "Running clang-tidy and applying fixes..."
+	@find $(FORMAT_DIRS) -type f \( -name "*.cpp" -o -name "*.cc" \) \
+		-exec clang-tidy -p build/debug --header-filter=".*" --fix {} +
+	@echo "Clang-tidy fix complete!"
