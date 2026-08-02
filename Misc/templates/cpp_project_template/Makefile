@@ -1,17 +1,52 @@
+# --- Configuration ---
+# Directories to search for formatting and linting
+FORMAT_DIRS := include src test tools
+
+# Default target when you just run `make`
+.DEFAULT_GOAL := help
+
+# --- Help Target ---
+
+# Shows this help menu
+.PHONY: help
+help:
+	@printf "Usage: make \033[36m[target]\033[0m\n\n"
+	@echo "Available targets:"
+	@awk '/^# / { desc = substr($$0, 3) } \
+		/^[a-zA-Z0-9_-]+:/ && desc { \
+			sub(/:/, "", $$1); \
+			printf "  \033[36m%-15s\033[0m %s\n", $$1, desc; \
+			desc = "" \
+		}' $(MAKEFILE_LIST)
+	@echo ""
+
+# --- Build & Clean Targets ---
+
+# Keeps CMake configuration, deletes binaries/objects
 .PHONY: clean
 clean:
-	if test -d "build/debug"; then cmake --build "build/debug" --target clean; fi
-	if test -d "build/release"; then cmake --build "build/release" --target clean; fi
-	if test -d "build/relwithdebinfo"; then cmake --build "build/relwithdebinfo" --target clean; fi
-	if test -d "build/minsizerel"; then cmake --build "build/minsizerel" --target clean; fi
+	for dir in debug release relwithdebinfo minsizerel; do \
+		if test -d "build/$$dir"; then \
+			cmake --build "build/$$dir" --target clean; \
+		fi; \
+	done
 
+# Wipes out the entire build folder to start completely from scratch
+.PHONY: distclean
+distclean:
+	@echo "Nuking all build directories..."
+	@rm -rf build/
+
+# Configures and builds the project in Debug mode, plus links compile_commands
 .PHONY: debug
 debug:
 	cmake -S . -B "build/debug" -G Ninja \
 		-DCMAKE_BUILD_TYPE=Debug \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1
 	cmake --build build/debug
+	@ln -sf build/debug/compile_commands.json compile_commands.json
 
+# Configures and builds the project in Release mode (tests disabled)
 .PHONY: release
 release:
 	cmake -S . -B "build/release" -G Ninja \
@@ -19,6 +54,7 @@ release:
 		-DBUILD_TESTING=OFF
 	cmake --build build/release
 
+# Configures and builds in Release mode with debug symbols included
 .PHONY: relwithdebinfo
 relwithdebinfo:
 	cmake -S . -B "build/relwithdebinfo" -G Ninja \
@@ -26,6 +62,7 @@ relwithdebinfo:
 		-DBUILD_TESTING=OFF
 	cmake --build build/relwithdebinfo
 
+# Configures and builds in Release mode optimized for binary size
 .PHONY: minsizerel
 minsizerel:
 	cmake -S . -B "build/minsizerel" -G Ninja \
@@ -33,12 +70,35 @@ minsizerel:
 		-DBUILD_TESTING=OFF
 	cmake --build build/minsizerel
 
+# --- Testing & Installation ---
+
+# Builds the debug target first, then runs the CTest test suite
 .PHONY: test
 test: debug
 	ctest --output-on-failure --test-dir build/debug
 
+# Alias for 'test'
+.PHONY: tests
+tests: test
+
+# Builds the release target first, then installs the artifacts
 .PHONY: install
 install: release
 	cmake --install build/release
 
-.DEFAULT_GOAL := debug
+# --- Tooling Targets ---
+
+# Formats all C++ files in FORMAT_DIRS using clang-format
+.PHONY: format
+format:
+	@echo "Formatting C++ files..."
+	@find $(FORMAT_DIRS) -type f \
+		\( -name "*.cpp" -o -name "*.hpp" \
+		-o -name "*.h" -o -name "*.cc" \) \
+		-exec clang-format -style=file -i {} +
+	@echo "Formatting complete!"
+
+# Formats only the specific lines you've modified in Git before committing
+.PHONY: format-patch
+format-patch:
+	git clang-format

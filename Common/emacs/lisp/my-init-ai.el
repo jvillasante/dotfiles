@@ -42,6 +42,7 @@
         '(display-buffer-in-side-window
              (side . right)
              (slot . 0)
+             (dedicated . t)
              (window-width . 0.4)))
     (agent-shell-dot-subdir-function #'my/agent-shell-dot-subdir)
     (agent-shell-preferred-agent-config '(auto . claude-code))
