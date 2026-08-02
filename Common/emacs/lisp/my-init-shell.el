@@ -17,10 +17,8 @@
     (defun my/eshell-other-window ()
         "Open a `eshell' in a new window."
         (interactive)
-        (let ((buf (eshell)))
-            (switch-to-buffer (other-buffer buf))
+        (let ((buf (save-window-excursion (eshell))))
             (switch-to-buffer-other-window buf)))
-
     (defun my/project-eshell-other-window ()
         "Open `project-eshell' in another window."
         (interactive)
@@ -210,8 +208,7 @@ symbol completion at the prompt."
     (defun my/shell-other-window ()
         "Open a `shell' in a new window."
         (interactive)
-        (let ((buf (shell)))
-            (switch-to-buffer (other-buffer buf))
+        (let ((buf (save-window-excursion (shell))))
             (switch-to-buffer-other-window buf)))
     :bind (("C-c o s" . shell)
               ("C-c o S" . my/shell-other-window))
