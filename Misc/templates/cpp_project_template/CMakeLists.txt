@@ -23,6 +23,24 @@ else()
     message(STATUS "Ccache not found")
 endif()
 
+# Sanitizer Configuration
+option(ENABLE_ASAN "Enable Address and Undefined Behavior Sanitizers" OFF)
+option(ENABLE_TSAN "Enable Thread Sanitizer" OFF)
+
+if(ENABLE_ASAN AND ENABLE_TSAN)
+    message(FATAL_ERROR "ASan and TSan cannot be used together. Enable only one.")
+endif()
+
+if(ENABLE_ASAN)
+    message(STATUS "Sanitizers enabled (ASan/UBSan)")
+    add_compile_options(-fsanitize=address,undefined -fno-omit-frame-pointer)
+    add_link_options(-fsanitize=address,undefined)
+elseif(ENABLE_TSAN)
+    message(STATUS "Sanitizer enabled (TSan)")
+    add_compile_options(-fsanitize=thread -fno-omit-frame-pointer)
+    add_link_options(-fsanitize=thread)
+endif()
+
 # CTest automatically calls enable_testing() and provides BUILD_TESTING
 include(CTest)
 

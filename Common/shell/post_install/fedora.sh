@@ -324,6 +324,9 @@ fedora_install() {
                         # llvm
                         llvm clang clang-tools-extra lldb
 
+                        # Sanitizers
+                        libasan libubsan libtsan
+
                         # Language packs
                         # aspell aspell-en aspell-es
                         hunspell hunspell-en hunspell-es
