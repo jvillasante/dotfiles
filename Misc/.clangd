@@ -1,9 +1,6 @@
 # clangd configuration : https://clangd.llvm.org/config.html
 
 CompileFlags:
-  # directory to search for compilation database.
-  CompilationDatabase: build/
-
   # Hint for standard headers
   Compiler: clang++
 

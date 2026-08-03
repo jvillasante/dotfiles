@@ -37,16 +37,6 @@ distclean:
 	@echo "Nuking all build directories..."
 	@rm -rf build/
 
-# # Configures and builds in Debug mode with ASan and UBSan enabled
-# .PHONY: sanitize
-# sanitize:
-# 	cmake -S . -B "build/sanitize" -G Ninja \
-# 		-DCMAKE_BUILD_TYPE=Debug \
-# 		-DENABLE_SANITIZERS=ON \
-# 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1
-# 	cmake --build build/sanitize
-# 	@ln -sf build/sanitize/compile_commands.json build/compile_commands.json
-
 # Configures and builds in Debug mode with ASan and UBSan enabled
 .PHONY: sanitize
 sanitize:
@@ -55,7 +45,7 @@ sanitize:
 		-DENABLE_ASAN=ON \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1
 	cmake --build build/sanitize
-	@ln -sf build/sanitize/compile_commands.json build/compile_commands.json
+	@ln -sf sanitize/compile_commands.json build/compile_commands.json
 
 # Configures and builds in Debug mode with ThreadSanitizer (TSan) enabled
 .PHONY: tsan
@@ -65,7 +55,7 @@ tsan:
 		-DENABLE_TSAN=ON \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1
 	cmake --build build/tsan
-	@ln -sf build/tsan/compile_commands.json build/compile_commands.json
+	@ln -sf tsan/compile_commands.json build/compile_commands.json
 
 # Configures and builds the project in Debug mode, plus links compile_commands
 .PHONY: debug
@@ -74,7 +64,7 @@ debug:
 		-DCMAKE_BUILD_TYPE=Debug \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1
 	cmake --build build/debug
-	@ln -sf build/debug/compile_commands.json build/compile_commands.json
+	@ln -sf debug/compile_commands.json build/compile_commands.json
 
 # Configures and builds the project in Release mode (tests disabled)
 .PHONY: release
