@@ -310,8 +310,8 @@ Optional LINES (prefix arg) overrides the default scroll distance."
 (setq mode-line-compact 'long)
 (setq mode-line-right-align-edge 'right-fringe)
 (setq find-file-visit-truename t) ; only display real names in the modeline
-(setq-default mode-line-buffer-identification
-    '(:eval (my/shrunk-path)))
+;; (setq-default mode-line-buffer-identification ; still too wide, disabling!
+;;     '(:eval (my/shrunk-path)))
 
 ;; theme
 (use-package modus-themes
