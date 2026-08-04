@@ -42,8 +42,12 @@
         "Initialize mu4easy and apply post-initialization patches."
         (setq mail-user-agent 'mu4e-user-agent)
         (mu4easy-mode)
+        (mu4e-alert-disable-notifications)
         (mu4e-alert-disable-mode-line-display)
         (with-eval-after-load 'mu4e
+            ;; Don't print anything
+            (setq mu4e-hide-index-messages t)
+
             ;; The command to fetch mail (with the YubiKey safety check)
             (setq mu4e-get-mail-command
                 "lsusb | grep -qi yubico && mbsync -a || echo 'YubiKey not inserted. Sync skipped.'")

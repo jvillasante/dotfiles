@@ -41,9 +41,7 @@
 ;; flymake
 (use-package flymake
     :ensure nil ;; emacs built-in
-    :hook ((prog-mode . (lambda ()
-                            (which-function-mode)
-                            (flymake-mode))))
+    :hook (prog-mode . flymake-mode)
     :bind (:map prog-mode-map
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error))
@@ -51,16 +49,14 @@
     (flymake-suppress-zero-counters t)
     (flymake-no-changes-timeout 3)) ;; Don't be so hasty in syntax checking.
 
-;; flymake-proselint : use proselint with Emacs built-in Flymake
-(use-package flymake-proselint
-    :disabled t
-    :hook (text-mode . (lambda ()
-                           (flymake-mode)
-                           (flymake-proselint-setup))))
-
 ;; Elisp packaging requirements
 (use-package package-lint-flymake
     :hook (flymake-diagnostic-functions . package-lint-flymake))
+
+;; which-func : print current function in mode line
+(use-package which-func
+    :ensure nil ;; emacs built-in
+    :hook (after-init . which-function-mode))
 
 (defvar-local my/format-on-save t
     "When non-nil, format buffer on save via eglot.")

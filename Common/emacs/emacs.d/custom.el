@@ -8,6 +8,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(c-ts-indent-offset 4 nil nil "Customized with use-package c-ts-mode")
  '(package-selected-packages
       '(activities adoc-mode agent-shell bash-completion cape consult-dir
            consult-eglot-embark consult-notes corfu crux csv-mode dape
