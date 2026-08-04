@@ -194,7 +194,6 @@
 
 ;; tramp-hlo : Higher level emacs functions as optimized tramp operations
 (use-package tramp-hlo
-    :disabled t
     :hook (after-init . tramp-hlo-setup))
 
 ;; autorevert : Refresh files automatically when modified from outside emacs

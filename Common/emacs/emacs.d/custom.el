@@ -18,7 +18,7 @@
            ledger-mode magit marginalia markdown-mode minions monkeytype mu4easy
            multiple-cursors nov orderless org-superstar package-lint-flymake
            password-store pcmpl-args pdf-view-restore persistent-scratch rmsbolt
-           surround trashed verb vertico vim-tab-bar vundo web-mode
+           surround tramp-hlo trashed verb vertico vim-tab-bar vundo web-mode
            yasnippet-snippets zig-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
