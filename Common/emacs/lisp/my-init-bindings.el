@@ -21,21 +21,12 @@
 (defun my/smart-kill-buffer ()
     "Kill buffers.
 When run interactively:
-- Without a prefix arg (`C-x k`), `kill-current-buffer'.
-- With a prefix arg (`C-u C-x k`), `kill-buffer'.
-Also deletes the window if there are multiple windows open."
+- Without a prefix arg (`C-x C-k`), `kill-current-buffer'.
+- With a prefix arg (`C-u C-x C-k`), `kill-buffer'."
     (interactive)
-    (let* ((buf (current-buffer))
-              ;; True if there is more than one window in the frame
-              (should-close (not (one-window-p))))
-
-        (if current-prefix-arg
-            (call-interactively #'kill-buffer)
-            (kill-current-buffer))
-
-        ;; If the buffer is dead and there was a split, close the split
-        (when (and should-close (not (buffer-live-p buf)))
-            (delete-window))))
+    (if current-prefix-arg
+        (call-interactively #'kill-buffer)
+        (kill-current-buffer)))
 (global-set-key (kbd "C-x k") 'my/smart-kill-buffer)
 
 ;; smart kill emacs
