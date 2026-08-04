@@ -1,2 +1,10 @@
+;; Turn on readline for up-arrow history and tab-completion
 (use-modules (ice-9 readline))
 (activate-readline)
+
+;; Enable syntax highlighting in the REPL
+(use-modules (ice-9 colorized))
+(activate-colorized)
+
+;; Optional: Set standard R7RS behavior by default in your REPL too!
+(use-modules (scheme base))

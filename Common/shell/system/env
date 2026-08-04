@@ -104,3 +104,20 @@ if type go > /dev/null 2> /dev/null; then
     [ ! -d "$GOBIN" ] && mkdir -p "$GOBIN"
     PATH="$GOBIN:$PATH" && export PATH
 fi
+
+# Guile
+if type guile > /dev/null 2> /dev/null; then
+    # Disable auto-compiling to .go files.
+    # Great for scripting so you don't litter ~/.cache/guile/ccache with bytecode.
+    export GUILE_AUTO_COMPILE=0
+
+    # Silence deprecation warnings. If you run third-party scripts,
+    # you rarely care about Guile's internal API deprecations.
+    export GUILE_WARN_DEPRECATED=no
+
+    # Where Guile should look for your own custom Scheme modules
+    export GUILE_LOAD_PATH="$HOME/.local/share/guile/site/3.0:$GUILE_LOAD_PATH"
+
+    # Where Guile should look for compiled bytecode modules (if you re-enable compilation)
+    export GUILE_LOAD_COMPILED_PATH="$HOME/.local/lib/guile/3.0/site-ccache:$GUILE_LOAD_COMPILED_PATH"
+fi
