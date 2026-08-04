@@ -1,4 +1,4 @@
-;;; my-widget-example.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; widget-example.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -57,5 +57,5 @@
     (use-local-map widget-keymap)
     (widget-setup))
 
-(provide 'my-widget-example)
-;;; my-widget-example.el ends here
+(provide 'widget-example)
+;;; widget-example.el ends here
