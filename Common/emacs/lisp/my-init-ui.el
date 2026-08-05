@@ -177,6 +177,7 @@
     :custom
     (speedbar-prefer-window t)
     (speedbar-use-images nil)
+    (speedbar-hide-button-brackets-flag t)
     (speedbar-window-default-width 48)
     (speedbar-window-max-width 48)
     :config
