@@ -167,12 +167,33 @@
     :ensure nil ; emacs built-in
     :hook (after-init . winner-mode))
 
-;; speedbar
+;; speedbar : quick access to files and tags in a frame
 (use-package speedbar
-    :ensure nil ; emacs built-in
+    :ensure nil
+    :bind (:map speedbar-mode-map
+              ("TAB" . speedbar-toggle-line-expansion)
+              ("."   . my/speedbar-toggle-dotfiles)
+              ("q"   . delete-window))
     :custom
-    (speedbar-window-default-width 25)
-    (speedbar-window-max-width 25))
+    (speedbar-prefer-window t)
+    (speedbar-use-images nil)
+    (speedbar-window-default-width 48)
+    (speedbar-window-max-width 48)
+    :config
+    (defun my/speedbar-toggle-dotfiles ()
+        "Toggle visibility of dotfiles and unknown files in speedbar."
+        (interactive)
+        (setq speedbar-show-unknown-files (not speedbar-show-unknown-files))
+        (if speedbar-show-unknown-files
+            (setq-local speedbar-directory-unsupported-regex "^\\(\\.\\|\\.\\.\\)\\'")
+            (kill-local-variable 'speedbar-directory-unsupported-regex))
+        (speedbar-refresh)
+        (message "Dotfiles visibility: %s" (if speedbar-show-unknown-files "ON" "OFF")))
+    (defun my/speedbar-allow-other-window (&rest _)
+        "Strip 'no-other-window' so C-x o works normally"
+        (when-let ((win (get-buffer-window speedbar-buffer)))
+            (set-window-parameter win 'no-other-window nil)))
+    (advice-add 'speedbar-window-mode :after #'my/speedbar-allow-other-window))
 
 ;; scrolling
 (progn
