@@ -491,6 +491,12 @@ fedora_install() {
                     # sudo dnf copr enable atim/lazygit -y
                     # sudo dnf install -y lazygit
 
+                    # guile
+                    sudo dnf install -y guile30 guile30-devel
+                    mkdir -p ~/.local/share/guile/site/3.0/ice-9
+                    curl -o ~/.local/share/guile/site/3.0/ice-9/colorized.scm \
+                         https://gitlab.com/NalaGinrut/guile-colorized/-/raw/master/ice-9/colorized.scm
+
                     # non dnf software
                     pipx install cmake-language-server
                     pipx install pyright
