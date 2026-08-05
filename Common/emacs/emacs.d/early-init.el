@@ -53,6 +53,10 @@
     ;; Deactivate the `native-compile' feature if it is not available
     (setq features (delq 'native-compile features)))
 
+;; Auto-compile elisp files on save.
+;; Emacs knows this function exists because of the user-lisp autoload!
+(add-hook 'after-save-hook #'my/auto-compile-elisp)
+
 ;;; Variables
 
 (defvar my/user-directory user-emacs-directory
@@ -114,11 +118,12 @@
     (lambda () (load custom-file :no-error-if-file-is-missing)))
 
 ;; Reducing clutter in ~/.emacs.d by redirecting files to ~/emacs.d/var/
-(setq user-lisp-directory (expand-file-name "../user-lisp/" my/user-directory))
-(setq my/lisp-dir (expand-file-name "../lisp/"              my/user-directory))
-(setq my/var-dir  (expand-file-name "var/"                  my/user-directory))
-(setq my/etc-dir  (expand-file-name "etc/"                  my/user-directory))
-(setq user-emacs-directory                                  my/var-dir)
+(setq user-lisp-directory (expand-file-name "../user-lisp/"        my/user-directory))
+(setq my/lisp-dir         (expand-file-name "../lisp/"             my/user-directory))
+(setq my/lisp-experiments (expand-file-name "../lisp-experiments/" my/user-directory))
+(setq my/var-dir          (expand-file-name "var/"                 my/user-directory))
+(setq my/etc-dir          (expand-file-name "etc/"                 my/user-directory))
+(setq user-emacs-directory                                         my/var-dir)
 
 ;;; UI elements
 

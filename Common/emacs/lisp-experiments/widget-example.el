@@ -1,4 +1,4 @@
-;;; widget-example.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; widget-example.el --- Widget Library Example -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

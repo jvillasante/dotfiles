@@ -1,4 +1,4 @@
-;;; my-init-shell.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-shell.el --- Shell and Terminals -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

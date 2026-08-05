@@ -1,4 +1,4 @@
-;;; my-init-vcs.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-vcs.el --- Version Control -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -29,13 +29,6 @@
 
 ;; magit : A Git Porcelain inside Emacs
 (use-package magit
-    :preface
-    (defun my/magit-kill-buffers ()
-        "Restore window configuration and kill all Magit buffers."
-        (interactive)
-        (let ((buffers (magit-mode-get-buffers)))
-            (magit-restore-window-configuration)
-            (mapc #'kill-buffer buffers)))
     :bind
     (("C-x g" . magit-status)
         :map magit-status-mode-map

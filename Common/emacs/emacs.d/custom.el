@@ -1,4 +1,4 @@
-;;; custom.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; custom.el --- Custom File -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -12,13 +12,13 @@
  '(package-selected-packages
       '(activities adoc-mode agent-shell bash-completion cape consult-dir
            consult-eglot-embark consult-notes corfu crux csv-mode dape
-           devdocs-browser diff-hl dired-sidebar dired-subtree diredfl elfeed
-           elisp-demos engine-mode expreg flash geiser-guile ghostel
-           ghostel-eshell gnuplot helpful hl-todo ibuffer-project jinx
-           ledger-mode magit marginalia markdown-mode minions monkeytype mu4easy
-           multiple-cursors nov orderless org-superstar package-lint-flymake
-           password-store pcmpl-args pdf-view-restore persistent-scratch rmsbolt
-           surround tramp-hlo trashed verb vertico vim-tab-bar vundo web-mode
+           devdocs-browser diff-hl dired-sidebar dired-subtree diredfl docker
+           elfeed elisp-demos expreg flash geiser-guile ghostel ghostel-eshell
+           gnuplot helpful hl-todo ibuffer-project jinx ledger-mode magit
+           marginalia markdown-mode minions monkeytype mu4easy multiple-cursors
+           nov orderless org-superstar package-lint-flymake password-store
+           pcmpl-args pdf-view-restore persistent-scratch rmsbolt surround
+           tramp-hlo trashed verb vertico vim-tab-bar vundo web-mode wgrep
            yasnippet-snippets zig-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

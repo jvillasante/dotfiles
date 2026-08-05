@@ -1,4 +1,4 @@
-;;; my-init-apps.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-apps.el --- Random Apps -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

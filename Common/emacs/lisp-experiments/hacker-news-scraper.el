@@ -1,4 +1,4 @@
-;;; hacker-news-scraper.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; hacker-news-scraper.el --- Hacker News Example -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

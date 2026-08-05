@@ -1,4 +1,4 @@
-;;; my-init-ai.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-ai.el --- AI Stuff -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

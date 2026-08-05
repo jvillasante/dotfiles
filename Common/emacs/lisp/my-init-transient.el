@@ -1,4 +1,4 @@
-;;; my-init-transient.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-transient.el --- Transient -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

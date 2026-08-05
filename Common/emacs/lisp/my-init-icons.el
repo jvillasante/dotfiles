@@ -1,4 +1,4 @@
-;;; my-init-icons.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-icons.el --- Icons -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

@@ -1,4 +1,4 @@
-;;; my-init-filemanager.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-filemanager.el --- File Management -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -84,13 +84,8 @@
     :bind (:map dired-mode-map
               ("." . dired-omit-mode))
     :config
-    (setq dired-omit-extensions
-        (append dired-latex-unclean-extensions
-            dired-bibtex-unclean-extensions
-            dired-texinfo-unclean-extensions))
     (setq dired-omit-files
-        (rx (or
-                ;; Emacs lock/autosave files
+        (rx (or ;; Emacs lock/autosave files
                 (seq bol (? ".") "#")
                 (seq bol "#" (* anything) "#" eol)
                 (seq bol ".#" (* anything) eol)
@@ -107,10 +102,12 @@
                 (seq bol (or "htmlcov" "node_modules" "__pycache__") eol)
                 ;; Coverage data
                 (seq bol ".coverage." (* anything))
-                ;; Compiled/object files
-                (seq (or ".elcs" ".pyc" ".pyo" ".pyd"
-                         ".gcda" ".gcov" ".gcno"
-                         ".lo" ".o" ".so"
+                ;; Notebook checkpoints
+                (seq ".ipynb" (* anything) eol)
+                ;; Coverage data
+                (seq bol ".coverage." (* anything))
+                ;; Compiled/object files (not covered in `dired-omit-extensions')
+                (seq (or ".gcda" ".gcov" ".gcno"
                          ".egg-info") eol)
                 ;; Notebook checkpoints
                 (seq ".ipynb" (* anything) eol)))))

@@ -1,4 +1,4 @@
-;;; my-init-misc.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-misc.el --- Misc -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -521,50 +521,6 @@
     :hook
     (c-ts-mode . (lambda() (setq-local devdocs-browser-active-docs '("c"))))
     (c++-ts-mode . (lambda() (setq-local devdocs-browser-active-docs '("cpp")))))
-
-;; engine-mode : search the web
-(use-package engine-mode
-    :init
-    (defengine duckduckgo
-        "https://duckduckgo.com/?q=%s"
-        :keybinding "d")
-    (defengine brave-search
-        "https://search.brave.com/search?q=%s"
-        :keybinding "b")
-    (defengine github
-        "https://github.com/search?ref=simplesearch&q=%s")
-    (defengine google
-        "https://www.google.com/search?ie=utf-8&oe=utf-8&q=%s"
-        :keybinding "g")
-    (defengine google-images
-        "https://www.google.com/images?hl=en&source=hp&biw=1440&bih=795&gbv=2&aq=f&aqi=&aql=&oq=&q=%s")
-    (defengine google-maps
-        "https://maps.google.com/maps?q=%s"
-        :docstring "Mappin' it up.")
-    (defengine project-gutenberg
-        "https://www.gutenberg.org/ebooks/search/?query=%s")
-    (defengine qwant
-        "https://www.qwant.com/?q=%s")
-    (defengine stack-overflow
-        "https://stackoverflow.com/search?q=%s")
-    (defengine twitter
-        "https://twitter.com/search?q=%s")
-    (defengine wikipedia
-        "https://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
-        :keybinding "w"
-        :browser 'eww-browse-url
-        :docstring "Searchin' the wikis.")
-    (defengine wiktionary
-        "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s")
-    (defengine wolfram-alpha
-        "https://www.wolframalpha.com/input/?i=%s")
-    (defengine youtube
-        "https://www.youtube.com/results?aq=f&oq=&search_query=%s")
-    (defengine cppreference
-        "https://en.cppreference.com/w/?search=%s"
-        :keybinding "c")
-    :config
-    (engine-mode t))
 
 (provide 'my-init-misc)
 ;;; my-init-misc.el ends here

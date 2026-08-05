@@ -1,4 +1,4 @@
-;;; my-init-early.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-early.el --- Early Init -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

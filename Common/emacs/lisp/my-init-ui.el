@@ -1,4 +1,4 @@
-;;; my-init-ui.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-ui.el --- UI -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
@@ -192,7 +192,7 @@
         (message "Dotfiles visibility: %s" (if speedbar-show-unknown-files "ON" "OFF")))
     (defun my/speedbar-allow-other-window (&rest _)
         "Strip 'no-other-window' so C-x o works normally"
-        (when-let ((win (get-buffer-window speedbar-buffer)))
+        (when-let* ((win (get-buffer-window speedbar-buffer)))
             (set-window-parameter win 'no-other-window nil)))
     (advice-add 'speedbar-window-mode :after #'my/speedbar-allow-other-window))
 

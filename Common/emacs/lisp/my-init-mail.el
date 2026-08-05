@@ -1,4 +1,4 @@
-;;; my-init-mail.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-mail.el --- Mail -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:

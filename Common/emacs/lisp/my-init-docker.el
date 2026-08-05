@@ -1,4 +1,4 @@
-;;; my-init-docker.el --- -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; my-init-docker.el --- Containers -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;
 ;;; Code:
