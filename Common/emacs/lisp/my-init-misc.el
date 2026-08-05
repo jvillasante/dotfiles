@@ -23,14 +23,17 @@
     ;; backgrounds.  This should be opt-in by default, not opt-out.
     (setq diff-font-lock-syntax nil))
 
-;; http://www.yummymelon.com/devnull/using-ediff-in-2023.html
+;; ediff : a comprehensive visual interface to diff & patch
 (use-package ediff
     :ensure nil ;; emacs built-in
     :defer t
     :config
     (setq ediff-keep-variants nil) ;; Kill variants upon quitting an Ediff session
     (setq ediff-split-window-function #'split-window-horizontally) ;; Show diffs side-by-side
-    (setq ediff-window-setup-function #'ediff-setup-windows-plain)) ;; Puts the control panel in the same frame
+    (setq ediff-window-setup-function #'ediff-setup-windows-plain) ;; Puts the control panel in the same frame
+
+    ;; Ignore whitespace changes by default (Press '##' in ediff to toggle)
+    (setq ediff-diff-options "-w"))
 
 (use-package electric
     :ensure nil ;; emacs built-in

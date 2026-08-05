@@ -18,11 +18,6 @@
             vc-ignore-dir-regexp
             tramp-file-name-regexp)))
 
-;; eldoc-diffstat : provides a way to display VCS diffstat information via eldoc.
-(use-package eldoc-diffstat
-    :disabled t
-    :hook (after-init . global-eldoc-diffstat-mode))
-
 ;; diff-hl : highlights uncommitted changes on the left side
 (use-package diff-hl
     :hook ((magit-post-refresh . diff-hl-magit-post-refresh)
@@ -41,19 +36,21 @@
         (let ((buffers (magit-mode-get-buffers)))
             (magit-restore-window-configuration)
             (mapc #'kill-buffer buffers)))
-    :bind (("C-x g" . magit-status)
-              :map magit-status-mode-map
-              ("q"     . my/magit-kill-buffers)
-              ("C-x k" . my/magit-kill-buffers)
-              :map project-prefix-map
-              ("m" . magit-project-status))
-    :custom ((git-commit-summary-max-length 50)
-                (magit-display-buffer-function
-                    #'magit-display-buffer-same-window-except-diff-v1)
-                (magit-refresh-status-buffer t)
-                (magit-diff-refine-hunk 'all) ; show word-granularity differences within diff hunks.
-                (magit-save-repository-buffers nil)
-                (magit-define-global-key-bindings nil))
+    :bind
+    (("C-x g" . magit-status)
+        :map magit-status-mode-map
+        ("q"     . my/magit-kill-buffers)
+        ("C-x k" . my/magit-kill-buffers)
+        :map project-prefix-map
+        ("m" . magit-project-status))
+    :custom
+    ((git-commit-summary-max-length 50)
+        (magit-display-buffer-function
+            #'magit-display-buffer-same-window-except-diff-v1)
+        (magit-refresh-status-buffer t)
+        (magit-diff-refine-hunk 'all) ; show word-granularity differences within diff hunks.
+        (magit-save-repository-buffers nil)
+        (magit-define-global-key-bindings nil))
     :config
     (add-hook 'magit-status-sections-hook #'magit-insert-worktrees t))
 

@@ -158,16 +158,23 @@
     (uniquify-after-kill-buffer-p t)
     (uniquify-ignore-buffers-re "^\\*"))
 
+;; imenu : framework for mode-specific buffer indexes
 (use-package imenu
     :ensure nil ;; emacs built-in
-    :hook ((markdown-mode . (lambda () (setq-local imenu-auto-rescan t)))
-              (org-mode .      (lambda () (setq-local imenu-auto-rescan t)))
-              (prog-mode .     (lambda ()
-                                   (setq-local imenu-auto-rescan t)
-                                   (setq-local imenu-sort-function #'imenu--sort-by-name))))
+    :custom
+    ;; Automatically update the index as you type (vital for speedbar accuracy)
+    (imenu-auto-rescan t)
+
+    ;; Increase the file size limit for auto-rescanning from ~60KB to ~600KB
+    (imenu-auto-rescan-maxout 600000)
+
+    ;; UNCOMMENT the line below if you want tags sorted alphabetically instead of by file position
+    ;; (imenu-sort-function 'imenu--sort-by-name)
+
     :config
-    (setq org-imenu-depth 7)
-    (setq imenu-flatten 'prefix))
+    ;; Add `use-package` to imenu so it shows up in speedbar and consult-imenu
+    (add-to-list 'lisp-imenu-generic-expression
+        '("Packages" "^\\s-*(use-package\\s-+\\(\\(?:\\sw\\|\\s_\\)+\\)" 1)))
 
 (use-package abbrev
     :ensure nil ;; emacs built-in
