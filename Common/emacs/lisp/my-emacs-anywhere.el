@@ -33,6 +33,9 @@
 
 ;;; Code:
 
+;; Tell the compiler: Don't worry, this function will exist later
+(declare-function markdown-mode "markdown-mode")
+
 (defvar-local my/emacs-anywhere--signaled nil
     "Non-nil once this session has been explicitly signaled via C-c C-c or C-c C-k.")
 

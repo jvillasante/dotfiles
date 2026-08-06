@@ -3,6 +3,10 @@
 ;;
 ;;; Code:
 
+;; Tell the compiler: Don't worry, this function will exist later
+(declare-function modus-themes-load-theme "modus-themes")
+(declare-function project-root "project")
+
 ;; Start maximized
 ;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -71,12 +75,14 @@
 
 ;; Set the font (M-x `describe-font' to see available fonts)
 (defface fixed-pitch-large
-    '((t :inherit fixed-pitch))
-    "A larger variant of `fixed-pitch' for reading modes.")
+  '((t :inherit fixed-pitch))
+  "A larger variant of `fixed-pitch' for reading modes."
+  :group 'basic-faces)
 
 (defface variable-pitch-large
-    '((t :inherit variable-pitch))
-    "A larger variant of `variable-pitch' for reading modes.")
+  '((t :inherit variable-pitch))
+  "A larger variant of `variable-pitch' for reading modes."
+  :group 'basic-faces)
 
 (defun my/setup-fonts ()
     "Set up fonts at startup."

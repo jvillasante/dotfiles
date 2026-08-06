@@ -53,10 +53,6 @@
     ;; Deactivate the `native-compile' feature if it is not available
     (setq features (delq 'native-compile features)))
 
-;; Auto-compile elisp files on save.
-;; Emacs knows this function exists because of the user-lisp autoload!
-(add-hook 'after-save-hook #'my/auto-compile-elisp)
-
 ;;; Variables
 
 (defvar my/user-directory user-emacs-directory
