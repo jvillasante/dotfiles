@@ -169,32 +169,68 @@
 
 ;; speedbar : quick access to files and tags in a frame
 (use-package speedbar
-    :ensure nil
-    :bind (:map speedbar-mode-map
-              ("TAB" . speedbar-toggle-line-expansion)
-              ("."   . my/speedbar-toggle-dotfiles)
-              ("q"   . delete-window))
+    :ensure nil ; emacs built-in
+    :preface
+    (defun my/speedbar-toggle-dotfiles ()
+        "Toggle showing dotfiles and unknown-type files in speedbar."
+        (interactive)
+        (setq speedbar-show-unknown-files (not speedbar-show-unknown-files))
+        (setq speedbar-directory-unshown-regexp
+            (if speedbar-show-unknown-files
+                "^$"                    ; reveal dot-directories (never matches a name)
+                "^\\(\\..*\\)\\'"))      ; default: hide dot-directories
+        (speedbar-refresh))
+    (defun my/speedbar-allow-other-window (&rest _)
+        "Strip `no-other-window' so `C-x o' can move into the speedbar."
+        (when (window-live-p speedbar--window)
+            (set-window-parameter speedbar--window 'no-other-window nil)))
+    (defvar my/speedbar-display-action
+        '((display-buffer-reuse-window display-buffer-use-some-window)
+             (inhibit-same-window . t))
+        "Display action `my/speedbar-open-window' uses to open files.
+Defaults to reusing an existing window so `RET' does not split.")
+    (defun my/speedbar-open-window (fn &rest args)
+        "Open speedbar files via `my/speedbar-display-action' instead of splitting.
+`speedbar-find-file-in-frame' visits files with `switch-to-buffer' from the
+dedicated sidebar, which otherwise pops up (splits) a new window."
+        (let ((display-buffer-overriding-action my/speedbar-display-action))
+            (apply fn args)))
+    (defun my/speedbar-open-in-other-window ()
+        "Visit the file on the current line in a separate window and select it."
+        (interactive)
+        (let ((my/speedbar-display-action
+                  '((display-buffer-pop-up-window) (inhibit-same-window . t))))
+            (speedbar-edit-line)))
+    (defun my/speedbar-close ()
+        "Close the speedbar window, tearing down its buffer and timer."
+        (interactive)
+        (speedbar -1))
+    (defun my/speedbar-toggle ()
+        "Toggle the speedbar window, selecting it when it opens."
+        (interactive)
+        (if (and (bound-and-true-p speedbar--window)
+                (window-live-p speedbar--window))
+            (my/speedbar-close)
+            (speedbar-get-focus)))
+    :bind
+    (("C-x C-n" . my/speedbar-toggle)
+        :map speedbar-mode-map
+        ("TAB" . speedbar-toggle-line-expansion)
+        ("."   . my/speedbar-toggle-dotfiles)
+        ("o"   . my/speedbar-open-in-other-window)
+        ("^"   . speedbar-up-directory)
+        ("q"   . my/speedbar-close))
     :custom
     (speedbar-prefer-window t)
     (speedbar-use-images nil)
     (speedbar-hide-button-brackets-flag t)
+    (speedbar-show-unknown-files t)   ; list all files, not just known extensions
+    (speedbar-vc-do-check nil)        ; don't stat every file for VC state (slow over TRAMP)
     (speedbar-window-default-width 48)
     (speedbar-window-max-width 48)
     :config
-    (defun my/speedbar-toggle-dotfiles ()
-        "Toggle visibility of dotfiles and unknown files in speedbar."
-        (interactive)
-        (setq speedbar-show-unknown-files (not speedbar-show-unknown-files))
-        (if speedbar-show-unknown-files
-            (setq-local speedbar-directory-unsupported-regex "^\\(\\.\\|\\.\\.\\)\\'")
-            (kill-local-variable 'speedbar-directory-unsupported-regex))
-        (speedbar-refresh)
-        (message "Dotfiles visibility: %s" (if speedbar-show-unknown-files "ON" "OFF")))
-    (defun my/speedbar-allow-other-window (&rest _)
-        "Strip 'no-other-window' so C-x o works normally"
-        (when-let* ((win (get-buffer-window speedbar-buffer)))
-            (set-window-parameter win 'no-other-window nil)))
-    (advice-add 'speedbar-window-mode :after #'my/speedbar-allow-other-window))
+    (advice-add 'speedbar-window-mode :after #'my/speedbar-allow-other-window)
+    (advice-add 'speedbar-find-file-in-frame :around #'my/speedbar-open-window))
 
 ;; scrolling
 (progn

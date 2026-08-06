@@ -114,6 +114,7 @@
 
 ;; dired-sidebar : dired in the sidebar
 (use-package dired-sidebar
+    :disabled t
     :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
     :config
     (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
