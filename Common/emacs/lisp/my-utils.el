@@ -122,6 +122,35 @@ Cached per-buffer, keyed by input."
 
 ;;; VCS
 
+(defun my/vc-git-reflog ()
+    "Show git reflog in a new buffer with ANSI colors and custom keybindings."
+    (interactive)
+    (let* ((root (vc-root-dir))
+              (buffer (get-buffer-create "*vc-git-reflog*")))
+        (with-current-buffer buffer
+            (setq-local vc-git-reflog-root root)
+            (let ((inhibit-read-only t))
+                (erase-buffer)
+                (vc-git-command buffer nil nil
+                    "reflog"
+                    "--color=always"
+                    "--pretty=format:%C(yellow)%h%Creset %C(auto)%d%Creset %Cgreen%gd%Creset %s %Cblue(%cr)%Creset")
+                (goto-char (point-min))
+                (ansi-color-apply-on-region (point-min) (point-max)))
+
+            (let ((map (make-sparse-keymap)))
+                (define-key map (kbd "/") #'isearch-forward)
+                (define-key map (kbd "p") #'previous-line)
+                (define-key map (kbd "n") #'next-line)
+                (define-key map (kbd "q") #'kill-buffer-and-window)
+
+                (use-local-map map))
+
+            (setq buffer-read-only t)
+            (setq mode-name "Git-Reflog")
+            (setq major-mode 'special-mode))
+        (pop-to-buffer buffer)))
+
 (defun my/project-todos ()
     "Find `hl-todo--regex' items in project using `consult-ripgrep'."
     (interactive)

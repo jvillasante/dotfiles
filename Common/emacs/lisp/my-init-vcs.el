@@ -20,15 +20,24 @@
 
 ;; diff-hl : highlights uncommitted changes on the left side
 (use-package diff-hl
-    :hook ((magit-post-refresh . diff-hl-magit-post-refresh)
-              (after-init . (lambda ()
-                                (global-diff-hl-mode 1)
-                                (unless (display-graphic-p)
-                                    (diff-hl-margin-mode 1)))))
-    :custom (diff-hl-disable-on-remote t))
+    :hook
+    ((magit-post-refresh . diff-hl-magit-post-refresh)
+        (after-init . (lambda ()
+                          (global-diff-hl-mode 1)
+                          (unless (display-graphic-p)
+                              (diff-hl-margin-mode 1)))))
+    :custom
+    (diff-hl-disable-on-remote t))
 
 ;; magit : A Git Porcelain inside Emacs
 (use-package magit
+    :preface
+    (defun my/magit-kill-buffers ()
+        "Restore window configuration and kill all Magit buffers."
+        (interactive)
+        (let ((buffers (magit-mode-get-buffers)))
+            (magit-restore-window-configuration)
+            (mapc #'kill-buffer buffers)))
     :bind
     (("C-x g" . magit-status)
         :map magit-status-mode-map
