@@ -205,13 +205,55 @@ dedicated sidebar, which otherwise pops up (splits) a new window."
         "Close the speedbar window, tearing down its buffer and timer."
         (interactive)
         (speedbar -1))
+    (defvar my/speedbar-following nil
+        "Reentrancy guard for `my/speedbar-follow'.")
+    (defun my/speedbar-follow (&rest _)
+        "Show the selected window's file in the speedbar and put point on it.
+Speedbar's built-in file-following assumes a separate frame and is
+unreliable in window mode, so track the current file explicitly on window
+changes: re-root the tree to its directory, highlight it, and set the
+speedbar window's point (a non-selected window keeps its own point, so
+this is what makes the cursor actually follow)."
+        (let ((buf (window-buffer (selected-window))))
+            (when (and (not my/speedbar-following)
+                      (not (minibufferp buf))
+                      (bound-and-true-p speedbar--window)
+                      (window-live-p speedbar--window)
+                      (bound-and-true-p speedbar-buffer)
+                      (not (eq buf speedbar-buffer))
+                      (buffer-local-value 'buffer-file-name buf))
+                (let ((my/speedbar-following t)
+                         (file (buffer-local-value 'buffer-file-name buf))
+                         (dir (expand-file-name
+                                  (buffer-local-value 'default-directory buf))))
+                    (with-current-buffer speedbar-buffer
+                        (let ((default-directory dir))
+                            ;; Re-root / rehighlight only when the file changed.
+                            (unless (equal file speedbar-last-selected-file)
+                                (unless (member dir speedbar-shown-directories)
+                                    (speedbar-update-directory-contents))
+                                (speedbar-clear-current-file)
+                                (setq speedbar-last-selected-file file))
+                            ;; Always park point (and the highlight) on the file.
+                            (save-excursion
+                                (when (speedbar-find-selected-file file)
+                                    (speedbar-with-writable
+                                        (put-text-property (match-beginning 1)
+                                            (match-end 1)
+                                            'face
+                                            'speedbar-selected-face))
+                                    (beginning-of-line)
+                                    (set-window-point speedbar--window (point))))))))))
     (defun my/speedbar-toggle ()
-        "Toggle the speedbar window, selecting it when it opens."
+        "Toggle the speedbar window, opening with point on the current file."
         (interactive)
         (if (and (bound-and-true-p speedbar--window)
                 (window-live-p speedbar--window))
             (my/speedbar-close)
-            (speedbar-get-focus)))
+            (speedbar 1)                        ; open; focus stays in editing window
+            (my/speedbar-follow)                ; select current file while it is known
+            (when (window-live-p speedbar--window)
+                (select-window speedbar--window))))
     :bind
     (("C-x C-n" . my/speedbar-toggle)
         :map speedbar-mode-map
@@ -223,6 +265,7 @@ dedicated sidebar, which otherwise pops up (splits) a new window."
     :custom
     (speedbar-prefer-window t)
     (speedbar-use-images nil)
+    (speedbar-update-flag nil)
     (speedbar-hide-button-brackets-flag t)
     (speedbar-show-unknown-files t)   ; list all files, not just known extensions
     (speedbar-vc-do-check nil)        ; don't stat every file for VC state (slow over TRAMP)
@@ -230,7 +273,9 @@ dedicated sidebar, which otherwise pops up (splits) a new window."
     (speedbar-window-max-width 48)
     :config
     (advice-add 'speedbar-window-mode :after #'my/speedbar-allow-other-window)
-    (advice-add 'speedbar-find-file-in-frame :around #'my/speedbar-open-window))
+    (advice-add 'speedbar-find-file-in-frame :around #'my/speedbar-open-window)
+    (add-hook 'window-buffer-change-functions #'my/speedbar-follow)
+    (add-hook 'window-selection-change-functions #'my/speedbar-follow))
 
 ;; scrolling
 (progn
