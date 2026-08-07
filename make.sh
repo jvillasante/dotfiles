@@ -137,7 +137,7 @@ main() {
     done
 
     echo ">>> Linking common files in $HOME/.config..."
-    files="git btop nyxt alacritty foot ghostty shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml clangd containers .ripgreprc gopass vicinae"
+    files="eca git btop nyxt alacritty foot ghostty shell tmux zellij ranger rofi psd i3 nushell keyd xkeysnail xremap starship.toml clangd containers .ripgreprc gopass vicinae"
     for file in $files; do
         [ -L "$HOME/.config/$file" ] && unlink "$HOME/.config/$file"
         ln -s "$DOTFILES_DIR/Common/$file" "$HOME/.config"

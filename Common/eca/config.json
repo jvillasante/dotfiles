@@ -1,0 +1,4 @@
+{
+  "$schema": "https://eca.dev/config.json",
+  "defaultModel": "anthropic/claude-opus-4-6"
+}
