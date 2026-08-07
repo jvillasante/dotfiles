@@ -3,6 +3,9 @@
 ;;
 ;;; Code:
 
+;; Tell the compiler: Don't worry, this function will exist later
+(declare-function project-root "project")
+
 ;;; Dired
 
 ;; dired : built-in navigation of folders
@@ -111,18 +114,6 @@
                          ".egg-info") eol)
                 ;; Notebook checkpoints
                 (seq ".ipynb" (* anything) eol)))))
-
-;; dired-sidebar : dired in the sidebar
-(use-package dired-sidebar
-    :disabled t
-    :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
-    :config
-    (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
-    (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-    (setq dired-sidebar-theme 'ascii)
-    (setq dired-sidebar-width 48)
-    (setq dired-sidebar-window-fixed nil)
-    (setq dired-sidebar-use-term-integration t))
 
 ;; trashed : Viewing/editing system trash can in Emacs
 (use-package trashed

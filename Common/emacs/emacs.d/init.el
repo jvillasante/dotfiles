@@ -57,6 +57,7 @@
 (load (expand-file-name "my-init-shell"         my/lisp-dir))
 (load (expand-file-name "my-init-misc"          my/lisp-dir))
 (load (expand-file-name "my-init-filemanager"   my/lisp-dir))
+(load (expand-file-name "my-init-filetree"      my/lisp-dir))
 (load (expand-file-name "my-init-workspaces"    my/lisp-dir))
 (load (expand-file-name "my-init-modal"         my/lisp-dir))
 (load (expand-file-name "my-init-ui"            my/lisp-dir))
