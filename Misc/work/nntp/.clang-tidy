@@ -1,63 +1,40 @@
 ---
-Checks: "*,
-        -abseil-*,
-        -altera-*,
-        -android-*,
-        -fuchsia-*,
-        -google-*,
-        -llvm*,
-        -zircon-*,
-        -modernize-use-trailing-return-type,
-        -modernize-use-default-member-init,
-        -readability-else-after-return,
-        -readability-static-accessed-through-instance,
-        -readability-avoid-const-params-in-decls,
-        -readability-function-cognitive-complexity,
-        -readability-implicit-bool-conversion,
-        -readability-isolate-declaration,
-        -readability-avoid-nested-conditional-operator,
-        -cppcoreguidelines-pro-bounds-pointer-arithmetic,
-        -cppcoreguidelines-pro-bounds-constant-array-index,
-        -cppcoreguidelines-avoid-non-const-global-variables,
-        -cppcoreguidelines-pro-type-vararg,
-        -cppcoreguidelines-owning-memory,
-        -cert-err33-c,
-        -cert-err58-cpp,
-        -cert-msc54-cpp,
-        -cert-sig30-c,
-        -hicpp-vararg,
-        -concurrency-mt-unsafe,
-        -bugprone-signal-handler,
-        -bugprone-assignment-in-if-condition,
-        -*-no-recursion,
-        -*-avoid-c-arrays,
-        -*-avoid-do-while,
-        -*-non-private-member-variables-in-classes,
-        -*-magic-numbers,
-        -*-identifier-length,
-        -*-easily-swappable-parameters,
-        -*-use-auto,
-        -*-use-default-member-init,
-        -*-use-anonymous-namespace,
-        -*-array-to-pointer-decay,
-        -*-no-array-decay,
-        -*-use-ranges,
-        -*-reinterpret-cast,
-        -*-use-designated-initializers,
-        -*-use-nodiscard,
-"
+Checks: >
+  bugprone-*,
+  clang-analyzer-*,
+  concurrency-*,
+  cppcoreguidelines-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -*-magic-numbers,
+  -*-const-or-ref-data-members,
+  -*-avoid-do-while,
+  -modernize-use-trailing-return-type,
+  -modernize-use-nodiscard,
+  -cert-err58-cpp,
+  -readability-else-after-return,
+  -readability-static-accessed-through-instance,
+  -readability-avoid-const-params-in-decls,
+  -readability-identifier-length,
+  -readability-uppercase-literal-suffix,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -misc-non-private-member-variables-in-classes,
+  -misc-no-recursion,
+  -misc-use-anonymous-namespace,
+  -misc-use-internal-linkage,
+  -cppcoreguidelines-macro-usage,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-type-vararg
+
 WarningsAsErrors: ''
-HeaderFilterRegex: ''
-FormatStyle:     none
+HeaderFilterRegex: '^(include|src)/.*'
+FormatStyle: none
 
 CheckOptions:
-  - key: readability-identifier-length.IgnoredVariableNames
-    value: 'x|y|z'
-  - key: readability-identifier-length.IgnoredParameterNames
-    value: 'x|y|z'
+  # Prevents Catch2 TEST_CASE macros from triggering cognitive complexity errors
   - key: readability-function-cognitive-complexity.IgnoreMacros
     value: true
-  - key: hicpp-signed-bitwise.IgnorePositiveIntegerLiterals
-    value: true
-  - key: performance-unnecessary-value-param.AllowedTypes
-    value: 'SUBSTR'

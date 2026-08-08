@@ -30,6 +30,7 @@ ln -s "$DOTFILES_DIR/.clangd" "$WORKTREE_PATH/.clangd"
 ln -s "$DOTFILES_DIR/.clang-tidy" "$WORKTREE_PATH/.clang-tidy"
 ln -s "$DOTFILES_DIR/.dir-locals.el" "$WORKTREE_PATH/.dir-locals.el"
 ln -s "$DOTFILES_DIR/.scripts" "$WORKTREE_PATH/.scripts"
+ln -s "$DOTFILES_DIR/AGENTS.md" "$WORKTREE_PATH/AGENTS.md"
 
 echo ""
 echo "Worktree created at: $WORKTREE_PATH"

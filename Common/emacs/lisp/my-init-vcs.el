@@ -249,7 +249,8 @@ Auto-generated wrapper around `my/worktree-add' for the `%s' family." fam-name f
         :config-files '((".clang-tidy"               . ".clang-tidy")
                            (".dir-locals.el"           . ".dir-locals.el")
                            (".clangd"                  . ".clangd")
-                           (".scripts"                 . ".scripts"))
+                           (".scripts"                 . ".scripts")
+                           ("AGENTS.md"                . "AGENTS.md"))
         :source-worktree "master"
         :protected '(".bare" "master")
         :skip-visit '(".bare")

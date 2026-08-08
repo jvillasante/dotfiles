@@ -196,7 +196,7 @@ main() {
         if [ -d "$HOME/Workspace/Work/Omicron/Projects/nntp/master" ]; then
             [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clangd" ] &&
                 unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clangd"
-            ln -s "$DOTFILES_DIR/Misc//work/nntp/.clangd" "$HOME/Workspace/Work/Omicron/Projects/nntp/master/"
+            ln -s "$DOTFILES_DIR/Misc/work/nntp/.clangd" "$HOME/Workspace/Work/Omicron/Projects/nntp/master/"
 
             [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clang-tidy" ] &&
                 unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.clang-tidy"
@@ -209,6 +209,10 @@ main() {
             [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.scripts" ] &&
                 unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/.scripts"
             ln -s "$DOTFILES_DIR/Misc/work/nntp/.scripts" "$HOME/Workspace/Work/Omicron/Projects/nntp/master/"
+
+            [ -L "$HOME/Workspace/Work/Omicron/Projects/nntp/master/AGENTS.md" ] &&
+                unlink "$HOME/Workspace/Work/Omicron/Projects/nntp/master/AGENTS.md"
+            ln -s "$DOTFILES_DIR/Misc/work/nntp/AGENTS.md" "$HOME/Workspace/Work/Omicron/Projects/nntp/master/"
         fi
     fi
 
