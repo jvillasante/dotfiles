@@ -3,6 +3,15 @@
 ;;
 ;;; Code:
 
+;; Tell the compiler: Don't worry, this function will exist later
+(declare-function activities-named "activities")
+(declare-function activities-activity-active-p "activities")
+(declare-function activities-new "activities")
+(declare-function activities-close "activities")
+(declare-function activities--persist "activities")
+(declare-function activities-resume "activities")
+(declare-function diff-hl-margin-mode "diff-hl-margin")
+
 (require 'cl-lib)
 
 ;; vc : builtin emacs version control
