@@ -47,22 +47,22 @@
 
 ;; eca : AI pair-programming client (chat, inline rewrite, completion) via local JSON-RPC server
 (use-package eca
-    :bind (("C-c a s"    . eca)                               ; start eca
-              ("C-c a t" . eca-chat-toggle-window)            ; toggle chat window
-              ("C-c a b" . eca-switch-to-chat)                ; switch between chat buffers
-              ("C-c a n" . eca-chat-new)                      ; new chat
-              ("C-c a o" . eca-chat-select)                   ; select/switch chats (annotated)
-              ("C-c a r" . eca-chat-resume)                   ; resume persisted chat
-              ("C-c a c" . eca-chat-send-prompt)              ; send prompt from minibuffer
-              ("C-c a f" . eca-chat-fork)                     ; fork current chat
-              ("C-c a k" . eca-chat-stop-prompt)              ; stop/interrupt running prompt
-              ("C-c a w" . eca-rewrite)                       ; rewrite region/defun with AI
-              ("C-c a @" . eca-chat-add-context-to-user-prompt) ; add file/region context
-              ("C-c a l" . eca-workspaces)                    ; open workspaces dashboard
-              ("C-c a e" . eca-chat-save-to-file)             ; export chat to readable file
+    :bind (("C-c a s"    . eca)                                      ; start eca
+              ("C-c a t" . eca-chat-toggle-window)                   ; toggle chat window
+              ("C-c a b" . eca-switch-to-chat)                       ; switch between chat buffers
+              ("C-c a n" . eca-chat-new)                             ; new chat
+              ("C-c a o" . eca-chat-select)                          ; select/switch chats (annotated)
+              ("C-c a r" . eca-chat-resume)                          ; resume persisted chat
+              ("C-c a c" . eca-chat-send-prompt)                     ; send prompt from minibuffer
+              ("C-c a f" . eca-chat-fork)                            ; fork current chat
+              ("C-c a k" . eca-chat-stop-prompt)                     ; stop/interrupt running prompt
+              ("C-c a w" . eca-rewrite)                              ; rewrite region/defun with AI
+              ("C-c a @" . eca-chat-add-context-to-user-prompt)      ; add file/region context
+              ("C-c a l" . eca-workspaces)                           ; open workspaces dashboard
+              ("C-c a e" . eca-chat-save-to-file)                    ; export chat to readable file
               ("C-c a a" . eca-chat-go-to-next-attention-in-project) ; jump to chat needing attention
-              ("C-c a A" . eca-chat-go-to-next-attention)     ; same, across all projects
-              ("C-c C-'" . eca-transient-menu)                  ; discoverable transient menu
+              ("C-c a A" . eca-chat-go-to-next-attention)            ; same, across all projects
+              ("C-c C-'" . eca-transient-menu)                       ; discoverable transient menu
               :map eca-chat-mode-map
               ("M-p" . eca-chat-go-to-prev-expandable-block)  ; jump to prev tool call / block
               ("M-n" . eca-chat-go-to-next-expandable-block)  ; jump to next tool call / block
