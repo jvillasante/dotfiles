@@ -12,6 +12,7 @@
 (declare-function activities-resume "activities")
 (declare-function diff-hl-margin-mode "diff-hl-margin")
 
+;; used below
 (require 'cl-lib)
 
 ;; vc : builtin emacs version control
