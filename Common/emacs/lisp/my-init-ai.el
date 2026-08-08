@@ -45,7 +45,7 @@
                                          "--nonotify" "--output"))
     (agent-shell-show-usage-at-turn-end t))
 
-;; eca :
+;; eca : AI pair-programming client (chat, inline rewrite, completion) via local JSON-RPC server
 (use-package eca
     :bind (("C-c a s"    . eca)                               ; start eca
               ("C-c a t" . eca-chat-toggle-window)            ; toggle chat window
@@ -59,10 +59,15 @@
               ("C-c a w" . eca-rewrite)                       ; rewrite region/defun with AI
               ("C-c a @" . eca-chat-add-context-to-user-prompt) ; add file/region context
               ("C-c a l" . eca-workspaces)                    ; open workspaces dashboard
+              ("C-c a e" . eca-chat-save-to-file)             ; export chat to readable file
+              ("C-c a a" . eca-chat-go-to-next-attention-in-project) ; jump to chat needing attention
+              ("C-c a A" . eca-chat-go-to-next-attention)     ; same, across all projects
               ("C-c C-'" . eca-transient-menu)                  ; discoverable transient menu
               :map eca-chat-mode-map
               ("M-p" . eca-chat-go-to-prev-expandable-block)  ; jump to prev tool call / block
-              ("M-n" . eca-chat-go-to-next-expandable-block)) ; jump to next tool call / block
+              ("M-n" . eca-chat-go-to-next-expandable-block)  ; jump to next tool call / block
+              ("M-P" . eca-chat-go-to-prev-user-message)      ; jump to prev user message
+              ("M-N" . eca-chat-go-to-next-user-message))     ; jump to next user message
     :hook
     (eca-chat-mode . turn-off-auto-fill)
     :custom
@@ -83,7 +88,7 @@
     (eca-chat-shrink-called-tools t)
     ;; --- Context ---
     (eca-chat-auto-add-cursor t)                              ; auto-track cursor position
-    (eca-chat-auto-asdd-repomap nil)                           ; don't auto-include repomap
+    (eca-chat-auto-add-repomap nil)                            ; don't auto-include repomap
     ;; --- Completion ---
     (eca-completion-idle-delay 0.2)
     (eca-completion-syntax-highlight t))
